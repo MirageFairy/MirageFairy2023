@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents.Modify
 import net.fabricmc.fabric.api.loot.v2.LootTableSource
+import net.fabricmc.fabric.api.registry.FuelRegistry
 import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
@@ -42,6 +43,8 @@ object MirageFairy2023 : ModInitializer {
                 tableBuilder!!.pool(poolBuilder)
             }
         })
+
+        FuelRegistry.INSTANCE.add(XARPITE, 1600)
 
     }
 }
