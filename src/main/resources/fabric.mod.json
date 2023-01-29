@@ -17,10 +17,22 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
+			{
+				"value": "miragefairy2023.MirageFairy2023",
+				"adapter": "kotlin"
+			}
 		],
 		"client": [
+			{
+				"value": "miragefairy2023.MirageFairy2023Client",
+				"adapter": "kotlin"
+			}
 		],
 		"fabric-datagen": [
+			{
+				"value": "miragefairy2023.MirageFairy2023DataGenerator",
+				"adapter": "kotlin"
+			}
 		]
 	},
 	"mixins": [],
