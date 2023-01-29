@@ -6,9 +6,11 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
+import org.slf4j.LoggerFactory
 
 object MirageFairy2023 : ModInitializer {
     val modId = "miragefairy2023"
+    val logger = LoggerFactory.getLogger("miragefairy2023")
 
     val XARPITE = Item(FabricItemSettings().group(ItemGroup.MATERIALS))
 
