@@ -7,13 +7,14 @@ MirageFairyの世界観に基づいたMinecraft MOD
 - Minecraft 1.19.2
 - Fabric
 
-## Changelog
+## 更新履歴
 
-[Changelog](CHANGELOG.md)
+[更新履歴](CHANGELOG.md)
 
-## License
+## ライセンス
 
 - `/assets/*` → CC BY-SA 3.0 or CC BY-SA 4.0
+- `/src/main/resources/textures/*` → Apache License 2.0 or CC BY-SA 3.0 or CC BY-SA 4.0
 - Releases → Apache License 2.0
 - other → Apache License 2.0
 
