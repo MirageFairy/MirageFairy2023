@@ -21,22 +21,33 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 import org.slf4j.LoggerFactory
 
+enum class DemonItemCard(
+    val itemId: String,
+) {
+    XARPITE("xarpite"),
+}
+
 object MirageFairy2023 : ModInitializer {
     val modId = "miragefairy2023"
     val logger = LoggerFactory.getLogger("miragefairy2023")
 
-    val XARPITE = Item(FabricItemSettings().group(ItemGroup.MATERIALS))
+    lateinit var items: Map<DemonItemCard, Item>
+    operator fun DemonItemCard.invoke() = items[this]!!
 
     override fun onInitialize() {
 
-        Registry.register(Registry.ITEM, Identifier(modId, "xarpite"), XARPITE)
+        items = DemonItemCard.values().associateWith { card ->
+            val item = Item(FabricItemSettings().group(ItemGroup.MATERIALS))
+            Registry.register(Registry.ITEM, Identifier(modId, card.itemId), item)
+            item
+        }
 
         val tableId = EntityType.WITCH.lootTableId
         LootTableEvents.MODIFY.register(Modify { resourceManager: ResourceManager?, lootManager: LootManager?, id: Identifier, tableBuilder: LootTable.Builder?, source: LootTableSource ->
             if (source.isBuiltin && tableId == id) {
                 val poolBuilder = LootPool.builder()
                     .with(
-                        ItemEntry.builder(XARPITE)
+                        ItemEntry.builder(DemonItemCard.XARPITE())
                             .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(-1.0f, 1.0f), false))
                             .apply(LootingEnchantLootFunction.builder(UniformLootNumberProvider.create(0.0f, 1.0f)))
                     )
@@ -44,7 +55,7 @@ object MirageFairy2023 : ModInitializer {
             }
         })
 
-        FuelRegistry.INSTANCE.add(XARPITE, 1600)
+        FuelRegistry.INSTANCE.add(DemonItemCard.XARPITE(), 1600)
 
     }
 }
