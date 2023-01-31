@@ -1,5 +1,6 @@
 package miragefairy2023
 
+import miragefairy2023.core.init.EventBus
 import miragefairy2023.core.init.Slot
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
@@ -31,6 +32,9 @@ enum class DemonItemCard(
 private val daemonItems = DemonItemCard.values().associateWith { Slot<Item>() }
 operator fun DemonItemCard.invoke() = daemonItems[this]!!
 
+val itemRegistration = EventBus<() -> Unit>()
+val recipeRegistration = EventBus<() -> Unit>()
+
 object MirageFairy2023 : ModInitializer {
     val modId = "miragefairy2023"
     val logger = LoggerFactory.getLogger("miragefairy2023")
@@ -38,25 +42,37 @@ object MirageFairy2023 : ModInitializer {
     override fun onInitialize() {
 
         DemonItemCard.values().forEach { card ->
-            val item = Item(FabricItemSettings().group(ItemGroup.MATERIALS))
-            card().item = item
-            Registry.register(Registry.ITEM, Identifier(modId, card.itemId), item)
+
+            itemRegistration += {
+                val item = Item(FabricItemSettings().group(ItemGroup.MATERIALS))
+                card().item = item
+                Registry.register(Registry.ITEM, Identifier(modId, card.itemId), item)
+            }
+
         }
 
-        val tableId = EntityType.WITCH.lootTableId
-        LootTableEvents.MODIFY.register(Modify { resourceManager: ResourceManager?, lootManager: LootManager?, id: Identifier, tableBuilder: LootTable.Builder?, source: LootTableSource ->
-            if (source.isBuiltin && tableId == id) {
-                val poolBuilder = LootPool.builder()
-                    .with(
-                        ItemEntry.builder(DemonItemCard.XARPITE())
-                            .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(-1.0f, 1.0f), false))
-                            .apply(LootingEnchantLootFunction.builder(UniformLootNumberProvider.create(0.0f, 1.0f)))
-                    )
-                tableBuilder!!.pool(poolBuilder)
-            }
-        })
+        recipeRegistration += {
 
-        FuelRegistry.INSTANCE.add(DemonItemCard.XARPITE(), 1600)
+            val tableId = EntityType.WITCH.lootTableId
+            LootTableEvents.MODIFY.register(Modify { resourceManager: ResourceManager?, lootManager: LootManager?, id: Identifier, tableBuilder: LootTable.Builder?, source: LootTableSource ->
+                if (source.isBuiltin && tableId == id) {
+                    val poolBuilder = LootPool.builder()
+                        .with(
+                            ItemEntry.builder(DemonItemCard.XARPITE())
+                                .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(-1.0f, 1.0f), false))
+                                .apply(LootingEnchantLootFunction.builder(UniformLootNumberProvider.create(0.0f, 1.0f)))
+                        )
+                    tableBuilder!!.pool(poolBuilder)
+                }
+            })
+
+            FuelRegistry.INSTANCE.add(DemonItemCard.XARPITE(), 1600)
+
+        }
+
+
+        itemRegistration.fire { it() }
+        recipeRegistration.fire { it() }
 
     }
 }
