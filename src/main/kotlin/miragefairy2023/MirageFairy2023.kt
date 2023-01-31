@@ -1,5 +1,6 @@
 package miragefairy2023
 
+import miragefairy2023.core.init.Slot
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
@@ -27,19 +28,19 @@ enum class DemonItemCard(
     XARPITE("xarpite"),
 }
 
+private val daemonItems = DemonItemCard.values().associateWith { Slot<Item>() }
+operator fun DemonItemCard.invoke() = daemonItems[this]!!
+
 object MirageFairy2023 : ModInitializer {
     val modId = "miragefairy2023"
     val logger = LoggerFactory.getLogger("miragefairy2023")
 
-    lateinit var items: Map<DemonItemCard, Item>
-    operator fun DemonItemCard.invoke() = items[this]!!
-
     override fun onInitialize() {
 
-        items = DemonItemCard.values().associateWith { card ->
+        DemonItemCard.values().forEach { card ->
             val item = Item(FabricItemSettings().group(ItemGroup.MATERIALS))
+            card().item = item
             Registry.register(Registry.ITEM, Identifier(modId, card.itemId), item)
-            item
         }
 
         val tableId = EntityType.WITCH.lootTableId
