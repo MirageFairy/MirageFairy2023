@@ -25,10 +25,10 @@ enum class DemonItemCard(
     XARPITE("xarpite"),
 }
 
-private val daemonItems = DemonItemCard.values().associateWith { Slot<Item>() }
-operator fun DemonItemCard.invoke() = daemonItems[this]!!
+private val demonItems = DemonItemCard.values().associateWith { Slot<Item>() }
+operator fun DemonItemCard.invoke() = demonItems[this]!!
 
-fun initDaemonItem() {
+fun initDemonItem() {
 
     DemonItemCard.values().forEach { card ->
 

@@ -13,7 +13,7 @@ object MirageFairy2023 : ModInitializer {
 
     override fun onInitialize() {
 
-        initDaemonItem()
+        initDemonItem()
 
         itemRegistration.fire { it() }
         recipeRegistration.fire { it() }
