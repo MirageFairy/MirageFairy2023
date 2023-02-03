@@ -5,8 +5,11 @@ import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.ItemModelGenerator
+import net.minecraft.data.server.recipe.RecipeJsonProvider
+import java.util.function.Consumer
 
 object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
     override fun onInitializeDataGenerator(fabricDataGenerator: FabricDataGenerator) {
@@ -35,6 +38,13 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
             override fun generateItemModels(itemModelGenerator: ItemModelGenerator?) {
                 itemModelGenerator!!
                 initializationScope.itemModelGeneration.fire { it(itemModelGenerator) }
+            }
+        })
+
+        fabricDataGenerator.addProvider(object : FabricRecipeProvider(fabricDataGenerator) {
+            override fun generateRecipes(exporter: Consumer<RecipeJsonProvider>?) {
+                exporter!!
+                initializationScope.recipeGeneration.fire { it(exporter) }
             }
         })
 
