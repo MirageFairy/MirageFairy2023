@@ -21,6 +21,7 @@ enum class DemonItemCard(
     val jaName: String,
 ) {
     XARPITE("xarpite", "Xarpite", "紅天石"),
+    MIRANAGITE("miranagite", "Miranagite", "蒼天石"),
 }
 
 private val demonItems = DemonItemCard.values().associateWith { Slot<Item>() }
