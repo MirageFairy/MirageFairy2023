@@ -7,7 +7,6 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.ItemModelGenerator
-import net.minecraft.data.client.Models
 
 object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
     override fun onInitializeDataGenerator(fabricDataGenerator: FabricDataGenerator) {
@@ -22,9 +21,7 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
 
             override fun generateItemModels(itemModelGenerator: ItemModelGenerator?) {
                 itemModelGenerator!!
-                DemonItemCard.values().forEach { card ->
-                    itemModelGenerator.register(card(), Models.GENERATED)
-                }
+                initializationScope.itemModelGeneration.fire { it(itemModelGenerator) }
             }
         })
 

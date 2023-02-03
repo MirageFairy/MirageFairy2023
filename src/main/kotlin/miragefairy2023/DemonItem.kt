@@ -5,6 +5,7 @@ import miragefairy2023.core.init.Slot
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.fabricmc.fabric.api.registry.FuelRegistry
+import net.minecraft.data.client.Models
 import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
@@ -40,6 +41,8 @@ fun InitializationScope.initDemonItem() {
 
         englishTranslationGeneration += { it.add(card(), card.enName) }
         japaneseTranslationGeneration += { it.add(card(), card.jaName) }
+
+        itemModelGeneration += { it.register(card(), Models.GENERATED) }
 
     }
 
