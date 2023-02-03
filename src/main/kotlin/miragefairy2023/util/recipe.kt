@@ -1,6 +1,6 @@
 package miragefairy2023.util
 
-import miragefairy2023.recipeRegistration
+import miragefairy2023.core.init.InitializationScope
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.item.ItemConvertible
@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.biome.Biome
 
-fun registerGrassDrop(
+fun InitializationScope.registerGrassDrop(
     id: () -> Identifier,
     item: () -> ItemConvertible,
     amount: Double = 1.0,

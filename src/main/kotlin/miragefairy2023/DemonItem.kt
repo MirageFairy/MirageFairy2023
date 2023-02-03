@@ -1,5 +1,6 @@
 package miragefairy2023
 
+import miragefairy2023.core.init.InitializationScope
 import miragefairy2023.core.init.Slot
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
@@ -27,14 +28,14 @@ enum class DemonItemCard(
 private val demonItems = DemonItemCard.values().associateWith { Slot<Item>() }
 operator fun DemonItemCard.invoke() = demonItems[this]!!.item
 
-fun initDemonItem() {
+fun InitializationScope.initDemonItem() {
 
     DemonItemCard.values().forEach { card ->
 
         itemRegistration += {
             val item = Item(FabricItemSettings().group(ItemGroup.MATERIALS))
             demonItems[card]!!.item = item
-            Registry.register(Registry.ITEM, Identifier(MirageFairy2023.modId, card.itemId), item)
+            Registry.register(Registry.ITEM, Identifier(modId, card.itemId), item)
         }
 
     }
