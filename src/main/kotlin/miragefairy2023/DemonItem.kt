@@ -21,8 +21,10 @@ import net.minecraft.util.registry.Registry
 
 enum class DemonItemCard(
     val itemId: String,
+    val enName: String,
+    val jaName: String,
 ) {
-    XARPITE("xarpite"),
+    XARPITE("xarpite", "Xarpite", "紅天石"),
 }
 
 private val demonItems = DemonItemCard.values().associateWith { Slot<Item>() }
