@@ -44,14 +44,16 @@ fun initDemonItem() {
 
         val tableId = EntityType.WITCH.lootTableId
         LootTableEvents.MODIFY.register(LootTableEvents.Modify { resourceManager: ResourceManager?, lootManager: LootManager?, id: Identifier, tableBuilder: LootTable.Builder?, source: LootTableSource ->
-            if (source.isBuiltin && tableId == id) {
-                val poolBuilder = LootPool.builder()
-                    .with(
-                        ItemEntry.builder(DemonItemCard.XARPITE())
-                            .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(-1.0f, 1.0f), false))
-                            .apply(LootingEnchantLootFunction.builder(UniformLootNumberProvider.create(0.0f, 1.0f)))
-                    )
-                tableBuilder!!.pool(poolBuilder)
+            if (source.isBuiltin) {
+                if (id == tableId) {
+                    val poolBuilder = LootPool.builder()
+                        .with(
+                            ItemEntry.builder(DemonItemCard.XARPITE())
+                                .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(-1.0f, 1.0f), false))
+                                .apply(LootingEnchantLootFunction.builder(UniformLootNumberProvider.create(0.0f, 1.0f)))
+                        )
+                    tableBuilder!!.pool(poolBuilder)
+                }
             }
         })
 
