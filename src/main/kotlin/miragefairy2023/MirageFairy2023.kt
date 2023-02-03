@@ -11,7 +11,7 @@ object MirageFairy2023 : ModInitializer {
     override fun onInitialize() {
         InitializationScope(modId).run {
 
-            initDemonItem()
+            init()
 
             itemRegistration.fire { it() }
             recipeRegistration.fire { it() }
