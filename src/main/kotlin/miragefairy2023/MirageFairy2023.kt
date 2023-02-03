@@ -9,13 +9,12 @@ object MirageFairy2023 : ModInitializer {
     val logger = LoggerFactory.getLogger("miragefairy2023")
 
     override fun onInitialize() {
-        InitializationScope(modId).run {
+        val initializationScope = InitializationScope(modId)
 
-            init()
+        initializationScope.init()
 
-            itemRegistration.fire { it() }
-            recipeRegistration.fire { it() }
+        initializationScope.itemRegistration.fire { it() }
+        initializationScope.recipeRegistration.fire { it() }
 
-        }
     }
 }
