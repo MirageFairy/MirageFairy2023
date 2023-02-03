@@ -28,7 +28,7 @@ enum class DemonItemCard(
 }
 
 private val demonItems = DemonItemCard.values().associateWith { Slot<Item>() }
-operator fun DemonItemCard.invoke() = demonItems[this]!!
+operator fun DemonItemCard.invoke() = demonItems[this]!!.item
 
 fun initDemonItem() {
 
@@ -36,7 +36,7 @@ fun initDemonItem() {
 
         itemRegistration += {
             val item = Item(FabricItemSettings().group(ItemGroup.MATERIALS))
-            card().item = item
+            demonItems[card]!!.item = item
             Registry.register(Registry.ITEM, Identifier(MirageFairy2023.modId, card.itemId), item)
         }
 
