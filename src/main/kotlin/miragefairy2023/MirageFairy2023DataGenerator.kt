@@ -14,17 +14,6 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
 
         initializationScope.init()
 
-        fabricDataGenerator.addProvider(object : FabricModelProvider(fabricDataGenerator) {
-            override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator?) {
-
-            }
-
-            override fun generateItemModels(itemModelGenerator: ItemModelGenerator?) {
-                itemModelGenerator!!
-                initializationScope.itemModelGeneration.fire { it(itemModelGenerator) }
-            }
-        })
-
         fabricDataGenerator.addProvider(object : FabricLanguageProvider(fabricDataGenerator, "en_us") {
             override fun generateTranslations(translationBuilder: TranslationBuilder?) {
                 translationBuilder!!
@@ -35,6 +24,17 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
             override fun generateTranslations(translationBuilder: TranslationBuilder?) {
                 translationBuilder!!
                 initializationScope.japaneseTranslationGeneration.fire { it(translationBuilder) }
+            }
+        })
+
+        fabricDataGenerator.addProvider(object : FabricModelProvider(fabricDataGenerator) {
+            override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator?) {
+
+            }
+
+            override fun generateItemModels(itemModelGenerator: ItemModelGenerator?) {
+                itemModelGenerator!!
+                initializationScope.itemModelGeneration.fire { it(itemModelGenerator) }
             }
         })
 
