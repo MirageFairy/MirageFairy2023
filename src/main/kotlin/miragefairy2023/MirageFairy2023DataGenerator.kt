@@ -1,5 +1,6 @@
 package miragefairy2023
 
+import miragefairy2023.core.init.InitializationScope
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
@@ -10,6 +11,10 @@ import net.minecraft.data.client.Models
 
 object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
     override fun onInitializeDataGenerator(fabricDataGenerator: FabricDataGenerator) {
+        val initializationScope = InitializationScope(MirageFairy2023.modId)
+
+        initializationScope.init()
+
         fabricDataGenerator.addProvider(object : FabricModelProvider(fabricDataGenerator) {
             override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator?) {
 
@@ -22,21 +27,19 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
                 }
             }
         })
+
         fabricDataGenerator.addProvider(object : FabricLanguageProvider(fabricDataGenerator, "en_us") {
             override fun generateTranslations(translationBuilder: TranslationBuilder?) {
                 translationBuilder!!
-                DemonItemCard.values().forEach { card ->
-                    translationBuilder.add(card(), card.enName)
-                }
+                initializationScope.englishTranslationGeneration.fire { it(translationBuilder) }
             }
         })
         fabricDataGenerator.addProvider(object : FabricLanguageProvider(fabricDataGenerator, "ja_jp") {
             override fun generateTranslations(translationBuilder: TranslationBuilder?) {
                 translationBuilder!!
-                DemonItemCard.values().forEach { card ->
-                    translationBuilder.add(card(), card.jaName)
-                }
+                initializationScope.japaneseTranslationGeneration.fire { it(translationBuilder) }
             }
         })
+
     }
 }

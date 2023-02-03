@@ -38,6 +38,9 @@ fun InitializationScope.initDemonItem() {
             Registry.register(Registry.ITEM, Identifier(modId, card.itemId), item)
         }
 
+        englishTranslationGeneration += { it.add(card(), card.enName) }
+        japaneseTranslationGeneration += { it.add(card(), card.jaName) }
+
     }
 
     recipeRegistration += {
