@@ -6,9 +6,12 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.fabricmc.fabric.api.registry.FuelRegistry
 import net.minecraft.data.client.Models
+import net.minecraft.data.server.RecipeProvider
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
+import net.minecraft.item.Items
 import net.minecraft.loot.LootPool
 import net.minecraft.loot.entry.ItemEntry
 import net.minecraft.loot.function.LootingEnchantLootFunction
@@ -44,6 +47,17 @@ fun InitializationScope.initDemonItem() {
 
         itemModelGeneration += { it.register(card(), Models.GENERATED) }
 
+    }
+
+    recipeGeneration += {
+        ShapedRecipeJsonBuilder
+            .create(Items.TORCH, 8)
+            .input('A', DemonItemCard.XARPITE())
+            .input('B', Items.STICK)
+            .pattern("A")
+            .pattern("B")
+            .criterion("has_xarpite", RecipeProvider.conditionsFromItem(DemonItemCard.XARPITE()))
+            .offerTo(it, Identifier.of(modId, "torch_from_xarpite"))
     }
 
     recipeRegistration += {
