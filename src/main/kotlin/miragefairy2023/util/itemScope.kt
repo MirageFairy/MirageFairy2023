@@ -11,11 +11,12 @@ class ItemScope<T : Item>(val initializationScope: InitializationScope) {
     lateinit var item: T
 }
 
-fun <T : Item> InitializationScope.item(itemId: String, itemCreator: () -> T, block: ItemScope<T>.() -> Unit) {
+fun <T : Item> InitializationScope.item(itemId: String, itemCreator: () -> T, block: (ItemScope<T>.() -> Unit)? = null): () -> T {
     val scope = ItemScope<T>(this)
     itemRegistration {
         scope.item = itemCreator()
         Registry.register(Registry.ITEM, Identifier(modId, itemId), scope.item)
     }
-    block(scope)
+    if (block != null) block(scope)
+    return { scope.item }
 }
