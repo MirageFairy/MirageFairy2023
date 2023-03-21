@@ -10,6 +10,7 @@ class InitializationScope(val modId: String) {
     val japaneseTranslationGeneration = EventBus<(FabricLanguageProvider.TranslationBuilder) -> Unit>()
     val itemModelGeneration = EventBus<(ItemModelGenerator) -> Unit>()
     val recipeGeneration = EventBus<(Consumer<RecipeJsonProvider>) -> Unit>()
+    val blockRegistration = EventBus<() -> Unit>()
     val itemRegistration = EventBus<() -> Unit>()
     val recipeRegistration = EventBus<() -> Unit>()
 }
