@@ -58,12 +58,7 @@ fun InitializationScope.initDemonItem() {
     DemonItemCard.values().forEach { card ->
 
         itemRegistration += {
-            val item = object : Item(FabricItemSettings().group(ItemGroup.MATERIALS)) {
-                override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-                    super.appendTooltip(stack, world, tooltip, context)
-                    tooltip += text { translate("item.$modId.${card.itemId}.poem").gray }
-                }
-            }
+            val item = DemonItem(FabricItemSettings().group(ItemGroup.MATERIALS))
             card(item)
             Registry.register(Registry.ITEM, Identifier(modId, card.itemId), item)
         }
@@ -107,4 +102,12 @@ fun InitializationScope.initDemonItem() {
     // 紅天石→燃料
     registerFuel({ DemonItemCard.XARPITE() }, 1600)
 
+}
+
+
+class DemonItem(settings: Settings) : Item(settings) {
+    override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
+        super.appendTooltip(stack, world, tooltip, context)
+        tooltip += text { translate("$translationKey.poem").gray }
+    }
 }
