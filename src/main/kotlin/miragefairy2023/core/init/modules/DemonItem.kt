@@ -1,4 +1,4 @@
-package miragefairy2023
+package miragefairy2023.core.init.modules
 
 import miragefairy2023.core.init.InitializationScope
 import miragefairy2023.core.init.Slot
