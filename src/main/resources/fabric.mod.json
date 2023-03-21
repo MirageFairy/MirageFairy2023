@@ -1,49 +1,49 @@
 {
-	"schemaVersion": 1,
-	"id": "miragefairy2023",
-	"version": "${version}",
-	"name": "MirageFairy2023",
-	"description": "Minecraft mod based on the story of the MirageFairy project",
-	"authors": [
-		"MirageFairy",
-		"kakuriyo_demon"
-	],
-	"contact": {
-		"homepage": "https://twitter.com/MirageFairy2023",
-		"sources": "https://github.com/MirageFairy/MirageFairy2023"
-	},
-	"license": "Apache-2.0",
-	"icon": "assets/miragefairy2023/icon.png",
-	"environment": "*",
-	"entrypoints": {
-		"main": [
-			{
-				"value": "miragefairy2023.MirageFairy2023",
-				"adapter": "kotlin"
-			}
-		],
-		"client": [
-			{
-				"value": "miragefairy2023.MirageFairy2023Client",
-				"adapter": "kotlin"
-			}
-		],
-		"fabric-datagen": [
-			{
-				"value": "miragefairy2023.MirageFairy2023DataGenerator",
-				"adapter": "kotlin"
-			}
-		]
-	},
-	"mixins": [],
-	"depends": {
-		"fabricloader": ">=0.14.13",
-		"minecraft": "~1.19.2",
-		"java": ">=17",
-		"fabric-api": "*",
-		"fabric-language-kotlin": ">=1.8.0"
-	},
-	"suggests": {
-		"another-mod": "*"
-	}
+  "schemaVersion": 1,
+  "id": "miragefairy2023",
+  "version": "${version}",
+  "name": "MirageFairy2023",
+  "description": "Minecraft mod based on the story of the MirageFairy project",
+  "authors": [
+    "MirageFairy",
+    "kakuriyo_demon"
+  ],
+  "contact": {
+    "homepage": "https://twitter.com/MirageFairy2023",
+    "sources": "https://github.com/MirageFairy/MirageFairy2023"
+  },
+  "license": "Apache-2.0",
+  "icon": "assets/miragefairy2023/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      {
+        "value": "miragefairy2023.MirageFairy2023",
+        "adapter": "kotlin"
+      }
+    ],
+    "client": [
+      {
+        "value": "miragefairy2023.MirageFairy2023Client",
+        "adapter": "kotlin"
+      }
+    ],
+    "fabric-datagen": [
+      {
+        "value": "miragefairy2023.MirageFairy2023DataGenerator",
+        "adapter": "kotlin"
+      }
+    ]
+  },
+  "mixins": [],
+  "depends": {
+    "fabricloader": ">=0.14.13",
+    "minecraft": "~1.19.2",
+    "java": ">=17",
+    "fabric-api": "*",
+    "fabric-language-kotlin": ">=1.8.0"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
 }
