@@ -3,11 +3,11 @@ package miragefairy2023
 import miragefairy2023.core.init.InitializationScope
 import miragefairy2023.core.init.Slot
 import miragefairy2023.util.gray
+import miragefairy2023.util.registerFuel
 import miragefairy2023.util.text
 import mirrg.kotlin.hydrogen.unit
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
-import net.fabricmc.fabric.api.registry.FuelRegistry
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
 import net.minecraft.data.server.RecipeProvider
@@ -105,8 +105,6 @@ fun InitializationScope.initDemonItem() {
     }
 
     // 紅天石→燃料
-    recipeRegistration += {
-        FuelRegistry.INSTANCE.add(DemonItemCard.XARPITE(), 1600)
-    }
+    registerFuel({ DemonItemCard.XARPITE() }, 1600)
 
 }
