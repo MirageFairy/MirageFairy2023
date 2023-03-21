@@ -3,6 +3,7 @@ package miragefairy2023
 import miragefairy2023.core.init.InitializationScope
 import miragefairy2023.core.init.Slot
 import miragefairy2023.util.gray
+import miragefairy2023.util.item
 import miragefairy2023.util.registerFuel
 import miragefairy2023.util.text
 import mirrg.kotlin.hydrogen.unit
@@ -24,7 +25,6 @@ import net.minecraft.loot.function.SetCountLootFunction
 import net.minecraft.loot.provider.number.UniformLootNumberProvider
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 
 
@@ -57,10 +57,10 @@ fun InitializationScope.initDemonItem() {
     // 全体
     DemonItemCard.values().forEach { card ->
 
-        itemRegistration += {
-            val item = DemonItem(FabricItemSettings().group(ItemGroup.MATERIALS))
-            card(item)
-            Registry.register(Registry.ITEM, Identifier(modId, card.itemId), item)
+        item(card.itemId, { DemonItem(FabricItemSettings().group(ItemGroup.MATERIALS)) }) {
+            itemRegistration += {
+                card(item)
+            }
         }
 
         englishTranslationGeneration += { it.add(card(), card.enName) }
