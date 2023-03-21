@@ -58,22 +58,22 @@ fun InitializationScope.initDemonItem() {
     DemonItemCard.values().forEach { card ->
 
         item(card.itemId, { DemonItem(FabricItemSettings().group(ItemGroup.MATERIALS)) }) {
-            itemRegistration += {
+            itemRegistration {
                 card(item)
             }
         }
 
-        englishTranslationGeneration += { it.add(card(), card.enName) }
-        englishTranslationGeneration += { it.add(card().translationKey + ".poem", card.enPoem) }
-        japaneseTranslationGeneration += { it.add(card(), card.jaName) }
-        japaneseTranslationGeneration += { it.add(card().translationKey + ".poem", card.jaPoem) }
+        englishTranslationGeneration { it.add(card(), card.enName) }
+        englishTranslationGeneration { it.add(card().translationKey + ".poem", card.enPoem) }
+        japaneseTranslationGeneration { it.add(card(), card.jaName) }
+        japaneseTranslationGeneration { it.add(card().translationKey + ".poem", card.jaPoem) }
 
-        itemModelGeneration += { it.register(card(), Models.GENERATED) }
+        itemModelGeneration { it.register(card(), Models.GENERATED) }
 
     }
 
     // 魔女→紅天石
-    recipeRegistration += {
+    recipeRegistration {
         val lootTableId = EntityType.WITCH.lootTableId
         LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
             if (source.isBuiltin) {
@@ -88,7 +88,7 @@ fun InitializationScope.initDemonItem() {
     }
 
     // 紅天石→松明
-    recipeGeneration += {
+    recipeGeneration {
         ShapedRecipeJsonBuilder
             .create(Items.TORCH, 8)
             .input('A', DemonItemCard.XARPITE())

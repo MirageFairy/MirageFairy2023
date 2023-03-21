@@ -2,7 +2,8 @@ package miragefairy2023.core.init
 
 class EventBus<L> {
     private val listeners = mutableListOf<L>()
-    operator fun plusAssign(listener: L) {
+
+    operator fun invoke(listener: L) {
         listeners += listener
     }
 
