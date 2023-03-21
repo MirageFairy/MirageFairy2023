@@ -4,6 +4,7 @@ import miragefairy2023.core.init.InitializationScope
 import miragefairy2023.core.init.Slot
 import miragefairy2023.util.gray
 import miragefairy2023.util.text
+import mirrg.kotlin.hydrogen.unit
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.fabricmc.fabric.api.registry.FuelRegistry
@@ -47,6 +48,8 @@ enum class DemonItemCard(
 
 private val demonItems = DemonItemCard.values().associateWith { Slot<Item>() }
 operator fun DemonItemCard.invoke() = demonItems[this]!!.item
+operator fun DemonItemCard.invoke(item: Item) = unit { demonItems[this]!!.item = item }
+
 
 fun InitializationScope.initDemonItem() {
 
@@ -59,7 +62,7 @@ fun InitializationScope.initDemonItem() {
                     tooltip += text { translate("item.$modId.${card.itemId}.poem").gray }
                 }
             }
-            demonItems[card]!!.item = item
+            card(item)
             Registry.register(Registry.ITEM, Identifier(modId, card.itemId), item)
         }
 
