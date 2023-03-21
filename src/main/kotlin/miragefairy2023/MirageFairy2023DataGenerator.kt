@@ -26,8 +26,8 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
         })
 
         fabricDataGenerator.addProvider(object : FabricModelProvider(fabricDataGenerator) {
-            override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator?) {
-
+            override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator) {
+                initializationScope.blockStateModelGeneration.fire { it(blockStateModelGenerator) }
             }
 
             override fun generateItemModels(itemModelGenerator: ItemModelGenerator) {
