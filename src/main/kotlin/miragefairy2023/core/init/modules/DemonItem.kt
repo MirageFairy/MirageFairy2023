@@ -64,9 +64,9 @@ fun InitializationScope.initDemonItem() {
         }
 
         englishTranslationGeneration { it.add(card(), card.enName) }
-        englishTranslationGeneration { it.add(card().translationKey + ".poem", card.enPoem) }
+        englishTranslationGeneration { it.add("${card().translationKey}.poem", card.enPoem) }
         japaneseTranslationGeneration { it.add(card(), card.jaName) }
-        japaneseTranslationGeneration { it.add(card().translationKey + ".poem", card.jaPoem) }
+        japaneseTranslationGeneration { it.add("${card().translationKey}.poem", card.jaPoem) }
 
         itemModelGeneration { it.register(card(), Models.GENERATED) }
 
