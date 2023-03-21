@@ -30,6 +30,8 @@ val Text.italic: Text get() = Text.empty().append(this).formatted(Formatting.ITA
 
 object TextScope {
     operator fun String.invoke(): Text = Text.of(this)
+    fun translate(key: String): Text = Text.translatable(key)
+    fun translate(key: String, vararg args: Any?): Text = Text.translatable(key, *args)
     operator fun Text.plus(text: Text): Text = Text.empty().append(this).append(text)
 }
 
