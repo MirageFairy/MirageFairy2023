@@ -2,7 +2,6 @@ package miragefairy2023
 
 import miragefairy2023.core.init.InitializationScope
 import miragefairy2023.core.init.Slot
-import miragefairy2023.util.TextScope
 import miragefairy2023.util.gray
 import miragefairy2023.util.text
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
@@ -57,7 +56,7 @@ fun InitializationScope.initDemonItem() {
             val item = object : Item(FabricItemSettings().group(ItemGroup.MATERIALS)) {
                 override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
                     super.appendTooltip(stack, world, tooltip, context)
-                    tooltip += text { TextScope.translate("item.$modId.${card.itemId}.poem").gray }
+                    tooltip += text { translate("item.$modId.${card.itemId}.poem").gray }
                 }
             }
             demonItems[card]!!.item = item
