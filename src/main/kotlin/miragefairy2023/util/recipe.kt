@@ -4,6 +4,7 @@ package miragefairy2023.util
 
 import miragefairy2023.core.init.InitializationScope
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
+import net.fabricmc.fabric.api.registry.FuelRegistry
 import net.minecraft.block.Blocks
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.item.ItemConvertible
@@ -34,5 +35,12 @@ fun InitializationScope.registerGrassDrop(
                 }
             }
         }
+    }
+}
+
+/** @param ticks coal is `200 * 8 = 1600` */
+fun InitializationScope.registerFuel(item: () -> ItemConvertible, ticks: Int) {
+    recipeRegistration += {
+        FuelRegistry.INSTANCE.add(item(), ticks)
     }
 }
