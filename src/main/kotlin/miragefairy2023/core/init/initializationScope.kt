@@ -1,6 +1,7 @@
 package miragefairy2023.core.init
 
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
+import net.minecraft.block.Block
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.ItemModelGenerator
 import net.minecraft.data.server.recipe.RecipeJsonProvider
@@ -15,6 +16,7 @@ class InitializationScope(val modId: String) {
     val blockRegistration = EventBus<() -> Unit>()
     val itemRegistration = EventBus<() -> Unit>()
     val recipeRegistration = EventBus<() -> Unit>()
+    val renderLayerRegistration = EventBus<((Block, Unit) -> Unit) -> Unit>()
 }
 
 fun module(block: InitializationScope.() -> Unit) = block
