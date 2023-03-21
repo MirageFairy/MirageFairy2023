@@ -15,7 +15,7 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
     override fun onInitializeDataGenerator(fabricDataGenerator: FabricDataGenerator) {
         val initializationScope = InitializationScope(MirageFairy2023.modId)
 
-        initializationScope.init()
+        initializationScope.modules()
 
         fabricDataGenerator.addProvider(object : FabricLanguageProvider(fabricDataGenerator, "en_us") {
             override fun generateTranslations(translationBuilder: TranslationBuilder?) {

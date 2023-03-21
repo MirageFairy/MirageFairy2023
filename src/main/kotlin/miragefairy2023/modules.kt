@@ -1,8 +1,8 @@
 package miragefairy2023
 
-import miragefairy2023.core.init.InitializationScope
-import miragefairy2023.core.init.modules.initDemonItem
+import miragefairy2023.core.init.module
+import miragefairy2023.core.init.modules.demonItemModule
 
-fun InitializationScope.init() {
-    initDemonItem()
+val modules = module {
+    demonItemModule()
 }

@@ -1,7 +1,7 @@
 package miragefairy2023.core.init.modules
 
-import miragefairy2023.core.init.InitializationScope
 import miragefairy2023.core.init.SlotContainer
+import miragefairy2023.core.init.module
 import miragefairy2023.util.gray
 import miragefairy2023.util.item
 import miragefairy2023.util.registerFuel
@@ -50,7 +50,7 @@ private val demonItems = SlotContainer<DemonItemCard, DemonItem>()
 operator fun DemonItemCard.invoke() = demonItems[this]
 
 
-fun InitializationScope.initDemonItem() {
+val demonItemModule = module {
 
     // 全体
     DemonItemCard.values().forEach { card ->

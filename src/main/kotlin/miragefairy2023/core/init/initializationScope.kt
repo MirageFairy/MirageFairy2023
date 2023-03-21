@@ -13,3 +13,5 @@ class InitializationScope(val modId: String) {
     val itemRegistration = EventBus<() -> Unit>()
     val recipeRegistration = EventBus<() -> Unit>()
 }
+
+fun module(block: InitializationScope.() -> Unit) = block

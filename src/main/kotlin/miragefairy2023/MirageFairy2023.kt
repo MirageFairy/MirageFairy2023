@@ -11,7 +11,7 @@ object MirageFairy2023 : ModInitializer {
     override fun onInitialize() {
         val initializationScope = InitializationScope(modId)
 
-        initializationScope.init()
+        initializationScope.modules()
 
         initializationScope.itemRegistration.fire { it() }
         initializationScope.recipeRegistration.fire { it() }
