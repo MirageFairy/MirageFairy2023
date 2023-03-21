@@ -75,6 +75,20 @@ fun InitializationScope.initDemonItem() {
 
     }
 
+    recipeRegistration += {
+        val lootTableId = EntityType.WITCH.lootTableId
+        LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
+            if (source.isBuiltin) {
+                if (id == lootTableId) {
+                    val itemEntry = ItemEntry.builder(DemonItemCard.XARPITE())
+                    itemEntry.apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(-1.0f, 1.0f), false))
+                    itemEntry.apply(LootingEnchantLootFunction.builder(UniformLootNumberProvider.create(0.0f, 1.0f)))
+                    tableBuilder!!.pool(LootPool.builder().with(itemEntry))
+                }
+            }
+        }
+    }
+
     recipeGeneration += {
         ShapedRecipeJsonBuilder
             .create(Items.TORCH, 8)
@@ -87,21 +101,7 @@ fun InitializationScope.initDemonItem() {
     }
 
     recipeRegistration += {
-
-        val lootTableId = EntityType.WITCH.lootTableId
-        LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
-            if (source.isBuiltin) {
-                if (id == lootTableId) {
-                    val itemEntry = ItemEntry.builder(DemonItemCard.XARPITE())
-                    itemEntry.apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(-1.0f, 1.0f), false))
-                    itemEntry.apply(LootingEnchantLootFunction.builder(UniformLootNumberProvider.create(0.0f, 1.0f)))
-                    tableBuilder!!.pool(LootPool.builder().with(itemEntry))
-                }
-            }
-        }
-
         FuelRegistry.INSTANCE.add(DemonItemCard.XARPITE(), 1600)
-
     }
 
 }
