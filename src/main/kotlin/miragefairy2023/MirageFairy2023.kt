@@ -8,8 +8,10 @@ object MirageFairy2023 : ModInitializer {
     val modId = "miragefairy2023"
     val logger = LoggerFactory.getLogger("miragefairy2023")
 
+    lateinit var initializationScope: InitializationScope
+
     override fun onInitialize() {
-        val initializationScope = InitializationScope(modId)
+        initializationScope = InitializationScope(modId)
 
         initializationScope.modules()
 
