@@ -27,6 +27,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 
+
 enum class DemonItemCard(
     val itemId: String,
     val enName: String,
@@ -53,6 +54,7 @@ operator fun DemonItemCard.invoke(item: Item) = unit { demonItems[this]!!.item =
 
 fun InitializationScope.initDemonItem() {
 
+    // 全体
     DemonItemCard.values().forEach { card ->
 
         itemRegistration += {
@@ -75,6 +77,7 @@ fun InitializationScope.initDemonItem() {
 
     }
 
+    // 魔女→紅天石
     recipeRegistration += {
         val lootTableId = EntityType.WITCH.lootTableId
         LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
@@ -89,6 +92,7 @@ fun InitializationScope.initDemonItem() {
         }
     }
 
+    // 紅天石→松明
     recipeGeneration += {
         ShapedRecipeJsonBuilder
             .create(Items.TORCH, 8)
@@ -100,6 +104,7 @@ fun InitializationScope.initDemonItem() {
             .offerTo(it, Identifier.of(modId, "torch_from_xarpite"))
     }
 
+    // 紅天石→燃料
     recipeRegistration += {
         FuelRegistry.INSTANCE.add(DemonItemCard.XARPITE(), 1600)
     }
