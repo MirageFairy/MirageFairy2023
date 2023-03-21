@@ -1,6 +1,6 @@
 package miragefairy2023
 
-import miragefairy2023.core.init.InitializationScope
+import miragefairy2023.MirageFairy2023.initializationScope
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
@@ -13,9 +13,6 @@ import java.util.function.Consumer
 
 object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
     override fun onInitializeDataGenerator(fabricDataGenerator: FabricDataGenerator) {
-        val initializationScope = InitializationScope(MirageFairy2023.modId)
-
-        initializationScope.modules()
 
         fabricDataGenerator.addProvider(object : FabricLanguageProvider(fabricDataGenerator, "en_us") {
             override fun generateTranslations(translationBuilder: TranslationBuilder) {
