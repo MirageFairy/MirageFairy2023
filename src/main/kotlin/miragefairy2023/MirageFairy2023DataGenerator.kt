@@ -18,14 +18,12 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
         initializationScope.modules()
 
         fabricDataGenerator.addProvider(object : FabricLanguageProvider(fabricDataGenerator, "en_us") {
-            override fun generateTranslations(translationBuilder: TranslationBuilder?) {
-                translationBuilder!!
+            override fun generateTranslations(translationBuilder: TranslationBuilder) {
                 initializationScope.englishTranslationGeneration.fire { it(translationBuilder) }
             }
         })
         fabricDataGenerator.addProvider(object : FabricLanguageProvider(fabricDataGenerator, "ja_jp") {
-            override fun generateTranslations(translationBuilder: TranslationBuilder?) {
-                translationBuilder!!
+            override fun generateTranslations(translationBuilder: TranslationBuilder) {
                 initializationScope.japaneseTranslationGeneration.fire { it(translationBuilder) }
             }
         })
@@ -35,15 +33,13 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
 
             }
 
-            override fun generateItemModels(itemModelGenerator: ItemModelGenerator?) {
-                itemModelGenerator!!
+            override fun generateItemModels(itemModelGenerator: ItemModelGenerator) {
                 initializationScope.itemModelGeneration.fire { it(itemModelGenerator) }
             }
         })
 
         fabricDataGenerator.addProvider(object : FabricRecipeProvider(fabricDataGenerator) {
-            override fun generateRecipes(exporter: Consumer<RecipeJsonProvider>?) {
-                exporter!!
+            override fun generateRecipes(exporter: Consumer<RecipeJsonProvider>) {
                 initializationScope.recipeGeneration.fire { it(exporter) }
             }
         })
