@@ -1,6 +1,10 @@
 {
+  "item.miragefairy2023.mirage_flour": "Mirage Flour",
+  "item.miragefairy2023.mirage_flour.poem": "Containing metallic organic matter",
   "item.miragefairy2023.miranagite": "Miranagite",
   "item.miragefairy2023.miranagite.poem": "Astral body crystallized by anti-entropy",
+  "item.miragefairy2023.tiny_mirage_flour": "Tiny Pile of Mirage Flour",
+  "item.miragefairy2023.tiny_mirage_flour.poem": "Compose the body of Mirage fairy",
   "item.miragefairy2023.xarpite": "Xarpite",
   "item.miragefairy2023.xarpite.poem": "Binds astral flux with magnetic force"
 }

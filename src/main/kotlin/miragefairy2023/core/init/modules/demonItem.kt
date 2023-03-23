@@ -44,6 +44,16 @@ enum class DemonItemCard(
         "Astral body crystallized by anti-entropy",
         "秩序の叛乱、天地創造の逆光。",
     ),
+    TINY_MIRAGE_FLOUR(
+        "tiny_mirage_flour", "Tiny Pile of Mirage Flour", "ミラージュの花粉",
+        "Compose the body of Mirage fairy",
+        "ささやかな温もりを、てのひらの上に。",
+    ),
+    MIRAGE_FLOUR(
+        "mirage_flour", "Mirage Flour", "ミラージュフラワー",
+        "Containing metallic organic matter",
+        "創発のファンタズム",
+    ),
 }
 
 private val demonItems = SlotContainer<DemonItemCard, DemonItem>()
