@@ -54,20 +54,18 @@ val demonItemModule = module {
 
     // 全体
     DemonItemCard.values().forEach { card ->
-
         item(card.itemId, { DemonItem(FabricItemSettings().group(ItemGroup.MATERIALS)) }) {
             itemRegistration {
                 demonItems[card] = item
             }
+
+            englishTranslationGeneration { it.add(item, card.enName) }
+            englishTranslationGeneration { it.add("${item.translationKey}.poem", card.enPoem) }
+            japaneseTranslationGeneration { it.add(item, card.jaName) }
+            japaneseTranslationGeneration { it.add("${item.translationKey}.poem", card.jaPoem) }
+
+            itemModelGeneration { it.register(item, Models.GENERATED) }
         }
-
-        englishTranslationGeneration { it.add(card(), card.enName) }
-        englishTranslationGeneration { it.add("${card().translationKey}.poem", card.enPoem) }
-        japaneseTranslationGeneration { it.add(card(), card.jaName) }
-        japaneseTranslationGeneration { it.add("${card().translationKey}.poem", card.jaPoem) }
-
-        itemModelGeneration { it.register(card(), Models.GENERATED) }
-
     }
 
     // 魔女→紅天石
