@@ -12,6 +12,7 @@ import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
 import net.minecraft.data.server.RecipeProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
+import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
 import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
@@ -107,6 +108,29 @@ val demonItemModule = module {
 
     // 紅天石→燃料
     registerFuel({ DemonItemCard.XARPITE() }, 1600)
+
+    // ミラージュの花粉⇔ミラージュフラワー
+    recipeGeneration {
+        ShapelessRecipeJsonBuilder
+            .create(DemonItemCard.MIRAGE_FLOUR())
+            .input(DemonItemCard.TINY_MIRAGE_FLOUR())
+            .input(DemonItemCard.TINY_MIRAGE_FLOUR())
+            .input(DemonItemCard.TINY_MIRAGE_FLOUR())
+            .input(DemonItemCard.TINY_MIRAGE_FLOUR())
+            .input(DemonItemCard.TINY_MIRAGE_FLOUR())
+            .input(DemonItemCard.TINY_MIRAGE_FLOUR())
+            .input(DemonItemCard.TINY_MIRAGE_FLOUR())
+            .input(DemonItemCard.TINY_MIRAGE_FLOUR())
+            .criterion("has_tiny_mirage_flour", RecipeProvider.conditionsFromItem(DemonItemCard.TINY_MIRAGE_FLOUR()))
+            .offerTo(it, Identifier.of(modId, "mirage_flour"))
+    }
+    recipeGeneration {
+        ShapelessRecipeJsonBuilder
+            .create(DemonItemCard.TINY_MIRAGE_FLOUR(), 8)
+            .input(DemonItemCard.MIRAGE_FLOUR())
+            .criterion("has_mirage_flour", RecipeProvider.conditionsFromItem(DemonItemCard.MIRAGE_FLOUR()))
+            .offerTo(it, Identifier.of(modId, "tiny_mirage_flour_from_mirage_flour"))
+    }
 
 }
 

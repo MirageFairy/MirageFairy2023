@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "miragefairy2023:tiny_mirage_flour"
+    },
+    {
+      "item": "miragefairy2023:tiny_mirage_flour"
+    },
+    {
+      "item": "miragefairy2023:tiny_mirage_flour"
+    },
+    {
+      "item": "miragefairy2023:tiny_mirage_flour"
+    },
+    {
+      "item": "miragefairy2023:tiny_mirage_flour"
+    },
+    {
+      "item": "miragefairy2023:tiny_mirage_flour"
+    },
+    {
+      "item": "miragefairy2023:tiny_mirage_flour"
+    },
+    {
+      "item": "miragefairy2023:tiny_mirage_flour"
+    }
+  ],
+  "result": {
+    "item": "miragefairy2023:mirage_flour"
+  }
+}
