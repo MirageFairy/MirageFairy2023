@@ -3,6 +3,7 @@ package miragefairy2023
 import miragefairy2023.MirageFairy2023.initializationScope
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
@@ -38,6 +39,12 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
         fabricDataGenerator.addProvider(object : FabricRecipeProvider(fabricDataGenerator) {
             override fun generateRecipes(exporter: Consumer<RecipeJsonProvider>) {
                 initializationScope.recipeGeneration.fire { it(exporter) }
+            }
+        })
+
+        fabricDataGenerator.addProvider(object : FabricBlockLootTableProvider(fabricDataGenerator) {
+            override fun generateBlockLootTables() {
+                initializationScope.blockLootTablesGeneration.fire { it(this) }
             }
         })
 
