@@ -75,11 +75,11 @@ val demonItemModule = module {
         }
     }
 
-    // 雑草→紅天石
-    registerGrassDrop({ DemonItemCard.XARPITE() }, 0.01)
-
     // 魔女→紅天石
     registerMobDrop({ EntityType.WITCH }, { DemonItemCard.XARPITE() })
+
+    // 雑草→紅天石
+    registerGrassDrop({ DemonItemCard.XARPITE() }, 0.01)
 
     // 紅天石→松明
     onGenerateRecipes {
