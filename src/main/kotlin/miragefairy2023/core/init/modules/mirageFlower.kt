@@ -101,6 +101,7 @@ val mirageFlowerModule = module {
         japaneseTranslationGeneration { it.add(item, "ミラージュの球根") }
         japaneseTranslationGeneration { it.add("${item.translationKey}.poem", "学名：ミラギウメ・ハイメクノファ") }
         itemModelGeneration { it.register(item, Models.GENERATED) }
+        registerGrassDrop({ item }, 0.1)
     }
 
 }
