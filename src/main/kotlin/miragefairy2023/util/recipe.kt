@@ -10,15 +10,16 @@ import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.EntityType
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.Items
+import net.minecraft.loot.condition.KilledByPlayerLootCondition
 import net.minecraft.loot.condition.LocationCheckLootCondition
 import net.minecraft.loot.condition.MatchToolLootCondition
 import net.minecraft.loot.condition.RandomChanceLootCondition
+import net.minecraft.loot.condition.RandomChanceWithLootingLootCondition
 import net.minecraft.loot.function.ApplyBonusLootFunction
 import net.minecraft.loot.function.ExplosionDecayLootFunction
 import net.minecraft.loot.function.LootingEnchantLootFunction
 import net.minecraft.loot.function.SetCountLootFunction
-import net.minecraft.loot.provider.number.ConstantLootNumberProvider
-import net.minecraft.loot.provider.number.UniformLootNumberProvider
+import net.minecraft.loot.provider.number.LootNumberProvider
 import net.minecraft.predicate.entity.LocationPredicate
 import net.minecraft.predicate.item.ItemPredicate
 import net.minecraft.util.registry.RegistryKey
@@ -55,7 +56,14 @@ fun InitializationScope.registerGrassDrop(
     }
 }
 
-fun InitializationScope.registerMobDrop(entityType: () -> EntityType<*>, item: () -> ItemConvertible) {
+fun InitializationScope.registerMobDrop(
+    entityType: () -> EntityType<*>,
+    item: () -> ItemConvertible,
+    onlyKilledByPlayer: Boolean = false,
+    dropRate: Pair<Float, Float>? = null,
+    amount: (LootNumberProvider)? = null,
+    fortuneFactor: (LootNumberProvider)? = null,
+) {
     onRegisterRecipes {
         val lootTableId = entityType().lootTableId
         LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
@@ -63,9 +71,11 @@ fun InitializationScope.registerMobDrop(entityType: () -> EntityType<*>, item: (
                 if (id == lootTableId) {
                     configure(tableBuilder!!) {
                         pool(lootPool {
+                            if (onlyKilledByPlayer) conditionally(KilledByPlayerLootCondition.builder())
+                            if (dropRate != null) conditionally(RandomChanceWithLootingLootCondition.builder(dropRate.first, dropRate.second))
                             with(itemEntry(item()) {
-                                apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1.0f), false))
-                                apply(LootingEnchantLootFunction.builder(UniformLootNumberProvider.create(0.0f, 1.0f)))
+                                if (amount != null) apply(SetCountLootFunction.builder(amount, false))
+                                if (fortuneFactor != null) apply(LootingEnchantLootFunction.builder(fortuneFactor))
                             })
                         })
                     }
