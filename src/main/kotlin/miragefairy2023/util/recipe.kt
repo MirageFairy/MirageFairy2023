@@ -62,7 +62,7 @@ fun InitializationScope.registerMobDrop(entityType: () -> EntityType<*>, item: (
                     configure(tableBuilder!!) {
                         pool(lootPool {
                             with(itemEntry(item()) {
-                                apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(-1.0f, 1.0f), false))
+                                apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1.0f), false))
                                 apply(LootingEnchantLootFunction.builder(UniformLootNumberProvider.create(0.0f, 1.0f)))
                             })
                         })
