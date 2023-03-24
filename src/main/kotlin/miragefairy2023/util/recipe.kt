@@ -8,12 +8,14 @@ import net.fabricmc.fabric.api.registry.FuelRegistry
 import net.minecraft.block.Blocks
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.item.ItemConvertible
-import net.minecraft.loot.LootPool
+import net.minecraft.item.Items
 import net.minecraft.loot.condition.LocationCheckLootCondition
+import net.minecraft.loot.condition.MatchToolLootCondition
 import net.minecraft.loot.condition.RandomChanceLootCondition
-import net.minecraft.loot.entry.ItemEntry
 import net.minecraft.loot.function.ApplyBonusLootFunction
+import net.minecraft.loot.function.ExplosionDecayLootFunction
 import net.minecraft.predicate.entity.LocationPredicate
+import net.minecraft.predicate.item.ItemPredicate
 import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.biome.Biome
 
@@ -27,11 +29,19 @@ fun InitializationScope.registerGrassDrop(
         LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
             if (source.isBuiltin) {
                 if (id == lootTableId) {
-                    val itemEntry = ItemEntry.builder(item())
-                    itemEntry.conditionally(RandomChanceLootCondition.builder((0.125 * amount).toFloat()))
-                    if (biome != null) itemEntry.conditionally(LocationCheckLootCondition.builder(LocationPredicate.Builder.create().biome(biome())))
-                    itemEntry.apply(ApplyBonusLootFunction.uniformBonusCount(Enchantments.FORTUNE, 2))
-                    tableBuilder!!.pool(LootPool.builder().with(itemEntry))
+                    tableBuilder!!.pool(lootPool {
+                        with(alternativeEntry {
+                            alternatively(itemEntry(Items.AIR) {
+                                conditionally(MatchToolLootCondition.builder(ItemPredicate.Builder.create().items(Items.SHEARS)))
+                            })
+                            alternatively(itemEntry(item()) {
+                                conditionally(RandomChanceLootCondition.builder((0.125 * amount).toFloat()))
+                                if (biome != null) conditionally(LocationCheckLootCondition.builder(LocationPredicate.Builder.create().biome(biome())))
+                                apply(ApplyBonusLootFunction.uniformBonusCount(Enchantments.FORTUNE, 2))
+                                apply(ExplosionDecayLootFunction.builder())
+                            })
+                        })
+                    })
                 }
             }
         }
