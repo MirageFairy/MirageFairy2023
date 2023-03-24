@@ -6,9 +6,9 @@ import miragefairy2023.util.gray
 import miragefairy2023.util.item
 import miragefairy2023.util.registerFuel
 import miragefairy2023.util.registerGrassDrop
+import miragefairy2023.util.registerMobDrop
 import miragefairy2023.util.text
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
-import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
 import net.minecraft.data.server.RecipeProvider
@@ -19,11 +19,6 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.loot.LootPool
-import net.minecraft.loot.entry.ItemEntry
-import net.minecraft.loot.function.LootingEnchantLootFunction
-import net.minecraft.loot.function.SetCountLootFunction
-import net.minecraft.loot.provider.number.UniformLootNumberProvider
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.world.World
@@ -84,19 +79,7 @@ val demonItemModule = module {
     registerGrassDrop({ DemonItemCard.XARPITE() }, 0.01)
 
     // 魔女→紅天石
-    onRegisterRecipes {
-        val lootTableId = EntityType.WITCH.lootTableId
-        LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
-            if (source.isBuiltin) {
-                if (id == lootTableId) {
-                    val itemEntry = ItemEntry.builder(DemonItemCard.XARPITE())
-                    itemEntry.apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(-1.0f, 1.0f), false))
-                    itemEntry.apply(LootingEnchantLootFunction.builder(UniformLootNumberProvider.create(0.0f, 1.0f)))
-                    tableBuilder!!.pool(LootPool.builder().with(itemEntry))
-                }
-            }
-        }
-    }
+    registerMobDrop({ EntityType.WITCH }, { DemonItemCard.XARPITE() })
 
     // 紅天石→松明
     onGenerateRecipes {
