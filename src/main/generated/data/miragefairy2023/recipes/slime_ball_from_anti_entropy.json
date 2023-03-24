@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:magma_cream"
+    },
+    {
+      "item": "minecraft:magma_cream"
+    },
+    {
+      "item": "miragefairy2023:miranagite"
+    }
+  ],
+  "result": {
+    "item": "minecraft:slime_ball"
+  }
+}

@@ -116,6 +116,32 @@ val demonItemModule = module {
     // 雑草→蒼天石
     registerGrassDrop({ DemonItemCard.MIRANAGITE() }, 0.01)
 
+    // 2マグマクリーム＋蒼天石→スライムボール
+    onGenerateRecipes {
+        ShapelessRecipeJsonBuilder
+            .create(Items.SLIME_BALL)
+            .input(Items.MAGMA_CREAM)
+            .input(Items.MAGMA_CREAM)
+            .input(DemonItemCard.MIRANAGITE())
+            .criterion("has_magma_cream", RecipeProvider.conditionsFromItem(Items.MAGMA_CREAM))
+            .criterion("has_miranagite", RecipeProvider.conditionsFromItem(DemonItemCard.MIRANAGITE()))
+            .offerTo(it, Identifier.of(modId, "slime_ball_from_anti_entropy"))
+    }
+
+    // 4マグマクリーム＋蒼天石→ブレイズパウダー
+    onGenerateRecipes {
+        ShapelessRecipeJsonBuilder
+            .create(Items.BLAZE_POWDER)
+            .input(Items.MAGMA_CREAM)
+            .input(Items.MAGMA_CREAM)
+            .input(Items.MAGMA_CREAM)
+            .input(Items.MAGMA_CREAM)
+            .input(DemonItemCard.MIRANAGITE())
+            .criterion("has_magma_cream", RecipeProvider.conditionsFromItem(Items.MAGMA_CREAM))
+            .criterion("has_miranagite", RecipeProvider.conditionsFromItem(DemonItemCard.MIRANAGITE()))
+            .offerTo(it, Identifier.of(modId, "blaze_powder_from_anti_entropy"))
+    }
+
     // ミラージュの花粉⇔ミラージュフラワー
     onGenerateRecipes {
         ShapelessRecipeJsonBuilder
