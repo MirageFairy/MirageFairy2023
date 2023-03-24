@@ -27,7 +27,7 @@ fun <T : Block> BlockScope<T>.generateBlockState(jsonElementSupplier: () -> Json
 }
 
 
-private inline fun <T> T.init(block: T.() -> Unit) = this.apply(block)
+inline fun <T> configure(receiver: T, block: T.() -> Unit) = receiver.apply(block)
 
 fun <T : Block> BlockScope<T>.generateBlockLootTable(block: () -> LootTable.Builder) {
     initializationScope.onGenerateBlockLootTables {
@@ -40,25 +40,25 @@ fun <T : LootFunctionConsumingBuilder<T>> T.applyExplosionDecay(drop: ItemConver
 }
 
 fun lootTable(block: (LootTable.Builder.() -> Unit)? = null): LootTable.Builder {
-    return LootTable.builder()!!.init { block?.invoke(this) }
+    return configure(LootTable.builder()!!) { block?.invoke(this) }
 }
 
 fun lootPool(block: (LootPool.Builder.() -> Unit)? = null): LootPool.Builder {
-    return LootPool.builder()!!.init { block?.invoke(this) }
+    return configure(LootPool.builder()!!) { block?.invoke(this) }
 }
 
 fun blockStatePropertyLootCondition(targetBlock: Block, block: (BlockStatePropertyLootCondition.Builder.() -> Unit)? = null): BlockStatePropertyLootCondition.Builder {
-    return BlockStatePropertyLootCondition.builder(targetBlock)!!.init { block?.invoke(this) }
+    return configure(BlockStatePropertyLootCondition.builder(targetBlock)!!) { block?.invoke(this) }
 }
 
 fun statePredicate(block: (StatePredicate.Builder.() -> Unit)? = null): StatePredicate.Builder {
-    return StatePredicate.Builder.create()!!.init { block?.invoke(this) }
+    return configure(StatePredicate.Builder.create()!!) { block?.invoke(this) }
 }
 
 fun itemEntry(item: ItemConvertible, block: (LeafEntry.Builder<*>.() -> Unit)? = null): LeafEntry.Builder<*> {
-    return ItemEntry.builder(item)!!.init { block?.invoke(this) }
+    return configure(ItemEntry.builder(item)!!) { block?.invoke(this) }
 }
 
 fun alternativeEntry(vararg children: LootPoolEntry.Builder<*>, block: (AlternativeEntry.Builder.() -> Unit)? = null): AlternativeEntry.Builder {
-    return AlternativeEntry.builder(*children)!!.init { block?.invoke(this) }
+    return configure(AlternativeEntry.builder(*children)!!) { block?.invoke(this) }
 }
