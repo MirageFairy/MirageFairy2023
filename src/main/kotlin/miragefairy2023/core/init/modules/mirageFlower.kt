@@ -54,12 +54,12 @@ val mirageFlowerModule = module {
                 }),
             )
         }
-        blockStateModelGeneration { blockStateModelGenerator ->
+        onGenerateBlockStateModels { blockStateModelGenerator ->
             (0..MirageFlowerBlock.MAX_AGE).forEach { age ->
                 blockStateModelGenerator.createSubModel(item, "_age$age", Models.CROSS) { TextureMap.of(TextureKey.CROSS, it) }
             }
         }
-        renderLayerRegistration { it(item, Unit) }
+        onRegisterRenderLayers { it(item, Unit) }
         generateBlockLootTable {
             val condition = blockStatePropertyLootCondition(item) {
                 properties(statePredicate {
@@ -96,11 +96,11 @@ val mirageFlowerModule = module {
     }
 
     mirageSeedItem = item("mirage_seed", { MirageSeedItem(mirageFlowerBlock(), FabricItemSettings().group(ItemGroup.MATERIALS)) }) {
-        englishTranslationGeneration { it.add(item, "Mirage Seed") }
-        englishTranslationGeneration { it.add("${item.translationKey}.poem", "Scientific name: miragiume haimekunofa") }
-        japaneseTranslationGeneration { it.add(item, "ミラージュの球根") }
-        japaneseTranslationGeneration { it.add("${item.translationKey}.poem", "学名：ミラギウメ・ハイメクノファ") }
-        itemModelGeneration { it.register(item, Models.GENERATED) }
+        onGenerateEnglishTranslations { it.add(item, "Mirage Seed") }
+        onGenerateEnglishTranslations { it.add("${item.translationKey}.poem", "Scientific name: miragiume haimekunofa") }
+        onGenerateJapaneseTranslations { it.add(item, "ミラージュの球根") }
+        onGenerateJapaneseTranslations { it.add("${item.translationKey}.poem", "学名：ミラギウメ・ハイメクノファ") }
+        onGenerateItemModels { it.register(item, Models.GENERATED) }
         registerGrassDrop({ item }, 0.1)
     }
 

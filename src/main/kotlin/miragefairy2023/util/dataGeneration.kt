@@ -18,7 +18,7 @@ import net.minecraft.loot.function.LootFunctionConsumingBuilder
 import net.minecraft.predicate.StatePredicate
 
 fun <T : Block> BlockScope<T>.generateBlockState(jsonElementSupplier: () -> JsonElement) {
-    initializationScope.blockStateModelGeneration { blockStateModelGenerator ->
+    initializationScope.onGenerateBlockStateModels { blockStateModelGenerator ->
         blockStateModelGenerator.blockStateCollector.accept(object : BlockStateSupplier {
             override fun getBlock() = item
             override fun get() = jsonElementSupplier()
@@ -30,7 +30,7 @@ fun <T : Block> BlockScope<T>.generateBlockState(jsonElementSupplier: () -> Json
 private inline fun <T> T.init(block: T.() -> Unit) = this.apply(block)
 
 fun <T : Block> BlockScope<T>.generateBlockLootTable(block: () -> LootTable.Builder) {
-    initializationScope.blockLootTablesGeneration {
+    initializationScope.onGenerateBlockLootTables {
         addDrop(item, block())
     }
 }

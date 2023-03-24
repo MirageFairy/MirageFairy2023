@@ -15,9 +15,9 @@ object MirageFairy2023 : ModInitializer {
 
         initializationScope.modules()
 
-        initializationScope.blockRegistration.fire { it() }
-        initializationScope.itemRegistration.fire { it() }
-        initializationScope.recipeRegistration.fire { it() }
+        initializationScope.onRegisterBlocks.fire { it() }
+        initializationScope.onRegisterItems.fire { it() }
+        initializationScope.onRegisterRecipes.fire { it() }
 
     }
 }

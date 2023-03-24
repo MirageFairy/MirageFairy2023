@@ -17,34 +17,34 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
 
         fabricDataGenerator.addProvider(object : FabricLanguageProvider(fabricDataGenerator, "en_us") {
             override fun generateTranslations(translationBuilder: TranslationBuilder) {
-                initializationScope.englishTranslationGeneration.fire { it(translationBuilder) }
+                initializationScope.onGenerateEnglishTranslations.fire { it(translationBuilder) }
             }
         })
         fabricDataGenerator.addProvider(object : FabricLanguageProvider(fabricDataGenerator, "ja_jp") {
             override fun generateTranslations(translationBuilder: TranslationBuilder) {
-                initializationScope.japaneseTranslationGeneration.fire { it(translationBuilder) }
+                initializationScope.onGenerateJapaneseTranslations.fire { it(translationBuilder) }
             }
         })
 
         fabricDataGenerator.addProvider(object : FabricModelProvider(fabricDataGenerator) {
             override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator) {
-                initializationScope.blockStateModelGeneration.fire { it(blockStateModelGenerator) }
+                initializationScope.onGenerateBlockStateModels.fire { it(blockStateModelGenerator) }
             }
 
             override fun generateItemModels(itemModelGenerator: ItemModelGenerator) {
-                initializationScope.itemModelGeneration.fire { it(itemModelGenerator) }
+                initializationScope.onGenerateItemModels.fire { it(itemModelGenerator) }
             }
         })
 
         fabricDataGenerator.addProvider(object : FabricRecipeProvider(fabricDataGenerator) {
             override fun generateRecipes(exporter: Consumer<RecipeJsonProvider>) {
-                initializationScope.recipeGeneration.fire { it(exporter) }
+                initializationScope.onGenerateRecipes.fire { it(exporter) }
             }
         })
 
         fabricDataGenerator.addProvider(object : FabricBlockLootTableProvider(fabricDataGenerator) {
             override fun generateBlockLootTables() {
-                initializationScope.blockLootTablesGeneration.fire { it(this) }
+                initializationScope.onGenerateBlockLootTables.fire { it(this) }
             }
         })
 

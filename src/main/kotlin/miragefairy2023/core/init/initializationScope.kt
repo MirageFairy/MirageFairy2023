@@ -10,17 +10,17 @@ import java.util.function.Consumer
 
 class InitializationScope(val modId: String) {
 
-    val englishTranslationGeneration = EventBus<(FabricLanguageProvider.TranslationBuilder) -> Unit>()
-    val japaneseTranslationGeneration = EventBus<(FabricLanguageProvider.TranslationBuilder) -> Unit>()
-    val blockStateModelGeneration = EventBus<(BlockStateModelGenerator) -> Unit>()
-    val itemModelGeneration = EventBus<(ItemModelGenerator) -> Unit>()
-    val recipeGeneration = EventBus<(Consumer<RecipeJsonProvider>) -> Unit>()
-    val blockLootTablesGeneration = EventBus<FabricBlockLootTableProvider.() -> Unit>()
+    val onGenerateEnglishTranslations = EventBus<(FabricLanguageProvider.TranslationBuilder) -> Unit>()
+    val onGenerateJapaneseTranslations = EventBus<(FabricLanguageProvider.TranslationBuilder) -> Unit>()
+    val onGenerateBlockStateModels = EventBus<(BlockStateModelGenerator) -> Unit>()
+    val onGenerateItemModels = EventBus<(ItemModelGenerator) -> Unit>()
+    val onGenerateRecipes = EventBus<(Consumer<RecipeJsonProvider>) -> Unit>()
+    val onGenerateBlockLootTables = EventBus<FabricBlockLootTableProvider.() -> Unit>()
 
-    val blockRegistration = EventBus<() -> Unit>()
-    val itemRegistration = EventBus<() -> Unit>()
-    val recipeRegistration = EventBus<() -> Unit>()
-    val renderLayerRegistration = EventBus<((Block, Unit) -> Unit) -> Unit>()
+    val onRegisterBlocks = EventBus<() -> Unit>()
+    val onRegisterItems = EventBus<() -> Unit>()
+    val onRegisterRecipes = EventBus<() -> Unit>()
+    val onRegisterRenderLayers = EventBus<((Block, Unit) -> Unit) -> Unit>()
 
 }
 

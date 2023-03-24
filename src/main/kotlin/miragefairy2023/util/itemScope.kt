@@ -13,7 +13,7 @@ class ItemScope<T : Item>(val initializationScope: InitializationScope) {
 
 fun <T : Item> InitializationScope.item(itemId: String, itemCreator: () -> T, block: (ItemScope<T>.() -> Unit)? = null): () -> T {
     val scope = ItemScope<T>(this)
-    itemRegistration {
+    onRegisterItems {
         scope.item = itemCreator()
         Registry.register(Registry.ITEM, Identifier(modId, itemId), scope.item)
     }

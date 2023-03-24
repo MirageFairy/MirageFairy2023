@@ -13,7 +13,7 @@ class BlockScope<T : Block>(val initializationScope: InitializationScope) {
 
 fun <T : Block> InitializationScope.block(blockId: String, blockCreator: () -> T, block: (BlockScope<T>.() -> Unit)? = null): () -> T {
     val scope = BlockScope<T>(this)
-    blockRegistration {
+    onRegisterBlocks {
         scope.item = blockCreator()
         Registry.register(Registry.BLOCK, Identifier(modId, blockId), scope.item)
     }

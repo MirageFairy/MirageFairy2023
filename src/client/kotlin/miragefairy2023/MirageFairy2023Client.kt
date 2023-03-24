@@ -8,7 +8,7 @@ import net.minecraft.client.render.RenderLayer
 object MirageFairy2023Client : ClientModInitializer {
     override fun onInitializeClient() {
 
-        initializationScope.renderLayerRegistration.fire {
+        initializationScope.onRegisterRenderLayers.fire {
             it { block, layerName ->
                 val layer = when (layerName) {
                     Unit -> RenderLayer.getCutout()

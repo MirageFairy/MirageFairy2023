@@ -24,7 +24,7 @@ fun InitializationScope.registerGrassDrop(
     amount: Double = 1.0,
     biome: (() -> RegistryKey<Biome>)? = null,
 ) {
-    recipeRegistration {
+    onRegisterRecipes {
         val lootTableId = Blocks.GRASS.lootTableId
         LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
             if (source.isBuiltin) {
@@ -50,7 +50,7 @@ fun InitializationScope.registerGrassDrop(
 
 /** @param ticks coal is `200 * 8 = 1600` */
 fun InitializationScope.registerFuel(item: () -> ItemConvertible, ticks: Int) {
-    recipeRegistration {
+    onRegisterRecipes {
         FuelRegistry.INSTANCE.add(item(), ticks)
     }
 }

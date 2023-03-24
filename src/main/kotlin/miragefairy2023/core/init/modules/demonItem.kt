@@ -67,16 +67,16 @@ val demonItemModule = module {
     // 全体
     DemonItemCard.values().forEach { card ->
         item(card.itemId, { DemonItem(FabricItemSettings().group(ItemGroup.MATERIALS)) }) {
-            itemRegistration {
+            onRegisterItems {
                 demonItems[card] = item
             }
 
-            englishTranslationGeneration { it.add(item, card.enName) }
-            englishTranslationGeneration { it.add("${item.translationKey}.poem", card.enPoem) }
-            japaneseTranslationGeneration { it.add(item, card.jaName) }
-            japaneseTranslationGeneration { it.add("${item.translationKey}.poem", card.jaPoem) }
+            onGenerateEnglishTranslations { it.add(item, card.enName) }
+            onGenerateEnglishTranslations { it.add("${item.translationKey}.poem", card.enPoem) }
+            onGenerateJapaneseTranslations { it.add(item, card.jaName) }
+            onGenerateJapaneseTranslations { it.add("${item.translationKey}.poem", card.jaPoem) }
 
-            itemModelGeneration { it.register(item, Models.GENERATED) }
+            onGenerateItemModels { it.register(item, Models.GENERATED) }
         }
     }
 
@@ -84,7 +84,7 @@ val demonItemModule = module {
     registerGrassDrop({ DemonItemCard.XARPITE() }, 0.01)
 
     // 魔女→紅天石
-    recipeRegistration {
+    onRegisterRecipes {
         val lootTableId = EntityType.WITCH.lootTableId
         LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
             if (source.isBuiltin) {
@@ -99,7 +99,7 @@ val demonItemModule = module {
     }
 
     // 紅天石→松明
-    recipeGeneration {
+    onGenerateRecipes {
         ShapedRecipeJsonBuilder
             .create(Items.TORCH, 8)
             .input('A', DemonItemCard.XARPITE())
@@ -117,7 +117,7 @@ val demonItemModule = module {
     registerGrassDrop({ DemonItemCard.MIRANAGITE() }, 0.01)
 
     // ミラージュの花粉⇔ミラージュフラワー
-    recipeGeneration {
+    onGenerateRecipes {
         ShapelessRecipeJsonBuilder
             .create(DemonItemCard.MIRAGE_FLOUR())
             .input(DemonItemCard.TINY_MIRAGE_FLOUR())
@@ -131,7 +131,7 @@ val demonItemModule = module {
             .criterion("has_tiny_mirage_flour", RecipeProvider.conditionsFromItem(DemonItemCard.TINY_MIRAGE_FLOUR()))
             .offerTo(it, Identifier.of(modId, "mirage_flour"))
     }
-    recipeGeneration {
+    onGenerateRecipes {
         ShapelessRecipeJsonBuilder
             .create(DemonItemCard.TINY_MIRAGE_FLOUR(), 8)
             .input(DemonItemCard.MIRAGE_FLOUR())
