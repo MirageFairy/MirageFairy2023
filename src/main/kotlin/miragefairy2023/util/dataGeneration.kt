@@ -15,6 +15,8 @@ import net.minecraft.loot.entry.ItemEntry
 import net.minecraft.loot.entry.LeafEntry
 import net.minecraft.loot.entry.LootPoolEntry
 import net.minecraft.loot.function.LootFunctionConsumingBuilder
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider
+import net.minecraft.loot.provider.number.UniformLootNumberProvider
 import net.minecraft.predicate.StatePredicate
 
 fun <T : Block> BlockScope<T>.generateBlockState(jsonElementSupplier: () -> JsonElement) {
@@ -62,3 +64,6 @@ fun itemEntry(item: ItemConvertible, block: (LeafEntry.Builder<*>.() -> Unit)? =
 fun alternativeEntry(vararg children: LootPoolEntry.Builder<*>, block: (AlternativeEntry.Builder.() -> Unit)? = null): AlternativeEntry.Builder {
     return configure(AlternativeEntry.builder(*children)!!) { block?.invoke(this) }
 }
+
+fun constantLootNumberProvider(value: Float) = ConstantLootNumberProvider.create(value)!!
+fun uniformLootNumberProvider(min: Float, max: Float) = UniformLootNumberProvider.create(min, max)!!
