@@ -160,6 +160,21 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
             1.0 * floorMoisture / 7.0
         }
 
+        // 周囲が開けているほど環境ボーナス最大+100%
+        ambientBonus += run {
+            val blankScore = (0 until 4).sumOf {
+                val targetPos = pos.add(world.random.nextBetween(-4, 4), world.random.nextBetween(-4, 4), world.random.nextBetween(-4, 4))
+                val blockState = world.getBlockState(targetPos)
+                val blankScore = when {
+                    blockState.isAir -> 2 // 空気なら2
+                    !blockState.isOpaque -> 1 // 不透明でないなら1
+                    else -> 0 // 不透明なら0
+                }
+                blankScore
+            }
+            1.0 * blankScore / (2 * 4).toDouble()
+        }
+
 
         val actualGrowthAmount = world.random.randomInt(baseGrowthAmount * ambientBonus * speed)
         val oldAge = getAge(state)
