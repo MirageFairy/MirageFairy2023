@@ -5,6 +5,7 @@ import miragefairy2023.core.init.module
 import miragefairy2023.util.gray
 import miragefairy2023.util.item
 import miragefairy2023.util.registerFuel
+import miragefairy2023.util.registerGrassDrop
 import miragefairy2023.util.text
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
@@ -79,6 +80,9 @@ val demonItemModule = module {
         }
     }
 
+    // 雑草→紅天石
+    registerGrassDrop({ DemonItemCard.XARPITE() }, 0.01)
+
     // 魔女→紅天石
     recipeRegistration {
         val lootTableId = EntityType.WITCH.lootTableId
@@ -108,6 +112,9 @@ val demonItemModule = module {
 
     // 紅天石→燃料
     registerFuel({ DemonItemCard.XARPITE() }, 1600)
+
+    // 雑草→蒼天石
+    registerGrassDrop({ DemonItemCard.MIRANAGITE() }, 0.01)
 
     // ミラージュの花粉⇔ミラージュフラワー
     recipeGeneration {
