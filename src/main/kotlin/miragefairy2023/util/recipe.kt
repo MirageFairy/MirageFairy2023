@@ -34,19 +34,21 @@ fun InitializationScope.registerGrassDrop(
         LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
             if (source.isBuiltin) {
                 if (id == lootTableId) {
-                    tableBuilder!!.pool(lootPool {
-                        with(alternativeEntry {
-                            alternatively(itemEntry(Items.AIR) {
-                                conditionally(MatchToolLootCondition.builder(ItemPredicate.Builder.create().items(Items.SHEARS)))
-                            })
-                            alternatively(itemEntry(item()) {
-                                conditionally(RandomChanceLootCondition.builder((0.125 * amount).toFloat()))
-                                if (biome != null) conditionally(LocationCheckLootCondition.builder(LocationPredicate.Builder.create().biome(biome())))
-                                apply(ApplyBonusLootFunction.uniformBonusCount(Enchantments.FORTUNE, 2))
-                                apply(ExplosionDecayLootFunction.builder())
+                    configure(tableBuilder!!) {
+                        pool(lootPool {
+                            with(alternativeEntry {
+                                alternatively(itemEntry(Items.AIR) {
+                                    conditionally(MatchToolLootCondition.builder(ItemPredicate.Builder.create().items(Items.SHEARS)))
+                                })
+                                alternatively(itemEntry(item()) {
+                                    conditionally(RandomChanceLootCondition.builder((0.125 * amount).toFloat()))
+                                    if (biome != null) conditionally(LocationCheckLootCondition.builder(LocationPredicate.Builder.create().biome(biome())))
+                                    apply(ApplyBonusLootFunction.uniformBonusCount(Enchantments.FORTUNE, 2))
+                                    apply(ExplosionDecayLootFunction.builder())
+                                })
                             })
                         })
-                    })
+                    }
                 }
             }
         }
