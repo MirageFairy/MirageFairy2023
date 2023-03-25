@@ -96,11 +96,11 @@ val mirageFlowerModule = module {
     }
 
     mirageSeedItem = item("mirage_seed", { MirageSeedItem(mirageFlowerBlock(), FabricItemSettings().group(ItemGroup.MATERIALS)) }) {
+        onGenerateItemModels { it.register(item, Models.GENERATED) }
         onGenerateEnglishTranslations { it.add(item, "Mirage Seed") }
         onGenerateEnglishTranslations { it.add("${item.translationKey}.poem", "Scientific name: miragiume haimekunofa") }
         onGenerateJapaneseTranslations { it.add(item, "ミラージュの球根") }
         onGenerateJapaneseTranslations { it.add("${item.translationKey}.poem", "学名：ミラギウメ・ハイメクノファ") }
-        onGenerateItemModels { it.register(item, Models.GENERATED) }
         registerGrassDrop({ item }, 0.1)
     }
 

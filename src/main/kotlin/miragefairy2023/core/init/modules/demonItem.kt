@@ -69,12 +69,12 @@ val demonItemModule = module {
                 demonItems[card] = item
             }
 
+            onGenerateItemModels { it.register(item, Models.GENERATED) }
+
             onGenerateEnglishTranslations { it.add(item, card.enName) }
             onGenerateEnglishTranslations { it.add("${item.translationKey}.poem", card.enPoem) }
             onGenerateJapaneseTranslations { it.add(item, card.jaName) }
             onGenerateJapaneseTranslations { it.add("${item.translationKey}.poem", card.jaPoem) }
-
-            onGenerateItemModels { it.register(item, Models.GENERATED) }
         }
     }
 
