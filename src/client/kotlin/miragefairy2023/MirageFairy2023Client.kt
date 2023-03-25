@@ -3,6 +3,8 @@ package miragefairy2023
 import miragefairy2023.MirageFairy2023.initializationScope
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry
+import net.minecraft.client.color.item.ItemColorProvider
 import net.minecraft.client.render.RenderLayer
 
 object MirageFairy2023Client : ClientModInitializer {
@@ -15,6 +17,12 @@ object MirageFairy2023Client : ClientModInitializer {
                     else -> throw AssertionError()
                 }
                 BlockRenderLayerMap.INSTANCE.putBlocks(layer, block);
+            }
+        }
+
+        initializationScope.onRegisterColorProvider.fire {
+            it { item, colorFunction ->
+                ColorProviderRegistry.ITEM.register(ItemColorProvider { stack, tintIndex -> colorFunction(stack, tintIndex) }, item)
             }
         }
 
