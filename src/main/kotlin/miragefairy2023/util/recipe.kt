@@ -5,6 +5,7 @@ package miragefairy2023.util
 import miragefairy2023.core.init.InitializationScope
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.fabricmc.fabric.api.registry.FuelRegistry
+import net.minecraft.block.Block
 import net.minecraft.block.Blocks
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.EntityType
@@ -19,6 +20,7 @@ import net.minecraft.loot.function.ApplyBonusLootFunction
 import net.minecraft.loot.function.ExplosionDecayLootFunction
 import net.minecraft.loot.function.LootingEnchantLootFunction
 import net.minecraft.loot.function.SetCountLootFunction
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider
 import net.minecraft.loot.provider.number.LootNumberProvider
 import net.minecraft.predicate.entity.LocationPredicate
 import net.minecraft.predicate.item.ItemPredicate
@@ -47,6 +49,34 @@ fun InitializationScope.registerGrassDrop(
                                     apply(ApplyBonusLootFunction.uniformBonusCount(Enchantments.FORTUNE, 2))
                                     apply(ExplosionDecayLootFunction.builder())
                                 })
+                            })
+                        })
+                    }
+                }
+            }
+        }
+    }
+}
+
+fun InitializationScope.registerBlockDrop(
+    block: () -> Block,
+    item: () -> ItemConvertible,
+    dropRate: Float? = null,
+    amount: Int? = null,
+    fortuneOreDrops: Boolean = false,
+) {
+    onRegisterRecipes {
+        val lootTableId = block().lootTableId
+        LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
+            if (source.isBuiltin) {
+                if (id == lootTableId) {
+                    configure(tableBuilder!!) {
+                        pool(lootPool {
+                            with(itemEntry(item()) {
+                                if (dropRate != null) conditionally(RandomChanceLootCondition.builder(dropRate))
+                                if (amount != null) apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(amount.toFloat())))
+                                if (fortuneOreDrops) apply(ApplyBonusLootFunction.oreDrops(Enchantments.FORTUNE))
+                                apply(ExplosionDecayLootFunction.builder())
                             })
                         })
                     }
