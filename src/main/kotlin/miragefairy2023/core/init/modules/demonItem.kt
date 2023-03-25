@@ -4,12 +4,14 @@ import miragefairy2023.core.init.SlotContainer
 import miragefairy2023.core.init.module
 import miragefairy2023.util.gray
 import miragefairy2023.util.item
+import miragefairy2023.util.registerBlockDrop
 import miragefairy2023.util.registerFuel
 import miragefairy2023.util.registerGrassDrop
 import miragefairy2023.util.registerMobDrop
 import miragefairy2023.util.text
 import miragefairy2023.util.uniformLootNumberProvider
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
+import net.minecraft.block.Blocks
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
 import net.minecraft.data.server.RecipeProvider
@@ -102,6 +104,14 @@ val demonItemModule = module {
 
     // 紅天石→燃料
     registerFuel({ DemonItemCard.XARPITE() }, 1600)
+
+    // エメラルド鉱石→蒼天石
+    registerBlockDrop({ Blocks.EMERALD_ORE }, { DemonItemCard.MIRANAGITE() }, fortuneOreDrops = true)
+    registerBlockDrop({ Blocks.DEEPSLATE_EMERALD_ORE }, { DemonItemCard.MIRANAGITE() }, fortuneOreDrops = true)
+
+    // 銅鉱石→蒼天石
+    registerBlockDrop({ Blocks.COPPER_ORE }, { DemonItemCard.MIRANAGITE() }, dropRate = 0.05f, fortuneOreDrops = true)
+    registerBlockDrop({ Blocks.DEEPSLATE_COPPER_ORE }, { DemonItemCard.MIRANAGITE() }, dropRate = 0.05f, fortuneOreDrops = true)
 
     // 雑草→蒼天石
     registerGrassDrop({ DemonItemCard.MIRANAGITE() }, 0.01)
