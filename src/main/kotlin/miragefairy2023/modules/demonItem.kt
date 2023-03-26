@@ -29,6 +29,7 @@ import net.minecraft.world.World
 
 
 enum class DemonItemCard(
+    val creator: (Item.Settings) -> Item,
     val itemId: String,
     val enName: String,
     val jaName: String,
@@ -36,28 +37,32 @@ enum class DemonItemCard(
     val jaPoem: String,
 ) {
     XARPITE(
+        { DemonItem(it) },
         "xarpite", "Xarpite", "紅天石",
         "Binds astral flux with magnetic force",
         "黒鉄の鎖は繋がれる。血腥い魂の檻へ。",
     ),
     MIRANAGITE(
+        { DemonItem(it) },
         "miranagite", "Miranagite", "蒼天石",
         "Astral body crystallized by anti-entropy",
         "秩序の叛乱、天地創造の逆光。",
     ),
     TINY_MIRAGE_FLOUR(
+        { DemonItem(it) },
         "tiny_mirage_flour", "Tiny Pile of Mirage Flour", "ミラージュの花粉",
         "Compose the body of Mirage fairy",
         "ささやかな温もりを、てのひらの上に。",
     ),
     MIRAGE_FLOUR(
+        { DemonItem(it) },
         "mirage_flour", "Mirage Flour", "ミラージュフラワー",
         "Containing metallic organic matter",
         "創発のファンタズム",
     ),
 }
 
-private val demonItems = SlotContainer<DemonItemCard, DemonItem>()
+private val demonItems = SlotContainer<DemonItemCard, Item>()
 operator fun DemonItemCard.invoke() = demonItems[this]
 
 
@@ -65,7 +70,7 @@ val demonItemModule = module {
 
     // 全体
     DemonItemCard.values().forEach { card ->
-        item(card.itemId, { DemonItem(FabricItemSettings().group(commonItemGroup)) }) {
+        item(card.itemId, { card.creator(FabricItemSettings().group(commonItemGroup)) }) {
             onRegisterItems {
                 demonItems[card] = item
             }
