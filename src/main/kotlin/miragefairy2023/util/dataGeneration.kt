@@ -81,7 +81,7 @@ fun InitializationScope.enJa(translationKey: () -> String, en: String, ja: Strin
     onGenerateJapaneseTranslations { it.add(translationKey(), ja) }
 }
 
-fun <T : Item> ItemScope<T>.enJa(en: String, ja: String) {
-    initializationScope.onGenerateEnglishTranslations { it.add(item, en) }
-    initializationScope.onGenerateJapaneseTranslations { it.add(item, ja) }
+fun InitializationScope.enJaItem(item: () -> Item, en: String, ja: String) {
+    onGenerateEnglishTranslations { it.add(item(), en) }
+    onGenerateJapaneseTranslations { it.add(item(), ja) }
 }

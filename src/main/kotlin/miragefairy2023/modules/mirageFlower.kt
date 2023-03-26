@@ -97,7 +97,7 @@ val mirageFlowerModule = module {
 
     mirageSeedItem = item("mirage_seed", { MirageSeedItem(mirageFlowerBlock(), FabricItemSettings().group(ItemGroup.MATERIALS)) }) {
         onGenerateItemModels { it.register(item, Models.GENERATED) }
-        enJa("Mirage Seed", "ミラージュの球根")
+        enJaItem({ item }, "Mirage Seed", "ミラージュの球根")
         enJa({ "${item.translationKey}.poem" }, "Scientific name: miragiume haimekunofa", "学名：ミラギウメ・ハイメクノファ")
         registerGrassDrop({ item }, 0.1)
     }

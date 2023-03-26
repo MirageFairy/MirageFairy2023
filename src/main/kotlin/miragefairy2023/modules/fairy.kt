@@ -4,6 +4,7 @@ import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.aqua
 import miragefairy2023.util.enJa
+import miragefairy2023.util.enJaItem
 import miragefairy2023.util.gray
 import miragefairy2023.util.item
 import miragefairy2023.util.red
@@ -63,7 +64,7 @@ val fairyModule = module {
                 }
             }
         }
-        enJa("Airia", "空気精アイリャ")
+        enJaItem({ item }, "Airia", "空気精アイリャ")
     }
 
     // 妖精ボーナス

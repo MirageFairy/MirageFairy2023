@@ -3,6 +3,7 @@ package miragefairy2023.modules
 import miragefairy2023.SlotContainer
 import miragefairy2023.module
 import miragefairy2023.util.enJa
+import miragefairy2023.util.enJaItem
 import miragefairy2023.util.gray
 import miragefairy2023.util.item
 import miragefairy2023.util.registerBlockDrop
@@ -72,7 +73,7 @@ val demonItemModule = module {
 
             onGenerateItemModels { it.register(item, Models.GENERATED) }
 
-            enJa(card.enName, card.jaName)
+            enJaItem({ item }, card.enName, card.jaName)
             enJa({ "${item.translationKey}.poem" }, card.enPoem, card.jaPoem)
         }
     }
