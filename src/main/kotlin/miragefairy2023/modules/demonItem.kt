@@ -71,9 +71,7 @@ val demonItemModule = module {
     // 全体
     DemonItemCard.values().forEach { card ->
         item(card.itemId, { card.creator(FabricItemSettings().group(commonItemGroup)) }) {
-            onRegisterItems {
-                demonItems[card] = item
-            }
+            onRegisterItems { demonItems[card] = item }
 
             onGenerateItemModels { it.register(item, Models.GENERATED) }
 
