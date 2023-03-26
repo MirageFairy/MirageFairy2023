@@ -3,9 +3,11 @@
 package miragefairy2023.util
 
 import com.google.gson.JsonElement
+import miragefairy2023.core.init.InitializationScope
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.minecraft.block.Block
 import net.minecraft.data.client.BlockStateSupplier
+import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
 import net.minecraft.loot.LootPool
 import net.minecraft.loot.LootTable
@@ -67,3 +69,14 @@ fun alternativeEntry(vararg children: LootPoolEntry.Builder<*>, block: (Alternat
 
 fun constantLootNumberProvider(value: Float) = ConstantLootNumberProvider.create(value)!!
 fun uniformLootNumberProvider(min: Float, max: Float) = UniformLootNumberProvider.create(min, max)!!
+
+
+fun InitializationScope.enJa(translationKey: String, en: String, ja: String) {
+    onGenerateEnglishTranslations { it.add(translationKey, en) }
+    onGenerateJapaneseTranslations { it.add(translationKey, ja) }
+}
+
+fun InitializationScope.enJa(item: () -> Item, en: String, ja: String) {
+    onGenerateEnglishTranslations { it.add(item(), en) }
+    onGenerateJapaneseTranslations { it.add(item(), ja) }
+}
