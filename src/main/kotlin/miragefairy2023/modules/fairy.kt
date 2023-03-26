@@ -133,6 +133,7 @@ val fairyModule = module {
     enJa(FairyItem.OVERWORLD_CONDITION_KEY, "Overworld", "地上世界")
     enJa(FairyItem.IN_AIR_CONDITION_KEY, "In the Air", "空気中")
     enJa(FairyItem.MOVEMENT_SPEED_EFFECT_KEY, "Movement Speed", "移動速度")
+    enJa(FairyItem.RARE_KEY, "Rare", "レア度")
 
 }
 
@@ -176,6 +177,7 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
         val OVERWORLD_CONDITION_KEY = "item.${MirageFairy2023.modId}.passive_skill.condition.overworld"
         val IN_AIR_CONDITION_KEY = "item.${MirageFairy2023.modId}.passive_skill.condition.in_air"
         val MOVEMENT_SPEED_EFFECT_KEY = "item.${MirageFairy2023.modId}.passive_skill.effect.movement_speed"
+        val RARE_KEY = "item.${MirageFairy2023.modId}.rare"
     }
 
     private fun isOverworld(player: PlayerEntity) = player.world.dimension.natural
@@ -192,6 +194,8 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         super.appendTooltip(stack, world, tooltip, context)
+
+        tooltip += text { (translate(RARE_KEY) + ": ${fairyCard.rare}"()).aqua }
 
         val player = MirageFairy2023.proxy?.getClientPlayer() ?: return
 
