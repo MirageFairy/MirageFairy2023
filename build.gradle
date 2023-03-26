@@ -43,6 +43,9 @@ loom {
 
             runDir "build/datagen"
         }
+        client {
+            programArgs.addAll("--username", "Player1")
+        }
         server {
             runDir = "run_server" // ファイルロックを回避しクライアントと同時に起動可能にする
         }
