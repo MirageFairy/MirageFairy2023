@@ -3,6 +3,7 @@ package miragefairy2023.core.init.modules
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.core.init.module
 import miragefairy2023.util.aqua
+import miragefairy2023.util.enJa
 import miragefairy2023.util.gray
 import miragefairy2023.util.item
 import miragefairy2023.util.red
@@ -62,8 +63,7 @@ val fairyModule = module {
                 }
             }
         }
-        onGenerateEnglishTranslations { it.add(item, "Airia") }
-        onGenerateJapaneseTranslations { it.add(item, "空気精アイリャ") }
+        enJa({ item }, "Airia", "空気精アイリャ")
     }
 
     // 妖精ボーナス
@@ -102,24 +102,16 @@ val fairyModule = module {
         }
 
     }
-    onGenerateEnglishTranslations { it.add("effect.$modId.fairy_bonus", "Fairy Bonus") }
-    onGenerateJapaneseTranslations { it.add("effect.$modId.fairy_bonus", "妖精ボーナス") }
+    enJa("effect.$modId.fairy_bonus", "Fairy Bonus", "妖精ボーナス")
 
     // パッシブスキル翻訳
-    onGenerateEnglishTranslations { it.add(FairyItem.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY, "Put on 3rd row of inventory to activate passive skill") }
-    onGenerateJapaneseTranslations { it.add(FairyItem.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY, "インベントリの3行目でパッシブスキルを発動") }
-    onGenerateEnglishTranslations { it.add(FairyItem.DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY, "Same fairies exist") }
-    onGenerateJapaneseTranslations { it.add(FairyItem.DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY, "妖精が重複しています") }
-    onGenerateEnglishTranslations { it.add(FairyItem.UNAVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY, "Passive skill is unavailable") }
-    onGenerateJapaneseTranslations { it.add(FairyItem.UNAVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY, "パッシブスキル利用不可") }
-    onGenerateEnglishTranslations { it.add(FairyItem.AVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY, "Passive skill is active") }
-    onGenerateJapaneseTranslations { it.add(FairyItem.AVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY, "パッシブスキル発動中") }
-    onGenerateEnglishTranslations { it.add(FairyItem.OVERWORLD_CONDITION_KEY, "Overworld") }
-    onGenerateJapaneseTranslations { it.add(FairyItem.OVERWORLD_CONDITION_KEY, "地上世界") }
-    onGenerateEnglishTranslations { it.add(FairyItem.IN_AIR_CONDITION_KEY, "In the Air") }
-    onGenerateJapaneseTranslations { it.add(FairyItem.IN_AIR_CONDITION_KEY, "空気中") }
-    onGenerateEnglishTranslations { it.add(FairyItem.MOVEMENT_SPEED_EFFECT_KEY, "Movement Speed") }
-    onGenerateJapaneseTranslations { it.add(FairyItem.MOVEMENT_SPEED_EFFECT_KEY, "移動速度") }
+    enJa(FairyItem.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY, "Put on 3rd row of inventory to activate passive skill", "インベントリの3行目でパッシブスキルを発動")
+    enJa(FairyItem.DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY, "Same fairies exist", "妖精が重複しています")
+    enJa(FairyItem.UNAVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY, "Passive skill is unavailable", "パッシブスキル利用不可")
+    enJa(FairyItem.AVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY, "Passive skill is active", "パッシブスキル発動中")
+    enJa(FairyItem.OVERWORLD_CONDITION_KEY, "Overworld", "地上世界")
+    enJa(FairyItem.IN_AIR_CONDITION_KEY, "In the Air", "空気中")
+    enJa(FairyItem.MOVEMENT_SPEED_EFFECT_KEY, "Movement Speed", "移動速度")
 
 }
 
