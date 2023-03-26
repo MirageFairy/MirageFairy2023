@@ -167,7 +167,7 @@ class FairyItem(settings: Settings) : Item(settings), FairyProviderItem {
 
     override fun getFairy() = object : Fairy {
         override fun getIdentifier() = Identifier(MirageFairy2023.modId, "air")
-        override fun getSpeedBonus(player: ServerPlayerEntity) = if (isOverworld(player) && isInAir(player)) 0.10 else null
+        override fun getSpeedBonus(player: ServerPlayerEntity) = if (isOverworld(player) && isInAir(player)) 0.05 else null
     }
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
@@ -192,7 +192,7 @@ class FairyItem(settings: Settings) : Item(settings), FairyProviderItem {
         }
 
         tooltip += text {
-            val text = translate(MOVEMENT_SPEED_EFFECT_KEY) + " "() + (0.10 * 100 formatAs "%+.0f%%")() + " ["() + when {
+            val text = translate(MOVEMENT_SPEED_EFFECT_KEY) + " "() + (0.05 * 100 formatAs "%+.0f%%")() + " ["() + when {
                 isOverworld -> translate(OVERWORLD_CONDITION_KEY)
                 else -> translate(OVERWORLD_CONDITION_KEY).red
             } + ","() + when {
