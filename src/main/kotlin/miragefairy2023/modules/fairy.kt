@@ -1,6 +1,7 @@
 package miragefairy2023.modules
 
 import miragefairy2023.MirageFairy2023
+import miragefairy2023.SlotContainer
 import miragefairy2023.module
 import miragefairy2023.util.aqua
 import miragefairy2023.util.enJa
@@ -31,7 +32,7 @@ import java.util.Optional
 import java.util.UUID
 
 
-class FairyCard(
+enum class FairyCard(
     val motif: String,
     val rare: Int,
     val enName: String,
@@ -40,20 +41,21 @@ class FairyCard(
     val frontColor: Int,
     val backColor: Int,
     val hairColor: Int,
-)
+) {
+    AIR("air", 0, "Airia", "空気精アイリャ", 0xFFBE80, 0xDEFFFF, 0xDEFFFF, 0xB0FFFF),
+    DIRT("dirt", 1, "Dirtia", "土精ディルチャ", 0xB87440, 0xB9855C, 0x593D29, 0x914A18),
+    SKELETON("skeleton", 2, "Skeletonia", "骸骨精スケレトーニャ", 0xCACACA, 0xCFCFCF, 0xCFCFCF, 0x494949),
+    FOREST("forest", 3, "Forestia", "森精フォレスチャ", 0x80FF00, 0x7B9C62, 0x89591D, 0x2E6E14),
+    IRON("iron", 4, "Ironia", "鉄精イローニャ", 0xA0A0A0, 0xD8D8D8, 0x727272, 0xD8AF93),
+    PLAYER("player", 5, "Playeria", "人精プライェーリャ", 0xB58D63, 0x00AAAA, 0x322976, 0x4B3422),
+    NIGHT("night", 6, "Nightia", "夜精ニグチャ", 0xFFE260, 0x2C2C2E, 0x0E0E10, 0x2D4272),
+    WARDEN("warden", 7, "Wardenia", "監守者精ワルデーニャ", 0x0A3135, 0xCFCFA4, 0xA0AA7A, 0x2CD0CA),
+    SUN("sun", 8, "Sunia", "太陽精スーニャ", 0xff2f00, 0xff972b, 0xff7500, 0xffe7b2),
+    TIME("time", 9, "Timia", "時精ティーミャ", 0x89D585, 0xD5DEBC, 0xD8DEA7, 0x8DD586),
+}
 
-val fairyCards = listOf(
-    FairyCard("air", 0, "Airia", "空気精アイリャ", 0xFFBE80, 0xDEFFFF, 0xDEFFFF, 0xB0FFFF),
-    FairyCard("dirt", 1, "Dirtia", "土精ディルチャ", 0xB87440, 0xB9855C, 0x593D29, 0x914A18),
-    FairyCard("skeleton", 2, "Skeletonia", "骸骨精スケレトーニャ", 0xCACACA, 0xCFCFCF, 0xCFCFCF, 0x494949),
-    FairyCard("forest", 3, "Forestia", "森精フォレスチャ", 0x80FF00, 0x7B9C62, 0x89591D, 0x2E6E14),
-    FairyCard("iron", 4, "Ironia", "鉄精イローニャ", 0xA0A0A0, 0xD8D8D8, 0x727272, 0xD8AF93),
-    FairyCard("player", 5, "Playeria", "人精プライェーリャ", 0xB58D63, 0x00AAAA, 0x322976, 0x4B3422),
-    FairyCard("night", 6, "Nightia", "夜精ニグチャ", 0xFFE260, 0x2C2C2E, 0x0E0E10, 0x2D4272),
-    FairyCard("warden", 7, "Wardenia", "監守者精ワルデーニャ", 0x0A3135, 0xCFCFA4, 0xA0AA7A, 0x2CD0CA),
-    FairyCard("sun", 8, "Sunia", "太陽精スーニャ", 0xff2f00, 0xff972b, 0xff7500, 0xffe7b2),
-    FairyCard("time", 9, "Timia", "時精ティーミャ", 0x89D585, 0xD5DEBC, 0xD8DEA7, 0x8DD586),
-)
+private val fairyItems = SlotContainer<FairyCard, Item>()
+operator fun FairyCard.invoke() = fairyItems[this]
 
 
 val fairyModule = module {
@@ -76,8 +78,10 @@ val fairyModule = module {
     }
 
     // 妖精登録
-    fairyCards.forEach { fairyCard ->
+    FairyCard.values().forEach { fairyCard ->
         item("${fairyCard.motif}_fairy", { FairyItem(fairyCard, FabricItemSettings().group(commonItemGroup)) }) {
+            onRegisterItems { fairyItems[fairyCard] = item }
+
             onGenerateItemModels { it.register(item, Model(Optional.of(Identifier(modId, "item/fairy")), Optional.empty())) }
             onRegisterColorProvider { it ->
                 it(item) { _, tintIndex ->
@@ -91,6 +95,7 @@ val fairyModule = module {
                     }
                 }
             }
+
             enJaItem({ item }, fairyCard.enName, fairyCard.jaName)
         }
     }
