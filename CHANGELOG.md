@@ -9,8 +9,8 @@
 
 ## 1.0.0
 
-- 【変更】cloth-config-fabricへの依存性を追加。
-- 【変更】FauxCustomEntityData-fabric-1.19.2への依存性を追加。
+- 【変更】前提MODにcloth-config-fabricを追加。
+- 【変更】前提MODにFauxCustomEntityData-fabric-1.19.2を追加。
 - 【追加】紅天石の入手方法を追加。
     - 魔女のドロップ率を変更。
     - ゾンビから低い確率で入手可能
