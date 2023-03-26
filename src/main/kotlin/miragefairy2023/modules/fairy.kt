@@ -115,14 +115,6 @@ val fairyModule = module {
 
 }
 
-interface Fairy {
-    fun getIdentifier(): Identifier
-    fun getSpeedBonus(player: ServerPlayerEntity): Double?
-}
-
-interface FairyProviderItem {
-    fun getFairy(): Fairy
-}
 
 class PassiveFairy(val player: PlayerEntity, val index: Int, val itemStack: ItemStack, val fairy: Fairy, val fairyIdentifier: Identifier, val isDuplicated: Boolean)
 
@@ -142,6 +134,17 @@ private fun PlayerEntity.getPassiveFairies(): List<PassiveFairy> {
     }
     return result.toList()
 }
+
+
+interface Fairy {
+    fun getIdentifier(): Identifier
+    fun getSpeedBonus(player: ServerPlayerEntity): Double?
+}
+
+interface FairyProviderItem {
+    fun getFairy(): Fairy
+}
+
 
 class FairyItem(settings: Settings) : Item(settings), FairyProviderItem {
     companion object {
