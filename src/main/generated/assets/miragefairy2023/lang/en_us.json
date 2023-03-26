@@ -17,5 +17,6 @@
   "item.miragefairy2023.tiny_mirage_flour": "Tiny Pile of Mirage Flour",
   "item.miragefairy2023.tiny_mirage_flour.poem": "Compose the body of Mirage fairy",
   "item.miragefairy2023.xarpite": "Xarpite",
-  "item.miragefairy2023.xarpite.poem": "Binds astral flux with magnetic force"
+  "item.miragefairy2023.xarpite.poem": "Binds astral flux with magnetic force",
+  "itemGroup.miragefairy2023.common": "MirageFairy2023"
 }

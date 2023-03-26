@@ -20,7 +20,6 @@ import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
-import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
@@ -50,7 +49,7 @@ val fairyModule = module {
     }
 
     // 妖精登録
-    item("air_fairy", { FairyItem(FabricItemSettings().group(ItemGroup.MATERIALS)) }) {
+    item("air_fairy", { FairyItem(FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(item, Model(Optional.of(Identifier(modId, "item/fairy")), Optional.empty())) }
         onRegisterColorProvider { it ->
             it(item) { _, tintIndex ->

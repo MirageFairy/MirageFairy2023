@@ -21,7 +21,6 @@ import net.minecraft.data.client.TextureKey
 import net.minecraft.data.client.TextureMap
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.item.AliasedBlockItem
-import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.loot.function.ApplyBonusLootFunction
 import net.minecraft.loot.function.SetCountLootFunction
@@ -95,7 +94,7 @@ val mirageFlowerModule = module {
         }
     }
 
-    mirageSeedItem = item("mirage_seed", { MirageSeedItem(mirageFlowerBlock(), FabricItemSettings().group(ItemGroup.MATERIALS)) }) {
+    mirageSeedItem = item("mirage_seed", { MirageSeedItem(mirageFlowerBlock(), FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(item, Models.GENERATED) }
         enJaItem({ item }, "Mirage Seed", "ミラージュの球根")
         enJa({ "${item.translationKey}.poem" }, "Scientific name: miragiume haimekunofa", "学名：ミラギウメ・ハイメクノファ")

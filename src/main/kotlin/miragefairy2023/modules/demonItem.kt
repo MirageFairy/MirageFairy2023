@@ -21,7 +21,6 @@ import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
 import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
-import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.text.Text
@@ -66,7 +65,7 @@ val demonItemModule = module {
 
     // 全体
     DemonItemCard.values().forEach { card ->
-        item(card.itemId, { DemonItem(FabricItemSettings().group(ItemGroup.MATERIALS)) }) {
+        item(card.itemId, { DemonItem(FabricItemSettings().group(commonItemGroup)) }) {
             onRegisterItems {
                 demonItems[card] = item
             }
