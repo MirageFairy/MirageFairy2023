@@ -30,6 +30,23 @@ import net.minecraft.world.World
 import java.util.Optional
 import java.util.UUID
 
+
+class FairyCard(
+    val motif: String,
+    val rare: Int,
+    val enName: String,
+    val jaName: String,
+    val skinColor: Int,
+    val frontColor: Int,
+    val backColor: Int,
+    val hairColor: Int,
+)
+
+val fairyCards = listOf(
+    FairyCard("air", 0, "Airia", "空気精アイリャ", 0xFFBE80, 0xDEFFFF, 0xDEFFFF, 0xB0FFFF),
+)
+
+
 val fairyModule = module {
 
     // 妖精の共通アイテムモデル
@@ -50,22 +67,25 @@ val fairyModule = module {
     }
 
     // 妖精登録
-    item("air_fairy", { FairyItem(FabricItemSettings().group(commonItemGroup)) }) {
-        onGenerateItemModels { it.register(item, Model(Optional.of(Identifier(modId, "item/fairy")), Optional.empty())) }
-        onRegisterColorProvider { it ->
-            it(item) { _, tintIndex ->
-                when (tintIndex) {
-                    0 -> 0xFFCCCC
-                    1 -> 0xFF6666
-                    2 -> 0xFF6666
-                    3 -> 0xFF4444
-                    4 -> 0xAA0000
-                    else -> 0xFFFFFF
+    fairyCards.forEach { fairyCard ->
+        item("${fairyCard.motif}_fairy", { FairyItem(fairyCard, FabricItemSettings().group(commonItemGroup)) }) {
+            onGenerateItemModels { it.register(item, Model(Optional.of(Identifier(modId, "item/fairy")), Optional.empty())) }
+            onRegisterColorProvider { it ->
+                it(item) { _, tintIndex ->
+                    when (tintIndex) {
+                        0 -> fairyCard.skinColor
+                        1 -> fairyCard.backColor
+                        2 -> fairyCard.frontColor
+                        3 -> fairyCard.hairColor
+                        4 -> 0xAA0000
+                        else -> 0xFFFFFF
+                    }
                 }
             }
+            enJaItem({ item }, fairyCard.enName, fairyCard.jaName)
         }
-        enJaItem({ item }, "Airia", "空気精アイリャ")
     }
+
 
     // 妖精ボーナス
     val fairyBonusUuid = UUID.fromString("378C9369-6CC3-4B45-AADD-5B221DF26ED0")
@@ -147,7 +167,7 @@ interface FairyProviderItem {
 }
 
 
-class FairyItem(settings: Settings) : Item(settings), FairyProviderItem {
+class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), FairyProviderItem {
     companion object {
         val DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY = "item.${MirageFairy2023.modId}.fairy.description.passive_skill.disabled"
         val DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY = "item.${MirageFairy2023.modId}.fairy.description.passive_skill.duplicated"
@@ -166,7 +186,7 @@ class FairyItem(settings: Settings) : Item(settings), FairyProviderItem {
     }
 
     override fun getFairy() = object : Fairy {
-        override fun getIdentifier() = Identifier(MirageFairy2023.modId, "air")
+        override fun getIdentifier() = Identifier(MirageFairy2023.modId, fairyCard.motif)
         override fun getSpeedBonus(player: ServerPlayerEntity) = if (isOverworld(player) && isInAir(player)) 0.05 else null
     }
 
