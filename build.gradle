@@ -43,6 +43,9 @@ loom {
 
             runDir "build/datagen"
         }
+        server {
+            runDir = "run_server" // ファイルロックを回避しクライアントと同時に起動可能にする
+        }
     }
 }
 
