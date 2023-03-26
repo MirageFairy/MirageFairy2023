@@ -1,9 +1,9 @@
 package miragefairy2023
 
 import miragefairy2023.core.init.module
-import miragefairy2023.core.init.modules.demonItemModule
-import miragefairy2023.core.init.modules.fairyModule
-import miragefairy2023.core.init.modules.mirageFlowerModule
+import miragefairy2023.modules.demonItemModule
+import miragefairy2023.modules.fairyModule
+import miragefairy2023.modules.mirageFlowerModule
 
 val modules = module {
     demonItemModule()

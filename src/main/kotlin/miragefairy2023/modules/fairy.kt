@@ -1,4 +1,4 @@
-package miragefairy2023.core.init.modules
+package miragefairy2023.modules
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.core.init.module
