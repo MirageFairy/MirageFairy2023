@@ -72,7 +72,7 @@ val demonItemModule = module {
 
             onGenerateItemModels { it.register(item, Models.GENERATED) }
 
-            enJa({ item }, card.enName, card.jaName)
+            enJa(card.enName, card.jaName)
             enJa({ "${item.translationKey}.poem" }, card.enPoem, card.jaPoem)
         }
     }

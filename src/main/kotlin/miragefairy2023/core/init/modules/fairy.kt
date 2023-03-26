@@ -63,7 +63,7 @@ val fairyModule = module {
                 }
             }
         }
-        enJa({ item }, "Airia", "空気精アイリャ")
+        enJa("Airia", "空気精アイリャ")
     }
 
     // 妖精ボーナス
