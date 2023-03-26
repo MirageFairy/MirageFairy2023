@@ -5,6 +5,7 @@ import miragefairy2023.module
 import miragefairy2023.util.aqua
 import miragefairy2023.util.enJa
 import miragefairy2023.util.enJaItem
+import miragefairy2023.util.gold
 import miragefairy2023.util.gray
 import miragefairy2023.util.item
 import miragefairy2023.util.red
@@ -183,7 +184,7 @@ class FairyItem(settings: Settings) : Item(settings), FairyProviderItem {
         val isAvailable = isEnabled && !isDuplicated && isOverworld && isInAir
         tooltip += text {
             when {
-                isAvailable -> translate(AVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY).aqua
+                isAvailable -> translate(AVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY).gold
                 isEnabled && !isDuplicated -> translate(UNAVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY).red
                 isEnabled -> translate(DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY).red
                 else -> translate(DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY).gray
@@ -198,7 +199,7 @@ class FairyItem(settings: Settings) : Item(settings), FairyProviderItem {
                 isInAir -> translate(IN_AIR_CONDITION_KEY)
                 else -> translate(IN_AIR_CONDITION_KEY).red
             } + "]"()
-            if (isEnabled) text.aqua else text.gray
+            if (isAvailable) text.gold else text.gray
         }
 
     }
