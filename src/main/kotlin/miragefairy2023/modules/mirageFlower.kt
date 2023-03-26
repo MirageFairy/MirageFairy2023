@@ -1,6 +1,6 @@
 package miragefairy2023.modules
 
-import miragefairy2023.core.init.module
+import miragefairy2023.module
 import miragefairy2023.util.*
 import mirrg.kotlin.hydrogen.atLeast
 import mirrg.kotlin.hydrogen.atMost

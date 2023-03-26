@@ -3,7 +3,7 @@
 package miragefairy2023.util
 
 import com.google.gson.JsonElement
-import miragefairy2023.core.init.InitializationScope
+import miragefairy2023.InitializationScope
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.minecraft.block.Block
 import net.minecraft.data.client.BlockStateSupplier

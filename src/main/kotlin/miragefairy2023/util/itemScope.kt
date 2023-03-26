@@ -2,7 +2,7 @@
 
 package miragefairy2023.util
 
-import miragefairy2023.core.init.InitializationScope
+import miragefairy2023.InitializationScope
 import net.minecraft.item.Item
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry

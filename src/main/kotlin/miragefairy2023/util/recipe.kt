@@ -2,7 +2,7 @@
 
 package miragefairy2023.util
 
-import miragefairy2023.core.init.InitializationScope
+import miragefairy2023.InitializationScope
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.fabricmc.fabric.api.registry.FuelRegistry
 import net.minecraft.block.Block

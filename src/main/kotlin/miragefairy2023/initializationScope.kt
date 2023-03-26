@@ -1,4 +1,4 @@
-package miragefairy2023.core.init
+package miragefairy2023
 
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider

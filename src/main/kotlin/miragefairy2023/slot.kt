@@ -1,4 +1,4 @@
-package miragefairy2023.core.init
+package miragefairy2023
 
 import mirrg.kotlin.hydrogen.unit
 

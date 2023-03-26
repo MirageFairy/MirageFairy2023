@@ -1,6 +1,5 @@
 package miragefairy2023
 
-import miragefairy2023.core.init.InitializationScope
 import net.fabricmc.api.ModInitializer
 import net.minecraft.entity.player.PlayerEntity
 import org.slf4j.LoggerFactory

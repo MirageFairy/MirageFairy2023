@@ -1,7 +1,7 @@
 package miragefairy2023.modules
 
-import miragefairy2023.core.init.SlotContainer
-import miragefairy2023.core.init.module
+import miragefairy2023.SlotContainer
+import miragefairy2023.module
 import miragefairy2023.util.enJa
 import miragefairy2023.util.gray
 import miragefairy2023.util.item
