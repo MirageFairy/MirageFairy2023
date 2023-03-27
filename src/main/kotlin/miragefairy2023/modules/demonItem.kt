@@ -5,6 +5,7 @@ import miragefairy2023.MirageFairy2023
 import miragefairy2023.SlotContainer
 import miragefairy2023.module
 import miragefairy2023.util.Chance
+import miragefairy2023.util.Translation
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.distinct
 import miragefairy2023.util.draw
@@ -12,6 +13,7 @@ import miragefairy2023.util.enJa
 import miragefairy2023.util.enJaItem
 import miragefairy2023.util.get
 import miragefairy2023.util.gray
+import miragefairy2023.util.green
 import miragefairy2023.util.int
 import miragefairy2023.util.item
 import miragefairy2023.util.orDefault
@@ -20,6 +22,7 @@ import miragefairy2023.util.registerGrassDrop
 import miragefairy2023.util.registerMobDrop
 import miragefairy2023.util.text
 import miragefairy2023.util.totalWeight
+import miragefairy2023.util.translation
 import miragefairy2023.util.uniformLootNumberProvider
 import miragefairy2023.util.wrapper
 import mirrg.kotlin.hydrogen.formatAs
@@ -168,6 +171,9 @@ val demonItemModule = module {
             .offerTo(it, Identifier.of(modId, "tiny_mirage_flour_from_mirage_flour"))
     }
 
+    translation(MirageFlourItem.RIGHT_CLICK_KEY)
+    translation(MirageFlourItem.SHIFT_RIGHT_CLICK_KEY)
+
 }
 
 
@@ -179,6 +185,12 @@ open class DemonItem(settings: Settings) : Item(settings) {
 }
 
 class MirageFlourItem(settings: Settings, private val maxRare: Int?, private val times: Int) : DemonItem(settings) {
+    companion object {
+        private val prefix = "item.${MirageFairy2023.modId}.mirage_flour"
+        val RIGHT_CLICK_KEY = Translation("$prefix.right_click", "Right click to summon fairy", "右クリックで妖精召喚")
+        val SHIFT_RIGHT_CLICK_KEY = Translation("$prefix.shift_right_click", "Shift+right click to show fairy table", "Shift+右クリックで提供割合表示")
+    }
+
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val itemStack = user.getStackInHand(hand)
 
@@ -241,5 +253,11 @@ class MirageFlourItem(settings: Settings, private val maxRare: Int?, private val
         }
 
         return TypedActionResult.success(itemStack, world.isClient)
+    }
+
+    override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
+        super.appendTooltip(stack, world, tooltip, context)
+        tooltip += text { RIGHT_CLICK_KEY().green }
+        tooltip += text { SHIFT_RIGHT_CLICK_KEY().green }
     }
 }
