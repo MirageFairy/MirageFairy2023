@@ -60,13 +60,13 @@ enum class DemonItemCard(
         "秩序の叛乱、天地創造の逆光。",
     ),
     TINY_MIRAGE_FLOUR(
-        { MirageFlourItem(it, 1) },
+        { MirageFlourItem(it, 2, 1) },
         "tiny_mirage_flour", "Tiny Pile of Mirage Flour", "ミラージュの花粉",
         "Compose the body of Mirage fairy",
         "ささやかな温もりを、てのひらの上に。",
     ),
     MIRAGE_FLOUR(
-        { MirageFlourItem(it, 8) },
+        { MirageFlourItem(it, null, 1) },
         "mirage_flour", "Mirage Flour", "ミラージュフラワー",
         "Containing metallic organic matter",
         "創発のファンタズム",
@@ -173,7 +173,7 @@ open class DemonItem(settings: Settings) : Item(settings) {
     }
 }
 
-class MirageFlourItem(settings: Settings, private val charge: Int) : DemonItem(settings) {
+class MirageFlourItem(settings: Settings, private val maxRare: Int?, private val times: Int) : DemonItem(settings) {
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val itemStack = user.getStackInHand(hand)
 
@@ -182,21 +182,31 @@ class MirageFlourItem(settings: Settings, private val charge: Int) : DemonItem(s
 
         if (!world.isClient) {
 
-            repeat(charge) {
+            repeat(times) {
 
                 // ガチャ
                 val r = world.random.nextDouble()
-                val fairyCard = when {
-                    r < 0.00003 -> FairyCard.TIME
-                    r < 0.0001 -> FairyCard.SUN
-                    r < 0.0003 -> FairyCard.WARDEN
-                    r < 0.001 -> FairyCard.NIGHT
-                    r < 0.003 -> FairyCard.PLAYER
-                    r < 0.01 -> FairyCard.IRON
-                    r < 0.03 -> FairyCard.FOREST
-                    r < 0.1 -> FairyCard.SKELETON
-                    r < 0.3 -> FairyCard.DIRT
-                    else -> FairyCard.AIR
+                val fairyCard = when (maxRare) {
+                    null -> when {
+                        r < 0.00003 -> FairyCard.TIME
+                        r < 0.0001 -> FairyCard.SUN
+                        r < 0.0003 -> FairyCard.WARDEN
+                        r < 0.001 -> FairyCard.NIGHT
+                        r < 0.003 -> FairyCard.PLAYER
+                        r < 0.01 -> FairyCard.IRON
+                        r < 0.03 -> FairyCard.FOREST
+                        r < 0.1 -> FairyCard.SKELETON
+                        r < 0.3 -> FairyCard.DIRT
+                        else -> FairyCard.AIR
+                    }
+
+                    2 -> when {
+                        r < 0.1 -> FairyCard.SKELETON
+                        r < 0.3 -> FairyCard.DIRT
+                        else -> FairyCard.AIR
+                    }
+
+                    else -> TODO()
                 }
 
                 // 入手
