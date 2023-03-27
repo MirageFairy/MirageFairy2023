@@ -145,7 +145,7 @@ val fairyModule = module {
     enJa("effect.$modId.fairy_bonus", "Fairy Bonus", "妖精ボーナス")
 
     // パッシブスキル翻訳
-    enJa(FairyItem.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY, "Put on 3rd row of inventory to activate passive skill", "インベントリの3行目でパッシブスキルを発動")
+    enJa(FairyItem.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY, "Use passive skill in 3rd row of inventory", "インベントリの3行目でパッシブスキルを発動")
     enJa(FairyItem.DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY, "Same fairies exist", "妖精が重複しています")
     enJa(FairyItem.UNAVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY, "Passive skill is unavailable", "パッシブスキル利用不可")
     enJa(FairyItem.AVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY, "Passive skill is active", "パッシブスキル発動中")
