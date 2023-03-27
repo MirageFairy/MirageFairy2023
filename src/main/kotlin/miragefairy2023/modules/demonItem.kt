@@ -13,7 +13,6 @@ import miragefairy2023.util.int
 import miragefairy2023.util.item
 import miragefairy2023.util.orDefault
 import miragefairy2023.util.registerBlockDrop
-import miragefairy2023.util.registerFuel
 import miragefairy2023.util.registerGrassDrop
 import miragefairy2023.util.registerMobDrop
 import miragefairy2023.util.text
@@ -24,7 +23,6 @@ import net.minecraft.block.Blocks
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
 import net.minecraft.data.server.RecipeProvider
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.player.PlayerEntity
@@ -104,21 +102,6 @@ val demonItemModule = module {
 
     // 雑草→紅天石
     registerGrassDrop({ DemonItemCard.XARPITE() }, 0.01)
-
-    // 紅天石→松明
-    onGenerateRecipes {
-        ShapedRecipeJsonBuilder
-            .create(Items.TORCH, 8)
-            .input('A', DemonItemCard.XARPITE())
-            .input('B', Items.STICK)
-            .pattern("A")
-            .pattern("B")
-            .criterion("has_xarpite", RecipeProvider.conditionsFromItem(DemonItemCard.XARPITE()))
-            .offerTo(it, Identifier.of(modId, "torch_from_xarpite"))
-    }
-
-    // 紅天石→燃料
-    registerFuel({ DemonItemCard.XARPITE() }, 1600)
 
     // エメラルド鉱石→蒼天石
     registerBlockDrop({ Blocks.EMERALD_ORE }, { DemonItemCard.MIRANAGITE() }, fortuneOreDrops = true)
