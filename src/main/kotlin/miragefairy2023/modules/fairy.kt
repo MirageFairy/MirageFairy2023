@@ -18,11 +18,14 @@ import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Model
 import net.minecraft.data.client.TextureKey
 import net.minecraft.data.client.TextureMap
+import net.minecraft.data.server.RecipeProvider
+import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
@@ -150,6 +153,28 @@ val fairyModule = module {
     enJa(FairyItem.IN_AIR_CONDITION_KEY, "In the Air", "空気中")
     enJa(FairyItem.MOVEMENT_SPEED_EFFECT_KEY, "Movement Speed", "移動速度")
     enJa(FairyItem.RARE_KEY, "Rare", "レア度")
+
+    // 紅天石＋土→土精
+    onGenerateRecipes {
+        ShapelessRecipeJsonBuilder
+            .create(FairyCard.DIRT())
+            .input(DemonItemCard.XARPITE())
+            .input(Items.DIRT)
+            .criterion("has_xarpite", RecipeProvider.conditionsFromItem(DemonItemCard.XARPITE()))
+            .criterion("has_dirt", RecipeProvider.conditionsFromItem(Items.DIRT))
+            .offerTo(it, Identifier.of(modId, "fairy/dirt"))
+    }
+
+    // 紅天石＋鉄インゴット→鉄精
+    onGenerateRecipes {
+        ShapelessRecipeJsonBuilder
+            .create(FairyCard.IRON())
+            .input(DemonItemCard.XARPITE())
+            .input(Items.IRON_INGOT)
+            .criterion("has_xarpite", RecipeProvider.conditionsFromItem(DemonItemCard.XARPITE()))
+            .criterion("has_iron_ingot", RecipeProvider.conditionsFromItem(Items.IRON_INGOT))
+            .offerTo(it, Identifier.of(modId, "fairy/iron"))
+    }
 
 }
 
