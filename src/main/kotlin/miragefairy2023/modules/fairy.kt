@@ -54,6 +54,8 @@ enum class FairyCard(
     TIME("time", 9, "Timia", "時精ティーミャ", 0x89D585, 0xD5DEBC, 0xD8DEA7, 0x8DD586),
 }
 
+val FairyCard.identifier get() = Identifier(MirageFairy2023.modId, this.motif)
+
 private val fairyItems = SlotContainer<FairyCard, Item>()
 operator fun FairyCard.invoke() = fairyItems[this]
 
@@ -202,7 +204,7 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
     }
 
     override fun getFairy() = object : Fairy {
-        override fun getIdentifier() = Identifier(MirageFairy2023.modId, fairyCard.motif)
+        override fun getIdentifier() = fairyCard.identifier
         override fun getSpeedBonus(player: ServerPlayerEntity) = if (isOverworld(player) && isInAir(player)) 0.05 else null
     }
 
