@@ -35,4 +35,4 @@ object TextScope {
     operator fun Text.plus(text: Text): Text = Text.empty().append(this).append(text)
 }
 
-fun text(block: TextScope.() -> Text) = block(TextScope)
+inline fun text(block: TextScope.() -> Text) = block(TextScope)
