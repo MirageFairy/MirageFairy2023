@@ -2,19 +2,19 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "minecraft:magma_cream"
-    },
-    {
-      "item": "minecraft:magma_cream"
-    },
-    {
-      "item": "minecraft:magma_cream"
-    },
-    {
-      "item": "minecraft:magma_cream"
-    },
-    {
       "item": "miragefairy2023:miranagite"
+    },
+    {
+      "item": "minecraft:magma_cream"
+    },
+    {
+      "item": "minecraft:magma_cream"
+    },
+    {
+      "item": "minecraft:magma_cream"
+    },
+    {
+      "item": "minecraft:magma_cream"
     }
   ],
   "result": {

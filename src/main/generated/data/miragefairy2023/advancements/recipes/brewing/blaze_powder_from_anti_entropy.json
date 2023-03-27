@@ -34,8 +34,8 @@
   },
   "requirements": [
     [
-      "has_magma_cream",
       "has_miranagite",
+      "has_magma_cream",
       "has_the_recipe"
     ]
   ],
