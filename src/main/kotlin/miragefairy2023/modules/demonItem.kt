@@ -1,18 +1,24 @@
 package miragefairy2023.modules
 
+import com.faux.customentitydata.api.CustomDataHelper
+import miragefairy2023.MirageFairy2023
 import miragefairy2023.SlotContainer
 import miragefairy2023.module
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.enJa
 import miragefairy2023.util.enJaItem
+import miragefairy2023.util.get
 import miragefairy2023.util.gray
+import miragefairy2023.util.int
 import miragefairy2023.util.item
+import miragefairy2023.util.orDefault
 import miragefairy2023.util.registerBlockDrop
 import miragefairy2023.util.registerFuel
 import miragefairy2023.util.registerGrassDrop
 import miragefairy2023.util.registerMobDrop
 import miragefairy2023.util.text
 import miragefairy2023.util.uniformLootNumberProvider
+import miragefairy2023.util.wrapper
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.Blocks
 import net.minecraft.client.item.TooltipContext
@@ -25,6 +31,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
@@ -187,33 +194,43 @@ class MirageFlourItem(settings: Settings, private val charge: Int) : DemonItem(s
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val itemStack = user.getStackInHand(hand)
 
+        // 消費
         itemStack.decrement(1)
 
         if (!world.isClient) {
 
             repeat(charge) {
 
+                // ガチャ
                 val r = world.random.nextDouble()
-                val fairyItemStack = when {
-                    r < 0.00003 -> FairyCard.TIME()
-                    r < 0.0001 -> FairyCard.SUN()
-                    r < 0.0003 -> FairyCard.WARDEN()
-                    r < 0.001 -> FairyCard.NIGHT()
-                    r < 0.003 -> FairyCard.PLAYER()
-                    r < 0.01 -> FairyCard.IRON()
-                    r < 0.03 -> FairyCard.FOREST()
-                    r < 0.1 -> FairyCard.SKELETON()
-                    r < 0.3 -> FairyCard.DIRT()
-                    else -> FairyCard.AIR()
-                }.createItemStack()
-                val itemEntity = user.dropItem(fairyItemStack, false)
+                val fairyCard = when {
+                    r < 0.00003 -> FairyCard.TIME
+                    r < 0.0001 -> FairyCard.SUN
+                    r < 0.0003 -> FairyCard.WARDEN
+                    r < 0.001 -> FairyCard.NIGHT
+                    r < 0.003 -> FairyCard.PLAYER
+                    r < 0.01 -> FairyCard.IRON
+                    r < 0.03 -> FairyCard.FOREST
+                    r < 0.1 -> FairyCard.SKELETON
+                    r < 0.3 -> FairyCard.DIRT
+                    else -> FairyCard.AIR
+                }
+
+                // 入手
+                val itemEntity = user.dropItem(fairyCard().createItemStack(), false)
                 if (itemEntity != null) {
                     itemEntity.resetPickupDelay()
                     itemEntity.owner = user.uuid
                 }
 
+                // 妖精召還履歴に追加
+                val nbt = CustomDataHelper.getPersistentData(user as ServerPlayerEntity)
+                var count by nbt.wrapper[MirageFairy2023.modId]["fairy_count"][fairyCard.identifier.toString()].int.orDefault { 0 }
+                count += 1
+
             }
 
+            // エフェクト
             world.playSound(null, user.x, user.y, user.z, SoundEvents.BLOCK_DEEPSLATE_BREAK, SoundCategory.NEUTRAL, 1.0f, 1.0f)
 
         }
