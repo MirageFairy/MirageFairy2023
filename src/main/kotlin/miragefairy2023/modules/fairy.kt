@@ -209,7 +209,7 @@ val fairyModule = module {
     translation(FairyItem.RARE_KEY)
     translation(FairyItem.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
     translation(FairyItem.DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY)
-    translation(FairyItem.AVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY)
+    translation(FairyItem.ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
     translation(FairyItem.OVERWORLD_CONDITION_KEY)
     translation(FairyItem.IN_AIR_CONDITION_KEY)
     translation(FairyItem.MOVEMENT_SPEED_EFFECT_KEY)
@@ -274,10 +274,10 @@ interface Fairy {
 
 class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), FairyProviderItem {
     companion object {
-        val RARE_KEY = Translation("item.${MirageFairy2023.modId}.rare", "Rare", "レア度")
-        val DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.description.passive_skill.disabled", "Use passive skill in 3rd row of inventory", "インベントリの3行目でパッシブスキルを発動")
-        val DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.description.passive_skill.duplicated", "Same fairies exist", "妖精が重複しています")
-        val AVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.description.passive_skill.available", "Passive skill is active", "パッシブスキル発動中")
+        val RARE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.rare", "Rare", "レア度")
+        val DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.passive_skill.disabled", "Use passive skills in 3rd row of inventory", "インベントリの3行目でパッシブスキルを発動")
+        val DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.passive_skill.duplicated", "Same fairies exist", "妖精が重複しています")
+        val ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.passive_skill.enabled", "Passive skills are enabled", "パッシブスキル有効")
         val OVERWORLD_CONDITION_KEY = Translation("item.${MirageFairy2023.modId}.passive_skill.condition.overworld", "Overworld", "地上世界")
         val IN_AIR_CONDITION_KEY = Translation("item.${MirageFairy2023.modId}.passive_skill.condition.in_air", "In the Air", "空気中")
         val MOVEMENT_SPEED_EFFECT_KEY = Translation("item.${MirageFairy2023.modId}.passive_skill.effect.movement_speed", "Movement Speed", "移動速度")
@@ -314,7 +314,7 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
                 when {
                     !isEnabled -> DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY().gray
                     isDuplicated -> DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY().red
-                    else -> AVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY().gold
+                    else -> ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY().gold
                 }
             }
 
