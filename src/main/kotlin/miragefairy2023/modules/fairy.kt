@@ -5,6 +5,7 @@ package miragefairy2023.modules
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.SlotContainer
 import miragefairy2023.module
+import miragefairy2023.modules.passiveskill.PassiveSkill
 import miragefairy2023.util.Translation
 import miragefairy2023.util.aqua
 import miragefairy2023.util.enJa
@@ -48,7 +49,7 @@ enum class FairyCard(
     val frontColor: Int,
     val backColor: Int,
     val hairColor: Int,
-    val passiveSkills: List<Unit>,
+    val passiveSkills: List<PassiveSkill>,
 ) {
     AIR(
         "air", 0, "Airia", "空気精アイリャ", 0xFFBE80, 0xDEFFFF, 0xDEFFFF, 0xB0FFFF,
@@ -240,6 +241,7 @@ interface FairyProviderItem {
 
 interface Fairy {
     fun getIdentifier(): Identifier
+    fun getPassiveSkills(): List<PassiveSkill>
     fun getSpeedBonus(player: ServerPlayerEntity): Double?
 }
 
@@ -258,6 +260,7 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
 
     override fun getFairy() = object : Fairy {
         override fun getIdentifier() = fairyCard.identifier
+        override fun getPassiveSkills() = fairyCard.passiveSkills
         override fun getSpeedBonus(player: ServerPlayerEntity) = if (isOverworld(player) && isInAir(player)) 0.05 else null
     }
 
