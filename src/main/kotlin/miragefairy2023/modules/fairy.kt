@@ -208,7 +208,6 @@ val fairyModule = module {
     translation(FairyItem.RARE_KEY)
     translation(FairyItem.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
     translation(FairyItem.DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY)
-    translation(FairyItem.UNAVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY)
     translation(FairyItem.AVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY)
     translation(FairyItem.OVERWORLD_CONDITION_KEY)
     translation(FairyItem.IN_AIR_CONDITION_KEY)
@@ -276,7 +275,6 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
         val RARE_KEY = Translation("item.${MirageFairy2023.modId}.rare", "Rare", "レア度")
         val DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.description.passive_skill.disabled", "Use passive skill in 3rd row of inventory", "インベントリの3行目でパッシブスキルを発動")
         val DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.description.passive_skill.duplicated", "Same fairies exist", "妖精が重複しています")
-        val UNAVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.description.passive_skill.unavailable", "Passive skill is unavailable", "パッシブスキル利用不可")
         val AVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.description.passive_skill.available", "Passive skill is active", "パッシブスキル発動中")
         val OVERWORLD_CONDITION_KEY = Translation("item.${MirageFairy2023.modId}.passive_skill.condition.overworld", "Overworld", "地上世界")
         val IN_AIR_CONDITION_KEY = Translation("item.${MirageFairy2023.modId}.passive_skill.condition.in_air", "In the Air", "空気中")
@@ -314,7 +312,6 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
                 when {
                     !isEnabled -> DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY().gray
                     isDuplicated -> DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY().red
-                    !isAvailable -> UNAVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY().red
                     else -> AVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY().gold
                 }
             }
