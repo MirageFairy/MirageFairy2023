@@ -31,7 +31,6 @@ import miragefairy2023.util.join
 import miragefairy2023.util.red
 import miragefairy2023.util.text
 import miragefairy2023.util.translation
-import mirrg.kotlin.hydrogen.formatAs
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.client.item.TooltipContext
@@ -318,29 +317,31 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
                 }
             }
 
-            // 条件判定
-            val conditions = listOf(
-                Pair(OVERWORLD_CONDITION_KEY, isOverworld(player)),
-                Pair(IN_AIR_CONDITION_KEY, isInAir(player)),
-            )
-
             // パッシブスキル行
-            tooltip += text {
-                val effectText = MOVEMENT_SPEED_EFFECT_KEY() + " "() + (0.05 * 100 formatAs "%+.0f%%")()
+            passiveSkills.forEach { passiveSkill ->
 
-                val conditionTexts = conditions.map {
-                    if (it.second) {
-                        it.first()
-                    } else {
-                        it.first().red
+                // 条件判定
+                val conditions = passiveSkill.conditions.map { condition ->
+                    Pair(condition, condition.test(player))
+                }
+
+                tooltip += text {
+                    val effectText = passiveSkill.effect.getText()
+                    val conditionTexts = conditions.map {
+                        if (it.second) {
+                            it.first.getText()
+                        } else {
+                            it.first.getText().red
+                        }
                     }
+                    val text = if (conditionTexts.isNotEmpty()) {
+                        effectText + " ["() + conditionTexts.join(","()) + "]"()
+                    } else {
+                        effectText + " ["() + ALWAYS_CONDITION_KEY() + "]"()
+                    }
+                    if (isEnabled && !isDuplicated && conditions.all { it.second }) text.gold else text.gray
                 }
-                val text = if (conditionTexts.isNotEmpty()) {
-                    effectText + " ["() + conditionTexts.join(","()) + "]"()
-                } else {
-                    effectText + " ["() + ALWAYS_CONDITION_KEY() + "]"()
-                }
-                if (isEnabled && !isDuplicated && conditions.all { it.second }) text.gold else text.gray
+
             }
 
         }
