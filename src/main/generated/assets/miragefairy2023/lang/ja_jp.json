@@ -30,5 +30,17 @@
   "item.miragefairy2023.warden_fairy": "監守者精ワルデーニャ",
   "item.miragefairy2023.xarpite": "紅天石",
   "item.miragefairy2023.xarpite.poem": "黒鉄の鎖は繋がれる。血腥い魂の檻へ。",
-  "itemGroup.miragefairy2023.common": "MirageFairy2023"
+  "itemGroup.miragefairy2023.common": "MirageFairy2023",
+  "miragefairy2023.passive_skill.attribute": "妖精ボーナス",
+  "miragefairy2023.passive_skill.condition.air": "空気",
+  "miragefairy2023.passive_skill.condition.always": "常時",
+  "miragefairy2023.passive_skill.condition.biome.minecraft.is_forest": "森林",
+  "miragefairy2023.passive_skill.condition.darkness": "暗闇",
+  "miragefairy2023.passive_skill.condition.iron_tool": "鉄ツール",
+  "miragefairy2023.passive_skill.condition.maximum_level": "レベル%s以下",
+  "miragefairy2023.passive_skill.condition.night": "夜",
+  "miragefairy2023.passive_skill.condition.overworld": "地上世界",
+  "miragefairy2023.passive_skill.condition.shade": "日陰",
+  "miragefairy2023.passive_skill.condition.sunshine": "日光",
+  "miragefairy2023.passive_skill.effect.experience": "経験値"
 }

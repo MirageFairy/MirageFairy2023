@@ -30,5 +30,17 @@
   "item.miragefairy2023.warden_fairy": "Wardenia",
   "item.miragefairy2023.xarpite": "Xarpite",
   "item.miragefairy2023.xarpite.poem": "Binds astral flux with magnetic force",
-  "itemGroup.miragefairy2023.common": "MirageFairy2023"
+  "itemGroup.miragefairy2023.common": "MirageFairy2023",
+  "miragefairy2023.passive_skill.attribute": "Fairy Bonus",
+  "miragefairy2023.passive_skill.condition.air": "Air",
+  "miragefairy2023.passive_skill.condition.always": "Always",
+  "miragefairy2023.passive_skill.condition.biome.minecraft.is_forest": "Forest",
+  "miragefairy2023.passive_skill.condition.darkness": "Darkness",
+  "miragefairy2023.passive_skill.condition.iron_tool": "Iron Tool",
+  "miragefairy2023.passive_skill.condition.maximum_level": "Lv.<=%s",
+  "miragefairy2023.passive_skill.condition.night": "Night",
+  "miragefairy2023.passive_skill.condition.overworld": "Overworld",
+  "miragefairy2023.passive_skill.condition.shade": "Shade",
+  "miragefairy2023.passive_skill.condition.sunshine": "Sunshine",
+  "miragefairy2023.passive_skill.effect.experience": "Experience"
 }
