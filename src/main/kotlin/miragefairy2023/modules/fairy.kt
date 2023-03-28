@@ -318,21 +318,21 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
                 }
             }
 
+            // 条件判定
+            val conditions = listOf(
+                Pair(OVERWORLD_CONDITION_KEY, isOverworld(player)),
+                Pair(IN_AIR_CONDITION_KEY, isInAir(player)),
+            )
+
             // パッシブスキル行
             tooltip += text {
                 val effectText = MOVEMENT_SPEED_EFFECT_KEY() + " "() + (0.05 * 100 formatAs "%+.0f%%")()
 
-                // 条件判定
-                val conditions = listOf(
-                    Pair(OVERWORLD_CONDITION_KEY(), isOverworld(player)),
-                    Pair(IN_AIR_CONDITION_KEY(), isInAir(player)),
-                )
-
                 val conditionTexts = conditions.map {
                     if (it.second) {
-                        it.first
+                        it.first()
                     } else {
-                        it.first.red
+                        it.first().red
                     }
                 }
                 val text = if (conditionTexts.isNotEmpty()) {
