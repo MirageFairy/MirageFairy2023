@@ -1,7 +1,25 @@
 package miragefairy2023.modules
 
 import miragefairy2023.module
-import miragefairy2023.util.*
+import miragefairy2023.util.alternativeEntry
+import miragefairy2023.util.applyExplosionDecay
+import miragefairy2023.util.block
+import miragefairy2023.util.blockStatePropertyLootCondition
+import miragefairy2023.util.enJa
+import miragefairy2023.util.enJaItem
+import miragefairy2023.util.generateBlockLootTable
+import miragefairy2023.util.generateBlockState
+import miragefairy2023.util.gray
+import miragefairy2023.util.item
+import miragefairy2023.util.itemEntry
+import miragefairy2023.util.jsonObjectOf
+import miragefairy2023.util.jsonPrimitive
+import miragefairy2023.util.lootPool
+import miragefairy2023.util.lootTable
+import miragefairy2023.util.randomInt
+import miragefairy2023.util.registerGrassDrop
+import miragefairy2023.util.statePredicate
+import miragefairy2023.util.text
 import mirrg.kotlin.hydrogen.atLeast
 import mirrg.kotlin.hydrogen.atMost
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
