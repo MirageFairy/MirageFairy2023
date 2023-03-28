@@ -121,7 +121,7 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
     // Property
 
     init {
-        defaultState = defaultState.with(AGE, 0);
+        defaultState = defaultState.with(AGE, 0)
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {

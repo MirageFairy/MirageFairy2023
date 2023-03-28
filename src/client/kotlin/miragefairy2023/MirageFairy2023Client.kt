@@ -21,7 +21,7 @@ object MirageFairy2023Client : ClientModInitializer {
                     Unit -> RenderLayer.getCutout()
                     else -> throw AssertionError()
                 }
-                BlockRenderLayerMap.INSTANCE.putBlocks(layer, block);
+                BlockRenderLayerMap.INSTANCE.putBlocks(layer, block)
             }
         }
 
