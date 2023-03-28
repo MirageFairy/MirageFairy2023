@@ -171,37 +171,39 @@ val fairyModule = module {
     // パッシブスキル
     run {
         val fairyBonusUuid = UUID.fromString("378C9369-6CC3-4B45-AADD-5B221DF26ED0")
-        ServerTickEvents.END_WORLD_TICK.register { world ->
-            if ((world.time % (20L * 10L)).toInt() != 132) return@register // 10秒毎
+        ServerTickEvents.END_SERVER_TICK.register { server ->
+            if ((server.ticks % (20L * 10L)).toInt() != 132) return@register // 10秒毎
 
-            world.players.forEach { player ->
+            server.worlds.forEach { world ->
+                world.players.forEach { player ->
 
-                // 有効な妖精のリスト
-                val triples = (player.inventory.offHand + player.inventory.main.slice(9 * 3 until 9 * 4))
-                    .mapNotNull { itemStack ->
-                        itemStack!!
-                        val item = itemStack.item
-                        if (item !is FairyProviderItem) return@mapNotNull null
-                        val fairy = item.getFairy()
-                        Triple(itemStack, fairy, fairy.getIdentifier())
+                    // 有効な妖精のリスト
+                    val triples = (player.inventory.offHand + player.inventory.main.slice(9 * 3 until 9 * 4))
+                        .mapNotNull { itemStack ->
+                            itemStack!!
+                            val item = itemStack.item
+                            if (item !is FairyProviderItem) return@mapNotNull null
+                            val fairy = item.getFairy()
+                            Triple(itemStack, fairy, fairy.getIdentifier())
+                        }
+                        .distinctBy {
+                            it.second.getIdentifier()
+                        }
+
+
+                    val entityAttributeInstance = player.attributes.getCustomInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED) ?: return@forEach
+
+                    // 古い効果を削除
+                    entityAttributeInstance.removeModifier(fairyBonusUuid)
+
+                    // 新しい効果を付与
+                    val speedBonus = triples.mapNotNull { it.second.getSpeedBonus(player) }.sum()
+                    if (speedBonus != 0.0) {
+                        val entityAttributeModifier = EntityAttributeModifier(fairyBonusUuid, "effect.$modId.fairy_bonus", speedBonus, EntityAttributeModifier.Operation.MULTIPLY_BASE)
+                        entityAttributeInstance.addTemporaryModifier(entityAttributeModifier)
                     }
-                    .distinctBy {
-                        it.second.getIdentifier()
-                    }
 
-
-                val entityAttributeInstance = player.attributes.getCustomInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED) ?: return@forEach
-
-                // 古い効果を削除
-                entityAttributeInstance.removeModifier(fairyBonusUuid)
-
-                // 新しい効果を付与
-                val speedBonus = triples.mapNotNull { it.second.getSpeedBonus(player) }.sum()
-                if (speedBonus != 0.0) {
-                    val entityAttributeModifier = EntityAttributeModifier(fairyBonusUuid, "effect.$modId.fairy_bonus", speedBonus, EntityAttributeModifier.Operation.MULTIPLY_BASE)
-                    entityAttributeInstance.addTemporaryModifier(entityAttributeModifier)
                 }
-
             }
 
         }
