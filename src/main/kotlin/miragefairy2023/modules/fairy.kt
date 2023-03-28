@@ -301,10 +301,10 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
 
             val player = MirageFairy2023.proxy?.getClientPlayer() ?: return
 
-            val passiveFairies = player.getPassiveFairies().find { it.itemStack === stack }
+            val passiveFairy = player.getPassiveFairies().find { it.itemStack === stack }
 
-            val isEnabled = passiveFairies != null
-            val isDuplicated = passiveFairies != null && passiveFairies.isDuplicated
+            val isEnabled = passiveFairy != null
+            val isDuplicated = passiveFairy != null && passiveFairy.isDuplicated
             val isOverworld = isOverworld(player)
             val isInAir = isInAir(player)
             val isAvailable = isEnabled && !isDuplicated && isOverworld && isInAir
