@@ -22,7 +22,6 @@ import miragefairy2023.modules.passiveskill.StatusEffectPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.SunshinePassiveSkillCondition
 import miragefairy2023.util.Translation
 import miragefairy2023.util.aqua
-import miragefairy2023.util.enJa
 import miragefairy2023.util.enJaItem
 import miragefairy2023.util.gold
 import miragefairy2023.util.gray
@@ -31,6 +30,7 @@ import miragefairy2023.util.join
 import miragefairy2023.util.red
 import miragefairy2023.util.text
 import miragefairy2023.util.translation
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.client.item.TooltipContext
@@ -39,21 +39,16 @@ import net.minecraft.data.client.TextureKey
 import net.minecraft.data.client.TextureMap
 import net.minecraft.data.server.RecipeProvider
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
-import net.minecraft.entity.attribute.EntityAttributeModifier
-import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.tag.BiomeTags
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import java.util.Optional
-import java.util.UUID
 
 
 enum class FairyCard(
@@ -169,9 +164,15 @@ val fairyModule = module {
 
     // パッシブスキル
     run {
-        val fairyBonusUuid = UUID.fromString("378C9369-6CC3-4B45-AADD-5B221DF26ED0")
+        val terminators = mutableListOf<() -> Unit>()
         ServerTickEvents.END_SERVER_TICK.register { server ->
             if ((server.ticks % (20L * 10L)).toInt() != 132) return@register // 10秒毎
+
+            // 前回判定時の掃除
+            terminators.forEach {
+                it()
+            }
+            terminators.clear()
 
             server.worlds.forEach { world ->
                 world.players.forEach { player ->
@@ -187,25 +188,32 @@ val fairyModule = module {
                         }
                         .distinctBy { it.third }
 
+                    val initializers = mutableListOf<() -> Unit>()
 
-                    val entityAttributeInstance = player.attributes.getCustomInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED) ?: return@forEach
+                    // 効果の計算
+                    val passiveSkillVariable = mutableMapOf<Identifier, Any>()
+                    triples.forEach { triple ->
+                        triple.second.getPassiveSkills().forEach passiveSkillIsFailed@{ passiveSkill ->
+                            passiveSkill.conditions.forEach { condition ->
+                                if (!condition.test(player)) return@passiveSkillIsFailed
+                            }
+                            passiveSkill.effect.update(player, passiveSkillVariable, initializers, terminators)
+                            passiveSkill.effect.affect(player)
+                        }
+                    }
 
-                    // 古い効果を削除
-                    entityAttributeInstance.removeModifier(fairyBonusUuid)
-
-                    // 新しい効果を付与
-                    val speedBonus = triples.mapNotNull { it.second.getSpeedBonus(player) }.sum()
-                    if (speedBonus != 0.0) {
-                        val entityAttributeModifier = EntityAttributeModifier(fairyBonusUuid, "effect.$modId.fairy_bonus", speedBonus, EntityAttributeModifier.Operation.MULTIPLY_BASE)
-                        entityAttributeInstance.addTemporaryModifier(entityAttributeModifier)
+                    // 効果を発動
+                    initializers.forEach {
+                        it()
                     }
 
                 }
             }
-
+        }
+        ServerLifecycleEvents.SERVER_STOPPING.register {
+            terminators.clear()
         }
     }
-    enJa("effect.$modId.fairy_bonus", "Fairy Bonus", "妖精ボーナス")
 
     translation(FairyItem.RARE_KEY)
     translation(FairyItem.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
@@ -266,7 +274,6 @@ interface FairyProviderItem {
 interface Fairy {
     fun getIdentifier(): Identifier
     fun getPassiveSkills(): List<PassiveSkill>
-    fun getSpeedBonus(player: ServerPlayerEntity): Double?
 }
 
 
@@ -282,7 +289,6 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
     override fun getFairy() = object : Fairy {
         override fun getIdentifier() = fairyCard.identifier
         override fun getPassiveSkills() = fairyCard.passiveSkills
-        override fun getSpeedBonus(player: ServerPlayerEntity) = if (isOverworld(player) && isInAir(player)) 0.05 else null
     }
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
@@ -342,11 +348,4 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
 
 
     }
-}
-
-private fun isOverworld(player: PlayerEntity) = player.world.dimension.natural
-
-private fun isInAir(player: PlayerEntity): Boolean {
-    val blockState = player.world.getBlockState(BlockPos(player.eyePos))
-    return !blockState.isOpaque && blockState.fluidState.isEmpty
 }
