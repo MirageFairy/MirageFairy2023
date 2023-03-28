@@ -180,6 +180,7 @@ val fairyModule = module {
     enJa("effect.$modId.fairy_bonus", "Fairy Bonus", "妖精ボーナス")
 
     // パッシブスキル翻訳
+    translation(FairyItem.RARE_KEY)
     translation(FairyItem.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
     translation(FairyItem.DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY)
     translation(FairyItem.UNAVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY)
@@ -187,7 +188,6 @@ val fairyModule = module {
     translation(FairyItem.OVERWORLD_CONDITION_KEY)
     translation(FairyItem.IN_AIR_CONDITION_KEY)
     translation(FairyItem.MOVEMENT_SPEED_EFFECT_KEY)
-    translation(FairyItem.RARE_KEY)
 
     // 紅天石＋土→土精
     onGenerateRecipes {
@@ -246,6 +246,7 @@ interface Fairy {
 
 class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), FairyProviderItem {
     companion object {
+        val RARE_KEY = Translation("item.${MirageFairy2023.modId}.rare", "Rare", "レア度")
         val DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.description.passive_skill.disabled", "Use passive skill in 3rd row of inventory", "インベントリの3行目でパッシブスキルを発動")
         val DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.description.passive_skill.duplicated", "Same fairies exist", "妖精が重複しています")
         val UNAVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.description.passive_skill.unavailable", "Passive skill is unavailable", "パッシブスキル利用不可")
@@ -253,7 +254,6 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
         val OVERWORLD_CONDITION_KEY = Translation("item.${MirageFairy2023.modId}.passive_skill.condition.overworld", "Overworld", "地上世界")
         val IN_AIR_CONDITION_KEY = Translation("item.${MirageFairy2023.modId}.passive_skill.condition.in_air", "In the Air", "空気中")
         val MOVEMENT_SPEED_EFFECT_KEY = Translation("item.${MirageFairy2023.modId}.passive_skill.effect.movement_speed", "Movement Speed", "移動速度")
-        val RARE_KEY = Translation("item.${MirageFairy2023.modId}.rare", "Rare", "レア度")
     }
 
     private fun isOverworld(player: PlayerEntity) = player.world.dimension.natural
