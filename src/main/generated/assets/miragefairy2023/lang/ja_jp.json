@@ -32,6 +32,7 @@
   "itemGroup.miragefairy2023.common": "MirageFairy2023",
   "miragefairy2023.passive_skill.attribute": "妖精ボーナス",
   "miragefairy2023.passive_skill.condition.air": "空気",
+  "miragefairy2023.passive_skill.condition.always": "常時",
   "miragefairy2023.passive_skill.condition.biome.minecraft.is_forest": "森林",
   "miragefairy2023.passive_skill.condition.darkness": "暗闇",
   "miragefairy2023.passive_skill.condition.iron_tool": "鉄ツール",

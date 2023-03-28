@@ -27,6 +27,7 @@ import miragefairy2023.util.enJaItem
 import miragefairy2023.util.gold
 import miragefairy2023.util.gray
 import miragefairy2023.util.item
+import miragefairy2023.util.join
 import miragefairy2023.util.red
 import miragefairy2023.util.text
 import miragefairy2023.util.translation
@@ -212,6 +213,7 @@ val fairyModule = module {
     translation(FairyItem.OVERWORLD_CONDITION_KEY)
     translation(FairyItem.IN_AIR_CONDITION_KEY)
     translation(FairyItem.MOVEMENT_SPEED_EFFECT_KEY)
+    translation(FairyItem.ALWAYS_CONDITION_KEY)
 
 
     // 紅天石＋土→土精
@@ -279,6 +281,7 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
         val OVERWORLD_CONDITION_KEY = Translation("item.${MirageFairy2023.modId}.passive_skill.condition.overworld", "Overworld", "地上世界")
         val IN_AIR_CONDITION_KEY = Translation("item.${MirageFairy2023.modId}.passive_skill.condition.in_air", "In the Air", "空気中")
         val MOVEMENT_SPEED_EFFECT_KEY = Translation("item.${MirageFairy2023.modId}.passive_skill.effect.movement_speed", "Movement Speed", "移動速度")
+        val ALWAYS_CONDITION_KEY = Translation("${MirageFairy2023.modId}.passive_skill.condition.always", "Always", "常時")
     }
 
     override fun getFairy() = object : Fairy {
@@ -305,7 +308,6 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
             val isDuplicated = passiveFairy != null && passiveFairy.isDuplicated
             val isOverworld = isOverworld(player)
             val isInAir = isInAir(player)
-            val isAvailable = isEnabled && !isDuplicated && isOverworld && isInAir
 
             // パッシブスキルタイトル行
             tooltip += text {
@@ -318,14 +320,23 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
 
             // パッシブスキル行
             tooltip += text {
-                val text = MOVEMENT_SPEED_EFFECT_KEY() + " "() + (0.05 * 100 formatAs "%+.0f%%")() + " ["() + when {
-                    isOverworld -> OVERWORLD_CONDITION_KEY()
-                    else -> OVERWORLD_CONDITION_KEY().red
-                } + ","() + when {
-                    isInAir -> IN_AIR_CONDITION_KEY()
-                    else -> IN_AIR_CONDITION_KEY().red
-                } + "]"()
-                if (isAvailable) text.gold else text.gray
+                val effectText = MOVEMENT_SPEED_EFFECT_KEY() + " "() + (0.05 * 100 formatAs "%+.0f%%")()
+                val conditionTexts = listOf(
+                    when {
+                        isOverworld -> OVERWORLD_CONDITION_KEY()
+                        else -> OVERWORLD_CONDITION_KEY().red
+                    },
+                    when {
+                        isInAir -> IN_AIR_CONDITION_KEY()
+                        else -> IN_AIR_CONDITION_KEY().red
+                    },
+                )
+                val text = if (conditionTexts.isNotEmpty()) {
+                    effectText + " ["() + conditionTexts.join(","()) + "]"()
+                } else {
+                    effectText + " ["() + ALWAYS_CONDITION_KEY() + "]"()
+                }
+                if (isEnabled && !isDuplicated && isOverworld && isInAir) text.gold else text.gray
             }
 
         }
