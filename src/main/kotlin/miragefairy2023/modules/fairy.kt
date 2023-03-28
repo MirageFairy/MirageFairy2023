@@ -5,6 +5,7 @@ package miragefairy2023.modules
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.SlotContainer
 import miragefairy2023.module
+import miragefairy2023.util.Translation
 import miragefairy2023.util.aqua
 import miragefairy2023.util.enJa
 import miragefairy2023.util.enJaItem
@@ -13,6 +14,7 @@ import miragefairy2023.util.gray
 import miragefairy2023.util.item
 import miragefairy2023.util.red
 import miragefairy2023.util.text
+import miragefairy2023.util.translation
 import mirrg.kotlin.hydrogen.formatAs
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
@@ -178,14 +180,14 @@ val fairyModule = module {
     enJa("effect.$modId.fairy_bonus", "Fairy Bonus", "妖精ボーナス")
 
     // パッシブスキル翻訳
-    enJa(FairyItem.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY, "Use passive skill in 3rd row of inventory", "インベントリの3行目でパッシブスキルを発動")
-    enJa(FairyItem.DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY, "Same fairies exist", "妖精が重複しています")
-    enJa(FairyItem.UNAVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY, "Passive skill is unavailable", "パッシブスキル利用不可")
-    enJa(FairyItem.AVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY, "Passive skill is active", "パッシブスキル発動中")
-    enJa(FairyItem.OVERWORLD_CONDITION_KEY, "Overworld", "地上世界")
-    enJa(FairyItem.IN_AIR_CONDITION_KEY, "In the Air", "空気中")
-    enJa(FairyItem.MOVEMENT_SPEED_EFFECT_KEY, "Movement Speed", "移動速度")
-    enJa(FairyItem.RARE_KEY, "Rare", "レア度")
+    translation(FairyItem.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
+    translation(FairyItem.DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY)
+    translation(FairyItem.UNAVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY)
+    translation(FairyItem.AVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY)
+    translation(FairyItem.OVERWORLD_CONDITION_KEY)
+    translation(FairyItem.IN_AIR_CONDITION_KEY)
+    translation(FairyItem.MOVEMENT_SPEED_EFFECT_KEY)
+    translation(FairyItem.RARE_KEY)
 
     // 紅天石＋土→土精
     onGenerateRecipes {
@@ -244,14 +246,14 @@ interface Fairy {
 
 class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), FairyProviderItem {
     companion object {
-        val DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY = "item.${MirageFairy2023.modId}.fairy.description.passive_skill.disabled"
-        val DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY = "item.${MirageFairy2023.modId}.fairy.description.passive_skill.duplicated"
-        val UNAVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY = "item.${MirageFairy2023.modId}.fairy.description.passive_skill.unavailable"
-        val AVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY = "item.${MirageFairy2023.modId}.fairy.description.passive_skill.available"
-        val OVERWORLD_CONDITION_KEY = "item.${MirageFairy2023.modId}.passive_skill.condition.overworld"
-        val IN_AIR_CONDITION_KEY = "item.${MirageFairy2023.modId}.passive_skill.condition.in_air"
-        val MOVEMENT_SPEED_EFFECT_KEY = "item.${MirageFairy2023.modId}.passive_skill.effect.movement_speed"
-        val RARE_KEY = "item.${MirageFairy2023.modId}.rare"
+        val DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.description.passive_skill.disabled", "Use passive skill in 3rd row of inventory", "インベントリの3行目でパッシブスキルを発動")
+        val DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.description.passive_skill.duplicated", "Same fairies exist", "妖精が重複しています")
+        val UNAVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.description.passive_skill.unavailable", "Passive skill is unavailable", "パッシブスキル利用不可")
+        val AVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.description.passive_skill.available", "Passive skill is active", "パッシブスキル発動中")
+        val OVERWORLD_CONDITION_KEY = Translation("item.${MirageFairy2023.modId}.passive_skill.condition.overworld", "Overworld", "地上世界")
+        val IN_AIR_CONDITION_KEY = Translation("item.${MirageFairy2023.modId}.passive_skill.condition.in_air", "In the Air", "空気中")
+        val MOVEMENT_SPEED_EFFECT_KEY = Translation("item.${MirageFairy2023.modId}.passive_skill.effect.movement_speed", "Movement Speed", "移動速度")
+        val RARE_KEY = Translation("item.${MirageFairy2023.modId}.rare", "Rare", "レア度")
     }
 
     private fun isOverworld(player: PlayerEntity) = player.world.dimension.natural
@@ -269,7 +271,7 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         super.appendTooltip(stack, world, tooltip, context)
 
-        tooltip += text { (translate(RARE_KEY) + ": ${fairyCard.rare}"()).aqua }
+        tooltip += text { (RARE_KEY() + ": ${fairyCard.rare}"()).aqua }
 
         val player = MirageFairy2023.proxy?.getClientPlayer() ?: return
 
@@ -282,20 +284,20 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
         val isAvailable = isEnabled && !isDuplicated && isOverworld && isInAir
         tooltip += text {
             when {
-                isAvailable -> translate(AVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY).gold
-                isEnabled && !isDuplicated -> translate(UNAVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY).red
-                isEnabled -> translate(DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY).red
-                else -> translate(DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY).gray
+                isAvailable -> AVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY().gold
+                isEnabled && !isDuplicated -> UNAVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY().red
+                isEnabled -> DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY().red
+                else -> DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY().gray
             }
         }
 
         tooltip += text {
-            val text = translate(MOVEMENT_SPEED_EFFECT_KEY) + " "() + (0.05 * 100 formatAs "%+.0f%%")() + " ["() + when {
-                isOverworld -> translate(OVERWORLD_CONDITION_KEY)
-                else -> translate(OVERWORLD_CONDITION_KEY).red
+            val text = MOVEMENT_SPEED_EFFECT_KEY() + " "() + (0.05 * 100 formatAs "%+.0f%%")() + " ["() + when {
+                isOverworld -> OVERWORLD_CONDITION_KEY()
+                else -> OVERWORLD_CONDITION_KEY().red
             } + ","() + when {
-                isInAir -> translate(IN_AIR_CONDITION_KEY)
-                else -> translate(IN_AIR_CONDITION_KEY).red
+                isInAir -> IN_AIR_CONDITION_KEY()
+                else -> IN_AIR_CONDITION_KEY().red
             } + "]"()
             if (isAvailable) text.gold else text.gray
         }
