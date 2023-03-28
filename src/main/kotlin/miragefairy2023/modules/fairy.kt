@@ -308,8 +308,6 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
 
             val isEnabled = passiveFairy != null
             val isDuplicated = passiveFairy != null && passiveFairy.isDuplicated
-            val isOverworld = isOverworld(player)
-            val isInAir = isInAir(player)
 
             // パッシブスキルタイトル行
             tooltip += text {
@@ -323,22 +321,26 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
             // パッシブスキル行
             tooltip += text {
                 val effectText = MOVEMENT_SPEED_EFFECT_KEY() + " "() + (0.05 * 100 formatAs "%+.0f%%")()
-                val conditionTexts = listOf(
-                    when {
-                        isOverworld -> OVERWORLD_CONDITION_KEY()
-                        else -> OVERWORLD_CONDITION_KEY().red
-                    },
-                    when {
-                        isInAir -> IN_AIR_CONDITION_KEY()
-                        else -> IN_AIR_CONDITION_KEY().red
-                    },
+
+                // 条件判定
+                val conditions = listOf(
+                    Pair(OVERWORLD_CONDITION_KEY(), isOverworld(player)),
+                    Pair(IN_AIR_CONDITION_KEY(), isInAir(player)),
                 )
+
+                val conditionTexts = conditions.map {
+                    if (it.second) {
+                        it.first
+                    } else {
+                        it.first.red
+                    }
+                }
                 val text = if (conditionTexts.isNotEmpty()) {
                     effectText + " ["() + conditionTexts.join(","()) + "]"()
                 } else {
                     effectText + " ["() + ALWAYS_CONDITION_KEY() + "]"()
                 }
-                if (isEnabled && !isDuplicated && isOverworld && isInAir) text.gold else text.gray
+                if (isEnabled && !isDuplicated && conditions.all { it.second }) text.gold else text.gray
             }
 
         }
