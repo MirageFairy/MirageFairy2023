@@ -256,13 +256,6 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
         val MOVEMENT_SPEED_EFFECT_KEY = Translation("item.${MirageFairy2023.modId}.passive_skill.effect.movement_speed", "Movement Speed", "移動速度")
     }
 
-    private fun isOverworld(player: PlayerEntity) = player.world.dimension.natural
-
-    private fun isInAir(player: PlayerEntity): Boolean {
-        val blockState = player.world.getBlockState(BlockPos(player.eyePos))
-        return !blockState.isOpaque && blockState.fluidState.isEmpty
-    }
-
     override fun getFairy() = object : Fairy {
         override fun getIdentifier() = fairyCard.identifier
         override fun getSpeedBonus(player: ServerPlayerEntity) = if (isOverworld(player) && isInAir(player)) 0.05 else null
@@ -303,4 +296,11 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
         }
 
     }
+}
+
+private fun isOverworld(player: PlayerEntity) = player.world.dimension.natural
+
+private fun isInAir(player: PlayerEntity): Boolean {
+    val blockState = player.world.getBlockState(BlockPos(player.eyePos))
+    return !blockState.isOpaque && blockState.fluidState.isEmpty
 }
