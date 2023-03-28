@@ -312,10 +312,10 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
             // パッシブスキルタイトル行
             tooltip += text {
                 when {
-                    isAvailable -> AVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY().gold
-                    isEnabled && !isDuplicated -> UNAVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY().red
-                    isEnabled -> DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY().red
-                    else -> DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY().gray
+                    !isEnabled -> DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY().gray
+                    isDuplicated -> DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY().red
+                    !isAvailable -> UNAVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY().red
+                    else -> AVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY().gold
                 }
             }
 
