@@ -201,13 +201,13 @@ private fun PlayerEntity.getPassiveFairies(): List<PassiveFairy> {
 }
 
 
+interface FairyProviderItem {
+    fun getFairy(): Fairy
+}
+
 interface Fairy {
     fun getIdentifier(): Identifier
     fun getSpeedBonus(player: ServerPlayerEntity): Double?
-}
-
-interface FairyProviderItem {
-    fun getFairy(): Fairy
 }
 
 
