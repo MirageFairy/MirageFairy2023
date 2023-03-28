@@ -205,7 +205,7 @@ class MirageFlourItem(settings: Settings, private val maxRare: Int?, private val
                 Chance(0.003, FairyCard.PLAYER),
                 Chance(0.01, FairyCard.IRON),
                 Chance(0.03, FairyCard.FOREST),
-                Chance(0.1, FairyCard.SKELETON),
+                Chance(0.1, FairyCard.ZOMBIE),
                 Chance(0.3, FairyCard.DIRT),
                 Chance(1.0, FairyCard.AIR),
             )
