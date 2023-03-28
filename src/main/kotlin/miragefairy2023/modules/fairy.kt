@@ -5,7 +5,7 @@ package miragefairy2023.modules
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.SlotContainer
 import miragefairy2023.module
-import miragefairy2023.modules.passiveskill.PassiveSkill
+import miragefairy2023.modules.passiveskill.*
 import miragefairy2023.util.Translation
 import miragefairy2023.util.aqua
 import miragefairy2023.util.enJa
@@ -27,11 +27,13 @@ import net.minecraft.data.server.RecipeProvider
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.tag.BiomeTags
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
@@ -53,43 +55,52 @@ enum class FairyCard(
 ) {
     AIR(
         "air", 0, "Airia", "空気精アイリャ", 0xFFBE80, 0xDEFFFF, 0xDEFFFF, 0xB0FFFF,
-        listOf(),
+        listOf(PassiveSkill(listOf(OverworldPassiveSkillCondition(), AirPassiveSkillCondition()), MovementSpeedPassiveSkillEffect(0.05))),
     ),
     DIRT(
         "dirt", 1, "Dirtia", "土精ディルチャ", 0xB87440, 0xB9855C, 0x593D29, 0x914A18,
-        listOf(),
+        listOf(PassiveSkill(listOf(OverworldPassiveSkillCondition()), MaxHealthPassiveSkillEffect(1.0))),
     ),
     ZOMBIE(
         "zombie", 2, "Zombia", "硬屍精ゾンビャ", 0x2B4219, 0x00AAAA, 0x322976, 0x2B4219,
-        listOf(),
+        listOf(PassiveSkill(listOf(ShadePassiveSkillCondition()), AttackDamagePassiveSkillEffect(1.0))),
     ),
     FOREST(
         "forest", 3, "Forestia", "森精フォレスチャ", 0x80FF00, 0x7B9C62, 0x89591D, 0x2E6E14,
-        listOf(),
+        listOf(PassiveSkill(listOf(BiomePassiveSkillCondition(BiomeTags.IS_FOREST)), StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0))),
     ),
     IRON(
         "iron", 4, "Ironia", "鉄精イローニャ", 0xA0A0A0, 0xD8D8D8, 0x727272, 0xD8AF93,
-        listOf(),
+        listOf(
+            PassiveSkill(listOf(IronToolPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0)),
+            PassiveSkill(listOf(IronToolPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
+        ),
     ),
     PLAYER(
         "player", 5, "Playeria", "人精プライェーリャ", 0xB58D63, 0x00AAAA, 0x322976, 0x4B3422,
-        listOf(),
+        listOf(PassiveSkill(listOf(MaximumLevelPassiveSkillCondition(29)), ExperiencePassiveSkillEffect(1))),
     ),
     NIGHT(
         "night", 6, "Nightia", "夜精ニグチャ", 0xFFE260, 0x2C2C2E, 0x0E0E10, 0x2D4272,
-        listOf(),
+        listOf(PassiveSkill(listOf(NightPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 0))),
     ),
     WARDEN(
         "warden", 7, "Wardenia", "監守者精ワルデーニャ", 0x0A3135, 0xCFCFA4, 0xA0AA7A, 0x2CD0CA,
-        listOf(),
+        listOf(PassiveSkill(listOf(DarknessPassiveSkillCondition()), AttackDamagePassiveSkillEffect(6.0))),
     ),
     SUN(
         "sun", 8, "Sunia", "太陽精スーニャ", 0xff2f00, 0xff972b, 0xff7500, 0xffe7b2,
-        listOf(),
+        listOf(
+            PassiveSkill(listOf(SunshinePassiveSkillCondition()), AttackDamagePassiveSkillEffect(5.0)),
+            PassiveSkill(listOf(SunshinePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0)),
+        ),
     ),
     TIME(
         "time", 9, "Timia", "時精ティーミャ", 0x89D585, 0xD5DEBC, 0xD8DEA7, 0x8DD586,
-        listOf(),
+        listOf(
+            PassiveSkill(listOf(), MovementSpeedPassiveSkillEffect(0.20)),
+            PassiveSkill(listOf(), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
+        ),
     ),
 }
 
