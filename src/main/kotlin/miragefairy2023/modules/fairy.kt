@@ -167,7 +167,7 @@ val fairyModule = module {
     }
 
 
-    // 妖精ボーナス
+    // パッシブスキル
     val fairyBonusUuid = UUID.fromString("378C9369-6CC3-4B45-AADD-5B221DF26ED0")
     ServerTickEvents.END_WORLD_TICK.register { world ->
         if ((world.time % (20L * 10L)).toInt() != 132) return@register // 10秒毎
@@ -205,7 +205,6 @@ val fairyModule = module {
     }
     enJa("effect.$modId.fairy_bonus", "Fairy Bonus", "妖精ボーナス")
 
-    // パッシブスキル翻訳
     translation(FairyItem.RARE_KEY)
     translation(FairyItem.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
     translation(FairyItem.DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY)
@@ -214,6 +213,7 @@ val fairyModule = module {
     translation(FairyItem.OVERWORLD_CONDITION_KEY)
     translation(FairyItem.IN_AIR_CONDITION_KEY)
     translation(FairyItem.MOVEMENT_SPEED_EFFECT_KEY)
+
 
     // 紅天石＋土→土精
     onGenerateRecipes {
