@@ -186,7 +186,7 @@ val fairyModule = module {
                             val fairy = item.getFairy()
                             Triple(itemStack, fairy, fairy.getIdentifier())
                         }
-                        .distinctBy { it.second.getIdentifier() }
+                        .distinctBy { it.third }
 
 
                     val entityAttributeInstance = player.attributes.getCustomInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED) ?: return@forEach
