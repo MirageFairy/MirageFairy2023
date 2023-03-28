@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package miragefairy2023.modules
 
 import miragefairy2023.MirageFairy2023
