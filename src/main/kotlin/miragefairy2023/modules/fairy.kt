@@ -308,6 +308,8 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
             val isOverworld = isOverworld(player)
             val isInAir = isInAir(player)
             val isAvailable = isEnabled && !isDuplicated && isOverworld && isInAir
+
+            // パッシブスキルタイトル行
             tooltip += text {
                 when {
                     isAvailable -> AVAILABLE_PASSIVE_SKILL_DESCRIPTION_KEY().gold
@@ -317,6 +319,7 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
                 }
             }
 
+            // パッシブスキル行
             tooltip += text {
                 val text = MOVEMENT_SPEED_EFFECT_KEY() + " "() + (0.05 * 100 formatAs "%+.0f%%")() + " ["() + when {
                     isOverworld -> OVERWORLD_CONDITION_KEY()
