@@ -16,11 +16,12 @@ jobs:
       - uses: gradle/wrapper-validation-action@v1
       - run: bash gradlew build
       - run: ls build/libs
-      - id: get-variables
+      - name: get-variables
+        id: get-variables
         run: |
           version=$(echo ${{ github.ref }} | perl -lpE 's|^refs/tags/v||')
           echo "$version"
-          echo "::set-output name=version::$version"
+          echo "version=$version" >> $GITHUB_ENV
       - id: create_release
         uses: actions/create-release@v1.0.0
         env:
@@ -35,6 +36,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/libs/MirageFairy2023-${{ steps.get-variables.outputs.version }}.jar
-          asset_name: MirageFairy2023-${{ steps.get-variables.outputs.version }}.jar
+          asset_path: build/libs/MirageFairy2023-${{ env.version }}.jar
+          asset_name: MirageFairy2023-${{ env.version }}.jar
           asset_content_type: application/java-archive
