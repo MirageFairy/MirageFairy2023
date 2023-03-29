@@ -1,0 +1,42 @@
+name: release
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'microsoft'
+      - uses: actions/checkout@v3
+      - run: git log -n 1
+      - uses: gradle/wrapper-validation-action@v1
+      - run: bash gradlew build
+      - run: ls build/libs
+      - id: get-variables
+        run: |
+          version=$(echo ${{ github.ref }} | perl -lpE 's|^refs/tags/v||')
+          echo "$version"
+          echo "::set-output name=version::$version"
+      - id: create_release
+        uses: actions/create-release@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/libs/MirageFairy2023-${{ steps.get-variables.outputs.version }}.jar
+          asset_name: MirageFairy2023-${{ steps.get-variables.outputs.version }}.jar
+          asset_content_type: application/java-archive
