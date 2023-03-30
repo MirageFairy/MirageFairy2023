@@ -117,6 +117,9 @@ val mirageFlowerModule = module {
         enJaItem({ item }, "Mirage Seed", "ミラージュの球根")
         enJa({ "${item.translationKey}.poem" }, "Scientific name: miragiume haimekunofa", "学名：ミラギウメ・ハイメクノファ")
         registerGrassDrop({ item }, 0.1)
+        onRegisterRecipes {
+            ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(item, 0.3f)
+        }
     }
 
 }
