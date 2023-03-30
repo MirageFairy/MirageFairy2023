@@ -174,12 +174,6 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
             1.0 * lightLevel / 15.0
         }
 
-        // 真下が湿った農地であるほど環境ボーナス最大+200%
-        farmlandBonus += run {
-            val floorMoisture = getFloorMoisture(world, pos.down())
-            2.0 * floorMoisture / 7.0
-        }
-
         // 周囲が開けているほど環境ボーナス最大+100%
         ambientBonus += run {
             val blankScore = (0 until 4).sumOf {
@@ -193,6 +187,12 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
                 blankScore
             }
             1.0 * blankScore / (2 * 4).toDouble()
+        }
+
+        // 真下が湿った農地であるほど環境ボーナス最大+200%
+        farmlandBonus += run {
+            val floorMoisture = getFloorMoisture(world, pos.down())
+            2.0 * floorMoisture / 7.0
         }
 
 
