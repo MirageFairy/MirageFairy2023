@@ -164,19 +164,20 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
 
     fun move(world: ServerWorld, pos: BlockPos, state: BlockState, speed: Double = 1.0) {
 
-        val baseGrowthAmount = 0.05
+        val baseGrowthAmount = 0.01
         var ambientBonus = 1.0
+        var farmlandBonus = 1.0
 
-        // 光量が強いほど環境ボーナス最大+50%
+        // 光量が強いほど環境ボーナス最大+100%
         ambientBonus += run {
             val lightLevel = world.getBaseLightLevel(pos, 0)
-            0.5 * lightLevel / 15.0
+            1.0 * lightLevel / 15.0
         }
 
-        // 真下が湿った農地であるほど環境ボーナス最大+100%
-        ambientBonus += run {
+        // 真下が湿った農地であるほど環境ボーナス最大+200%
+        farmlandBonus += run {
             val floorMoisture = getFloorMoisture(world, pos.down())
-            1.0 * floorMoisture / 7.0
+            2.0 * floorMoisture / 7.0
         }
 
         // 周囲が開けているほど環境ボーナス最大+100%
@@ -195,7 +196,7 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
         }
 
 
-        val actualGrowthAmount = world.random.randomInt(baseGrowthAmount * ambientBonus * speed)
+        val actualGrowthAmount = world.random.randomInt(baseGrowthAmount * ambientBonus * farmlandBonus * speed)
         val oldAge = getAge(state)
         val newAge = oldAge + actualGrowthAmount atMost MAX_AGE
         if (newAge != oldAge) {
