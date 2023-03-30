@@ -108,7 +108,7 @@ val mirageFlowerModule = module {
                     conditionally(condition)
                     with(itemEntry(DemonItemCard.TINY_MIRAGE_FLOUR()) {
                         apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(2.0f, 6.0f)))
-                        apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 2.0f, 0))
+                        apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 1.0f, 0))
                     })
                 })
 
