@@ -10,46 +10,8 @@
       "bonus_rolls": 0.0,
       "entries": [
         {
-          "type": "minecraft:alternatives",
-          "children": [
-            {
-              "type": "minecraft:item",
-              "conditions": [
-                {
-                  "block": "miragefairy2023:mirage_flower",
-                  "condition": "minecraft:block_state_property",
-                  "properties": {
-                    "age": "3"
-                  }
-                }
-              ],
-              "functions": [
-                {
-                  "add": false,
-                  "count": {
-                    "type": "minecraft:uniform",
-                    "max": 6.0,
-                    "min": 2.0
-                  },
-                  "function": "minecraft:set_count"
-                },
-                {
-                  "enchantment": "minecraft:fortune",
-                  "formula": "minecraft:binomial_with_bonus_count",
-                  "function": "minecraft:apply_bonus",
-                  "parameters": {
-                    "extra": 0,
-                    "probability": 1.0
-                  }
-                }
-              ],
-              "name": "miragefairy2023:tiny_mirage_flour"
-            },
-            {
-              "type": "minecraft:item",
-              "name": "miragefairy2023:mirage_seed"
-            }
-          ]
+          "type": "minecraft:item",
+          "name": "miragefairy2023:mirage_seed"
         }
       ],
       "rolls": 1.0
@@ -70,16 +32,60 @@
           "type": "minecraft:item",
           "functions": [
             {
+              "add": false,
+              "count": 0.0,
+              "function": "minecraft:set_count"
+            },
+            {
               "enchantment": "minecraft:fortune",
               "formula": "minecraft:binomial_with_bonus_count",
               "function": "minecraft:apply_bonus",
               "parameters": {
-                "extra": 3,
-                "probability": 0.5714286
+                "extra": 1,
+                "probability": 0.2
               }
             }
           ],
           "name": "miragefairy2023:mirage_seed"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "miragefairy2023:mirage_flower",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "3"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 6.0,
+                "min": 2.0
+              },
+              "function": "minecraft:set_count"
+            },
+            {
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:binomial_with_bonus_count",
+              "function": "minecraft:apply_bonus",
+              "parameters": {
+                "extra": 0,
+                "probability": 2.0
+              }
+            }
+          ],
+          "name": "miragefairy2023:tiny_mirage_flour"
         }
       ],
       "rolls": 1.0

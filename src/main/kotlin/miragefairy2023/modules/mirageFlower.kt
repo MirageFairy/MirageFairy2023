@@ -1,7 +1,6 @@
 package miragefairy2023.modules
 
 import miragefairy2023.module
-import miragefairy2023.util.alternativeEntry
 import miragefairy2023.util.applyExplosionDecay
 import miragefairy2023.util.block
 import miragefairy2023.util.blockStatePropertyLootCondition
@@ -27,6 +26,7 @@ import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
+import net.minecraft.block.ComposterBlock
 import net.minecraft.block.FarmlandBlock
 import net.minecraft.block.Fertilizable
 import net.minecraft.block.Material
@@ -86,25 +86,27 @@ val mirageFlowerModule = module {
             lootTable {
 
                 // 爆発時割合ロスト
-                applyExplosionDecay(item)
+                applyExplosionDecay(mirageSeedItem())
 
-                // 成果物ドロップ
+                // ベース種ドロップ
                 pool(lootPool {
-                    with(alternativeEntry {
-                        alternatively(itemEntry(DemonItemCard.TINY_MIRAGE_FLOUR()) {
-                            apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(2.0f, 6.0f)))
-                            apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 1.0f, 0))
-                            conditionally(condition)
-                        })
-                        alternatively(itemEntry(item))
-                    })
+                    with(itemEntry(mirageSeedItem()))
                 })
 
-                // 種ドロップ
+                // 追加種ドロップ
                 pool(lootPool {
                     conditionally(condition)
                     with(itemEntry(mirageSeedItem()) {
-                        apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 0.5714286f, 3))
+                        apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 0.2f, 1))
+                    })
+                })
+
+                // 成果物ドロップ
+                pool(lootPool {
+                    conditionally(condition)
+                    with(itemEntry(DemonItemCard.TINY_MIRAGE_FLOUR()) {
+                        apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(2.0f, 6.0f)))
+                        apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 2.0f, 0))
                     })
                 })
 
