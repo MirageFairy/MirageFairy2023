@@ -23,6 +23,7 @@ import miragefairy2023.modules.passiveskill.SunshinePassiveSkillCondition
 import miragefairy2023.util.Translation
 import miragefairy2023.util.aqua
 import miragefairy2023.util.enJaItem
+import miragefairy2023.util.formatted
 import miragefairy2023.util.gold
 import miragefairy2023.util.gray
 import miragefairy2023.util.item
@@ -46,6 +47,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.tag.BiomeTags
 import net.minecraft.text.Text
+import net.minecraft.util.Formatting
 import net.minecraft.util.Identifier
 import net.minecraft.world.World
 import java.util.Optional
@@ -295,7 +297,7 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
         super.appendTooltip(stack, world, tooltip, context)
 
 
-        tooltip += text { (RARE_KEY() + ": ${fairyCard.rare}"()).aqua }
+        tooltip += text { (RARE_KEY() + ": "() + "${fairyCard.rare}"().formatted(getRareColor(fairyCard.rare))).aqua }
 
 
         val passiveSkills = getFairy().getPassiveSkills()
@@ -348,4 +350,21 @@ class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), 
 
 
     }
+}
+
+fun getRareColor(rare: Int): Formatting = when (rare) {
+    0 -> Formatting.AQUA
+    1 -> Formatting.GRAY
+    2 -> Formatting.WHITE
+    3 -> Formatting.GREEN
+    4 -> Formatting.DARK_GREEN
+    5 -> Formatting.YELLOW
+    6 -> Formatting.GOLD
+    7 -> Formatting.RED
+    8 -> Formatting.DARK_RED
+    9 -> Formatting.BLUE
+    10 -> Formatting.DARK_BLUE
+    11 -> Formatting.LIGHT_PURPLE
+    12 -> Formatting.DARK_PURPLE
+    else -> Formatting.DARK_AQUA
 }
