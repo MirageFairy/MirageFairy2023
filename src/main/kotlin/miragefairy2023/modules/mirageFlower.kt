@@ -42,6 +42,7 @@ import net.minecraft.item.AliasedBlockItem
 import net.minecraft.item.ItemStack
 import net.minecraft.loot.function.ApplyBonusLootFunction
 import net.minecraft.loot.function.SetCountLootFunction
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider
 import net.minecraft.loot.provider.number.UniformLootNumberProvider
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.BlockSoundGroup
@@ -97,6 +98,7 @@ val mirageFlowerModule = module {
                 pool(lootPool {
                     conditionally(condition)
                     with(itemEntry(mirageSeedItem()) {
+                        apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(0.0f)))
                         apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 0.2f, 1))
                     })
                 })
