@@ -182,7 +182,7 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
         // 周囲が開けているほど環境ボーナス最大+100%
         ambientBonus += run {
             val blankScore = (0 until 4).sumOf {
-                val targetPos = pos.add(world.random.nextBetween(-4, 4), world.random.nextBetween(-4, 4), world.random.nextBetween(-4, 4))
+                val targetPos = pos.add(world.random.nextBetween(-4, 4), world.random.nextBetween(1, 4), world.random.nextBetween(-4, 4))
                 val blockState = world.getBlockState(targetPos)
                 val blankScore = when {
                     blockState.isAir -> 2 // 空気なら2
