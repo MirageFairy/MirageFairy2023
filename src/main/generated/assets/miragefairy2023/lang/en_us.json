@@ -60,10 +60,8 @@
   "miragefairy2023.passive_skill.condition.biome.c.taiga": "Taiga",
   "miragefairy2023.passive_skill.condition.darkness": "Darkness",
   "miragefairy2023.passive_skill.condition.daytime": "Daytime",
-  "miragefairy2023.passive_skill.condition.diamond_tool": "Diamond Tool",
   "miragefairy2023.passive_skill.condition.has_hoe": "Hoe",
   "miragefairy2023.passive_skill.condition.in_rain": "Rain",
-  "miragefairy2023.passive_skill.condition.iron_tool": "Iron Tool",
   "miragefairy2023.passive_skill.condition.maximum_level": "Lv.<=%s",
   "miragefairy2023.passive_skill.condition.moonlight": "Moonlight",
   "miragefairy2023.passive_skill.condition.night": "Night",
@@ -71,5 +69,7 @@
   "miragefairy2023.passive_skill.condition.overworld": "Overworld",
   "miragefairy2023.passive_skill.condition.shade": "Shade",
   "miragefairy2023.passive_skill.condition.sunshine": "Sunshine",
+  "miragefairy2023.passive_skill.condition.tool_material.diamond": "Diamond Tool",
+  "miragefairy2023.passive_skill.condition.tool_material.iron": "Iron Tool",
   "miragefairy2023.passive_skill.effect.experience": "Experience"
 }

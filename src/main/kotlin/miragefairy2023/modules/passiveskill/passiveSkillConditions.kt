@@ -6,6 +6,7 @@ import miragefairy2023.util.text
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ToolItem
+import net.minecraft.item.ToolMaterial
 import net.minecraft.item.ToolMaterials
 import net.minecraft.tag.TagKey
 import net.minecraft.util.math.BlockPos
@@ -137,27 +138,22 @@ class HasHoePassiveSkillCondition : PassiveSkillCondition {
     override fun test(player: PlayerEntity) = player.mainHandStack.isIn(ConventionalItemTags.HOES)
 }
 
-class IronToolPassiveSkillCondition : PassiveSkillCondition {
+class ToolMaterialPassiveSkillCondition(private val toolMaterial: ToolMaterial, private val toolMaterialName: String) : PassiveSkillCondition {
     companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.iron_tool", "Iron Tool", "鉄ツール")
+        val keyPrefix = "${MirageFairy2023.modId}.passive_skill.condition.tool_material"
     }
 
-    override fun getText() = text { key() }
+    enum class Key(val translation: Translation) {
+        IRON(Translation("$keyPrefix.iron", "Iron Tool", "鉄ツール")),
+        DIAMOND(Translation("$keyPrefix.diamond", "Diamond Tool", "ダイヤモンドツール")),
+    }
+
+    constructor(toolMaterial: ToolMaterials) : this(toolMaterial, toolMaterial.name.lowercase())
+
+    override fun getText() = text { translate("$keyPrefix.$toolMaterialName") }
     override fun test(player: PlayerEntity): Boolean {
         val item = player.mainHandStack.item as? ToolItem ?: return false
-        return item.material === ToolMaterials.IRON
-    }
-}
-
-class DiamondToolPassiveSkillCondition : PassiveSkillCondition {
-    companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.diamond_tool", "Diamond Tool", "ダイヤモンドツール")
-    }
-
-    override fun getText() = text { key() }
-    override fun test(player: PlayerEntity): Boolean {
-        val item = player.mainHandStack.item as? ToolItem ?: return false
-        return item.material === ToolMaterials.DIAMOND
+        return item.material === toolMaterial
     }
 }
 

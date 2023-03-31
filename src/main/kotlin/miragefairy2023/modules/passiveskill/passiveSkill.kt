@@ -27,8 +27,9 @@ val passiveSkillModule = module {
     }
     translation(InRainPassiveSkillCondition.key)
     translation(HasHoePassiveSkillCondition.key)
-    translation(IronToolPassiveSkillCondition.key)
-    translation(DiamondToolPassiveSkillCondition.key)
+    ToolMaterialPassiveSkillCondition.Key.values().forEach {
+        translation(it.translation)
+    }
     translation(MaximumLevelPassiveSkillCondition.key)
     translation(OnFirePassiveSkillCondition.key)
 
