@@ -8,6 +8,14 @@
   "pools": [
     {
       "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:inverted",
+          "term": {
+            "condition": "miragefairy2023:picked_up"
+          }
+        }
+      ],
       "entries": [
         {
           "type": "minecraft:item",
@@ -24,6 +32,12 @@
           "condition": "minecraft:block_state_property",
           "properties": {
             "age": "3"
+          }
+        },
+        {
+          "condition": "minecraft:inverted",
+          "term": {
+            "condition": "miragefairy2023:picked_up"
           }
         }
       ],

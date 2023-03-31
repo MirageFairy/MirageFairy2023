@@ -1,5 +1,8 @@
 package miragefairy2023.modules
 
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonObject
+import com.google.gson.JsonSerializationContext
 import miragefairy2023.module
 import miragefairy2023.util.applyExplosionDecay
 import miragefairy2023.util.block
@@ -33,25 +36,42 @@ import net.minecraft.block.Material
 import net.minecraft.block.PlantBlock
 import net.minecraft.block.ShapeContext
 import net.minecraft.block.SideShapeType
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
 import net.minecraft.data.client.TextureKey
 import net.minecraft.data.client.TextureMap
 import net.minecraft.enchantment.Enchantments
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.AliasedBlockItem
 import net.minecraft.item.ItemStack
+import net.minecraft.loot.condition.InvertedLootCondition
+import net.minecraft.loot.condition.LootCondition
+import net.minecraft.loot.condition.LootConditionType
+import net.minecraft.loot.context.LootContext
+import net.minecraft.loot.context.LootContextParameters
+import net.minecraft.loot.context.LootContextTypes
 import net.minecraft.loot.function.ApplyBonusLootFunction
 import net.minecraft.loot.function.SetCountLootFunction
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider
 import net.minecraft.loot.provider.number.UniformLootNumberProvider
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.BlockSoundGroup
+import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties
 import net.minecraft.text.Text
+import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
+import net.minecraft.util.Identifier
+import net.minecraft.util.JsonSerializer
+import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.random.Random
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
@@ -91,12 +111,14 @@ val mirageFlowerModule = module {
 
                 // ベース種ドロップ
                 pool(lootPool {
+                    conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
                     with(itemEntry(mirageSeedItem()))
                 })
 
                 // 追加種ドロップ
                 pool(lootPool {
                     conditionally(condition)
+                    conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
                     with(itemEntry(mirageSeedItem()) {
                         apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(0.0f)))
                         apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 0.2f, 1))
@@ -126,6 +148,24 @@ val mirageFlowerModule = module {
         }
     }
 
+    onRegisterLootConditionType {
+        val serializer = object : JsonSerializer<LootCondition> {
+            override fun toJson(json: JsonObject, `object`: LootCondition, context: JsonSerializationContext) = Unit
+            override fun fromJson(json: JsonObject, context: JsonDeserializationContext) = PickedUpLootCondition()
+        }
+        pickedUpLootConditionType = Registry.register(Registry.LOOT_CONDITION_TYPE, Identifier(modId, "picked_up"), LootConditionType(serializer))
+    }
+
+}
+
+
+private lateinit var pickedUpLootConditionType: LootConditionType
+
+private class PickingUpDummyBlockEntity : BlockEntity(BlockEntityType.CHEST, BlockPos.ORIGIN, Blocks.AIR.defaultState)
+
+class PickedUpLootCondition : LootCondition {
+    override fun getType() = pickedUpLootConditionType
+    override fun test(t: LootContext) = t.get(LootContextParameters.BLOCK_ENTITY) is PickingUpDummyBlockEntity
 }
 
 
@@ -226,6 +266,40 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
     override fun canGrow(world: World, random: Random, pos: BlockPos, state: BlockState) = true
     override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) = move(world, pos, state, speed = 10.0)
 
+    override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
+        if (getAge(state) != MAX_AGE) return ActionResult.PASS
+        if (world.isClient) return ActionResult.SUCCESS
+
+        // 前提条件を計算
+        world as ServerWorld
+        val blockEntity = world.getBlockEntity(pos)
+        val tool = player.mainHandStack
+
+        // ドロップアイテムを計算
+        val builder = LootContext.Builder(world)
+            .random(world.random)
+            .parameter(LootContextParameters.ORIGIN, Vec3d.ofCenter(pos))
+            .parameter(LootContextParameters.BLOCK_STATE, state)
+            .optionalParameter(LootContextParameters.BLOCK_ENTITY, PickingUpDummyBlockEntity())
+            .optionalParameter(LootContextParameters.THIS_ENTITY, player)
+            .parameter(LootContextParameters.TOOL, tool)
+        val lootContext = builder.build(LootContextTypes.BLOCK)
+        val lootTable = world.server.lootManager.getTable(this.getLootTableId())
+        val lootItemStacks = lootTable.generateLoot(lootContext)
+
+        // アイテムを生成
+        lootItemStacks.forEach { itemStack ->
+            dropStack(world, pos, itemStack)
+        }
+
+        // 成長段階を消費
+        world.setBlockState(pos, withAge(1), NOTIFY_LISTENERS)
+
+        // エフェクト
+        world.playSound(null, pos, soundGroup.breakSound, SoundCategory.NEUTRAL, (soundGroup.volume + 1.0f) / 2.0f * 0.5f, soundGroup.pitch * 0.8f)
+
+        return ActionResult.CONSUME
+    }
 }
 
 class MirageSeedItem(block: Block, settings: Settings) : AliasedBlockItem(block, settings) {
