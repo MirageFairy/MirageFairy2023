@@ -6,6 +6,7 @@ import miragefairy2023.SlotContainer
 import miragefairy2023.module
 import miragefairy2023.util.Chance
 import miragefairy2023.util.Translation
+import miragefairy2023.util.blue
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.distinct
 import miragefairy2023.util.draw
@@ -46,6 +47,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
+import kotlin.math.roundToInt
 
 
 enum class DemonItemCard(
@@ -69,43 +71,43 @@ enum class DemonItemCard(
         "秩序の叛乱、天地創造の逆光。",
     ),
     TINY_MIRAGE_FLOUR(
-        { MirageFlourItem(it, 2, 1) },
+        { MirageFlourItem(it, null, 2, 1.0, 1) },
         "tiny_mirage_flour", "Tiny Pile of Mirage Flour", "ミラージュの花粉",
         "Compose the body of Mirage fairy",
         "ささやかな温もりを、てのひらの上に。",
     ),
     MIRAGE_FLOUR(
-        { MirageFlourItem(it, null, 1) },
+        { MirageFlourItem(it, 1, null, 1.0, 1) },
         "mirage_flour", "Mirage Flour", "ミラージュフラワー",
         "Containing metallic organic matter",
         "創発のファンタズム",
     ),
     RARE_MIRAGE_FLOUR(
-        { MirageFlourItem(it, null, 1) },
+        { MirageFlourItem(it, 3, null, 10.0, 1) },
         "rare_mirage_flour", "RARE_MIRAGE_FLOUR", "中級ミラージュフラワー",
         "TODO", // TODO
         "TODO", // TODO
     ),
     VERY_RARE_MIRAGE_FLOUR(
-        { MirageFlourItem(it, null, 1) },
+        { MirageFlourItem(it, 5, null, 100.0, 1) },
         "very_rare_mirage_flour", "VERY_RARE_MIRAGE_FLOUR", "上級ミラージュフラワー",
         "TODO", // TODO
         "TODO", // TODO
     ),
     ULTRA_RARE_MIRAGE_FLOUR(
-        { MirageFlourItem(it, null, 1) },
+        { MirageFlourItem(it, 7, null, 1_000.0, 1) },
         "ultra_rare_mirage_flour", "ULTRA_RARE_MIRAGE_FLOUR", "高純度ミラージュフラワー",
         "TODO", // TODO
         "TODO", // TODO
     ),
     SUPER_RARE_MIRAGE_FLOUR(
-        { MirageFlourItem(it, null, 1) },
+        { MirageFlourItem(it, 9, null, 10_000.0, 1) },
         "super_rare_mirage_flour", "SUPER_RARE_MIRAGE_FLOUR", "超高純度ミラージュフラワー",
         "TODO", // TODO
         "TODO", // TODO
     ),
     EXTREMELY_RARE_MIRAGE_FLOUR(
-        { MirageFlourItem(it, null, 1) },
+        { MirageFlourItem(it, 11, null, 100_000.0, 1) },
         "extremely_rare_mirage_flour", "EXTREMELY_RARE_MIRAGE_FLOUR", "極超高純度ミラージュフラワー",
         "TODO", // TODO
         "TODO", // TODO
@@ -210,6 +212,9 @@ val demonItemModule = module {
     registerMirageFlourRecipe({ DemonItemCard.ULTRA_RARE_MIRAGE_FLOUR() }, { DemonItemCard.SUPER_RARE_MIRAGE_FLOUR() })
     registerMirageFlourRecipe({ DemonItemCard.SUPER_RARE_MIRAGE_FLOUR() }, { DemonItemCard.EXTREMELY_RARE_MIRAGE_FLOUR() })
 
+    translation(MirageFlourItem.MIN_RARE_KEY)
+    translation(MirageFlourItem.MAX_RARE_KEY)
+    translation(MirageFlourItem.DROP_RATE_FACTOR_KEY)
     translation(MirageFlourItem.RIGHT_CLICK_KEY)
     translation(MirageFlourItem.SHIFT_RIGHT_CLICK_KEY)
 
@@ -223,9 +228,12 @@ open class DemonItem(settings: Settings) : Item(settings) {
     }
 }
 
-class MirageFlourItem(settings: Settings, private val maxRare: Int?, private val times: Int) : DemonItem(settings) {
+class MirageFlourItem(settings: Settings, private val minRare: Int?, private val maxRare: Int?, private val factor: Double, private val times: Int) : DemonItem(settings) {
     companion object {
         private val prefix = "item.${MirageFairy2023.modId}.mirage_flour"
+        val MIN_RARE_KEY = Translation("$prefix.min_rare_key", "Minimum Rare: %s", "最低レア度: %s")
+        val MAX_RARE_KEY = Translation("$prefix.max_rare_key", "Maximum Rare: %s", "最高レア度: %s")
+        val DROP_RATE_FACTOR_KEY = Translation("$prefix.drop_rate_factor_key", "Drop Rate Amplification: %s", "出現率倍率: %s")
         val RIGHT_CLICK_KEY = Translation("$prefix.right_click", "Right click to summon fairy", "右クリックで妖精召喚")
         val SHIFT_RIGHT_CLICK_KEY = Translation("$prefix.shift_right_click", "%s+right click to show fairy table", "%s+右クリックで提供割合表示")
     }
@@ -237,17 +245,18 @@ class MirageFlourItem(settings: Settings, private val maxRare: Int?, private val
 
             // 提供割合生成
             val chanceTable = listOf(
-                Chance(0.00003, FairyCard.TIME),
-                Chance(0.0001, FairyCard.SUN),
-                Chance(0.0003, FairyCard.WARDEN),
-                Chance(0.001, FairyCard.NIGHT),
-                Chance(0.003, FairyCard.PLAYER),
-                Chance(0.01, FairyCard.IRON),
-                Chance(0.03, FairyCard.FOREST),
-                Chance(0.1, FairyCard.ZOMBIE),
-                Chance(0.3, FairyCard.DIRT),
-                Chance(1.0, FairyCard.AIR),
+                Chance(0.00003 * factor, FairyCard.TIME),
+                Chance(0.0001 * factor, FairyCard.SUN),
+                Chance(0.0003 * factor, FairyCard.WARDEN),
+                Chance(0.001 * factor, FairyCard.NIGHT),
+                Chance(0.003 * factor, FairyCard.PLAYER),
+                Chance(0.01 * factor, FairyCard.IRON),
+                Chance(0.03 * factor, FairyCard.FOREST),
+                Chance(0.1 * factor, FairyCard.ZOMBIE),
+                Chance(0.3 * factor, FairyCard.DIRT),
+                Chance(1.0 * factor, FairyCard.AIR),
             )
+                .filter { minRare == null || it.item.rare >= minRare }
                 .filter { maxRare == null || it.item.rare <= maxRare }
                 .distinct { a, b -> a === b }
                 .sortedBy { it.weight }
@@ -296,6 +305,9 @@ class MirageFlourItem(settings: Settings, private val maxRare: Int?, private val
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         super.appendTooltip(stack, world, tooltip, context)
+        if (minRare != null) tooltip += text { MIN_RARE_KEY(minRare).blue }
+        if (maxRare != null) tooltip += text { MAX_RARE_KEY(maxRare).blue }
+        tooltip += text { DROP_RATE_FACTOR_KEY(factor.roundToInt() formatAs "%,d").blue }
         tooltip += text { RIGHT_CLICK_KEY().green }
         tooltip += text { SHIFT_RIGHT_CLICK_KEY(Text.keybind("key.sneak")).green }
     }
