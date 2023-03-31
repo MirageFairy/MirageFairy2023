@@ -44,6 +44,7 @@ import net.minecraft.text.Text
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 
 
@@ -178,28 +179,36 @@ val demonItemModule = module {
             .offerTo(it, Identifier.of(modId, "blaze_powder_from_anti_entropy"))
     }
 
-    // ミラージュの花粉⇔ミラージュフラワー
-    onGenerateRecipes {
+    // ミラージュフラワー相互変換
+    fun registerMirageFlourRecipe(lowerItemGetter: () -> Item, higherItemGetter: () -> Item) = onGenerateRecipes {
+        val lowerItem = lowerItemGetter()
+        val lowerName = Registry.ITEM.getId(lowerItem).path
+        val higherItem = higherItemGetter()
+        val higherName = Registry.ITEM.getId(higherItem).path
         ShapelessRecipeJsonBuilder
-            .create(DemonItemCard.MIRAGE_FLOUR())
-            .input(DemonItemCard.TINY_MIRAGE_FLOUR())
-            .input(DemonItemCard.TINY_MIRAGE_FLOUR())
-            .input(DemonItemCard.TINY_MIRAGE_FLOUR())
-            .input(DemonItemCard.TINY_MIRAGE_FLOUR())
-            .input(DemonItemCard.TINY_MIRAGE_FLOUR())
-            .input(DemonItemCard.TINY_MIRAGE_FLOUR())
-            .input(DemonItemCard.TINY_MIRAGE_FLOUR())
-            .input(DemonItemCard.TINY_MIRAGE_FLOUR())
-            .criterion("has_tiny_mirage_flour", RecipeProvider.conditionsFromItem(DemonItemCard.TINY_MIRAGE_FLOUR()))
-            .offerTo(it, Identifier.of(modId, "mirage_flour"))
-    }
-    onGenerateRecipes {
+            .create(higherItem)
+            .input(lowerItem)
+            .input(lowerItem)
+            .input(lowerItem)
+            .input(lowerItem)
+            .input(lowerItem)
+            .input(lowerItem)
+            .input(lowerItem)
+            .input(lowerItem)
+            .criterion("has_$lowerName", RecipeProvider.conditionsFromItem(lowerItem))
+            .offerTo(it, Identifier.of(modId, higherName))
         ShapelessRecipeJsonBuilder
-            .create(DemonItemCard.TINY_MIRAGE_FLOUR(), 8)
-            .input(DemonItemCard.MIRAGE_FLOUR())
-            .criterion("has_mirage_flour", RecipeProvider.conditionsFromItem(DemonItemCard.MIRAGE_FLOUR()))
-            .offerTo(it, Identifier.of(modId, "tiny_mirage_flour_from_mirage_flour"))
+            .create(lowerItem, 8)
+            .input(higherItem)
+            .criterion("has_$higherName", RecipeProvider.conditionsFromItem(higherItem))
+            .offerTo(it, Identifier.of(modId, "${lowerName}_from_$higherName"))
     }
+    registerMirageFlourRecipe({ DemonItemCard.TINY_MIRAGE_FLOUR() }, { DemonItemCard.MIRAGE_FLOUR() })
+    registerMirageFlourRecipe({ DemonItemCard.MIRAGE_FLOUR() }, { DemonItemCard.RARE_MIRAGE_FLOUR() })
+    registerMirageFlourRecipe({ DemonItemCard.RARE_MIRAGE_FLOUR() }, { DemonItemCard.VERY_RARE_MIRAGE_FLOUR() })
+    registerMirageFlourRecipe({ DemonItemCard.VERY_RARE_MIRAGE_FLOUR() }, { DemonItemCard.ULTRA_RARE_MIRAGE_FLOUR() })
+    registerMirageFlourRecipe({ DemonItemCard.ULTRA_RARE_MIRAGE_FLOUR() }, { DemonItemCard.SUPER_RARE_MIRAGE_FLOUR() })
+    registerMirageFlourRecipe({ DemonItemCard.SUPER_RARE_MIRAGE_FLOUR() }, { DemonItemCard.EXTREMELY_RARE_MIRAGE_FLOUR() })
 
     translation(MirageFlourItem.RIGHT_CLICK_KEY)
     translation(MirageFlourItem.SHIFT_RIGHT_CLICK_KEY)

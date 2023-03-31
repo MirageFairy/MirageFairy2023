@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "miragefairy2023:super_rare_mirage_flour"
+    }
+  ],
+  "result": {
+    "count": 8,
+    "item": "miragefairy2023:ultra_rare_mirage_flour"
+  }
+}
