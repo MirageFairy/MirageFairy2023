@@ -79,6 +79,36 @@ enum class DemonItemCard(
         "Containing metallic organic matter",
         "創発のファンタズム",
     ),
+    RARE_MIRAGE_FLOUR(
+        { MirageFlourItem(it, null, 1) },
+        "rare_mirage_flour", "RARE_MIRAGE_FLOUR", "中級ミラージュフラワー",
+        "TODO", // TODO
+        "TODO", // TODO
+    ),
+    VERY_RARE_MIRAGE_FLOUR(
+        { MirageFlourItem(it, null, 1) },
+        "very_rare_mirage_flour", "VERY_RARE_MIRAGE_FLOUR", "上級ミラージュフラワー",
+        "TODO", // TODO
+        "TODO", // TODO
+    ),
+    ULTRA_RARE_MIRAGE_FLOUR(
+        { MirageFlourItem(it, null, 1) },
+        "ultra_rare_mirage_flour", "ULTRA_RARE_MIRAGE_FLOUR", "高純度ミラージュフラワー",
+        "TODO", // TODO
+        "TODO", // TODO
+    ),
+    SUPER_RARE_MIRAGE_FLOUR(
+        { MirageFlourItem(it, null, 1) },
+        "super_rare_mirage_flour", "SUPER_RARE_MIRAGE_FLOUR", "超高純度ミラージュフラワー",
+        "TODO", // TODO
+        "TODO", // TODO
+    ),
+    EXTREMELY_RARE_MIRAGE_FLOUR(
+        { MirageFlourItem(it, null, 1) },
+        "extremely_rare_mirage_flour", "EXTREMELY_RARE_MIRAGE_FLOUR", "極超高純度ミラージュフラワー",
+        "TODO", // TODO
+        "TODO", // TODO
+    ),
 }
 
 private val demonItems = SlotContainer<DemonItemCard, Item>()
