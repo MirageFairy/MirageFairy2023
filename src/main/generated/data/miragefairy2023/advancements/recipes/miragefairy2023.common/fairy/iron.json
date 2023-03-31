@@ -13,6 +13,18 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
+    "has_rare_mirage_flour": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "miragefairy2023:rare_mirage_flour"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_the_recipe": {
       "conditions": {
         "recipe": "miragefairy2023:fairy/iron"
@@ -35,6 +47,7 @@
   "requirements": [
     [
       "has_xarpite",
+      "has_rare_mirage_flour",
       "has_iron_ingot",
       "has_the_recipe"
     ]

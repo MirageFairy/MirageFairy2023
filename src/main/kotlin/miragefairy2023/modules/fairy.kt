@@ -229,8 +229,10 @@ val fairyModule = module {
         ShapelessRecipeJsonBuilder
             .create(FairyCard.DIRT())
             .input(DemonItemCard.XARPITE())
+            .input(DemonItemCard.MIRAGE_FLOUR())
             .input(Items.DIRT)
             .criterion("has_xarpite", RecipeProvider.conditionsFromItem(DemonItemCard.XARPITE()))
+            .criterion("has_mirage_flour", RecipeProvider.conditionsFromItem(DemonItemCard.MIRAGE_FLOUR()))
             .criterion("has_dirt", RecipeProvider.conditionsFromItem(Items.DIRT))
             .offerTo(it, Identifier.of(modId, "fairy/dirt"))
     }
@@ -240,8 +242,10 @@ val fairyModule = module {
         ShapelessRecipeJsonBuilder
             .create(FairyCard.IRON())
             .input(DemonItemCard.XARPITE())
+            .input(DemonItemCard.RARE_MIRAGE_FLOUR())
             .input(Items.IRON_INGOT)
             .criterion("has_xarpite", RecipeProvider.conditionsFromItem(DemonItemCard.XARPITE()))
+            .criterion("has_rare_mirage_flour", RecipeProvider.conditionsFromItem(DemonItemCard.RARE_MIRAGE_FLOUR()))
             .criterion("has_iron_ingot", RecipeProvider.conditionsFromItem(Items.IRON_INGOT))
             .offerTo(it, Identifier.of(modId, "fairy/iron"))
     }
