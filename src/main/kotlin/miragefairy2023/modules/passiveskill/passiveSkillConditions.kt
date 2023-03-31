@@ -113,9 +113,9 @@ class InRainPassiveSkillCondition : PassiveSkillCondition {
 class BiomePassiveSkillCondition(private val biomeTag: TagKey<Biome>) : PassiveSkillCondition {
     companion object {
         val keyPrefix = "${MirageFairy2023.modId}.passive_skill.condition.biome"
-        val isForestKey = Translation("$keyPrefix.minecraft.is_forest", "Forest", "森林")
-        val isTaigaKey = Translation("$keyPrefix.minecraft.is_taiga", "Taiga", "タイガ")
-        val isDesertKey = Translation("$keyPrefix.c.desert", "Desert", "砂漠")
+        val forestKey = Translation("$keyPrefix.c.forest", "Forest", "森林")
+        val taigaKey = Translation("$keyPrefix.c.taiga", "Taiga", "タイガ")
+        val desertKey = Translation("$keyPrefix.c.desert", "Desert", "砂漠")
         val mushroomKey = Translation("$keyPrefix.c.mushroom", "Mushroom Island", "キノコ島")
         val floralKey = Translation("$keyPrefix.c.floral", "Floral", "花畑")
         val inTheEndKey = Translation("$keyPrefix.c.in_the_end", "The End", "エンド")

@@ -51,7 +51,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.tag.BiomeTags
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import net.minecraft.util.Identifier
@@ -146,8 +145,8 @@ enum class FairyCard(
         "spruce", 6, "Sprucia", "松精スプルーツァ",
         0x795C36, 0x583E1F, 0x23160A, 0x4C784C,
         listOf(
-            PassiveSkill(listOf(BiomePassiveSkillCondition(BiomeTags.IS_FOREST)), AttackDamagePassiveSkillEffect(2.0)),
-            PassiveSkill(listOf(BiomePassiveSkillCondition(BiomeTags.IS_TAIGA)), AttackDamagePassiveSkillEffect(2.0)),
+            PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.FOREST)), AttackDamagePassiveSkillEffect(2.0)),
+            PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.TAIGA)), AttackDamagePassiveSkillEffect(2.0)),
         ),
     ),
     HOE(
@@ -160,7 +159,7 @@ enum class FairyCard(
     ),
     FOREST(
         "forest", 3, "Forestia", "森精フォレスチャ", 0x80FF00, 0x7B9C62, 0x89591D, 0x2E6E14,
-        listOf(PassiveSkill(listOf(BiomePassiveSkillCondition(BiomeTags.IS_FOREST)), StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0))),
+        listOf(PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.FOREST)), StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0))),
     ),
     DESERT(
         "desert", 3, "Desertia", "砂漠精デセルチャ",
