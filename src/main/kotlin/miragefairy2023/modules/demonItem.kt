@@ -247,16 +247,26 @@ class MirageFlourItem(settings: Settings, private val minRare: Int?, private val
             // 提供割合生成
             val chanceTable = run {
                 val chanceTable = listOf(
-                    FairyCard.TIME,
-                    FairyCard.SUN,
-                    FairyCard.WARDEN,
-                    FairyCard.NIGHT,
-                    FairyCard.PLAYER,
-                    FairyCard.IRON,
-                    FairyCard.FOREST,
-                    FairyCard.ZOMBIE,
-                    FairyCard.DIRT,
                     FairyCard.AIR,
+                    FairyCard.FIRE,
+                    FairyCard.LAVA,
+                    FairyCard.MOON,
+                    FairyCard.SUN,
+                    FairyCard.RAIN,
+                    FairyCard.DIRT,
+                    FairyCard.IRON,
+                    FairyCard.DIAMOND,
+                    FairyCard.PLAYER,
+                    FairyCard.WARDEN,
+                    FairyCard.ZOMBIE,
+                    FairyCard.SPRUCE,
+                    FairyCard.HOE,
+                    FairyCard.FOREST,
+                    FairyCard.DESERT,
+                    FairyCard.AVALON, // TODO イベント終了時除去
+                    FairyCard.VOID,
+                    FairyCard.NIGHT,
+                    FairyCard.TIME,
                 )
                     .map { Chance(0.1.pow((it.rare - 1) * 0.5) * factor, it) }
                     .filter { minRare == null || it.item.rare >= minRare }
