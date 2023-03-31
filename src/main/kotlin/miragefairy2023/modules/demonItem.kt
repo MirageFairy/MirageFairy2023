@@ -14,7 +14,6 @@ import miragefairy2023.util.enJa
 import miragefairy2023.util.enJaItem
 import miragefairy2023.util.get
 import miragefairy2023.util.gray
-import miragefairy2023.util.green
 import miragefairy2023.util.int
 import miragefairy2023.util.item
 import miragefairy2023.util.orDefault
@@ -26,6 +25,7 @@ import miragefairy2023.util.totalWeight
 import miragefairy2023.util.translation
 import miragefairy2023.util.uniformLootNumberProvider
 import miragefairy2023.util.wrapper
+import miragefairy2023.util.yellow
 import mirrg.kotlin.hydrogen.formatAs
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.Blocks
@@ -318,7 +318,7 @@ class MirageFlourItem(settings: Settings, private val minRare: Int?, private val
         if (minRare != null) tooltip += text { MIN_RARE_KEY(minRare).blue }
         if (maxRare != null) tooltip += text { MAX_RARE_KEY(maxRare).blue }
         tooltip += text { DROP_RATE_FACTOR_KEY(factor.roundToInt() formatAs "%,d").blue }
-        tooltip += text { RIGHT_CLICK_KEY().green }
-        tooltip += text { SHIFT_RIGHT_CLICK_KEY(Text.keybind("key.sneak")).green }
+        tooltip += text { RIGHT_CLICK_KEY().yellow }
+        tooltip += text { SHIFT_RIGHT_CLICK_KEY(Text.keybind("key.sneak")).yellow }
     }
 }
