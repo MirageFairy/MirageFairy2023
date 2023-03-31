@@ -51,67 +51,62 @@ import kotlin.math.pow
 import kotlin.math.roundToInt
 
 
+class Poem(val en: String, val ja: String)
+
 enum class DemonItemCard(
-    val creator: (Item.Settings) -> Item,
+    val creator: DemonItemCard.(Item.Settings) -> Item,
     val itemId: String,
     val enName: String,
     val jaName: String,
-    val enPoem: String,
-    val jaPoem: String,
+    val poems: List<Poem>,
 ) {
     XARPITE(
-        { DemonItem(it) },
+        { DemonItem(this, it) },
         "xarpite", "Xarpite", "紅天石",
-        "Binds astral flux with magnetic force",
-        "黒鉄の鎖は繋がれる。血腥い魂の檻へ。",
+        listOf(Poem("Binds astral flux with magnetic force", "黒鉄の鎖は繋がれる。血腥い魂の檻へ。")),
     ),
     MIRANAGITE(
-        { DemonItem(it) },
+        { DemonItem(this, it) },
         "miranagite", "Miranagite", "蒼天石",
-        "Astral body crystallized by anti-entropy",
-        "秩序の叛乱、天地創造の逆光。",
+        listOf(Poem("Astral body crystallized by anti-entropy", "秩序の叛乱、天地創造の逆光。")),
     ),
     TINY_MIRAGE_FLOUR(
-        { MirageFlourItem(it, null, 2, 1.0, 1) },
+        { MirageFlourItem(this, it, null, 2, 1.0, 1) },
         "tiny_mirage_flour", "Tiny Pile of Mirage Flour", "ミラージュの花粉",
-        "Compose the body of Mirage fairy",
-        "ささやかな温もりを、てのひらの上に。",
+        listOf(Poem("Compose the body of Mirage fairy", "ささやかな温もりを、てのひらの上に。")),
     ),
     MIRAGE_FLOUR(
-        { MirageFlourItem(it, 1, null, 1.0, 1) },
+        { MirageFlourItem(this, it, 1, null, 1.0, 1) },
         "mirage_flour", "Mirage Flour", "ミラージュフラワー",
-        "Containing metallic organic matter",
-        "創発のファンタズム",
+        listOf(Poem("Containing metallic organic matter", "叡智の根源、創発のファンタジア。")),
     ),
     RARE_MIRAGE_FLOUR(
-        { MirageFlourItem(it, 3, null, 10.0, 1) },
+        { MirageFlourItem(this, it, 3, null, 10.0, 1) },
         "rare_mirage_flour", "RARE_MIRAGE_FLOUR", "中級ミラージュフラワー",
-        "TODO", // TODO
-        "TODO", // TODO
+        listOf(Poem("Use the difference in ether resistance", "艶やかなほたる色に煌めく鱗粉、妖精の耽美主義。")),
     ),
     VERY_RARE_MIRAGE_FLOUR(
-        { MirageFlourItem(it, 5, null, 100.0, 1) },
+        { MirageFlourItem(this, it, 5, null, 100.0, 1) },
         "very_rare_mirage_flour", "VERY_RARE_MIRAGE_FLOUR", "上級ミラージュフラワー",
-        "TODO", // TODO
-        "TODO", // TODO
+        listOf(Poem("As intelligent as humans", "金色の御霊示すは好奇心、朽ちた業前、明日を信じて。")),
     ),
     ULTRA_RARE_MIRAGE_FLOUR(
-        { MirageFlourItem(it, 7, null, 1_000.0, 1) },
+        { MirageFlourItem(this, it, 7, null, 1_000.0, 1) },
         "ultra_rare_mirage_flour", "ULTRA_RARE_MIRAGE_FLOUR", "高純度ミラージュフラワー",
-        "TODO", // TODO
-        "TODO", // TODO
+        listOf(Poem("Awaken fairies in the world and below", "現し世と常夜のほむら、空の下。大礼の咎、火の粉に宿る。")),
     ),
     SUPER_RARE_MIRAGE_FLOUR(
-        { MirageFlourItem(it, 9, null, 10_000.0, 1) },
+        { MirageFlourItem(this, it, 9, null, 10_000.0, 1) },
         "super_rare_mirage_flour", "SUPER_RARE_MIRAGE_FLOUR", "超高純度ミラージュフラワー",
-        "TODO", // TODO
-        "TODO", // TODO
+        listOf(Poem("Explore atmosphere and nearby universe", "蒼淵を彷徨い歩く人々の、帰路を結える仁愛の光。")),
     ),
     EXTREMELY_RARE_MIRAGE_FLOUR(
-        { MirageFlourItem(it, 11, null, 100_000.0, 1) },
+        { MirageFlourItem(this, it, 11, null, 100_000.0, 1) },
         "extremely_rare_mirage_flour", "EXTREMELY_RARE_MIRAGE_FLOUR", "極超高純度ミラージュフラワー",
-        "TODO", // TODO
-        "TODO", // TODO
+        listOf(
+            Poem("Leap spaces by collapsing time crystals", "運命の束、広がる時間の結晶、惨憺たる光速の呪いを解放せよ、"),
+            Poem("and capture ethers beyond observable universe", "讃えよ、アーカーシャに眠る自由と功徳の頂きを。"),
+        ),
     ),
 }
 
@@ -123,13 +118,15 @@ val demonItemModule = module {
 
     // 全体
     DemonItemCard.values().forEach { card ->
-        item(card.itemId, { card.creator(FabricItemSettings().group(commonItemGroup)) }) {
+        item(card.itemId, { card.creator(card, FabricItemSettings().group(commonItemGroup)) }) {
             onRegisterItems { demonItems[card] = item }
 
             onGenerateItemModels { it.register(item, Models.GENERATED) }
 
             enJaItem({ item }, card.enName, card.jaName)
-            enJa({ "${item.translationKey}.poem" }, card.enPoem, card.jaPoem)
+            card.poems.forEachIndexed { index, poem ->
+                enJa({ "${item.translationKey}.poem${if (index + 1 == 1) "" else "${index + 1}"}" }, poem.en, poem.ja)
+            }
         }
     }
 
@@ -222,14 +219,16 @@ val demonItemModule = module {
 }
 
 
-open class DemonItem(settings: Settings) : Item(settings) {
+open class DemonItem(val card: DemonItemCard, settings: Settings) : Item(settings) {
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         super.appendTooltip(stack, world, tooltip, context)
-        tooltip += text { translate("$translationKey.poem").gray }
+        card.poems.forEachIndexed { index, _ ->
+            tooltip += text { translate("$translationKey.poem${if (index + 1 == 1) "" else "${index + 1}"}").gray }
+        }
     }
 }
 
-class MirageFlourItem(settings: Settings, private val minRare: Int?, private val maxRare: Int?, private val factor: Double, private val times: Int) : DemonItem(settings) {
+class MirageFlourItem(card: DemonItemCard, settings: Settings, private val minRare: Int?, private val maxRare: Int?, private val factor: Double, private val times: Int) : DemonItem(card, settings) {
     companion object {
         private val prefix = "item.${MirageFairy2023.modId}.mirage_flour"
         val MIN_RARE_KEY = Translation("$prefix.min_rare_key", "Minimum Rare: %s", "最低レア度: %s")
