@@ -9,12 +9,17 @@ import miragefairy2023.modules.passiveskill.AirPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.AttackDamagePassiveSkillEffect
 import miragefairy2023.modules.passiveskill.BiomePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.DarknessPassiveSkillCondition
+import miragefairy2023.modules.passiveskill.DiamondToolPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.ExperiencePassiveSkillEffect
+import miragefairy2023.modules.passiveskill.HasHoePassiveSkillCondition
+import miragefairy2023.modules.passiveskill.InRainPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.IronToolPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MaxHealthPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.MaximumLevelPassiveSkillCondition
+import miragefairy2023.modules.passiveskill.MoonlightPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MovementSpeedPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.NightPassiveSkillCondition
+import miragefairy2023.modules.passiveskill.OnFirePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.OverworldPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.PassiveSkill
 import miragefairy2023.modules.passiveskill.ShadePassiveSkillCondition
@@ -34,6 +39,7 @@ import miragefairy2023.util.translation
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Model
 import net.minecraft.data.client.TextureKey
@@ -68,9 +74,46 @@ enum class FairyCard(
         "air", 0, "Airia", "空気精アイリャ", 0xFFBE80, 0xDEFFFF, 0xDEFFFF, 0xB0FFFF,
         listOf(PassiveSkill(listOf(OverworldPassiveSkillCondition(), AirPassiveSkillCondition()), MovementSpeedPassiveSkillEffect(0.05))),
     ),
+    FIRE(
+        "fire", 2, "Firia", "火精フィーリャ",
+        0xFF6C01, 0xF9DFA4, 0xFF7324, 0xFF4000,
+        listOf(PassiveSkill(listOf(OnFirePassiveSkillCondition()), AttackDamagePassiveSkillEffect(2.0))),
+    ),
+    LAVA(
+        "lava", 4, "Lavia", "溶岩精ラーヴャ",
+        0xCD4208, 0xEDB54A, 0xCC4108, 0x4C1500,
+        listOf(
+            PassiveSkill(listOf(OnFirePassiveSkillCondition()), AttackDamagePassiveSkillEffect(2.0)),
+            PassiveSkill(listOf(OnFirePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0)),
+        ),
+    ),
+    MOON(
+        "moon", 9, "Moonia", "月精モーニャ",
+        0xD9E4FF, 0x747D93, 0x0C121F, 0x2D4272,
+        listOf(
+            PassiveSkill(listOf(MoonlightPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.NIGHT_VISION, 0, additionalSeconds = 10)),
+            PassiveSkill(listOf(MoonlightPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0)),
+        ),
+    ),
+    RAIN(
+        "rain", 2, "Rainia", "雨精ライニャ",
+        0xB4FFFF, 0x4D5670, 0x4D5670, 0x2D40F4,
+        listOf(
+            PassiveSkill(listOf(InRainPassiveSkillCondition()), AttackDamagePassiveSkillEffect(2.0)),
+        ),
+    ),
     DIRT(
         "dirt", 1, "Dirtia", "土精ディルチャ", 0xB87440, 0xB9855C, 0x593D29, 0x914A18,
         listOf(PassiveSkill(listOf(OverworldPassiveSkillCondition()), MaxHealthPassiveSkillEffect(1.0))),
+    ),
+    DIAMOND(
+        "diamond", 7, "Diamondia", "金剛石精ディアモンジャ",
+        0x97FFE3, 0xD1FAF3, 0x70FFD9, 0x30DBBD,
+        listOf(
+            PassiveSkill(listOf(DiamondToolPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 1)),
+            PassiveSkill(listOf(DiamondToolPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
+            PassiveSkill(listOf(DiamondToolPassiveSkillCondition()), AttackDamagePassiveSkillEffect(2.0)),
+        ),
     ),
     ZOMBIE(
         "zombie", 2, "Zombia", "硬屍精ゾンビャ", 0x2B4219, 0x00AAAA, 0x322976, 0x2B4219,
@@ -91,6 +134,40 @@ enum class FairyCard(
         "player", 5, "Playeria", "人精プライェーリャ", 0xB58D63, 0x00AAAA, 0x322976, 0x4B3422,
         listOf(PassiveSkill(listOf(MaximumLevelPassiveSkillCondition(29)), ExperiencePassiveSkillEffect(1))),
     ),
+    SPRUCE(
+        "spruce", 6, "Sprucia", "松精スプルーツァ",
+        0x795C36, 0x583E1F, 0x23160A, 0x4C784C,
+        listOf(
+            PassiveSkill(listOf(BiomePassiveSkillCondition(BiomeTags.IS_FOREST)), AttackDamagePassiveSkillEffect(2.0)),
+            PassiveSkill(listOf(BiomePassiveSkillCondition(BiomeTags.IS_TAIGA)), AttackDamagePassiveSkillEffect(2.0)),
+        ),
+    ),
+    HOE(
+        "hoe", 3, "Hia", "鍬精ヒャ",
+        0xFFFFFF, 0xFFC48E, 0x47FF00, 0xFFFFFF,
+        listOf(
+            PassiveSkill(listOf(HasHoePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
+            PassiveSkill(listOf(HasHoePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 0)),
+        ),
+    ),
+    DESERT(
+        "desert", 3, "Desertia", "砂漠精デセルチャ",
+        0x80FF00, 0xDDD6A5, 0xD6CE9D, 0x0F6C1C,
+        listOf(
+            PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.DESERT), SunshinePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.FIRE_RESISTANCE, 0)),
+            PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.DESERT), MoonlightPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0)),
+        ),
+    ),
+    AVALON(
+        "avalon", 8, "Avalonia", "阿瓦隆精アヴァローニャ",
+        0xFFE4CA, 0xE1FFCE, 0xD0FFE6, 0xFFCAFF,
+        listOf(
+            PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.MUSHROOM)), StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 1)),
+            PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.MUSHROOM)), StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 1)),
+            PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.FLORAL)), StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 0)),
+            PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.FLORAL)), StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0)),
+        ),
+    ),
     NIGHT(
         "night", 6, "Nightia", "夜精ニグチャ", 0xFFE260, 0x2C2C2E, 0x0E0E10, 0x2D4272,
         listOf(PassiveSkill(listOf(NightPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 0))),
@@ -104,6 +181,14 @@ enum class FairyCard(
         listOf(
             PassiveSkill(listOf(SunshinePassiveSkillCondition()), AttackDamagePassiveSkillEffect(5.0)),
             PassiveSkill(listOf(SunshinePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0)),
+        ),
+    ),
+    VOID(
+        "void", 11, "Voidia", "奈落精ヴォイジャ", 0x000000, 0x000000, 0x000000, 0xB1B1B1,
+        listOf(
+            PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.IN_THE_END)), StatusEffectPassiveSkillEffect(StatusEffects.SLOW_FALLING, 0)),
+            PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.IN_THE_END)), StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0)),
+            PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.IN_THE_END)), StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 2)),
         ),
     ),
     TIME(
