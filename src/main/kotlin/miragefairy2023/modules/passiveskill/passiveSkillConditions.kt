@@ -3,6 +3,7 @@ package miragefairy2023.modules.passiveskill
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.util.Translation
 import miragefairy2023.util.text
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ToolItem
 import net.minecraft.item.ToolMaterials
@@ -31,6 +32,18 @@ class AirPassiveSkillCondition : PassiveSkillCondition {
     }
 }
 
+class DaytimePassiveSkillCondition : PassiveSkillCondition {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.daytime", "Daytime", "昼")
+    }
+
+    override fun getText() = text { key() }
+    override fun test(player: PlayerEntity): Boolean {
+        player.world.calculateAmbientDarkness()
+        return player.world.isDay
+    }
+}
+
 class NightPassiveSkillCondition : PassiveSkillCondition {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.night", "Night", "夜")
@@ -55,6 +68,18 @@ class SunshinePassiveSkillCondition : PassiveSkillCondition {
     }
 }
 
+class MoonlightPassiveSkillCondition : PassiveSkillCondition {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.moonlight", "Moonlight", "月光")
+    }
+
+    override fun getText() = text { key() }
+    override fun test(player: PlayerEntity): Boolean {
+        player.world.calculateAmbientDarkness()
+        return player.world.isNight && !player.world.isRaining && player.world.isSkyVisible(BlockPos(player.eyePos))
+    }
+}
+
 class ShadePassiveSkillCondition : PassiveSkillCondition {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.shade", "Shade", "日陰")
@@ -76,14 +101,37 @@ class DarknessPassiveSkillCondition : PassiveSkillCondition {
     override fun test(player: PlayerEntity) = player.world.getLightLevel(BlockPos(player.eyePos)) <= 7
 }
 
+class InRainPassiveSkillCondition : PassiveSkillCondition {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.in_rain", "Rain", "雨")
+    }
+
+    override fun getText() = text { key() }
+    override fun test(player: PlayerEntity) = player.world.hasRain(player.blockPos)
+}
+
 class BiomePassiveSkillCondition(private val biomeTag: TagKey<Biome>) : PassiveSkillCondition {
     companion object {
         val keyPrefix = "${MirageFairy2023.modId}.passive_skill.condition.biome"
         val isForestKey = Translation("$keyPrefix.minecraft.is_forest", "Forest", "森林")
+        val isTaigaKey = Translation("$keyPrefix.minecraft.is_taiga", "Taiga", "タイガ")
+        val isDesertKey = Translation("$keyPrefix.c.desert", "Desert", "砂漠")
+        val mushroomKey = Translation("$keyPrefix.c.mushroom", "Mushroom Island", "キノコ島")
+        val floralKey = Translation("$keyPrefix.c.floral", "Floral", "花畑")
+        val inTheEndKey = Translation("$keyPrefix.c.in_the_end", "The End", "エンド")
     }
 
     override fun getText() = text { translate("$keyPrefix.${biomeTag.id.toTranslationKey()}") }
     override fun test(player: PlayerEntity) = player.world.getBiome(player.blockPos).isIn(biomeTag)
+}
+
+class HasHoePassiveSkillCondition : PassiveSkillCondition {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.has_hoe", "Hoe", "クワ")
+    }
+
+    override fun getText() = text { key() }
+    override fun test(player: PlayerEntity) = player.mainHandStack.isIn(ConventionalItemTags.HOES)
 }
 
 class IronToolPassiveSkillCondition : PassiveSkillCondition {
@@ -98,6 +146,18 @@ class IronToolPassiveSkillCondition : PassiveSkillCondition {
     }
 }
 
+class DiamondToolPassiveSkillCondition : PassiveSkillCondition {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.diamond_tool", "Diamond Tool", "ダイヤモンドツール")
+    }
+
+    override fun getText() = text { key() }
+    override fun test(player: PlayerEntity): Boolean {
+        val item = player.mainHandStack.item as? ToolItem ?: return false
+        return item.material === ToolMaterials.DIAMOND
+    }
+}
+
 class MaximumLevelPassiveSkillCondition(private val level: Int) : PassiveSkillCondition {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.maximum_level", "Lv.<=%s", "レベル%s以下")
@@ -105,4 +165,13 @@ class MaximumLevelPassiveSkillCondition(private val level: Int) : PassiveSkillCo
 
     override fun getText() = text { key(level) }
     override fun test(player: PlayerEntity) = player.experienceLevel <= level
+}
+
+class OnFirePassiveSkillCondition : PassiveSkillCondition {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.on_fire", "Fire", "炎上")
+    }
+
+    override fun getText() = text { key() }
+    override fun test(player: PlayerEntity) = player.isOnFire
 }
