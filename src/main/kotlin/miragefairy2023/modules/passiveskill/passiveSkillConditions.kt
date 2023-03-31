@@ -107,7 +107,7 @@ class InRainPassiveSkillCondition : PassiveSkillCondition {
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity) = player.world.hasRain(player.blockPos)
+    override fun test(player: PlayerEntity) = player.world.hasRain(player.blockPos) && player.world.isSkyVisible(BlockPos(player.eyePos))
 }
 
 class BiomePassiveSkillCondition(private val biomeTag: TagKey<Biome>) : PassiveSkillCondition {
