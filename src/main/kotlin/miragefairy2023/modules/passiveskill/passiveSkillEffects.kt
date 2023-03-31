@@ -68,10 +68,10 @@ class MaxHealthPassiveSkillEffect(override val power: Double) : AttributePassive
     override val operation = EntityAttributeModifier.Operation.ADDITION
 }
 
-class StatusEffectPassiveSkillEffect(private val statusEffect: StatusEffect, private val level: Int) : PassiveSkillEffect {
-    override fun getText() = text { translate(statusEffect.translationKey) + " Lv.${level + 1}"() }
+class StatusEffectPassiveSkillEffect(private val statusEffect: StatusEffect, private val amplifier: Int, private val additionalSeconds: Int = 0) : PassiveSkillEffect {
+    override fun getText() = text { translate(statusEffect.translationKey) + " Lv.${amplifier + 1}"() }
     override fun affect(player: PlayerEntity) {
-        player.addStatusEffect(StatusEffectInstance(statusEffect, 20 * 11, level, true, false, true))
+        player.addStatusEffect(StatusEffectInstance(statusEffect, 20 * (10 + 1 + additionalSeconds), amplifier, true, false, true))
     }
 }
 
