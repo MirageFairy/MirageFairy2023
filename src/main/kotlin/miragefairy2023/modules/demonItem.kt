@@ -258,7 +258,7 @@ class MirageFlourItem(settings: Settings, private val minRare: Int?, private val
                     FairyCard.DIRT,
                     FairyCard.AIR,
                 )
-                    .map { Chance(0.1.pow((1 + it.rare) * 0.5) * factor, it) }
+                    .map { Chance(0.1.pow((it.rare - 1) * 0.5) * factor, it) }
                     .filter { minRare == null || it.item.rare >= minRare }
                     .filter { maxRare == null || it.item.rare <= maxRare }
                 val totalWeight = chanceTable.totalWeight
