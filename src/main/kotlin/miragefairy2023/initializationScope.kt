@@ -23,6 +23,7 @@ class InitializationScope(val modId: String) {
     val onRegisterColorProvider = EventBus<((Item, (ItemStack, Int) -> Int) -> Unit) -> Unit>()
 
     val onRegisterLootConditionType = EventBus<() -> Unit>()
+    val onRegisterLootFunctionType = EventBus<() -> Unit>()
     val onRegisterBlocks = EventBus<() -> Unit>()
     val onRegisterItems = EventBus<() -> Unit>()
     val onRegisterRecipes = EventBus<() -> Unit>()
