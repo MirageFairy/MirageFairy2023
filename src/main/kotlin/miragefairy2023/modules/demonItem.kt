@@ -227,7 +227,7 @@ class MirageFlourItem(settings: Settings, private val maxRare: Int?, private val
     companion object {
         private val prefix = "item.${MirageFairy2023.modId}.mirage_flour"
         val RIGHT_CLICK_KEY = Translation("$prefix.right_click", "Right click to summon fairy", "右クリックで妖精召喚")
-        val SHIFT_RIGHT_CLICK_KEY = Translation("$prefix.shift_right_click", "Shift+right click to show fairy table", "Shift+右クリックで提供割合表示")
+        val SHIFT_RIGHT_CLICK_KEY = Translation("$prefix.shift_right_click", "%s+right click to show fairy table", "%s+右クリックで提供割合表示")
     }
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
@@ -297,6 +297,6 @@ class MirageFlourItem(settings: Settings, private val maxRare: Int?, private val
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         super.appendTooltip(stack, world, tooltip, context)
         tooltip += text { RIGHT_CLICK_KEY().green }
-        tooltip += text { SHIFT_RIGHT_CLICK_KEY().green }
+        tooltip += text { SHIFT_RIGHT_CLICK_KEY(Text.keybind("key.sneak")).green }
     }
 }
