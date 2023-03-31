@@ -244,20 +244,28 @@ class MirageFlourItem(settings: Settings, private val minRare: Int?, private val
         if (!world.isClient) {
 
             // 提供割合生成
-            val chanceTable = listOf(
-                Chance(0.00003 * factor, FairyCard.TIME),
-                Chance(0.0001 * factor, FairyCard.SUN),
-                Chance(0.0003 * factor, FairyCard.WARDEN),
-                Chance(0.001 * factor, FairyCard.NIGHT),
-                Chance(0.003 * factor, FairyCard.PLAYER),
-                Chance(0.01 * factor, FairyCard.IRON),
-                Chance(0.03 * factor, FairyCard.FOREST),
-                Chance(0.1 * factor, FairyCard.ZOMBIE),
-                Chance(0.3 * factor, FairyCard.DIRT),
-                Chance(1.0 * factor, FairyCard.AIR),
-            )
-                .filter { minRare == null || it.item.rare >= minRare }
-                .filter { maxRare == null || it.item.rare <= maxRare }
+            val chanceTable = run {
+                val chanceTable = listOf(
+                    Chance(0.00003 * factor, FairyCard.TIME),
+                    Chance(0.0001 * factor, FairyCard.SUN),
+                    Chance(0.0003 * factor, FairyCard.WARDEN),
+                    Chance(0.001 * factor, FairyCard.NIGHT),
+                    Chance(0.003 * factor, FairyCard.PLAYER),
+                    Chance(0.01 * factor, FairyCard.IRON),
+                    Chance(0.03 * factor, FairyCard.FOREST),
+                    Chance(0.1 * factor, FairyCard.ZOMBIE),
+                    Chance(0.3 * factor, FairyCard.DIRT),
+                    Chance(1.0 * factor, FairyCard.AIR),
+                )
+                    .filter { minRare == null || it.item.rare >= minRare }
+                    .filter { maxRare == null || it.item.rare <= maxRare }
+                val totalWeight = chanceTable.totalWeight
+                if (totalWeight >= 1.0) {
+                    chanceTable
+                } else {
+                    chanceTable + Chance(1.0 - totalWeight, FairyCard.AIR)
+                }
+            }
                 .distinct { a, b -> a === b }
                 .sortedBy { it.weight }
 
