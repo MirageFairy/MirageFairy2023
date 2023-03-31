@@ -90,6 +90,9 @@
               "function": "minecraft:set_count"
             },
             {
+              "function": "miragefairy2023:apply_luck_bonus"
+            },
+            {
               "enchantment": "minecraft:fortune",
               "formula": "minecraft:binomial_with_bonus_count",
               "function": "minecraft:apply_bonus",
