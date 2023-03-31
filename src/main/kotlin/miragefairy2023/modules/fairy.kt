@@ -169,17 +169,20 @@ enum class FairyCard(
         ),
     ),
     NIGHT(
-        "night", 6, "Nightia", "夜精ニグチャ", 0xFFE260, 0x2C2C2E, 0x0E0E10, 0x2D4272,
-        listOf(PassiveSkill(listOf(NightPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 0))),
+        "night", 7, "Nightia", "夜精ニグチャ", 0xFFE260, 0x2C2C2E, 0x0E0E10, 0x2D4272,
+        listOf(
+            PassiveSkill(listOf(NightPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 0)),
+            PassiveSkill(listOf(NightPassiveSkillCondition()), MovementSpeedPassiveSkillEffect(0.05)),
+        ),
     ),
     WARDEN(
-        "warden", 7, "Wardenia", "監守者精ワルデーニャ", 0x0A3135, 0xCFCFA4, 0xA0AA7A, 0x2CD0CA,
-        listOf(PassiveSkill(listOf(DarknessPassiveSkillCondition()), AttackDamagePassiveSkillEffect(6.0))),
+        "warden", 8, "Wardenia", "監守者精ワルデーニャ", 0x0A3135, 0xCFCFA4, 0xA0AA7A, 0x2CD0CA,
+        listOf(PassiveSkill(listOf(DarknessPassiveSkillCondition()), AttackDamagePassiveSkillEffect(8.0))),
     ),
     SUN(
-        "sun", 8, "Sunia", "太陽精スーニャ", 0xff2f00, 0xff972b, 0xff7500, 0xffe7b2,
+        "sun", 10, "Sunia", "太陽精スーニャ", 0xff2f00, 0xff972b, 0xff7500, 0xffe7b2,
         listOf(
-            PassiveSkill(listOf(SunshinePassiveSkillCondition()), AttackDamagePassiveSkillEffect(5.0)),
+            PassiveSkill(listOf(SunshinePassiveSkillCondition()), AttackDamagePassiveSkillEffect(6.0)),
             PassiveSkill(listOf(SunshinePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0)),
         ),
     ),
@@ -192,10 +195,10 @@ enum class FairyCard(
         ),
     ),
     TIME(
-        "time", 9, "Timia", "時精ティーミャ", 0x89D585, 0xD5DEBC, 0xD8DEA7, 0x8DD586,
+        "time", 12, "Timia", "時精ティーミャ", 0x89D585, 0xD5DEBC, 0xD8DEA7, 0x8DD586,
         listOf(
-            PassiveSkill(listOf(), MovementSpeedPassiveSkillEffect(0.20)),
-            PassiveSkill(listOf(), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
+            PassiveSkill(listOf(), MovementSpeedPassiveSkillEffect(0.50)),
+            PassiveSkill(listOf(), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 2)),
         ),
     ),
 }
