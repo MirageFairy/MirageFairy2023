@@ -165,7 +165,7 @@ private class PickingUpDummyBlockEntity : BlockEntity(BlockEntityType.CHEST, Blo
 
 class PickedUpLootCondition : LootCondition {
     override fun getType() = pickedUpLootConditionType
-    override fun test(t: LootContext) = t.get(LootContextParameters.BLOCK_ENTITY) is PickingUpDummyBlockEntity
+    override fun test(t: LootContext) = t[LootContextParameters.BLOCK_ENTITY] is PickingUpDummyBlockEntity
 }
 
 
