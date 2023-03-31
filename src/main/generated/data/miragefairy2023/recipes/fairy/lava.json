@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "miragefairy2023:xarpite"
+    },
+    {
+      "item": "miragefairy2023:rare_mirage_flour"
+    },
+    {
+      "item": "minecraft:lava_bucket"
+    }
+  ],
+  "result": {
+    "item": "miragefairy2023:lava_fairy"
+  }
+}

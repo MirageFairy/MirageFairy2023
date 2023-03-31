@@ -55,6 +55,7 @@ import net.minecraft.tag.BiomeTags
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import net.minecraft.util.Identifier
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 import java.util.Optional
 
@@ -312,31 +313,35 @@ val fairyModule = module {
     translation(FairyItem.ALWAYS_CONDITION_KEY)
 
 
-    // 紅天石＋土→土精
-    onGenerateRecipes {
+    // 確定召喚レシピ
+    fun registerFairySummoningRecipe(fairyCard: FairyCard, inputItemSupplier: () -> Item) = onGenerateRecipes {
+        val inputItem = inputItemSupplier()
+        val mirageFlowerItem = when (fairyCard.rare) {
+            0 -> DemonItemCard.TINY_MIRAGE_FLOUR()
+            1, 2 -> DemonItemCard.MIRAGE_FLOUR()
+            3, 4 -> DemonItemCard.RARE_MIRAGE_FLOUR()
+            5, 6 -> DemonItemCard.VERY_RARE_MIRAGE_FLOUR()
+            7, 8 -> DemonItemCard.ULTRA_RARE_MIRAGE_FLOUR()
+            9, 10 -> DemonItemCard.SUPER_RARE_MIRAGE_FLOUR()
+            11, 12 -> DemonItemCard.EXTREMELY_RARE_MIRAGE_FLOUR()
+            else -> throw AssertionError()
+        }
         ShapelessRecipeJsonBuilder
-            .create(FairyCard.DIRT())
+            .create(fairyCard())
             .input(DemonItemCard.XARPITE())
-            .input(DemonItemCard.MIRAGE_FLOUR())
-            .input(Items.DIRT)
+            .input(mirageFlowerItem)
+            .input(inputItem)
             .criterion("has_xarpite", RecipeProvider.conditionsFromItem(DemonItemCard.XARPITE()))
-            .criterion("has_mirage_flour", RecipeProvider.conditionsFromItem(DemonItemCard.MIRAGE_FLOUR()))
-            .criterion("has_dirt", RecipeProvider.conditionsFromItem(Items.DIRT))
-            .offerTo(it, Identifier.of(modId, "fairy/dirt"))
+            .criterion("has_${Registry.ITEM.getId(mirageFlowerItem).path}", RecipeProvider.conditionsFromItem(mirageFlowerItem))
+            .criterion("has_${Registry.ITEM.getId(inputItem).path}", RecipeProvider.conditionsFromItem(inputItem))
+            .offerTo(it, Identifier.of(modId, "fairy/${fairyCard.motif}"))
     }
-
-    // 紅天石＋鉄インゴット→鉄精
-    onGenerateRecipes {
-        ShapelessRecipeJsonBuilder
-            .create(FairyCard.IRON())
-            .input(DemonItemCard.XARPITE())
-            .input(DemonItemCard.RARE_MIRAGE_FLOUR())
-            .input(Items.IRON_INGOT)
-            .criterion("has_xarpite", RecipeProvider.conditionsFromItem(DemonItemCard.XARPITE()))
-            .criterion("has_rare_mirage_flour", RecipeProvider.conditionsFromItem(DemonItemCard.RARE_MIRAGE_FLOUR()))
-            .criterion("has_iron_ingot", RecipeProvider.conditionsFromItem(Items.IRON_INGOT))
-            .offerTo(it, Identifier.of(modId, "fairy/iron"))
-    }
+    registerFairySummoningRecipe(FairyCard.DIRT) { Items.DIRT } // 土
+    registerFairySummoningRecipe(FairyCard.IRON) { Items.IRON_INGOT } // 鉄
+    registerFairySummoningRecipe(FairyCard.HOE) { Items.STONE_HOE } // クワ
+    registerFairySummoningRecipe(FairyCard.SPRUCE) { Items.SPRUCE_SAPLING } // 松
+    registerFairySummoningRecipe(FairyCard.DIAMOND) { Items.DIAMOND } // ダイヤモンド
+    registerFairySummoningRecipe(FairyCard.LAVA) { Items.LAVA_BUCKET } // 溶岩
 
 }
 
