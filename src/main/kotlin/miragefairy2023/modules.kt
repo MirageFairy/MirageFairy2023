@@ -1,6 +1,7 @@
 package miragefairy2023
 
 import miragefairy2023.modules.commonModule
+import miragefairy2023.modules.debugModule
 import miragefairy2023.modules.demonItemModule
 import miragefairy2023.modules.fairyModule
 import miragefairy2023.modules.mirageFlowerModule
@@ -12,4 +13,5 @@ val modules = module {
     mirageFlowerModule()
     fairyModule()
     passiveSkillModule()
+    debugModule()
 }
