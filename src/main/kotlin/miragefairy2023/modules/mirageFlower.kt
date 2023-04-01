@@ -320,11 +320,13 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
         val lootContext = builder.build(LootContextTypes.BLOCK)
         val lootTable = world.server.lootManager.getTable(this.getLootTableId())
         val lootItemStacks = lootTable.generateLoot(lootContext)
+        val experience = world.random.randomInt(0.2)
 
         // アイテムを生成
         lootItemStacks.forEach { itemStack ->
             dropStack(world, pos, itemStack)
         }
+        if (experience > 0) dropExperience(world, pos, experience)
 
         // 成長段階を消費
         world.setBlockState(pos, withAge(1), NOTIFY_LISTENERS)
@@ -334,6 +336,15 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
 
         return ActionResult.CONSUME
     }
+
+    override fun onStacksDropped(state: BlockState, world: ServerWorld, pos: BlockPos, stack: ItemStack, dropExperience: Boolean) {
+        super.onStacksDropped(state, world, pos, stack, dropExperience)
+        if (dropExperience) {
+            val experience = world.random.randomInt(0.2)
+            if (experience > 0) dropExperience(world, pos, experience)
+        }
+    }
+
 }
 
 class MirageSeedItem(block: Block, settings: Settings) : AliasedBlockItem(block, settings) {
