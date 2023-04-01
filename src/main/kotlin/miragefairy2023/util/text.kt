@@ -2,8 +2,11 @@
 
 package miragefairy2023.util
 
+import net.minecraft.text.ClickEvent
+import net.minecraft.text.HoverEvent
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
+import java.io.File
 
 fun Text.formatted(formatting: Formatting): Text = Text.empty().append(this).formatted(formatting)
 val Text.black get() = this.formatted(Formatting.BLACK)
@@ -36,6 +39,10 @@ object TextScope {
     fun translate(key: String): Text = Text.translatable(key)
     fun translate(key: String, vararg args: Any?): Text = Text.translatable(key, *args)
     operator fun Text.plus(text: Text): Text = Text.empty().append(this).append(text)
+    operator fun File.invoke() = Text.literal(name).styled {
+        it.withHoverEvent(HoverEvent(HoverEvent.Action.SHOW_TEXT, text { absoluteFile.canonicalPath() }))
+        it.withClickEvent(ClickEvent(ClickEvent.Action.OPEN_FILE, absoluteFile.canonicalPath))
+    }.underline
 }
 
 inline fun text(block: TextScope.() -> Text) = block(TextScope)
