@@ -4,6 +4,7 @@ package miragefairy2023.util
 
 import miragefairy2023.InitializationScope
 import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
@@ -19,4 +20,8 @@ fun <T : Item> InitializationScope.item(itemId: String, itemCreator: () -> T, bl
     }
     if (block != null) block(scope)
     return { scope.item }
+}
+
+fun <T : Item> ItemScope<T>.registerColorProvider(colorFunction: (ItemStack, Int) -> Int) = initializationScope.onRegisterColorProvider {
+    it(item, colorFunction)
 }

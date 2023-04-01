@@ -4,6 +4,7 @@ import miragefairy2023.module
 import miragefairy2023.util.enJaItem
 import miragefairy2023.util.item
 import miragefairy2023.util.join
+import miragefairy2023.util.registerColorProvider
 import miragefairy2023.util.text
 import mirrg.kotlin.hydrogen.join
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
@@ -23,7 +24,7 @@ import java.util.Optional
 val debugModule = module {
     item("fairy_list_debugger", { FairyListDebuggerItem(FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(item, Model(Optional.of(Identifier("minecraft", "item/book")), Optional.empty())) }
-        onRegisterColorProvider { it(item) { _, _ -> 0xAA0000 } }
+        registerColorProvider { _, _ -> 0xAA0000 }
         enJaItem({ item }, "Fairy List Debugger", "妖精一覧デバッガー")
     }
 }

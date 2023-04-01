@@ -33,6 +33,7 @@ import miragefairy2023.util.gray
 import miragefairy2023.util.item
 import miragefairy2023.util.join
 import miragefairy2023.util.red
+import miragefairy2023.util.registerColorProvider
 import miragefairy2023.util.text
 import miragefairy2023.util.translation
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
@@ -234,16 +235,14 @@ val fairyModule = module {
             onRegisterItems { fairyItems[fairyCard] = item }
 
             onGenerateItemModels { it.register(item, Model(Optional.of(Identifier(modId, "item/fairy")), Optional.empty())) }
-            onRegisterColorProvider { it ->
-                it(item) { _, tintIndex ->
-                    when (tintIndex) {
-                        0 -> fairyCard.skinColor
-                        1 -> fairyCard.backColor
-                        2 -> fairyCard.frontColor
-                        3 -> fairyCard.hairColor
-                        4 -> 0xAA0000
-                        else -> 0xFFFFFF
-                    }
+            registerColorProvider { _, tintIndex ->
+                when (tintIndex) {
+                    0 -> fairyCard.skinColor
+                    1 -> fairyCard.backColor
+                    2 -> fairyCard.frontColor
+                    3 -> fairyCard.hairColor
+                    4 -> 0xAA0000
+                    else -> 0xFFFFFF
                 }
             }
 
