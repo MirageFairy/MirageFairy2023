@@ -79,7 +79,7 @@ enum class DemonItemCard(
     MIRAGE_STEM(
         { DemonItem(this, it) },
         "mirage_stem", "Mirage Stem", "ミラージュの茎",
-        listOf(Poem("", "")), // TODO
+        listOf(Poem("Cell wall composed of amorphous ether", "植物が手掛ける、分子レベルの硝子細工。")),
     ),
     TINY_MIRAGE_FLOUR(
         { MirageFlourItem(this, it, null, 2, 1.0, 1) },
