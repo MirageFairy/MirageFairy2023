@@ -6,9 +6,9 @@ import com.google.gson.JsonSerializationContext
 import miragefairy2023.module
 import miragefairy2023.util.applyExplosionDecay
 import miragefairy2023.util.block
-import miragefairy2023.util.blockStatePropertyLootCondition
 import miragefairy2023.util.enJa
 import miragefairy2023.util.enJaItem
+import miragefairy2023.util.exactMatchBlockStatePropertyLootCondition
 import miragefairy2023.util.generateBlockLootTable
 import miragefairy2023.util.generateBlockState
 import miragefairy2023.util.gray
@@ -20,7 +20,6 @@ import miragefairy2023.util.lootPool
 import miragefairy2023.util.lootTable
 import miragefairy2023.util.randomInt
 import miragefairy2023.util.registerGrassDrop
-import miragefairy2023.util.statePredicate
 import miragefairy2023.util.text
 import mirrg.kotlin.hydrogen.atLeast
 import mirrg.kotlin.hydrogen.atMost
@@ -103,11 +102,7 @@ val mirageFlowerModule = module {
         }
         onRegisterRenderLayers { it(item, Unit) }
         generateBlockLootTable {
-            val condition = blockStatePropertyLootCondition(item) {
-                properties(statePredicate {
-                    exactMatch(MirageFlowerBlock.AGE, MirageFlowerBlock.MAX_AGE)
-                })
-            }
+            val age3Condition = exactMatchBlockStatePropertyLootCondition(item, MirageFlowerBlock.AGE, 3)
             lootTable {
 
                 // 爆発時割合ロスト
@@ -121,7 +116,7 @@ val mirageFlowerModule = module {
 
                 // 追加種ドロップ
                 pool(lootPool {
-                    conditionally(condition)
+                    conditionally(age3Condition)
                     conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
                     with(itemEntry(mirageSeedItem()) {
                         apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(0.0f)))
@@ -131,7 +126,7 @@ val mirageFlowerModule = module {
 
                 // 成果物ドロップ
                 pool(lootPool {
-                    conditionally(condition)
+                    conditionally(age3Condition)
                     with(itemEntry(DemonItemCard.TINY_MIRAGE_FLOUR()) {
                         apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(2.0f, 6.0f)))
                         apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 1.0f, 0))
