@@ -28,24 +28,23 @@ import net.minecraft.util.Identifier
 import net.minecraft.world.World
 
 
-class DemonPoem(val en: String, val ja: String)
-
 enum class DemonItemCard(
     val creator: DemonItemCard.(Item.Settings) -> Item,
     val itemId: String,
     val enName: String,
     val jaName: String,
-    val poems: List<DemonPoem>,
+    val enPoem: String,
+    val jaPoem: String,
 ) {
     XARPITE(
         { DemonItem(this, it) },
         "xarpite", "Xarpite", "紅天石",
-        listOf(DemonPoem("Binds astral flux with magnetic force", "黒鉄の鎖は繋がれる。血腥い魂の檻へ。")),
+        "Binds astral flux with magnetic force", "黒鉄の鎖は繋がれる。血腥い魂の檻へ。",
     ),
     MIRANAGITE(
         { DemonItem(this, it) },
         "miranagite", "Miranagite", "蒼天石",
-        listOf(DemonPoem("Astral body crystallized by anti-entropy", "秩序の叛乱、天地創造の逆光。")),
+        "Astral body crystallized by anti-entropy", "秩序の叛乱、天地創造の逆光。",
     ),
 
     // ミラージュの葉
@@ -54,7 +53,7 @@ enum class DemonItemCard(
     MIRAGE_STEM(
         { DemonItem(this, it) },
         "mirage_stem", "Mirage Stem", "ミラージュの茎",
-        listOf(DemonPoem("Cell wall composed of amorphous ether", "植物が手掛ける、分子レベルの硝子細工。")),
+        "Cell wall composed of amorphous ether", "植物が手掛ける、分子レベルの硝子細工。",
     ),
 }
 
@@ -72,9 +71,7 @@ val demonItemModule = module {
             onGenerateItemModels { it.register(item, Models.GENERATED) }
 
             enJaItem({ item }, card.enName, card.jaName)
-            card.poems.forEachIndexed { index, poem ->
-                enJa({ "${item.translationKey}.poem${if (index + 1 == 1) "" else "${index + 1}"}" }, poem.en, poem.ja)
-            }
+            enJa({ "${item.translationKey}.poem" }, card.enPoem, card.jaPoem)
         }
     }
 
@@ -157,8 +154,6 @@ val demonItemModule = module {
 open class DemonItem(val card: DemonItemCard, settings: Settings) : Item(settings) {
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         super.appendTooltip(stack, world, tooltip, context)
-        card.poems.forEachIndexed { index, _ ->
-            tooltip += text { translate("$translationKey.poem${if (index + 1 == 1) "" else "${index + 1}"}").gray }
-        }
+        tooltip += text { translate("$translationKey.poem").gray }
     }
 }
