@@ -72,6 +72,10 @@ enum class DemonItemCard(
         "miranagite", "Miranagite", "蒼天石",
         listOf(Poem("Astral body crystallized by anti-entropy", "秩序の叛乱、天地創造の逆光。")),
     ),
+
+    // ミラージュの葉
+    // 硝子のような触り心地。
+    // 鋭利なため気を付けてください
     MIRAGE_STEM(
         { DemonItem(this, it) },
         "mirage_stem", "Mirage Stem", "ミラージュの茎",
