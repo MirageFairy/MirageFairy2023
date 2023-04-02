@@ -29,7 +29,6 @@ import net.minecraft.world.World
 
 
 enum class DemonItemCard(
-    val creator: DemonItemCard.(Item.Settings) -> Item,
     val itemId: String,
     val enName: String,
     val jaName: String,
@@ -37,12 +36,10 @@ enum class DemonItemCard(
     val jaPoem: String,
 ) {
     XARPITE(
-        { DemonItem(this, it) },
         "xarpite", "Xarpite", "紅天石",
         "Binds astral flux with magnetic force", "黒鉄の鎖は繋がれる。血腥い魂の檻へ。",
     ),
     MIRANAGITE(
-        { DemonItem(this, it) },
         "miranagite", "Miranagite", "蒼天石",
         "Astral body crystallized by anti-entropy", "秩序の叛乱、天地創造の逆光。",
     ),
@@ -51,7 +48,6 @@ enum class DemonItemCard(
     // 硝子のような触り心地。
     // 鋭利なため気を付けてください
     MIRAGE_STEM(
-        { DemonItem(this, it) },
         "mirage_stem", "Mirage Stem", "ミラージュの茎",
         "Cell wall composed of amorphous ether", "植物が手掛ける、分子レベルの硝子細工。",
     ),
@@ -65,7 +61,7 @@ val demonItemModule = module {
 
     // 全体
     DemonItemCard.values().forEach { card ->
-        item(card.itemId, { card.creator(card, FabricItemSettings().group(commonItemGroup)) }) {
+        item(card.itemId, { DemonItem(FabricItemSettings().group(commonItemGroup)) }) {
             onRegisterItems { demonItems[card] = item }
 
             onGenerateItemModels { it.register(item, Models.GENERATED) }
@@ -151,7 +147,7 @@ val demonItemModule = module {
 }
 
 
-open class DemonItem(val card: DemonItemCard, settings: Settings) : Item(settings) {
+open class DemonItem(settings: Settings) : Item(settings) {
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         super.appendTooltip(stack, world, tooltip, context)
         tooltip += text { translate("$translationKey.poem").gray }
