@@ -6,6 +6,7 @@ import com.google.gson.JsonSerializationContext
 import miragefairy2023.module
 import miragefairy2023.util.applyExplosionDecay
 import miragefairy2023.util.block
+import miragefairy2023.util.createItemStack
 import miragefairy2023.util.enJa
 import miragefairy2023.util.enJaItem
 import miragefairy2023.util.exactMatchBlockStatePropertyLootCondition
@@ -239,7 +240,7 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
     // 挙動
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = AGE_TO_SHAPE[getAge(state)]
     override fun canPlantOnTop(floor: BlockState, world: BlockView, pos: BlockPos) = world.getBlockState(pos).isSideSolid(world, pos, Direction.UP, SideShapeType.CENTER) || floor.isOf(Blocks.FARMLAND)
-    override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState) = ItemStack(mirageSeedItem())
+    override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState) = mirageSeedItem().createItemStack()
 
 
     // 行動
