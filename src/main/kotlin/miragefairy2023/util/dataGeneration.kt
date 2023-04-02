@@ -13,6 +13,7 @@ import net.minecraft.item.ItemGroup
 import net.minecraft.loot.LootPool
 import net.minecraft.loot.LootTable
 import net.minecraft.loot.condition.BlockStatePropertyLootCondition
+import net.minecraft.loot.condition.LootCondition
 import net.minecraft.loot.entry.AlternativeEntry
 import net.minecraft.loot.entry.ItemEntry
 import net.minecraft.loot.entry.LeafEntry
@@ -21,6 +22,8 @@ import net.minecraft.loot.function.LootFunctionConsumingBuilder
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider
 import net.minecraft.loot.provider.number.UniformLootNumberProvider
 import net.minecraft.predicate.StatePredicate
+import net.minecraft.state.property.Property
+import net.minecraft.util.registry.Registry
 
 fun <T : Block> BlockScope<T>.generateBlockState(jsonElementSupplier: () -> JsonElement) {
     initializationScope.onGenerateBlockStateModels { blockStateModelGenerator ->
@@ -54,6 +57,33 @@ fun lootPool(block: (LootPool.Builder.() -> Unit)? = null): LootPool.Builder {
 
 fun blockStatePropertyLootCondition(targetBlock: Block, block: (BlockStatePropertyLootCondition.Builder.() -> Unit)? = null): BlockStatePropertyLootCondition.Builder {
     return configure(BlockStatePropertyLootCondition.builder(targetBlock)!!) { block?.invoke(this) }
+}
+
+fun exactMatchBlockStatePropertyLootCondition(block: Block, property: Property<Int>, value: Int) = LootCondition.Builder {
+    BlockStatePropertyLootCondition.Serializer().fromJson(
+        jsonObjectOf(
+            "block" to Registry.BLOCK.getId(block).toString().jsonPrimitive,
+            "condition" to "minecraft:block_state_property".jsonPrimitive,
+            "properties" to jsonObjectOf(
+                property.name to value.jsonPrimitive,
+            )
+        ), null
+    )
+}
+
+fun rangedMatchBlockStatePropertyLootCondition(block: Block, property: Property<Int>, min: Int, max: Int) = LootCondition.Builder {
+    BlockStatePropertyLootCondition.Serializer().fromJson(
+        jsonObjectOf(
+            "block" to Registry.BLOCK.getId(block).toString().jsonPrimitive,
+            "condition" to "minecraft:block_state_property".jsonPrimitive,
+            "properties" to jsonObjectOf(
+                property.name to jsonObjectOf(
+                    "min" to min.jsonPrimitive,
+                    "max" to max.jsonPrimitive,
+                ),
+            )
+        ), null
+    )
 }
 
 fun statePredicate(block: (StatePredicate.Builder.() -> Unit)? = null): StatePredicate.Builder {
