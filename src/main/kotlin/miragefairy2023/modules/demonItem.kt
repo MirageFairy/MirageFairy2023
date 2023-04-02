@@ -32,6 +32,7 @@ import net.minecraft.block.Blocks
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
 import net.minecraft.data.server.RecipeProvider
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.player.PlayerEntity
@@ -41,6 +42,7 @@ import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
+import net.minecraft.tag.ItemTags
 import net.minecraft.text.Text
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
@@ -182,6 +184,30 @@ val demonItemModule = module {
             .criterion("has_miranagite", RecipeProvider.conditionsFromItem(DemonItemCard.MIRANAGITE()))
             .criterion("has_magma_cream", RecipeProvider.conditionsFromItem(Items.MAGMA_CREAM))
             .offerTo(it, Identifier.of(modId, "blaze_powder_from_anti_entropy"))
+    }
+
+    // 2ミラージュの茎→棒
+    onGenerateRecipes {
+        ShapedRecipeJsonBuilder
+            .create(Items.STICK)
+            .pattern("S")
+            .pattern("S")
+            .input('S', DemonItemCard.MIRAGE_STEM())
+            .criterion("has_mirage_stem", RecipeProvider.conditionsFromItem(DemonItemCard.MIRAGE_STEM()))
+            .offerTo(it, Identifier.of(modId, "stick_from_mirage_stem"))
+    }
+
+    // ミラージュの茎＋羊毛→糸
+    onGenerateRecipes {
+        ShapedRecipeJsonBuilder
+            .create(Items.STRING)
+            .pattern("W")
+            .pattern("S")
+            .input('W', ItemTags.WOOL)
+            .input('S', DemonItemCard.MIRAGE_STEM())
+            .criterion("has_wool", RecipeProvider.conditionsFromTag(ItemTags.WOOL))
+            .criterion("has_mirage_stem", RecipeProvider.conditionsFromItem(DemonItemCard.MIRAGE_STEM()))
+            .offerTo(it, Identifier.of(modId, "string_from_mirage_stem"))
     }
 
     // ミラージュフラワー相互変換
