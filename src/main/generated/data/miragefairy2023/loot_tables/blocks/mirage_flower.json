@@ -72,6 +72,34 @@
           "block": "miragefairy2023:mirage_flower",
           "condition": "minecraft:block_state_property",
           "properties": {
+            "age": {
+              "max": "3",
+              "min": "2"
+            }
+          }
+        },
+        {
+          "condition": "minecraft:inverted",
+          "term": {
+            "condition": "miragefairy2023:picked_up"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "miragefairy2023:mirage_stem"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "miragefairy2023:mirage_flower",
+          "condition": "minecraft:block_state_property",
+          "properties": {
             "age": "3"
           }
         }

@@ -70,6 +70,11 @@ enum class DemonItemCard(
         "miranagite", "Miranagite", "蒼天石",
         listOf(Poem("Astral body crystallized by anti-entropy", "秩序の叛乱、天地創造の逆光。")),
     ),
+    MIRAGE_STEM(
+        { DemonItem(this, it) },
+        "mirage_stem", "Mirage Stem", "ミラージュの茎",
+        listOf(Poem("", "")), // TODO
+    ),
     TINY_MIRAGE_FLOUR(
         { MirageFlourItem(this, it, null, 2, 1.0, 1) },
         "tiny_mirage_flour", "Tiny Pile of Mirage Flour", "ミラージュの花粉",

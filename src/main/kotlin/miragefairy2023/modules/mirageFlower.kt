@@ -19,6 +19,7 @@ import miragefairy2023.util.jsonPrimitive
 import miragefairy2023.util.lootPool
 import miragefairy2023.util.lootTable
 import miragefairy2023.util.randomInt
+import miragefairy2023.util.rangedMatchBlockStatePropertyLootCondition
 import miragefairy2023.util.registerGrassDrop
 import miragefairy2023.util.text
 import mirrg.kotlin.hydrogen.atLeast
@@ -102,6 +103,7 @@ val mirageFlowerModule = module {
         }
         onRegisterRenderLayers { it(item, Unit) }
         generateBlockLootTable {
+            val age2Condition = rangedMatchBlockStatePropertyLootCondition(item, MirageFlowerBlock.AGE, 2, 3)
             val age3Condition = exactMatchBlockStatePropertyLootCondition(item, MirageFlowerBlock.AGE, 3)
             lootTable {
 
@@ -124,7 +126,14 @@ val mirageFlowerModule = module {
                     })
                 })
 
-                // 成果物ドロップ
+                // 茎ドロップ
+                pool(lootPool {
+                    conditionally(age2Condition)
+                    conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
+                    with(itemEntry(DemonItemCard.MIRAGE_STEM()))
+                })
+
+                // 花粉ドロップ
                 pool(lootPool {
                     conditionally(age3Condition)
                     with(itemEntry(DemonItemCard.TINY_MIRAGE_FLOUR()) {
