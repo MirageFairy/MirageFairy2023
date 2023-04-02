@@ -136,7 +136,7 @@ val mirageFlowerModule = module {
                 // 花粉ドロップ
                 pool(lootPool {
                     conditionally(age3Condition)
-                    with(itemEntry(DemonItemCard.TINY_MIRAGE_FLOUR()) {
+                    with(itemEntry(MirageFlourCard.TINY_MIRAGE_FLOUR()) {
                         apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(2.0f, 6.0f)))
                         apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 1.0f, 0))
                         apply { ApplyLuckBonusLootFunction() }

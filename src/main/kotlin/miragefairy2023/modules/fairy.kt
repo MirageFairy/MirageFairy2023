@@ -315,13 +315,13 @@ val fairyModule = module {
     fun registerFairySummoningRecipe(fairyCard: FairyCard, inputItemSupplier: () -> Item) = onGenerateRecipes {
         val inputItem = inputItemSupplier()
         val mirageFlowerItem = when (fairyCard.rare) {
-            0 -> DemonItemCard.TINY_MIRAGE_FLOUR()
-            1, 2 -> DemonItemCard.MIRAGE_FLOUR()
-            3, 4 -> DemonItemCard.RARE_MIRAGE_FLOUR()
-            5, 6 -> DemonItemCard.VERY_RARE_MIRAGE_FLOUR()
-            7, 8 -> DemonItemCard.ULTRA_RARE_MIRAGE_FLOUR()
-            9, 10 -> DemonItemCard.SUPER_RARE_MIRAGE_FLOUR()
-            11, 12 -> DemonItemCard.EXTREMELY_RARE_MIRAGE_FLOUR()
+            0 -> MirageFlourCard.TINY_MIRAGE_FLOUR()
+            1, 2 -> MirageFlourCard.MIRAGE_FLOUR()
+            3, 4 -> MirageFlourCard.RARE_MIRAGE_FLOUR()
+            5, 6 -> MirageFlourCard.VERY_RARE_MIRAGE_FLOUR()
+            7, 8 -> MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR()
+            9, 10 -> MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR()
+            11, 12 -> MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR()
             else -> throw AssertionError()
         }
         ShapelessRecipeJsonBuilder
