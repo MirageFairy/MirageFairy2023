@@ -26,7 +26,9 @@ import miragefairy2023.modules.passiveskill.SunshinePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.ToolMaterialPassiveSkillCondition
 import miragefairy2023.util.Translation
 import miragefairy2023.util.aqua
+import miragefairy2023.util.createItemStack
 import miragefairy2023.util.enJaItem
+import miragefairy2023.util.enJaItemGroup
 import miragefairy2023.util.formatted
 import miragefairy2023.util.gold
 import miragefairy2023.util.gray
@@ -36,6 +38,7 @@ import miragefairy2023.util.red
 import miragefairy2023.util.registerColorProvider
 import miragefairy2023.util.text
 import miragefairy2023.util.translation
+import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
@@ -49,6 +52,7 @@ import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
+import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.item.ToolMaterials
@@ -210,7 +214,14 @@ private val fairyItems = SlotContainer<FairyCard, Item>()
 operator fun FairyCard.invoke() = fairyItems[this]
 
 
+private val randomFairyIcon by lazy { FairyCard.values().random()().createItemStack() }
+val fairyItemGroup: ItemGroup = FabricItemGroupBuilder.build(Identifier(MirageFairy2023.modId, "fairy")) { randomFairyIcon }
+
+
 val fairyModule = module {
+
+    // アイテムグループ
+    enJaItemGroup({ fairyItemGroup }, "MirageFairy2023: Fairy", "MirageFairy2023: 妖精")
 
     // 妖精の共通アイテムモデル
     onGenerateItemModels {
@@ -231,7 +242,7 @@ val fairyModule = module {
 
     // 妖精登録
     FairyCard.values().forEach { fairyCard ->
-        item("${fairyCard.motif}_fairy", { FairyItem(fairyCard, FabricItemSettings().group(commonItemGroup)) }) {
+        item("${fairyCard.motif}_fairy", { FairyItem(fairyCard, FabricItemSettings().group(fairyItemGroup)) }) {
             onRegisterItems { fairyItems[fairyCard] = item }
 
             onGenerateItemModels { it.register(item, Model(Optional.of(Identifier(modId, "item/fairy")), Optional.empty())) }
