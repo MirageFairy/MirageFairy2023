@@ -13,4 +13,6 @@ fun jsonObjectOf(pairs: List<Pair<String, JsonElement>>) = JsonObject().also { j
     }
 }
 
+val Number.jsonPrimitive get() = JsonPrimitive(this)
 val String.jsonPrimitive get() = JsonPrimitive(this)
+val Boolean.jsonPrimitive get() = JsonPrimitive(this)
