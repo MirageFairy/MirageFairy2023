@@ -90,9 +90,6 @@
               "function": "minecraft:set_count"
             },
             {
-              "function": "miragefairy2023:apply_luck_bonus"
-            },
-            {
               "enchantment": "minecraft:fortune",
               "formula": "minecraft:binomial_with_bonus_count",
               "function": "minecraft:apply_bonus",
@@ -100,6 +97,9 @@
                 "extra": 0,
                 "probability": 1.0
               }
+            },
+            {
+              "function": "miragefairy2023:apply_luck_bonus"
             }
           ],
           "name": "miragefairy2023:tiny_mirage_flour"
