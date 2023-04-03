@@ -113,6 +113,13 @@ val mirageFlourModule = module {
         }
     }
 
+    // アイテムツールチップの翻訳
+    translation(MirageFlourItem.MIN_RARE_KEY)
+    translation(MirageFlourItem.MAX_RARE_KEY)
+    translation(MirageFlourItem.DROP_RATE_FACTOR_KEY)
+    translation(MirageFlourItem.RIGHT_CLICK_KEY)
+    translation(MirageFlourItem.SHIFT_RIGHT_CLICK_KEY)
+
     // ミラージュフラワー相互変換
     fun registerMirageFlourRecipe(lowerItemGetter: () -> Item, higherItemGetter: () -> Item) = onGenerateRecipes {
         val lowerItem = lowerItemGetter()
@@ -143,12 +150,6 @@ val mirageFlourModule = module {
     registerMirageFlourRecipe({ MirageFlourCard.VERY_RARE_MIRAGE_FLOUR() }, { MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR() })
     registerMirageFlourRecipe({ MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR() }, { MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR() })
     registerMirageFlourRecipe({ MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR() }, { MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR() })
-
-    translation(MirageFlourItem.MIN_RARE_KEY)
-    translation(MirageFlourItem.MAX_RARE_KEY)
-    translation(MirageFlourItem.DROP_RATE_FACTOR_KEY)
-    translation(MirageFlourItem.RIGHT_CLICK_KEY)
-    translation(MirageFlourItem.SHIFT_RIGHT_CLICK_KEY)
 
 }
 
