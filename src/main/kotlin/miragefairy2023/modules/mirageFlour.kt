@@ -164,6 +164,18 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
         val SHIFT_RIGHT_CLICK_KEY = Translation("$prefix.shift_right_click", "%s+right click to show fairy table", "%s+右クリックで提供割合表示")
     }
 
+    override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
+        super.appendTooltip(stack, world, tooltip, context)
+        card.poems.forEachIndexed { index, _ ->
+            tooltip += text { translate("$translationKey.poem${if (index + 1 == 1) "" else "${index + 1}"}").gray }
+        }
+        if (minRare != null) tooltip += text { MIN_RARE_KEY(minRare).blue }
+        if (maxRare != null) tooltip += text { MAX_RARE_KEY(maxRare).blue }
+        tooltip += text { DROP_RATE_FACTOR_KEY(factor.roundToInt() formatAs "%,d").blue }
+        tooltip += text { RIGHT_CLICK_KEY().yellow }
+        tooltip += text { SHIFT_RIGHT_CLICK_KEY(Text.keybind("key.sneak")).yellow }
+    }
+
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val itemStack = user.getStackInHand(hand)
 
@@ -246,17 +258,5 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
         }
 
         return TypedActionResult.success(itemStack, world.isClient)
-    }
-
-    override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-        super.appendTooltip(stack, world, tooltip, context)
-        card.poems.forEachIndexed { index, _ ->
-            tooltip += text { translate("$translationKey.poem${if (index + 1 == 1) "" else "${index + 1}"}").gray }
-        }
-        if (minRare != null) tooltip += text { MIN_RARE_KEY(minRare).blue }
-        if (maxRare != null) tooltip += text { MAX_RARE_KEY(maxRare).blue }
-        tooltip += text { DROP_RATE_FACTOR_KEY(factor.roundToInt() formatAs "%,d").blue }
-        tooltip += text { RIGHT_CLICK_KEY().yellow }
-        tooltip += text { SHIFT_RIGHT_CLICK_KEY(Text.keybind("key.sneak")).yellow }
     }
 }
