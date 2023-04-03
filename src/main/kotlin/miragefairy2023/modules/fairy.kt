@@ -140,7 +140,10 @@ enum class FairyCard(
     ),
     WARDEN(
         "warden", 8, "Wardenia", "監守者精ワルデーニャ", 0x0A3135, 0xCFCFA4, 0xA0AA7A, 0x2CD0CA,
-        listOf(PassiveSkill(listOf(MaximumLightLevelPassiveSkillCondition(7)), AttackDamagePassiveSkillEffect(8.0))),
+        listOf(
+            PassiveSkill(listOf(MaximumLightLevelPassiveSkillCondition(0)), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 2)),
+            PassiveSkill(listOf(MaximumLightLevelPassiveSkillCondition(0)), AttackDamagePassiveSkillEffect(2.0)),
+        ),
     ),
     ZOMBIE(
         "zombie", 2, "Zombia", "硬屍精ゾンビャ", 0x2B4219, 0x00AAAA, 0x322976, 0x2B4219,
