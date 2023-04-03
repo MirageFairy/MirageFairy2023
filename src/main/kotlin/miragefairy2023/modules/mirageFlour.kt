@@ -166,14 +166,21 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         super.appendTooltip(stack, world, tooltip, context)
+
+        // ポエム
         card.poems.forEachIndexed { index, _ ->
             tooltip += text { translate("$translationKey.poem${if (index + 1 == 1) "" else "${index + 1}"}").gray }
         }
+
+        // 性能
         if (minRare != null) tooltip += text { MIN_RARE_KEY(minRare).blue }
         if (maxRare != null) tooltip += text { MAX_RARE_KEY(maxRare).blue }
         tooltip += text { DROP_RATE_FACTOR_KEY(factor.roundToInt() formatAs "%,d").blue }
+
+        // 機能説明
         tooltip += text { RIGHT_CLICK_KEY().yellow }
         tooltip += text { SHIFT_RIGHT_CLICK_KEY(Text.keybind("key.sneak")).yellow }
+
     }
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
