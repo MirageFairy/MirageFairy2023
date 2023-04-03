@@ -159,7 +159,7 @@ class ToolMaterialPassiveSkillCondition(private val toolMaterial: ToolMaterial, 
 
 class MaximumLevelPassiveSkillCondition(private val level: Int) : PassiveSkillCondition {
     companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.maximum_level", "Lv.<=%s", "レベル%s以下")
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.maximum_level", "Level<=%s", "レベル%s以下")
     }
 
     override fun getText() = text { key(level) }
