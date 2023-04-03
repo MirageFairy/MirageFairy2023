@@ -93,13 +93,13 @@ class ShadePassiveSkillCondition : PassiveSkillCondition {
     }
 }
 
-class DarknessPassiveSkillCondition : PassiveSkillCondition {
+class MaximumLightLevelPassiveSkillCondition(private val lightLevel: Int) : PassiveSkillCondition {
     companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.darkness", "Darkness", "暗闇")
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.maximum_light_level", "Light<=%s", "明るさ%s以下")
     }
 
-    override fun getText() = text { key() }
-    override fun test(player: PlayerEntity) = player.world.getLightLevel(BlockPos(player.eyePos)) <= 7
+    override fun getText() = text { key(lightLevel) }
+    override fun test(player: PlayerEntity) = player.world.getLightLevel(BlockPos(player.eyePos)) <= lightLevel
 }
 
 class InRainPassiveSkillCondition : PassiveSkillCondition {

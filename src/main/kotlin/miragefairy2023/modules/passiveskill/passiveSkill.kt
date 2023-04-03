@@ -21,7 +21,7 @@ val passiveSkillModule = module {
     translation(SunshinePassiveSkillCondition.key)
     translation(MoonlightPassiveSkillCondition.key)
     translation(ShadePassiveSkillCondition.key)
-    translation(DarknessPassiveSkillCondition.key)
+    translation(MaximumLightLevelPassiveSkillCondition.key)
     BiomePassiveSkillCondition.Key.values().forEach {
         translation(it.translation)
     }

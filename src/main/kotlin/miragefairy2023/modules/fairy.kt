@@ -8,12 +8,12 @@ import miragefairy2023.module
 import miragefairy2023.modules.passiveskill.AirPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.AttackDamagePassiveSkillEffect
 import miragefairy2023.modules.passiveskill.BiomePassiveSkillCondition
-import miragefairy2023.modules.passiveskill.DarknessPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.ExperiencePassiveSkillEffect
 import miragefairy2023.modules.passiveskill.HasHoePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.InRainPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MaxHealthPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.MaximumLevelPassiveSkillCondition
+import miragefairy2023.modules.passiveskill.MaximumLightLevelPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MoonlightPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MovementSpeedPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.NightPassiveSkillCondition
@@ -140,7 +140,7 @@ enum class FairyCard(
     ),
     WARDEN(
         "warden", 8, "Wardenia", "監守者精ワルデーニャ", 0x0A3135, 0xCFCFA4, 0xA0AA7A, 0x2CD0CA,
-        listOf(PassiveSkill(listOf(DarknessPassiveSkillCondition()), AttackDamagePassiveSkillEffect(8.0))),
+        listOf(PassiveSkill(listOf(MaximumLightLevelPassiveSkillCondition(7)), AttackDamagePassiveSkillEffect(8.0))),
     ),
     ZOMBIE(
         "zombie", 2, "Zombia", "硬屍精ゾンビャ", 0x2B4219, 0x00AAAA, 0x322976, 0x2B4219,
