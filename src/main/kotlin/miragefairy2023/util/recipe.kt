@@ -22,7 +22,9 @@ import net.minecraft.loot.function.LootingEnchantLootFunction
 import net.minecraft.loot.function.SetCountLootFunction
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider
 import net.minecraft.loot.provider.number.LootNumberProvider
+import net.minecraft.predicate.NumberRange
 import net.minecraft.predicate.entity.LocationPredicate
+import net.minecraft.predicate.item.EnchantmentPredicate
 import net.minecraft.predicate.item.ItemPredicate
 import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.biome.Biome
@@ -64,6 +66,7 @@ fun InitializationScope.registerBlockDrop(
     dropRate: Float? = null,
     amount: Int? = null,
     fortuneOreDrops: Boolean = false,
+    suppressIfSilkTouch: Boolean = false,
 ) {
     onRegisterRecipes {
         val lootTableId = block().lootTableId
@@ -72,12 +75,22 @@ fun InitializationScope.registerBlockDrop(
                 if (id == lootTableId) {
                     configure(tableBuilder!!) {
                         pool(lootPool {
-                            with(itemEntry(item()) {
+                            val itemEntry = itemEntry(item()) {
                                 if (dropRate != null) conditionally(RandomChanceLootCondition.builder(dropRate))
                                 if (amount != null) apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(amount.toFloat())))
                                 if (fortuneOreDrops) apply(ApplyBonusLootFunction.oreDrops(Enchantments.FORTUNE))
                                 apply(ExplosionDecayLootFunction.builder())
-                            })
+                            }
+                            if (suppressIfSilkTouch) {
+                                with(alternativeEntry {
+                                    alternatively(itemEntry(Items.AIR) {
+                                        conditionally(MatchToolLootCondition.builder(ItemPredicate.Builder.create().enchantment(EnchantmentPredicate(Enchantments.SILK_TOUCH, NumberRange.IntRange.atLeast(1)))))
+                                    })
+                                    alternatively(itemEntry)
+                                })
+                            } else {
+                                with(itemEntry)
+                            }
                         })
                     }
                 }
