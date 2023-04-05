@@ -51,6 +51,18 @@ enum class DemonItemCard(
         "mirage_stem", "Mirage Stem", "ミラージュの茎",
         "Cell wall composed of amorphous ether", "植物が手掛ける、分子レベルの硝子細工。",
     ),
+    HONORABLE_FAIRY_CRYSTAL(
+        "honorable_fairy_crystal", "Honorable Fairy Crystal", "名誉のフェアリークリスタル",
+        "Appear out of nowhere", "妖精からの贈り物",
+    ),
+    GLORIOUS_FAIRY_CRYSTAL(
+        "glorious_fairy_crystal", "Glorious Fairy Crystal", "栄光のフェアリークリスタル",
+        "Not a substance formed in this world", "精霊王の表彰状",
+    ),
+    LEGENDARY_FAIRY_CRYSTAL(
+        "legendary_fairy_crystal", "Legendary Fairy Crystal", "伝説のフェアリークリスタル",
+        "Pluto exploded", "冥王が跳ね上がった",
+    ),
 }
 
 private val demonItems = SlotContainer<DemonItemCard, Item>()
