@@ -3,13 +3,23 @@ package miragefairy2023
 import miragefairy2023.MirageFairy2023.initializationScope
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
+import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider
+import net.minecraft.advancement.Advancement
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.ItemModelGenerator
 import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.item.Item
+import net.minecraft.loot.LootTable
+import net.minecraft.loot.context.LootContextTypes
+import net.minecraft.util.Identifier
+import net.minecraft.util.registry.Registry
+import java.util.function.BiConsumer
 import java.util.function.Consumer
 
 object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
@@ -42,9 +52,26 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
             }
         })
 
+        fabricDataGenerator.addProvider(object : SimpleFabricLootTableProvider(fabricDataGenerator, LootContextTypes.ADVANCEMENT_REWARD) {
+            override fun accept(t: BiConsumer<Identifier, LootTable.Builder>) {
+                initializationScope.onGenerateAdvancementRewardLootTables.fire { it(t) }
+            }
+        })
         fabricDataGenerator.addProvider(object : FabricBlockLootTableProvider(fabricDataGenerator) {
             override fun generateBlockLootTables() {
                 initializationScope.onGenerateBlockLootTables.fire { it(this) }
+            }
+        })
+
+        fabricDataGenerator.addProvider(object : FabricAdvancementProvider(fabricDataGenerator) {
+            override fun generateAdvancement(consumer: Consumer<Advancement>) {
+                initializationScope.onGenerateAdvancements.fire { it(consumer) }
+            }
+        })
+
+        fabricDataGenerator.addProvider(object : FabricTagProvider<Item>(fabricDataGenerator, Registry.ITEM) {
+            override fun generateTags() {
+                initializationScope.onGenerateItemTags.fire { it { id -> getOrCreateTagBuilder(id) } }
             }
         })
 
