@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory
 
 object MirageFairy2023 : ModInitializer {
     val modId = "miragefairy2023"
-    val logger = LoggerFactory.getLogger("miragefairy2023")
+    val logger = LoggerFactory.getLogger(modId)
     var proxy: Proxy? = null
 
     lateinit var initializationScope: InitializationScope
