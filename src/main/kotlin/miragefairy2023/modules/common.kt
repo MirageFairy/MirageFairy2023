@@ -11,5 +11,8 @@ import net.minecraft.util.Identifier
 val commonItemGroup: ItemGroup = FabricItemGroupBuilder.build(Identifier(MirageFairy2023.modId, "common")) { DemonItemCard.XARPITE().createItemStack() }
 
 val commonModule = module {
+
+    // メインアイテムグループ
     enJaItemGroup({ commonItemGroup }, "MirageFairy2023", "MirageFairy2023")
+
 }
