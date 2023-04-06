@@ -1,7 +1,9 @@
 {
   "replace": false,
   "values": [
+    "miragefairy2023:light_fairy",
     "miragefairy2023:hoe_fairy",
+    "miragefairy2023:ocean_fairy",
     "miragefairy2023:forest_fairy"
   ]
 }

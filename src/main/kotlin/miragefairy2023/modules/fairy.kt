@@ -8,12 +8,14 @@ import miragefairy2023.module
 import miragefairy2023.modules.passiveskill.AirPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.AttackDamagePassiveSkillEffect
 import miragefairy2023.modules.passiveskill.BiomePassiveSkillCondition
+import miragefairy2023.modules.passiveskill.CollectionPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.ExperiencePassiveSkillEffect
 import miragefairy2023.modules.passiveskill.HasHoePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.InRainPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MaxHealthPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.MaximumLevelPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MaximumLightLevelPassiveSkillCondition
+import miragefairy2023.modules.passiveskill.MinimumLightLevelPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MoonlightPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MovementSpeedPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.NightPassiveSkillCondition
@@ -24,6 +26,7 @@ import miragefairy2023.modules.passiveskill.ShadePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.StatusEffectPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.SunshinePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.ToolMaterialPassiveSkillCondition
+import miragefairy2023.modules.passiveskill.UnderwaterPassiveSkillCondition
 import miragefairy2023.util.TagScope
 import miragefairy2023.util.Translation
 import miragefairy2023.util.aqua
@@ -82,6 +85,10 @@ enum class FairyCard(
         "air", 0, "Airia", "空気精アイリャ", 0xFFBE80, 0xDEFFFF, 0xDEFFFF, 0xB0FFFF,
         listOf(PassiveSkill(listOf(OverworldPassiveSkillCondition(), AirPassiveSkillCondition()), MovementSpeedPassiveSkillEffect(0.05))),
     ),
+    LIGHT(
+        "light", 3, "Lightia", "光精リグチャ", 0xFFFFD8, 0xFFFFD8, 0xFFFFC5, 0xFFFF00,
+        listOf(PassiveSkill(listOf(MinimumLightLevelPassiveSkillCondition(12)), MovementSpeedPassiveSkillEffect(0.15))),
+    ),
     FIRE(
         "fire", 2, "Firia", "火精フィーリャ", 0xFF6C01, 0xF9DFA4, 0xFF7324, 0xFF4000,
         listOf(PassiveSkill(listOf(OnFirePassiveSkillCondition()), AttackDamagePassiveSkillEffect(2.0))),
@@ -125,6 +132,14 @@ enum class FairyCard(
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.IRON)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
         ),
     ),
+    GOLD(
+        "gold", 6, "Goldia", "金精ゴルジャ", 0xA0A0A0, 0xFFFF0B, 0xDC7613, 0xDEDE00,
+        listOf(
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD)), AttackDamagePassiveSkillEffect(1.0)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD)), MovementSpeedPassiveSkillEffect(0.10)),
+        ),
+    ),
     DIAMOND(
         "diamond", 7, "Diamondia", "金剛石精ディアモンジャ", 0x97FFE3, 0xD1FAF3, 0x70FFD9, 0x30DBBD,
         listOf(
@@ -132,9 +147,21 @@ enum class FairyCard(
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.DIAMOND)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
         ),
     ),
+    FISH(
+        "fish", 2, "Fishia", "魚精フィーシャ", 0x6B9F93, 0x5A867C, 0x43655D, 0xADBEDB,
+        listOf(PassiveSkill(listOf(UnderwaterPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.NIGHT_VISION, 0, additionalSeconds = 10))),
+    ),
+    CLOWNFISH(
+        "clownfish", 7, "Clownfishia", "隈之実精ツロウンフィーシャ", 0xE46A22, 0xF46F20, 0xA94B1D, 0xFFDBC5,
+        listOf(PassiveSkill(listOf(UnderwaterPassiveSkillCondition(), MinimumLightLevelPassiveSkillCondition(4)), StatusEffectPassiveSkillEffect(StatusEffects.WATER_BREATHING, 0))),
+    ),
     PLAYER(
         "player", 5, "Playeria", "人精プライェーリャ", 0xB58D63, 0x00AAAA, 0x322976, 0x4B3422,
         listOf(PassiveSkill(listOf(MaximumLevelPassiveSkillCondition(29)), ExperiencePassiveSkillEffect(0.5))),
+    ),
+    ENDERMAN(
+        "enderman", 6, "Endermania", "終界人精エンデルマーニャ", 0x000000, 0x161616, 0x161616, 0xEF84FA,
+        listOf(PassiveSkill(listOf(), CollectionPassiveSkillEffect(1.0))),
     ),
     WARDEN(
         "warden", 7, "Wardenia", "監守者精ワルデーニャ", 0x0A3135, 0xCFCFA4, 0xA0AA7A, 0x2CD0CA,
@@ -160,6 +187,22 @@ enum class FairyCard(
             PassiveSkill(listOf(HasHoePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
             PassiveSkill(listOf(HasHoePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 0)),
         ),
+    ),
+    PLAINS(
+        "plains", 2, "Plainsia", "平原精プラインシャ", 0xB0DF83, 0xD4FF82, 0x86C91C, 0x489F25,
+        listOf(PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.PLAINS)), StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 0))),
+    ),
+    OCEAN(
+        "ocean", 3, "Oceania", "海精オツェアーニャ", 0x7DAEF5, 0x1B6CE9, 0x191CF0, 0x004DA5,
+        listOf(PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.OCEAN)), StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 0))),
+    ),
+    TAIGA(
+        "taiga", 5, "Taigia", "針葉樹林精タイギャ", 0x5D985E, 0x476545, 0x223325, 0x5A3711,
+        listOf(PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.TAIGA)), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0))),
+    ),
+    MOUNTAIN(
+        "mountain", 6, "Mountainia", "山精モウンタイニャ", 0x84BF80, 0xB1B0B1, 0x717173, 0xF0F0F0,
+        listOf(PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.MOUNTAIN)), StatusEffectPassiveSkillEffect(StatusEffects.JUMP_BOOST, 1))),
     ),
     FOREST(
         "forest", 3, "Forestia", "森精フォレスチャ", 0x8EBF7A, 0x7B9C62, 0x89591D, 0x2E6E14,
@@ -201,6 +244,13 @@ enum class FairyCard(
             PassiveSkill(listOf(), StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 1)),
             PassiveSkill(listOf(), MovementSpeedPassiveSkillEffect(0.10)),
             PassiveSkill(listOf(), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 1)),
+        ),
+    ),
+    GRAVITY(
+        "gravity", 12, "Gravitia", "重力精グラヴィーチャ", 0xC2A7F2, 0x3600FF, 0x2A00B1, 0x110047,
+        listOf(
+            PassiveSkill(listOf(), StatusEffectPassiveSkillEffect(StatusEffects.SLOW_FALLING, 0)),
+            PassiveSkill(listOf(), AttackDamagePassiveSkillEffect(2.0)),
         ),
     ),
 }
