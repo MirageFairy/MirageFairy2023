@@ -83,13 +83,11 @@ enum class FairyCard(
         listOf(PassiveSkill(listOf(OverworldPassiveSkillCondition(), AirPassiveSkillCondition()), MovementSpeedPassiveSkillEffect(0.05))),
     ),
     FIRE(
-        "fire", 2, "Firia", "火精フィーリャ",
-        0xFF6C01, 0xF9DFA4, 0xFF7324, 0xFF4000,
+        "fire", 2, "Firia", "火精フィーリャ", 0xFF6C01, 0xF9DFA4, 0xFF7324, 0xFF4000,
         listOf(PassiveSkill(listOf(OnFirePassiveSkillCondition()), AttackDamagePassiveSkillEffect(2.0))),
     ),
     LAVA(
-        "lava", 4, "Lavia", "溶岩精ラーヴャ",
-        0xCD4208, 0xEDB54A, 0xCC4108, 0x4C1500,
+        "lava", 4, "Lavia", "溶岩精ラーヴャ", 0xCD4208, 0xEDB54A, 0xCC4108, 0x4C1500,
         listOf(
             PassiveSkill(listOf(OnFirePassiveSkillCondition()), AttackDamagePassiveSkillEffect(1.0)),
             PassiveSkill(listOf(OnFirePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0)),
@@ -97,8 +95,7 @@ enum class FairyCard(
         ),
     ),
     MOON(
-        "moon", 9, "Moonia", "月精モーニャ",
-        0xD9E4FF, 0x747D93, 0x0C121F, 0x2D4272,
+        "moon", 9, "Moonia", "月精モーニャ", 0xD9E4FF, 0x747D93, 0x0C121F, 0x2D4272,
         listOf(
             PassiveSkill(listOf(MoonlightPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.NIGHT_VISION, 0, additionalSeconds = 10)),
             PassiveSkill(listOf(MoonlightPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0)),
@@ -112,8 +109,7 @@ enum class FairyCard(
         ),
     ),
     RAIN(
-        "rain", 2, "Rainia", "雨精ライニャ",
-        0xB4FFFF, 0x4D5670, 0x4D5670, 0x2D40F4,
+        "rain", 2, "Rainia", "雨精ライニャ", 0xB4FFFF, 0x4D5670, 0x4D5670, 0x2D40F4,
         listOf(
             PassiveSkill(listOf(InRainPassiveSkillCondition()), AttackDamagePassiveSkillEffect(2.0)),
         ),
@@ -130,8 +126,7 @@ enum class FairyCard(
         ),
     ),
     DIAMOND(
-        "diamond", 7, "Diamondia", "金剛石精ディアモンジャ",
-        0x97FFE3, 0xD1FAF3, 0x70FFD9, 0x30DBBD,
+        "diamond", 7, "Diamondia", "金剛石精ディアモンジャ", 0x97FFE3, 0xD1FAF3, 0x70FFD9, 0x30DBBD,
         listOf(
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.DIAMOND)), AttackDamagePassiveSkillEffect(2.0)),
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.DIAMOND)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
@@ -153,16 +148,14 @@ enum class FairyCard(
         listOf(PassiveSkill(listOf(ShadePassiveSkillCondition()), AttackDamagePassiveSkillEffect(1.0))),
     ),
     SPRUCE(
-        "spruce", 6, "Sprucia", "松精スプルーツァ",
-        0x795C36, 0x583E1F, 0x23160A, 0x4C784C,
+        "spruce", 6, "Sprucia", "松精スプルーツァ", 0x795C36, 0x583E1F, 0x23160A, 0x4C784C,
         listOf(
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.FOREST)), AttackDamagePassiveSkillEffect(1.0)),
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.TAIGA)), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0)),
         ),
     ),
     HOE(
-        "hoe", 3, "Hia", "鍬精ヒャ",
-        0xFFFFFF, 0xFFC48E, 0x47FF00, 0xFFFFFF,
+        "hoe", 3, "Hia", "鍬精ヒャ", 0xFFFFFF, 0xFFC48E, 0x47FF00, 0xFFFFFF,
         listOf(
             PassiveSkill(listOf(HasHoePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
             PassiveSkill(listOf(HasHoePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 0)),
@@ -173,16 +166,14 @@ enum class FairyCard(
         listOf(PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.FOREST)), StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0))),
     ),
     DESERT(
-        "desert", 4, "Desertia", "砂漠精デセルチャ",
-        0x80FF00, 0xDDD6A5, 0xD6CE9D, 0x0F6C1C,
+        "desert", 4, "Desertia", "砂漠精デセルチャ", 0x80FF00, 0xDDD6A5, 0xD6CE9D, 0x0F6C1C,
         listOf(
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.DESERT), SunshinePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.FIRE_RESISTANCE, 0)),
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.DESERT), MoonlightPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0)),
         ),
     ),
     AVALON(
-        "avalon", 8, "Avalonia", "阿瓦隆精アヴァローニャ",
-        0xFFE4CA, 0xE1FFCE, 0xD0FFE6, 0xFFCAFF,
+        "avalon", 8, "Avalonia", "阿瓦隆精アヴァローニャ", 0xFFE4CA, 0xE1FFCE, 0xD0FFE6, 0xFFCAFF,
         listOf(
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.MUSHROOM)), StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 1)),
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.MUSHROOM)), StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 1)),
