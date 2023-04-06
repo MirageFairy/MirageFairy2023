@@ -5,13 +5,19 @@ import miragefairy2023.util.Translation
 import miragefairy2023.util.randomInt
 import miragefairy2023.util.text
 import mirrg.kotlin.hydrogen.formatAs
+import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.attribute.EntityAttribute
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Box
+import net.minecraft.world.World
 import java.util.UUID
 
 abstract class AttributePassiveSkillEffect : PassiveSkillEffect {
@@ -85,5 +91,85 @@ class ExperiencePassiveSkillEffect(private val amount: Double) : PassiveSkillEff
     override fun affect(player: PlayerEntity) {
         val actualAmount = player.world.random.randomInt(amount)
         if (actualAmount > 0) player.addExperience(actualAmount)
+    }
+}
+
+class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEffect {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.collection", "Collection: %s Items", "収集: %s個")
+    }
+
+    private fun canVisit(world: World, blockPos: BlockPos) = !world.getBlockState(blockPos).isOpaque
+
+    override fun getText() = text { key(amount formatAs "%.1f") }
+    override fun affect(player: PlayerEntity) {
+        val actualAmount = player.world.random.randomInt(amount)
+        if (actualAmount > 0) {
+            val originalBlockPos = BlockPos(player.eyePos)
+            val reach = 16
+            val itemEntities = player.world.getEntitiesByClass(ItemEntity::class.java, Box(originalBlockPos).expand(reach - 1.0)) {
+                when {
+                    it.isSpectator -> false
+                    it.boundingBox.intersects(player.boundingBox) -> false
+                    else -> true
+                }
+            }
+
+            val checkedPoints = mutableSetOf<BlockPos>()
+            var nextPoints = mutableSetOf(originalBlockPos)
+            var remainingAmount = actualAmount
+            var processedCount = 0
+
+            run finish@{
+                repeat(reach) {
+
+                    val currentPoints: Set<BlockPos> = nextPoints
+                    nextPoints = mutableSetOf()
+
+                    currentPoints.forEach { currentPoint ->
+                        if (currentPoint in checkedPoints) return@forEach
+                        checkedPoints += currentPoint
+                        if (!canVisit(player.world, currentPoint)) return@forEach
+
+                        // visit
+                        run {
+
+                            val currentBox = Box(currentPoint).expand(0.98, 0.0, 0.98)
+                            itemEntities
+                                .filter { it.boundingBox.intersects(currentBox) }
+                                .forEach {
+
+                                    it.teleport(player.x, player.y, player.z)
+                                    it.resetPickupDelay()
+
+                                    processedCount++
+
+                                    remainingAmount--
+                                    if (remainingAmount <= 0) return@finish
+
+                                }
+
+                        }
+
+                        nextPoints += currentPoint.down()
+                        nextPoints += currentPoint.up()
+                        nextPoints += currentPoint.north()
+                        nextPoints += currentPoint.south()
+                        nextPoints += currentPoint.west()
+                        nextPoints += currentPoint.east()
+
+                    }
+
+                }
+            }
+
+            if (processedCount > 0) {
+
+                // Effect
+                player.world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.NEUTRAL, 0.25f, 1.0f)
+
+            }
+
+        }
     }
 }

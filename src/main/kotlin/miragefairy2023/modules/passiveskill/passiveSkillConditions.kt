@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ToolItem
 import net.minecraft.item.ToolMaterial
 import net.minecraft.item.ToolMaterials
+import net.minecraft.tag.FluidTags
 import net.minecraft.tag.TagKey
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.biome.Biome
@@ -30,6 +31,18 @@ class AirPassiveSkillCondition : PassiveSkillCondition {
     override fun test(player: PlayerEntity): Boolean {
         val blockState = player.world.getBlockState(BlockPos(player.eyePos))
         return !blockState.isOpaque && blockState.fluidState.isEmpty
+    }
+}
+
+class UnderwaterPassiveSkillCondition : PassiveSkillCondition {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.underwater", "Underwater", "水中")
+    }
+
+    override fun getText() = text { key() }
+    override fun test(player: PlayerEntity): Boolean {
+        val blockState = player.world.getBlockState(BlockPos(player.eyePos))
+        return blockState.fluidState.isIn(FluidTags.WATER)
     }
 }
 
@@ -93,6 +106,15 @@ class ShadePassiveSkillCondition : PassiveSkillCondition {
     }
 }
 
+class MinimumLightLevelPassiveSkillCondition(private val lightLevel: Int) : PassiveSkillCondition {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.minimum_light_level", "Light>=%s", "明るさ%s以上")
+    }
+
+    override fun getText() = text { key(lightLevel) }
+    override fun test(player: PlayerEntity) = player.world.getLightLevel(BlockPos(player.eyePos)) >= lightLevel
+}
+
 class MaximumLightLevelPassiveSkillCondition(private val lightLevel: Int) : PassiveSkillCondition {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.maximum_light_level", "Light<=%s", "明るさ%s以下")
@@ -123,6 +145,9 @@ class BiomePassiveSkillCondition(private val biomeTag: TagKey<Biome>) : PassiveS
         MUSHROOM(Translation("$keyPrefix.c.mushroom", "Mushroom Island", "キノコ島")),
         FLORAL(Translation("$keyPrefix.c.floral", "Floral", "花畑")),
         INTHEEND(Translation("$keyPrefix.c.in_the_end", "The End", "エンド")),
+        PLAINS(Translation("$keyPrefix.c.plains", "Plains", "平原")),
+        OCEAN(Translation("$keyPrefix.c.ocean", "Ocean", "海洋")),
+        MOUNTAIN(Translation("$keyPrefix.c.mountain", "Mountain", "山岳")),
     }
 
     override fun getText() = text { translate("$keyPrefix.${biomeTag.id.toTranslationKey()}") }
@@ -145,6 +170,7 @@ class ToolMaterialPassiveSkillCondition(private val toolMaterial: ToolMaterial, 
 
     enum class Key(val translation: Translation) {
         IRON(Translation("$keyPrefix.iron", "Iron Tool", "鉄ツール")),
+        GOLD(Translation("$keyPrefix.gold", "Golden Tool", "金ツール")),
         DIAMOND(Translation("$keyPrefix.diamond", "Diamond Tool", "ダイヤモンドツール")),
     }
 
