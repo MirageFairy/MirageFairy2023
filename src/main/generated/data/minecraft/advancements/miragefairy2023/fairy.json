@@ -1,0 +1,40 @@
+{
+  "parent": "minecraft:miragefairy2023/root",
+  "criteria": {
+    "got_fairies": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "miragefairy2023:fairies"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.miragefairy2023.fairy.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "miragefairy2023:air_fairy"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.miragefairy2023.fairy.title"
+    }
+  },
+  "requirements": [
+    [
+      "got_fairies"
+    ]
+  ],
+  "rewards": {
+    "loot": [
+      "miragefairy2023:advancement_reward/tier1_fairy_crystal"
+    ]
+  }
+}

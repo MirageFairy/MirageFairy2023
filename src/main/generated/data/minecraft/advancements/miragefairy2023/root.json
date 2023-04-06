@@ -1,0 +1,55 @@
+{
+  "criteria": {
+    "got_mirage_seed": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "miragefairy2023:mirage_seed"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "got_tiny_mirage_flour": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "miragefairy2023:tiny_mirage_flour"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "minecraft:textures/block/iron_block.png",
+    "description": {
+      "translate": "advancements.miragefairy2023.root.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "miragefairy2023:mirage_seed"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.miragefairy2023.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "got_tiny_mirage_flour",
+      "got_mirage_seed"
+    ]
+  ],
+  "rewards": {
+    "loot": [
+      "miragefairy2023:advancement_reward/tier1_fairy_crystal"
+    ]
+  }
+}

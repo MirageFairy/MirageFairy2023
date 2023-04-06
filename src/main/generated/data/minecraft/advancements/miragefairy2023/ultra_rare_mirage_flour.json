@@ -1,0 +1,42 @@
+{
+  "parent": "minecraft:miragefairy2023/very_rare_mirage_flour",
+  "criteria": {
+    "got_ultra_rare_mirage_flour": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "miragefairy2023:ultra_rare_mirage_flour"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.miragefairy2023.ultra_rare_mirage_flour.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "miragefairy2023:ultra_rare_mirage_flour"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.miragefairy2023.ultra_rare_mirage_flour.title"
+    }
+  },
+  "requirements": [
+    [
+      "got_ultra_rare_mirage_flour"
+    ]
+  ],
+  "rewards": {
+    "loot": [
+      "miragefairy2023:advancement_reward/tier2_fairy_crystal"
+    ]
+  }
+}

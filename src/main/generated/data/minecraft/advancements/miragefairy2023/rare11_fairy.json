@@ -1,0 +1,40 @@
+{
+  "parent": "minecraft:miragefairy2023/rare10_fairy",
+  "criteria": {
+    "got_rare11_fairies": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "miragefairy2023:rare11_fairies"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.miragefairy2023.rare11_fairy.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "miragefairy2023:void_fairy"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.miragefairy2023.rare11_fairy.title"
+    }
+  },
+  "requirements": [
+    [
+      "got_rare11_fairies"
+    ]
+  ],
+  "rewards": {
+    "loot": [
+      "miragefairy2023:advancement_reward/tier2_fairy_crystal"
+    ]
+  }
+}
