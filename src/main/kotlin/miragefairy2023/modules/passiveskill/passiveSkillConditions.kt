@@ -3,6 +3,7 @@ package miragefairy2023.modules.passiveskill
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.util.Translation
 import miragefairy2023.util.text
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ToolItem
@@ -139,15 +140,15 @@ class BiomePassiveSkillCondition(private val biomeTag: TagKey<Biome>) : PassiveS
     }
 
     enum class Key(val translation: Translation) {
-        FOREST(Translation("$keyPrefix.c.forest", "Forest", "森林")),
-        TAIGA(Translation("$keyPrefix.c.taiga", "Taiga", "タイガ")),
-        DESERT(Translation("$keyPrefix.c.desert", "Desert", "砂漠")),
-        MUSHROOM(Translation("$keyPrefix.c.mushroom", "Mushroom Island", "キノコ島")),
-        FLORAL(Translation("$keyPrefix.c.floral", "Floral", "花畑")),
-        INTHEEND(Translation("$keyPrefix.c.in_the_end", "The End", "エンド")),
-        PLAINS(Translation("$keyPrefix.c.plains", "Plains", "平原")),
-        OCEAN(Translation("$keyPrefix.c.ocean", "Ocean", "海洋")),
-        MOUNTAIN(Translation("$keyPrefix.c.mountain", "Mountain", "山岳")),
+        FOREST(Translation(ConventionalBiomeTags.FOREST.id.toTranslationKey(keyPrefix), "Forest", "森林")),
+        TAIGA(Translation(ConventionalBiomeTags.TAIGA.id.toTranslationKey(keyPrefix), "Taiga", "タイガ")),
+        DESERT(Translation(ConventionalBiomeTags.DESERT.id.toTranslationKey(keyPrefix), "Desert", "砂漠")),
+        MUSHROOM(Translation(ConventionalBiomeTags.MUSHROOM.id.toTranslationKey(keyPrefix), "Mushroom Island", "キノコ島")),
+        FLORAL(Translation(ConventionalBiomeTags.FLORAL.id.toTranslationKey(keyPrefix), "Floral", "花畑")),
+        INTHEEND(Translation(ConventionalBiomeTags.IN_THE_END.id.toTranslationKey(keyPrefix), "The End", "エンド")),
+        PLAINS(Translation(ConventionalBiomeTags.PLAINS.id.toTranslationKey(keyPrefix), "Plains", "平原")),
+        OCEAN(Translation(ConventionalBiomeTags.OCEAN.id.toTranslationKey(keyPrefix), "Ocean", "海洋")),
+        MOUNTAIN(Translation(ConventionalBiomeTags.MOUNTAIN.id.toTranslationKey(keyPrefix), "Mountain", "山岳")),
     }
 
     override fun getText() = text { translate("$keyPrefix.${biomeTag.id.toTranslationKey()}") }
