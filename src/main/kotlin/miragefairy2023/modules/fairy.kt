@@ -162,11 +162,11 @@ enum class FairyCard(
         ),
     ),
     FOREST(
-        "forest", 3, "Forestia", "森精フォレスチャ", 0x80FF00, 0x7B9C62, 0x89591D, 0x2E6E14,
+        "forest", 3, "Forestia", "森精フォレスチャ", 0x8EBF7A, 0x7B9C62, 0x89591D, 0x2E6E14,
         listOf(PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.FOREST)), StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0))),
     ),
     DESERT(
-        "desert", 4, "Desertia", "砂漠精デセルチャ", 0x80FF00, 0xDDD6A5, 0xD6CE9D, 0x0F6C1C,
+        "desert", 4, "Desertia", "砂漠精デセルチャ", 0xF9F0C8, 0xDDD6A5, 0xD6CE9D, 0x656054,
         listOf(
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.DESERT), SunshinePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.FIRE_RESISTANCE, 0)),
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.DESERT), MoonlightPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0)),
