@@ -151,7 +151,7 @@ enum class FairyCard(
         "spruce", 6, "Sprucia", "松精スプルーツァ", 0x795C36, 0x583E1F, 0x23160A, 0x4C784C,
         listOf(
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.FOREST)), AttackDamagePassiveSkillEffect(1.0)),
-            PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.TAIGA)), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0)),
+            PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.TAIGA)), AttackDamagePassiveSkillEffect(1.0)),
         ),
     ),
     HOE(
