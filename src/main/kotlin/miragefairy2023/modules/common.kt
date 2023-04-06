@@ -137,7 +137,7 @@ val commonModule = module {
         }
 
         val rare1Fairy = advancement(
-            "rare1_fairy", { FairyCard.DIRT() },
+            "rare1_fairy", { FairyCard.DIRT() }, // TODO 変更
             "The Phantasmal Law", "幻想を司るもの",
             "Observe astral vortices from 'inside the mind'", "妖精を遣い、人間の心の中を探検する",
             parent = fairy,
@@ -147,7 +147,7 @@ val commonModule = module {
         }
 
         val rare2Fairy = advancement(
-            "rare2_fairy", { FairyCard.FIRE() },
+            "rare2_fairy", { FairyCard.PLAINS() }, // TODO 変更
             "Dreamy Flower", "植物の見る夢",
             "Say hello when someone says hello", "妖精は何を感じ、何を思うのか？",
             parent = rare1Fairy,
@@ -157,7 +157,7 @@ val commonModule = module {
         }
 
         val rare3Fairy = advancement(
-            "rare3_fairy", { FairyCard.FOREST() },
+            "rare3_fairy", { FairyCard.FOREST() }, // TODO 変更
             "Real Elephants and Imaginary Elephants", "人間が想像できることは人間が実現する",
             "Brainstorm the Mirage miracle", "世の中のくだらない奇跡について無限に思いを巡らせてみる",
             parent = rare2Fairy,
@@ -237,7 +237,7 @@ val commonModule = module {
         }
 
         val rare11Fairy = advancement(
-            "rare11_fairy", { FairyCard.VOID() },
+            "rare11_fairy", { FairyCard.VOID() }, // TODO 変更
             "What Is It Like to Be a Fairy?", "妖精であるとはどのようなことか",
             "Feel the cosmic astral radiation", "天を超えた世界の事象を知る",
             parent = rare10Fairy,
