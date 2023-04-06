@@ -2,6 +2,7 @@ package miragefairy2023.modules.passiveskill
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.util.Translation
+import miragefairy2023.util.randomInt
 import miragefairy2023.util.text
 import mirrg.kotlin.hydrogen.formatAs
 import net.minecraft.entity.attribute.EntityAttribute
@@ -53,7 +54,7 @@ class MovementSpeedPassiveSkillEffect(override val power: Double) : AttributePas
 }
 
 class AttackDamagePassiveSkillEffect(override val power: Double) : AttributePassiveSkillEffect() {
-    override fun getText() = text { translate("attribute.name.generic.attack_damage") + " "() + (power formatAs "%+.0f")() }
+    override fun getText() = text { translate("attribute.name.generic.attack_damage") + " "() + (power formatAs "%+.1f")() }
     override val uuid: UUID = UUID.fromString("19306783-21EE-4A02-AC1F-46FFECE309A2")
     override val identifier = Identifier(MirageFairy2023.modId, "attack_damage")
     override val entityAttribute: EntityAttribute = EntityAttributes.GENERIC_ATTACK_DAMAGE
@@ -61,7 +62,7 @@ class AttackDamagePassiveSkillEffect(override val power: Double) : AttributePass
 }
 
 class MaxHealthPassiveSkillEffect(override val power: Double) : AttributePassiveSkillEffect() {
-    override fun getText() = text { translate("attribute.name.generic.max_health") + " "() + (power formatAs "%+.0f")() }
+    override fun getText() = text { translate("attribute.name.generic.max_health") + " "() + (power formatAs "%+.1f")() }
     override val uuid: UUID = UUID.fromString("A3610FD7-694C-443C-B9D3-7F2815526EA7")
     override val identifier = Identifier(MirageFairy2023.modId, "max_health")
     override val entityAttribute: EntityAttribute = EntityAttributes.GENERIC_MAX_HEALTH
@@ -75,11 +76,14 @@ class StatusEffectPassiveSkillEffect(private val statusEffect: StatusEffect, pri
     }
 }
 
-class ExperiencePassiveSkillEffect(private val amount: Int) : PassiveSkillEffect {
+class ExperiencePassiveSkillEffect(private val amount: Double) : PassiveSkillEffect {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.experience", "Experience", "経験値")
     }
 
     override fun getText() = text { key() + " +$amount"() }
-    override fun affect(player: PlayerEntity) = player.addExperience(amount)
+    override fun affect(player: PlayerEntity) {
+        val actualAmount = player.world.random.randomInt(amount)
+        if (actualAmount > 0) player.addExperience(actualAmount)
+    }
 }

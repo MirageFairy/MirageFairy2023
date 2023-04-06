@@ -91,7 +91,8 @@ enum class FairyCard(
         "lava", 4, "Lavia", "溶岩精ラーヴャ",
         0xCD4208, 0xEDB54A, 0xCC4108, 0x4C1500,
         listOf(
-            PassiveSkill(listOf(OnFirePassiveSkillCondition()), AttackDamagePassiveSkillEffect(2.0)),
+            PassiveSkill(listOf(OnFirePassiveSkillCondition()), AttackDamagePassiveSkillEffect(1.0)),
+            PassiveSkill(listOf(OnFirePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0)),
             PassiveSkill(listOf(OnFirePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0)),
         ),
     ),
@@ -106,7 +107,7 @@ enum class FairyCard(
     SUN(
         "sun", 10, "Sunia", "太陽精スーニャ", 0xff2f00, 0xff972b, 0xff7500, 0xffe7b2,
         listOf(
-            PassiveSkill(listOf(SunshinePassiveSkillCondition()), AttackDamagePassiveSkillEffect(6.0)),
+            PassiveSkill(listOf(SunshinePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 1)),
             PassiveSkill(listOf(SunshinePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0)),
         ),
     ),
@@ -124,7 +125,7 @@ enum class FairyCard(
     IRON(
         "iron", 4, "Ironia", "鉄精イローニャ", 0xA0A0A0, 0xD8D8D8, 0x727272, 0xD8AF93,
         listOf(
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.IRON)), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.IRON)), AttackDamagePassiveSkillEffect(1.0)),
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.IRON)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
         ),
     ),
@@ -132,19 +133,18 @@ enum class FairyCard(
         "diamond", 7, "Diamondia", "金剛石精ディアモンジャ",
         0x97FFE3, 0xD1FAF3, 0x70FFD9, 0x30DBBD,
         listOf(
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.DIAMOND)), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 1)),
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.DIAMOND)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.DIAMOND)), AttackDamagePassiveSkillEffect(2.0)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.DIAMOND)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
         ),
     ),
     PLAYER(
         "player", 5, "Playeria", "人精プライェーリャ", 0xB58D63, 0x00AAAA, 0x322976, 0x4B3422,
-        listOf(PassiveSkill(listOf(MaximumLevelPassiveSkillCondition(29)), ExperiencePassiveSkillEffect(1))),
+        listOf(PassiveSkill(listOf(MaximumLevelPassiveSkillCondition(29)), ExperiencePassiveSkillEffect(0.5))),
     ),
     WARDEN(
         "warden", 8, "Wardenia", "監守者精ワルデーニャ", 0x0A3135, 0xCFCFA4, 0xA0AA7A, 0x2CD0CA,
         listOf(
-            PassiveSkill(listOf(MaximumLightLevelPassiveSkillCondition(0)), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 2)),
+            PassiveSkill(listOf(MaximumLightLevelPassiveSkillCondition(0)), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 1)),
             PassiveSkill(listOf(MaximumLightLevelPassiveSkillCondition(0)), AttackDamagePassiveSkillEffect(2.0)),
         ),
     ),
@@ -156,8 +156,8 @@ enum class FairyCard(
         "spruce", 6, "Sprucia", "松精スプルーツァ",
         0x795C36, 0x583E1F, 0x23160A, 0x4C784C,
         listOf(
-            PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.FOREST)), AttackDamagePassiveSkillEffect(2.0)),
-            PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.TAIGA)), AttackDamagePassiveSkillEffect(2.0)),
+            PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.FOREST)), AttackDamagePassiveSkillEffect(1.0)),
+            PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.TAIGA)), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0)),
         ),
     ),
     HOE(
@@ -173,7 +173,7 @@ enum class FairyCard(
         listOf(PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.FOREST)), StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0))),
     ),
     DESERT(
-        "desert", 3, "Desertia", "砂漠精デセルチャ",
+        "desert", 4, "Desertia", "砂漠精デセルチャ",
         0x80FF00, 0xDDD6A5, 0xD6CE9D, 0x0F6C1C,
         listOf(
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.DESERT), SunshinePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.FIRE_RESISTANCE, 0)),
@@ -202,14 +202,14 @@ enum class FairyCard(
         "night", 7, "Nightia", "夜精ニグチャ", 0xFFE260, 0x2C2C2E, 0x0E0E10, 0x2D4272,
         listOf(
             PassiveSkill(listOf(NightPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 0)),
-            PassiveSkill(listOf(NightPassiveSkillCondition()), MovementSpeedPassiveSkillEffect(0.05)),
         ),
     ),
     TIME(
         "time", 12, "Timia", "時精ティーミャ", 0x89D585, 0xD5DEBC, 0xD8DEA7, 0x8DD586,
         listOf(
-            PassiveSkill(listOf(), MovementSpeedPassiveSkillEffect(0.50)),
-            PassiveSkill(listOf(), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 2)),
+            PassiveSkill(listOf(), StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 1)),
+            PassiveSkill(listOf(), MovementSpeedPassiveSkillEffect(0.10)),
+            PassiveSkill(listOf(), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 1)),
         ),
     ),
 }
