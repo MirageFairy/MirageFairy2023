@@ -197,9 +197,9 @@ val commonModule = module {
         }
 
         val rare7Fairy = advancement(
-            "rare7_fairy", { FairyCard.DIAMOND() }, // TODO 変更
-            "Garden of Avalon", "須弥山の頂",
-            "Step into eden", "楽園の夢を見る",
+            "rare7_fairy", { FairyCard.WARDEN() },
+            "Subterranean Silence", "不気味の谷を往く",
+            "Step into abyss", "深淵を覗く",
             parent = rare6Fairy,
         ) {
             criterion(fairiesOfRareItemTag[7]!!())
@@ -207,9 +207,9 @@ val commonModule = module {
         }
 
         val rare8Fairy = advancement(
-            "rare8_fairy", { FairyCard.WARDEN() },
-            "Subterranean Silence", "不気味の谷を往く",
-            "Step into abyss", "深淵を覗く",
+            "rare8_fairy", { FairyCard.AVALON() },
+            "Garden of Avalon", "須弥山の頂",
+            "Step into eden", "楽園の夢を見る",
             parent = rare7Fairy,
         ) {
             criterion(fairiesOfRareItemTag[8]!!())

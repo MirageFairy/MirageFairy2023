@@ -137,7 +137,7 @@ enum class FairyCard(
         listOf(PassiveSkill(listOf(MaximumLevelPassiveSkillCondition(29)), ExperiencePassiveSkillEffect(0.5))),
     ),
     WARDEN(
-        "warden", 8, "Wardenia", "監守者精ワルデーニャ", 0x0A3135, 0xCFCFA4, 0xA0AA7A, 0x2CD0CA,
+        "warden", 7, "Wardenia", "監守者精ワルデーニャ", 0x0A3135, 0xCFCFA4, 0xA0AA7A, 0x2CD0CA,
         listOf(
             PassiveSkill(listOf(MaximumLightLevelPassiveSkillCondition(0)), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 1)),
             PassiveSkill(listOf(MaximumLightLevelPassiveSkillCondition(0)), AttackDamagePassiveSkillEffect(2.0)),
