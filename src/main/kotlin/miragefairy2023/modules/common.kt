@@ -159,7 +159,7 @@ val commonModule = module {
         val rare3Fairy = advancement(
             "rare3_fairy", { FairyCard.FOREST() },
             "Real Elephants and Imaginary Elephants", "人間が想像できることは人間が実現する",
-            "Brainstorm the Mirage miracle", "世の中のくだらない奇跡を無数に思い浮かべてみる",
+            "Brainstorm the Mirage miracle", "世の中のくだらない奇跡について無限に思いを巡らせてみる",
             parent = rare2Fairy,
         ) {
             criterion(fairiesOfRareItemTag[3]!!())
