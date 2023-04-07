@@ -15,15 +15,15 @@ interface FeatureSlot<out T> {
 
 fun <T : Block> InitializationScope.block(name: String, blockCreator: () -> T, block: FeatureSlot<T>.() -> Unit = {}): FeatureSlot<T> {
     val id = Identifier(modId, name)
-    lateinit var item: T
+    lateinit var feature: T
     val scope = object : FeatureSlot<T> {
         override val initializationScope get() = this@block
         override val id get() = id
-        override val feature get() = item
+        override val feature get() = feature
     }
     onRegisterBlocks {
-        item = blockCreator()
-        Registry.register(Registry.BLOCK, id, scope.feature)
+        feature = blockCreator()
+        Registry.register(Registry.BLOCK, id, feature)
     }
     block(scope)
     return scope
