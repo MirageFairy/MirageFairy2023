@@ -34,6 +34,12 @@ fun <T : Block> BlockScope<T>.generateBlockState(jsonElementSupplier: () -> Json
     }
 }
 
+fun <T : Block> BlockScope<T>.generateSimpleCubeAllBlockState() {
+    initializationScope.onGenerateBlockStateModels { blockStateModelGenerator ->
+        blockStateModelGenerator.registerSimpleCubeAll(item)
+    }
+}
+
 
 inline fun <T> configure(receiver: T, block: T.() -> Unit) = receiver.apply(block)
 
