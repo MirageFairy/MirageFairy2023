@@ -1,8 +1,9 @@
 @file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
-package miragefairy2023.util
+package miragefairy2023.util.init
 
 import miragefairy2023.InitializationScope
+import miragefairy2023.util.FeatureSlot
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import net.minecraft.item.Item
 import net.minecraft.tag.TagKey
