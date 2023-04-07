@@ -2,7 +2,6 @@ package miragefairy2023.modules
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
-import miragefairy2023.util.FeatureSlot
 import miragefairy2023.util.advancement
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.criterion
@@ -11,6 +10,7 @@ import miragefairy2023.util.enJaBlock
 import miragefairy2023.util.enJaItemGroup
 import miragefairy2023.util.generateSimpleCubeAllBlockState
 import miragefairy2023.util.gray
+import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.block
 import miragefairy2023.util.init.item
 import miragefairy2023.util.itemEntry
