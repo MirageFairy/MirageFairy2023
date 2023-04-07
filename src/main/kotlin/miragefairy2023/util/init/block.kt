@@ -1,8 +1,9 @@
 @file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
-package miragefairy2023.util
+package miragefairy2023.util.init
 
 import miragefairy2023.InitializationScope
+import miragefairy2023.util.FeatureSlot
 import net.minecraft.block.Block
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry

@@ -6,7 +6,6 @@ import com.google.gson.JsonSerializationContext
 import miragefairy2023.module
 import miragefairy2023.util.FeatureSlot
 import miragefairy2023.util.applyExplosionDecay
-import miragefairy2023.util.block
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.enJa
 import miragefairy2023.util.enJaItem
@@ -14,6 +13,7 @@ import miragefairy2023.util.exactMatchBlockStatePropertyLootCondition
 import miragefairy2023.util.generateBlockLootTable
 import miragefairy2023.util.generateBlockState
 import miragefairy2023.util.gray
+import miragefairy2023.util.init.block
 import miragefairy2023.util.init.item
 import miragefairy2023.util.itemEntry
 import miragefairy2023.util.jsonObjectOf
