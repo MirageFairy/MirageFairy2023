@@ -47,10 +47,14 @@ object TextScope {
 
 inline fun text(block: TextScope.() -> Text) = block(TextScope)
 
-fun Iterable<Text>.join(separator: Text): Text {
+fun Iterable<Text>.join(vararg separators: Text): Text {
     val result = Text.empty()
     this.forEachIndexed { index, text ->
-        if (index != 0) result.append(separator)
+        if (index != 0) {
+            separators.forEach {
+                result.append(it)
+            }
+        }
         result.append(text)
     }
     return result
