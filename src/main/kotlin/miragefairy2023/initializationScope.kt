@@ -27,6 +27,7 @@ class InitializationScope(val modId: String) {
     val onGenerateBlockLootTables = EventBus<FabricBlockLootTableProvider.() -> Unit>()
     val onGenerateAdvancements = EventBus<(Consumer<Advancement>) -> Unit>()
     val onGenerateItemTags = EventBus<((TagKey<Item>) -> FabricTagProvider<Item>.FabricTagBuilder<Item>) -> Unit>()
+    val onGenerateBlockTags = EventBus<((TagKey<Block>) -> FabricTagProvider<Block>.FabricTagBuilder<Block>) -> Unit>()
 
     val onRegisterRenderLayers = EventBus<((Block, Unit) -> Unit) -> Unit>()
     val onRegisterColorProvider = EventBus<((Item, (ItemStack, Int) -> Int) -> Unit) -> Unit>()

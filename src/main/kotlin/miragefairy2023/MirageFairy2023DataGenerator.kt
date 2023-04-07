@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider
 import net.minecraft.advancement.Advancement
+import net.minecraft.block.Block
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.ItemModelGenerator
 import net.minecraft.data.server.recipe.RecipeJsonProvider
@@ -72,6 +73,11 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
         fabricDataGenerator.addProvider(object : FabricTagProvider<Item>(fabricDataGenerator, Registry.ITEM) {
             override fun generateTags() {
                 initializationScope.onGenerateItemTags.fire { it { id -> getOrCreateTagBuilder(id) } }
+            }
+        })
+        fabricDataGenerator.addProvider(object : FabricTagProvider<Block>(fabricDataGenerator, Registry.BLOCK) {
+            override fun generateTags() {
+                initializationScope.onGenerateBlockTags.fire { it { id -> getOrCreateTagBuilder(id) } }
             }
         })
 
