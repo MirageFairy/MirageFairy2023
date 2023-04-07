@@ -2,9 +2,9 @@ package miragefairy2023.modules
 
 import miragefairy2023.module
 import miragefairy2023.util.enJaItem
-import miragefairy2023.util.item
+import miragefairy2023.util.init.item
+import miragefairy2023.util.init.registerColorProvider
 import miragefairy2023.util.join
-import miragefairy2023.util.registerColorProvider
 import miragefairy2023.util.text
 import mirrg.kotlin.hydrogen.join
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings

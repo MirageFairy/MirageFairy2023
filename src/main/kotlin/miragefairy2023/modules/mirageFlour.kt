@@ -16,8 +16,8 @@ import miragefairy2023.util.enJaItem
 import miragefairy2023.util.get
 import miragefairy2023.util.gray
 import miragefairy2023.util.hasSameItemAndNbt
+import miragefairy2023.util.init.item
 import miragefairy2023.util.int
-import miragefairy2023.util.item
 import miragefairy2023.util.orDefault
 import miragefairy2023.util.text
 import miragefairy2023.util.totalWeight

@@ -14,7 +14,7 @@ import miragefairy2023.util.exactMatchBlockStatePropertyLootCondition
 import miragefairy2023.util.generateBlockLootTable
 import miragefairy2023.util.generateBlockState
 import miragefairy2023.util.gray
-import miragefairy2023.util.item
+import miragefairy2023.util.init.item
 import miragefairy2023.util.itemEntry
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive

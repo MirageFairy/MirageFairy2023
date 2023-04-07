@@ -5,7 +5,7 @@ import miragefairy2023.module
 import miragefairy2023.util.enJa
 import miragefairy2023.util.enJaItem
 import miragefairy2023.util.gray
-import miragefairy2023.util.item
+import miragefairy2023.util.init.item
 import miragefairy2023.util.registerBlockDrop
 import miragefairy2023.util.registerGrassDrop
 import miragefairy2023.util.registerMobDrop

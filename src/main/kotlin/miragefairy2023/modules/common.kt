@@ -12,7 +12,7 @@ import miragefairy2023.util.enJaBlock
 import miragefairy2023.util.enJaItemGroup
 import miragefairy2023.util.generateSimpleCubeAllBlockState
 import miragefairy2023.util.gray
-import miragefairy2023.util.item
+import miragefairy2023.util.init.item
 import miragefairy2023.util.itemEntry
 import miragefairy2023.util.lootPool
 import miragefairy2023.util.lootTable

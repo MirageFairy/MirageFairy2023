@@ -36,11 +36,11 @@ import miragefairy2023.util.enJaItemGroup
 import miragefairy2023.util.formatted
 import miragefairy2023.util.gold
 import miragefairy2023.util.gray
-import miragefairy2023.util.item
+import miragefairy2023.util.init.item
+import miragefairy2023.util.init.registerColorProvider
 import miragefairy2023.util.itemTag
 import miragefairy2023.util.join
 import miragefairy2023.util.red
-import miragefairy2023.util.registerColorProvider
 import miragefairy2023.util.registerToTag
 import miragefairy2023.util.text
 import miragefairy2023.util.translation
