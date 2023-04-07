@@ -5,6 +5,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonSerializationContext
 import miragefairy2023.module
 import miragefairy2023.util.FeatureSlot
+import miragefairy2023.util.ItemScope
 import miragefairy2023.util.applyExplosionDecay
 import miragefairy2023.util.block
 import miragefairy2023.util.createItemStack
@@ -83,7 +84,7 @@ import kotlin.math.pow
 
 
 lateinit var mirageFlowerBlock: FeatureSlot<MirageFlowerBlock>
-lateinit var mirageSeedItem: () -> MirageSeedItem
+lateinit var mirageSeedItem: ItemScope<MirageSeedItem>
 
 
 val mirageFlowerModule = module {
@@ -110,19 +111,19 @@ val mirageFlowerModule = module {
             lootTable {
 
                 // 爆発時割合ロスト
-                applyExplosionDecay(mirageSeedItem())
+                applyExplosionDecay(mirageSeedItem.item)
 
                 // ベース種ドロップ
                 pool(lootPool {
                     conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
-                    with(itemEntry(mirageSeedItem()))
+                    with(itemEntry(mirageSeedItem.item))
                 })
 
                 // 追加種ドロップ
                 pool(lootPool {
                     conditionally(age3Condition)
                     conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
-                    with(itemEntry(mirageSeedItem()) {
+                    with(itemEntry(mirageSeedItem.item) {
                         apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(0.0f)))
                         apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 0.2f, 1))
                     })
@@ -241,7 +242,7 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
     // 挙動
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = AGE_TO_SHAPE[getAge(state)]
     override fun canPlantOnTop(floor: BlockState, world: BlockView, pos: BlockPos) = world.getBlockState(pos).isSideSolid(world, pos, Direction.UP, SideShapeType.CENTER) || floor.isOf(Blocks.FARMLAND)
-    override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState) = mirageSeedItem().createItemStack()
+    override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState) = mirageSeedItem.item.createItemStack()
 
 
     // 行動

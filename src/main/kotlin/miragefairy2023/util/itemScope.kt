@@ -8,18 +8,26 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
-class ItemScope<T : Item>(val initializationScope: InitializationScope) {
-    lateinit var item: T
+interface ItemScope<T> {
+    val initializationScope: InitializationScope
+    val id: Identifier
+    val item: T
 }
 
-fun <T : Item> InitializationScope.item(itemId: String, itemCreator: () -> T, block: (ItemScope<T>.() -> Unit)? = null): () -> T {
-    val scope = ItemScope<T>(this)
-    onRegisterItems {
-        scope.item = itemCreator()
-        Registry.register(Registry.ITEM, Identifier(modId, itemId), scope.item)
+fun <T : Item> InitializationScope.item(name: String, itemCreator: () -> T, block: ItemScope<T>.() -> Unit = {}): ItemScope<T> {
+    val id = Identifier(modId, name)
+    lateinit var feature: T
+    val scope = object : ItemScope<T> {
+        override val initializationScope get() = this@item
+        override val id get() = id
+        override val item get() = feature
     }
-    if (block != null) block(scope)
-    return { scope.item }
+    onRegisterItems {
+        feature = itemCreator()
+        Registry.register(Registry.ITEM, id, feature)
+    }
+    block(scope)
+    return scope
 }
 
 fun <T : Item> ItemScope<T>.registerColorProvider(colorFunction: (ItemStack, Int) -> Int) = initializationScope.onRegisterColorProvider {
