@@ -27,7 +27,7 @@
   },
   "display": {
     "announce_to_chat": true,
-    "background": "minecraft:textures/block/iron_block.png",
+    "background": "miragefairy2023:textures/block/fairy_wood_log.png",
     "description": {
       "translate": "advancements.miragefairy2023.root.description"
     },
