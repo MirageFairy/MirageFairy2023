@@ -1,10 +1,11 @@
 @file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
-package miragefairy2023.util
+package miragefairy2023.util.init
 
 import com.google.gson.JsonElement
 import miragefairy2023.InitializationScope
-import miragefairy2023.util.init.FeatureSlot
+import miragefairy2023.util.jsonObjectOf
+import miragefairy2023.util.jsonPrimitive
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.minecraft.block.Block
 import net.minecraft.data.client.BlockStateSupplier

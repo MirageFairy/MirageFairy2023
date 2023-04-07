@@ -2,15 +2,15 @@ package miragefairy2023.modules
 
 import miragefairy2023.SlotContainer
 import miragefairy2023.module
-import miragefairy2023.util.enJa
-import miragefairy2023.util.enJaItem
 import miragefairy2023.util.gray
+import miragefairy2023.util.init.enJa
+import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.registerBlockDrop
 import miragefairy2023.util.init.registerGrassDrop
 import miragefairy2023.util.init.registerMobDrop
+import miragefairy2023.util.init.uniformLootNumberProvider
 import miragefairy2023.util.text
-import miragefairy2023.util.uniformLootNumberProvider
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.Blocks
 import net.minecraft.client.item.TooltipContext

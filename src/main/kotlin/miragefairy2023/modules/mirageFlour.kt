@@ -10,12 +10,12 @@ import miragefairy2023.util.blue
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.distinct
 import miragefairy2023.util.draw
-import miragefairy2023.util.enJa
-import miragefairy2023.util.enJaItem
 import miragefairy2023.util.get
 import miragefairy2023.util.gray
 import miragefairy2023.util.hasSameItemAndNbt
 import miragefairy2023.util.init.Translation
+import miragefairy2023.util.init.enJa
+import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.translation
 import miragefairy2023.util.int

@@ -3,10 +3,6 @@
 package miragefairy2023.util.init
 
 import miragefairy2023.InitializationScope
-import miragefairy2023.util.alternativeEntry
-import miragefairy2023.util.configure
-import miragefairy2023.util.itemEntry
-import miragefairy2023.util.lootPool
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.fabricmc.fabric.api.registry.FuelRegistry
 import net.minecraft.block.Block
