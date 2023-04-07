@@ -357,8 +357,8 @@ val fairyModule = module {
                             passiveSkill.conditions.forEach { condition ->
                                 if (!condition.test(player)) return@passiveSkillIsFailed
                             }
-                            passiveSkill.effect.update(player, passiveSkillVariable, initializers, terminators)
-                            passiveSkill.effect.affect(player)
+                            passiveSkill.effect.update(world, player, passiveSkillVariable, initializers, terminators)
+                            passiveSkill.effect.affect(world, player)
                         }
                     }
 

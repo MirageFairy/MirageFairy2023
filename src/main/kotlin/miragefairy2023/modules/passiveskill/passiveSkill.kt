@@ -5,6 +5,7 @@ import miragefairy2023.module
 import miragefairy2023.util.Translation
 import miragefairy2023.util.translation
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
@@ -56,11 +57,11 @@ interface PassiveSkillEffect {
      * このメソッドは必ず論理サーバーで呼び出されます。
      * @param terminators プレイヤーのアンロードおよびサーバーの終了時は呼び出されません。
      */
-    fun update(player: PlayerEntity, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>, terminators: MutableList<() -> Unit>) = Unit
+    fun update(world: ServerWorld, player: PlayerEntity, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>, terminators: MutableList<() -> Unit>) = Unit
 
     /**
      * 10秒おきに呼び出されるアクションを発揮します。
      * このメソッドは必ず論理サーバーで呼び出されます。
      */
-    fun affect(player: PlayerEntity) = Unit
+    fun affect(world: ServerWorld, player: PlayerEntity) = Unit
 }

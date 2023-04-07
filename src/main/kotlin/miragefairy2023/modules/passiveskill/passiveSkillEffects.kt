@@ -12,6 +12,7 @@ import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Identifier
@@ -26,7 +27,7 @@ abstract class AttributePassiveSkillEffect : PassiveSkillEffect {
     protected abstract val entityAttribute: EntityAttribute
     protected abstract val operation: EntityAttributeModifier.Operation
     protected abstract val power: Double
-    override fun update(player: PlayerEntity, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>, terminators: MutableList<() -> Unit>) {
+    override fun update(world: ServerWorld, player: PlayerEntity, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>, terminators: MutableList<() -> Unit>) {
 
         if (passiveSkillVariable[identifier] == null) {
             passiveSkillVariable[identifier] = 0.0
@@ -77,7 +78,7 @@ class MaxHealthPassiveSkillEffect(override val power: Double) : AttributePassive
 
 class StatusEffectPassiveSkillEffect(private val statusEffect: StatusEffect, private val amplifier: Int, private val additionalSeconds: Int = 0) : PassiveSkillEffect {
     override fun getText() = text { translate(statusEffect.translationKey) + ": Level ${amplifier + 1}"() }
-    override fun affect(player: PlayerEntity) {
+    override fun affect(world: ServerWorld, player: PlayerEntity) {
         player.addStatusEffect(StatusEffectInstance(statusEffect, 20 * (10 + 1 + additionalSeconds), amplifier, true, false, true))
     }
 }
@@ -88,8 +89,8 @@ class ExperiencePassiveSkillEffect(private val amount: Double) : PassiveSkillEff
     }
 
     override fun getText() = text { key(amount formatAs "%+.1f") }
-    override fun affect(player: PlayerEntity) {
-        val actualAmount = player.world.random.randomInt(amount)
+    override fun affect(world: ServerWorld, player: PlayerEntity) {
+        val actualAmount = world.random.randomInt(amount)
         if (actualAmount > 0) player.addExperience(actualAmount)
     }
 }
@@ -102,12 +103,12 @@ class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEff
     private fun canVisit(world: World, blockPos: BlockPos) = !world.getBlockState(blockPos).isOpaque
 
     override fun getText() = text { key(amount formatAs "%.1f") }
-    override fun affect(player: PlayerEntity) {
-        val actualAmount = player.world.random.randomInt(amount)
+    override fun affect(world: ServerWorld, player: PlayerEntity) {
+        val actualAmount = world.random.randomInt(amount)
         if (actualAmount > 0) {
             val originalBlockPos = BlockPos(player.eyePos)
             val reach = 16
-            val itemEntities = player.world.getEntitiesByClass(ItemEntity::class.java, Box(originalBlockPos).expand(reach - 1.0)) {
+            val itemEntities = world.getEntitiesByClass(ItemEntity::class.java, Box(originalBlockPos).expand(reach - 1.0)) {
                 when {
                     it.isSpectator -> false
                     it.boundingBox.intersects(player.boundingBox) -> false
@@ -129,7 +130,7 @@ class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEff
                     currentPoints.forEach { currentPoint ->
                         if (currentPoint in checkedPoints) return@forEach
                         checkedPoints += currentPoint
-                        if (!canVisit(player.world, currentPoint)) return@forEach
+                        if (!canVisit(world, currentPoint)) return@forEach
 
                         // visit
                         run {
@@ -166,7 +167,7 @@ class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEff
             if (processedCount > 0) {
 
                 // Effect
-                player.world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.NEUTRAL, 0.25f, 1.0f)
+                world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.NEUTRAL, 0.25f, 1.0f)
 
             }
 
