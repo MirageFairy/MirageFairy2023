@@ -2,21 +2,21 @@ package miragefairy2023.modules
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
-import miragefairy2023.util.advancement
 import miragefairy2023.util.createItemStack
-import miragefairy2023.util.criterion
 import miragefairy2023.util.enJa
 import miragefairy2023.util.enJaBlock
 import miragefairy2023.util.enJaItemGroup
 import miragefairy2023.util.generateSimpleCubeAllBlockState
 import miragefairy2023.util.gray
 import miragefairy2023.util.init.FeatureSlot
+import miragefairy2023.util.init.advancement
 import miragefairy2023.util.init.block
+import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.item
+import miragefairy2023.util.init.reward
 import miragefairy2023.util.itemEntry
 import miragefairy2023.util.lootPool
 import miragefairy2023.util.lootTable
-import miragefairy2023.util.reward
 import miragefairy2023.util.text
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings

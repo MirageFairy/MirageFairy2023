@@ -1,10 +1,9 @@
 @file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
-package miragefairy2023.util
+package miragefairy2023.util.init
 
 import miragefairy2023.InitializationScope
-import miragefairy2023.util.init.Translation
-import miragefairy2023.util.init.translation
+import miragefairy2023.util.text
 import net.minecraft.advancement.Advancement
 import net.minecraft.advancement.AdvancementFrame
 import net.minecraft.advancement.AdvancementRewards
