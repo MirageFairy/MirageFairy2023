@@ -133,7 +133,7 @@ enum class FairyCard(
         ),
     ),
     GOLD(
-        "gold", 6, "Goldia", "金精ゴルジャ", 0xA0A0A0, 0xFFFF0B, 0xDC7613, 0xDEDE00,
+        "gold", 6, "Goldia", "金精ゴルジャ", 0xD2CD9A, 0xFFFF0B, 0xDC7613, 0xDEDE00,
         listOf(
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD)), AttackDamagePassiveSkillEffect(1.0)),
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
