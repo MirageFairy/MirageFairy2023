@@ -5,7 +5,6 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonSerializationContext
 import miragefairy2023.module
 import miragefairy2023.util.FeatureSlot
-import miragefairy2023.util.ItemScope
 import miragefairy2023.util.applyExplosionDecay
 import miragefairy2023.util.block
 import miragefairy2023.util.createItemStack
@@ -84,7 +83,7 @@ import kotlin.math.pow
 
 
 lateinit var mirageFlowerBlock: FeatureSlot<MirageFlowerBlock>
-lateinit var mirageSeedItem: ItemScope<MirageSeedItem>
+lateinit var mirageSeedItem: FeatureSlot<MirageSeedItem>
 
 
 val mirageFlowerModule = module {

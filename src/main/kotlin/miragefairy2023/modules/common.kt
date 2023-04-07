@@ -3,7 +3,6 @@ package miragefairy2023.modules
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.FeatureSlot
-import miragefairy2023.util.ItemScope
 import miragefairy2023.util.advancement
 import miragefairy2023.util.block
 import miragefairy2023.util.createItemStack
@@ -37,7 +36,7 @@ import net.minecraft.world.World
 
 val commonItemGroup: ItemGroup = FabricItemGroupBuilder.build(Identifier(MirageFairy2023.modId, "common")) { DemonItemCard.XARPITE().createItemStack() }
 lateinit var creativeAuraStoneBlock: FeatureSlot<Block>
-lateinit var creativeAuraStoneBlockItem: ItemScope<BlockItem>
+lateinit var creativeAuraStoneBlockItem: FeatureSlot<BlockItem>
 val tier1LootTableId = Identifier(MirageFairy2023.modId, "advancement_reward/tier1_fairy_crystal")
 val tier2LootTableId = Identifier(MirageFairy2023.modId, "advancement_reward/tier2_fairy_crystal")
 val tier3LootTableId = Identifier(MirageFairy2023.modId, "advancement_reward/tier3_fairy_crystal")

@@ -8,16 +8,10 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
-interface ItemScope<T> {
-    val initializationScope: InitializationScope
-    val id: Identifier
-    val feature: T
-}
-
-fun <T : Item> InitializationScope.item(name: String, itemCreator: () -> T, block: ItemScope<T>.() -> Unit = {}): ItemScope<T> {
+fun <T : Item> InitializationScope.item(name: String, itemCreator: () -> T, block: FeatureSlot<T>.() -> Unit = {}): FeatureSlot<T> {
     val id = Identifier(modId, name)
     lateinit var feature: T
-    val scope = object : ItemScope<T> {
+    val scope = object : FeatureSlot<T> {
         override val initializationScope get() = this@item
         override val id get() = id
         override val feature get() = feature
@@ -30,6 +24,6 @@ fun <T : Item> InitializationScope.item(name: String, itemCreator: () -> T, bloc
     return scope
 }
 
-fun <T : Item> ItemScope<T>.registerColorProvider(colorFunction: (ItemStack, Int) -> Int) = initializationScope.onRegisterColorProvider {
+fun <T : Item> FeatureSlot<T>.registerColorProvider(colorFunction: (ItemStack, Int) -> Int) = initializationScope.onRegisterColorProvider {
     it(feature, colorFunction)
 }

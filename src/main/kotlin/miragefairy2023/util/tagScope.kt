@@ -46,7 +46,7 @@ fun InitializationScope.itemTag(name: String, block: (FabricTagProvider<Item>.Fa
     return tagScope
 }
 
-fun <T : Item> ItemScope<T>.registerToTag(tagScopeGetter: () -> TagScope<Item>) = initializationScope.onRegisterRecipes {
+fun <T : Item> FeatureSlot<T>.registerToTag(tagScopeGetter: () -> TagScope<Item>) = initializationScope.onRegisterRecipes {
     (tagScopeGetter()) {
         add(this@registerToTag.feature)
     }
