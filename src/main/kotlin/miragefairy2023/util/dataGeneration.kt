@@ -117,6 +117,11 @@ fun InitializationScope.enJaItem(item: () -> Item, en: String, ja: String) {
     onGenerateJapaneseTranslations { it.add(item(), ja) }
 }
 
+fun InitializationScope.enJaBlock(block: () -> Block, en: String, ja: String) {
+    onGenerateEnglishTranslations { it.add(block(), en) }
+    onGenerateJapaneseTranslations { it.add(block(), ja) }
+}
+
 fun InitializationScope.enJaItemGroup(itemGroup: () -> ItemGroup, en: String, ja: String) {
     onGenerateEnglishTranslations { it.add(itemGroup(), en) }
     onGenerateJapaneseTranslations { it.add(itemGroup(), ja) }
