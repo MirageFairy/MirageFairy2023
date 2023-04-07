@@ -4,7 +4,7 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializationContext
 import miragefairy2023.module
-import miragefairy2023.util.BlockScope
+import miragefairy2023.util.FeatureSlot
 import miragefairy2023.util.applyExplosionDecay
 import miragefairy2023.util.block
 import miragefairy2023.util.createItemStack
@@ -82,7 +82,7 @@ import net.minecraft.world.World
 import kotlin.math.pow
 
 
-lateinit var mirageFlowerBlock: BlockScope<MirageFlowerBlock>
+lateinit var mirageFlowerBlock: FeatureSlot<MirageFlowerBlock>
 lateinit var mirageSeedItem: () -> MirageSeedItem
 
 
@@ -100,13 +100,13 @@ val mirageFlowerModule = module {
         }
         onGenerateBlockStateModels { blockStateModelGenerator ->
             (0..MirageFlowerBlock.MAX_AGE).forEach { age ->
-                blockStateModelGenerator.createSubModel(item, "_age$age", Models.CROSS) { TextureMap.of(TextureKey.CROSS, it) }
+                blockStateModelGenerator.createSubModel(feature, "_age$age", Models.CROSS) { TextureMap.of(TextureKey.CROSS, it) }
             }
         }
-        onRegisterRenderLayers { it(item, Unit) }
+        onRegisterRenderLayers { it(feature, Unit) }
         generateBlockLootTable {
-            val age2Condition = rangedMatchBlockStatePropertyLootCondition(item, MirageFlowerBlock.AGE, 2, 3)
-            val age3Condition = exactMatchBlockStatePropertyLootCondition(item, MirageFlowerBlock.AGE, 3)
+            val age2Condition = rangedMatchBlockStatePropertyLootCondition(feature, MirageFlowerBlock.AGE, 2, 3)
+            val age3Condition = exactMatchBlockStatePropertyLootCondition(feature, MirageFlowerBlock.AGE, 3)
             lootTable {
 
                 // 爆発時割合ロスト
@@ -149,7 +149,7 @@ val mirageFlowerModule = module {
         }
     }
 
-    mirageSeedItem = item("mirage_seed", { MirageSeedItem(mirageFlowerBlock.item, FabricItemSettings().group(commonItemGroup)) }) {
+    mirageSeedItem = item("mirage_seed", { MirageSeedItem(mirageFlowerBlock.feature, FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(item, Models.GENERATED) }
         enJaItem({ item }, "Mirage Seed", "ミラージュの球根")
         enJa({ "${item.translationKey}.poem" }, "Scientific name: miragiume haimekunofa", "学名：ミラギウメ・ハイメクノファ")

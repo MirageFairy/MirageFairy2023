@@ -25,27 +25,27 @@ import net.minecraft.predicate.StatePredicate
 import net.minecraft.state.property.Property
 import net.minecraft.util.registry.Registry
 
-fun <T : Block> BlockScope<T>.generateBlockState(jsonElementSupplier: () -> JsonElement) {
+fun <T : Block> FeatureSlot<T>.generateBlockState(jsonElementSupplier: () -> JsonElement) {
     initializationScope.onGenerateBlockStateModels { blockStateModelGenerator ->
         blockStateModelGenerator.blockStateCollector.accept(object : BlockStateSupplier {
-            override fun getBlock() = item
+            override fun getBlock() = feature
             override fun get() = jsonElementSupplier()
         })
     }
 }
 
-fun <T : Block> BlockScope<T>.generateSimpleCubeAllBlockState() {
+fun <T : Block> FeatureSlot<T>.generateSimpleCubeAllBlockState() {
     initializationScope.onGenerateBlockStateModels { blockStateModelGenerator ->
-        blockStateModelGenerator.registerSimpleCubeAll(item)
+        blockStateModelGenerator.registerSimpleCubeAll(feature)
     }
 }
 
 
 inline fun <T> configure(receiver: T, block: T.() -> Unit) = receiver.apply(block)
 
-fun <T : Block> BlockScope<T>.generateBlockLootTable(block: () -> LootTable.Builder) {
+fun <T : Block> FeatureSlot<T>.generateBlockLootTable(block: () -> LootTable.Builder) {
     initializationScope.onGenerateBlockLootTables {
-        addDrop(item, block())
+        addDrop(feature, block())
     }
 }
 
