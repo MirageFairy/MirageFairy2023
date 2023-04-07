@@ -6,9 +6,9 @@ import miragefairy2023.util.enJa
 import miragefairy2023.util.enJaItem
 import miragefairy2023.util.gray
 import miragefairy2023.util.init.item
-import miragefairy2023.util.registerBlockDrop
-import miragefairy2023.util.registerGrassDrop
-import miragefairy2023.util.registerMobDrop
+import miragefairy2023.util.init.registerBlockDrop
+import miragefairy2023.util.init.registerGrassDrop
+import miragefairy2023.util.init.registerMobDrop
 import miragefairy2023.util.text
 import miragefairy2023.util.uniformLootNumberProvider
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings

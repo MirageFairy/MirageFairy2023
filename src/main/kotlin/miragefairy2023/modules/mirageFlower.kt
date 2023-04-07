@@ -15,6 +15,7 @@ import miragefairy2023.util.generateBlockState
 import miragefairy2023.util.gray
 import miragefairy2023.util.init.block
 import miragefairy2023.util.init.item
+import miragefairy2023.util.init.registerGrassDrop
 import miragefairy2023.util.itemEntry
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
@@ -22,7 +23,6 @@ import miragefairy2023.util.lootPool
 import miragefairy2023.util.lootTable
 import miragefairy2023.util.randomInt
 import miragefairy2023.util.rangedMatchBlockStatePropertyLootCondition
-import miragefairy2023.util.registerGrassDrop
 import miragefairy2023.util.text
 import mirrg.kotlin.hydrogen.atLeast
 import mirrg.kotlin.hydrogen.atMost
