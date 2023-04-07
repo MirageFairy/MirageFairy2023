@@ -3,6 +3,8 @@
 package miragefairy2023.util
 
 import miragefairy2023.InitializationScope
+import miragefairy2023.util.init.Translation
+import miragefairy2023.util.init.translation
 import net.minecraft.advancement.Advancement
 import net.minecraft.advancement.AdvancementFrame
 import net.minecraft.advancement.AdvancementRewards

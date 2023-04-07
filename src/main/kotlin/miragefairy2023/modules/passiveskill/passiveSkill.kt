@@ -2,8 +2,8 @@ package miragefairy2023.modules.passiveskill
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
-import miragefairy2023.util.Translation
-import miragefairy2023.util.translation
+import miragefairy2023.util.init.Translation
+import miragefairy2023.util.init.translation
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text

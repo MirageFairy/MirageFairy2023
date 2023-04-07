@@ -2,6 +2,7 @@
 
 package miragefairy2023.util
 
+import miragefairy2023.util.init.Translation
 import net.minecraft.text.ClickEvent
 import net.minecraft.text.HoverEvent
 import net.minecraft.text.Text

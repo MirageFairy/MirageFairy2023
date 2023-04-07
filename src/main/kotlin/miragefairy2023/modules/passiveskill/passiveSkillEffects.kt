@@ -1,7 +1,7 @@
 package miragefairy2023.modules.passiveskill
 
 import miragefairy2023.MirageFairy2023
-import miragefairy2023.util.Translation
+import miragefairy2023.util.init.Translation
 import miragefairy2023.util.randomInt
 import miragefairy2023.util.text
 import mirrg.kotlin.hydrogen.formatAs

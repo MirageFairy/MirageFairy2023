@@ -6,7 +6,6 @@ import miragefairy2023.SlotContainer
 import miragefairy2023.module
 import miragefairy2023.util.Chance
 import miragefairy2023.util.EMPTY_ITEM_STACK
-import miragefairy2023.util.Translation
 import miragefairy2023.util.blue
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.distinct
@@ -16,12 +15,13 @@ import miragefairy2023.util.enJaItem
 import miragefairy2023.util.get
 import miragefairy2023.util.gray
 import miragefairy2023.util.hasSameItemAndNbt
+import miragefairy2023.util.init.Translation
 import miragefairy2023.util.init.item
+import miragefairy2023.util.init.translation
 import miragefairy2023.util.int
 import miragefairy2023.util.orDefault
 import miragefairy2023.util.text
 import miragefairy2023.util.totalWeight
-import miragefairy2023.util.translation
 import miragefairy2023.util.wrapper
 import miragefairy2023.util.yellow
 import mirrg.kotlin.hydrogen.formatAs

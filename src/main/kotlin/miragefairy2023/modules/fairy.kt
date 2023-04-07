@@ -27,7 +27,6 @@ import miragefairy2023.modules.passiveskill.StatusEffectPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.SunshinePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.ToolMaterialPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.UnderwaterPassiveSkillCondition
-import miragefairy2023.util.Translation
 import miragefairy2023.util.aqua
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.enJaItem
@@ -36,14 +35,15 @@ import miragefairy2023.util.formatted
 import miragefairy2023.util.gold
 import miragefairy2023.util.gray
 import miragefairy2023.util.init.TagScope
+import miragefairy2023.util.init.Translation
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.itemTag
 import miragefairy2023.util.init.registerColorProvider
 import miragefairy2023.util.init.registerToTag
+import miragefairy2023.util.init.translation
 import miragefairy2023.util.join
 import miragefairy2023.util.red
 import miragefairy2023.util.text
-import miragefairy2023.util.translation
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
