@@ -4,6 +4,7 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializationContext
 import miragefairy2023.module
+import miragefairy2023.util.BlockScope
 import miragefairy2023.util.applyExplosionDecay
 import miragefairy2023.util.block
 import miragefairy2023.util.createItemStack
@@ -81,7 +82,7 @@ import net.minecraft.world.World
 import kotlin.math.pow
 
 
-lateinit var mirageFlowerBlock: () -> MirageFlowerBlock
+lateinit var mirageFlowerBlock: BlockScope<MirageFlowerBlock>
 lateinit var mirageSeedItem: () -> MirageSeedItem
 
 
@@ -148,7 +149,7 @@ val mirageFlowerModule = module {
         }
     }
 
-    mirageSeedItem = item("mirage_seed", { MirageSeedItem(mirageFlowerBlock(), FabricItemSettings().group(commonItemGroup)) }) {
+    mirageSeedItem = item("mirage_seed", { MirageSeedItem(mirageFlowerBlock.item, FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(item, Models.GENERATED) }
         enJaItem({ item }, "Mirage Seed", "ミラージュの球根")
         enJa({ "${item.translationKey}.poem" }, "Scientific name: miragiume haimekunofa", "学名：ミラギウメ・ハイメクノファ")
