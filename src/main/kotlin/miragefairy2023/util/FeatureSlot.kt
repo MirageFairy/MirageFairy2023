@@ -1,0 +1,10 @@
+package miragefairy2023.util
+
+import miragefairy2023.InitializationScope
+import net.minecraft.util.Identifier
+
+interface FeatureSlot<out T> {
+    val initializationScope: InitializationScope
+    val id: Identifier
+    val feature: T
+}

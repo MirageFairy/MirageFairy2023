@@ -7,12 +7,6 @@ import net.minecraft.block.Block
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
-interface FeatureSlot<out T> {
-    val initializationScope: InitializationScope
-    val id: Identifier
-    val feature: T
-}
-
 fun <T : Block> InitializationScope.block(name: String, blockCreator: () -> T, block: FeatureSlot<T>.() -> Unit = {}): FeatureSlot<T> {
     val id = Identifier(modId, name)
     lateinit var feature: T
