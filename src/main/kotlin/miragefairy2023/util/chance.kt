@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+
 package miragefairy2023.util
 
 import mirrg.kotlin.hydrogen.formatAs
