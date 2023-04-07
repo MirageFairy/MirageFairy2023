@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "miragefairy2023:xarpite"
+    },
+    {
+      "item": "miragefairy2023:ultra_rare_mirage_flour"
+    },
+    {
+      "item": "minecraft:tropical_fish"
+    }
+  ],
+  "result": {
+    "item": "miragefairy2023:clownfish_fairy"
+  }
+}

@@ -195,6 +195,7 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
         // コモン枠の妖精リスト
         val commonFairyCardList = listOf(
             FairyCard.AIR,
+            FairyCard.LIGHT,
             FairyCard.FIRE,
             FairyCard.LAVA,
             FairyCard.MOON,
@@ -202,18 +203,27 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
             FairyCard.RAIN,
             FairyCard.DIRT,
             FairyCard.IRON,
+            FairyCard.GOLD,
             FairyCard.DIAMOND,
+            FairyCard.FISH,
+            FairyCard.CLOWNFISH,
             FairyCard.PLAYER,
+            FairyCard.ENDERMAN,
             FairyCard.WARDEN,
             FairyCard.ZOMBIE,
             FairyCard.SPRUCE,
             FairyCard.HOE,
+            FairyCard.PLAINS,
+            FairyCard.OCEAN,
+            FairyCard.TAIGA,
+            FairyCard.MOUNTAIN,
             FairyCard.FOREST,
             FairyCard.DESERT,
             FairyCard.AVALON, // TODO イベント終了時除去
             FairyCard.VOID,
             FairyCard.NIGHT,
             FairyCard.TIME,
+            FairyCard.GRAVITY,
         )
 
         // 生の提供割合

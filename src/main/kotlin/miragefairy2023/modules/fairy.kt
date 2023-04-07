@@ -405,12 +405,15 @@ val fairyModule = module {
             .criterion("has_${Registry.ITEM.getId(inputItem).path}", RecipeProvider.conditionsFromItem(inputItem))
             .offerTo(it, Identifier.of(modId, "fairy/${fairyCard.motif}"))
     }
+    registerFairySummoningRecipe(FairyCard.LAVA) { Items.LAVA_BUCKET } // 溶岩
     registerFairySummoningRecipe(FairyCard.DIRT) { Items.DIRT } // 土
     registerFairySummoningRecipe(FairyCard.IRON) { Items.IRON_INGOT } // 鉄
-    registerFairySummoningRecipe(FairyCard.HOE) { Items.STONE_HOE } // クワ
-    registerFairySummoningRecipe(FairyCard.SPRUCE) { Items.SPRUCE_SAPLING } // 松
+    registerFairySummoningRecipe(FairyCard.GOLD) { Items.GOLD_INGOT } // 金
     registerFairySummoningRecipe(FairyCard.DIAMOND) { Items.DIAMOND } // ダイヤモンド
-    registerFairySummoningRecipe(FairyCard.LAVA) { Items.LAVA_BUCKET } // 溶岩
+    registerFairySummoningRecipe(FairyCard.FISH) { Items.COD } // 魚 // TODO 魚精は希釈で得る
+    registerFairySummoningRecipe(FairyCard.CLOWNFISH) { Items.TROPICAL_FISH } // クマノミ
+    registerFairySummoningRecipe(FairyCard.SPRUCE) { Items.SPRUCE_SAPLING } // 松
+    registerFairySummoningRecipe(FairyCard.HOE) { Items.STONE_HOE } // クワ
 
 }
 
