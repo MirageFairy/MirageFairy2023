@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "miragefairy2023:block/creative_aura_stone"
+  }
+}

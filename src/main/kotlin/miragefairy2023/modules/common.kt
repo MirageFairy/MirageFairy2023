@@ -2,21 +2,41 @@ package miragefairy2023.modules
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
+import miragefairy2023.util.FeatureSlot
 import miragefairy2023.util.advancement
+import miragefairy2023.util.block
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.criterion
+import miragefairy2023.util.enJa
+import miragefairy2023.util.enJaBlock
 import miragefairy2023.util.enJaItemGroup
+import miragefairy2023.util.generateSimpleCubeAllBlockState
+import miragefairy2023.util.gray
+import miragefairy2023.util.item
 import miragefairy2023.util.itemEntry
 import miragefairy2023.util.lootPool
 import miragefairy2023.util.lootTable
 import miragefairy2023.util.reward
+import miragefairy2023.util.text
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings
+import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.advancement.AdvancementFrame
 import net.minecraft.advancement.CriterionMerger
+import net.minecraft.block.Block
+import net.minecraft.block.Material
+import net.minecraft.client.item.TooltipContext
+import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemGroup
+import net.minecraft.item.ItemStack
+import net.minecraft.tag.BlockTags
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
+import net.minecraft.world.World
 
 val commonItemGroup: ItemGroup = FabricItemGroupBuilder.build(Identifier(MirageFairy2023.modId, "common")) { DemonItemCard.XARPITE().createItemStack() }
+lateinit var creativeAuraStoneBlock: FeatureSlot<Block>
+lateinit var creativeAuraStoneBlockItem: () -> BlockItem
 val tier1LootTableId = Identifier(MirageFairy2023.modId, "advancement_reward/tier1_fairy_crystal")
 val tier2LootTableId = Identifier(MirageFairy2023.modId, "advancement_reward/tier2_fairy_crystal")
 val tier3LootTableId = Identifier(MirageFairy2023.modId, "advancement_reward/tier3_fairy_crystal")
@@ -25,6 +45,24 @@ val commonModule = module {
 
     // メインアイテムグループ
     enJaItemGroup({ commonItemGroup }, "MirageFairy2023", "MirageFairy2023")
+
+    creativeAuraStoneBlock = block("creative_aura_stone", { Block(FabricBlockSettings.of(Material.STONE).strength(-1.0f, 3600000.0f).dropsNothing().allowsSpawning { _, _, _, _ -> false }) }) {
+        generateSimpleCubeAllBlockState()
+        enJaBlock({ feature }, "Neutronium Block", "アカーシャの霊氣石")
+        enJa({ "${feature.translationKey}.poem" }, "Hypothetical substance with ideal hardness", "終末と創造の波紋。")
+        onGenerateBlockTags { it(BlockTags.DRAGON_IMMUNE).add(feature) }
+        onGenerateBlockTags { it(BlockTags.WITHER_IMMUNE).add(feature) }
+        onGenerateBlockTags { it(BlockTags.FEATURES_CANNOT_REPLACE).add(feature) }
+        onGenerateBlockTags { it(BlockTags.GEODE_INVALID_BLOCKS).add(feature) }
+    }
+    creativeAuraStoneBlockItem = item("creative_aura_stone", {
+        object : BlockItem(creativeAuraStoneBlock.feature, FabricItemSettings().group(commonItemGroup)) {
+            override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
+                super.appendTooltip(stack, world, tooltip, context)
+                tooltip += text { translate("$translationKey.poem").gray }
+            }
+        }
+    })
 
     // 実績報酬ルートテーブル
     onGenerateAdvancementRewardLootTables { consumer ->
