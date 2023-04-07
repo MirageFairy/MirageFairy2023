@@ -74,12 +74,12 @@ val demonItemModule = module {
     // 全体
     DemonItemCard.values().forEach { card ->
         item(card.itemId, { DemonItem(FabricItemSettings().group(commonItemGroup)) }) {
-            onRegisterItems { demonItems[card] = item }
+            onRegisterItems { demonItems[card] = feature }
 
-            onGenerateItemModels { it.register(item, Models.GENERATED) }
+            onGenerateItemModels { it.register(feature, Models.GENERATED) }
 
-            enJaItem({ item }, card.enName, card.jaName)
-            enJa({ "${item.translationKey}.poem" }, card.enPoem, card.jaPoem)
+            enJaItem({ feature }, card.enName, card.jaName)
+            enJa({ "${feature.translationKey}.poem" }, card.enPoem, card.jaPoem)
         }
     }
 

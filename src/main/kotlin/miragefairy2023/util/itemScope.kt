@@ -11,7 +11,7 @@ import net.minecraft.util.registry.Registry
 interface ItemScope<T> {
     val initializationScope: InitializationScope
     val id: Identifier
-    val item: T
+    val feature: T
 }
 
 fun <T : Item> InitializationScope.item(name: String, itemCreator: () -> T, block: ItemScope<T>.() -> Unit = {}): ItemScope<T> {
@@ -20,7 +20,7 @@ fun <T : Item> InitializationScope.item(name: String, itemCreator: () -> T, bloc
     val scope = object : ItemScope<T> {
         override val initializationScope get() = this@item
         override val id get() = id
-        override val item get() = feature
+        override val feature get() = feature
     }
     onRegisterItems {
         feature = itemCreator()
@@ -31,5 +31,5 @@ fun <T : Item> InitializationScope.item(name: String, itemCreator: () -> T, bloc
 }
 
 fun <T : Item> ItemScope<T>.registerColorProvider(colorFunction: (ItemStack, Int) -> Int) = initializationScope.onRegisterColorProvider {
-    it(item, colorFunction)
+    it(feature, colorFunction)
 }

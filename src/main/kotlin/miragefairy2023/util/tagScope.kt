@@ -48,6 +48,6 @@ fun InitializationScope.itemTag(name: String, block: (FabricTagProvider<Item>.Fa
 
 fun <T : Item> ItemScope<T>.registerToTag(tagScopeGetter: () -> TagScope<Item>) = initializationScope.onRegisterRecipes {
     (tagScopeGetter()) {
-        add(this@registerToTag.item)
+        add(this@registerToTag.feature)
     }
 }

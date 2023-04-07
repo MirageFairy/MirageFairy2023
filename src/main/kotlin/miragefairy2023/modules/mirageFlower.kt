@@ -111,19 +111,19 @@ val mirageFlowerModule = module {
             lootTable {
 
                 // 爆発時割合ロスト
-                applyExplosionDecay(mirageSeedItem.item)
+                applyExplosionDecay(mirageSeedItem.feature)
 
                 // ベース種ドロップ
                 pool(lootPool {
                     conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
-                    with(itemEntry(mirageSeedItem.item))
+                    with(itemEntry(mirageSeedItem.feature))
                 })
 
                 // 追加種ドロップ
                 pool(lootPool {
                     conditionally(age3Condition)
                     conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
-                    with(itemEntry(mirageSeedItem.item) {
+                    with(itemEntry(mirageSeedItem.feature) {
                         apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(0.0f)))
                         apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 0.2f, 1))
                     })
@@ -151,12 +151,12 @@ val mirageFlowerModule = module {
     }
 
     mirageSeedItem = item("mirage_seed", { MirageSeedItem(mirageFlowerBlock.feature, FabricItemSettings().group(commonItemGroup)) }) {
-        onGenerateItemModels { it.register(item, Models.GENERATED) }
-        enJaItem({ item }, "Mirage Seed", "ミラージュの球根")
-        enJa({ "${item.translationKey}.poem" }, "Scientific name: miragiume haimekunofa", "学名：ミラギウメ・ハイメクノファ")
-        registerGrassDrop({ item }, 0.1)
+        onGenerateItemModels { it.register(feature, Models.GENERATED) }
+        enJaItem({ feature }, "Mirage Seed", "ミラージュの球根")
+        enJa({ "${feature.translationKey}.poem" }, "Scientific name: miragiume haimekunofa", "学名：ミラギウメ・ハイメクノファ")
+        registerGrassDrop({ feature }, 0.1)
         onRegisterRecipes {
-            ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(item, 0.3f)
+            ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(feature, 0.3f)
         }
     }
 
@@ -242,7 +242,7 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
     // 挙動
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = AGE_TO_SHAPE[getAge(state)]
     override fun canPlantOnTop(floor: BlockState, world: BlockView, pos: BlockPos) = world.getBlockState(pos).isSideSolid(world, pos, Direction.UP, SideShapeType.CENTER) || floor.isOf(Blocks.FARMLAND)
-    override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState) = mirageSeedItem.item.createItemStack()
+    override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState) = mirageSeedItem.feature.createItemStack()
 
 
     // 行動

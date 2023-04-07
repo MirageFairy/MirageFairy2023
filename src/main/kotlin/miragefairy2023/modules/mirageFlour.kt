@@ -106,13 +106,13 @@ val mirageFlourModule = module {
     // 全体
     MirageFlourCard.values().forEach { card ->
         item(card.itemId, { card.creator(card, FabricItemSettings().group(commonItemGroup)) }) {
-            onRegisterItems { mirageFlourItems[card] = item }
+            onRegisterItems { mirageFlourItems[card] = feature }
 
-            onGenerateItemModels { it.register(item, Models.GENERATED) }
+            onGenerateItemModels { it.register(feature, Models.GENERATED) }
 
-            enJaItem({ item }, card.enName, card.jaName)
+            enJaItem({ feature }, card.enName, card.jaName)
             card.poems.forEachIndexed { index, poem ->
-                enJa({ "${item.translationKey}.poem${if (index + 1 == 1) "" else "${index + 1}"}" }, poem.en, poem.ja)
+                enJa({ "${feature.translationKey}.poem${if (index + 1 == 1) "" else "${index + 1}"}" }, poem.en, poem.ja)
             }
         }
     }

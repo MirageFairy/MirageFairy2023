@@ -294,12 +294,12 @@ val fairyModule = module {
     // 妖精登録
     FairyCard.values().forEach { fairyCard ->
         item("${fairyCard.motif}_fairy", { FairyItem(fairyCard, FabricItemSettings().group(fairyItemGroup)) }) {
-            onRegisterItems { fairyItems[fairyCard] = item }
+            onRegisterItems { fairyItems[fairyCard] = feature }
 
             registerToTag { fairiesItemTag }
             registerToTag { fairiesOfRareItemTag[fairyCard.rare]!! }
 
-            onGenerateItemModels { it.register(item, Model(Optional.of(Identifier(modId, "item/fairy")), Optional.empty())) }
+            onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier(modId, "item/fairy")), Optional.empty())) }
             registerColorProvider { _, tintIndex ->
                 when (tintIndex) {
                     0 -> fairyCard.skinColor
@@ -311,7 +311,7 @@ val fairyModule = module {
                 }
             }
 
-            enJaItem({ item }, fairyCard.enName, fairyCard.jaName)
+            enJaItem({ feature }, fairyCard.enName, fairyCard.jaName)
         }
     }
 

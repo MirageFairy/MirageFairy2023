@@ -23,9 +23,9 @@ import java.util.Optional
 
 val debugModule = module {
     item("fairy_list_debugger", { FairyListDebuggerItem(FabricItemSettings().group(commonItemGroup)) }) {
-        onGenerateItemModels { it.register(item, Model(Optional.of(Identifier("minecraft", "item/book")), Optional.empty())) }
+        onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier("minecraft", "item/book")), Optional.empty())) }
         registerColorProvider { _, _ -> 0xAA0000 }
-        enJaItem({ item }, "Fairy List Debugger", "妖精一覧デバッガー")
+        enJaItem({ feature }, "Fairy List Debugger", "妖精一覧デバッガー")
     }
 }
 

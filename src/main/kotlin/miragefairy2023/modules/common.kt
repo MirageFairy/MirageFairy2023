@@ -93,14 +93,14 @@ val commonModule = module {
     run {
 
         val root = advancement(
-            "root", { mirageSeedItem.item },
+            "root", { mirageSeedItem.feature },
             "MirageFairy2023: Mainstream", "MirageFairy2023: メインストリーム",
             "Harvest a Mirage flower", "ミラージュの花に触れてみる",
             backgroundTexture = Identifier(modId, "textures/block/fairy_wood_log.png"),
         ) {
             criteriaMerger(CriterionMerger.OR)
             criterion(MirageFlourCard.TINY_MIRAGE_FLOUR())
-            criterion(mirageSeedItem.item)
+            criterion(mirageSeedItem.feature)
             reward(tier1LootTableId)
         }
 
