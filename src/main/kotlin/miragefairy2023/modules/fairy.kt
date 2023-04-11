@@ -161,7 +161,7 @@ enum class FairyCard(
     ),
     ENDERMAN(
         "enderman", 6, "Endermania", "終界人精エンデルマーニャ", 0x000000, 0x161616, 0x161616, 0xEF84FA,
-        listOf(PassiveSkill(listOf(), CollectionPassiveSkillEffect(1.0))),
+        listOf(PassiveSkill(listOf(), CollectionPassiveSkillEffect(4.0))),
     ),
     WARDEN(
         "warden", 7, "Wardenia", "監守者精ワルデーニャ", 0x0A3135, 0xCFCFA4, 0xA0AA7A, 0x2CD0CA,
