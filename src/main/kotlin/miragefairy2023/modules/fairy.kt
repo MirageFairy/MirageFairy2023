@@ -335,7 +335,9 @@ val fairyModule = module {
             terminators.clear()
 
             server.worlds.forEach { world ->
-                world.players.forEach { player ->
+                world.players.forEach nextPlayer@{ player ->
+
+                    if (player.isSpectator) return@nextPlayer // スペクテイターモードでは無効
 
                     // 有効な妖精のリスト
                     val triples = (player.inventory.offHand + player.inventory.main.slice(9 * 3 until 9 * 4))
