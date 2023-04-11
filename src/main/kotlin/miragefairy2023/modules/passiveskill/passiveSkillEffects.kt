@@ -85,7 +85,7 @@ class StatusEffectPassiveSkillEffect(private val statusEffect: StatusEffect, pri
 
 class ExperiencePassiveSkillEffect(private val amount: Double) : PassiveSkillEffect {
     companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.experience", "Experience: %s", "経験値: %s")
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.experience", "Experience: %s/10s", "経験値: %s/10秒")
     }
 
     override fun getText() = text { key(amount formatAs "%+.1f") }
@@ -97,7 +97,7 @@ class ExperiencePassiveSkillEffect(private val amount: Double) : PassiveSkillEff
 
 class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEffect {
     companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.collection", "Collection: %s Items", "収集: %s個")
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.collection", "Collection: %s Stacks/10s", "収集: %sスタック/10秒")
     }
 
     private fun canVisit(world: World, blockPos: BlockPos) = !world.getBlockState(blockPos).isOpaque
