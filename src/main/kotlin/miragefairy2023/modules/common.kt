@@ -64,7 +64,7 @@ val commonModule = module {
         }
     })
 
-    // 実績報酬ルートテーブル
+    // 進捗報酬ルートテーブル
     onGenerateAdvancementRewardLootTables { consumer ->
         consumer.accept(tier1LootTableId, lootTable {
             pool(lootPool {
@@ -87,7 +87,7 @@ val commonModule = module {
         })
     }
 
-    // 実績
+    // 進捗
     @Suppress("UNUSED_VARIABLE")
     run {
 
