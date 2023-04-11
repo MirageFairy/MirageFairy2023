@@ -13,6 +13,7 @@ import miragefairy2023.util.init.uniformLootNumberProvider
 import miragefairy2023.util.text
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.Blocks
+import net.minecraft.block.ComposterBlock
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
 import net.minecraft.data.server.RecipeProvider
@@ -154,6 +155,11 @@ val demonItemModule = module {
             .criterion("has_wool", RecipeProvider.conditionsFromTag(ItemTags.WOOL))
             .criterion("has_mirage_stem", RecipeProvider.conditionsFromItem(DemonItemCard.MIRAGE_STEM()))
             .offerTo(it, Identifier.of(modId, "string_from_mirage_stem"))
+    }
+
+    // ミラージュの茎＞コンポスター
+    onRegisterRecipes {
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(DemonItemCard.MIRAGE_STEM(), 0.65f)
     }
 
 }
