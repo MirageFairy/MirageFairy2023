@@ -217,7 +217,7 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
         private val AGE_TO_SHAPE = arrayOf(
             createCuboidShape(5.0, 0.0, 5.0, 11.0, 5.0, 11.0)!!,
             createCuboidShape(2.0, 0.0, 2.0, 14.0, 12.0, 14.0)!!,
-            createCuboidShape(2.0, 0.0, 2.0, 14.0, 16.0, 14.0)!!,
+            createCuboidShape(2.0, 0.0, 2.0, 14.0, 15.0, 14.0)!!,
             createCuboidShape(2.0, 0.0, 2.0, 14.0, 16.0, 14.0)!!,
         )
     }
