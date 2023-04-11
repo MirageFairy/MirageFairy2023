@@ -167,7 +167,7 @@ class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEff
             if (processedCount > 0) {
 
                 // Effect
-                world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.NEUTRAL, 0.25f, 1.0f)
+                world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.NEUTRAL, 0.25F, 1.0F)
 
             }
 

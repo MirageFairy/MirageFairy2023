@@ -324,7 +324,7 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
                 val fairyCard = chanceTable.draw(world.random) ?: FairyCard.AIR
 
                 // 入手
-                val itemEntity = user.dropStack(fairyCard().createItemStack(), 0.5f)
+                val itemEntity = user.dropStack(fairyCard().createItemStack(), 0.5F)
                 if (itemEntity != null) {
                     itemEntity.resetPickupDelay()
                     itemEntity.owner = user.uuid
@@ -338,7 +338,7 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
             }
 
             // エフェクト
-            world.playSound(null, user.x, user.y, user.z, SoundEvents.BLOCK_DEEPSLATE_BREAK, SoundCategory.NEUTRAL, 1.0f, 1.0f)
+            world.playSound(null, user.x, user.y, user.z, SoundEvents.BLOCK_DEEPSLATE_BREAK, SoundCategory.NEUTRAL, 1.0F, 1.0F)
 
         }
 

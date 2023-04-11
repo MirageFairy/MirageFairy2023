@@ -123,8 +123,8 @@ val mirageFlowerModule = module {
                     conditionally(age3Condition)
                     conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
                     with(itemEntry(mirageSeedItem.feature) {
-                        apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(0.0f)))
-                        apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 0.2f, 1))
+                        apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(0.0F)))
+                        apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 0.2F, 1))
                     })
                 })
 
@@ -139,8 +139,8 @@ val mirageFlowerModule = module {
                 pool(lootPool {
                     conditionally(age3Condition)
                     with(itemEntry(MirageFlourCard.TINY_MIRAGE_FLOUR()) {
-                        apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(2.0f, 6.0f)))
-                        apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 1.0f, 0))
+                        apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(2.0F, 6.0F)))
+                        apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 1.0F, 0))
                         apply { ApplyLuckBonusLootFunction() }
                     })
                 })
@@ -155,7 +155,7 @@ val mirageFlowerModule = module {
         enJa({ "${feature.translationKey}.poem" }, "Scientific name: miragiume haimekunofa", "学名：ミラギウメ・ハイメクノファ")
         registerGrassDrop({ feature }, 0.1)
         onRegisterRecipes {
-            ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(feature, 0.3f)
+            ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(feature, 0.3F)
         }
     }
 
@@ -338,7 +338,7 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
         world.setBlockState(pos, withAge(1), NOTIFY_LISTENERS)
 
         // エフェクト
-        world.playSound(null, pos, soundGroup.breakSound, SoundCategory.NEUTRAL, (soundGroup.volume + 1.0f) / 2.0f * 0.5f, soundGroup.pitch * 0.8f)
+        world.playSound(null, pos, soundGroup.breakSound, SoundCategory.NEUTRAL, (soundGroup.volume + 1.0F) / 2.0F * 0.5F, soundGroup.pitch * 0.8F)
 
         return ActionResult.CONSUME
     }

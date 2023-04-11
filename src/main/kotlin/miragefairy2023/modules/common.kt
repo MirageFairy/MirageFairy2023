@@ -46,7 +46,7 @@ val commonModule = module {
     // メインアイテムグループ
     enJaItemGroup({ commonItemGroup }, "MirageFairy2023", "MirageFairy2023")
 
-    creativeAuraStoneBlock = block("creative_aura_stone", { Block(FabricBlockSettings.of(Material.STONE).strength(-1.0f, 3600000.0f).dropsNothing().allowsSpawning { _, _, _, _ -> false }) }) {
+    creativeAuraStoneBlock = block("creative_aura_stone", { Block(FabricBlockSettings.of(Material.STONE).strength(-1.0F, 3600000.0F).dropsNothing().allowsSpawning { _, _, _, _ -> false }) }) {
         generateSimpleCubeAllBlockState()
         enJaBlock({ feature }, "Neutronium Block", "アカーシャの霊氣石")
         enJa({ "${feature.translationKey}.poem" }, "Hypothetical substance with ideal hardness", "終末と創造の波紋。")
