@@ -200,9 +200,9 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
         val nbt = CustomDataHelper.getPersistentData(player)
         val found = nbt.wrapper[MirageFairy2023.modId]["found_motifs"].map.get().or { mapOf() }.entries
             .filter { it.value.castOrNull<AbstractNbtNumber>()?.intValue() != 0 }
-            .map { it.key }
+            .map { Identifier(it.key) }
         val memoryFairyCardList = found.mapNotNull {
-            fairyRegistry[Identifier(it)]
+            fairyRegistry[it]
         }
 
         // コモン枠の妖精リスト
