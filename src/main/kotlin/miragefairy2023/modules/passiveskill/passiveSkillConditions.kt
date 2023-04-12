@@ -95,6 +95,15 @@ class MoonlightPassiveSkillCondition : PassiveSkillCondition {
     }
 }
 
+class IndoorPassiveSkillCondition : PassiveSkillCondition {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.indoor", "Indoor", "屋内")
+    }
+
+    override fun getText() = text { key() }
+    override fun test(player: PlayerEntity) = !player.world.isSkyVisible(BlockPos(player.eyePos))
+}
+
 class ShadePassiveSkillCondition : PassiveSkillCondition {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.shade", "Shade", "日陰")

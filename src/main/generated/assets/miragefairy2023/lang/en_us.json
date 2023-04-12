@@ -127,6 +127,7 @@
   "miragefairy2023.passive_skill.condition.daytime": "Daytime",
   "miragefairy2023.passive_skill.condition.has_hoe": "Hoe",
   "miragefairy2023.passive_skill.condition.in_rain": "Rain",
+  "miragefairy2023.passive_skill.condition.indoor": "Indoor",
   "miragefairy2023.passive_skill.condition.maximum_level": "Level<=%s",
   "miragefairy2023.passive_skill.condition.maximum_light_level": "Light<=%s",
   "miragefairy2023.passive_skill.condition.minimum_light_level": "Light>=%s",

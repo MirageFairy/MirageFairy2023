@@ -127,6 +127,7 @@
   "miragefairy2023.passive_skill.condition.daytime": "昼",
   "miragefairy2023.passive_skill.condition.has_hoe": "クワ",
   "miragefairy2023.passive_skill.condition.in_rain": "雨",
+  "miragefairy2023.passive_skill.condition.indoor": "屋内",
   "miragefairy2023.passive_skill.condition.maximum_level": "レベル%s以下",
   "miragefairy2023.passive_skill.condition.maximum_light_level": "明るさ%s以下",
   "miragefairy2023.passive_skill.condition.minimum_light_level": "明るさ%s以上",
