@@ -132,9 +132,7 @@ enum class FairyCard(
     ),
     RAIN(
         "rain", 2, "Rainia", "雨精ライニャ", 0xB4FFFF, 0x4D5670, 0x4D5670, 0x2D40F4,
-        listOf(
-            PassiveSkill(listOf(InRainPassiveSkillCondition()), AttackDamagePassiveSkillEffect(2.0)),
-        ),
+        listOf(PassiveSkill(listOf(InRainPassiveSkillCondition()), AttackDamagePassiveSkillEffect(2.0))),
         FairyCardRecipeInitializer().common(),
     ),
     DIRT(
