@@ -170,6 +170,7 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
         val DROP_RATE_FACTOR_KEY = Translation("$prefix.drop_rate_factor_key", "Drop Rate Amplification: %s", "出現率倍率: %s")
         val RIGHT_CLICK_KEY = Translation("$prefix.right_click", "Right click and hold to summon fairies", "右クリック長押しで妖精を召喚")
         val SHIFT_RIGHT_CLICK_KEY = Translation("$prefix.shift_right_click", "%s+right click to show fairy table", "%s+右クリックで提供割合表示")
+        val COMMON_FAIRY_LIST = mutableSetOf<FairyCard>()
     }
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
@@ -201,48 +202,13 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
         val found = nbt.wrapper[MirageFairy2023.modId]["found_motifs"].map.get().or { mapOf() }.entries
             .filter { it.value.castOrNull<AbstractNbtNumber>()?.intValue() != 0 }
             .map { Identifier(it.key) }
-        val memoryFairyCardList = found.mapNotNull {
-            fairyRegistry[it]
-        }
+        val memoryFairyCardList = found.mapNotNull { fairyRegistry[it] }
 
-        // コモン枠の妖精リスト
-        val baseCommonFairyCardList = listOf(
-            FairyCard.AIR,
-            FairyCard.LIGHT,
-            FairyCard.FIRE,
-            FairyCard.LAVA,
-            FairyCard.MOON,
-            FairyCard.SUN,
-            FairyCard.RAIN,
-            FairyCard.DIRT,
-            FairyCard.IRON,
-            FairyCard.GOLD,
-            FairyCard.DIAMOND,
-            FairyCard.FISH,
-            FairyCard.CLOWNFISH,
-            FairyCard.PLAYER,
-            FairyCard.ENDERMAN,
-            FairyCard.WARDEN,
-            FairyCard.ZOMBIE,
-            FairyCard.SPRUCE,
-            FairyCard.HOE,
-            FairyCard.PLAINS,
-            FairyCard.OCEAN,
-            FairyCard.TAIGA,
-            FairyCard.MOUNTAIN,
-            FairyCard.FOREST,
-            FairyCard.DESERT,
-            FairyCard.AVALON, // TODO イベント終了時除去
-            FairyCard.VOID,
-            FairyCard.NIGHT,
-            FairyCard.TIME,
-            FairyCard.GRAVITY,
-        )
-
-        val commonFairyCardList = (baseCommonFairyCardList + memoryFairyCardList).distinctBy { it.identifier }
+        // 妖精リスト
+        val actualFairyCardList = (COMMON_FAIRY_LIST + memoryFairyCardList).distinctBy { it.identifier }
 
         // 生の提供割合
-        val rawChanceTable = commonFairyCardList
+        val rawChanceTable = actualFairyCardList
             .filter { minRare == null || it.rare >= minRare } // レア度フィルタ
             .filter { maxRare == null || it.rare <= maxRare } // レア度フィルタ
             .map { Chance(0.1.pow((it.rare - 1) * 0.5) * factor, it) } // レア度によるドロップ確率の計算

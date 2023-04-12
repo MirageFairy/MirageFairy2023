@@ -18,8 +18,8 @@ import miragefairy2023.util.wrapper
 import mirrg.kotlin.hydrogen.castOrNull
 import mirrg.kotlin.hydrogen.or
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
-import net.minecraft.block.Blocks
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
 import net.minecraft.data.server.RecipeProvider
@@ -94,10 +94,13 @@ val dreamCatcherModule = module {
 
 }
 
+class BlockFairyRelation(val block: Block, val fairyCard: FairyCard)
+
 class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Settings) : ToolItem(material, settings.maxDamage(maxDamage)) {
     companion object {
         val knownKey = Translation("item.${MirageFairy2023.modId}.dream_catcher.known_message", "Already have memory of %s", "%s の記憶は既に持っている")
         val successKey = Translation("item.${MirageFairy2023.modId}.dream_catcher.success_message", "I dreamed of %s!", "%s の夢を見た！")
+        val BLOCK_FAIRY_RELATION_LIST = mutableListOf<BlockFairyRelation>()
     }
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
@@ -128,10 +131,7 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
 
         // 妖精判定
         val block = context.world.getBlockState(context.blockPos).block
-        val fairyMemoryList = listOf(
-            Blocks.CRAFTING_TABLE to FairyCard.CRAFTING_TABLE, // TODO card側に吸収
-        )
-        val hitFairyList = fairyMemoryList.filter { it.first === block }.map { it.second }
+        val hitFairyList = BLOCK_FAIRY_RELATION_LIST.filter { it.block === block }.map { it.fairyCard }
         val fairyCard = run found@{
             hitFairyList.forEach { fairyCard ->
                 if (fairyCard.identifier in foundFairies) {

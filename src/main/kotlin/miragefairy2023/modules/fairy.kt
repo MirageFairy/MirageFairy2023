@@ -2,6 +2,7 @@
 
 package miragefairy2023.modules
 
+import miragefairy2023.InitializationScope
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.SlotContainer
 import miragefairy2023.module
@@ -53,6 +54,8 @@ import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder
 import net.fabricmc.fabric.api.event.registry.RegistryAttribute
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags
+import net.minecraft.block.Block
+import net.minecraft.block.Blocks
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Model
 import net.minecraft.data.client.TextureKey
@@ -85,18 +88,22 @@ enum class FairyCard(
     val backColor: Int,
     val hairColor: Int,
     val passiveSkills: List<PassiveSkill>,
+    val initializer: FairyCardRecipeInitializer,
 ) {
     AIR(
         "air", 0, "Airia", "空気精アイリャ", 0xFFBE80, 0xDEFFFF, 0xDEFFFF, 0xB0FFFF,
         listOf(PassiveSkill(listOf(OverworldPassiveSkillCondition(), AirPassiveSkillCondition()), MovementSpeedPassiveSkillEffect(0.05))),
+        FairyCardRecipeInitializer().common(),
     ),
     LIGHT(
         "light", 3, "Lightia", "光精リグチャ", 0xFFFFD8, 0xFFFFD8, 0xFFFFC5, 0xFFFF00,
         listOf(PassiveSkill(listOf(MinimumLightLevelPassiveSkillCondition(12)), MovementSpeedPassiveSkillEffect(0.15))),
+        FairyCardRecipeInitializer().common(),
     ),
     FIRE(
         "fire", 2, "Firia", "火精フィーリャ", 0xFF6C01, 0xF9DFA4, 0xFF7324, 0xFF4000,
         listOf(PassiveSkill(listOf(OnFirePassiveSkillCondition()), AttackDamagePassiveSkillEffect(2.0))),
+        FairyCardRecipeInitializer().common(),
     ),
     LAVA(
         "lava", 4, "Lavia", "溶岩精ラーヴャ", 0xCD4208, 0xEDB54A, 0xCC4108, 0x4C1500,
@@ -105,6 +112,7 @@ enum class FairyCard(
             PassiveSkill(listOf(OnFirePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0)),
             PassiveSkill(listOf(OnFirePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0)),
         ),
+        FairyCardRecipeInitializer().common(),
     ),
     MOON(
         "moon", 9, "Moonia", "月精モーニャ", 0xD9E4FF, 0x747D93, 0x0C121F, 0x2D4272,
@@ -112,6 +120,7 @@ enum class FairyCard(
             PassiveSkill(listOf(MoonlightPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.NIGHT_VISION, 0, additionalSeconds = 10)),
             PassiveSkill(listOf(MoonlightPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0)),
         ),
+        FairyCardRecipeInitializer().common(),
     ),
     SUN(
         "sun", 10, "Sunia", "太陽精スーニャ", 0xff2f00, 0xff972b, 0xff7500, 0xffe7b2,
@@ -119,16 +128,19 @@ enum class FairyCard(
             PassiveSkill(listOf(SunshinePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 1)),
             PassiveSkill(listOf(SunshinePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0)),
         ),
+        FairyCardRecipeInitializer().common(),
     ),
     RAIN(
         "rain", 2, "Rainia", "雨精ライニャ", 0xB4FFFF, 0x4D5670, 0x4D5670, 0x2D40F4,
         listOf(
             PassiveSkill(listOf(InRainPassiveSkillCondition()), AttackDamagePassiveSkillEffect(2.0)),
         ),
+        FairyCardRecipeInitializer().common(),
     ),
     DIRT(
         "dirt", 1, "Dirtia", "土精ディルチャ", 0xB87440, 0xB9855C, 0x593D29, 0x914A18,
         listOf(PassiveSkill(listOf(OverworldPassiveSkillCondition()), MaxHealthPassiveSkillEffect(1.0))),
+        FairyCardRecipeInitializer().common(),
     ),
     IRON(
         "iron", 4, "Ironia", "鉄精イローニャ", 0xA0A0A0, 0xD8D8D8, 0x727272, 0xD8AF93,
@@ -136,6 +148,7 @@ enum class FairyCard(
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.IRON)), AttackDamagePassiveSkillEffect(1.0)),
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.IRON)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
         ),
+        FairyCardRecipeInitializer().common(),
     ),
     GOLD(
         "gold", 6, "Goldia", "金精ゴルジャ", 0xD2CD9A, 0xFFFF0B, 0xDC7613, 0xDEDE00,
@@ -144,6 +157,7 @@ enum class FairyCard(
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD)), MovementSpeedPassiveSkillEffect(0.10)),
         ),
+        FairyCardRecipeInitializer().common(),
     ),
     DIAMOND(
         "diamond", 7, "Diamondia", "金剛石精ディアモンジャ", 0x97FFE3, 0xD1FAF3, 0x70FFD9, 0x30DBBD,
@@ -151,22 +165,27 @@ enum class FairyCard(
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.DIAMOND)), AttackDamagePassiveSkillEffect(2.0)),
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.DIAMOND)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
         ),
+        FairyCardRecipeInitializer().common(),
     ),
     FISH(
         "fish", 2, "Fishia", "魚精フィーシャ", 0x6B9F93, 0x5A867C, 0x43655D, 0xADBEDB,
         listOf(PassiveSkill(listOf(UnderwaterPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.NIGHT_VISION, 0, additionalSeconds = 10))),
+        FairyCardRecipeInitializer().common(),
     ),
     CLOWNFISH(
         "clownfish", 7, "Clownfishia", "隈之実精ツロウンフィーシャ", 0xE46A22, 0xF46F20, 0xA94B1D, 0xFFDBC5,
         listOf(PassiveSkill(listOf(UnderwaterPassiveSkillCondition(), MinimumLightLevelPassiveSkillCondition(4)), StatusEffectPassiveSkillEffect(StatusEffects.WATER_BREATHING, 0))),
+        FairyCardRecipeInitializer().common(),
     ),
     PLAYER(
         "player", 5, "Playeria", "人精プライェーリャ", 0xB58D63, 0x00AAAA, 0x322976, 0x4B3422,
         listOf(PassiveSkill(listOf(MaximumLevelPassiveSkillCondition(29)), ExperiencePassiveSkillEffect(0.5))),
+        FairyCardRecipeInitializer().common(),
     ),
     ENDERMAN(
         "enderman", 6, "Endermania", "終界人精エンデルマーニャ", 0x000000, 0x161616, 0x161616, 0xEF84FA,
         listOf(PassiveSkill(listOf(), CollectionPassiveSkillEffect(4.0))),
+        FairyCardRecipeInitializer().common(),
     ),
     WARDEN(
         "warden", 7, "Wardenia", "監守者精ワルデーニャ", 0x0A3135, 0xCFCFA4, 0xA0AA7A, 0x2CD0CA,
@@ -174,10 +193,12 @@ enum class FairyCard(
             PassiveSkill(listOf(MaximumLightLevelPassiveSkillCondition(0)), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 1)),
             PassiveSkill(listOf(MaximumLightLevelPassiveSkillCondition(0)), AttackDamagePassiveSkillEffect(2.0)),
         ),
+        FairyCardRecipeInitializer().common(),
     ),
     ZOMBIE(
         "zombie", 2, "Zombia", "硬屍精ゾンビャ", 0x2B4219, 0x00AAAA, 0x322976, 0x2B4219,
         listOf(PassiveSkill(listOf(ShadePassiveSkillCondition()), AttackDamagePassiveSkillEffect(1.0))),
+        FairyCardRecipeInitializer().common(),
     ),
     SPRUCE(
         "spruce", 6, "Sprucia", "松精スプルーツァ", 0x795C36, 0x583E1F, 0x23160A, 0x4C784C,
@@ -185,6 +206,7 @@ enum class FairyCard(
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.FOREST)), AttackDamagePassiveSkillEffect(1.0)),
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.TAIGA)), AttackDamagePassiveSkillEffect(1.0)),
         ),
+        FairyCardRecipeInitializer().common(),
     ),
     HOE(
         "hoe", 3, "Hia", "鍬精ヒャ", 0xFFFFFF, 0xFFC48E, 0x47FF00, 0xFFFFFF,
@@ -192,30 +214,37 @@ enum class FairyCard(
             PassiveSkill(listOf(HasHoePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
             PassiveSkill(listOf(HasHoePassiveSkillCondition()), LuckPassiveSkillEffect(0.5)),
         ),
+        FairyCardRecipeInitializer().common(),
     ),
     CRAFTING_TABLE(
         "crafting_table", 4, "Craftinge Tablia", "作業台精ツラフティンゲターブリャ", 0xFFFFFF, 0xFFBB9A, 0xFFC980, 0x000000,
         listOf(PassiveSkill(listOf(IndoorPassiveSkillCondition()), LuckPassiveSkillEffect(0.5))),
+        FairyCardRecipeInitializer().common().block { Blocks.CRAFTING_TABLE },
     ),
     PLAINS(
         "plains", 2, "Plainsia", "平原精プラインシャ", 0xB0DF83, 0xD4FF82, 0x86C91C, 0x489F25,
         listOf(PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.PLAINS)), StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 0))),
+        FairyCardRecipeInitializer().common(),
     ),
     OCEAN(
         "ocean", 3, "Oceania", "海精オツェアーニャ", 0x7DAEF5, 0x1B6CE9, 0x191CF0, 0x004DA5,
         listOf(PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.OCEAN)), StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 0))),
+        FairyCardRecipeInitializer().common(),
     ),
     TAIGA(
         "taiga", 5, "Taigia", "針葉樹林精タイギャ", 0x5D985E, 0x476545, 0x223325, 0x5A3711,
         listOf(PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.TAIGA)), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0))),
+        FairyCardRecipeInitializer().common(),
     ),
     MOUNTAIN(
         "mountain", 6, "Mountainia", "山精モウンタイニャ", 0x84BF80, 0xB1B0B1, 0x717173, 0xF0F0F0,
         listOf(PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.MOUNTAIN)), StatusEffectPassiveSkillEffect(StatusEffects.JUMP_BOOST, 1))),
+        FairyCardRecipeInitializer().common(),
     ),
     FOREST(
         "forest", 3, "Forestia", "森精フォレスチャ", 0x8EBF7A, 0x7B9C62, 0x89591D, 0x2E6E14,
         listOf(PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.FOREST)), StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0))),
+        FairyCardRecipeInitializer().common(),
     ),
     DESERT(
         "desert", 4, "Desertia", "砂漠精デセルチャ", 0xF9F0C8, 0xDDD6A5, 0xD6CE9D, 0x656054,
@@ -223,6 +252,7 @@ enum class FairyCard(
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.DESERT), SunshinePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.FIRE_RESISTANCE, 0)),
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.DESERT), MoonlightPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0)),
         ),
+        FairyCardRecipeInitializer().common(),
     ),
     AVALON(
         "avalon", 8, "Avalonia", "阿瓦隆精アヴァローニャ", 0xFFE4CA, 0xE1FFCE, 0xD0FFE6, 0xFFCAFF,
@@ -232,6 +262,7 @@ enum class FairyCard(
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.FLORAL)), StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 0)),
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.FLORAL)), StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0)),
         ),
+        FairyCardRecipeInitializer().common(), // TODO イベント終了時コモン枠除去
     ),
     VOID(
         "void", 11, "Voidia", "奈落精ヴォイジャ", 0x000000, 0x000000, 0x000000, 0xB1B1B1,
@@ -240,12 +271,14 @@ enum class FairyCard(
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.IN_THE_END)), StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0)),
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.IN_THE_END)), StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 2)),
         ),
+        FairyCardRecipeInitializer().common(),
     ),
     NIGHT(
         "night", 7, "Nightia", "夜精ニグチャ", 0xFFE260, 0x2C2C2E, 0x0E0E10, 0x2D4272,
         listOf(
             PassiveSkill(listOf(NightPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 0)),
         ),
+        FairyCardRecipeInitializer().common(),
     ),
     TIME(
         "time", 12, "Timia", "時精ティーミャ", 0x89D585, 0xD5DEBC, 0xD8DEA7, 0x8DD586,
@@ -254,6 +287,7 @@ enum class FairyCard(
             PassiveSkill(listOf(), MovementSpeedPassiveSkillEffect(0.10)),
             PassiveSkill(listOf(), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 1)),
         ),
+        FairyCardRecipeInitializer().common(),
     ),
     GRAVITY(
         "gravity", 12, "Gravitia", "重力精グラヴィーチャ", 0xC2A7F2, 0x3600FF, 0x2A00B1, 0x110047,
@@ -261,6 +295,7 @@ enum class FairyCard(
             PassiveSkill(listOf(), StatusEffectPassiveSkillEffect(StatusEffects.SLOW_FALLING, 0)),
             PassiveSkill(listOf(), AttackDamagePassiveSkillEffect(2.0)),
         ),
+        FairyCardRecipeInitializer().common(),
     ),
 }
 
@@ -268,6 +303,23 @@ val FairyCard.identifier get() = Identifier(MirageFairy2023.modId, this.motif)
 
 private val fairyItems = SlotContainer<FairyCard, Item>()
 operator fun FairyCard.invoke() = fairyItems[this]
+
+
+class FairyCardRecipeInitializer(val initializers: List<InitializationScope.(FairyCard) -> Unit>)
+
+private fun FairyCardRecipeInitializer() = FairyCardRecipeInitializer(listOf())
+operator fun FairyCardRecipeInitializer.plus(block: InitializationScope.(FairyCard) -> Unit) = FairyCardRecipeInitializer(this.initializers + block)
+private fun FairyCardRecipeInitializer.common() = this + {
+    onRegisterRecipes {
+        MirageFlourItem.COMMON_FAIRY_LIST += it
+    }
+}
+
+private fun FairyCardRecipeInitializer.block(block: () -> Block) = this + {
+    onRegisterRecipes {
+        DreamCatcherItem.BLOCK_FAIRY_RELATION_LIST += BlockFairyRelation(block(), it)
+    }
+}
 
 
 val fairyRegistry: SimpleRegistry<FairyCard> = FabricRegistryBuilder.createSimple(FairyCard::class.java, Identifier(MirageFairy2023.modId, "fairy"))
@@ -328,6 +380,9 @@ val fairyModule = module {
             enJaItem({ feature }, fairyCard.enName, fairyCard.jaName)
         }
         Registry.register(fairyRegistry, fairyCard.identifier, fairyCard)
+        fairyCard.initializer.initializers.forEach {
+            it(this, fairyCard)
+        }
     }
 
     // 妖精タグ
