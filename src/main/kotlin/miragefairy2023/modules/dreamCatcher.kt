@@ -134,7 +134,8 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
         flag = 1
 
         // エフェクト
-        context.world.playSound(player, context.blockPos, SoundEvents.AMBIENT_CAVE, SoundCategory.NEUTRAL, 0.5F, 1.0F)
+        context.world.playSound(null, player.x, player.y, player.z, SoundEvents.AMBIENT_CAVE, SoundCategory.NEUTRAL, 1.0F, 1.0F)
+
         player.sendMessage(text { successKey(fairyCard().name) })
 
         return ActionResult.CONSUME
