@@ -65,7 +65,6 @@ import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
-import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
@@ -320,7 +319,7 @@ private fun FairyCardRecipeInitializer.block(blockSupplier: () -> Block) = this 
     }
 }
 
-private fun FairyCardRecipeInitializer.recipe(inputItemSupplier: () -> ItemConvertible) = this + { fairyCard ->
+private fun FairyCardRecipeInitializer.recipe(inputItemSupplier: () -> Item) = this + { fairyCard ->
     onGenerateRecipes {
         val inputItem = inputItemSupplier()
         val mirageFlourItem = when (fairyCard.rare) {
@@ -340,7 +339,7 @@ private fun FairyCardRecipeInitializer.recipe(inputItemSupplier: () -> ItemConve
             .input(inputItem)
             .criterion("has_xarpite", RecipeProvider.conditionsFromItem(DemonItemCard.XARPITE()))
             .criterion("has_${Registry.ITEM.getId(mirageFlourItem).path}", RecipeProvider.conditionsFromItem(mirageFlourItem))
-            .criterion("has_${Registry.ITEM.getId(inputItem.asItem()).path}", RecipeProvider.conditionsFromItem(inputItem))
+            .criterion("has_${Registry.ITEM.getId(inputItem).path}", RecipeProvider.conditionsFromItem(inputItem))
             .offerTo(it, Identifier.of(modId, "fairy/${fairyCard.motif}"))
     }
 }
