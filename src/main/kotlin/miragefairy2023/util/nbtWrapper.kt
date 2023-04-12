@@ -92,6 +92,18 @@ val NbtPath.double get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumbe
 val NbtPath.number get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.numberValue() }, { this.set(NbtDouble.of(it.toDouble())) })
 val NbtPath.string get() = NbtProperty({ this.get()?.asString() }, { this.set(NbtString.of(it)) })
 
+val NbtPath.map
+    get() = NbtProperty({
+        val nbt = this.get()?.castOrNull<NbtCompound>() ?: return@NbtProperty null
+        nbt.keys.associate { key -> key!! to nbt[key]!! }
+    }, { map ->
+        this.set(NbtCompound().also { nbt ->
+            map.forEach { entry ->
+                nbt.put(entry.key, entry.value)
+            }
+        })
+    })
+
 
 // NbtDelegate
 
