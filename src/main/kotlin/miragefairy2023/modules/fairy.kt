@@ -412,7 +412,7 @@ val fairyModule = module {
                         .mapNotNull { itemStack ->
                             itemStack!!
                             val item = itemStack.item
-                            if (item !is FairyProviderItem) return@mapNotNull null
+                            if (item !is FairyItem) return@mapNotNull null
                             val fairy = item.getFairy()
                             Triple(itemStack, fairy, fairy.getIdentifier())
                         }
@@ -497,7 +497,7 @@ private fun PlayerEntity.getPassiveFairies(): List<PassiveFairy> {
     itemStacks.forEachIndexed { index, itemStack ->
         itemStack!!
         val item = itemStack.item
-        if (item !is FairyProviderItem) return@forEachIndexed
+        if (item !is FairyItem) return@forEachIndexed
         val fairy = item.getFairy()
         val fairyIdentifier = fairy.getIdentifier()
         val isDuplicated = fairyIdentifier in collectedFairyIdentifiers
@@ -508,7 +508,7 @@ private fun PlayerEntity.getPassiveFairies(): List<PassiveFairy> {
 }
 
 
-interface FairyProviderItem {
+interface FairyItem {
     fun getFairy(): Fairy
 }
 
@@ -518,7 +518,7 @@ interface Fairy {
 }
 
 
-class DemonFairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), FairyProviderItem {
+class DemonFairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), FairyItem {
     companion object {
         val RARE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.rare", "Rare", "レア度")
         val DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.passive_skill.disabled", "Use passive skills in 3rd row of inventory", "インベントリの3行目でパッシブスキルを発動")
