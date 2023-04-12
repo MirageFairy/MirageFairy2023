@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:miragefairy2023/root",
+  "criteria": {
+    "got_dream_catcher": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "miragefairy2023:dream_catcher"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.miragefairy2023.dream_catcher.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "miragefairy2023:dream_catcher",
+      "nbt": "{Damage:0}"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.miragefairy2023.dream_catcher.title"
+    }
+  },
+  "requirements": [
+    [
+      "got_dream_catcher"
+    ]
+  ],
+  "rewards": {
+    "loot": [
+      "miragefairy2023:advancement_reward/tier1_fairy_crystal"
+    ]
+  }
+}

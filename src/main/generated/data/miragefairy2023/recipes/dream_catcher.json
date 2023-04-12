@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "F": {
+      "item": "minecraft:feather"
+    },
+    "R": {
+      "item": "miragefairy2023:mirage_stem"
+    },
+    "S": {
+      "item": "minecraft:string"
+    }
+  },
+  "pattern": [
+    "FSS",
+    "FSS",
+    "RFF"
+  ],
+  "result": {
+    "item": "miragefairy2023:dream_catcher"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "miragefairy2023:dream_catcher"
+    },
+    "G": {
+      "item": "miragefairy2023:miranagite"
+    },
+    "I": {
+      "item": "minecraft:netherite_ingot"
+    }
+  },
+  "pattern": [
+    "GII",
+    "G#I",
+    "IGG"
+  ],
+  "result": {
+    "item": "miragefairy2023:blue_dream_catcher"
+  }
+}

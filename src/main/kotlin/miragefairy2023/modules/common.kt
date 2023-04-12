@@ -295,6 +295,26 @@ val commonModule = module {
             reward(tier3LootTableId)
         }
 
+        val dreamCatcher = advancement(
+            "dream_catcher", { dreamCatcherItem.feature },
+            "Dreamy Filtration Medium", "夢取り網",
+            "Make a tool to collect good dreams", "夢を集める道具を作る",
+            parent = root,
+        ) {
+            criterion(dreamCatcherItem.feature)
+            reward(tier1LootTableId)
+        }
+
+        val blueDreamCatcher = advancement(
+            "blue_dream_catcher", { blueDreamCatcherItem.feature },
+            "Law of the Happiness", "しあわせは儚き渦の中心に",
+            "Adsorb viral memes with reticulated anti-entropy", "秩序の宝石で邪気を分解する",
+            parent = dreamCatcher,
+        ) {
+            criterion(blueDreamCatcherItem.feature)
+            reward(tier2LootTableId)
+        }
+
     }
 
 }
