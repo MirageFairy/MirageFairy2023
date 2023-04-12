@@ -76,6 +76,14 @@ class MaxHealthPassiveSkillEffect(override val power: Double) : AttributePassive
     override val operation = EntityAttributeModifier.Operation.ADDITION
 }
 
+class LuckPassiveSkillEffect(override val power: Double) : AttributePassiveSkillEffect() {
+    override fun getText() = text { translate("attribute.name.generic.luck") + ": "() + (power formatAs "%+.1f")() }
+    override val uuid: UUID = UUID.fromString("A69D69CB-1658-4D58-BB45-B18445DD8757")
+    override val identifier = Identifier(MirageFairy2023.modId, "luck")
+    override val entityAttribute: EntityAttribute = EntityAttributes.GENERIC_LUCK
+    override val operation = EntityAttributeModifier.Operation.ADDITION
+}
+
 class StatusEffectPassiveSkillEffect(private val statusEffect: StatusEffect, private val amplifier: Int, private val additionalSeconds: Int = 0) : PassiveSkillEffect {
     override fun getText() = text { translate(statusEffect.translationKey) + ": Level ${amplifier + 1}"() }
     override fun affect(world: ServerWorld, player: PlayerEntity) {
