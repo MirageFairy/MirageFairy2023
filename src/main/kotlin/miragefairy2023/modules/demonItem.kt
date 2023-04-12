@@ -11,7 +11,9 @@ import miragefairy2023.util.init.registerGrassDrop
 import miragefairy2023.util.init.registerMobDrop
 import miragefairy2023.util.init.uniformLootNumberProvider
 import miragefairy2023.util.text
+import miragefairy2023.util.toIngredient
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
+import net.fabricmc.yarn.constants.MiningLevels
 import net.minecraft.block.Blocks
 import net.minecraft.block.ComposterBlock
 import net.minecraft.client.item.TooltipContext
@@ -23,6 +25,8 @@ import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.item.ToolMaterial
+import net.minecraft.recipe.Ingredient
 import net.minecraft.tag.ItemTags
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
@@ -68,6 +72,26 @@ enum class DemonItemCard(
 
 private val demonItems = SlotContainer<DemonItemCard, Item>()
 operator fun DemonItemCard.invoke() = demonItems[this]
+
+
+enum class DemonToolMaterials(
+    private val durability: Int,
+    private val miningSpeedMultiplier: Float,
+    private val attackDamage: Float,
+    private val miningLevel: Int,
+    private val enchantability: Int,
+    private val repairIngredient: () -> Ingredient,
+) : ToolMaterial {
+    MIRAGE(48, 1.6F, 0.0F, MiningLevels.WOOD, 17, { DemonItemCard.MIRAGE_STEM().toIngredient() }),
+    ;
+
+    override fun getDurability() = durability
+    override fun getMiningSpeedMultiplier() = miningSpeedMultiplier
+    override fun getAttackDamage() = attackDamage
+    override fun getMiningLevel() = miningLevel
+    override fun getEnchantability() = enchantability
+    override fun getRepairIngredient() = repairIngredient()
+}
 
 
 val demonItemModule = module {
