@@ -49,6 +49,8 @@ import miragefairy2023.util.text
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
+import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder
+import net.fabricmc.fabric.api.event.registry.RegistryAttribute
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags
 import net.minecraft.client.item.TooltipContext
@@ -68,6 +70,7 @@ import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
+import net.minecraft.util.registry.SimpleRegistry
 import net.minecraft.world.World
 import java.util.Optional
 
@@ -267,6 +270,11 @@ private val fairyItems = SlotContainer<FairyCard, Item>()
 operator fun FairyCard.invoke() = fairyItems[this]
 
 
+val fairyRegistry: SimpleRegistry<FairyCard> = FabricRegistryBuilder.createSimple(FairyCard::class.java, Identifier(MirageFairy2023.modId, "fairy"))
+    .attribute(RegistryAttribute.SYNCED)
+    .buildAndRegister()
+
+
 private val randomFairyIcon by lazy { FairyCard.values().random()().createItemStack() }
 val fairyItemGroup: ItemGroup = FabricItemGroupBuilder.build(Identifier(MirageFairy2023.modId, "fairy")) { randomFairyIcon }
 
@@ -319,6 +327,7 @@ val fairyModule = module {
 
             enJaItem({ feature }, fairyCard.enName, fairyCard.jaName)
         }
+        Registry.register(fairyRegistry, fairyCard.identifier, fairyCard)
     }
 
     // 妖精タグ
