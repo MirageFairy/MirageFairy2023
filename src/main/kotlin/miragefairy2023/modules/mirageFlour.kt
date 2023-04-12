@@ -19,12 +19,15 @@ import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.translation
 import miragefairy2023.util.int
+import miragefairy2023.util.map
 import miragefairy2023.util.orDefault
 import miragefairy2023.util.text
 import miragefairy2023.util.totalWeight
 import miragefairy2023.util.wrapper
 import miragefairy2023.util.yellow
+import mirrg.kotlin.hydrogen.castOrNull
 import mirrg.kotlin.hydrogen.formatAs
+import mirrg.kotlin.hydrogen.or
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
@@ -34,6 +37,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.AbstractNbtNumber
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
@@ -190,10 +194,19 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
     override fun getUseAction(stack: ItemStack) = UseAction.BOW
     override fun getMaxUseTime(stack: ItemStack) = 72000 // 1時間
 
-    private fun calculateChanceTable(): List<Chance<FairyCard>> {
+    private fun calculateChanceTable(player: ServerPlayerEntity): List<Chance<FairyCard>> {
+
+        // 記憶によるコモン枠追加
+        val nbt = CustomDataHelper.getPersistentData(player)
+        val found = nbt.wrapper[MirageFairy2023.modId]["found_motifs"].map.get().or { mapOf() }.entries
+            .filter { it.value.castOrNull<AbstractNbtNumber>()?.intValue() != 0 }
+            .map { it.key }
+        val memoryFairyCardList = found.mapNotNull {
+            fairyRegistry[Identifier(it)]
+        }
 
         // コモン枠の妖精リスト
-        val commonFairyCardList = listOf(
+        val baseCommonFairyCardList = listOf(
             FairyCard.AIR,
             FairyCard.LIGHT,
             FairyCard.FIRE,
@@ -225,6 +238,8 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
             FairyCard.TIME,
             FairyCard.GRAVITY,
         )
+
+        val commonFairyCardList = (baseCommonFairyCardList + memoryFairyCardList).distinctBy { it.identifier }
 
         // 生の提供割合
         val rawChanceTable = commonFairyCardList
@@ -267,7 +282,7 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
 
             // 提供割合表示
             if (!world.isClient) {
-                val chanceTable = calculateChanceTable()
+                val chanceTable = calculateChanceTable(user as ServerPlayerEntity)
                 showChanceTableMessage(user, itemStack, chanceTable)
             }
 
@@ -277,12 +292,12 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
 
     override fun usageTick(world: World, user: LivingEntity, stack: ItemStack, remainingUseTicks: Int) {
         if (world.isClient) return
-        if (user !is PlayerEntity) return
+        if (user !is ServerPlayerEntity) return
 
         fun draw() {
 
             // 提供割合の生成
-            val chanceTable = calculateChanceTable()
+            val chanceTable = calculateChanceTable(user)
 
             // 消費
             if (!(user.isCreative)) {
