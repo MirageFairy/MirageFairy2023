@@ -65,6 +65,7 @@ import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
+import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
@@ -112,7 +113,7 @@ enum class FairyCard(
             PassiveSkill(listOf(OnFirePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0)),
             PassiveSkill(listOf(OnFirePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0)),
         ),
-        FairyCardRecipeInitializer().common().block { Blocks.LAVA },
+        FairyCardRecipeInitializer().common().block { Blocks.LAVA }.recipe { Items.LAVA_BUCKET },
     ),
     MOON(
         "moon", 9, "Moonia", "月精モーニャ", 0xD9E4FF, 0x747D93, 0x0C121F, 0x2D4272,
@@ -138,7 +139,7 @@ enum class FairyCard(
     DIRT(
         "dirt", 1, "Dirtia", "土精ディルチャ", 0xB87440, 0xB9855C, 0x593D29, 0x914A18,
         listOf(PassiveSkill(listOf(OverworldPassiveSkillCondition()), MaxHealthPassiveSkillEffect(1.0))),
-        FairyCardRecipeInitializer().common().block { Blocks.DIRT },
+        FairyCardRecipeInitializer().common().block { Blocks.DIRT }.recipe { Items.DIRT },
     ),
     IRON(
         "iron", 4, "Ironia", "鉄精イローニャ", 0xA0A0A0, 0xD8D8D8, 0x727272, 0xD8AF93,
@@ -146,7 +147,7 @@ enum class FairyCard(
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.IRON)), AttackDamagePassiveSkillEffect(1.0)),
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.IRON)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
         ),
-        FairyCardRecipeInitializer().common().block { Blocks.IRON_BLOCK },
+        FairyCardRecipeInitializer().common().block { Blocks.IRON_BLOCK }.recipe { Items.IRON_INGOT },
     ),
     GOLD(
         "gold", 6, "Goldia", "金精ゴルジャ", 0xD2CD9A, 0xFFFF0B, 0xDC7613, 0xDEDE00,
@@ -155,7 +156,7 @@ enum class FairyCard(
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD)), MovementSpeedPassiveSkillEffect(0.10)),
         ),
-        FairyCardRecipeInitializer().common().block { Blocks.GOLD_BLOCK },
+        FairyCardRecipeInitializer().common().block { Blocks.GOLD_BLOCK }.recipe { Items.GOLD_INGOT },
     ),
     DIAMOND(
         "diamond", 7, "Diamondia", "金剛石精ディアモンジャ", 0x97FFE3, 0xD1FAF3, 0x70FFD9, 0x30DBBD,
@@ -163,17 +164,17 @@ enum class FairyCard(
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.DIAMOND)), AttackDamagePassiveSkillEffect(2.0)),
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.DIAMOND)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
         ),
-        FairyCardRecipeInitializer().common().block { Blocks.DIAMOND_BLOCK },
+        FairyCardRecipeInitializer().common().block { Blocks.DIAMOND_BLOCK }.recipe { Items.DIAMOND },
     ),
     FISH(
         "fish", 2, "Fishia", "魚精フィーシャ", 0x6B9F93, 0x5A867C, 0x43655D, 0xADBEDB,
         listOf(PassiveSkill(listOf(UnderwaterPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.NIGHT_VISION, 0, additionalSeconds = 10))),
-        FairyCardRecipeInitializer().common(),
+        FairyCardRecipeInitializer().common().recipe { Items.COD }, // TODO 魚精は希釈で得る
     ),
     CLOWNFISH(
         "clownfish", 7, "Clownfishia", "隈之実精ツロウンフィーシャ", 0xE46A22, 0xF46F20, 0xA94B1D, 0xFFDBC5,
         listOf(PassiveSkill(listOf(UnderwaterPassiveSkillCondition(), MinimumLightLevelPassiveSkillCondition(4)), StatusEffectPassiveSkillEffect(StatusEffects.WATER_BREATHING, 0))),
-        FairyCardRecipeInitializer().common(),
+        FairyCardRecipeInitializer().common().recipe { Items.TROPICAL_FISH },
     ),
     PLAYER(
         "player", 5, "Playeria", "人精プライェーリャ", 0xB58D63, 0x00AAAA, 0x322976, 0x4B3422,
@@ -204,7 +205,7 @@ enum class FairyCard(
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.FOREST)), AttackDamagePassiveSkillEffect(1.0)),
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.TAIGA)), AttackDamagePassiveSkillEffect(1.0)),
         ),
-        FairyCardRecipeInitializer().common().block { Blocks.SPRUCE_SAPLING },
+        FairyCardRecipeInitializer().common().block { Blocks.SPRUCE_SAPLING }.recipe { Items.SPRUCE_SAPLING },
     ),
     HOE(
         "hoe", 3, "Hia", "鍬精ヒャ", 0xFFFFFF, 0xFFC48E, 0x47FF00, 0xFFFFFF,
@@ -212,7 +213,7 @@ enum class FairyCard(
             PassiveSkill(listOf(HasHoePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
             PassiveSkill(listOf(HasHoePassiveSkillCondition()), LuckPassiveSkillEffect(0.5)),
         ),
-        FairyCardRecipeInitializer().common(),
+        FairyCardRecipeInitializer().common().recipe { Items.STONE_HOE },
     ),
     CRAFTING_TABLE(
         "crafting_table", 4, "Craftinge Tablia", "作業台精ツラフティンゲターブリャ", 0xFFFFFF, 0xFFBB9A, 0xFFC980, 0x000000,
@@ -306,16 +307,41 @@ operator fun FairyCard.invoke() = fairyItems[this]
 class FairyCardRecipeInitializer(val initializers: List<InitializationScope.(FairyCard) -> Unit>)
 
 private fun FairyCardRecipeInitializer() = FairyCardRecipeInitializer(listOf())
-operator fun FairyCardRecipeInitializer.plus(block: InitializationScope.(FairyCard) -> Unit) = FairyCardRecipeInitializer(this.initializers + block)
-private fun FairyCardRecipeInitializer.common() = this + {
+private operator fun FairyCardRecipeInitializer.plus(block: InitializationScope.(FairyCard) -> Unit) = FairyCardRecipeInitializer(this.initializers + block)
+private fun FairyCardRecipeInitializer.common() = this + { fairyCard ->
     onRegisterRecipes {
-        MirageFlourItem.COMMON_FAIRY_LIST += it
+        MirageFlourItem.COMMON_FAIRY_LIST += fairyCard
     }
 }
 
-private fun FairyCardRecipeInitializer.block(block: () -> Block) = this + {
+private fun FairyCardRecipeInitializer.block(blockSupplier: () -> Block) = this + { fairyCard ->
     onRegisterRecipes {
-        DreamCatcherItem.BLOCK_FAIRY_RELATION_LIST += BlockFairyRelation(block(), it)
+        DreamCatcherItem.BLOCK_FAIRY_RELATION_LIST += BlockFairyRelation(blockSupplier(), fairyCard)
+    }
+}
+
+private fun FairyCardRecipeInitializer.recipe(inputItemSupplier: () -> ItemConvertible) = this + { fairyCard ->
+    onGenerateRecipes {
+        val inputItem = inputItemSupplier()
+        val mirageFlourItem = when (fairyCard.rare) {
+            0 -> MirageFlourCard.TINY_MIRAGE_FLOUR()
+            1, 2 -> MirageFlourCard.MIRAGE_FLOUR()
+            3, 4 -> MirageFlourCard.RARE_MIRAGE_FLOUR()
+            5, 6 -> MirageFlourCard.VERY_RARE_MIRAGE_FLOUR()
+            7, 8 -> MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR()
+            9, 10 -> MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR()
+            11, 12 -> MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR()
+            else -> throw AssertionError()
+        }
+        ShapelessRecipeJsonBuilder
+            .create(fairyCard())
+            .input(DemonItemCard.XARPITE())
+            .input(mirageFlourItem)
+            .input(inputItem)
+            .criterion("has_xarpite", RecipeProvider.conditionsFromItem(DemonItemCard.XARPITE()))
+            .criterion("has_${Registry.ITEM.getId(mirageFlourItem).path}", RecipeProvider.conditionsFromItem(mirageFlourItem))
+            .criterion("has_${Registry.ITEM.getId(inputItem.asItem()).path}", RecipeProvider.conditionsFromItem(inputItem))
+            .offerTo(it, Identifier.of(modId, "fairy/${fairyCard.motif}"))
     }
 }
 
@@ -450,40 +476,6 @@ val fairyModule = module {
     translation(DemonFairyItem.DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY)
     translation(DemonFairyItem.ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
     translation(DemonFairyItem.ALWAYS_CONDITION_KEY)
-
-
-    // 確定召喚レシピ
-    fun registerFairySummoningRecipe(fairyCard: FairyCard, inputItemSupplier: () -> Item) = onGenerateRecipes {
-        val inputItem = inputItemSupplier()
-        val mirageFlowerItem = when (fairyCard.rare) {
-            0 -> MirageFlourCard.TINY_MIRAGE_FLOUR()
-            1, 2 -> MirageFlourCard.MIRAGE_FLOUR()
-            3, 4 -> MirageFlourCard.RARE_MIRAGE_FLOUR()
-            5, 6 -> MirageFlourCard.VERY_RARE_MIRAGE_FLOUR()
-            7, 8 -> MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR()
-            9, 10 -> MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR()
-            11, 12 -> MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR()
-            else -> throw AssertionError()
-        }
-        ShapelessRecipeJsonBuilder
-            .create(fairyCard())
-            .input(DemonItemCard.XARPITE())
-            .input(mirageFlowerItem)
-            .input(inputItem)
-            .criterion("has_xarpite", RecipeProvider.conditionsFromItem(DemonItemCard.XARPITE()))
-            .criterion("has_${Registry.ITEM.getId(mirageFlowerItem).path}", RecipeProvider.conditionsFromItem(mirageFlowerItem))
-            .criterion("has_${Registry.ITEM.getId(inputItem).path}", RecipeProvider.conditionsFromItem(inputItem))
-            .offerTo(it, Identifier.of(modId, "fairy/${fairyCard.motif}"))
-    }
-    registerFairySummoningRecipe(FairyCard.LAVA) { Items.LAVA_BUCKET } // 溶岩
-    registerFairySummoningRecipe(FairyCard.DIRT) { Items.DIRT } // 土
-    registerFairySummoningRecipe(FairyCard.IRON) { Items.IRON_INGOT } // 鉄
-    registerFairySummoningRecipe(FairyCard.GOLD) { Items.GOLD_INGOT } // 金
-    registerFairySummoningRecipe(FairyCard.DIAMOND) { Items.DIAMOND } // ダイヤモンド
-    registerFairySummoningRecipe(FairyCard.FISH) { Items.COD } // 魚 // TODO 魚精は希釈で得る
-    registerFairySummoningRecipe(FairyCard.CLOWNFISH) { Items.TROPICAL_FISH } // クマノミ
-    registerFairySummoningRecipe(FairyCard.SPRUCE) { Items.SPRUCE_SAPLING } // 松
-    registerFairySummoningRecipe(FairyCard.HOE) { Items.STONE_HOE } // クワ
 
 }
 
