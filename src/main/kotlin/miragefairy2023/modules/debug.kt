@@ -43,7 +43,7 @@ class FairyListDebuggerItem(settings: Settings) : Item(settings) {
                     if (conditionTexts.isNotEmpty()) {
                         effectText + " ["() + conditionTexts.join(","()) + "]"()
                     } else {
-                        effectText + " ["() + FairyItem.ALWAYS_CONDITION_KEY() + "]"()
+                        effectText + " ["() + DemonFairyItem.ALWAYS_CONDITION_KEY() + "]"()
                     }
                 }.string
             }

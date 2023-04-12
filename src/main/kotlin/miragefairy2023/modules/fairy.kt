@@ -357,7 +357,7 @@ val fairyModule = module {
 
     // 妖精登録
     FairyCard.values().forEach { fairyCard ->
-        item("${fairyCard.motif}_fairy", { FairyItem(fairyCard, FabricItemSettings().group(fairyItemGroup)) }) {
+        item("${fairyCard.motif}_fairy", { DemonFairyItem(fairyCard, FabricItemSettings().group(fairyItemGroup)) }) {
             onRegisterItems { fairyItems[fairyCard] = feature }
 
             registerToTag { fairiesItemTag }
@@ -445,11 +445,11 @@ val fairyModule = module {
         }
     }
 
-    translation(FairyItem.RARE_KEY)
-    translation(FairyItem.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
-    translation(FairyItem.DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY)
-    translation(FairyItem.ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
-    translation(FairyItem.ALWAYS_CONDITION_KEY)
+    translation(DemonFairyItem.RARE_KEY)
+    translation(DemonFairyItem.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
+    translation(DemonFairyItem.DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY)
+    translation(DemonFairyItem.ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
+    translation(DemonFairyItem.ALWAYS_CONDITION_KEY)
 
 
     // 確定召喚レシピ
@@ -518,7 +518,7 @@ interface Fairy {
 }
 
 
-class FairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), FairyProviderItem {
+class DemonFairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), FairyProviderItem {
     companion object {
         val RARE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.rare", "Rare", "レア度")
         val DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.passive_skill.disabled", "Use passive skills in 3rd row of inventory", "インベントリの3行目でパッシブスキルを発動")
