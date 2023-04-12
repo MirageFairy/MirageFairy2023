@@ -12,9 +12,11 @@ import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.translation
 import miragefairy2023.util.int
-import miragefairy2023.util.orDefault
+import miragefairy2023.util.map
 import miragefairy2023.util.text
 import miragefairy2023.util.wrapper
+import mirrg.kotlin.hydrogen.castOrNull
+import mirrg.kotlin.hydrogen.or
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -30,6 +32,7 @@ import net.minecraft.item.Items
 import net.minecraft.item.ToolItem
 import net.minecraft.item.ToolMaterial
 import net.minecraft.item.ToolMaterials
+import net.minecraft.nbt.AbstractNbtNumber
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
@@ -114,24 +117,36 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
             it.sendToolBreakStatus(context.hand)
         }
 
-        // 妖精判定
-        val fairyCard = when (context.world.getBlockState(context.blockPos).block) {
-            Blocks.CRAFTING_TABLE -> FairyCard.CRAFTING_TABLE
-            else -> return ActionResult.CONSUME // 該当する妖精が居ないので終了
-        }
-
-        // 未入手判定
+        // ストレージ
         val nbt = CustomDataHelper.getPersistentData(player)
-        var flag by nbt.wrapper[MirageFairy2023.modId]["found_motifs"][fairyCard.identifier.toString()].int.orDefault { 0 }
-        if (flag != 0) {
-            player.sendMessage(text { knownKey(fairyCard().name) }, true)
-            return ActionResult.CONSUME // 入手済みなので終了
+
+        // 入手済み妖精計算
+        val foundFairies = nbt.wrapper[MirageFairy2023.modId]["found_motifs"].map.get().or { mapOf() }.entries
+            .filter { it.value.castOrNull<AbstractNbtNumber>()?.intValue() != 0 }
+            .map { Identifier(it.key) }
+            .toSet()
+
+        // 妖精判定
+        val block = context.world.getBlockState(context.blockPos).block
+        val fairyMemoryList = listOf(
+            Blocks.CRAFTING_TABLE to FairyCard.CRAFTING_TABLE, // TODO card側に吸収
+        )
+        val hitFairyList = fairyMemoryList.filter { it.first === block }.map { it.second }
+        val fairyCard = run found@{
+            hitFairyList.forEach { fairyCard ->
+                if (fairyCard.identifier in foundFairies) {
+                    player.sendMessage(text { knownKey(fairyCard().name) }, true)
+                } else {
+                    return@found fairyCard
+                }
+            }
+            return ActionResult.CONSUME // 該当する未入手妖精が居ないので終了
         }
 
         // ----- 結果の成立 -----
 
         // 生産
-        flag = 1
+        nbt.wrapper[MirageFairy2023.modId]["found_motifs"][fairyCard.identifier.toString()].int.set(1)
 
         // エフェクト
         context.world.playSound(null, player.x, player.y, player.z, SoundEvents.AMBIENT_CAVE, SoundCategory.NEUTRAL, 1.0F, 1.0F)
