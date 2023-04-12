@@ -4,8 +4,11 @@ package miragefairy2023.util
 
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemStack
+import net.minecraft.recipe.Ingredient
 
+fun ItemConvertible.toIngredient(): Ingredient = Ingredient.ofItems(this)
 fun ItemConvertible.createItemStack(count: Int = 1) = ItemStack(this, count)
+
 
 val EMPTY_ITEM_STACK: ItemStack get() = ItemStack.EMPTY
 
