@@ -93,7 +93,7 @@ enum class FairyCard(
     AIR(
         "air", 0, "Airia", "空気精アイリャ", 0xFFBE80, 0xDEFFFF, 0xDEFFFF, 0xB0FFFF,
         listOf(PassiveSkill(listOf(OverworldPassiveSkillCondition(), AirPassiveSkillCondition()), MovementSpeedPassiveSkillEffect(0.05))),
-        FairyCardRecipeInitializer().common(),
+        FairyCardRecipeInitializer().common().block { Blocks.AIR },
     ),
     LIGHT(
         "light", 3, "Lightia", "光精リグチャ", 0xFFFFD8, 0xFFFFD8, 0xFFFFC5, 0xFFFF00,
@@ -103,7 +103,7 @@ enum class FairyCard(
     FIRE(
         "fire", 2, "Firia", "火精フィーリャ", 0xFF6C01, 0xF9DFA4, 0xFF7324, 0xFF4000,
         listOf(PassiveSkill(listOf(OnFirePassiveSkillCondition()), AttackDamagePassiveSkillEffect(2.0))),
-        FairyCardRecipeInitializer().common(),
+        FairyCardRecipeInitializer().common().block { Blocks.FIRE },
     ),
     LAVA(
         "lava", 4, "Lavia", "溶岩精ラーヴャ", 0xCD4208, 0xEDB54A, 0xCC4108, 0x4C1500,
@@ -112,7 +112,7 @@ enum class FairyCard(
             PassiveSkill(listOf(OnFirePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0)),
             PassiveSkill(listOf(OnFirePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0)),
         ),
-        FairyCardRecipeInitializer().common(),
+        FairyCardRecipeInitializer().common().block { Blocks.LAVA },
     ),
     MOON(
         "moon", 9, "Moonia", "月精モーニャ", 0xD9E4FF, 0x747D93, 0x0C121F, 0x2D4272,
@@ -138,7 +138,7 @@ enum class FairyCard(
     DIRT(
         "dirt", 1, "Dirtia", "土精ディルチャ", 0xB87440, 0xB9855C, 0x593D29, 0x914A18,
         listOf(PassiveSkill(listOf(OverworldPassiveSkillCondition()), MaxHealthPassiveSkillEffect(1.0))),
-        FairyCardRecipeInitializer().common(),
+        FairyCardRecipeInitializer().common().block { Blocks.DIRT },
     ),
     IRON(
         "iron", 4, "Ironia", "鉄精イローニャ", 0xA0A0A0, 0xD8D8D8, 0x727272, 0xD8AF93,
@@ -146,7 +146,7 @@ enum class FairyCard(
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.IRON)), AttackDamagePassiveSkillEffect(1.0)),
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.IRON)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
         ),
-        FairyCardRecipeInitializer().common(),
+        FairyCardRecipeInitializer().common().block { Blocks.IRON_BLOCK },
     ),
     GOLD(
         "gold", 6, "Goldia", "金精ゴルジャ", 0xD2CD9A, 0xFFFF0B, 0xDC7613, 0xDEDE00,
@@ -155,7 +155,7 @@ enum class FairyCard(
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD)), MovementSpeedPassiveSkillEffect(0.10)),
         ),
-        FairyCardRecipeInitializer().common(),
+        FairyCardRecipeInitializer().common().block { Blocks.GOLD_BLOCK },
     ),
     DIAMOND(
         "diamond", 7, "Diamondia", "金剛石精ディアモンジャ", 0x97FFE3, 0xD1FAF3, 0x70FFD9, 0x30DBBD,
@@ -163,7 +163,7 @@ enum class FairyCard(
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.DIAMOND)), AttackDamagePassiveSkillEffect(2.0)),
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.DIAMOND)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
         ),
-        FairyCardRecipeInitializer().common(),
+        FairyCardRecipeInitializer().common().block { Blocks.DIAMOND_BLOCK },
     ),
     FISH(
         "fish", 2, "Fishia", "魚精フィーシャ", 0x6B9F93, 0x5A867C, 0x43655D, 0xADBEDB,
@@ -204,7 +204,7 @@ enum class FairyCard(
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.FOREST)), AttackDamagePassiveSkillEffect(1.0)),
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.TAIGA)), AttackDamagePassiveSkillEffect(1.0)),
         ),
-        FairyCardRecipeInitializer().common(),
+        FairyCardRecipeInitializer().common().block { Blocks.SPRUCE_SAPLING },
     ),
     HOE(
         "hoe", 3, "Hia", "鍬精ヒャ", 0xFFFFFF, 0xFFC48E, 0x47FF00, 0xFFFFFF,
@@ -217,7 +217,7 @@ enum class FairyCard(
     CRAFTING_TABLE(
         "crafting_table", 4, "Craftinge Tablia", "作業台精ツラフティンゲターブリャ", 0xFFFFFF, 0xFFBB9A, 0xFFC980, 0x000000,
         listOf(PassiveSkill(listOf(IndoorPassiveSkillCondition()), LuckPassiveSkillEffect(0.5))),
-        FairyCardRecipeInitializer().common().block { Blocks.CRAFTING_TABLE },
+        FairyCardRecipeInitializer().block { Blocks.CRAFTING_TABLE },
     ),
     PLAINS(
         "plains", 2, "Plainsia", "平原精プラインシャ", 0xB0DF83, 0xD4FF82, 0x86C91C, 0x489F25,
