@@ -248,6 +248,8 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
 
     fun move(world: ServerWorld, pos: BlockPos, state: BlockState, speed: Double = 1.0) {
 
+        if (isStacked(world, pos)) return // この花の上に別のミラージュの花が存在する場合は阻害により成長しない
+
         val baseGrowthAmount = 0.01
         var ambientBonus = 1.0
         var farmlandBonus = 1.0
@@ -299,10 +301,17 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
         }
     }
 
+    private fun isStacked(world: BlockView, blockPos: BlockPos): Boolean {
+        (blockPos.y + 1 until world.height).forEach { y ->
+            if (world.getBlockState(BlockPos(blockPos.x, y, blockPos.z)).block is MirageFlowerBlock) return true
+        }
+        return false
+    }
+
     override fun hasRandomTicks(state: BlockState) = !isMaxAge(state)
     override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) = move(world, pos, state)
 
-    override fun isFertilizable(world: BlockView, pos: BlockPos, state: BlockState, isClient: Boolean) = !isMaxAge(state)
+    override fun isFertilizable(world: BlockView, pos: BlockPos, state: BlockState, isClient: Boolean) = !isMaxAge(state) && !isStacked(world, pos)
     override fun canGrow(world: World, random: Random, pos: BlockPos, state: BlockState) = true
     override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) = move(world, pos, state, speed = 10.0)
 
