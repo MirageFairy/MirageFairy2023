@@ -12,6 +12,7 @@ import miragefairy2023.modules.passiveskill.CollectionPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.ExperiencePassiveSkillEffect
 import miragefairy2023.modules.passiveskill.HasHoePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.InRainPassiveSkillCondition
+import miragefairy2023.modules.passiveskill.IndoorPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.LuckPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.MaxHealthPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.MaximumLevelPassiveSkillCondition
@@ -188,6 +189,10 @@ enum class FairyCard(
             PassiveSkill(listOf(HasHoePassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
             PassiveSkill(listOf(HasHoePassiveSkillCondition()), LuckPassiveSkillEffect(0.5)),
         ),
+    ),
+    CRAFTING_TABLE(
+        "crafting_table", 4, "Craftinge Tablia", "作業台精ツラフティンゲターブリャ", 0xFFFFFF, 0xFFBB9A, 0xFFC980, 0x000000,
+        listOf(PassiveSkill(listOf(IndoorPassiveSkillCondition()), LuckPassiveSkillEffect(0.5))),
     ),
     PLAINS(
         "plains", 2, "Plainsia", "平原精プラインシャ", 0xB0DF83, 0xD4FF82, 0x86C91C, 0x489F25,
