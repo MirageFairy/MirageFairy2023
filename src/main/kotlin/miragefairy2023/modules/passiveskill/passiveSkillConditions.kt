@@ -79,7 +79,7 @@ class SunshinePassiveSkillCondition : PassiveSkillCondition {
     override fun getText() = text { key() }
     override fun test(player: PlayerEntity): Boolean {
         player.world.calculateAmbientDarkness()
-        return player.world.isDay && !player.world.hasRain(player.blockPos) && player.world.isSkyVisible(BlockPos(player.eyePos))
+        return player.world.dimension.natural && player.world.ambientDarkness < 4 && !player.world.hasRain(player.blockPos) && player.world.isSkyVisible(BlockPos(player.eyePos))
     }
 }
 
@@ -91,7 +91,7 @@ class MoonlightPassiveSkillCondition : PassiveSkillCondition {
     override fun getText() = text { key() }
     override fun test(player: PlayerEntity): Boolean {
         player.world.calculateAmbientDarkness()
-        return player.world.isNight && !player.world.hasRain(player.blockPos) && player.world.isSkyVisible(BlockPos(player.eyePos))
+        return player.world.dimension.natural && player.world.ambientDarkness >= 4 && !player.world.hasRain(player.blockPos) && player.world.isSkyVisible(BlockPos(player.eyePos))
     }
 }
 
