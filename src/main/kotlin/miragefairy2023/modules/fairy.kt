@@ -501,9 +501,8 @@ val fairyModule = module {
                         .mapNotNull { itemStack ->
                             itemStack!!
                             val item = itemStack.item
-                            if (item !is FairyItem) return@mapNotNull null
-                            val fairy = item.getFairy()
-                            Triple(itemStack, fairy, fairy.getIdentifier())
+                            if (item !is DemonFairyItem) return@mapNotNull null
+                            Triple(itemStack, item, item.getFairy().getIdentifier())
                         }
                         .distinctBy { it.third }
 
@@ -512,7 +511,7 @@ val fairyModule = module {
                     // 効果の計算
                     val passiveSkillVariable = mutableMapOf<Identifier, Any>()
                     triples.forEach { triple ->
-                        triple.second.getPassiveSkills().forEach passiveSkillIsFailed@{ passiveSkill ->
+                        triple.second.fairyCard.passiveSkills.forEach passiveSkillIsFailed@{ passiveSkill ->
                             passiveSkill.conditions.forEach { condition ->
                                 if (!condition.test(player)) return@passiveSkillIsFailed
                             }
@@ -569,7 +568,7 @@ interface FairyItem {
 
 interface Fairy {
     fun getIdentifier(): Identifier
-    fun getPassiveSkills(): List<PassiveSkill>
+    fun getItem(): Item
 }
 
 
@@ -584,7 +583,7 @@ class DemonFairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settin
 
     override fun getFairy() = object : Fairy {
         override fun getIdentifier() = fairyCard.identifier
-        override fun getPassiveSkills() = fairyCard.passiveSkills
+        override fun getItem() = this@DemonFairyItem
     }
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
@@ -594,7 +593,7 @@ class DemonFairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settin
         tooltip += text { (RARE_KEY() + ": "() + "${fairyCard.rare}"().formatted(getRareColor(fairyCard.rare))).aqua }
 
 
-        val passiveSkills = getFairy().getPassiveSkills()
+        val passiveSkills = fairyCard.passiveSkills
         if (passiveSkills.isNotEmpty()) {
 
             val player = MirageFairy2023.proxy?.getClientPlayer() ?: return
