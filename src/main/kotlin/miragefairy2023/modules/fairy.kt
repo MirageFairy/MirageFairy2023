@@ -215,7 +215,7 @@ enum class FairyCard(
         FairyCardRecipeInitializer().recipe { Items.STONE_HOE },
     ),
     CRAFTING_TABLE(
-        "crafting_table", 4, "Craftinge Tablia", "作業台精ツラフティンゲターブリャ", 0xFFFFFF, 0xFFBB9A, 0xFFC980, 0x000000,
+        "crafting_table", 3, "Craftinge Tablia", "作業台精ツラフティンゲターブリャ", 0xFFFFFF, 0xFFBB9A, 0xFFC980, 0x000000,
         listOf(PassiveSkill(listOf(IndoorPassiveSkillCondition()), LuckPassiveSkillEffect(0.5))),
         FairyCardRecipeInitializer().block { Blocks.CRAFTING_TABLE },
     ),
