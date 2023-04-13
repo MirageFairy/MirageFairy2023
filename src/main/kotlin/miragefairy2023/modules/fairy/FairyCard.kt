@@ -1,6 +1,7 @@
 package miragefairy2023.modules.fairy
 
 import miragefairy2023.InitializationScope
+import miragefairy2023.MirageFairy2023
 import miragefairy2023.modules.BlockFairyRelation
 import miragefairy2023.modules.DemonItemCard
 import miragefairy2023.modules.DreamCatcherItem
@@ -324,6 +325,8 @@ enum class FairyCard(
         FairyCardRecipeInitializer().common(),
     ),
 }
+
+val FairyCard.identifier get() = Identifier(MirageFairy2023.modId, this.motif)
 
 
 class FairyCardRecipeInitializer(val initializers: List<InitializationScope.(FairyCard) -> Unit>)

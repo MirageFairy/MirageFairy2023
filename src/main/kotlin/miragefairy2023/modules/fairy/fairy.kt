@@ -45,8 +45,6 @@ import net.minecraft.world.World
 import java.util.Optional
 
 
-val FairyCard.identifier get() = Identifier(MirageFairy2023.modId, this.motif)
-
 private val fairyItems = SlotContainer<FairyCard, Item>()
 operator fun FairyCard.invoke() = fairyItems[this]
 
