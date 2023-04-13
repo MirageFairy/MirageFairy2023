@@ -543,7 +543,7 @@ val fairyModule = module {
 }
 
 
-class PassiveFairy(val player: PlayerEntity, val index: Int, val itemStack: ItemStack, val fairy: Fairy, val fairyIdentifier: Identifier, val isDuplicated: Boolean)
+private class PassiveFairy(val player: PlayerEntity, val index: Int, val itemStack: ItemStack, val fairy: Fairy, val fairyIdentifier: Identifier, val isDuplicated: Boolean)
 
 private fun PlayerEntity.getPassiveFairies(): List<PassiveFairy> {
     val itemStacks = this.inventory.offHand + this.inventory.main.slice(9 * 3 until 9 * 4)
