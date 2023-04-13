@@ -11,3 +11,12 @@ fun Random.randomInt(d: Double): Int {
     val mod = d - i
     return if (this.nextDouble() < mod) i + 1 else i
 }
+
+fun Int.toRoman() = when (this) {
+    1 -> "I"
+    2 -> "II"
+    3 -> "II"
+    4 -> "IV"
+    5 -> "V"
+    else -> "$this"
+}
