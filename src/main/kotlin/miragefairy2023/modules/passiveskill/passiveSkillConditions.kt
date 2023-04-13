@@ -125,15 +125,6 @@ class ShadePassiveSkillCondition : PassiveSkillCondition {
     }
 }
 
-class StillPassiveSkillCondition : PassiveSkillCondition {
-    companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.still", "Still", "静止")
-    }
-
-    override fun getText() = text { key() }
-    override fun test(player: PlayerEntity) = player.velocity.let { it.x * it.x + it.z * it.z } <= 0.001 * 0.001
-}
-
 class MinimumLightLevelPassiveSkillCondition(private val lightLevel: Int) : PassiveSkillCondition {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.minimum_light_level", "Light>=%s", "明るさ%s以上")

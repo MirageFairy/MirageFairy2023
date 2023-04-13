@@ -25,7 +25,6 @@ val passiveSkillModule = module {
     translation(OutdoorPassiveSkillCondition.key)
     translation(IndoorPassiveSkillCondition.key)
     translation(ShadePassiveSkillCondition.key)
-    translation(StillPassiveSkillCondition.key)
     translation(MinimumLightLevelPassiveSkillCondition.key)
     translation(MaximumLightLevelPassiveSkillCondition.key)
     BiomePassiveSkillCondition.Key.values().forEach {

@@ -29,7 +29,6 @@ import miragefairy2023.modules.passiveskill.OverworldPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.PassiveSkill
 import miragefairy2023.modules.passiveskill.ShadePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.StatusEffectPassiveSkillEffect
-import miragefairy2023.modules.passiveskill.StillPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.SunshinePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.ToolMaterialPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.UnderwaterPassiveSkillCondition
@@ -268,8 +267,8 @@ enum class FairyCard(
     GLASS(
         "glass", 4, "Glassia", "硝子精グラッシャ", 0xFFFFFF, 0xEFF5FF, 0xE8EDF5, 0xADE0E9,
         listOf(
-            PassiveSkill(listOf(StillPassiveSkillCondition(), MaximumHealthPassiveSkillCondition(1)), StatusEffectPassiveSkillEffect(StatusEffects.INVISIBILITY, 0)),
-            PassiveSkill(listOf(StillPassiveSkillCondition(), MaximumHealthPassiveSkillCondition(1)), StatusEffectPassiveSkillEffect(StatusEffects.GLOWING, 0)),
+            PassiveSkill(listOf(MaximumHealthPassiveSkillCondition(1)), StatusEffectPassiveSkillEffect(StatusEffects.INVISIBILITY, 0)),
+            PassiveSkill(listOf(MaximumHealthPassiveSkillCondition(1)), StatusEffectPassiveSkillEffect(StatusEffects.GLOWING, 0)),
         ),
         FairyCardRecipeInitializer().block { Blocks.GLASS }.recipe { Items.GLASS },
     ),
