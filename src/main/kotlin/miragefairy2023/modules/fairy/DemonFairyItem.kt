@@ -28,10 +28,7 @@ class DemonFairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settin
         val ALWAYS_CONDITION_KEY = Translation("${MirageFairy2023.modId}.passive_skill.condition.always", "Always", "常時")
     }
 
-    override fun getFairy() = object : Fairy {
-        override fun getIdentifier() = fairyCard.identifier
-        override fun getItem() = this@DemonFairyItem
-    }
+    override fun getFairy() = fairyCard.fairy
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         super.appendTooltip(stack, world, tooltip, context)

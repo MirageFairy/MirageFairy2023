@@ -2,6 +2,7 @@ package miragefairy2023.modules.fairy
 
 import miragefairy2023.InitializationScope
 import miragefairy2023.MirageFairy2023
+import miragefairy2023.api.Fairy
 import miragefairy2023.modules.BlockFairyRelation
 import miragefairy2023.modules.DemonItemCard
 import miragefairy2023.modules.DreamCatcherItem
@@ -324,9 +325,15 @@ enum class FairyCard(
         ),
         FairyCardRecipeInitializer().common(),
     ),
-}
+    ;
 
-val FairyCard.identifier get() = Identifier(MirageFairy2023.modId, this.motif)
+    val identifier = Identifier(MirageFairy2023.modId, motif)
+    val fairy: Fairy = object : Fairy {
+        override fun getIdentifier() = identifier
+        override fun getItem() = this@FairyCard()
+        override fun getRare() = rare
+    }
+}
 
 
 class FairyCardRecipeInitializer(val initializers: List<InitializationScope.(FairyCard) -> Unit>)
@@ -337,7 +344,7 @@ private operator fun FairyCardRecipeInitializer.plus(block: InitializationScope.
 
 private fun FairyCardRecipeInitializer.common() = this + { fairyCard ->
     onRegisterRecipes {
-        MirageFlourItem.COMMON_FAIRY_LIST += fairyCard
+        MirageFlourItem.COMMON_FAIRY_LIST += fairyCard.fairy
     }
 }
 

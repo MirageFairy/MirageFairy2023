@@ -3,11 +3,10 @@ package miragefairy2023.modules
 import com.faux.customentitydata.api.CustomDataHelper
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.SlotContainer
+import miragefairy2023.api.Fairy
 import miragefairy2023.api.fairyRegistry
 import miragefairy2023.module
 import miragefairy2023.modules.fairy.FairyCard
-import miragefairy2023.modules.fairy.identifier
-import miragefairy2023.modules.fairy.invoke
 import miragefairy2023.util.Chance
 import miragefairy2023.util.EMPTY_ITEM_STACK
 import miragefairy2023.util.blue
@@ -174,7 +173,7 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
         val DROP_RATE_FACTOR_KEY = Translation("$prefix.drop_rate_factor_key", "Drop Rate Amplification: %s", "出現率倍率: %s")
         val RIGHT_CLICK_KEY = Translation("$prefix.right_click", "Right click and hold to summon fairies", "右クリック長押しで妖精を召喚")
         val SHIFT_RIGHT_CLICK_KEY = Translation("$prefix.shift_right_click", "%s+right click to show fairy table", "%s+右クリックで提供割合表示")
-        val COMMON_FAIRY_LIST = mutableSetOf<FairyCard>()
+        val COMMON_FAIRY_LIST = mutableSetOf<Fairy>()
     }
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
@@ -199,23 +198,23 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
     override fun getUseAction(stack: ItemStack) = UseAction.BOW
     override fun getMaxUseTime(stack: ItemStack) = 72000 // 1時間
 
-    private fun calculateChanceTable(player: ServerPlayerEntity): List<Chance<FairyCard>> {
+    private fun calculateChanceTable(player: ServerPlayerEntity): List<Chance<Fairy>> {
 
         // 記憶によるコモン枠追加
         val nbt = CustomDataHelper.getPersistentData(player)
         val found = nbt.wrapper[MirageFairy2023.modId]["found_motifs"].map.get().or { mapOf() }.entries
             .filter { it.value.castOrNull<AbstractNbtNumber>()?.intValue() != 0 }
             .map { Identifier(it.key) }
-        val memoryFairyCardList = found.mapNotNull { fairyRegistry[it] }
+        val memoryFairyList = found.mapNotNull { fairyRegistry[it] }
 
         // 妖精リスト
-        val actualFairyCardList = (COMMON_FAIRY_LIST + memoryFairyCardList).distinctBy { it.identifier }
+        val actualFairyList = (COMMON_FAIRY_LIST + memoryFairyList).distinctBy { it.getIdentifier() }
 
         // 生の提供割合
-        val rawChanceTable = actualFairyCardList
-            .filter { minRare == null || it.rare >= minRare } // レア度フィルタ
-            .filter { maxRare == null || it.rare <= maxRare } // レア度フィルタ
-            .map { Chance(0.1.pow((it.rare - 1) * 0.5) * factor, it) } // レア度によるドロップ確率の計算
+        val rawChanceTable = actualFairyList
+            .filter { minRare == null || it.getRare() >= minRare } // レア度フィルタ
+            .filter { maxRare == null || it.getRare() <= maxRare } // レア度フィルタ
+            .map { Chance(0.1.pow((it.getRare() - 1) * 0.5) * factor, it) } // レア度によるドロップ確率の計算
 
         // 内容の調整
         val actualChanceTable = run {
@@ -223,21 +222,21 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
             if (totalWeight >= 1.0) {
                 rawChanceTable
             } else {
-                rawChanceTable + Chance(1.0 - totalWeight, FairyCard.AIR)
+                rawChanceTable + Chance(1.0 - totalWeight, FairyCard.AIR.fairy)
             }
         }
 
         // データの整形
         return actualChanceTable
-            .distinct { a, b -> a === b }
+            .distinct { a, b -> a.getIdentifier() === b.getIdentifier() }
             .sortedBy { it.weight }
     }
 
-    private fun showChanceTableMessage(player: PlayerEntity, mirageFlourItemStack: ItemStack, chanceTable: List<Chance<FairyCard>>) {
+    private fun showChanceTableMessage(player: PlayerEntity, mirageFlourItemStack: ItemStack, chanceTable: List<Chance<Fairy>>) {
         player.sendMessage(text { "["() + mirageFlourItemStack.name + "]"() }, false)
         val totalWeight = chanceTable.totalWeight
         chanceTable.forEach { chance ->
-            player.sendMessage(text { "${(chance.weight / totalWeight * 100 formatAs "%8.4f%%").replace(' ', '_')}: "() + chance.item().name }, false)
+            player.sendMessage(text { "${(chance.weight / totalWeight * 100 formatAs "%8.4f%%").replace(' ', '_')}: "() + chance.item.getItem().name }, false)
         }
     }
 
@@ -306,10 +305,10 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
             repeat(times) {
 
                 // ガチャ
-                val fairyCard = chanceTable.draw(world.random) ?: FairyCard.AIR
+                val fairy = chanceTable.draw(world.random) ?: FairyCard.AIR.fairy
 
                 // 入手
-                val itemEntity = user.dropStack(fairyCard().createItemStack(), 0.5F)
+                val itemEntity = user.dropStack(fairy.getItem().createItemStack(), 0.5F)
                 if (itemEntity != null) {
                     itemEntity.resetPickupDelay()
                     itemEntity.owner = user.uuid
@@ -317,7 +316,7 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
 
                 // 妖精召喚履歴に追加
                 val nbt = CustomDataHelper.getPersistentData(user)
-                var count by nbt.wrapper[MirageFairy2023.modId]["fairy_count"][fairyCard.identifier.toString()].int.orDefault { 0 }
+                var count by nbt.wrapper[MirageFairy2023.modId]["fairy_count"][fairy.getIdentifier().toString()].int.orDefault { 0 }
                 count += 1
 
             }

@@ -112,7 +112,7 @@ val fairyModule = module {
         }
 
         // 妖精レジストリ登録
-        Registry.register(fairyRegistry, fairyCard.identifier, fairyCard)
+        Registry.register(fairyRegistry, fairyCard.identifier, fairyCard.fairy)
 
         // 妖精固有の初期化処理
         fairyCard.initializer.initializers.forEach {
