@@ -44,18 +44,17 @@ import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 import java.util.Optional
 
-
+// 妖精アイテム
 private val fairyItems = SlotContainer<FairyCard, Item>()
 operator fun FairyCard.invoke() = fairyItems[this]
 
-
+// 妖精アイテムグループ
 private val randomFairyIcon by lazy { FairyCard.values().random()().createItemStack() }
 val fairyItemGroup: ItemGroup = FabricItemGroupBuilder.build(Identifier(MirageFairy2023.modId, "fairy")) { randomFairyIcon }
 
-
+// 妖精アイテムタグ
 lateinit var fairiesItemTag: TagScope<Item>
 val fairiesOfRareItemTag = mutableMapOf<Int, TagScope<Item>>()
-
 
 val fairyModule = module {
 
