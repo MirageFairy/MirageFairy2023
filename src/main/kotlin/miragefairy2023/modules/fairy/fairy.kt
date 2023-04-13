@@ -1,6 +1,6 @@
 @file:Suppress("SpellCheckingInspection")
 
-package miragefairy2023.modules
+package miragefairy2023.modules.fairy
 
 import miragefairy2023.InitializationScope
 import miragefairy2023.MirageFairy2023
@@ -8,6 +8,12 @@ import miragefairy2023.SlotContainer
 import miragefairy2023.api.Fairy
 import miragefairy2023.api.FairyItem
 import miragefairy2023.module
+import miragefairy2023.modules.BlockFairyRelation
+import miragefairy2023.modules.DemonItemCard
+import miragefairy2023.modules.DreamCatcherItem
+import miragefairy2023.modules.MirageFlourCard
+import miragefairy2023.modules.MirageFlourItem
+import miragefairy2023.modules.invoke
 import miragefairy2023.modules.passiveskill.AirPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.AttackDamagePassiveSkillEffect
 import miragefairy2023.modules.passiveskill.BiomePassiveSkillCondition

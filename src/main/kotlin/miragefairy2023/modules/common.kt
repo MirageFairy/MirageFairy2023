@@ -2,6 +2,10 @@ package miragefairy2023.modules
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
+import miragefairy2023.modules.fairy.FairyCard
+import miragefairy2023.modules.fairy.fairiesItemTag
+import miragefairy2023.modules.fairy.fairiesOfRareItemTag
+import miragefairy2023.modules.fairy.invoke
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.gray
 import miragefairy2023.util.init.FeatureSlot
