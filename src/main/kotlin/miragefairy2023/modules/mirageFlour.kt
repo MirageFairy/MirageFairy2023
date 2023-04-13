@@ -3,9 +3,9 @@ package miragefairy2023.modules
 import com.faux.customentitydata.api.CustomDataHelper
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.SlotContainer
+import miragefairy2023.api.fairyRegistry
 import miragefairy2023.module
 import miragefairy2023.modules.fairy.FairyCard
-import miragefairy2023.modules.fairy.fairyRegistry
 import miragefairy2023.modules.fairy.identifier
 import miragefairy2023.modules.fairy.invoke
 import miragefairy2023.util.Chance

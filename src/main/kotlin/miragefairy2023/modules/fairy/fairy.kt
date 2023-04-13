@@ -6,6 +6,7 @@ import miragefairy2023.MirageFairy2023
 import miragefairy2023.SlotContainer
 import miragefairy2023.api.Fairy
 import miragefairy2023.api.FairyItem
+import miragefairy2023.api.fairyRegistry
 import miragefairy2023.module
 import miragefairy2023.util.aqua
 import miragefairy2023.util.createItemStack
@@ -27,8 +28,6 @@ import miragefairy2023.util.text
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
-import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder
-import net.fabricmc.fabric.api.event.registry.RegistryAttribute
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Model
@@ -42,7 +41,6 @@ import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
-import net.minecraft.util.registry.SimpleRegistry
 import net.minecraft.world.World
 import java.util.Optional
 
@@ -51,11 +49,6 @@ val FairyCard.identifier get() = Identifier(MirageFairy2023.modId, this.motif)
 
 private val fairyItems = SlotContainer<FairyCard, Item>()
 operator fun FairyCard.invoke() = fairyItems[this]
-
-
-val fairyRegistry: SimpleRegistry<FairyCard> = FabricRegistryBuilder.createSimple(FairyCard::class.java, Identifier(MirageFairy2023.modId, "fairy"))
-    .attribute(RegistryAttribute.SYNCED)
-    .buildAndRegister()
 
 
 private val randomFairyIcon by lazy { FairyCard.values().random()().createItemStack() }
