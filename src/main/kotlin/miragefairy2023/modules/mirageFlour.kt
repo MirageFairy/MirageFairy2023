@@ -312,7 +312,7 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
                 }
 
                 // 妖精召喚履歴に追加
-                val nbt = CustomDataHelper.getPersistentData(user as ServerPlayerEntity)
+                val nbt = CustomDataHelper.getPersistentData(user)
                 var count by nbt.wrapper[MirageFairy2023.modId]["fairy_count"][fairyCard.identifier.toString()].int.orDefault { 0 }
                 count += 1
 
