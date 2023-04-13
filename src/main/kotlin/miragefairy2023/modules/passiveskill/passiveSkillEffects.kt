@@ -85,10 +85,15 @@ class LuckPassiveSkillEffect(override val power: Double) : AttributePassiveSkill
     override val operation = EntityAttributeModifier.Operation.ADDITION
 }
 
-class StatusEffectPassiveSkillEffect(private val statusEffect: StatusEffect, private val amplifier: Int, private val additionalSeconds: Int = 0) : PassiveSkillEffect {
+class StatusEffectPassiveSkillEffect(
+    private val statusEffect: StatusEffect,
+    private val amplifier: Int,
+    private val additionalSeconds: Int = 0,
+    private val showParticles: Boolean = false,
+) : PassiveSkillEffect {
     override fun getText() = text { translate(statusEffect.translationKey) + (if (amplifier > 0) " ${(amplifier + 1).toRoman()}" else "")() }
     override fun affect(world: ServerWorld, player: PlayerEntity) {
-        player.addStatusEffect(StatusEffectInstance(statusEffect, 20 * (10 + 1 + additionalSeconds), amplifier, true, false, true))
+        player.addStatusEffect(StatusEffectInstance(statusEffect, 20 * (10 + 1 + additionalSeconds), amplifier, true, showParticles, true))
     }
 }
 
