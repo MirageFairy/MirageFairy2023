@@ -58,34 +58,58 @@ val fairiesOfRareItemTag = mutableMapOf<Int, TagScope<Item>>()
 
 val fairyModule = module {
 
-    // アイテムグループ
-    enJaItemGroup({ fairyItemGroup }, "MirageFairy2023: Fairy", "MirageFairy2023: 妖精")
+    // 全体
+    run {
 
-    // 妖精の共通アイテムモデル
-    onGenerateItemModels {
-        val layer0 = TextureKey.of("layer0")
-        val layer1 = TextureKey.of("layer1")
-        val layer2 = TextureKey.of("layer2")
-        val layer3 = TextureKey.of("layer3")
-        val layer4 = TextureKey.of("layer4")
-        val model = Model(Optional.of(Identifier("minecraft", "item/generated")), Optional.empty(), layer0, layer1, layer2, layer3, layer4)
-        model.upload(Identifier(modId, "item/fairy"), TextureMap().apply {
-            put(layer0, Identifier(modId, "item/fairy_skin"))
-            put(layer1, Identifier(modId, "item/fairy_back"))
-            put(layer2, Identifier(modId, "item/fairy_front"))
-            put(layer3, Identifier(modId, "item/fairy_hair"))
-            put(layer4, Identifier(modId, "item/fairy_dress"))
-        }, it.writer)
+        // アイテムグループ
+        enJaItemGroup({ fairyItemGroup }, "MirageFairy2023: Fairy", "MirageFairy2023: 妖精")
+
+        // 妖精の共通アイテムモデル
+        onGenerateItemModels {
+            val layer0 = TextureKey.of("layer0")
+            val layer1 = TextureKey.of("layer1")
+            val layer2 = TextureKey.of("layer2")
+            val layer3 = TextureKey.of("layer3")
+            val layer4 = TextureKey.of("layer4")
+            val model = Model(Optional.of(Identifier("minecraft", "item/generated")), Optional.empty(), layer0, layer1, layer2, layer3, layer4)
+            model.upload(Identifier(modId, "item/fairy"), TextureMap().apply {
+                put(layer0, Identifier(modId, "item/fairy_skin"))
+                put(layer1, Identifier(modId, "item/fairy_back"))
+                put(layer2, Identifier(modId, "item/fairy_front"))
+                put(layer3, Identifier(modId, "item/fairy_hair"))
+                put(layer4, Identifier(modId, "item/fairy_dress"))
+            }, it.writer)
+        }
+
+        // 妖精タグ
+        fairiesItemTag = itemTag("fairies")
+        (0..FairyCard.values().maxOf { it.rare }).forEach { rare ->
+            fairiesOfRareItemTag[rare] = itemTag("rare${rare}_fairies")
+        }
+
+        // 翻訳登録
+        translation(DemonFairyItem.RARE_KEY)
+        translation(DemonFairyItem.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
+        translation(DemonFairyItem.DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY)
+        translation(DemonFairyItem.ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
+        translation(DemonFairyItem.ALWAYS_CONDITION_KEY)
+
     }
 
-    // 妖精登録
+    // 妖精共通
     FairyCard.values().forEach { fairyCard ->
+
+        // 妖精アイテム登録
         item("${fairyCard.motif}_fairy", { DemonFairyItem(fairyCard, FabricItemSettings().group(fairyItemGroup)) }) {
+
+            // アイテム代入
             onRegisterItems { fairyItems[fairyCard] = feature }
 
+            // タグに登録
             registerToTag { fairiesItemTag }
             registerToTag { fairiesOfRareItemTag[fairyCard.rare]!! }
 
+            // モデル系
             onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier(modId, "item/fairy")), Optional.empty())) }
             registerColorProvider { _, tintIndex ->
                 when (tintIndex) {
@@ -98,18 +122,19 @@ val fairyModule = module {
                 }
             }
 
+            // 翻訳登録
             enJaItem({ feature }, fairyCard.enName, fairyCard.jaName)
+
         }
+
+        // 妖精レジストリ登録
         Registry.register(fairyRegistry, fairyCard.identifier, fairyCard)
+
+        // 妖精固有の初期化処理
         fairyCard.initializer.initializers.forEach {
             it(this, fairyCard)
         }
-    }
 
-    // 妖精タグ
-    fairiesItemTag = itemTag("fairies")
-    (0..FairyCard.values().maxOf { it.rare }).forEach { rare ->
-        fairiesOfRareItemTag[rare] = itemTag("rare${rare}_fairies")
     }
 
 
@@ -166,12 +191,6 @@ val fairyModule = module {
             terminators.clear()
         }
     }
-
-    translation(DemonFairyItem.RARE_KEY)
-    translation(DemonFairyItem.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
-    translation(DemonFairyItem.DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY)
-    translation(DemonFairyItem.ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
-    translation(DemonFairyItem.ALWAYS_CONDITION_KEY)
 
 }
 
