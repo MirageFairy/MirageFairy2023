@@ -269,7 +269,7 @@ enum class FairyCard(
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.IN_THE_END)), StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0)),
             PassiveSkill(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.IN_THE_END)), StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 2)),
         ),
-        FairyCardRecipeInitializer().common(),
+        FairyCardRecipeInitializer().common(), // TODO エンドのコモン
     ),
     NIGHT(
         "night", 7, "Nightia", "夜精ニグチャ", 0xFFE260, 0x2C2C2E, 0x0E0E10, 0x2D4272,
