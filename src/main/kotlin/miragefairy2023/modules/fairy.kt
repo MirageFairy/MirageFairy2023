@@ -5,6 +5,8 @@ package miragefairy2023.modules
 import miragefairy2023.InitializationScope
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.SlotContainer
+import miragefairy2023.api.Fairy
+import miragefairy2023.api.FairyItem
 import miragefairy2023.module
 import miragefairy2023.modules.passiveskill.AirPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.AttackDamagePassiveSkillEffect
@@ -558,16 +560,6 @@ private fun PlayerEntity.getPassiveFairies(): List<PassiveFairy> {
         result += PassiveFairy(this, index, itemStack, fairy, fairyIdentifier, isDuplicated)
     }
     return result.toList()
-}
-
-
-interface FairyItem {
-    fun getFairy(): Fairy
-}
-
-interface Fairy {
-    fun getIdentifier(): Identifier
-    fun getItem(): Item
 }
 
 
