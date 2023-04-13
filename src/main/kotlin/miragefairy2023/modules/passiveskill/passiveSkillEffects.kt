@@ -4,6 +4,7 @@ import miragefairy2023.MirageFairy2023
 import miragefairy2023.util.init.Translation
 import miragefairy2023.util.randomInt
 import miragefairy2023.util.text
+import miragefairy2023.util.toRoman
 import mirrg.kotlin.hydrogen.formatAs
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.attribute.EntityAttribute
@@ -85,7 +86,7 @@ class LuckPassiveSkillEffect(override val power: Double) : AttributePassiveSkill
 }
 
 class StatusEffectPassiveSkillEffect(private val statusEffect: StatusEffect, private val amplifier: Int, private val additionalSeconds: Int = 0) : PassiveSkillEffect {
-    override fun getText() = text { translate(statusEffect.translationKey) + ": Level ${amplifier + 1}"() }
+    override fun getText() = text { translate(statusEffect.translationKey) + (if (amplifier > 0) " ${(amplifier + 1).toRoman()}" else "")() }
     override fun affect(world: ServerWorld, player: PlayerEntity) {
         player.addStatusEffect(StatusEffectInstance(statusEffect, 20 * (10 + 1 + additionalSeconds), amplifier, true, false, true))
     }
