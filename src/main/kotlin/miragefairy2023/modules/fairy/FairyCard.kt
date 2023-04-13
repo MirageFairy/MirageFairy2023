@@ -350,7 +350,7 @@ private fun FairyCardRecipeInitializer.common() = this + { fairyCard ->
 
 private fun FairyCardRecipeInitializer.block(blockSupplier: () -> Block) = this + { fairyCard ->
     onRegisterRecipes {
-        DreamCatcherItem.BLOCK_FAIRY_RELATION_LIST += BlockFairyRelation(blockSupplier(), fairyCard)
+        DreamCatcherItem.BLOCK_FAIRY_RELATION_LIST += BlockFairyRelation(blockSupplier(), fairyCard.fairy)
     }
 }
 

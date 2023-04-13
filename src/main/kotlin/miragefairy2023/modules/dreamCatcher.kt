@@ -2,8 +2,8 @@ package miragefairy2023.modules
 
 import com.faux.customentitydata.api.CustomDataHelper
 import miragefairy2023.MirageFairy2023
+import miragefairy2023.api.Fairy
 import miragefairy2023.module
-import miragefairy2023.modules.fairy.FairyCard
 import miragefairy2023.modules.fairy.invoke
 import miragefairy2023.util.get
 import miragefairy2023.util.gray
@@ -96,7 +96,7 @@ val dreamCatcherModule = module {
 
 }
 
-class BlockFairyRelation(val block: Block, val fairyCard: FairyCard)
+class BlockFairyRelation(val block: Block, val fairy: Fairy)
 
 class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Settings) : ToolItem(material, settings.maxDamage(maxDamage)) {
     companion object {
@@ -133,13 +133,13 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
 
         // 妖精判定
         val block = context.world.getBlockState(context.blockPos).block
-        val hitFairyList = BLOCK_FAIRY_RELATION_LIST.filter { it.block === block }.map { it.fairyCard }
-        val fairyCard = run found@{
-            hitFairyList.forEach { fairyCard ->
-                if (fairyCard.identifier in foundFairies) {
-                    player.sendMessage(text { knownKey(fairyCard().name) }, true)
+        val hitFairyList = BLOCK_FAIRY_RELATION_LIST.filter { it.block === block }.map { it.fairy }
+        val fairy = run found@{
+            hitFairyList.forEach { fairy ->
+                if (fairy.getIdentifier() in foundFairies) {
+                    player.sendMessage(text { knownKey(fairy.getItem().name) }, true)
                 } else {
-                    return@found fairyCard
+                    return@found fairy
                 }
             }
             return ActionResult.CONSUME // 該当する未入手妖精が居ないので終了
@@ -148,12 +148,12 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
         // ----- 結果の成立 -----
 
         // 生産
-        nbt.wrapper[MirageFairy2023.modId]["found_motifs"][fairyCard.identifier.toString()].int.set(1)
+        nbt.wrapper[MirageFairy2023.modId]["found_motifs"][fairy.getIdentifier().toString()].int.set(1)
 
         // エフェクト
         context.world.playSound(null, player.x, player.y, player.z, SoundEvents.BLOCK_BEACON_ACTIVATE, SoundCategory.NEUTRAL, 0.5F, 1.0F)
 
-        player.sendMessage(text { successKey(fairyCard().name) })
+        player.sendMessage(text { successKey(fairy.getItem().name) })
 
         return ActionResult.CONSUME
     }
