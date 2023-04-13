@@ -16,6 +16,7 @@ import miragefairy2023.modules.passiveskill.InRainPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.IndoorPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.LuckPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.MaxHealthPassiveSkillEffect
+import miragefairy2023.modules.passiveskill.MaximumHealthPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MaximumLevelPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MaximumLightLevelPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MinimumLightLevelPassiveSkillCondition
@@ -23,10 +24,12 @@ import miragefairy2023.modules.passiveskill.MoonlightPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MovementSpeedPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.NightPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.OnFirePassiveSkillCondition
+import miragefairy2023.modules.passiveskill.OutdoorPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.OverworldPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.PassiveSkill
 import miragefairy2023.modules.passiveskill.ShadePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.StatusEffectPassiveSkillEffect
+import miragefairy2023.modules.passiveskill.StillPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.SunshinePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.ToolMaterialPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.UnderwaterPassiveSkillCondition
@@ -105,6 +108,11 @@ enum class FairyCard(
         listOf(PassiveSkill(listOf(OnFirePassiveSkillCondition()), AttackDamagePassiveSkillEffect(2.0))),
         FairyCardRecipeInitializer().common().block { Blocks.FIRE },
     ),
+    WATER(
+        "water", 1, "Wateria", "水精ワテーリャ", 0x5469F2, 0x5985FF, 0x172AD3, 0x2D40F4,
+        listOf(PassiveSkill(listOf(UnderwaterPassiveSkillCondition()), MaxHealthPassiveSkillEffect(2.0))),
+        FairyCardRecipeInitializer().common().block { Blocks.WATER }.recipe { Items.WATER_BUCKET },
+    ),
     LAVA(
         "lava", 4, "Lavia", "溶岩精ラーヴャ", 0xCD4208, 0xEDB54A, 0xCC4108, 0x4C1500,
         listOf(
@@ -139,6 +147,14 @@ enum class FairyCard(
         "dirt", 1, "Dirtia", "土精ディルチャ", 0xB87440, 0xB9855C, 0x593D29, 0x914A18,
         listOf(PassiveSkill(listOf(OverworldPassiveSkillCondition()), MaxHealthPassiveSkillEffect(1.0))),
         FairyCardRecipeInitializer().common().block { Blocks.DIRT }.recipe { Items.DIRT },
+    ),
+    SCULK(
+        "sculk", 6, "Sculkia", "幽匿塊精スツルキャ", 0x19222C, 0x023F3D, 0x023F3D, 0x19C0C0,
+        listOf(
+            PassiveSkill(listOf(MaximumLightLevelPassiveSkillCondition(0)), MaxHealthPassiveSkillEffect(4.0)),
+            PassiveSkill(listOf(MaximumLightLevelPassiveSkillCondition(0)), AttackDamagePassiveSkillEffect(1.0))
+        ),
+        FairyCardRecipeInitializer().common().block { Blocks.SCULK }.recipe { Items.SCULK },
     ),
     IRON(
         "iron", 4, "Ironia", "鉄精イローニャ", 0xA0A0A0, 0xD8D8D8, 0x727272, 0xD8AF93,
@@ -218,6 +234,54 @@ enum class FairyCard(
         "crafting_table", 3, "Craftinge Tablia", "作業台精ツラフティンゲターブリャ", 0xFFFFFF, 0xFFBB9A, 0xFFC980, 0x000000,
         listOf(PassiveSkill(listOf(IndoorPassiveSkillCondition()), LuckPassiveSkillEffect(0.5))),
         FairyCardRecipeInitializer().block { Blocks.CRAFTING_TABLE }.recipe { Items.CRAFTING_TABLE },
+    ),
+    ANVIL(
+        "anvil", 4, "Anvilia", "金床精アンヴィーリャ", 0xFFFFFF, 0xA9A9A9, 0x909090, 0xA86F18,
+        listOf(PassiveSkill(listOf(IndoorPassiveSkillCondition()), AttackDamagePassiveSkillEffect(1.0))),
+        FairyCardRecipeInitializer().block { Blocks.ANVIL }.recipe { Items.ANVIL },
+    ),
+    ENCHANTING_TABLE(
+        "enchanting_table", 6, "Enchantinge Tablia", "付魔台精エンキャンティンゲターブリャ", 0x472F65, 0xCE2828, 0xCE2828, 0x7BFFDD,
+        listOf(
+            PassiveSkill(listOf(IndoorPassiveSkillCondition(), MaximumLevelPassiveSkillCondition(19)), ExperiencePassiveSkillEffect(0.2)),
+            PassiveSkill(listOf(IndoorPassiveSkillCondition(), MaximumLevelPassiveSkillCondition(29)), ExperiencePassiveSkillEffect(0.3)),
+        ),
+        FairyCardRecipeInitializer().block { Blocks.ENCHANTING_TABLE }.recipe { Items.ENCHANTING_TABLE },
+    ),
+    HOPPER(
+        "hopper", 3, "Hopperia", "漏斗精ホッペーリャ", 0xFFFFFF, 0x797979, 0x646464, 0x5A5A5A,
+        listOf(PassiveSkill(listOf(IndoorPassiveSkillCondition()), CollectionPassiveSkillEffect(2.0))),
+        FairyCardRecipeInitializer().block { Blocks.HOPPER }.recipe { Items.HOPPER },
+    ),
+    BEACON(
+        "beacon", 11, "Beaconia", "信標精ベアツォーニャ", 0x97FFE3, 0x6029B3, 0x2E095E, 0xD4EAE6,
+        listOf(
+            PassiveSkill(listOf(OutdoorPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 0)),
+            PassiveSkill(listOf(OutdoorPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
+            PassiveSkill(listOf(OutdoorPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0)),
+            PassiveSkill(listOf(OutdoorPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.JUMP_BOOST, 1)),
+            PassiveSkill(listOf(OutdoorPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0)),
+            PassiveSkill(listOf(OutdoorPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0)),
+        ),
+        FairyCardRecipeInitializer().block { Blocks.BEACON }.recipe { Items.BEACON },
+    ),
+    GLASS(
+        "glass", 4, "Glassia", "硝子精グラッシャ", 0xFFFFFF, 0xEFF5FF, 0xE8EDF5, 0xADE0E9,
+        listOf(
+            PassiveSkill(listOf(StillPassiveSkillCondition(), MaximumHealthPassiveSkillCondition(1)), StatusEffectPassiveSkillEffect(StatusEffects.INVISIBILITY, 0)),
+            PassiveSkill(listOf(StillPassiveSkillCondition(), MaximumHealthPassiveSkillCondition(1)), StatusEffectPassiveSkillEffect(StatusEffects.GLOWING, 0)),
+        ),
+        FairyCardRecipeInitializer().block { Blocks.GLASS }.recipe { Items.GLASS },
+    ),
+    PRISMARINE(
+        "prismarine", 5, "Prismarinia", "海晶石精プリスマリーニャ", 0xA3D3C7, 0x769A91, 0x769A91, 0x69C4C0,
+        listOf(PassiveSkill(listOf(UnderwaterPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 1))),
+        FairyCardRecipeInitializer().block { Blocks.PRISMARINE }.recipe { Items.PRISMARINE },
+    ),
+    IRON_BARS(
+        "iron_bars", 4, "Irone Barsia", "鉄格子精イローネバルシャ", 0xFFFFFF, 0xA1A1A3, 0x404040, 0x404040,
+        listOf(PassiveSkill(listOf(), MaxHealthPassiveSkillEffect(2.0))),
+        FairyCardRecipeInitializer().block { Blocks.IRON_BARS }.recipe { Items.IRON_BARS },
     ),
     PLAINS(
         "plains", 2, "Plainsia", "平原精プラインシャ", 0xB0DF83, 0xD4FF82, 0x86C91C, 0x489F25,

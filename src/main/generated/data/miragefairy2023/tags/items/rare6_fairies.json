@@ -1,9 +1,11 @@
 {
   "replace": false,
   "values": [
+    "miragefairy2023:sculk_fairy",
     "miragefairy2023:gold_fairy",
     "miragefairy2023:enderman_fairy",
     "miragefairy2023:spruce_fairy",
+    "miragefairy2023:enchanting_table_fairy",
     "miragefairy2023:mountain_fairy"
   ]
 }

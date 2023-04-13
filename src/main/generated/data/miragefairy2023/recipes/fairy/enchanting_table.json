@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "miragefairy2023:xarpite"
+    },
+    {
+      "item": "miragefairy2023:very_rare_mirage_flour"
+    },
+    {
+      "item": "minecraft:enchanting_table"
+    }
+  ],
+  "result": {
+    "item": "miragefairy2023:enchanting_table_fairy"
+  }
+}
