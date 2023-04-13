@@ -95,6 +95,15 @@ class MoonlightPassiveSkillCondition : PassiveSkillCondition {
     }
 }
 
+class OutdoorPassiveSkillCondition : PassiveSkillCondition {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.outdoor", "Outdoor", "屋外")
+    }
+
+    override fun getText() = text { key() }
+    override fun test(player: PlayerEntity) = player.world.isSkyVisible(BlockPos(player.eyePos))
+}
+
 class IndoorPassiveSkillCondition : PassiveSkillCondition {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.indoor", "Indoor", "屋内")
@@ -114,6 +123,15 @@ class ShadePassiveSkillCondition : PassiveSkillCondition {
         player.world.calculateAmbientDarkness()
         return !(player.world.isDay && !player.world.hasRain(player.blockPos) && player.world.isSkyVisible(BlockPos(player.eyePos)))
     }
+}
+
+class StillPassiveSkillCondition : PassiveSkillCondition {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.still", "Still", "静止")
+    }
+
+    override fun getText() = text { key() }
+    override fun test(player: PlayerEntity) = player.velocity.let { it.x * it.x + it.z * it.z } <= 0.001 * 0.001
 }
 
 class MinimumLightLevelPassiveSkillCondition(private val lightLevel: Int) : PassiveSkillCondition {
@@ -200,6 +218,15 @@ class MaximumLevelPassiveSkillCondition(private val level: Int) : PassiveSkillCo
 
     override fun getText() = text { key(level) }
     override fun test(player: PlayerEntity) = player.experienceLevel <= level
+}
+
+class MaximumHealthPassiveSkillCondition(private val health: Int) : PassiveSkillCondition {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.maximum_health", "Health<=%s", "体力%s以下")
+    }
+
+    override fun getText() = text { key(health) }
+    override fun test(player: PlayerEntity) = player.health <= health
 }
 
 class OnFirePassiveSkillCondition : PassiveSkillCondition {
