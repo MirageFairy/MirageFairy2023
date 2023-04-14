@@ -15,23 +15,23 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.Heightmap
 import net.minecraft.world.biome.Biome
 
-private fun isWorldFine(player: PlayerEntity) = !isWorldRain(player)
-
-private fun isWorldRain(player: PlayerEntity) = player.world.isRaining
+private fun isInNaturalDimension(player: PlayerEntity) = player.world.dimension.natural
 
 private fun isSkyVisible(player: PlayerEntity) = player.world.isSkyVisible(BlockPos(player.eyePos))
 
 private fun isSpaceVisible(player: PlayerEntity) = isWorldFine(player) && isSkyVisible(player)
 
-private fun isInFine(player: PlayerEntity) = isWorldFine(player) || !isSkyVisible(player) || isIndoor(player) || player.world.getBiome(player.blockPos).value().precipitation == Biome.Precipitation.NONE
-
-private fun isInRain(player: PlayerEntity) = player.world.hasRain(player.blockPos)
-
 private fun isOutdoor(player: PlayerEntity) = player.blockPos.y >= player.world.getTopPosition(Heightmap.Type.MOTION_BLOCKING, player.blockPos).y
 
 private fun isIndoor(player: PlayerEntity) = !isOutdoor(player)
 
-private fun isInNaturalDimension(player: PlayerEntity) = player.world.dimension.natural
+private fun isWorldFine(player: PlayerEntity) = !isWorldRain(player)
+
+private fun isWorldRain(player: PlayerEntity) = player.world.isRaining
+
+private fun isInFine(player: PlayerEntity) = isWorldFine(player) || !isSkyVisible(player) || isIndoor(player) || player.world.getBiome(player.blockPos).value().precipitation == Biome.Precipitation.NONE
+
+private fun isInRain(player: PlayerEntity) = player.world.hasRain(player.blockPos)
 
 private fun isWorldDaytime(player: PlayerEntity): Boolean {
     player.world.calculateAmbientDarkness()
@@ -48,30 +48,6 @@ class OverworldPassiveSkillCondition : PassiveSkillCondition {
 
     override fun getText() = text { key() }
     override fun test(player: PlayerEntity) = isInNaturalDimension(player)
-}
-
-class AirPassiveSkillCondition : PassiveSkillCondition {
-    companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.air", "Air", "空気")
-    }
-
-    override fun getText() = text { key() }
-    override fun test(player: PlayerEntity): Boolean {
-        val blockState = player.world.getBlockState(BlockPos(player.eyePos))
-        return !blockState.isOpaque && blockState.fluidState.isEmpty
-    }
-}
-
-class UnderwaterPassiveSkillCondition : PassiveSkillCondition {
-    companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.underwater", "Underwater", "水中")
-    }
-
-    override fun getText() = text { key() }
-    override fun test(player: PlayerEntity): Boolean {
-        val blockState = player.world.getBlockState(BlockPos(player.eyePos))
-        return blockState.fluidState.isIn(FluidTags.WATER)
-    }
 }
 
 class DaytimePassiveSkillCondition : PassiveSkillCondition {
@@ -110,6 +86,15 @@ class MoonlightPassiveSkillCondition : PassiveSkillCondition {
     override fun test(player: PlayerEntity) = isInNaturalDimension(player) && isWorldNight(player) && isSpaceVisible(player)
 }
 
+class ShadePassiveSkillCondition : PassiveSkillCondition {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.shade", "Shade", "日陰")
+    }
+
+    override fun getText() = text { key() }
+    override fun test(player: PlayerEntity) = !(isInNaturalDimension(player) && isWorldDaytime(player) && isSpaceVisible(player))
+}
+
 class OutdoorPassiveSkillCondition : PassiveSkillCondition {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.outdoor", "Outdoor", "屋外")
@@ -128,31 +113,28 @@ class IndoorPassiveSkillCondition : PassiveSkillCondition {
     override fun test(player: PlayerEntity) = isIndoor(player)
 }
 
-class ShadePassiveSkillCondition : PassiveSkillCondition {
+class AirPassiveSkillCondition : PassiveSkillCondition {
     companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.shade", "Shade", "日陰")
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.air", "Air", "空気")
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity) = !(isInNaturalDimension(player) && isWorldDaytime(player) && isSpaceVisible(player))
+    override fun test(player: PlayerEntity): Boolean {
+        val blockState = player.world.getBlockState(BlockPos(player.eyePos))
+        return !blockState.isOpaque && blockState.fluidState.isEmpty
+    }
 }
 
-class MinimumLightLevelPassiveSkillCondition(private val lightLevel: Int) : PassiveSkillCondition {
+class UnderwaterPassiveSkillCondition : PassiveSkillCondition {
     companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.minimum_light_level", "Light>=%s", "明るさ%s以上")
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.underwater", "Underwater", "水中")
     }
 
-    override fun getText() = text { key(lightLevel) }
-    override fun test(player: PlayerEntity) = player.world.getLightLevel(BlockPos(player.eyePos)) >= lightLevel
-}
-
-class MaximumLightLevelPassiveSkillCondition(private val lightLevel: Int) : PassiveSkillCondition {
-    companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.maximum_light_level", "Light<=%s", "明るさ%s以下")
+    override fun getText() = text { key() }
+    override fun test(player: PlayerEntity): Boolean {
+        val blockState = player.world.getBlockState(BlockPos(player.eyePos))
+        return blockState.fluidState.isIn(FluidTags.WATER)
     }
-
-    override fun getText() = text { key(lightLevel) }
-    override fun test(player: PlayerEntity) = player.world.getLightLevel(BlockPos(player.eyePos)) <= lightLevel
 }
 
 class InRainPassiveSkillCondition : PassiveSkillCondition {
@@ -183,6 +165,24 @@ class BiomePassiveSkillCondition(private val biomeTag: TagKey<Biome>) : PassiveS
 
     override fun getText() = text { translate("$keyPrefix.${biomeTag.id.toTranslationKey()}") }
     override fun test(player: PlayerEntity) = player.world.getBiome(player.blockPos).isIn(biomeTag)
+}
+
+class MinimumLightLevelPassiveSkillCondition(private val lightLevel: Int) : PassiveSkillCondition {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.minimum_light_level", "Light>=%s", "明るさ%s以上")
+    }
+
+    override fun getText() = text { key(lightLevel) }
+    override fun test(player: PlayerEntity) = player.world.getLightLevel(BlockPos(player.eyePos)) >= lightLevel
+}
+
+class MaximumLightLevelPassiveSkillCondition(private val lightLevel: Int) : PassiveSkillCondition {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.maximum_light_level", "Light<=%s", "明るさ%s以下")
+    }
+
+    override fun getText() = text { key(lightLevel) }
+    override fun test(player: PlayerEntity) = player.world.getLightLevel(BlockPos(player.eyePos)) <= lightLevel
 }
 
 class HasHoePassiveSkillCondition : PassiveSkillCondition {
