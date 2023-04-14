@@ -15,11 +15,21 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.Heightmap
 import net.minecraft.world.biome.Biome
 
+private fun isWorldFine(player: PlayerEntity) = !isWorldRain(player)
+
+private fun isWorldRain(player: PlayerEntity) = player.world.isRaining
+
 private fun isSkyVisible(player: PlayerEntity) = player.world.isSkyVisible(BlockPos(player.eyePos))
+
+private fun isSpaceVisible(player: PlayerEntity) = isWorldFine(player) && isSkyVisible(player)
+
+private fun isInFine(player: PlayerEntity) = isWorldFine(player) || !isSkyVisible(player) || isIndoor(player) || player.world.getBiome(player.blockPos).value().precipitation == Biome.Precipitation.NONE
 
 private fun isInRain(player: PlayerEntity) = player.world.hasRain(player.blockPos)
 
 private fun isOutdoor(player: PlayerEntity) = player.blockPos.y >= player.world.getTopPosition(Heightmap.Type.MOTION_BLOCKING, player.blockPos).y
+
+private fun isIndoor(player: PlayerEntity) = !isOutdoor(player)
 
 private fun isInNaturalDimension(player: PlayerEntity) = player.world.dimension.natural
 
@@ -27,6 +37,8 @@ private fun isWorldDaytime(player: PlayerEntity): Boolean {
     player.world.calculateAmbientDarkness()
     return player.world.ambientDarkness < 4
 }
+
+private fun isWorldNight(player: PlayerEntity) = !isWorldDaytime(player)
 
 
 class OverworldPassiveSkillCondition : PassiveSkillCondition {
@@ -77,7 +89,7 @@ class NightPassiveSkillCondition : PassiveSkillCondition {
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity) = isInNaturalDimension(player) && !isWorldDaytime(player)
+    override fun test(player: PlayerEntity) = isInNaturalDimension(player) && isWorldNight(player)
 }
 
 class SunshinePassiveSkillCondition : PassiveSkillCondition {
@@ -86,7 +98,7 @@ class SunshinePassiveSkillCondition : PassiveSkillCondition {
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity) = isInNaturalDimension(player) && isWorldDaytime(player) && !isInRain(player) && isSkyVisible(player)
+    override fun test(player: PlayerEntity) = isInNaturalDimension(player) && isWorldDaytime(player) && isSpaceVisible(player)
 }
 
 class MoonlightPassiveSkillCondition : PassiveSkillCondition {
@@ -95,7 +107,7 @@ class MoonlightPassiveSkillCondition : PassiveSkillCondition {
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity) = isInNaturalDimension(player) && !isWorldDaytime(player) && !isInRain(player) && isSkyVisible(player)
+    override fun test(player: PlayerEntity) = isInNaturalDimension(player) && isWorldNight(player) && isSpaceVisible(player)
 }
 
 class OutdoorPassiveSkillCondition : PassiveSkillCondition {
@@ -113,7 +125,7 @@ class IndoorPassiveSkillCondition : PassiveSkillCondition {
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity) = !isOutdoor(player)
+    override fun test(player: PlayerEntity) = isIndoor(player)
 }
 
 class ShadePassiveSkillCondition : PassiveSkillCondition {
@@ -122,7 +134,7 @@ class ShadePassiveSkillCondition : PassiveSkillCondition {
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity) = !(isInNaturalDimension(player) && isWorldDaytime(player) && !isInRain(player) && isSkyVisible(player))
+    override fun test(player: PlayerEntity) = !(isInNaturalDimension(player) && isWorldDaytime(player) && isSpaceVisible(player))
 }
 
 class MinimumLightLevelPassiveSkillCondition(private val lightLevel: Int) : PassiveSkillCondition {
