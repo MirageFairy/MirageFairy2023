@@ -11,6 +11,7 @@ import miragefairy2023.util.init.Translation
 import miragefairy2023.util.join
 import miragefairy2023.util.red
 import miragefairy2023.util.text
+import mirrg.kotlin.hydrogen.join
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
@@ -34,7 +35,12 @@ class DemonFairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settin
         super.appendTooltip(stack, world, tooltip, context)
 
 
-        tooltip += text { (RARE_KEY() + ": "() + "${fairyCard.rare}"().formatted(getRareColor(fairyCard.rare))).aqua }
+        val stars = (1..fairyCard.rare)
+            .map { "★" }
+            .chunked(5)
+            .chunked(2)
+            .join("  ") { it.join(" ") { it.join("") } }
+        tooltip += text { (RARE_KEY() + ": "() + "$stars ${fairyCard.rare}"().formatted(getRareColor(fairyCard.rare))).aqua }
 
 
         val passiveSkills = fairyCard.passiveSkills
