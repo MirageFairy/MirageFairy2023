@@ -49,7 +49,9 @@ class FairyListDebuggerItem(settings: Settings) : Item(settings) {
                 }.string
             }
 
-            "|${fairyCard.jaName}|${fairyCard.rare}|${passiveSkillTexts.join("&br;")}|"
+            val recipeTexts = fairyCard.recipeContainer.recipes.map { it.getWikiString() }
+
+            "|${fairyCard.jaName}|${fairyCard.rare}|${passiveSkillTexts.join("&br;")}|${recipeTexts.join("&br;")}|"
         }
         writeAction(user, "${Registry.ITEM.getId(this).path}.txt", lines.map { "$it\n" }.join(""))
 
