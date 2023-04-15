@@ -16,15 +16,12 @@ import miragefairy2023.util.init.registerColorProvider
 import miragefairy2023.util.init.registerToTag
 import miragefairy2023.util.init.translation
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.data.client.Model
 import net.minecraft.data.client.TextureKey
 import net.minecraft.data.client.TextureMap
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
-import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 import java.util.Optional
@@ -120,61 +117,6 @@ val fairyModule = module {
             it(this, fairyCard)
         }
 
-    }
-
-
-    // パッシブスキル
-    run {
-        val terminators = mutableListOf<() -> Unit>()
-        ServerTickEvents.END_SERVER_TICK.register { server ->
-            if ((server.ticks % (20L * 10L)).toInt() != 132) return@register // 10秒毎
-
-            // 前回判定時の掃除
-            terminators.forEach {
-                it()
-            }
-            terminators.clear()
-
-            server.worlds.forEach { world ->
-                world.players.forEach nextPlayer@{ player ->
-
-                    if (player.isSpectator) return@nextPlayer // スペクテイターモードでは無効
-
-                    // 有効な妖精のリスト
-                    val itemStacks: List<ItemStack> = player.inventory.offHand + player.inventory.main.slice(9 * 3 until 9 * 4)
-                    val triples = itemStacks
-                        .mapNotNull { itemStack ->
-                            val item = itemStack.item
-                            if (item !is DemonFairyItem) return@mapNotNull null
-                            Triple(itemStack, item, item.fairyCard.identifier)
-                        }
-                        .distinctBy { it.third }
-
-                    val initializers = mutableListOf<() -> Unit>()
-
-                    // 効果の計算
-                    val passiveSkillVariable = mutableMapOf<Identifier, Any>()
-                    triples.forEach { triple ->
-                        triple.second.fairyCard.passiveSkills.forEach passiveSkillIsFailed@{ passiveSkill ->
-                            passiveSkill.conditions.forEach { condition ->
-                                if (!condition.test(player)) return@passiveSkillIsFailed
-                            }
-                            passiveSkill.effect.update(world, player, passiveSkillVariable, initializers, terminators)
-                            passiveSkill.effect.affect(world, player)
-                        }
-                    }
-
-                    // 効果を発動
-                    initializers.forEach {
-                        it()
-                    }
-
-                }
-            }
-        }
-        ServerLifecycleEvents.SERVER_STOPPING.register {
-            terminators.clear()
-        }
     }
 
 }
