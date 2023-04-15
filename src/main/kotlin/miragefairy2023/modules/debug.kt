@@ -1,8 +1,8 @@
 package miragefairy2023.modules
 
 import miragefairy2023.module
-import miragefairy2023.modules.fairy.DemonFairyItem
 import miragefairy2023.modules.fairy.FairyCard
+import miragefairy2023.modules.passiveskill.PassiveSkillKeys
 import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.registerColorProvider
@@ -45,7 +45,7 @@ class FairyListDebuggerItem(settings: Settings) : Item(settings) {
                     if (conditionTexts.isNotEmpty()) {
                         effectText + " ["() + conditionTexts.join(","()) + "]"()
                     } else {
-                        effectText + " ["() + DemonFairyItem.ALWAYS_CONDITION_KEY() + "]"()
+                        effectText + " ["() + PassiveSkillKeys.ALWAYS_CONDITION_KEY() + "]"()
                     }
                 }.string
             }

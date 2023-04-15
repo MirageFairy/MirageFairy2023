@@ -1,9 +1,9 @@
 package miragefairy2023.modules.passiveskill
 
 import miragefairy2023.MirageFairy2023
-import miragefairy2023.modules.fairy.DemonFairyItem
 import miragefairy2023.util.gold
 import miragefairy2023.util.gray
+import miragefairy2023.util.init.Translation
 import miragefairy2023.util.join
 import miragefairy2023.util.red
 import miragefairy2023.util.text
@@ -11,6 +11,13 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
+
+object PassiveSkillKeys {
+    val DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.passive_skill.disabled", "Use passive skills in 3rd row of inventory", "インベントリの3行目でパッシブスキルを発動")
+    val DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.passive_skill.duplicated", "Same fairies exist", "妖精が重複しています")
+    val ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.passive_skill.enabled", "Passive skills are enabled", "パッシブスキル有効")
+    val ALWAYS_CONDITION_KEY = Translation("${MirageFairy2023.modId}.passive_skill.condition.always", "Always", "常時")
+}
 
 fun getPassiveSkillTooltip(itemStack: ItemStack, passiveSkills: List<PassiveSkill>): List<Text> {
     val player = MirageFairy2023.proxy?.getClientPlayer() ?: return listOf()
@@ -25,9 +32,9 @@ fun getPassiveSkillTooltip(itemStack: ItemStack, passiveSkills: List<PassiveSkil
     // タイトルラベル
     tooltip += text {
         when {
-            !isEnabled -> DemonFairyItem.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY().gray
-            isDuplicated -> DemonFairyItem.DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY().red
-            else -> DemonFairyItem.ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY().gold
+            !isEnabled -> PassiveSkillKeys.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY().gray
+            isDuplicated -> PassiveSkillKeys.DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY().red
+            else -> PassiveSkillKeys.ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY().gold
         }
     }
 
@@ -52,7 +59,7 @@ fun getPassiveSkillTooltip(itemStack: ItemStack, passiveSkills: List<PassiveSkil
             val text = if (conditionTexts.isNotEmpty()) {
                 effectText + " ["() + conditionTexts.join(","()) + "]"()
             } else {
-                effectText + " ["() + DemonFairyItem.ALWAYS_CONDITION_KEY() + "]"()
+                effectText + " ["() + PassiveSkillKeys.ALWAYS_CONDITION_KEY() + "]"()
             }
             if (isEnabled && !isDuplicated && conditions.all { it.second }) text.gold else text.gray
         }

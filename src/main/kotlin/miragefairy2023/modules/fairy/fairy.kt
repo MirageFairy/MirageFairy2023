@@ -71,10 +71,6 @@ val fairyModule = module {
 
         // 翻訳登録
         translation(DemonFairyItem.RARE_KEY)
-        translation(DemonFairyItem.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
-        translation(DemonFairyItem.DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY)
-        translation(DemonFairyItem.ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
-        translation(DemonFairyItem.ALWAYS_CONDITION_KEY)
 
     }
 
