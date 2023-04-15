@@ -16,7 +16,6 @@ object PassiveSkillKeys {
     val DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("${MirageFairy2023.modId}.passive_skill.disabled", "Put in 3rd row for passive skills", "3行目でパッシブスキルを有効化")
     val DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("${MirageFairy2023.modId}.passive_skill.duplicated", "Duplicated passive skills!", "パッシブスキルが重複しています！")
     val ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("${MirageFairy2023.modId}.passive_skill.enabled", "Passive skills are enabled", "パッシブスキル有効")
-    val ALWAYS_CONDITION_KEY = Translation("${MirageFairy2023.modId}.passive_skill.condition.always", "Always", "常時")
 }
 
 fun getPassiveSkillTooltip(itemStack: ItemStack, passiveSkills: List<PassiveSkill>): List<Text> {
@@ -59,7 +58,7 @@ fun getPassiveSkillTooltip(itemStack: ItemStack, passiveSkills: List<PassiveSkil
             val text = if (conditionTexts.isNotEmpty()) {
                 effectText + " ["() + conditionTexts.join(","()) + "]"()
             } else {
-                effectText + " ["() + PassiveSkillKeys.ALWAYS_CONDITION_KEY() + "]"()
+                effectText
             }
             if (isEnabled && !isDuplicated && conditions.all { it.second }) text.gold else text.gray
         }
