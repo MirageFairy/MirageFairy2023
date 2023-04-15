@@ -84,7 +84,7 @@ val fairyModule = module {
     FairyCard.values().forEach { fairyCard ->
 
         // 妖精アイテム登録
-        item("${fairyCard.motif}_fairy", { DemonFairyItem(fairyCard, FabricItemSettings().group(fairyItemGroup)) }) {
+        item("${fairyCard.motif}_fairy", { DemonFairyItem(fairyCard, 1, FabricItemSettings().group(fairyItemGroup)) }) {
 
             // アイテム代入
             onRegisterItems { fairyItems[fairyCard] = feature }

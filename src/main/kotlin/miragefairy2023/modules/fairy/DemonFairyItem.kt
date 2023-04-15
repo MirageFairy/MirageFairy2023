@@ -11,7 +11,6 @@ import miragefairy2023.util.init.Translation
 import miragefairy2023.util.join
 import miragefairy2023.util.red
 import miragefairy2023.util.text
-import mirrg.kotlin.hydrogen.join
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
@@ -20,7 +19,7 @@ import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.world.World
 
-class DemonFairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settings), FairyItem {
+class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings) : Item(settings), FairyItem {
     companion object {
         val RARE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.rare", "Rare", "レア度")
         val DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.passive_skill.disabled", "Use passive skills in 3rd row of inventory", "インベントリの3行目でパッシブスキルを発動")
@@ -31,16 +30,34 @@ class DemonFairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settin
 
     override fun getFairy() = fairyCard.fairy
 
+    val fairyLevel get() = fairyCard.rare + (rank - 1) * 2
+
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         super.appendTooltip(stack, world, tooltip, context)
 
 
-        val stars = (1..fairyCard.rare)
-            .map { "★" }
+        val stars1 = listOf(
+            (1..fairyCard.rare).map { "★" to { text: Text -> text.formatted(getRareColor(fairyCard.rare)) } },
+            (1..(rank - 1) * 2).map { "★" to { text: Text -> text.aqua } },
+        ).flatten()
+        val stars2 = if (stars1.size > 15) {
+            listOf(
+                *stars1.take(15).toTypedArray(),
+                "..." to stars1[15].second,
+            )
+        } else {
+            stars1
+        }
+        val stars3 = stars2
+            .asSequence()
+            .map { text { it.second(it.first()) } }
             .chunked(5)
+            .map { it.join() }
             .chunked(2)
-            .join("  ") { it.join(" ") { it.join("") } }
-        tooltip += text { (RARE_KEY() + ": "() + "$stars ${fairyCard.rare}"().formatted(getRareColor(fairyCard.rare))).aqua }
+            .map { it.join(text { " "() }) }
+            .toList()
+            .join(text { "  "() })
+        tooltip += text { (RARE_KEY() + ": "() + stars3 + " $fairyLevel"()).aqua }
 
 
         val passiveSkills = fairyCard.passiveSkills
