@@ -2,7 +2,6 @@ package miragefairy2023.modules.passiveskill
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
-import miragefairy2023.modules.fairy.DemonFairyItem
 import miragefairy2023.util.init.Translation
 import miragefairy2023.util.init.translation
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
@@ -38,18 +37,17 @@ val passiveSkillModule = module {
                     val itemStacks: List<ItemStack> = player.inventory.offHand + player.inventory.main.slice(9 * 3 until 9 * 4)
                     val triples = itemStacks
                         .mapNotNull { itemStack ->
-                            val item = itemStack.item
-                            if (item !is DemonFairyItem) return@mapNotNull null
-                            Triple(itemStack, item, item.fairyCard.identifier)
+                            val item = itemStack.item as? PassiveSkillItem ?: return@mapNotNull null
+                            Pair(itemStack, item)
                         }
-                        .distinctBy { it.third }
+                        .distinctBy { it.second.getPassiveSkillIdentifier() }
 
                     val initializers = mutableListOf<() -> Unit>()
 
                     // 効果の計算
                     val passiveSkillVariable = mutableMapOf<Identifier, Any>()
-                    triples.forEach { triple ->
-                        triple.second.fairyCard.passiveSkills.forEach passiveSkillIsFailed@{ passiveSkill ->
+                    triples.forEach { pair ->
+                        pair.second.getPassiveSkills(player, pair.first).forEach passiveSkillIsFailed@{ passiveSkill ->
                             passiveSkill.conditions.forEach { condition ->
                                 if (!condition.test(player)) return@passiveSkillIsFailed
                             }
@@ -101,6 +99,12 @@ val passiveSkillModule = module {
     translation(ExperiencePassiveSkillEffect.key)
     translation(CollectionPassiveSkillEffect.key)
 
+}
+
+
+interface PassiveSkillItem {
+    fun getPassiveSkillIdentifier(): Identifier
+    fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack): List<PassiveSkill>
 }
 
 class PassiveSkill(val conditions: List<PassiveSkillCondition>, val effect: PassiveSkillEffect)
