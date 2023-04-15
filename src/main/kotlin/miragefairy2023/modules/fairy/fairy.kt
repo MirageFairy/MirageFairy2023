@@ -24,6 +24,7 @@ import net.minecraft.data.client.TextureKey
 import net.minecraft.data.client.TextureMap
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
+import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 import java.util.Optional
@@ -140,12 +141,12 @@ val fairyModule = module {
                     if (player.isSpectator) return@nextPlayer // スペクテイターモードでは無効
 
                     // 有効な妖精のリスト
-                    val triples = (player.inventory.offHand + player.inventory.main.slice(9 * 3 until 9 * 4))
+                    val itemStacks: List<ItemStack> = player.inventory.offHand + player.inventory.main.slice(9 * 3 until 9 * 4)
+                    val triples = itemStacks
                         .mapNotNull { itemStack ->
-                            itemStack!!
                             val item = itemStack.item
                             if (item !is DemonFairyItem) return@mapNotNull null
-                            Triple(itemStack, item, item.getFairy().getIdentifier())
+                            Triple(itemStack, item, item.fairyCard.identifier)
                         }
                         .distinctBy { it.third }
 

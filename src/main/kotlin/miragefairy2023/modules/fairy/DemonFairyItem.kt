@@ -1,8 +1,6 @@
 package miragefairy2023.modules.fairy
 
 import miragefairy2023.MirageFairy2023
-import miragefairy2023.api.Fairy
-import miragefairy2023.api.FairyItem
 import miragefairy2023.util.aqua
 import miragefairy2023.util.formatted
 import miragefairy2023.util.gold
@@ -19,7 +17,7 @@ import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.world.World
 
-class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings) : Item(settings), FairyItem {
+class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings) : Item(settings) {
     companion object {
         val RARE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.rare", "Rare", "レア度")
         val DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.passive_skill.disabled", "Use passive skills in 3rd row of inventory", "インベントリの3行目でパッシブスキルを発動")
@@ -27,8 +25,6 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
         val ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("item.${MirageFairy2023.modId}.fairy.passive_skill.enabled", "Passive skills are enabled", "パッシブスキル有効")
         val ALWAYS_CONDITION_KEY = Translation("${MirageFairy2023.modId}.passive_skill.condition.always", "Always", "常時")
     }
-
-    override fun getFairy() = fairyCard.fairy
 
     val fairyLevel get() = fairyCard.rare + (rank - 1) * 2
 
@@ -111,21 +107,18 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
     }
 }
 
-private class PassiveFairy(val player: PlayerEntity, val index: Int, val itemStack: ItemStack, val fairy: Fairy, val isDuplicated: Boolean)
+private class PassiveFairy(val itemStack: ItemStack, val isDuplicated: Boolean)
 
 private fun PlayerEntity.getPassiveFairies(): List<PassiveFairy> {
-    val itemStacks = this.inventory.offHand + this.inventory.main.slice(9 * 3 until 9 * 4)
+    val itemStacks: List<ItemStack> = this.inventory.offHand + this.inventory.main.slice(9 * 3 until 9 * 4)
     val result = mutableListOf<PassiveFairy>()
     val collectedFairyIdentifiers = mutableSetOf<Identifier>()
-    itemStacks.forEachIndexed { index, itemStack ->
-        itemStack!!
+    itemStacks.forEach { itemStack ->
         val item = itemStack.item
-        if (item !is FairyItem) return@forEachIndexed
-        val fairy = item.getFairy()
-        val fairyIdentifier = fairy.getIdentifier()
-        val isDuplicated = fairyIdentifier in collectedFairyIdentifiers
-        collectedFairyIdentifiers += fairyIdentifier
-        result += PassiveFairy(this, index, itemStack, fairy, isDuplicated)
+        if (item !is DemonFairyItem) return@forEach
+        val isDuplicated = item.fairyCard.identifier in collectedFairyIdentifiers
+        collectedFairyIdentifiers += item.fairyCard.identifier
+        result += PassiveFairy(itemStack, isDuplicated)
     }
     return result.toList()
 }
