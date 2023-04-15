@@ -28,6 +28,14 @@ val Text.strikethrough get() = this.formatted(Formatting.STRIKETHROUGH)
 val Text.underline get() = this.formatted(Formatting.UNDERLINE)
 val Text.italic get() = this.formatted(Formatting.ITALIC)
 
+fun Iterable<Text>.join(): Text {
+    val result = Text.empty()
+    this.forEach {
+        result.append(it)
+    }
+    return result
+}
+
 fun Iterable<Text>.join(vararg separators: Text): Text {
     val result = Text.empty()
     this.forEachIndexed { index, text ->
