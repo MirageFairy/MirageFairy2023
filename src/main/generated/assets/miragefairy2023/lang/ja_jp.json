@@ -67,9 +67,6 @@
   "item.miragefairy2023.extremely_rare_mirage_flour": "極超高純度ミラージュフラワー",
   "item.miragefairy2023.extremely_rare_mirage_flour.poem": "運命の束、広がる時間の結晶、惨憺たる光速の呪いを解放せよ、",
   "item.miragefairy2023.extremely_rare_mirage_flour.poem2": "讃えよ、アーカーシャに眠る自由と功徳の頂きを。",
-  "item.miragefairy2023.fairy.passive_skill.disabled": "インベントリの3行目でパッシブスキルを発動",
-  "item.miragefairy2023.fairy.passive_skill.duplicated": "妖精が重複しています",
-  "item.miragefairy2023.fairy.passive_skill.enabled": "パッシブスキル有効",
   "item.miragefairy2023.fairy.rare": "レア度",
   "item.miragefairy2023.fairy_list_debugger": "妖精一覧デバッガー",
   "item.miragefairy2023.fire_fairy": "火精フィーリャ",
@@ -165,6 +162,9 @@
   "miragefairy2023.passive_skill.condition.tool_material.gold": "金ツール",
   "miragefairy2023.passive_skill.condition.tool_material.iron": "鉄ツール",
   "miragefairy2023.passive_skill.condition.underwater": "水中",
+  "miragefairy2023.passive_skill.disabled": "インベントリの3行目でパッシブスキルを発動",
+  "miragefairy2023.passive_skill.duplicated": "妖精が重複しています",
   "miragefairy2023.passive_skill.effect.collection": "収集: %sスタック/10秒",
-  "miragefairy2023.passive_skill.effect.experience": "経験値: %s/10秒"
+  "miragefairy2023.passive_skill.effect.experience": "経験値: %s/10秒",
+  "miragefairy2023.passive_skill.enabled": "パッシブスキル有効"
 }
