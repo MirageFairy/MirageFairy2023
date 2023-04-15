@@ -94,7 +94,7 @@ class DemonFairyItem(val fairyCard: FairyCard, settings: Settings) : Item(settin
     }
 }
 
-private class PassiveFairy(val player: PlayerEntity, val index: Int, val itemStack: ItemStack, val fairy: Fairy, val fairyIdentifier: Identifier, val isDuplicated: Boolean)
+private class PassiveFairy(val player: PlayerEntity, val index: Int, val itemStack: ItemStack, val fairy: Fairy, val isDuplicated: Boolean)
 
 private fun PlayerEntity.getPassiveFairies(): List<PassiveFairy> {
     val itemStacks = this.inventory.offHand + this.inventory.main.slice(9 * 3 until 9 * 4)
@@ -108,7 +108,7 @@ private fun PlayerEntity.getPassiveFairies(): List<PassiveFairy> {
         val fairyIdentifier = fairy.getIdentifier()
         val isDuplicated = fairyIdentifier in collectedFairyIdentifiers
         collectedFairyIdentifiers += fairyIdentifier
-        result += PassiveFairy(this, index, itemStack, fairy, fairyIdentifier, isDuplicated)
+        result += PassiveFairy(this, index, itemStack, fairy, isDuplicated)
     }
     return result.toList()
 }
