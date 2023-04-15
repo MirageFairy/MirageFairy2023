@@ -162,8 +162,8 @@
   "miragefairy2023.passive_skill.condition.tool_material.gold": "Golden Tool",
   "miragefairy2023.passive_skill.condition.tool_material.iron": "Iron Tool",
   "miragefairy2023.passive_skill.condition.underwater": "Underwater",
-  "miragefairy2023.passive_skill.disabled": "Use passive skills in 3rd row of inventory",
-  "miragefairy2023.passive_skill.duplicated": "Same fairies exist",
+  "miragefairy2023.passive_skill.disabled": "Put in 3rd row for passive skills",
+  "miragefairy2023.passive_skill.duplicated": "Duplicated passive skills!",
   "miragefairy2023.passive_skill.effect.collection": "Collection: %s Stacks/10s",
   "miragefairy2023.passive_skill.effect.experience": "Experience: %s/10s",
   "miragefairy2023.passive_skill.enabled": "Passive skills are enabled"
