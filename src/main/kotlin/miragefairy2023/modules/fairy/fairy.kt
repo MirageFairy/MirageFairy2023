@@ -109,7 +109,7 @@ val fairyModule = module {
         Registry.register(fairyRegistry, fairyCard.identifier, fairyCard.fairy)
 
         // 妖精固有の初期化処理
-        fairyCard.initializer.initializers.forEach {
+        fairyCard.recipeContainer.recipes.forEach {
             it(this, fairyCard)
         }
 
