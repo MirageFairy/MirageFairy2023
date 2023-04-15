@@ -32,6 +32,7 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
         super.appendTooltip(stack, world, tooltip, context)
 
 
+        // レア度
         val stars1 = listOf(
             (1..fairyCard.rare).map { "★" to { text: Text -> text.formatted(getRareColor(fairyCard.rare)) } },
             (1..(rank - 1) * 2).map { "★" to { text: Text -> text.aqua } },
@@ -56,6 +57,7 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
         tooltip += text { (RARE_KEY() + ": "() + stars3 + " $fairyLevel"()).aqua }
 
 
+        // パッシブスキル
         val passiveSkills = fairyCard.passiveSkills
         if (passiveSkills.isNotEmpty()) {
 
