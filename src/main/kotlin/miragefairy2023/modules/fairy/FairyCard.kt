@@ -336,6 +336,8 @@ enum class FairyCard(
 }
 
 
+// 妖精レシピ
+
 class FairyCardRecipeInitializer(val initializers: List<InitializationScope.(FairyCard) -> Unit>)
 
 private fun FairyCardRecipeInitializer() = FairyCardRecipeInitializer(listOf())
