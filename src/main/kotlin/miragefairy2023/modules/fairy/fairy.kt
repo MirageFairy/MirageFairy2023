@@ -110,7 +110,7 @@ val fairyModule = module {
 
         // 妖精固有の初期化処理
         fairyCard.recipeContainer.recipes.forEach {
-            it(this, fairyCard)
+            it.init(this, fairyCard)
         }
 
     }

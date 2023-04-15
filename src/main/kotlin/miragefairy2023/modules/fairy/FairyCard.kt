@@ -343,7 +343,7 @@ enum class FairyCard(
 
     interface Recipe {
         fun getWikiString(): String
-        operator fun invoke(initializationScope: InitializationScope, fairyCard: FairyCard)
+        fun init(initializationScope: InitializationScope, fairyCard: FairyCard)
     }
 
 }
@@ -351,7 +351,7 @@ enum class FairyCard(
 private fun FairyCard.RecipeContainer.common() = this.also {
     this.recipes += object : FairyCard.Recipe {
         override fun getWikiString() = "コモン"
-        override fun invoke(initializationScope: InitializationScope, fairyCard: FairyCard) {
+        override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onRegisterRecipes {
                 MirageFlourItem.COMMON_FAIRY_LIST += fairyCard.fairy
             }
@@ -362,7 +362,7 @@ private fun FairyCard.RecipeContainer.common() = this.also {
 private fun FairyCard.RecipeContainer.block(blockSupplier: () -> Block) = this.also {
     this.recipes += object : FairyCard.Recipe {
         override fun getWikiString() = "ブロック：${blockSupplier().name.string}"
-        override fun invoke(initializationScope: InitializationScope, fairyCard: FairyCard) {
+        override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onRegisterRecipes {
                 DreamCatcherItem.BLOCK_FAIRY_RELATION_LIST += BlockFairyRelation(blockSupplier(), fairyCard.fairy)
             }
@@ -373,7 +373,7 @@ private fun FairyCard.RecipeContainer.block(blockSupplier: () -> Block) = this.a
 private fun FairyCard.RecipeContainer.recipe(inputItemSupplier: () -> Item) = this.also {
     this.recipes += object : FairyCard.Recipe {
         override fun getWikiString() = "クラフト：${inputItemSupplier().name.string}"
-        override fun invoke(initializationScope: InitializationScope, fairyCard: FairyCard) {
+        override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onGenerateRecipes {
                 val inputItem = inputItemSupplier()
                 val mirageFlourItem = when (fairyCard.rare) {
