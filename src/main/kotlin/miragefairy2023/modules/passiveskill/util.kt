@@ -1,6 +1,8 @@
 package miragefairy2023.modules.passiveskill
 
 import miragefairy2023.MirageFairy2023
+import miragefairy2023.api.PassiveSkill
+import miragefairy2023.api.PassiveSkillItem
 import miragefairy2023.util.gold
 import miragefairy2023.util.gray
 import miragefairy2023.util.init.Translation

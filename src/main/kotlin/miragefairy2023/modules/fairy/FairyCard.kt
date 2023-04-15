@@ -3,6 +3,7 @@ package miragefairy2023.modules.fairy
 import miragefairy2023.InitializationScope
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.Fairy
+import miragefairy2023.api.PassiveSkill
 import miragefairy2023.modules.BlockFairyRelation
 import miragefairy2023.modules.DemonItemCard
 import miragefairy2023.modules.DreamCatcherItem
@@ -29,7 +30,6 @@ import miragefairy2023.modules.passiveskill.NightPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.OnFirePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.OutdoorPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.OverworldPassiveSkillCondition
-import miragefairy2023.modules.passiveskill.PassiveSkill
 import miragefairy2023.modules.passiveskill.ShadePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.StatusEffectPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.SunshinePassiveSkillCondition

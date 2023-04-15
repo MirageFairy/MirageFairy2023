@@ -1,7 +1,7 @@
 package miragefairy2023.modules.fairy
 
 import miragefairy2023.MirageFairy2023
-import miragefairy2023.modules.passiveskill.PassiveSkillItem
+import miragefairy2023.api.PassiveSkillItem
 import miragefairy2023.modules.passiveskill.getPassiveSkillTooltip
 import miragefairy2023.util.aqua
 import miragefairy2023.util.formatted

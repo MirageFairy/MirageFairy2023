@@ -1,6 +1,7 @@
 package miragefairy2023.modules.passiveskill
 
 import miragefairy2023.MirageFairy2023
+import miragefairy2023.api.PassiveSkillCondition
 import miragefairy2023.util.init.Translation
 import miragefairy2023.util.text
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags
