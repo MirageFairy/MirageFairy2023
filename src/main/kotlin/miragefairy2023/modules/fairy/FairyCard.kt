@@ -338,45 +338,63 @@ enum class FairyCard(
 
 // 妖精レシピ
 
-class FairyCardRecipeInitializer(val initializers: List<InitializationScope.(FairyCard) -> Unit>)
-
-private fun FairyCardRecipeInitializer() = FairyCardRecipeInitializer(listOf())
-
-private operator fun FairyCardRecipeInitializer.plus(block: InitializationScope.(FairyCard) -> Unit) = FairyCardRecipeInitializer(this.initializers + block)
-
-private fun FairyCardRecipeInitializer.common() = this + { fairyCard ->
-    onRegisterRecipes {
-        MirageFlourItem.COMMON_FAIRY_LIST += fairyCard.fairy
-    }
+class FairyCardRecipeInitializer {
+    val initializers = mutableListOf<FairyCardRecipeProvider>()
 }
 
-private fun FairyCardRecipeInitializer.block(blockSupplier: () -> Block) = this + { fairyCard ->
-    onRegisterRecipes {
-        DreamCatcherItem.BLOCK_FAIRY_RELATION_LIST += BlockFairyRelation(blockSupplier(), fairyCard.fairy)
-    }
+interface FairyCardRecipeProvider {
+    fun getWikiString(): String
+    operator fun invoke(initializationScope: InitializationScope, fairyCard: FairyCard)
 }
 
-private fun FairyCardRecipeInitializer.recipe(inputItemSupplier: () -> Item) = this + { fairyCard ->
-    onGenerateRecipes {
-        val inputItem = inputItemSupplier()
-        val mirageFlourItem = when (fairyCard.rare) {
-            0 -> MirageFlourCard.TINY_MIRAGE_FLOUR()
-            1, 2 -> MirageFlourCard.MIRAGE_FLOUR()
-            3, 4 -> MirageFlourCard.RARE_MIRAGE_FLOUR()
-            5, 6 -> MirageFlourCard.VERY_RARE_MIRAGE_FLOUR()
-            7, 8 -> MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR()
-            9, 10 -> MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR()
-            11, 12 -> MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR()
-            else -> throw AssertionError()
+private fun FairyCardRecipeInitializer.common() = this.also {
+    this.initializers += object : FairyCardRecipeProvider {
+        override fun getWikiString() = "コモン"
+        override fun invoke(initializationScope: InitializationScope, fairyCard: FairyCard) {
+            initializationScope.onRegisterRecipes {
+                MirageFlourItem.COMMON_FAIRY_LIST += fairyCard.fairy
+            }
         }
-        ShapelessRecipeJsonBuilder
-            .create(fairyCard())
-            .input(DemonItemCard.XARPITE())
-            .input(mirageFlourItem)
-            .input(inputItem)
-            .criterion("has_xarpite", RecipeProvider.conditionsFromItem(DemonItemCard.XARPITE()))
-            .criterion("has_${Registry.ITEM.getId(mirageFlourItem).path}", RecipeProvider.conditionsFromItem(mirageFlourItem))
-            .criterion("has_${Registry.ITEM.getId(inputItem).path}", RecipeProvider.conditionsFromItem(inputItem))
-            .offerTo(it, Identifier.of(modId, "fairy/${fairyCard.motif}"))
+    }
+}
+
+private fun FairyCardRecipeInitializer.block(blockSupplier: () -> Block) = this.also {
+    this.initializers += object : FairyCardRecipeProvider {
+        override fun getWikiString() = "ブロック：${blockSupplier().name.string}"
+        override fun invoke(initializationScope: InitializationScope, fairyCard: FairyCard) {
+            initializationScope.onRegisterRecipes {
+                DreamCatcherItem.BLOCK_FAIRY_RELATION_LIST += BlockFairyRelation(blockSupplier(), fairyCard.fairy)
+            }
+        }
+    }
+}
+
+private fun FairyCardRecipeInitializer.recipe(inputItemSupplier: () -> Item) = this.also {
+    this.initializers += object : FairyCardRecipeProvider {
+        override fun getWikiString() = "クラフト：${inputItemSupplier().name.string}"
+        override fun invoke(initializationScope: InitializationScope, fairyCard: FairyCard) {
+            initializationScope.onGenerateRecipes {
+                val inputItem = inputItemSupplier()
+                val mirageFlourItem = when (fairyCard.rare) {
+                    0 -> MirageFlourCard.TINY_MIRAGE_FLOUR()
+                    1, 2 -> MirageFlourCard.MIRAGE_FLOUR()
+                    3, 4 -> MirageFlourCard.RARE_MIRAGE_FLOUR()
+                    5, 6 -> MirageFlourCard.VERY_RARE_MIRAGE_FLOUR()
+                    7, 8 -> MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR()
+                    9, 10 -> MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR()
+                    11, 12 -> MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR()
+                    else -> throw AssertionError()
+                }
+                ShapelessRecipeJsonBuilder
+                    .create(fairyCard())
+                    .input(DemonItemCard.XARPITE())
+                    .input(mirageFlourItem)
+                    .input(inputItem)
+                    .criterion("has_xarpite", RecipeProvider.conditionsFromItem(DemonItemCard.XARPITE()))
+                    .criterion("has_${Registry.ITEM.getId(mirageFlourItem).path}", RecipeProvider.conditionsFromItem(mirageFlourItem))
+                    .criterion("has_${Registry.ITEM.getId(inputItem).path}", RecipeProvider.conditionsFromItem(inputItem))
+                    .offerTo(it, Identifier.of(initializationScope.modId, "fairy/${fairyCard.motif}"))
+            }
+        }
     }
 }
