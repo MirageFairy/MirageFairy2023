@@ -15,7 +15,7 @@ fun Random.randomInt(d: Double): Int {
 fun Int.toRoman() = when (this) {
     1 -> "I"
     2 -> "II"
-    3 -> "II"
+    3 -> "III"
     4 -> "IV"
     5 -> "V"
     else -> "$this"
