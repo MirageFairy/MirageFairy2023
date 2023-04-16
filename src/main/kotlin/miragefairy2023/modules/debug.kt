@@ -2,6 +2,7 @@ package miragefairy2023.modules
 
 import miragefairy2023.module
 import miragefairy2023.modules.fairy.FairyCard
+import miragefairy2023.modules.fairy.invoke
 import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.registerColorProvider
@@ -37,7 +38,7 @@ class FairyListDebuggerItem(settings: Settings) : Item(settings) {
 
         val lines = FairyCard.values().map { fairyCard ->
 
-            val passiveSkillTexts = fairyCard.passiveSkills.map { passiveSkill ->
+            val passiveSkillTexts = fairyCard().passiveSkills.map { passiveSkill ->
                 text {
                     val effectText = passiveSkill.effect.getText()
                     val conditionTexts = passiveSkill.conditions.map { it.getText() }

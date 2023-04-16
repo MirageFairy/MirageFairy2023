@@ -1,6 +1,7 @@
 package miragefairy2023.modules.fairy
 
 import miragefairy2023.MirageFairy2023
+import miragefairy2023.api.PassiveSkill
 import miragefairy2023.api.PassiveSkillItem
 import miragefairy2023.modules.passiveskill.getPassiveSkillTooltip
 import miragefairy2023.util.aqua
@@ -29,7 +30,8 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
     val fairyLevel get() = fairyCard.rare + (rank - 1) * 2
 
     override fun getPassiveSkillIdentifier() = fairyCard.identifier
-    override fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack) = fairyCard.passiveSkills
+    val passiveSkills = fairyCard.passiveSkillProviders.map { PassiveSkill(it.conditions, it.effectProvider(fairyLevel)) }
+    override fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack) = passiveSkills
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         super.appendTooltip(stack, world, tooltip, context)
@@ -59,7 +61,7 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
         tooltip += text { (RARE_KEY() + ": "() + stars3 + " $fairyLevel"()).aqua }
 
         // パッシブスキル
-        tooltip += getPassiveSkillTooltip(stack, fairyCard.passiveSkills)
+        tooltip += getPassiveSkillTooltip(stack, passiveSkills)
 
         // 凝縮レシピ
         when (rank) {
