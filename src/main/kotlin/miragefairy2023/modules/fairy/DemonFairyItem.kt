@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
 import net.minecraft.world.World
 
+/** @param rank 1から始まります。 */
 class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings) : Item(settings), PassiveSkillItem {
     companion object {
         val RARE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.rare", "Rare", "レア度")
