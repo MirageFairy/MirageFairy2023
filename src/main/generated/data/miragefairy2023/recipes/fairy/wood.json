@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "miragefairy2023:xarpite"
+    },
+    {
+      "item": "miragefairy2023:mirage_flour"
+    },
+    {
+      "item": "minecraft:oak_planks"
+    }
+  ],
+  "result": {
+    "item": "miragefairy2023:wood_fairy"
+  }
+}

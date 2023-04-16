@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "miragefairy2023:water_fairy",
-    "miragefairy2023:dirt_fairy"
+    "miragefairy2023:dirt_fairy",
+    "miragefairy2023:stone_fairy",
+    "miragefairy2023:wood_fairy"
   ]
 }

@@ -124,6 +124,15 @@ enum class FairyCard(
         ),
         RecipeContainer().common().block { Blocks.SCULK }.recipe { Items.SCULK },
     ),
+    STONE(
+        "stone", 1, "Stonia", "石精ストーニャ", 0x333333, 0x8F8F8F, 0x686868, 0x747474,
+        listOf(
+            PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.STONE))) { AttackDamagePassiveSkillEffect(2.0 * it) },
+            PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.STONE))) { StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0) },
+            PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.STONE), FairyLevelPassiveSkillCondition(7))) { StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 1) },
+        ),
+        RecipeContainer().common().block { Blocks.STONE }.recipe { Items.STONE },
+    ),
     IRON(
         "iron", 4, "Ironia", "鉄精イローニャ", 0xA0A0A0, 0xD8D8D8, 0x727272, 0xD8AF93,
         listOf(
@@ -141,6 +150,15 @@ enum class FairyCard(
             PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD), FairyLevelPassiveSkillCondition(10))) { StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 1) },
         ),
         RecipeContainer().common().block { Blocks.GOLD_BLOCK }.recipe { Items.GOLD_INGOT },
+    ),
+    NETHERITE(
+        "netherite", 8, "Netheritia", "地獄合金精", 0x8F788F, 0x74585B, 0x705558, 0x77302D,
+        listOf(
+            PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.NETHERITE))) { AttackDamagePassiveSkillEffect(2.0 * it) },
+            PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.NETHERITE))) { StatusEffectPassiveSkillEffect(StatusEffects.FIRE_RESISTANCE, 0) },
+            PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.NETHERITE), FairyLevelPassiveSkillCondition(12))) { StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 1) },
+        ),
+        RecipeContainer().block { Blocks.NETHERITE_BLOCK }.recipe { Items.NETHERITE_INGOT },
     ),
     DIAMOND(
         "diamond", 7, "Diamondia", "金剛石精ディアモンジャ", 0x97FFE3, 0xD1FAF3, 0x70FFD9, 0x30DBBD,
@@ -189,6 +207,15 @@ enum class FairyCard(
         "zombie", 2, "Zombia", "硬屍精ゾンビャ", 0x2B4219, 0x00AAAA, 0x322976, 0x2B4219,
         listOf(PassiveSkillProvider(listOf(ShadePassiveSkillCondition())) { AttackDamagePassiveSkillEffect(2.0 * it) }),
         RecipeContainer().common(),
+    ),
+    WOOD(
+        "wood", 1, "Woodia", "木精ウォージャ", 0xE7C697, 0xAD8232, 0xAD8232, 0x8B591C,
+        listOf(
+            PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.WOOD))) { AttackDamagePassiveSkillEffect(2.0 * it) },
+            PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.WOOD))) { StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 0) },
+            PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.WOOD), FairyLevelPassiveSkillCondition(7))) { StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 1) },
+        ),
+        RecipeContainer().common().block { Blocks.OAK_PLANKS }.recipe { Items.OAK_PLANKS },
     ),
     SPRUCE(
         "spruce", 6, "Sprucia", "松精スプルーツァ", 0x795C36, 0x583E1F, 0x23160A, 0x4C784C,

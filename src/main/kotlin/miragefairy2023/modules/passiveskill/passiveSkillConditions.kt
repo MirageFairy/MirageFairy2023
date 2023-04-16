@@ -204,9 +204,12 @@ class ToolMaterialPassiveSkillCondition(private val toolMaterial: ToolMaterial, 
     }
 
     enum class Key(val translation: Translation) {
+        WOOD(Translation("$keyPrefix.wood", "Wooden Tool", "木ツール")),
+        STONE(Translation("$keyPrefix.stone", "Stone Tool", "石ツール")),
         IRON(Translation("$keyPrefix.iron", "Iron Tool", "鉄ツール")),
         GOLD(Translation("$keyPrefix.gold", "Golden Tool", "金ツール")),
         DIAMOND(Translation("$keyPrefix.diamond", "Diamond Tool", "ダイヤモンドツール")),
+        NETHERITE(Translation("$keyPrefix.netherite", "Netherite Tool", "ネザライトツール")),
     }
 
     constructor(toolMaterial: ToolMaterials) : this(toolMaterial, toolMaterial.name.lowercase())
