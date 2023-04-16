@@ -74,7 +74,10 @@ val fairyModule = module {
         (1..MAX_FAIRY_RANK).forEach { rank ->
 
             // 妖精アイテム登録
-            item("${fairyCard.motif}_fairy", { DemonFairyItem(fairyCard, 1, FabricItemSettings().group(fairyItemGroup)) }) {
+            item(
+                "${fairyCard.motif}_fairy",
+                { DemonFairyItem(fairyCard, 1, FabricItemSettings().group(fairyItemGroup)) },
+            ) {
 
                 // アイテム代入
                 onRegisterItems { fairyItems[fairyCard] = feature }
