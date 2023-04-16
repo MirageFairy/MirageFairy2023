@@ -62,12 +62,12 @@ enum class FairyCard(
 ) {
     AIR(
         "air", 0, "Airia", "空気精アイリャ", 0xFFBE80, 0xDEFFFF, 0xDEFFFF, 0xB0FFFF,
-        listOf(PassiveSkillProvider(listOf(OverworldPassiveSkillCondition(), AirPassiveSkillCondition())) { MovementSpeedPassiveSkillEffect(0.05) }),
+        listOf(PassiveSkillProvider(listOf(OverworldPassiveSkillCondition(), AirPassiveSkillCondition())) { MovementSpeedPassiveSkillEffect(0.30 * it) }),
         RecipeContainer().common().block { Blocks.AIR },
     ),
     LIGHT(
         "light", 3, "Lightia", "光精リグチャ", 0xFFFFD8, 0xFFFFD8, 0xFFFFC5, 0xFFFF00,
-        listOf(PassiveSkillProvider(listOf(MinimumLightLevelPassiveSkillCondition(12))) { MovementSpeedPassiveSkillEffect(0.15) }),
+        listOf(PassiveSkillProvider(listOf(MinimumLightLevelPassiveSkillCondition(12))) { MovementSpeedPassiveSkillEffect(0.30 * it) }),
         RecipeContainer().common(),
     ),
     FIRE(
@@ -136,7 +136,7 @@ enum class FairyCard(
         listOf(
             PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD))) { AttackDamagePassiveSkillEffect(1.0) },
             PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD))) { StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0) },
-            PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD))) { MovementSpeedPassiveSkillEffect(0.10) },
+            PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD))) { MovementSpeedPassiveSkillEffect(0.20 * it) },
         ),
         RecipeContainer().common().block { Blocks.GOLD_BLOCK }.recipe { Items.GOLD_INGOT },
     ),
@@ -313,7 +313,7 @@ enum class FairyCard(
         "time", 12, "Timia", "時精ティーミャ", 0x89D585, 0xD5DEBC, 0xD8DEA7, 0x8DD586,
         listOf(
             PassiveSkillProvider(listOf()) { StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 1) },
-            PassiveSkillProvider(listOf()) { MovementSpeedPassiveSkillEffect(0.10) },
+            PassiveSkillProvider(listOf()) { MovementSpeedPassiveSkillEffect(0.20 * it) },
             PassiveSkillProvider(listOf()) { StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 1) },
         ),
         RecipeContainer().common(),
