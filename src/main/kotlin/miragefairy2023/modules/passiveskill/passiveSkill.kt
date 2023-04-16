@@ -47,7 +47,7 @@ val passiveSkillModule = module {
                     triples.forEach { pair ->
                         pair.second.getPassiveSkills(player, pair.first).forEach passiveSkillIsFailed@{ passiveSkill ->
                             passiveSkill.conditions.forEach { condition ->
-                                if (!condition.test(player)) return@passiveSkillIsFailed
+                                if (!condition.test(player, pair.first)) return@passiveSkillIsFailed
                             }
                             passiveSkill.effect.update(world, player, passiveSkillVariable, initializers, terminators)
                             passiveSkill.effect.affect(world, player)

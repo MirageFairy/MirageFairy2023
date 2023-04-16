@@ -15,7 +15,7 @@ class PassiveSkill(val conditions: List<PassiveSkillCondition>, val effect: Pass
 
 interface PassiveSkillCondition {
     fun getText(): Text
-    fun test(player: PlayerEntity): Boolean
+    fun test(player: PlayerEntity, itemStack: ItemStack): Boolean
 }
 
 interface PassiveSkillEffect {

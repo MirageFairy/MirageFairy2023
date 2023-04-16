@@ -44,7 +44,7 @@ fun getPassiveSkillTooltip(itemStack: ItemStack, passiveSkills: List<PassiveSkil
 
         // 条件判定
         val conditions = passiveSkill.conditions.map { condition ->
-            Pair(condition, condition.test(player))
+            Pair(condition, condition.test(player, itemStack))
         }
 
         // 追加
