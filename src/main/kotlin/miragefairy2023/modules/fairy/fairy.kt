@@ -8,7 +8,7 @@ import miragefairy2023.api.fairyRegistry
 import miragefairy2023.module
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.init.TagScope
-import miragefairy2023.util.init.enJaItem
+import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaItemGroup
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.itemTag
@@ -40,75 +40,75 @@ val fairiesOfRareItemTag = mutableMapOf<Int, TagScope<Item>>()
 
 val fairyModule = module {
 
-    // 全体
-    run {
+    // アイテムグループ
+    enJaItemGroup({ fairyItemGroup }, "MirageFairy2023: Fairy", "MirageFairy2023: 妖精")
 
-        // アイテムグループ
-        enJaItemGroup({ fairyItemGroup }, "MirageFairy2023: Fairy", "MirageFairy2023: 妖精")
+    // 妖精の共通アイテムモデル
+    onGenerateItemModels {
+        val layer0 = TextureKey.of("layer0")
+        val layer1 = TextureKey.of("layer1")
+        val layer2 = TextureKey.of("layer2")
+        val layer3 = TextureKey.of("layer3")
+        val layer4 = TextureKey.of("layer4")
+        val model = Model(Optional.of(Identifier("minecraft", "item/generated")), Optional.empty(), layer0, layer1, layer2, layer3, layer4)
+        model.upload(Identifier(modId, "item/fairy"), TextureMap().apply {
+            put(layer0, Identifier(modId, "item/fairy_skin"))
+            put(layer1, Identifier(modId, "item/fairy_back"))
+            put(layer2, Identifier(modId, "item/fairy_front"))
+            put(layer3, Identifier(modId, "item/fairy_hair"))
+            put(layer4, Identifier(modId, "item/fairy_dress"))
+        }, it.writer)
+    }
 
-        // 妖精の共通アイテムモデル
-        onGenerateItemModels {
-            val layer0 = TextureKey.of("layer0")
-            val layer1 = TextureKey.of("layer1")
-            val layer2 = TextureKey.of("layer2")
-            val layer3 = TextureKey.of("layer3")
-            val layer4 = TextureKey.of("layer4")
-            val model = Model(Optional.of(Identifier("minecraft", "item/generated")), Optional.empty(), layer0, layer1, layer2, layer3, layer4)
-            model.upload(Identifier(modId, "item/fairy"), TextureMap().apply {
-                put(layer0, Identifier(modId, "item/fairy_skin"))
-                put(layer1, Identifier(modId, "item/fairy_back"))
-                put(layer2, Identifier(modId, "item/fairy_front"))
-                put(layer3, Identifier(modId, "item/fairy_hair"))
-                put(layer4, Identifier(modId, "item/fairy_dress"))
-            }, it.writer)
-        }
+    // 妖精タグ
+    fairiesItemTag = itemTag("fairies")
+    (0..FairyCard.values().maxOf { it.rare }).forEach { rare ->
+        fairiesOfRareItemTag[rare] = itemTag("rare${rare}_fairies")
+    }
 
-        // 妖精タグ
-        fairiesItemTag = itemTag("fairies")
-        (0..FairyCard.values().maxOf { it.rare }).forEach { rare ->
-            fairiesOfRareItemTag[rare] = itemTag("rare${rare}_fairies")
+    // 翻訳登録
+    translation(DemonFairyItem.RARE_KEY)
+
+    // モチーフごと
+    FairyCard.values().forEach { fairyCard ->
+
+        // ラングごと
+        run {
+
+            // 妖精アイテム登録
+            item("${fairyCard.motif}_fairy", { DemonFairyItem(fairyCard, 1, FabricItemSettings().group(fairyItemGroup)) }) {
+
+                // アイテム代入
+                onRegisterItems { fairyItems[fairyCard] = feature }
+
+                // タグに登録
+                registerToTag { fairiesItemTag }
+                registerToTag { fairiesOfRareItemTag[fairyCard.rare]!! }
+
+                // モデル系
+                onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier(modId, "item/fairy")), Optional.empty())) }
+                registerColorProvider { _, tintIndex ->
+                    when (tintIndex) {
+                        0 -> fairyCard.skinColor
+                        1 -> fairyCard.backColor
+                        2 -> fairyCard.frontColor
+                        3 -> fairyCard.hairColor
+                        4 -> 0xAA0000
+                        else -> 0xFFFFFF
+                    }
+                }
+
+            }
+
         }
 
         // 翻訳登録
-        translation(DemonFairyItem.RARE_KEY)
+        enJa("item.${fairyCard.identifier.toTranslationKey()}_fairy", fairyCard.enName, fairyCard.jaName)
 
-    }
-
-    // 妖精共通
-    FairyCard.values().forEach { fairyCard ->
-
-        // 妖精アイテム登録
-        item("${fairyCard.motif}_fairy", { DemonFairyItem(fairyCard, 1, FabricItemSettings().group(fairyItemGroup)) }) {
-
-            // アイテム代入
-            onRegisterItems { fairyItems[fairyCard] = feature }
-
-            // タグに登録
-            registerToTag { fairiesItemTag }
-            registerToTag { fairiesOfRareItemTag[fairyCard.rare]!! }
-
-            // モデル系
-            onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier(modId, "item/fairy")), Optional.empty())) }
-            registerColorProvider { _, tintIndex ->
-                when (tintIndex) {
-                    0 -> fairyCard.skinColor
-                    1 -> fairyCard.backColor
-                    2 -> fairyCard.frontColor
-                    3 -> fairyCard.hairColor
-                    4 -> 0xAA0000
-                    else -> 0xFFFFFF
-                }
-            }
-
-            // 翻訳登録
-            enJaItem({ feature }, fairyCard.enName, fairyCard.jaName)
-
-        }
-
-        // 妖精レジストリ登録
+        // モチーフを妖精レジストリに登録
         Registry.register(fairyRegistry, fairyCard.identifier, fairyCard.fairy)
 
-        // 妖精固有の初期化処理
+        // モチーフ固有の初期化処理
         fairyCard.recipeContainer.recipes.forEach {
             it.init(this, fairyCard)
         }
