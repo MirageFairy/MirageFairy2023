@@ -72,7 +72,7 @@ enum class FairyCard(
     ),
     FIRE(
         "fire", 2, "Firia", "火精フィーリャ", 0xFF6C01, 0xF9DFA4, 0xFF7324, 0xFF4000,
-        listOf(PassiveSkillProvider(listOf(OnFirePassiveSkillCondition())) { AttackDamagePassiveSkillEffect(2.0) }),
+        listOf(PassiveSkillProvider(listOf(OnFirePassiveSkillCondition())) { AttackDamagePassiveSkillEffect(4.0 * it) }),
         RecipeContainer().common().block { Blocks.FIRE },
     ),
     WATER(
@@ -83,7 +83,7 @@ enum class FairyCard(
     LAVA(
         "lava", 4, "Lavia", "溶岩精ラーヴャ", 0xCD4208, 0xEDB54A, 0xCC4108, 0x4C1500,
         listOf(
-            PassiveSkillProvider(listOf(OnFirePassiveSkillCondition())) { AttackDamagePassiveSkillEffect(1.0) },
+            PassiveSkillProvider(listOf(OnFirePassiveSkillCondition())) { AttackDamagePassiveSkillEffect(2.0 * it) },
             PassiveSkillProvider(listOf(OnFirePassiveSkillCondition())) { StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0) },
             PassiveSkillProvider(listOf(OnFirePassiveSkillCondition())) { StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0) },
         ),
@@ -107,7 +107,7 @@ enum class FairyCard(
     ),
     RAIN(
         "rain", 2, "Rainia", "雨精ライニャ", 0xB4FFFF, 0x4D5670, 0x4D5670, 0x2D40F4,
-        listOf(PassiveSkillProvider(listOf(InRainPassiveSkillCondition())) { AttackDamagePassiveSkillEffect(2.0) }),
+        listOf(PassiveSkillProvider(listOf(InRainPassiveSkillCondition())) { AttackDamagePassiveSkillEffect(4.0 * it) }),
         RecipeContainer().common(),
     ),
     DIRT(
@@ -119,14 +119,14 @@ enum class FairyCard(
         "sculk", 6, "Sculkia", "幽匿塊精スツルキャ", 0x19222C, 0x023F3D, 0x023F3D, 0x19C0C0,
         listOf(
             PassiveSkillProvider(listOf(MaximumLightLevelPassiveSkillCondition(0))) { MaxHealthPassiveSkillEffect(4.0) },
-            PassiveSkillProvider(listOf(MaximumLightLevelPassiveSkillCondition(0))) { AttackDamagePassiveSkillEffect(1.0) },
+            PassiveSkillProvider(listOf(MaximumLightLevelPassiveSkillCondition(0))) { AttackDamagePassiveSkillEffect(3.0 * it) },
         ),
         RecipeContainer().common().block { Blocks.SCULK }.recipe { Items.SCULK },
     ),
     IRON(
         "iron", 4, "Ironia", "鉄精イローニャ", 0xA0A0A0, 0xD8D8D8, 0x727272, 0xD8AF93,
         listOf(
-            PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.IRON))) { AttackDamagePassiveSkillEffect(1.0) },
+            PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.IRON))) { AttackDamagePassiveSkillEffect(2.0 * it) },
             PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.IRON))) { StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0) },
         ),
         RecipeContainer().common().block { Blocks.IRON_BLOCK }.recipe { Items.IRON_INGOT },
@@ -134,7 +134,7 @@ enum class FairyCard(
     GOLD(
         "gold", 6, "Goldia", "金精ゴルジャ", 0xD2CD9A, 0xFFFF0B, 0xDC7613, 0xDEDE00,
         listOf(
-            PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD))) { AttackDamagePassiveSkillEffect(1.0) },
+            PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD))) { AttackDamagePassiveSkillEffect(2.0 * it) },
             PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD))) { StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0) },
             PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD))) { MovementSpeedPassiveSkillEffect(0.20 * it) },
         ),
@@ -143,7 +143,7 @@ enum class FairyCard(
     DIAMOND(
         "diamond", 7, "Diamondia", "金剛石精ディアモンジャ", 0x97FFE3, 0xD1FAF3, 0x70FFD9, 0x30DBBD,
         listOf(
-            PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.DIAMOND))) { AttackDamagePassiveSkillEffect(2.0) },
+            PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.DIAMOND))) { AttackDamagePassiveSkillEffect(2.0 * it) },
             PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.DIAMOND))) { StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0) },
         ),
         RecipeContainer().common().block { Blocks.DIAMOND_BLOCK }.recipe { Items.DIAMOND },
@@ -172,20 +172,20 @@ enum class FairyCard(
         "warden", 7, "Wardenia", "監守者精ワルデーニャ", 0x0A3135, 0xCFCFA4, 0xA0AA7A, 0x2CD0CA,
         listOf(
             PassiveSkillProvider(listOf(MaximumLightLevelPassiveSkillCondition(0))) { StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 1) },
-            PassiveSkillProvider(listOf(MaximumLightLevelPassiveSkillCondition(0))) { AttackDamagePassiveSkillEffect(2.0) },
+            PassiveSkillProvider(listOf(MaximumLightLevelPassiveSkillCondition(0))) { AttackDamagePassiveSkillEffect(2.0 * it) },
         ),
         RecipeContainer().common(),
     ),
     ZOMBIE(
         "zombie", 2, "Zombia", "硬屍精ゾンビャ", 0x2B4219, 0x00AAAA, 0x322976, 0x2B4219,
-        listOf(PassiveSkillProvider(listOf(ShadePassiveSkillCondition())) { AttackDamagePassiveSkillEffect(1.0) }),
+        listOf(PassiveSkillProvider(listOf(ShadePassiveSkillCondition())) { AttackDamagePassiveSkillEffect(2.0 * it) }),
         RecipeContainer().common(),
     ),
     SPRUCE(
         "spruce", 6, "Sprucia", "松精スプルーツァ", 0x795C36, 0x583E1F, 0x23160A, 0x4C784C,
         listOf(
-            PassiveSkillProvider(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.FOREST))) { AttackDamagePassiveSkillEffect(1.0) },
-            PassiveSkillProvider(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.TAIGA))) { AttackDamagePassiveSkillEffect(1.0) },
+            PassiveSkillProvider(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.FOREST))) { AttackDamagePassiveSkillEffect(1.0 * it) },
+            PassiveSkillProvider(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.TAIGA))) { AttackDamagePassiveSkillEffect(1.0 * it) },
         ),
         RecipeContainer().common().block { Blocks.SPRUCE_SAPLING }.recipe { Items.SPRUCE_SAPLING },
     ),
@@ -204,7 +204,7 @@ enum class FairyCard(
     ),
     ANVIL(
         "anvil", 4, "Anvilia", "金床精アンヴィーリャ", 0xFFFFFF, 0xA9A9A9, 0x909090, 0xA86F18,
-        listOf(PassiveSkillProvider(listOf(IndoorPassiveSkillCondition())) { AttackDamagePassiveSkillEffect(1.0) }),
+        listOf(PassiveSkillProvider(listOf(IndoorPassiveSkillCondition())) { AttackDamagePassiveSkillEffect(2.0 * it) }),
         RecipeContainer().block { Blocks.ANVIL }.recipe { Items.ANVIL },
     ),
     ENCHANTING_TABLE(
@@ -322,7 +322,7 @@ enum class FairyCard(
         "gravity", 12, "Gravitia", "重力精グラヴィーチャ", 0xC2A7F2, 0x3600FF, 0x2A00B1, 0x110047,
         listOf(
             PassiveSkillProvider(listOf()) { StatusEffectPassiveSkillEffect(StatusEffects.SLOW_FALLING, 0) },
-            PassiveSkillProvider(listOf()) { AttackDamagePassiveSkillEffect(2.0) },
+            PassiveSkillProvider(listOf()) { AttackDamagePassiveSkillEffect(2.0 * it) },
         ),
         RecipeContainer().common(),
     ),
