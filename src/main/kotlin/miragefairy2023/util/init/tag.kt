@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
 interface TagScope<T> {
-    operator fun invoke(): TagKey<T>
+    val feature: TagKey<T>
     operator fun invoke(block: FabricTagProvider<T>.FabricTagBuilder<T>.() -> Unit)
 }
 
@@ -19,7 +19,7 @@ fun InitializationScope.itemTag(name: String, block: (FabricTagProvider<Item>.Fa
     var builder: FabricTagProvider<Item>.FabricTagBuilder<Item>? = null
     val listeners = mutableListOf<(FabricTagProvider<Item>.FabricTagBuilder<Item>) -> Unit>()
     val tagScope = object : TagScope<Item> {
-        override fun invoke() = tagKey
+        override val feature get() = tagKey
         override fun invoke(block: FabricTagProvider<Item>.FabricTagBuilder<Item>.() -> Unit) {
             if (builder == null) {
                 // ビルダー生成未完了
