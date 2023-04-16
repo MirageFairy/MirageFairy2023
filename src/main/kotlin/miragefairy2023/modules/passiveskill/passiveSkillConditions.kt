@@ -170,7 +170,7 @@ class BiomePassiveSkillCondition(private val biomeTag: TagKey<Biome>) : PassiveS
 
 class MinimumLightLevelPassiveSkillCondition(private val lightLevel: Int) : PassiveSkillCondition {
     companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.minimum_light_level", "Light>=%s", "明るさ%s以上")
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.minimum_light_level", "Light %s↑", "明るさ%s以上")
     }
 
     override fun getText() = text { key(lightLevel) }
@@ -179,7 +179,7 @@ class MinimumLightLevelPassiveSkillCondition(private val lightLevel: Int) : Pass
 
 class MaximumLightLevelPassiveSkillCondition(private val lightLevel: Int) : PassiveSkillCondition {
     companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.maximum_light_level", "Light<=%s", "明るさ%s以下")
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.maximum_light_level", "Light %s↓", "明るさ%s以下")
     }
 
     override fun getText() = text { key(lightLevel) }
@@ -217,7 +217,7 @@ class ToolMaterialPassiveSkillCondition(private val toolMaterial: ToolMaterial, 
 
 class MaximumLevelPassiveSkillCondition(private val level: Int) : PassiveSkillCondition {
     companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.maximum_level", "Level<=%s", "レベル%s以下")
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.maximum_level", "Level %s↓", "レベル%s以下")
     }
 
     override fun getText() = text { key(level) }
@@ -226,7 +226,7 @@ class MaximumLevelPassiveSkillCondition(private val level: Int) : PassiveSkillCo
 
 class MaximumHealthPassiveSkillCondition(private val health: Int) : PassiveSkillCondition {
     companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.maximum_health", "Health<=%s", "体力%s以下")
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.maximum_health", "Health %s↓", "体力%s以下")
     }
 
     override fun getText() = text { key(health) }
