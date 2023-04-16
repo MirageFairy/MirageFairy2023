@@ -77,7 +77,7 @@ enum class FairyCard(
     ),
     WATER(
         "water", 1, "Wateria", "水精ワテーリャ", 0x5469F2, 0x5985FF, 0x172AD3, 0x2D40F4,
-        listOf(PassiveSkillProvider(listOf(UnderwaterPassiveSkillCondition())) { MaxHealthPassiveSkillEffect(2.0) }),
+        listOf(PassiveSkillProvider(listOf(UnderwaterPassiveSkillCondition())) { MaxHealthPassiveSkillEffect(12.0 * it) }),
         RecipeContainer().common().block { Blocks.WATER }.recipe { Items.WATER_BUCKET },
     ),
     LAVA(
@@ -112,13 +112,13 @@ enum class FairyCard(
     ),
     DIRT(
         "dirt", 1, "Dirtia", "土精ディルチャ", 0xB87440, 0xB9855C, 0x593D29, 0x914A18,
-        listOf(PassiveSkillProvider(listOf(OverworldPassiveSkillCondition())) { MaxHealthPassiveSkillEffect(1.0) }),
+        listOf(PassiveSkillProvider(listOf(OverworldPassiveSkillCondition())) { MaxHealthPassiveSkillEffect(10.0 * it) }),
         RecipeContainer().common().block { Blocks.DIRT }.recipe { Items.DIRT },
     ),
     SCULK(
         "sculk", 6, "Sculkia", "幽匿塊精スツルキャ", 0x19222C, 0x023F3D, 0x023F3D, 0x19C0C0,
         listOf(
-            PassiveSkillProvider(listOf(MaximumLightLevelPassiveSkillCondition(0))) { MaxHealthPassiveSkillEffect(4.0) },
+            PassiveSkillProvider(listOf(MaximumLightLevelPassiveSkillCondition(0))) { MaxHealthPassiveSkillEffect(8.0 * it) },
             PassiveSkillProvider(listOf(MaximumLightLevelPassiveSkillCondition(0))) { AttackDamagePassiveSkillEffect(3.0 * it) },
         ),
         RecipeContainer().common().block { Blocks.SCULK }.recipe { Items.SCULK },
@@ -247,7 +247,7 @@ enum class FairyCard(
     ),
     IRON_BARS(
         "iron_bars", 4, "Irone Barsia", "鉄格子精イローネバルシャ", 0xFFFFFF, 0xA1A1A3, 0x404040, 0x404040,
-        listOf(PassiveSkillProvider(listOf()) { MaxHealthPassiveSkillEffect(2.0) }),
+        listOf(PassiveSkillProvider(listOf()) { MaxHealthPassiveSkillEffect(5.0 * it) }),
         RecipeContainer().block { Blocks.IRON_BARS }.recipe { Items.IRON_BARS },
     ),
     PLAINS(
