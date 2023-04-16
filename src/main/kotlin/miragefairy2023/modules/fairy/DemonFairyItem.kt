@@ -9,6 +9,7 @@ import miragefairy2023.util.init.Translation
 import miragefairy2023.util.join
 import miragefairy2023.util.text
 import miragefairy2023.util.toRoman
+import miragefairy2023.util.yellow
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
@@ -20,6 +21,9 @@ import net.minecraft.world.World
 class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings) : Item(settings), PassiveSkillItem {
     companion object {
         val RARE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.rare", "Rare", "レア度")
+        val CONDENSATION_RECIPE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.recipe.condensation", "Condense 8 fairies with workbench", "作業台で8体で凝縮")
+        val DECONDENSATION_RECIPE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.recipe.decondensation", "Decondense with workbench", "作業台で展開")
+        val BOTH_RECIPE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.recipe.both", "Condense 8 fairies or decondense with workbench", "作業台で8体で凝縮、1体で展開")
     }
 
     val fairyLevel get() = fairyCard.rare + (rank - 1) * 2
@@ -56,6 +60,13 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
 
         // パッシブスキル
         tooltip += getPassiveSkillTooltip(stack, fairyCard.passiveSkills)
+
+        // 凝縮レシピ
+        when (rank) {
+            1 -> tooltip += text { CONDENSATION_RECIPE_KEY().yellow }
+            MAX_FAIRY_RANK -> tooltip += text { DECONDENSATION_RECIPE_KEY().yellow }
+            else -> tooltip += text { BOTH_RECIPE_KEY().yellow }
+        }
 
     }
 
