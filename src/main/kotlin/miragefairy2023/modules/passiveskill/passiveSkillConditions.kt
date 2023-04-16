@@ -2,6 +2,8 @@ package miragefairy2023.modules.passiveskill
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.PassiveSkillCondition
+import miragefairy2023.modules.fairy.DemonFairyItem
+import miragefairy2023.util.castOr
 import miragefairy2023.util.init.Translation
 import miragefairy2023.util.text
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags
@@ -241,4 +243,13 @@ class OnFirePassiveSkillCondition : PassiveSkillCondition {
 
     override fun getText() = text { key() }
     override fun test(player: PlayerEntity, itemStack: ItemStack) = player.isOnFire
+}
+
+class FairyLevelPassiveSkillCondition(private val fairyLevel: Int) : PassiveSkillCondition {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.fairy_level", "★%s↑", "★%s以上")
+    }
+
+    override fun getText() = text { key(fairyLevel) }
+    override fun test(player: PlayerEntity, itemStack: ItemStack) = itemStack.item.castOr<DemonFairyItem> { return false }.fairyLevel >= fairyLevel
 }
