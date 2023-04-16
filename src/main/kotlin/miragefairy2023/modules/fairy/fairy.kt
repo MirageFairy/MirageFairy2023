@@ -79,8 +79,8 @@ val fairyModule = module {
 
             // 妖精アイテム登録
             mutableFairyItems.getOrPut(fairyCard) { mutableMapOf() }[rank] = item(
-                "${fairyCard.motif}_fairy",
-                { DemonFairyItem(fairyCard, 1, FabricItemSettings().group(fairyItemGroup)) },
+                "${fairyCard.motif}_fairy${if (rank == 1) "" else "_$rank"}",
+                { DemonFairyItem(fairyCard, rank, FabricItemSettings().group(fairyItemGroup)) },
             ) {
 
                 // タグに登録
