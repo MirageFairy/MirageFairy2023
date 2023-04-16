@@ -136,7 +136,7 @@ val commonModule = module {
             "Get a fairy with Mirage flour", "ミラージュの花粉を使用し、妖精を得る",
             parent = root,
         ) {
-            criterion(fairiesItemTag())
+            criterion(fairiesItemTag()())
             reward(tier1LootTableId)
         }
 

@@ -5,7 +5,9 @@ package miragefairy2023.modules.fairy
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.SlotContainer
 import miragefairy2023.api.fairyRegistry
+import miragefairy2023.getOrPut
 import miragefairy2023.module
+import miragefairy2023.slotOf
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.init.TagScope
 import miragefairy2023.util.init.enJa
@@ -35,7 +37,7 @@ private val randomFairyIcon by lazy { FairyCard.values().random()().createItemSt
 val fairyItemGroup: ItemGroup = FabricItemGroupBuilder.build(Identifier(MirageFairy2023.modId, "fairy")) { randomFairyIcon }
 
 // 妖精アイテムタグ
-lateinit var fairiesItemTag: TagScope<Item>
+val fairiesItemTag = slotOf<TagScope<Item>>()
 val fairiesOfRareItemTag = mutableMapOf<Int, TagScope<Item>>()
 
 val fairyModule = module {
@@ -60,12 +62,6 @@ val fairyModule = module {
         }, it.writer)
     }
 
-    // 妖精タグ
-    fairiesItemTag = itemTag("fairies")
-    (0..FairyCard.values().maxOf { it.rare }).forEach { rare ->
-        fairiesOfRareItemTag[rare] = itemTag("rare${rare}_fairies")
-    }
-
     // 翻訳登録
     translation(DemonFairyItem.RARE_KEY)
 
@@ -82,8 +78,8 @@ val fairyModule = module {
                 onRegisterItems { fairyItems[fairyCard] = feature }
 
                 // タグに登録
-                registerToTag { fairiesItemTag }
-                registerToTag { fairiesOfRareItemTag[fairyCard.rare]!! }
+                registerToTag { fairiesItemTag.getOrPut { itemTag("fairies") } }
+                registerToTag { fairiesOfRareItemTag.getOrPut(feature.fairyLevel) { itemTag("rare${feature.fairyLevel}_fairies") } }
 
                 // モデル系
                 onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier(modId, "item/fairy")), Optional.empty())) }
