@@ -8,6 +8,7 @@ import miragefairy2023.util.formatted
 import miragefairy2023.util.init.Translation
 import miragefairy2023.util.join
 import miragefairy2023.util.text
+import miragefairy2023.util.toRoman
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
@@ -57,4 +58,8 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
         tooltip += getPassiveSkillTooltip(stack, fairyCard.passiveSkills)
 
     }
+
+    override fun getTranslationKey(): String = if (rank == 1) super.getTranslationKey() else fairyCard.fairy.getItem().translationKey
+    override fun getName() = text { super.getName() + (if (rank == 1) "" else " ${rank.toRoman()}")() }
+    override fun getName(stack: ItemStack) = text { super.getName(stack) + (if (rank == 1) "" else " ${rank.toRoman()}")() }
 }
