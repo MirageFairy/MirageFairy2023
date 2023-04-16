@@ -37,7 +37,7 @@ val fairiesItemTag = slotOf<TagScope<Item>>()
 val fairiesOfRareItemTag = mutableMapOf<Int, TagScope<Item>>()
 
 // 妖精アイテム
-val MAX_FAIRY_RANK = 1 // TODO -> 9
+val MAX_FAIRY_RANK = 9
 private lateinit var fairyItems: Map<FairyCard, Map<Int, FeatureSlot<DemonFairyItem>>>
 operator fun FairyCard.invoke(rank: Int = 1) = fairyItems[this]!![rank]!!.feature
 
