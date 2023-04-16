@@ -66,52 +66,57 @@ val fairyModule = module {
     // 翻訳登録
     translation(DemonFairyItem.RARE_KEY)
 
-    // 妖精アイテムスロット
-    val mutableFairyItems = mutableMapOf<FairyCard, MutableMap<Int, FeatureSlot<DemonFairyItem>>>()
-    fairyItems = mutableFairyItems
+    // 妖精アイテム
+    run {
 
-    // モチーフごと
-    FairyCard.values().forEach { fairyCard ->
+        // スロット初期化
+        val mutableFairyItems = mutableMapOf<FairyCard, MutableMap<Int, FeatureSlot<DemonFairyItem>>>()
+        fairyItems = mutableFairyItems
 
-        // ラングごと
-        (1..MAX_FAIRY_RANK).forEach { rank ->
+        // モチーフごと
+        FairyCard.values().forEach { fairyCard ->
 
-            // 妖精アイテム登録
-            mutableFairyItems.getOrPut(fairyCard) { mutableMapOf() }[rank] = item(
-                "${fairyCard.motif}_fairy${if (rank == 1) "" else "_$rank"}",
-                { DemonFairyItem(fairyCard, rank, FabricItemSettings().group(fairyItemGroup)) },
-            ) {
+            // ラングごと
+            (1..MAX_FAIRY_RANK).forEach { rank ->
 
-                // タグに登録
-                registerToTag { fairiesItemTag.getOrPut { itemTag("fairies") } }
-                registerToTag { fairiesOfRareItemTag.getOrPut(feature.fairyLevel) { itemTag("rare${feature.fairyLevel}_fairies") } }
+                // 妖精アイテム登録
+                mutableFairyItems.getOrPut(fairyCard) { mutableMapOf() }[rank] = item(
+                    "${fairyCard.motif}_fairy${if (rank == 1) "" else "_$rank"}",
+                    { DemonFairyItem(fairyCard, rank, FabricItemSettings().group(fairyItemGroup)) },
+                ) {
 
-                // モデル系
-                onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier(modId, "item/fairy")), Optional.empty())) }
-                registerColorProvider { _, tintIndex ->
-                    when (tintIndex) {
-                        0 -> fairyCard.skinColor
-                        1 -> fairyCard.backColor
-                        2 -> fairyCard.frontColor
-                        3 -> fairyCard.hairColor
-                        4 -> getRankRgb(rank)
-                        else -> 0xFFFFFF
+                    // タグに登録
+                    registerToTag { fairiesItemTag.getOrPut { itemTag("fairies") } }
+                    registerToTag { fairiesOfRareItemTag.getOrPut(feature.fairyLevel) { itemTag("rare${feature.fairyLevel}_fairies") } }
+
+                    // モデル系
+                    onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier(modId, "item/fairy")), Optional.empty())) }
+                    registerColorProvider { _, tintIndex ->
+                        when (tintIndex) {
+                            0 -> fairyCard.skinColor
+                            1 -> fairyCard.backColor
+                            2 -> fairyCard.frontColor
+                            3 -> fairyCard.hairColor
+                            4 -> getRankRgb(rank)
+                            else -> 0xFFFFFF
+                        }
                     }
+
                 }
 
             }
 
-        }
+            // 翻訳登録
+            enJa("item.${fairyCard.identifier.toTranslationKey()}_fairy", fairyCard.enName, fairyCard.jaName)
 
-        // 翻訳登録
-        enJa("item.${fairyCard.identifier.toTranslationKey()}_fairy", fairyCard.enName, fairyCard.jaName)
+            // モチーフを妖精レジストリに登録
+            Registry.register(fairyRegistry, fairyCard.identifier, fairyCard.fairy)
 
-        // モチーフを妖精レジストリに登録
-        Registry.register(fairyRegistry, fairyCard.identifier, fairyCard.fairy)
+            // モチーフ固有の初期化処理
+            fairyCard.recipeContainer.recipes.forEach {
+                it.init(this, fairyCard)
+            }
 
-        // モチーフ固有の初期化処理
-        fairyCard.recipeContainer.recipes.forEach {
-            it.init(this, fairyCard)
         }
 
     }
