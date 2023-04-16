@@ -22,9 +22,9 @@ import net.minecraft.world.World
 class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings) : Item(settings), PassiveSkillItem {
     companion object {
         val RARE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.rare", "Rare", "レア度")
-        val CONDENSATION_RECIPE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.recipe.condensation", "Condense 8 fairies with workbench", "作業台で8体で凝縮")
-        val DECONDENSATION_RECIPE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.recipe.decondensation", "Decondense with workbench", "作業台で展開")
-        val BOTH_RECIPE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.recipe.both", "Condense 8 fairies or decondense with workbench", "作業台で8体で凝縮、1体で展開")
+        val CONDENSATION_RECIPE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.recipe.condensation", "Can condense 8 fairies", "作業台で8体で凝縮")
+        val DECONDENSATION_RECIPE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.recipe.decondensation", "Can decondense", "作業台で展開")
+        val BOTH_RECIPE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.recipe.both", "Can condense 8 fairies/decondense ", "作業台で8体で凝縮、1体で展開")
     }
 
     val fairyLevel get() = fairyCard.rare + (rank - 1) * 2
