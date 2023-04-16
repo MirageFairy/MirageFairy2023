@@ -89,7 +89,7 @@ val fairyModule = module {
                         1 -> fairyCard.backColor
                         2 -> fairyCard.frontColor
                         3 -> fairyCard.hairColor
-                        4 -> 0xAA0000
+                        4 -> getRankRgb(rank)
                         else -> 0xFFFFFF
                     }
                 }
