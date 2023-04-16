@@ -164,7 +164,7 @@ class BiomePassiveSkillCondition(private val biomeTag: TagKey<Biome>) : PassiveS
         MOUNTAIN(Translation(ConventionalBiomeTags.MOUNTAIN.id.toTranslationKey(keyPrefix), "Mountain", "山岳")),
     }
 
-    override fun getText() = text { translate("$keyPrefix.${biomeTag.id.toTranslationKey()}") }
+    override fun getText() = text { translate(biomeTag.id.toTranslationKey(keyPrefix)) }
     override fun test(player: PlayerEntity) = player.world.getBiome(player.blockPos).isIn(biomeTag)
 }
 
