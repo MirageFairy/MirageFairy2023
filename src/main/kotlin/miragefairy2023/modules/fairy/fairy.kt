@@ -28,6 +28,8 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 import java.util.Optional
 
+val MAX_FAIRY_RANK = 1 // TODO -> 9
+
 // 妖精アイテム
 private val fairyItems = SlotContainer<FairyCard, Item>()
 operator fun FairyCard.invoke() = fairyItems[this]
@@ -69,7 +71,7 @@ val fairyModule = module {
     FairyCard.values().forEach { fairyCard ->
 
         // ラングごと
-        run {
+        (1..MAX_FAIRY_RANK).forEach { rank ->
 
             // 妖精アイテム登録
             item("${fairyCard.motif}_fairy", { DemonFairyItem(fairyCard, 1, FabricItemSettings().group(fairyItemGroup)) }) {
