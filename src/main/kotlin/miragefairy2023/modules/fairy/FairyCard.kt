@@ -348,7 +348,12 @@ enum class FairyCard(
     }
 
 
-    class PassiveSkillProvider(val conditions: List<PassiveSkillCondition>, val effectProvider: (level: Int) -> PassiveSkillEffect)
+    /**
+     * multiplier: 妖精の★の数に比例し、★10のときに1.0です。
+     * ただし、★0の場合は例外的に0.05です。
+     * この変数には様々な補正が乗る可能性があります。
+     */
+    class PassiveSkillProvider(val conditions: List<PassiveSkillCondition>, val effectProvider: (multiplier: Double) -> PassiveSkillEffect)
 
 }
 

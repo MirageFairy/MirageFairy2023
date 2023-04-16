@@ -30,7 +30,7 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
     val fairyLevel get() = fairyCard.rare + (rank - 1) * 2
 
     override fun getPassiveSkillIdentifier() = fairyCard.identifier
-    val passiveSkills = fairyCard.passiveSkillProviders.map { PassiveSkill(it.conditions, it.effectProvider(fairyLevel)) }
+    val passiveSkills = fairyCard.passiveSkillProviders.map { PassiveSkill(it.conditions, it.effectProvider(if (fairyLevel != 0) fairyLevel / 10.0 else 0.05)) }
     override fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack) = passiveSkills
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
