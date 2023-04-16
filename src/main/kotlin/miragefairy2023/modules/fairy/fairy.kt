@@ -28,12 +28,6 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 import java.util.Optional
 
-val MAX_FAIRY_RANK = 1 // TODO -> 9
-
-// 妖精アイテム
-private lateinit var fairyItems: Map<FairyCard, Map<Int, FeatureSlot<DemonFairyItem>>>
-operator fun FairyCard.invoke(rank: Int = 1) = fairyItems[this]!![rank]!!.feature
-
 // 妖精アイテムグループ
 private val randomFairyIcon by lazy { FairyCard.values().random()().createItemStack() }
 val fairyItemGroup: ItemGroup = FabricItemGroupBuilder.build(Identifier(MirageFairy2023.modId, "fairy")) { randomFairyIcon }
@@ -41,6 +35,11 @@ val fairyItemGroup: ItemGroup = FabricItemGroupBuilder.build(Identifier(MirageFa
 // 妖精アイテムタグ
 val fairiesItemTag = slotOf<TagScope<Item>>()
 val fairiesOfRareItemTag = mutableMapOf<Int, TagScope<Item>>()
+
+// 妖精アイテム
+val MAX_FAIRY_RANK = 1 // TODO -> 9
+private lateinit var fairyItems: Map<FairyCard, Map<Int, FeatureSlot<DemonFairyItem>>>
+operator fun FairyCard.invoke(rank: Int = 1) = fairyItems[this]!![rank]!!.feature
 
 val fairyModule = module {
 
