@@ -11,7 +11,7 @@ import net.minecraft.util.registry.Registry
 
 interface TagScope<T> {
     val feature: TagKey<T>
-    operator fun invoke(block: FabricTagProvider<T>.FabricTagBuilder<T>.() -> Unit)
+    fun onGenerate(block: FabricTagProvider<T>.FabricTagBuilder<T>.() -> Unit)
 }
 
 fun InitializationScope.itemTag(name: String, block: (FabricTagProvider<Item>.FabricTagBuilder<Item>.() -> Unit)? = null): TagScope<Item> {
@@ -20,7 +20,7 @@ fun InitializationScope.itemTag(name: String, block: (FabricTagProvider<Item>.Fa
     val listeners = mutableListOf<(FabricTagProvider<Item>.FabricTagBuilder<Item>) -> Unit>()
     val tagScope = object : TagScope<Item> {
         override val feature get() = tagKey
-        override fun invoke(block: FabricTagProvider<Item>.FabricTagBuilder<Item>.() -> Unit) {
+        override fun onGenerate(block: FabricTagProvider<Item>.FabricTagBuilder<Item>.() -> Unit) {
             if (builder == null) {
                 // ビルダー生成未完了
                 listeners += block // 処理待ちに登録
@@ -42,12 +42,12 @@ fun InitializationScope.itemTag(name: String, block: (FabricTagProvider<Item>.Fa
         listeners.clear()
 
     }
-    if (block != null) tagScope { block(this) }
+    if (block != null) tagScope.onGenerate { block(this) }
     return tagScope
 }
 
 fun <T : Item> FeatureSlot<T>.registerToTag(tagScopeGetter: () -> TagScope<Item>) = initializationScope.onRegisterRecipes {
-    (tagScopeGetter()) {
+    tagScopeGetter().onGenerate {
         add(this@registerToTag.feature)
     }
 }
