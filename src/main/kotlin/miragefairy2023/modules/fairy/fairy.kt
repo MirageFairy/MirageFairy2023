@@ -3,12 +3,12 @@
 package miragefairy2023.modules.fairy
 
 import miragefairy2023.MirageFairy2023
-import miragefairy2023.SlotContainer
 import miragefairy2023.api.fairyRegistry
 import miragefairy2023.getOrPut
 import miragefairy2023.module
 import miragefairy2023.slotOf
 import miragefairy2023.util.createItemStack
+import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.TagScope
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaItemGroup
@@ -31,8 +31,8 @@ import java.util.Optional
 val MAX_FAIRY_RANK = 1 // TODO -> 9
 
 // 妖精アイテム
-private val fairyItems = SlotContainer<FairyCard, Item>()
-operator fun FairyCard.invoke() = fairyItems[this]
+private lateinit var fairyItems: Map<FairyCard, Map<Int, FeatureSlot<DemonFairyItem>>>
+operator fun FairyCard.invoke(rank: Int = 1) = fairyItems[this]!![rank]!!.feature
 
 // 妖精アイテムグループ
 private val randomFairyIcon by lazy { FairyCard.values().random()().createItemStack() }
@@ -67,6 +67,10 @@ val fairyModule = module {
     // 翻訳登録
     translation(DemonFairyItem.RARE_KEY)
 
+    // 妖精アイテムスロット
+    val mutableFairyItems = mutableMapOf<FairyCard, MutableMap<Int, FeatureSlot<DemonFairyItem>>>()
+    fairyItems = mutableFairyItems
+
     // モチーフごと
     FairyCard.values().forEach { fairyCard ->
 
@@ -74,13 +78,10 @@ val fairyModule = module {
         (1..MAX_FAIRY_RANK).forEach { rank ->
 
             // 妖精アイテム登録
-            item(
+            mutableFairyItems.getOrPut(fairyCard) { mutableMapOf() }[rank] = item(
                 "${fairyCard.motif}_fairy",
                 { DemonFairyItem(fairyCard, 1, FabricItemSettings().group(fairyItemGroup)) },
             ) {
-
-                // アイテム代入
-                onRegisterItems { fairyItems[fairyCard] = feature }
 
                 // タグに登録
                 registerToTag { fairiesItemTag.getOrPut { itemTag("fairies") } }
