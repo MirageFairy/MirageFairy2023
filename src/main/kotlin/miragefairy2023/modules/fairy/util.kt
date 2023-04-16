@@ -18,3 +18,16 @@ fun getRareColor(rare: Int): Formatting = when (rare) {
     12 -> Formatting.DARK_PURPLE
     else -> Formatting.DARK_AQUA
 }
+
+fun getRankRgb(rank: Int) = when (rank) {
+    1 -> 0x6E6E6E
+    2 -> 0xAA0000
+    3 -> 0x0000DF
+    4 -> 0x009200
+    5 -> 0xD5D500
+    6 -> 0x131313
+    7 -> 0xFFFFFF
+    8 -> 0x00FFFF
+    9 -> 0x9700D5
+    else -> 0xFF00FF
+}
