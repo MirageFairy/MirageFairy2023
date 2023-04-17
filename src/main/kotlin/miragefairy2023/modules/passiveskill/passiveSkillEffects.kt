@@ -113,79 +113,90 @@ class ExperiencePassiveSkillEffect(private val amount: Double) : PassiveSkillEff
 class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEffect {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.collection", "Collection: %s Stacks/s", "収集: %sスタック/秒")
+        private val identifier = Identifier(MirageFairy2023.modId, "collection")
     }
 
     private fun canVisit(world: World, blockPos: BlockPos) = !world.getBlockState(blockPos).isOpaque
 
     override fun getText() = text { key(amount formatAs "%.2f") }
     override fun affect(world: ServerWorld, player: PlayerEntity, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) {
-        val actualAmount = world.random.randomInt(amount)
-        if (actualAmount > 0) {
-            val originalBlockPos = BlockPos(player.eyePos)
-            val reach = 16
-            val itemEntities = world.getEntitiesByClass(ItemEntity::class.java, Box(originalBlockPos).expand(reach - 1.0)) {
-                when {
-                    it.isSpectator -> false
-                    it.boundingBox.intersects(player.boundingBox) -> false
-                    else -> true
-                }
-            }
 
-            val checkedPoints = mutableSetOf<BlockPos>()
-            var nextPoints = mutableSetOf(originalBlockPos)
-            var remainingAmount = actualAmount
-            var processedCount = 0
+        if (passiveSkillVariable[identifier] == null) {
+            passiveSkillVariable[identifier] = 0.0
 
-            run finish@{
-                repeat(reach) {
+            initializers += {
+                val actualAmount = world.random.randomInt(passiveSkillVariable[identifier] as Double)
+                if (actualAmount > 0) {
+                    val originalBlockPos = BlockPos(player.eyePos)
+                    val reach = 16
+                    val itemEntities = world.getEntitiesByClass(ItemEntity::class.java, Box(originalBlockPos).expand(reach - 1.0)) {
+                        when {
+                            it.isSpectator -> false
+                            it.boundingBox.intersects(player.boundingBox) -> false
+                            else -> true
+                        }
+                    }
 
-                    val currentPoints: Set<BlockPos> = nextPoints
-                    nextPoints = mutableSetOf()
+                    val checkedPoints = mutableSetOf<BlockPos>()
+                    var nextPoints = mutableSetOf(originalBlockPos)
+                    var remainingAmount = actualAmount
+                    var processedCount = 0
 
-                    currentPoints.forEach { currentPoint ->
-                        if (currentPoint in checkedPoints) return@forEach
-                        checkedPoints += currentPoint
-                        if (!canVisit(world, currentPoint)) return@forEach
+                    run finish@{
+                        repeat(reach) {
 
-                        // visit
-                        run {
+                            val currentPoints: Set<BlockPos> = nextPoints
+                            nextPoints = mutableSetOf()
 
-                            val currentBox = Box(currentPoint).expand(0.98, 0.0, 0.98)
-                            itemEntities
-                                .filter { it.boundingBox.intersects(currentBox) }
-                                .forEach {
+                            currentPoints.forEach { currentPoint ->
+                                if (currentPoint in checkedPoints) return@forEach
+                                checkedPoints += currentPoint
+                                if (!canVisit(world, currentPoint)) return@forEach
 
-                                    it.teleport(player.x, player.y, player.z)
-                                    it.resetPickupDelay()
+                                // visit
+                                run {
 
-                                    processedCount++
+                                    val currentBox = Box(currentPoint).expand(0.98, 0.0, 0.98)
+                                    itemEntities
+                                        .filter { it.boundingBox.intersects(currentBox) }
+                                        .forEach {
 
-                                    remainingAmount--
-                                    if (remainingAmount <= 0) return@finish
+                                            it.teleport(player.x, player.y, player.z)
+                                            it.resetPickupDelay()
+
+                                            processedCount++
+
+                                            remainingAmount--
+                                            if (remainingAmount <= 0) return@finish
+
+                                        }
 
                                 }
 
-                        }
+                                nextPoints += currentPoint.down()
+                                nextPoints += currentPoint.up()
+                                nextPoints += currentPoint.north()
+                                nextPoints += currentPoint.south()
+                                nextPoints += currentPoint.west()
+                                nextPoints += currentPoint.east()
 
-                        nextPoints += currentPoint.down()
-                        nextPoints += currentPoint.up()
-                        nextPoints += currentPoint.north()
-                        nextPoints += currentPoint.south()
-                        nextPoints += currentPoint.west()
-                        nextPoints += currentPoint.east()
+                            }
+
+                        }
+                    }
+
+                    if (processedCount > 0) {
+
+                        // Effect
+                        world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.NEUTRAL, 0.25F, 1.0F)
 
                     }
 
                 }
             }
-
-            if (processedCount > 0) {
-
-                // Effect
-                world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.NEUTRAL, 0.25F, 1.0F)
-
-            }
-
         }
+
+        passiveSkillVariable[identifier] = passiveSkillVariable[identifier] as Double + amount
+
     }
 }
