@@ -172,7 +172,7 @@ enum class FairyCard(
     PURPUR(
         "purpur", 7, "Purpuria", "紫珀精プルプーリャ", 0xCBA8CB, 0xC08AC0, 0xC08AC0, 0xBC68BB,
         listOf(
-            PassiveSkillProvider(listOf()) { AttackDamagePassiveSkillEffect(1.0 * it) },
+            PassiveSkillProvider(listOf()) { CollectionPassiveSkillEffect(0.5 * it) },
             PassiveSkillProvider(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.IN_THE_END))) { AttackDamagePassiveSkillEffect(2.0 * it) },
             PassiveSkillProvider(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.IN_THE_END))) { MaxHealthPassiveSkillEffect(4.0 * it) },
         ),
@@ -245,7 +245,7 @@ enum class FairyCard(
     ),
     ENDERMAN(
         "enderman", 6, "Endermania", "終界人精エンデルマーニャ", 0x000000, 0x161616, 0x161616, 0xEF84FA,
-        listOf(PassiveSkillProvider(listOf()) { CollectionPassiveSkillEffect(0.8 * it) }),
+        listOf(PassiveSkillProvider(listOf()) { CollectionPassiveSkillEffect(1.0 * it) }),
         RecipeContainer().common(),
     ),
     WARDEN(
@@ -314,7 +314,7 @@ enum class FairyCard(
     ),
     HOPPER(
         "hopper", 3, "Hopperia", "漏斗精ホッペーリャ", 0xFFFFFF, 0x797979, 0x646464, 0x5A5A5A,
-        listOf(PassiveSkillProvider(listOf(IndoorPassiveSkillCondition())) { CollectionPassiveSkillEffect(1.0 * it) }),
+        listOf(PassiveSkillProvider(listOf(IndoorPassiveSkillCondition())) { CollectionPassiveSkillEffect(1.5 * it) }),
         RecipeContainer().block { Blocks.HOPPER }.recipe { Items.HOPPER },
     ),
     BEACON(
