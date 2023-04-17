@@ -182,7 +182,7 @@
   "miragefairy2023.passive_skill.condition.underwater": "Underwater",
   "miragefairy2023.passive_skill.disabled": "Put in 3rd row for passive skills",
   "miragefairy2023.passive_skill.duplicated": "Duplicated passive skills!",
-  "miragefairy2023.passive_skill.effect.collection": "Collection: %s Stacks/10s",
-  "miragefairy2023.passive_skill.effect.experience": "Experience: %s/10s",
+  "miragefairy2023.passive_skill.effect.collection": "Collection: %s Stacks/s",
+  "miragefairy2023.passive_skill.effect.experience": "Experience: %s/s",
   "miragefairy2023.passive_skill.enabled": "Passive skills are enabled"
 }

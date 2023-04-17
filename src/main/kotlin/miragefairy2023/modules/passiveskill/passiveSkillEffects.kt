@@ -94,13 +94,13 @@ class StatusEffectPassiveSkillEffect(
 ) : PassiveSkillEffect {
     override fun getText() = text { translate(statusEffect.translationKey) + (if (amplifier > 0) " ${(amplifier + 1).toRoman()}" else "")() }
     override fun affect(world: ServerWorld, player: PlayerEntity) {
-        player.addStatusEffect(StatusEffectInstance(statusEffect, 20 * (10 + 1 + additionalSeconds), amplifier, true, showParticles, true))
+        player.addStatusEffect(StatusEffectInstance(statusEffect, 20 * (1 + 1 + additionalSeconds), amplifier, true, showParticles, true))
     }
 }
 
 class ExperiencePassiveSkillEffect(private val amount: Double) : PassiveSkillEffect {
     companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.experience", "Experience: %s/10s", "経験値: %s/10秒")
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.experience", "Experience: %s/s", "経験値: %s/秒")
     }
 
     override fun getText() = text { key(amount formatAs "%+.2f") }
@@ -112,7 +112,7 @@ class ExperiencePassiveSkillEffect(private val amount: Double) : PassiveSkillEff
 
 class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEffect {
     companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.collection", "Collection: %s Stacks/10s", "収集: %sスタック/10秒")
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.collection", "Collection: %s Stacks/s", "収集: %sスタック/秒")
     }
 
     private fun canVisit(world: World, blockPos: BlockPos) = !world.getBlockState(blockPos).isOpaque

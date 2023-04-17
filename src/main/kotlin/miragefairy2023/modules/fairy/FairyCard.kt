@@ -240,12 +240,12 @@ enum class FairyCard(
     ),
     PLAYER(
         "player", 5, "Playeria", "人精プライェーリャ", 0xB58D63, 0x00AAAA, 0x322976, 0x4B3422,
-        listOf(PassiveSkillProvider(listOf(MaximumLevelPassiveSkillCondition(29))) { ExperiencePassiveSkillEffect(1.0 * it) }),
+        listOf(PassiveSkillProvider(listOf(MaximumLevelPassiveSkillCondition(29))) { ExperiencePassiveSkillEffect(0.1 * it) }),
         RecipeContainer().common(),
     ),
     ENDERMAN(
         "enderman", 6, "Endermania", "終界人精エンデルマーニャ", 0x000000, 0x161616, 0x161616, 0xEF84FA,
-        listOf(PassiveSkillProvider(listOf()) { CollectionPassiveSkillEffect(8.0 * it) }),
+        listOf(PassiveSkillProvider(listOf()) { CollectionPassiveSkillEffect(0.8 * it) }),
         RecipeContainer().common(),
     ),
     WARDEN(
@@ -307,14 +307,14 @@ enum class FairyCard(
     ENCHANTING_TABLE(
         "enchanting_table", 6, "Enchantinge Tablia", "付魔台精エンキャンティンゲターブリャ", 0x472F65, 0xCE2828, 0xCE2828, 0x7BFFDD,
         listOf(
-            PassiveSkillProvider(listOf(IndoorPassiveSkillCondition(), MaximumLevelPassiveSkillCondition(19))) { ExperiencePassiveSkillEffect(0.4 * it) },
-            PassiveSkillProvider(listOf(IndoorPassiveSkillCondition(), MaximumLevelPassiveSkillCondition(29))) { ExperiencePassiveSkillEffect(0.6 * it) },
+            PassiveSkillProvider(listOf(IndoorPassiveSkillCondition(), MaximumLevelPassiveSkillCondition(19))) { ExperiencePassiveSkillEffect(0.04 * it) },
+            PassiveSkillProvider(listOf(IndoorPassiveSkillCondition(), MaximumLevelPassiveSkillCondition(29))) { ExperiencePassiveSkillEffect(0.06 * it) },
         ),
         RecipeContainer().block { Blocks.ENCHANTING_TABLE }.recipe { Items.ENCHANTING_TABLE },
     ),
     HOPPER(
         "hopper", 3, "Hopperia", "漏斗精ホッペーリャ", 0xFFFFFF, 0x797979, 0x646464, 0x5A5A5A,
-        listOf(PassiveSkillProvider(listOf(IndoorPassiveSkillCondition())) { CollectionPassiveSkillEffect(10.0 * it) }),
+        listOf(PassiveSkillProvider(listOf(IndoorPassiveSkillCondition())) { CollectionPassiveSkillEffect(1.0 * it) }),
         RecipeContainer().block { Blocks.HOPPER }.recipe { Items.HOPPER },
     ),
     BEACON(

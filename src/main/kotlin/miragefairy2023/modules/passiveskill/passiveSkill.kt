@@ -18,7 +18,7 @@ val passiveSkillModule = module {
     run {
         val terminators = mutableListOf<() -> Unit>()
         ServerTickEvents.END_SERVER_TICK.register { server ->
-            if ((server.ticks % (20L * 10L)).toInt() != 132) return@register // 10秒毎
+            if ((server.ticks % 20L).toInt() != 13) return@register // 1秒毎
 
             // 前回判定時の掃除
             terminators.forEach {
