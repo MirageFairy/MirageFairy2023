@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "miragefairy2023:xarpite"
+    },
+    {
+      "item": "miragefairy2023:very_rare_mirage_flour"
+    },
+    {
+      "item": "minecraft:mycelium"
+    }
+  ],
+  "result": {
+    "item": "miragefairy2023:mycelium_fairy"
+  }
+}

@@ -25,6 +25,7 @@ import miragefairy2023.modules.passiveskill.MaxHealthPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.MaximumHealthPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MaximumLevelPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MaximumLightLevelPassiveSkillCondition
+import miragefairy2023.modules.passiveskill.MinimumFoodLevelPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MinimumLightLevelPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MoonlightPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MovementSpeedPassiveSkillEffect
@@ -116,6 +117,16 @@ enum class FairyCard(
         listOf(PassiveSkillProvider(listOf(OverworldPassiveSkillCondition())) { MaxHealthPassiveSkillEffect(10.0 * it) }),
         RecipeContainer().common().block { Blocks.DIRT }.recipe { Items.DIRT },
     ),
+    MYCELIUM(
+        "mycelium", 6, "Myceliumia", "菌糸精ミツェリウミャ", 0x8F7E86, 0x8B7071, 0x8B7071, 0x8B6264,
+        listOf(
+            PassiveSkillProvider(listOf()) { AttackDamagePassiveSkillEffect(1.0 * it) },
+            PassiveSkillProvider(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.MUSHROOM))) { AttackDamagePassiveSkillEffect(2.0 * it) },
+            PassiveSkillProvider(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.MUSHROOM))) { MaxHealthPassiveSkillEffect(12.0 * it) },
+            PassiveSkillProvider(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.MUSHROOM), FairyLevelPassiveSkillCondition(10))) { StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0) },
+        ),
+        RecipeContainer().block { Blocks.MYCELIUM }.recipe { Items.MYCELIUM },
+    ),
     SCULK(
         "sculk", 6, "Sculkia", "幽匿塊精スツルキャ", 0x19222C, 0x023F3D, 0x023F3D, 0x19C0C0,
         listOf(
@@ -132,6 +143,40 @@ enum class FairyCard(
             PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.STONE), FairyLevelPassiveSkillCondition(7))) { StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 1) },
         ),
         RecipeContainer().common().block { Blocks.STONE }.recipe { Items.STONE },
+    ),
+    DRIPSTONE(
+        "dripstone", 3, "Dripstonia", "鍾乳石精ドリプストーニャ", 0xB19C7E, 0xA97F6F, 0xA97F6F, 0xAD7069,
+        listOf(
+            PassiveSkillProvider(listOf(ShadePassiveSkillCondition())) { AttackDamagePassiveSkillEffect(1.5 * it) },
+            PassiveSkillProvider(listOf(ShadePassiveSkillCondition())) { MaxHealthPassiveSkillEffect(6.0 * it) },
+        ),
+        RecipeContainer().block { Blocks.DRIPSTONE_BLOCK }.recipe { Items.DRIPSTONE_BLOCK },
+    ),
+    REINFORCED_DEEPSLATE(
+        "reinforced_deepslate", 9, "Reinforcede Deepslatia", "強化深層岩精レインフォルツェーデデープスラーチャ", 0x6C7180, 0x5C606C, 0x5C606C, 0xACCF9D,
+        listOf(
+            PassiveSkillProvider(listOf(ShadePassiveSkillCondition())) { MaxHealthPassiveSkillEffect(10.0 * it) },
+        ),
+        RecipeContainer().block { Blocks.REINFORCED_DEEPSLATE }.recipe { Items.REINFORCED_DEEPSLATE },
+    ),
+    ANCIENT_DEBRIS(
+        "ancient_debris", 8, "Anciente Debrisia", "古代残骸精アンツィエンテデブリーシャ", 0x8F645A, 0x8F645A, 0x885040, 0xD8C2B7,
+        listOf(
+            PassiveSkillProvider(listOf()) { AttackDamagePassiveSkillEffect(1.0 * it) },
+            PassiveSkillProvider(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.IN_NETHER))) { AttackDamagePassiveSkillEffect(1.0 * it) },
+            PassiveSkillProvider(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.IN_NETHER))) { MaxHealthPassiveSkillEffect(2.0 * it) },
+            PassiveSkillProvider(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.IN_NETHER))) { LuckPassiveSkillEffect(2.0 * it) },
+        ),
+        RecipeContainer().block { Blocks.ANCIENT_DEBRIS }.recipe { Items.ANCIENT_DEBRIS },
+    ),
+    PURPUR(
+        "purpur", 7, "Purpuria", "紫珀精プルプーリャ", 0xCBA8CB, 0xC08AC0, 0xC08AC0, 0xBC68BB,
+        listOf(
+            PassiveSkillProvider(listOf()) { AttackDamagePassiveSkillEffect(1.0 * it) },
+            PassiveSkillProvider(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.IN_THE_END))) { AttackDamagePassiveSkillEffect(2.0 * it) },
+            PassiveSkillProvider(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.IN_THE_END))) { MaxHealthPassiveSkillEffect(4.0 * it) },
+        ),
+        RecipeContainer().block { Blocks.PURPUR_BLOCK }.recipe { Items.PURPUR_BLOCK },
     ),
     IRON(
         "iron", 4, "Ironia", "鉄精イローニャ", 0xA0A0A0, 0xD8D8D8, 0x727272, 0xD8AF93,
@@ -185,6 +230,14 @@ enum class FairyCard(
         ),
         RecipeContainer().common().recipe { Items.TROPICAL_FISH },
     ),
+    SPONGE(
+        "sponge", 4, "Spongia", "海綿精スポンギャ", 0xEADF67, 0xB1A947, 0xB1A947, 0xDBCD5A,
+        listOf(
+            PassiveSkillProvider(listOf(UnderwaterPassiveSkillCondition())) { AttackDamagePassiveSkillEffect(2.0 * it) },
+            PassiveSkillProvider(listOf(UnderwaterPassiveSkillCondition(), FairyLevelPassiveSkillCondition(10))) { StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0) },
+        ),
+        RecipeContainer().block { Blocks.SPONGE }.recipe { Items.SPONGE },
+    ),
     PLAYER(
         "player", 5, "Playeria", "人精プライェーリャ", 0xB58D63, 0x00AAAA, 0x322976, 0x4B3422,
         listOf(PassiveSkillProvider(listOf(MaximumLevelPassiveSkillCondition(29))) { ExperiencePassiveSkillEffect(1.0 * it) }),
@@ -207,6 +260,14 @@ enum class FairyCard(
         "zombie", 2, "Zombia", "硬屍精ゾンビャ", 0x2B4219, 0x00AAAA, 0x322976, 0x2B4219,
         listOf(PassiveSkillProvider(listOf(ShadePassiveSkillCondition())) { AttackDamagePassiveSkillEffect(2.0 * it) }),
         RecipeContainer().common(),
+    ),
+    MELON(
+        "melon", 4, "Melonia", "西瓜精メローニャ", 0xFF5440, 0xA6EE63, 0x195612, 0x01A900,
+        listOf(
+            PassiveSkillProvider(listOf(MinimumFoodLevelPassiveSkillCondition(20))) { AttackDamagePassiveSkillEffect(1.0 * it) },
+            PassiveSkillProvider(listOf(MinimumFoodLevelPassiveSkillCondition(20), FairyLevelPassiveSkillCondition(10))) { StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0) },
+        ),
+        RecipeContainer().block { Blocks.MELON }.recipe { Items.MELON },
     ),
     WOOD(
         "wood", 1, "Woodia", "木精ウォージャ", 0xE7C697, 0xAD8232, 0xAD8232, 0x8B591C,
