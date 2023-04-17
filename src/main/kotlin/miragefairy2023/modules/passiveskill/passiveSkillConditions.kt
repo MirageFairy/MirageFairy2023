@@ -161,6 +161,7 @@ class BiomePassiveSkillCondition(private val biomeTag: TagKey<Biome>) : PassiveS
         DESERT(Translation(ConventionalBiomeTags.DESERT.id.toTranslationKey(keyPrefix), "Desert", "砂漠")),
         MUSHROOM(Translation(ConventionalBiomeTags.MUSHROOM.id.toTranslationKey(keyPrefix), "Mushroom Island", "キノコ島")),
         FLORAL(Translation(ConventionalBiomeTags.FLORAL.id.toTranslationKey(keyPrefix), "Floral", "花畑")),
+        IN_NETHER(Translation(ConventionalBiomeTags.IN_NETHER.id.toTranslationKey(keyPrefix), "Nether", "ネザー")),
         IN_THE_END(Translation(ConventionalBiomeTags.IN_THE_END.id.toTranslationKey(keyPrefix), "The End", "エンド")),
         PLAINS(Translation(ConventionalBiomeTags.PLAINS.id.toTranslationKey(keyPrefix), "Plains", "平原")),
         OCEAN(Translation(ConventionalBiomeTags.OCEAN.id.toTranslationKey(keyPrefix), "Ocean", "海洋")),
@@ -237,6 +238,15 @@ class MaximumHealthPassiveSkillCondition(private val health: Int) : PassiveSkill
 
     override fun getText() = text { key(health) }
     override fun test(player: PlayerEntity, itemStack: ItemStack) = player.health <= health
+}
+
+class MinimumFoodLevelPassiveSkillCondition(private val foodLevel: Int) : PassiveSkillCondition {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.minimum_food_level", "Food %s↑", "満腹度%s以上")
+    }
+
+    override fun getText() = text { key(foodLevel) }
+    override fun test(player: PlayerEntity, itemStack: ItemStack) = player.hungerManager.foodLevel >= foodLevel
 }
 
 class OnFirePassiveSkillCondition : PassiveSkillCondition {
