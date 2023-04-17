@@ -50,7 +50,7 @@ val passiveSkillModule = module {
                                 if (!condition.test(player, pair.first)) return@passiveSkillIsFailed
                             }
                             passiveSkill.effect.update(world, player, passiveSkillVariable, initializers, terminators)
-                            passiveSkill.effect.affect(world, player)
+                            passiveSkill.effect.affect(world, player, passiveSkillVariable, initializers)
                         }
                     }
 

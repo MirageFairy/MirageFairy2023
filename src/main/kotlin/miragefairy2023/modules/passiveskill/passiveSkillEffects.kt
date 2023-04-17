@@ -93,7 +93,7 @@ class StatusEffectPassiveSkillEffect(
     private val showParticles: Boolean = false,
 ) : PassiveSkillEffect {
     override fun getText() = text { translate(statusEffect.translationKey) + (if (amplifier > 0) " ${(amplifier + 1).toRoman()}" else "")() }
-    override fun affect(world: ServerWorld, player: PlayerEntity) {
+    override fun affect(world: ServerWorld, player: PlayerEntity, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) {
         player.addStatusEffect(StatusEffectInstance(statusEffect, 20 * (1 + 1 + additionalSeconds), amplifier, true, showParticles, true))
     }
 }
@@ -104,7 +104,7 @@ class ExperiencePassiveSkillEffect(private val amount: Double) : PassiveSkillEff
     }
 
     override fun getText() = text { key(amount formatAs "%+.2f") }
-    override fun affect(world: ServerWorld, player: PlayerEntity) {
+    override fun affect(world: ServerWorld, player: PlayerEntity, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) {
         val actualAmount = world.random.randomInt(amount)
         if (actualAmount > 0) player.addExperience(actualAmount)
     }
@@ -118,7 +118,7 @@ class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEff
     private fun canVisit(world: World, blockPos: BlockPos) = !world.getBlockState(blockPos).isOpaque
 
     override fun getText() = text { key(amount formatAs "%.2f") }
-    override fun affect(world: ServerWorld, player: PlayerEntity) {
+    override fun affect(world: ServerWorld, player: PlayerEntity, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) {
         val actualAmount = world.random.randomInt(amount)
         if (actualAmount > 0) {
             val originalBlockPos = BlockPos(player.eyePos)

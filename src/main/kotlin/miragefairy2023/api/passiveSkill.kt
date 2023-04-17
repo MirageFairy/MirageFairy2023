@@ -33,5 +33,5 @@ interface PassiveSkillEffect {
      * 10秒おきに呼び出されるアクションを発揮します。
      * このメソッドは必ず論理サーバーで呼び出されます。
      */
-    fun affect(world: ServerWorld, player: PlayerEntity) = Unit
+    fun affect(world: ServerWorld, player: PlayerEntity, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) = Unit
 }
