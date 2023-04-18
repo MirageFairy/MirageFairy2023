@@ -197,7 +197,7 @@ enum class FairyCard(
         RecipeContainer().common().block { Blocks.GOLD_BLOCK }.recipe { Items.GOLD_INGOT },
     ),
     NETHERITE(
-        "netherite", 8, "Netheritia", "地獄合金精", 0x8F788F, 0x74585B, 0x705558, 0x77302D,
+        "netherite", 8, "Netheritia", "地獄合金精ネテリーチャ", 0x8F788F, 0x74585B, 0x705558, 0x77302D,
         listOf(
             PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.NETHERITE))) { AttackDamagePassiveSkillEffect(2.0 * it) },
             PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.NETHERITE))) { StatusEffectPassiveSkillEffect(StatusEffects.FIRE_RESISTANCE, 0) },
