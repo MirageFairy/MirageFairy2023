@@ -165,6 +165,8 @@ val mirageFlourModule = module {
 }
 
 
+class CommonFairyEntry(val fairy: Fairy, val predicate: (PlayerEntity) -> Boolean)
+
 class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val minRare: Int?, private val maxRare: Int?, private val factor: Double, private val times: Int) : Item(settings) {
     companion object {
         private val prefix = "item.${MirageFairy2023.modId}.mirage_flour"
@@ -173,7 +175,7 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
         val DROP_RATE_FACTOR_KEY = Translation("$prefix.drop_rate_factor_key", "Drop Rate Amplification: %s", "出現率倍率: %s")
         val RIGHT_CLICK_KEY = Translation("$prefix.right_click", "Right click and hold to summon fairies", "右クリック長押しで妖精を召喚")
         val SHIFT_RIGHT_CLICK_KEY = Translation("$prefix.shift_right_click", "%s+right click to show fairy table", "%s+右クリックで提供割合表示")
-        val COMMON_FAIRY_LIST = mutableSetOf<Fairy>()
+        val COMMON_FAIRY_LIST = mutableListOf<CommonFairyEntry>()
     }
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
@@ -200,7 +202,10 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
 
     private fun calculateChanceTable(player: ServerPlayerEntity): List<Chance<Fairy>> {
 
-        // 記憶によるコモン枠追加
+        // コモン枠
+        val commonFairyList = COMMON_FAIRY_LIST.filter { it.predicate(player) }.map { it.fairy }
+
+        // 夢枠
         val nbt = CustomDataHelper.getPersistentData(player)
         val found = nbt.wrapper[MirageFairy2023.modId]["found_motifs"].map.get().or { mapOf() }.entries
             .filter { it.value.castOrNull<AbstractNbtNumber>()?.intValue() != 0 }
@@ -208,7 +213,7 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
         val memoryFairyList = found.mapNotNull { fairyRegistry[it] }
 
         // 妖精リスト
-        val actualFairyList = (COMMON_FAIRY_LIST + memoryFairyList).distinctBy { it.getIdentifier() }
+        val actualFairyList = (commonFairyList + memoryFairyList).distinctBy { it.getIdentifier() }
 
         // 生の提供割合
         val rawChanceTable = actualFairyList
