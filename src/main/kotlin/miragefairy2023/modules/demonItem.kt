@@ -3,6 +3,7 @@ package miragefairy2023.modules
 import miragefairy2023.SlotContainer
 import miragefairy2023.module
 import miragefairy2023.util.gray
+import miragefairy2023.util.identifier
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.item
@@ -19,6 +20,7 @@ import net.minecraft.block.ComposterBlock
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
 import net.minecraft.data.server.RecipeProvider
+import net.minecraft.data.server.recipe.CookingRecipeJsonBuilder
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
 import net.minecraft.entity.EntityType
@@ -27,6 +29,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.item.ToolMaterial
 import net.minecraft.recipe.Ingredient
+import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.tag.ItemTags
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
@@ -189,6 +192,14 @@ val demonItemModule = module {
     // ミラージュの茎＞コンポスター
     onRegisterRecipes {
         ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(DemonItemCard.MIRAGE_STEM(), 0.65F)
+    }
+
+    // ミラージュフラワー→人工フェアリークリスタル
+    onGenerateRecipes {
+        CookingRecipeJsonBuilder
+            .create(Ingredient.ofItems(MirageFlourCard.MIRAGE_FLOUR()), DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL(), 0.4F, 200, RecipeSerializer.SMELTING)
+            .criterion(RecipeProvider.hasItem(MirageFlourCard.MIRAGE_FLOUR()), RecipeProvider.conditionsFromItem(MirageFlourCard.MIRAGE_FLOUR()))
+            .offerTo(it, DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL().identifier)
     }
 
 }

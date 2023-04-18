@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.4,
+  "ingredient": {
+    "item": "miragefairy2023:mirage_flour"
+  },
+  "result": "miragefairy2023:artificial_fairy_crystal"
+}
