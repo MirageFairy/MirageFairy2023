@@ -527,7 +527,7 @@ private fun FairyCard.RecipeContainer.biome(biome: RegistryKey<Biome>) = this.al
 
 private fun FairyCard.RecipeContainer.block(blockSupplier: () -> Block) = this.also {
     this.recipes += object : FairyCard.Recipe {
-        override fun getWikiString() = "ブロック：${blockSupplier().name.string}"
+        override fun getWikiString() = "夢：ブロック：${blockSupplier().name.string}"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onRegisterRecipes {
                 DreamCatcherItem.BLOCK_FAIRY_RELATION_LIST += BlockFairyRelation(blockSupplier(), fairyCard.fairy)
@@ -538,7 +538,7 @@ private fun FairyCard.RecipeContainer.block(blockSupplier: () -> Block) = this.a
 
 private fun FairyCard.RecipeContainer.entityType(entityTypeSupplier: () -> EntityType<*>) = this.also {
     this.recipes += object : FairyCard.Recipe {
-        override fun getWikiString() = "エンティティ：${entityTypeSupplier().name.string}"
+        override fun getWikiString() = "夢：エンティティ：${entityTypeSupplier().name.string}"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onRegisterRecipes {
                 DreamCatcherItem.ENTITY_TYPE_FAIRY_RELATION_LIST += EntityTypeFairyRelation(entityTypeSupplier(), fairyCard.fairy)
