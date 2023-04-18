@@ -18,36 +18,10 @@
         "recipe": "miragefairy2023:fairy/sculk"
       },
       "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_very_rare_mirage_flour": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "miragefairy2023:very_rare_mirage_flour"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "has_xarpite": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "miragefairy2023:xarpite"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
-      "has_xarpite",
-      "has_very_rare_mirage_flour",
       "has_sculk",
       "has_the_recipe"
     ]

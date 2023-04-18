@@ -568,8 +568,6 @@ private fun FairyCard.RecipeContainer.recipe(inputItemSupplier: () -> Item) = th
                     .input(DemonItemCard.XARPITE())
                     .input(mirageFlourItem)
                     .input(inputItem)
-                    .criterion("has_xarpite", RecipeProvider.conditionsFromItem(DemonItemCard.XARPITE()))
-                    .criterion("has_${Registry.ITEM.getId(mirageFlourItem).path}", RecipeProvider.conditionsFromItem(mirageFlourItem))
                     .criterion("has_${Registry.ITEM.getId(inputItem).path}", RecipeProvider.conditionsFromItem(inputItem))
                     .offerTo(it, Identifier.of(initializationScope.modId, "fairy/${fairyCard.motif}"))
             }
