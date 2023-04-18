@@ -228,7 +228,7 @@ enum class FairyCard(
             PassiveSkillProvider(listOf(UnderwaterPassiveSkillCondition())) { StatusEffectPassiveSkillEffect(StatusEffects.NIGHT_VISION, 0, additionalSeconds = 10) },
             PassiveSkillProvider(listOf(UnderwaterPassiveSkillCondition(), FairyLevelPassiveSkillCondition(10))) { StatusEffectPassiveSkillEffect(StatusEffects.WATER_BREATHING, 0) },
         ),
-        RecipeContainer().overworld().recipe { Items.COD }, // TODO 魚精は希釈で得る
+        RecipeContainer().overworld().recipe { Items.COD }.entityType { EntityType.COD }, // TODO 魚精は希釈で得る
     ),
     CLOWNFISH(
         "clownfish", 7, "Clownfishia", "隈之実精ツロウンフィーシャ", 0xE46A22, 0xF46F20, 0xA94B1D, 0xFFDBC5,
@@ -236,7 +236,7 @@ enum class FairyCard(
             PassiveSkillProvider(listOf(UnderwaterPassiveSkillCondition(), MinimumLightLevelPassiveSkillCondition(4))) { StatusEffectPassiveSkillEffect(StatusEffects.WATER_BREATHING, 0) },
             PassiveSkillProvider(listOf(UnderwaterPassiveSkillCondition(), FairyLevelPassiveSkillCondition(10))) { StatusEffectPassiveSkillEffect(StatusEffects.WATER_BREATHING, 0) },
         ),
-        RecipeContainer().overworld().recipe { Items.TROPICAL_FISH },
+        RecipeContainer().overworld().recipe { Items.TROPICAL_FISH }.entityType { EntityType.TROPICAL_FISH },
     ),
     SPONGE(
         "sponge", 4, "Spongia", "海綿精スポンギャ", 0xEADF67, 0xB1A947, 0xB1A947, 0xDBCD5A,
@@ -249,12 +249,12 @@ enum class FairyCard(
     PLAYER(
         "player", 5, "Playeria", "人精プライェーリャ", 0xB58D63, 0x00AAAA, 0x322976, 0x4B3422,
         listOf(PassiveSkillProvider(listOf(MaximumLevelPassiveSkillCondition(29))) { ExperiencePassiveSkillEffect(0.1 * it) }),
-        RecipeContainer().always(),
+        RecipeContainer().always().entityType { EntityType.PLAYER },
     ),
     ENDERMAN(
         "enderman", 6, "Endermania", "終界人精エンデルマーニャ", 0x000000, 0x161616, 0x161616, 0xEF84FA,
         listOf(PassiveSkillProvider(listOf()) { CollectionPassiveSkillEffect(1.0 * it) }),
-        RecipeContainer().overworld().biome(ConventionalBiomeTags.IN_NETHER).biome(ConventionalBiomeTags.IN_THE_END),
+        RecipeContainer().overworld().biome(ConventionalBiomeTags.IN_NETHER).biome(ConventionalBiomeTags.IN_THE_END).entityType { EntityType.ENDERMAN },
     ),
     WARDEN(
         "warden", 7, "Wardenia", "監守者精ワルデーニャ", 0x0A3135, 0xCFCFA4, 0xA0AA7A, 0x2CD0CA,
@@ -262,12 +262,12 @@ enum class FairyCard(
             PassiveSkillProvider(listOf(MaximumLightLevelPassiveSkillCondition(0))) { StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 1) },
             PassiveSkillProvider(listOf(MaximumLightLevelPassiveSkillCondition(0))) { AttackDamagePassiveSkillEffect(2.0 * it) },
         ),
-        RecipeContainer().biome(BiomeKeys.DEEP_DARK),
+        RecipeContainer().biome(BiomeKeys.DEEP_DARK).entityType { EntityType.WARDEN },
     ),
     ZOMBIE(
         "zombie", 2, "Zombia", "硬屍精ゾンビャ", 0x2B4219, 0x00AAAA, 0x322976, 0x2B4219,
         listOf(PassiveSkillProvider(listOf(ShadePassiveSkillCondition())) { AttackDamagePassiveSkillEffect(2.0 * it) }),
-        RecipeContainer().overworld(),
+        RecipeContainer().overworld().entityType { EntityType.ZOMBIE },
     ),
     MELON(
         "melon", 4, "Melonia", "西瓜精メローニャ", 0xFF5440, 0xA6EE63, 0x195612, 0x01A900,
