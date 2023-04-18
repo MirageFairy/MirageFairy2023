@@ -166,6 +166,8 @@ class BiomePassiveSkillCondition(private val biomeTag: TagKey<Biome>) : PassiveS
         PLAINS(Translation(ConventionalBiomeTags.PLAINS.id.toTranslationKey(keyPrefix), "Plains", "平原")),
         OCEAN(Translation(ConventionalBiomeTags.OCEAN.id.toTranslationKey(keyPrefix), "Ocean", "海洋")),
         MOUNTAIN(Translation(ConventionalBiomeTags.MOUNTAIN.id.toTranslationKey(keyPrefix), "Mountain", "山岳")),
+        JUNGLE(Translation(ConventionalBiomeTags.JUNGLE.id.toTranslationKey(keyPrefix), "Jungle", "ジャングル")),
+        END_ISLANDS(Translation(ConventionalBiomeTags.END_ISLANDS.id.toTranslationKey(keyPrefix), "End Islands", "エンドの島々")),
     }
 
     override fun getText() = text { translate(biomeTag.id.toTranslationKey(keyPrefix)) }
