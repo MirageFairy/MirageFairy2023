@@ -76,6 +76,44 @@ enum class DemonItemCard(
         "Uncanny crystal not worth even 1 Minia", "妖精さえ怖れる、技術の結晶。",
         // TODO はりぼての造形美が、窓を飾る。
     ),
+    /*
+    FAIRY_CRYSTAL_1(
+        "fairy_crystal_1", "1 Minia Crystal", "1ミーニャクリスタル",
+        "Created by the fairies of commerce", "TODO",
+    ),
+    FAIRY_CRYSTAL_5(
+        "fairy_crystal_5", "5 Minia Crystal", "5ミーニャクリスタル",
+        "Fairy snack", "",
+    ),
+    FAIRY_CRYSTAL_10(
+        "fairy_crystal_10", "10 Minia Crystal", "10ミーニャクリスタル",
+        "TODO", "TODO",
+    ),
+    FAIRY_CRYSTAL_50(
+        "fairy_crystal_50", "50 Minia Crystal", "50ミーニャクリスタル",
+        "TODO", "TODO",
+    ),
+    FAIRY_CRYSTAL_100(
+        "fairy_crystal_100", "100 Minia Crystal", "100ミーニャクリスタル",
+        "Crystallized Mirage flower nectar", "TODO",
+    ),
+    FAIRY_CRYSTAL_500(
+        "fairy_crystal_500", "500 Minia Crystal", "500ミーニャクリスタル",
+        "TODO", "TODO",
+    ),
+    FAIRY_CRYSTAL_1000(
+        "fairy_crystal_1000", "1000 Minia Crystal", "1000ミーニャクリスタル",
+        "TODO", "TODO",
+    ),
+    FAIRY_CRYSTAL_5000(
+        "fairy_crystal_5000", "5000 Minia Crystal", "5000ミーニャクリスタル",
+        "TODO", "TODO",
+    ),
+    FAIRY_CRYSTAL_10000(
+        "fairy_crystal_10000", "10000 Minia Crystal", "10000ミーニャクリスタル",
+        "The Society failed to replicate this", "TODO",
+    ),
+    */
 }
 
 private val demonItems = SlotContainer<DemonItemCard, Item>()
