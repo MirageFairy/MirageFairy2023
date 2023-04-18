@@ -25,8 +25,10 @@ import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
 import net.minecraft.data.server.RecipeProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
+import net.minecraft.entity.EntityType
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsageContext
 import net.minecraft.item.Items
@@ -39,6 +41,7 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
@@ -96,12 +99,14 @@ val dreamCatcherModule = module {
 }
 
 class BlockFairyRelation(val block: Block, val fairy: Fairy)
+class EntityTypeFairyRelation(val entityType: EntityType<*>, val fairy: Fairy)
 
 class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Settings) : ToolItem(material, settings.maxDamage(maxDamage)) {
     companion object {
         val knownKey = Translation("item.${MirageFairy2023.modId}.dream_catcher.known_message", "Already have memory of %s", "%s の記憶は既に持っている")
         val successKey = Translation("item.${MirageFairy2023.modId}.dream_catcher.success_message", "I dreamed of %s!", "%s の夢を見た！")
         val BLOCK_FAIRY_RELATION_LIST = mutableListOf<BlockFairyRelation>()
+        val ENTITY_TYPE_FAIRY_RELATION_LIST = mutableListOf<EntityTypeFairyRelation>()
     }
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
@@ -114,11 +119,31 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
         if (context.world.isClient) return ActionResult.SUCCESS
         player as ServerPlayerEntity
 
-        // ----- 試行の成立 -----
+        swing(player, context.stack, context.hand) {
+            val block = context.world.getBlockState(context.blockPos).block
+            BLOCK_FAIRY_RELATION_LIST.filter { it.block === block }.map { it.fairy }
+        }
+
+        return ActionResult.CONSUME
+    }
+
+    override fun useOnEntity(stack: ItemStack, user: PlayerEntity, entity: LivingEntity, hand: Hand): ActionResult {
+        if (user.world.isClient) return ActionResult.SUCCESS
+        user as ServerPlayerEntity
+
+        swing(user, stack, hand) {
+            val entityType = entity.type
+            ENTITY_TYPE_FAIRY_RELATION_LIST.filter { it.entityType == entityType }.map { it.fairy }
+        }
+
+        return ActionResult.CONSUME
+    }
+
+    private fun swing(player: ServerPlayerEntity, itemStack: ItemStack, hand: Hand, fairyListSupplier: () -> List<Fairy>) {
 
         // 消費
-        context.stack.damage(1, player) {
-            it.sendToolBreakStatus(context.hand)
+        itemStack.damage(1, player) {
+            it.sendToolBreakStatus(hand)
         }
 
         // ストレージ
@@ -131,17 +156,15 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
             .toSet()
 
         // 妖精判定
-        val block = context.world.getBlockState(context.blockPos).block
-        val hitFairyList = BLOCK_FAIRY_RELATION_LIST.filter { it.block === block }.map { it.fairy }
         val fairy = run found@{
-            hitFairyList.forEach { fairy ->
+            fairyListSupplier().forEach { fairy ->
                 if (fairy.getIdentifier() in foundFairies) {
                     player.sendMessage(text { knownKey(fairy.getItem().name) }, true)
                 } else {
                     return@found fairy
                 }
             }
-            return ActionResult.CONSUME // 該当する未入手妖精が居ないので終了
+            return // 該当する未入手妖精が居ないので終了
         }
 
         // ----- 結果の成立 -----
@@ -150,18 +173,11 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
         nbt.wrapper[MirageFairy2023.modId]["found_motifs"][fairy.getIdentifier().toString()].int.set(1)
 
         // エフェクト
-        context.world.playSound(null, player.x, player.y, player.z, SoundEvents.BLOCK_BEACON_ACTIVATE, SoundCategory.NEUTRAL, 0.5F, 1.0F)
+        player.world.playSound(null, player.x, player.y, player.z, SoundEvents.BLOCK_BEACON_ACTIVATE, SoundCategory.NEUTRAL, 0.5F, 1.0F)
 
         player.sendMessage(text { successKey(fairy.getItem().name) })
 
-        return ActionResult.CONSUME
     }
-
-    /*
-    override fun useOnEntity(stack: ItemStack, user: PlayerEntity, entity: LivingEntity, hand: Hand): ActionResult {
-        return super.useOnEntity(stack, user, entity, hand)
-    }
-    */
 
     override fun postHit(stack: ItemStack, target: LivingEntity, attacker: LivingEntity): Boolean {
         stack.damage(1, attacker) {

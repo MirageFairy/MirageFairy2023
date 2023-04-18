@@ -9,6 +9,7 @@ import miragefairy2023.modules.BlockFairyRelation
 import miragefairy2023.modules.CommonFairyEntry
 import miragefairy2023.modules.DemonItemCard
 import miragefairy2023.modules.DreamCatcherItem
+import miragefairy2023.modules.EntityTypeFairyRelation
 import miragefairy2023.modules.MirageFlourCard
 import miragefairy2023.modules.MirageFlourItem
 import miragefairy2023.modules.invoke
@@ -45,6 +46,7 @@ import net.minecraft.block.Block
 import net.minecraft.block.Blocks
 import net.minecraft.data.server.RecipeProvider
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
+import net.minecraft.entity.EntityType
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.item.Item
 import net.minecraft.item.Items
@@ -529,6 +531,17 @@ private fun FairyCard.RecipeContainer.block(blockSupplier: () -> Block) = this.a
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onRegisterRecipes {
                 DreamCatcherItem.BLOCK_FAIRY_RELATION_LIST += BlockFairyRelation(blockSupplier(), fairyCard.fairy)
+            }
+        }
+    }
+}
+
+private fun FairyCard.RecipeContainer.entityType(entityTypeSupplier: () -> EntityType<*>) = this.also {
+    this.recipes += object : FairyCard.Recipe {
+        override fun getWikiString() = "エンティティ：${entityTypeSupplier().name.string}"
+        override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
+            initializationScope.onRegisterRecipes {
+                DreamCatcherItem.ENTITY_TYPE_FAIRY_RELATION_LIST += EntityTypeFairyRelation(entityTypeSupplier(), fairyCard.fairy)
             }
         }
     }
