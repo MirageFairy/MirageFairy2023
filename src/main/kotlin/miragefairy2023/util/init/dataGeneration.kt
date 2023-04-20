@@ -9,6 +9,7 @@ import miragefairy2023.util.jsonPrimitive
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.minecraft.block.Block
 import net.minecraft.data.client.BlockStateSupplier
+import net.minecraft.data.server.BlockLootTableGenerator
 import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemGroup
@@ -44,6 +45,8 @@ fun <T : Block> FeatureSlot<T>.generateSimpleCubeAllBlockState() {
 
 
 inline fun <T> configure(receiver: T, block: T.() -> Unit) = receiver.apply(block)
+
+fun <T : Block> FeatureSlot<T>.generateDefaultBlockLootTable() = generateBlockLootTable { BlockLootTableGenerator.drops(feature) }
 
 fun <T : Block> FeatureSlot<T>.generateBlockLootTable(block: () -> LootTable.Builder) {
     initializationScope.onGenerateBlockLootTables {
