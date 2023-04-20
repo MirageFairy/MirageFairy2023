@@ -20,7 +20,7 @@ import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
-import net.minecraft.world.World
+import net.minecraft.util.math.Direction
 import java.util.UUID
 
 abstract class AttributePassiveSkillEffect : PassiveSkillEffect {
@@ -116,8 +116,6 @@ class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEff
         private val identifier = Identifier(MirageFairy2023.modId, "collection")
     }
 
-    private fun canVisit(world: World, blockPos: BlockPos) = !world.getBlockState(blockPos).isOpaque
-
     override fun getText() = text { key(amount formatAs "%.2f") }
     override fun affect(world: ServerWorld, player: PlayerEntity, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) {
 
@@ -128,8 +126,8 @@ class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEff
                 val actualAmount = world.random.randomInt(passiveSkillVariable[identifier] as Double)
                 if (actualAmount > 0) {
                     val originalBlockPos = BlockPos(player.eyePos)
-                    val reach = 16
-                    val itemEntities = world.getEntitiesByClass(ItemEntity::class.java, Box(originalBlockPos).expand(reach - 1.0)) {
+                    val reach = 15
+                    val itemEntities = world.getEntitiesByClass(ItemEntity::class.java, Box(originalBlockPos).expand(reach.toDouble())) {
                         when {
                             it.isSpectator -> false
                             it.boundingBox.intersects(player.boundingBox) -> false
@@ -137,51 +135,26 @@ class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEff
                         }
                     }
 
-                    val checkedPoints = mutableSetOf<BlockPos>()
-                    var nextPoints = mutableSetOf(originalBlockPos)
                     var remainingAmount = actualAmount
                     var processedCount = 0
-
                     run finish@{
-                        repeat(reach) {
+                        blockVisitor(reach, originalBlockPos) { fromBlockPos, direction, toBlockPos ->
+                            !world.getBlockState(fromBlockPos).isSideSolidFullSquare(world, fromBlockPos, direction) && !world.getBlockState(toBlockPos).isSideSolidFullSquare(world, toBlockPos, direction.opposite)
+                        }.forEach { (_, blockPos) ->
+                            val currentBox = Box(blockPos).expand(0.98, 0.0, 0.98)
+                            itemEntities
+                                .filter { it.boundingBox.intersects(currentBox) }
+                                .forEach {
 
-                            val currentPoints: Set<BlockPos> = nextPoints
-                            nextPoints = mutableSetOf()
+                                    it.teleport(player.x, player.y, player.z)
+                                    it.resetPickupDelay()
 
-                            currentPoints.forEach { currentPoint ->
-                                if (currentPoint in checkedPoints) return@forEach
-                                checkedPoints += currentPoint
-                                if (!canVisit(world, currentPoint)) return@forEach
+                                    processedCount++
 
-                                // visit
-                                run {
-
-                                    val currentBox = Box(currentPoint).expand(0.98, 0.0, 0.98)
-                                    itemEntities
-                                        .filter { it.boundingBox.intersects(currentBox) }
-                                        .forEach {
-
-                                            it.teleport(player.x, player.y, player.z)
-                                            it.resetPickupDelay()
-
-                                            processedCount++
-
-                                            remainingAmount--
-                                            if (remainingAmount <= 0) return@finish
-
-                                        }
+                                    remainingAmount--
+                                    if (remainingAmount <= 0) return@finish
 
                                 }
-
-                                nextPoints += currentPoint.down()
-                                nextPoints += currentPoint.up()
-                                nextPoints += currentPoint.north()
-                                nextPoints += currentPoint.south()
-                                nextPoints += currentPoint.west()
-                                nextPoints += currentPoint.east()
-
-                            }
-
                         }
                     }
 
@@ -199,4 +172,38 @@ class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEff
         passiveSkillVariable[identifier] = passiveSkillVariable[identifier] as Double + amount
 
     }
+}
+
+fun blockVisitor(maxDistance: Int, originalBlockPos: BlockPos, predicate: (fromBlockPos: BlockPos, direction: Direction, toBlockPos: BlockPos) -> Boolean) = sequence {
+    val checkedBlockPosList = mutableSetOf<BlockPos>()
+    var nextBlockPosList = mutableSetOf(originalBlockPos)
+
+    (0..maxDistance).forEach { distance ->
+
+        val currentBlockPosList: Set<BlockPos> = nextBlockPosList
+        nextBlockPosList = mutableSetOf()
+
+        currentBlockPosList.forEach nextCurrentBlockPos@{ fromBlockPos ->
+
+            yield(Pair(distance, fromBlockPos))
+
+            fun check(direction: Direction) {
+                val toBlockPos = fromBlockPos.offset(direction)
+                if (toBlockPos !in checkedBlockPosList && predicate(fromBlockPos, direction, toBlockPos)) {
+                    checkedBlockPosList += toBlockPos
+                    nextBlockPosList += toBlockPos
+                }
+            }
+
+            check(Direction.DOWN)
+            check(Direction.UP)
+            check(Direction.NORTH)
+            check(Direction.SOUTH)
+            check(Direction.WEST)
+            check(Direction.EAST)
+
+        }
+
+    }
+
 }
