@@ -5,6 +5,7 @@ import miragefairy2023.api.PassiveSkill
 import miragefairy2023.api.PassiveSkillItem
 import miragefairy2023.modules.passiveskill.getPassiveSkillTooltip
 import miragefairy2023.util.aqua
+import miragefairy2023.util.darkGray
 import miragefairy2023.util.formatted
 import miragefairy2023.util.init.Translation
 import miragefairy2023.util.join
@@ -69,6 +70,9 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
             MAX_FAIRY_RANK -> tooltip += text { DECONDENSATION_RECIPE_KEY().yellow }
             else -> tooltip += text { BOTH_RECIPE_KEY().yellow }
         }
+
+        // motif
+        if (context.isAdvanced) tooltip += text { ("Motif: ${fairyCard.identifier}"()).darkGray }
 
     }
 
