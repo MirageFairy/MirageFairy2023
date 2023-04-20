@@ -4,6 +4,7 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializationContext
 import miragefairy2023.module
+import miragefairy2023.util.concat
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.gray
 import miragefairy2023.util.init.FeatureSlot
@@ -93,7 +94,7 @@ val mirageFlowerModule = module {
             jsonObjectOf(
                 "variants" to jsonObjectOf((0..MirageFlowerBlock.MAX_AGE).map { age ->
                     "age=$age" to jsonObjectOf(
-                        "model" to "$modId:block/mirage_flower_age$age".jsonPrimitive,
+                        "model" to "${"block/" concat id concat "_age$age"}".jsonPrimitive,
                     )
                 }),
             )
