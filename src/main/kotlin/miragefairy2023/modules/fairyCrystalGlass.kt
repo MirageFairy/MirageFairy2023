@@ -1,0 +1,264 @@
+package miragefairy2023.modules
+
+import com.google.gson.JsonElement
+import miragefairy2023.module
+import miragefairy2023.util.concat
+import miragefairy2023.util.gray
+import miragefairy2023.util.identifier
+import miragefairy2023.util.init.FeatureSlot
+import miragefairy2023.util.init.block
+import miragefairy2023.util.init.criterion
+import miragefairy2023.util.init.enJa
+import miragefairy2023.util.init.enJaBlock
+import miragefairy2023.util.init.generateBlockState
+import miragefairy2023.util.init.generateDefaultBlockLootTable
+import miragefairy2023.util.init.item
+import miragefairy2023.util.jsonArrayOf
+import miragefairy2023.util.jsonObjectOf
+import miragefairy2023.util.jsonPrimitive
+import miragefairy2023.util.text
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings
+import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
+import net.minecraft.block.AbstractGlassBlock
+import net.minecraft.block.Block
+import net.minecraft.block.BlockState
+import net.minecraft.block.ConnectingBlock
+import net.minecraft.block.Material
+import net.minecraft.client.item.TooltipContext
+import net.minecraft.data.client.Model
+import net.minecraft.data.client.TextureKey
+import net.minecraft.data.client.TextureMap
+import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
+import net.minecraft.item.BlockItem
+import net.minecraft.item.Item
+import net.minecraft.item.ItemPlacementContext
+import net.minecraft.item.ItemStack
+import net.minecraft.sound.BlockSoundGroup
+import net.minecraft.state.StateManager
+import net.minecraft.tag.BlockTags
+import net.minecraft.text.Text
+import net.minecraft.util.Identifier
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
+import net.minecraft.world.World
+import net.minecraft.world.WorldAccess
+import java.util.Optional
+import java.util.function.BiConsumer
+import java.util.function.Supplier
+
+
+enum class FairyCrystalGlassCard(
+    val path: String,
+    val gemItemGetter: () -> Item,
+    val enName: String,
+    val jaName: String,
+    val enPoem: String,
+    val jaPoem: String,
+) {
+    ARTIFICIAL_FAIRY_CRYSTAL_GLASS(
+        "artificial_fairy_crystal_glass", { DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL() },
+        "Artificial Fairy Crystal Glass", "人工フェアリークリスタルガラス",
+        "Fairies fear its distorted molecule", "窓を潤す、模造の美学。",
+    ),
+    // TODO 家の外を映し出す鏡。
+    // TODO の壁に咲く、
+    ;
+
+    lateinit var block: FeatureSlot<Block>
+    lateinit var item: FeatureSlot<BlockItem>
+}
+
+
+val fairyCrystalGlassModule = module {
+
+    // 各ガラス初期化
+    FairyCrystalGlassCard.values().forEach { card ->
+
+        // ブロック
+        card.block = block(card.path, {
+            FairyCrystalGlassBlock(
+                FabricBlockSettings.of(Material.GLASS)
+                    .strength(0.3f)
+                    .sounds(BlockSoundGroup.GLASS)
+                    .nonOpaque()
+                    .allowsSpawning { _, _, _, _ -> false }
+                    .solidBlock { _, _, _ -> false }
+                    .suffocates { _, _, _ -> false }
+                    .blockVision { _, _, _ -> false })
+        }) {
+
+            // BlockStateファイル
+            generateBlockState {
+                fun createPart(direction: String, x: Int, y: Int) = jsonObjectOf(
+                    "when" to jsonObjectOf(
+                        direction to "false".jsonPrimitive,
+                    ),
+                    "apply" to jsonObjectOf(
+                        "model" to "${"block/" concat id concat "_frame"}".jsonPrimitive,
+                        "x" to x.jsonPrimitive,
+                        "y" to y.jsonPrimitive,
+                    ),
+                )
+                jsonObjectOf(
+                    "multipart" to jsonArrayOf(
+                        createPart("north", 90, 0),
+                        createPart("east", 90, 90),
+                        createPart("south", -90, 0),
+                        createPart("west", 90, -90),
+                        createPart("up", 0, 0),
+                        createPart("down", 180, 0),
+                    ),
+                )
+            }
+
+            // インベントリ内のモデル
+            onGenerateBlockStateModels { blockStateModelGenerator ->
+                FairyCrystalGlassBlockModel().upload(feature, TextureMap().apply {
+                    put(TextureKey.TEXTURE, TextureMap.getSubId(feature, "_frame"))
+                }, blockStateModelGenerator.modelCollector)
+            }
+
+            // 枠パーツモデル
+            onGenerateBlockStateModels { blockStateModelGenerator ->
+                FairyCrystalGlassFrameBlockModel().upload(feature, "_frame", TextureMap().apply {
+                    put(TextureKey.TEXTURE, TextureMap.getSubId(feature, "_frame"))
+                }, blockStateModelGenerator.modelCollector)
+            }
+
+            // レンダリング関連
+            onRegisterRenderLayers { it(feature, Unit) }
+
+            // 翻訳
+            enJaBlock({ feature }, card.enName, card.jaName)
+            enJa({ "${feature.translationKey}.poem" }, card.enPoem, card.jaPoem)
+
+            // レシピ
+            onGenerateBlockTags { it(BlockTags.IMPERMEABLE).add(feature) }
+            generateDefaultBlockLootTable()
+
+        }
+
+        // アイテム
+        card.item = item(card.path, { FairyCrystalGlassBlockItem(card.block.feature, FabricItemSettings().group(commonItemGroup)) })
+
+        // 変換レシピ
+        onGenerateRecipes {
+
+            // 圧縮
+            ShapelessRecipeJsonBuilder
+                .create(card.item.feature, 1)
+                .input(card.gemItemGetter(), 9)
+                .criterion(card.gemItemGetter())
+                .offerTo(it, card.item.feature.identifier)
+
+            // 分解
+            ShapelessRecipeJsonBuilder
+                .create(card.gemItemGetter(), 9)
+                .input(card.item.feature, 1)
+                .criterion(card.item.feature)
+                .offerTo(it, card.gemItemGetter().identifier concat "_from_${card.item.feature.identifier.path}")
+
+        }
+
+    }
+
+}
+
+
+private class FairyCrystalGlassBlock(settings: Settings) : AbstractGlassBlock(settings) {
+    init {
+        defaultState = defaultState
+            .with(ConnectingBlock.NORTH, false)
+            .with(ConnectingBlock.EAST, false)
+            .with(ConnectingBlock.SOUTH, false)
+            .with(ConnectingBlock.WEST, false)
+            .with(ConnectingBlock.UP, false)
+            .with(ConnectingBlock.DOWN, false)
+    }
+
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
+        return defaultState
+            .with(ConnectingBlock.NORTH, ctx.world.getBlockState(ctx.blockPos.north()).isOf(this))
+            .with(ConnectingBlock.EAST, ctx.world.getBlockState(ctx.blockPos.east()).isOf(this))
+            .with(ConnectingBlock.SOUTH, ctx.world.getBlockState(ctx.blockPos.south()).isOf(this))
+            .with(ConnectingBlock.WEST, ctx.world.getBlockState(ctx.blockPos.west()).isOf(this))
+            .with(ConnectingBlock.UP, ctx.world.getBlockState(ctx.blockPos.up()).isOf(this))
+            .with(ConnectingBlock.DOWN, ctx.world.getBlockState(ctx.blockPos.down()).isOf(this))
+    }
+
+    @Suppress("OVERRIDE_DEPRECATION")
+    override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, neighborState: BlockState, world: WorldAccess, pos: BlockPos, neighborPos: BlockPos): BlockState {
+        return state.with(ConnectingBlock.FACING_PROPERTIES[direction], neighborState.isOf(this))
+    }
+
+    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
+        builder.add(ConnectingBlock.NORTH, ConnectingBlock.EAST, ConnectingBlock.SOUTH, ConnectingBlock.WEST, ConnectingBlock.UP, ConnectingBlock.DOWN)
+    }
+}
+
+private class FairyCrystalGlassFrameBlockModel : Model(Optional.empty(), Optional.empty()) {
+    override fun upload(id: Identifier, textures: TextureMap, modelCollector: BiConsumer<Identifier, Supplier<JsonElement>>): Identifier {
+        modelCollector.accept(id) {
+            jsonObjectOf(
+                "parent" to Identifier("minecraft", "block/block").toString().jsonPrimitive,
+                "textures" to jsonObjectOf(
+                    TextureKey.PARTICLE.name to textures.getTexture(TextureKey.TEXTURE).toString().jsonPrimitive,
+                    TextureKey.TEXTURE.name to textures.getTexture(TextureKey.TEXTURE).toString().jsonPrimitive,
+                ),
+                "elements" to jsonArrayOf(
+                    jsonObjectOf(
+                        "from" to jsonArrayOf(0.jsonPrimitive, 0.jsonPrimitive, 0.jsonPrimitive),
+                        "to" to jsonArrayOf(16.jsonPrimitive, 16.jsonPrimitive, 16.jsonPrimitive),
+                        "faces" to jsonObjectOf(
+                            "north" to jsonObjectOf("texture" to TextureKey.TEXTURE.toString().jsonPrimitive, "cullface" to "north".jsonPrimitive),
+                            "south" to jsonObjectOf("texture" to TextureKey.TEXTURE.toString().jsonPrimitive, "cullface" to "south".jsonPrimitive),
+                            "west" to jsonObjectOf("texture" to TextureKey.TEXTURE.toString().jsonPrimitive, "cullface" to "west".jsonPrimitive),
+                            "east" to jsonObjectOf("texture" to TextureKey.TEXTURE.toString().jsonPrimitive, "cullface" to "east".jsonPrimitive),
+                        ),
+                    ),
+                ),
+            )
+        }
+        return id
+    }
+}
+
+class FairyCrystalGlassBlockModel : Model(Optional.empty(), Optional.empty()) {
+    override fun upload(id: Identifier, textures: TextureMap, modelCollector: BiConsumer<Identifier, Supplier<JsonElement>>): Identifier {
+        modelCollector.accept(id) {
+            fun createPart(roration: Int) = jsonObjectOf(
+                "from" to jsonArrayOf(0.jsonPrimitive, 0.jsonPrimitive, 0.jsonPrimitive),
+                "to" to jsonArrayOf(16.jsonPrimitive, 16.jsonPrimitive, 16.jsonPrimitive),
+                "faces" to jsonObjectOf(
+                    "north" to jsonObjectOf("texture" to TextureKey.TEXTURE.toString().jsonPrimitive, "cullface" to "north".jsonPrimitive, "rotation" to roration.jsonPrimitive),
+                    "south" to jsonObjectOf("texture" to TextureKey.TEXTURE.toString().jsonPrimitive, "cullface" to "south".jsonPrimitive, "rotation" to roration.jsonPrimitive),
+                    "west" to jsonObjectOf("texture" to TextureKey.TEXTURE.toString().jsonPrimitive, "cullface" to "west".jsonPrimitive, "rotation" to roration.jsonPrimitive),
+                    "east" to jsonObjectOf("texture" to TextureKey.TEXTURE.toString().jsonPrimitive, "cullface" to "east".jsonPrimitive, "rotation" to roration.jsonPrimitive),
+                    "up" to jsonObjectOf("texture" to TextureKey.TEXTURE.toString().jsonPrimitive, "cullface" to "up".jsonPrimitive, "rotation" to roration.jsonPrimitive),
+                    "down" to jsonObjectOf("texture" to TextureKey.TEXTURE.toString().jsonPrimitive, "cullface" to "down".jsonPrimitive, "rotation" to roration.jsonPrimitive),
+                ),
+            )
+            jsonObjectOf(
+                "parent" to Identifier("minecraft", "block/block").toString().jsonPrimitive,
+                "textures" to jsonObjectOf(
+                    TextureKey.PARTICLE.name to textures.getTexture(TextureKey.TEXTURE).toString().jsonPrimitive,
+                    TextureKey.TEXTURE.name to textures.getTexture(TextureKey.TEXTURE).toString().jsonPrimitive,
+                ),
+                "elements" to jsonArrayOf(
+                    createPart(0),
+                    createPart(90),
+                    createPart(180),
+                    createPart(270),
+                ),
+            )
+        }
+        return id
+    }
+}
+
+private class FairyCrystalGlassBlockItem(block: Block, settings: Settings) : BlockItem(block, settings) {
+    override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
+        super.appendTooltip(stack, world, tooltip, context)
+        tooltip += text { translate("$translationKey.poem").gray }
+    }
+}

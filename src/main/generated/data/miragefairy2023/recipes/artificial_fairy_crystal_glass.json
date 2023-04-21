@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "miragefairy2023:artificial_fairy_crystal"
+    },
+    {
+      "item": "miragefairy2023:artificial_fairy_crystal"
+    },
+    {
+      "item": "miragefairy2023:artificial_fairy_crystal"
+    },
+    {
+      "item": "miragefairy2023:artificial_fairy_crystal"
+    },
+    {
+      "item": "miragefairy2023:artificial_fairy_crystal"
+    },
+    {
+      "item": "miragefairy2023:artificial_fairy_crystal"
+    },
+    {
+      "item": "miragefairy2023:artificial_fairy_crystal"
+    },
+    {
+      "item": "miragefairy2023:artificial_fairy_crystal"
+    },
+    {
+      "item": "miragefairy2023:artificial_fairy_crystal"
+    }
+  ],
+  "result": {
+    "item": "miragefairy2023:artificial_fairy_crystal_glass"
+  }
+}

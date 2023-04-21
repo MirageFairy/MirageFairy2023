@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "miragefairy2023:artificial_fairy_crystal_glass"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "miragefairy2023:artificial_fairy_crystal"
+  }
+}

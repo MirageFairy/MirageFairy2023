@@ -74,7 +74,6 @@ enum class DemonItemCard(
     ARTIFICIAL_FAIRY_CRYSTAL(
         "artificial_fairy_crystal", "Artificial Fairy Crystal", "人工フェアリークリスタル",
         "Uncanny crystal not worth even 1 Minia", "妖精さえ怖れる、技術の結晶。",
-        // TODO はりぼての造形美が、窓を飾る。
     ),
     /*
     FAIRY_CRYSTAL_1(
