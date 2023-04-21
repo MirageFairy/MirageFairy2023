@@ -3,10 +3,13 @@
 package miragefairy2023.util.init
 
 import miragefairy2023.InitializationScope
+import miragefairy2023.util.identifier
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.fabricmc.fabric.api.registry.FuelRegistry
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
+import net.minecraft.data.server.RecipeProvider
+import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.EntityType
 import net.minecraft.item.ItemConvertible
@@ -134,3 +137,5 @@ fun InitializationScope.registerFuel(item: () -> ItemConvertible, ticks: Int) {
         FuelRegistry.INSTANCE.add(item(), ticks)
     }
 }
+
+fun CraftingRecipeJsonBuilder.criterion(item: ItemConvertible): CraftingRecipeJsonBuilder = this.criterion("has_${item.identifier.path}", RecipeProvider.conditionsFromItem(item))
