@@ -150,6 +150,7 @@ val fairyCrystalGlassModule = module {
                 .create(card.item.feature, 1)
                 .input(card.gemItemGetter(), 9)
                 .criterion(card.gemItemGetter())
+                .group("${card.item.feature.identifier}")
                 .offerTo(it, card.item.feature.identifier)
 
             // 分解
@@ -157,6 +158,7 @@ val fairyCrystalGlassModule = module {
                 .create(card.gemItemGetter(), 9)
                 .input(card.item.feature, 1)
                 .criterion(card.item.feature)
+                .group("${card.gemItemGetter().identifier}")
                 .offerTo(it, card.gemItemGetter().identifier concat "_from_${card.item.feature.identifier.path}")
 
         }
