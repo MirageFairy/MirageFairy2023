@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "group": "miragefairy2023:telescope",
   "key": {
     "G": {
       "item": "miragefairy2023:artificial_fairy_crystal"

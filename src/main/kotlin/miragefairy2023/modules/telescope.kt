@@ -15,6 +15,7 @@ import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaBlock
 import miragefairy2023.util.init.generateBlockState
 import miragefairy2023.util.init.generateDefaultBlockLootTable
+import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.translation
 import miragefairy2023.util.jsonObjectOf
@@ -114,6 +115,7 @@ val telescopeModule = module {
             .input('G', DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
             .input('S', Items.STICK)
             .criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
+            .group(telescopeBlockItem.feature)
             .offerTo(it, telescopeBlockItem.feature.identifier)
     }
 
