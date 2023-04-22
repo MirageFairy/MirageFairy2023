@@ -142,3 +142,4 @@ fun InitializationScope.registerFuel(item: () -> ItemConvertible, ticks: Int) {
 
 fun CraftingRecipeJsonBuilder.criterion(item: ItemConvertible): CraftingRecipeJsonBuilder = this.criterion("has_${item.identifier.path}", RecipeProvider.conditionsFromItem(item))
 fun CraftingRecipeJsonBuilder.criterion(tagKey: TagKey<Item>): CraftingRecipeJsonBuilder = this.criterion("has_${tagKey.id.path}", RecipeProvider.conditionsFromTag(tagKey))
+fun CraftingRecipeJsonBuilder.group(item: ItemConvertible): CraftingRecipeJsonBuilder = this.group("${item.identifier}")
