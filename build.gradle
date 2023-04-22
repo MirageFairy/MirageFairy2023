@@ -18,8 +18,11 @@ repositories {
     // リポジトリの詳細については、
     // https://docs.gradle.org/current/userguide/declaring_repositories.html を参照してください。
 
-    maven { url "https://maven.shedaniel.me/" } // cloth-config-fabric
-    maven { url 'https://maven.blamejared.com' } // FauxCustomEntityData-fabric-1.19.2
+    // cloth-config-fabric
+    maven { url "https://maven.shedaniel.me/" }
+
+    // FauxCustomEntityData-fabric-1.19.2
+    maven { url 'https://maven.blamejared.com' }
 
 }
 
