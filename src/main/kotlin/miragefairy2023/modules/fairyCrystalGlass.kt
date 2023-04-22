@@ -94,7 +94,7 @@ val fairyCrystalGlassModule = module {
         card.block = block(card.path, {
             FairyCrystalGlassBlock(
                 FabricBlockSettings.of(Material.GLASS)
-                    .strength(0.3f)
+                    .strength(1.5F)
                     .sounds(BlockSoundGroup.GLASS)
                     .nonOpaque()
                     .allowsSpawning { _, _, _, _ -> false }
@@ -150,6 +150,7 @@ val fairyCrystalGlassModule = module {
 
             // レシピ
             onGenerateBlockTags { it(BlockTags.IMPERMEABLE).add(feature) }
+            onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
             generateDefaultBlockLootTable()
 
         }
