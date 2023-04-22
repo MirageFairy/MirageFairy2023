@@ -35,6 +35,7 @@ import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.state.StateManager
+import net.minecraft.state.property.Properties
 import net.minecraft.tag.BlockTags
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
@@ -168,22 +169,22 @@ val fairyCrystalGlassModule = module {
 private class FairyCrystalGlassBlock(settings: Settings) : AbstractGlassBlock(settings) {
     init {
         defaultState = defaultState
-            .with(ConnectingBlock.NORTH, false)
-            .with(ConnectingBlock.EAST, false)
-            .with(ConnectingBlock.SOUTH, false)
-            .with(ConnectingBlock.WEST, false)
-            .with(ConnectingBlock.UP, false)
-            .with(ConnectingBlock.DOWN, false)
+            .with(Properties.NORTH, false)
+            .with(Properties.EAST, false)
+            .with(Properties.SOUTH, false)
+            .with(Properties.WEST, false)
+            .with(Properties.UP, false)
+            .with(Properties.DOWN, false)
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
         return defaultState
-            .with(ConnectingBlock.NORTH, ctx.world.getBlockState(ctx.blockPos.north()).isOf(this))
-            .with(ConnectingBlock.EAST, ctx.world.getBlockState(ctx.blockPos.east()).isOf(this))
-            .with(ConnectingBlock.SOUTH, ctx.world.getBlockState(ctx.blockPos.south()).isOf(this))
-            .with(ConnectingBlock.WEST, ctx.world.getBlockState(ctx.blockPos.west()).isOf(this))
-            .with(ConnectingBlock.UP, ctx.world.getBlockState(ctx.blockPos.up()).isOf(this))
-            .with(ConnectingBlock.DOWN, ctx.world.getBlockState(ctx.blockPos.down()).isOf(this))
+            .with(Properties.NORTH, ctx.world.getBlockState(ctx.blockPos.north()).isOf(this))
+            .with(Properties.EAST, ctx.world.getBlockState(ctx.blockPos.east()).isOf(this))
+            .with(Properties.SOUTH, ctx.world.getBlockState(ctx.blockPos.south()).isOf(this))
+            .with(Properties.WEST, ctx.world.getBlockState(ctx.blockPos.west()).isOf(this))
+            .with(Properties.UP, ctx.world.getBlockState(ctx.blockPos.up()).isOf(this))
+            .with(Properties.DOWN, ctx.world.getBlockState(ctx.blockPos.down()).isOf(this))
     }
 
     @Suppress("OVERRIDE_DEPRECATION")
@@ -192,7 +193,7 @@ private class FairyCrystalGlassBlock(settings: Settings) : AbstractGlassBlock(se
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        builder.add(ConnectingBlock.NORTH, ConnectingBlock.EAST, ConnectingBlock.SOUTH, ConnectingBlock.WEST, ConnectingBlock.UP, ConnectingBlock.DOWN)
+        builder.add(Properties.NORTH, Properties.EAST, Properties.SOUTH, Properties.WEST, Properties.UP, Properties.DOWN)
     }
 }
 
