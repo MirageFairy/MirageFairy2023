@@ -8,6 +8,7 @@ import miragefairy2023.util.get
 import miragefairy2023.util.gray
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.Translation
+import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.item
@@ -23,7 +24,6 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
-import net.minecraft.data.server.RecipeProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.EquipmentSlot
@@ -69,9 +69,9 @@ val dreamCatcherModule = module {
             .input('F', Items.FEATHER)
             .input('S', Items.STRING)
             .input('R', DemonItemCard.MIRAGE_STEM())
-            .criterion("has_feather", RecipeProvider.conditionsFromItem(Items.FEATHER))
-            .criterion("has_string", RecipeProvider.conditionsFromItem(Items.STRING))
-            .criterion("has_mirage_stem", RecipeProvider.conditionsFromItem(DemonItemCard.MIRAGE_STEM()))
+            .criterion(Items.FEATHER)
+            .criterion(Items.STRING)
+            .criterion(DemonItemCard.MIRAGE_STEM())
             .offerTo(it, Identifier.of(modId, "dream_catcher"))
     }
 
@@ -90,9 +90,9 @@ val dreamCatcherModule = module {
             .input('#', dreamCatcherItem.feature)
             .input('G', DemonItemCard.MIRANAGITE())
             .input('I', Items.NETHERITE_INGOT) // TODO 緩和
-            .criterion("has_dream_catcher", RecipeProvider.conditionsFromItem(dreamCatcherItem.feature))
-            .criterion("has_miranagite", RecipeProvider.conditionsFromItem(DemonItemCard.MIRANAGITE()))
-            .criterion("has_netherite_ingot", RecipeProvider.conditionsFromItem(Items.NETHERITE_INGOT))
+            .criterion(dreamCatcherItem.feature)
+            .criterion(DemonItemCard.MIRANAGITE())
+            .criterion(Items.NETHERITE_INGOT)
             .offerTo(it, Identifier.of(modId, "blue_dream_catcher"))
     }
 

@@ -188,8 +188,8 @@ val demonItemModule = module {
             .input(DemonItemCard.MIRANAGITE())
             .input(Items.MAGMA_CREAM)
             .input(Items.MAGMA_CREAM)
-            .criterion("has_miranagite", RecipeProvider.conditionsFromItem(DemonItemCard.MIRANAGITE()))
-            .criterion("has_magma_cream", RecipeProvider.conditionsFromItem(Items.MAGMA_CREAM))
+            .criterion(DemonItemCard.MIRANAGITE())
+            .criterion(Items.MAGMA_CREAM)
             .offerTo(it, Identifier.of(modId, "slime_ball_from_anti_entropy"))
     }
 
@@ -202,8 +202,8 @@ val demonItemModule = module {
             .input(Items.MAGMA_CREAM)
             .input(Items.MAGMA_CREAM)
             .input(Items.MAGMA_CREAM)
-            .criterion("has_miranagite", RecipeProvider.conditionsFromItem(DemonItemCard.MIRANAGITE()))
-            .criterion("has_magma_cream", RecipeProvider.conditionsFromItem(Items.MAGMA_CREAM))
+            .criterion(DemonItemCard.MIRANAGITE())
+            .criterion(Items.MAGMA_CREAM)
             .offerTo(it, Identifier.of(modId, "blaze_powder_from_anti_entropy"))
     }
 
@@ -214,7 +214,7 @@ val demonItemModule = module {
             .pattern("S")
             .pattern("S")
             .input('S', DemonItemCard.MIRAGE_STEM())
-            .criterion("has_mirage_stem", RecipeProvider.conditionsFromItem(DemonItemCard.MIRAGE_STEM()))
+            .criterion(DemonItemCard.MIRAGE_STEM())
             .offerTo(it, Identifier.of(modId, "stick_from_mirage_stem"))
     }
 
@@ -226,8 +226,8 @@ val demonItemModule = module {
             .pattern("S")
             .input('W', ItemTags.WOOL)
             .input('S', DemonItemCard.MIRAGE_STEM())
-            .criterion("has_wool", RecipeProvider.conditionsFromTag(ItemTags.WOOL))
-            .criterion("has_mirage_stem", RecipeProvider.conditionsFromItem(DemonItemCard.MIRAGE_STEM()))
+            .criterion(ItemTags.WOOL)
+            .criterion(DemonItemCard.MIRAGE_STEM())
             .offerTo(it, Identifier.of(modId, "string_from_mirage_stem"))
     }
 
