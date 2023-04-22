@@ -14,6 +14,7 @@ import net.minecraft.data.client.Model
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
@@ -28,6 +29,11 @@ val debugModule = module {
         onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier("minecraft", "item/book")), Optional.empty())) }
         registerColorProvider { _, _ -> 0xAA0000 }
         enJaItem({ feature }, "Fairy List Debugger", "妖精一覧デバッガー")
+    }
+    item("reset_telescope_mission_debugger", { ResetTelescopeMissionDebuggerItem(FabricItemSettings().group(commonItemGroup)) }) {
+        onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier("minecraft", "item/book")), Optional.empty())) }
+        registerColorProvider { _, _ -> 0xFFC700 }
+        enJaItem({ feature }, "Reset Telescope Mission Debugger", "望遠鏡クエストリセットデバッガー")
     }
 }
 
@@ -55,6 +61,19 @@ class FairyListDebuggerItem(settings: Settings) : Item(settings) {
             "|${fairyCard.jaName}|${fairyCard.rare}|${passiveSkillTexts.join("&br;")}|${recipeTexts.join("&br;")}|"
         }
         writeAction(user, "${Registry.ITEM.getId(this).path}.txt", lines.map { "$it\n" }.join(""))
+
+        return TypedActionResult.success(itemStack)
+    }
+}
+
+class ResetTelescopeMissionDebuggerItem(settings: Settings) : Item(settings) {
+    override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
+        val itemStack = user.getStackInHand(hand)
+        if (world.isClient) return TypedActionResult.consume(itemStack)
+        user as ServerPlayerEntity
+
+        user.lastTelescopeUseTime = null
+        user.sendMessage(text { "Reset telescope mission "() }, false)
 
         return TypedActionResult.success(itemStack)
     }
