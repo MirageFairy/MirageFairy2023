@@ -18,21 +18,10 @@
         "recipe": "miragefairy2023:string_from_mirage_stem"
       },
       "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_wool": {
-      "conditions": {
-        "items": [
-          {
-            "tag": "minecraft:wool"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
-      "has_wool",
       "has_mirage_stem",
       "has_the_recipe"
     ]

@@ -69,8 +69,6 @@ val dreamCatcherModule = module {
             .input('F', Items.FEATHER)
             .input('S', Items.STRING)
             .input('R', DemonItemCard.MIRAGE_STEM())
-            .criterion(Items.FEATHER)
-            .criterion(Items.STRING)
             .criterion(DemonItemCard.MIRAGE_STEM())
             .offerTo(it, Identifier.of(modId, "dream_catcher"))
     }
@@ -91,8 +89,6 @@ val dreamCatcherModule = module {
             .input('G', DemonItemCard.MIRANAGITE())
             .input('I', Items.NETHERITE_INGOT) // TODO 緩和
             .criterion(dreamCatcherItem.feature)
-            .criterion(DemonItemCard.MIRANAGITE())
-            .criterion(Items.NETHERITE_INGOT)
             .offerTo(it, Identifier.of(modId, "blue_dream_catcher"))
     }
 
