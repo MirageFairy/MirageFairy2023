@@ -42,6 +42,7 @@ import miragefairy2023.modules.passiveskill.ToolMaterialPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.UnderwaterPassiveSkillCondition
 import miragefairy2023.util.concat
 import miragefairy2023.util.init.criterion
+import miragefairy2023.util.init.group
 import miragefairy2023.util.text
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags
 import net.minecraft.block.Block
@@ -569,6 +570,7 @@ private fun FairyCard.RecipeContainer.recipe(inputItemSupplier: () -> Item) = th
                     .input(mirageFlourItem)
                     .input(inputItem)
                     .criterion(inputItem)
+                    .group(fairyCard())
                     .offerTo(it, "fairy/" concat fairyCard.identifier)
             }
         }

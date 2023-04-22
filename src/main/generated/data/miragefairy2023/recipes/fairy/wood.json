@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
+  "group": "miragefairy2023:wood_fairy",
   "ingredients": [
     {
       "item": "miragefairy2023:xarpite"
