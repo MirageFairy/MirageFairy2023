@@ -23,6 +23,7 @@ import miragefairy2023.util.init.item
 import miragefairy2023.util.init.translation
 import miragefairy2023.util.int
 import miragefairy2023.util.map
+import miragefairy2023.util.obtain
 import miragefairy2023.util.orDefault
 import miragefairy2023.util.text
 import miragefairy2023.util.totalWeight
@@ -313,11 +314,7 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
                 val fairy = chanceTable.draw(world.random) ?: FairyCard.AIR.fairy
 
                 // 入手
-                val itemEntity = user.dropStack(fairy.getItem().createItemStack(), 0.5F)
-                if (itemEntity != null) {
-                    itemEntity.resetPickupDelay()
-                    itemEntity.owner = user.uuid
-                }
+                user.obtain(fairy.getItem().createItemStack())
 
                 // 妖精召喚履歴に追加
                 val nbt = CustomDataHelper.getPersistentData(user)
