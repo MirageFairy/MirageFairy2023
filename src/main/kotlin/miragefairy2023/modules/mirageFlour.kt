@@ -22,6 +22,7 @@ import miragefairy2023.util.init.Translation
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaItem
+import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.translation
 import miragefairy2023.util.int
@@ -141,11 +142,13 @@ val mirageFlourModule = module {
             .create(higherItem, 1)
             .input(lowerItem, 8)
             .criterion(lowerItem)
+            .group(higherItem)
             .offerTo(it, higherItem.identifier)
         ShapelessRecipeJsonBuilder
             .create(lowerItem, 8)
             .input(higherItem, 1)
             .criterion(higherItem)
+            .group(lowerItem)
             .offerTo(it, lowerItem.identifier concat "_from_${higherItem.identifier.path}")
     }
     registerMirageFlourRecipe({ MirageFlourCard.TINY_MIRAGE_FLOUR() }, { MirageFlourCard.MIRAGE_FLOUR() })
