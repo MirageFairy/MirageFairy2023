@@ -11,6 +11,8 @@ archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
 
+def rei_version = "9.1.591"
+
 repositories {
     // ここからアーティファクトを取得するリポジトリを追加します。
     // Loom は Minecraft とライブラリを自動的にダウンロードするために必要な Maven リポジトリを追加するため、
@@ -19,6 +21,7 @@ repositories {
     // https://docs.gradle.org/current/userguide/declaring_repositories.html を参照してください。
 
     // cloth-config-fabric
+    //// me.shedaniel:RoughlyEnoughItems-*
     maven { url "https://maven.shedaniel.me/" }
 
     // FauxCustomEntityData-fabric-1.19.2
@@ -85,6 +88,10 @@ dependencies {
     modApi("me.shedaniel.cloth:cloth-config-fabric:8.2.88") {
         exclude(group: "net.fabricmc.fabric-api")
     }
+
+    //modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:$rei_version"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:$rei_version"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:$rei_version"
 
     modApi "com.faux.fauxcustomentitydata:FauxCustomEntityData-fabric-1.19.2:2.0.2"
 
