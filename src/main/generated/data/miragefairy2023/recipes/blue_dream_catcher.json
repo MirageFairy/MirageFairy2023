@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "group": "miragefairy2023:blue_dream_catcher",
   "key": {
     "#": {
       "item": "miragefairy2023:dream_catcher"

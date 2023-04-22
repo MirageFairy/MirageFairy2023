@@ -12,6 +12,7 @@ import miragefairy2023.util.init.Translation
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaItem
+import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.translation
 import miragefairy2023.util.int
@@ -71,6 +72,7 @@ val dreamCatcherModule = module {
             .input('S', Items.STRING)
             .input('R', DemonItemCard.MIRAGE_STEM())
             .criterion(DemonItemCard.MIRAGE_STEM())
+            .group(dreamCatcherItem.feature)
             .offerTo(it, dreamCatcherItem.feature.identifier)
     }
 
@@ -90,6 +92,7 @@ val dreamCatcherModule = module {
             .input('G', DemonItemCard.MIRANAGITE())
             .input('I', Items.NETHERITE_INGOT) // TODO 緩和
             .criterion(dreamCatcherItem.feature)
+            .group(blueDreamCatcherItem.feature)
             .offerTo(it, blueDreamCatcherItem.feature.identifier)
     }
 
