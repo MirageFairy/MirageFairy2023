@@ -12,6 +12,7 @@ import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaBlock
 import miragefairy2023.util.init.generateBlockState
 import miragefairy2023.util.init.generateDefaultBlockLootTable
+import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
 import miragefairy2023.util.jsonArrayOf
 import miragefairy2023.util.jsonObjectOf
@@ -166,7 +167,7 @@ val fairyCrystalGlassModule = module {
                 .create(card.item.feature, 1)
                 .input(card.gemItemGetter(), 9)
                 .criterion(card.gemItemGetter())
-                .group("${card.item.feature.identifier}")
+                .group(card.item.feature)
                 .offerTo(it, card.item.feature.identifier)
 
             // 分解
@@ -174,7 +175,7 @@ val fairyCrystalGlassModule = module {
                 .create(card.gemItemGetter(), 9)
                 .input(card.item.feature, 1)
                 .criterion(card.item.feature)
-                .group("${card.gemItemGetter().identifier}")
+                .group(card.gemItemGetter())
                 .offerTo(it, card.gemItemGetter().identifier concat "_from_${card.item.feature.identifier.path}")
 
         }

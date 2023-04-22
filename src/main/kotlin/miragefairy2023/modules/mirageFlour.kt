@@ -10,13 +10,16 @@ import miragefairy2023.modules.fairy.FairyCard
 import miragefairy2023.util.Chance
 import miragefairy2023.util.EMPTY_ITEM_STACK
 import miragefairy2023.util.blue
+import miragefairy2023.util.concat
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.distinct
 import miragefairy2023.util.draw
 import miragefairy2023.util.get
 import miragefairy2023.util.gray
 import miragefairy2023.util.hasSameItemAndNbt
+import miragefairy2023.util.identifier
 import miragefairy2023.util.init.Translation
+import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.item
@@ -35,7 +38,6 @@ import mirrg.kotlin.hydrogen.or
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
-import net.minecraft.data.server.RecipeProvider
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -50,7 +52,6 @@ import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.UseAction
-import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 import kotlin.math.pow
 import kotlin.math.roundToInt
@@ -135,26 +136,17 @@ val mirageFlourModule = module {
     // ミラージュフラワー相互変換
     fun registerMirageFlourRecipe(lowerItemGetter: () -> Item, higherItemGetter: () -> Item) = onGenerateRecipes {
         val lowerItem = lowerItemGetter()
-        val lowerName = Registry.ITEM.getId(lowerItem).path
         val higherItem = higherItemGetter()
-        val higherName = Registry.ITEM.getId(higherItem).path
         ShapelessRecipeJsonBuilder
-            .create(higherItem)
-            .input(lowerItem)
-            .input(lowerItem)
-            .input(lowerItem)
-            .input(lowerItem)
-            .input(lowerItem)
-            .input(lowerItem)
-            .input(lowerItem)
-            .input(lowerItem)
-            .criterion("has_$lowerName", RecipeProvider.conditionsFromItem(lowerItem))
-            .offerTo(it, Identifier.of(modId, higherName))
+            .create(higherItem, 1)
+            .input(lowerItem, 8)
+            .criterion(lowerItem)
+            .offerTo(it, higherItem.identifier)
         ShapelessRecipeJsonBuilder
             .create(lowerItem, 8)
-            .input(higherItem)
-            .criterion("has_$higherName", RecipeProvider.conditionsFromItem(higherItem))
-            .offerTo(it, Identifier.of(modId, "${lowerName}_from_$higherName"))
+            .input(higherItem, 1)
+            .criterion(higherItem)
+            .offerTo(it, lowerItem.identifier concat "_from_${higherItem.identifier.path}")
     }
     registerMirageFlourRecipe({ MirageFlourCard.TINY_MIRAGE_FLOUR() }, { MirageFlourCard.MIRAGE_FLOUR() })
     registerMirageFlourRecipe({ MirageFlourCard.MIRAGE_FLOUR() }, { MirageFlourCard.RARE_MIRAGE_FLOUR() })

@@ -6,6 +6,7 @@ import miragefairy2023.api.Fairy
 import miragefairy2023.module
 import miragefairy2023.util.get
 import miragefairy2023.util.gray
+import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.Translation
 import miragefairy2023.util.init.criterion
@@ -70,7 +71,7 @@ val dreamCatcherModule = module {
             .input('S', Items.STRING)
             .input('R', DemonItemCard.MIRAGE_STEM())
             .criterion(DemonItemCard.MIRAGE_STEM())
-            .offerTo(it, Identifier.of(modId, "dream_catcher"))
+            .offerTo(it, dreamCatcherItem.feature.identifier)
     }
 
     // 蒼天のドリームキャッチャー
@@ -89,7 +90,7 @@ val dreamCatcherModule = module {
             .input('G', DemonItemCard.MIRANAGITE())
             .input('I', Items.NETHERITE_INGOT) // TODO 緩和
             .criterion(dreamCatcherItem.feature)
-            .offerTo(it, Identifier.of(modId, "blue_dream_catcher"))
+            .offerTo(it, blueDreamCatcherItem.feature.identifier)
     }
 
 }

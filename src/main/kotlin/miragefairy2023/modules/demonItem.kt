@@ -8,6 +8,7 @@ import miragefairy2023.util.identifier
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaItem
+import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.registerBlockDrop
 import miragefairy2023.util.init.registerGrassDrop
@@ -251,7 +252,7 @@ val demonItemModule = module {
                 .create(higher(), 1)
                 .input(lower(), multiplier)
                 .criterion(lower())
-                .group("${higher().identifier}")
+                .group(higher())
                 .offerTo(it, higher().identifier concat "_from_${lower().identifier.path}")
 
             // 分解
@@ -259,7 +260,7 @@ val demonItemModule = module {
                 .create(lower(), multiplier)
                 .input(higher(), 1)
                 .criterion(higher())
-                .group("${lower().identifier}")
+                .group(lower())
                 .offerTo(it, lower().identifier concat "_from_${higher().identifier.path}")
 
         }

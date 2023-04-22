@@ -40,11 +40,12 @@ import miragefairy2023.modules.passiveskill.StatusEffectPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.SunshinePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.ToolMaterialPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.UnderwaterPassiveSkillCondition
+import miragefairy2023.util.concat
+import miragefairy2023.util.init.criterion
 import miragefairy2023.util.text
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
-import net.minecraft.data.server.RecipeProvider
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.effect.StatusEffects
@@ -53,7 +54,6 @@ import net.minecraft.item.Items
 import net.minecraft.item.ToolMaterials
 import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
 import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.biome.BiomeKeys
@@ -568,8 +568,8 @@ private fun FairyCard.RecipeContainer.recipe(inputItemSupplier: () -> Item) = th
                     .input(DemonItemCard.XARPITE())
                     .input(mirageFlourItem)
                     .input(inputItem)
-                    .criterion("has_${Registry.ITEM.getId(inputItem).path}", RecipeProvider.conditionsFromItem(inputItem))
-                    .offerTo(it, Identifier.of(initializationScope.modId, "fairy/${fairyCard.motif}"))
+                    .criterion(inputItem)
+                    .offerTo(it, "fairy/" concat fairyCard.identifier)
             }
         }
     }
