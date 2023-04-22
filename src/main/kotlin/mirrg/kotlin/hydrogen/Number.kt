@@ -54,3 +54,12 @@ fun Float.ceilToInt() = ceil(this).toInt()
 fun Float.ceilToLong() = ceil(this).toLong()
 fun Double.ceilToInt() = ceil(this).toInt()
 fun Double.ceilToLong() = ceil(this).toLong()
+
+
+// floor div/mod
+infix fun Int.floorDiv(other: Int) = Math.floorDiv(this, other)
+infix fun Long.floorDiv(other: Int) = Math.floorDiv(this, other)
+infix fun Long.floorDiv(other: Long) = Math.floorDiv(this, other)
+infix fun Int.floorMod(other: Int) = Math.floorMod(this, other)
+infix fun Long.floorMod(other: Int) = Math.floorMod(this, other)
+infix fun Long.floorMod(other: Long) = Math.floorMod(this, other)
