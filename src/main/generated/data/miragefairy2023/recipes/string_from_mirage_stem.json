@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "group": "strings",
   "key": {
     "S": {
       "item": "miragefairy2023:mirage_stem"

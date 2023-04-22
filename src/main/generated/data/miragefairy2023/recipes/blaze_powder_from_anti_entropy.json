@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
+  "group": "blaze_powders",
   "ingredients": [
     {
       "item": "miragefairy2023:miranagite"

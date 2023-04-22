@@ -190,6 +190,7 @@ val demonItemModule = module {
             .input(Items.MAGMA_CREAM)
             .input(Items.MAGMA_CREAM)
             .criterion(Items.MAGMA_CREAM)
+            .group("slime_balls")
             .offerTo(it, Identifier.of(modId, "slime_ball_from_anti_entropy"))
     }
 
@@ -203,6 +204,7 @@ val demonItemModule = module {
             .input(Items.MAGMA_CREAM)
             .input(Items.MAGMA_CREAM)
             .criterion(Items.MAGMA_CREAM)
+            .group("blaze_powders")
             .offerTo(it, Identifier.of(modId, "blaze_powder_from_anti_entropy"))
     }
 
@@ -214,6 +216,7 @@ val demonItemModule = module {
             .pattern("S")
             .input('S', DemonItemCard.MIRAGE_STEM())
             .criterion(DemonItemCard.MIRAGE_STEM())
+            .group("sticks")
             .offerTo(it, Identifier.of(modId, "stick_from_mirage_stem"))
     }
 
@@ -226,6 +229,7 @@ val demonItemModule = module {
             .input('W', ItemTags.WOOL)
             .input('S', DemonItemCard.MIRAGE_STEM())
             .criterion(DemonItemCard.MIRAGE_STEM())
+            .group("strings")
             .offerTo(it, Identifier.of(modId, "string_from_mirage_stem"))
     }
 
@@ -239,6 +243,7 @@ val demonItemModule = module {
         CookingRecipeJsonBuilder
             .create(Ingredient.ofItems(MirageFlourCard.MIRAGE_FLOUR()), DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL(), 0.4F, 200, RecipeSerializer.SMELTING)
             .criterion(RecipeProvider.hasItem(MirageFlourCard.MIRAGE_FLOUR()), RecipeProvider.conditionsFromItem(MirageFlourCard.MIRAGE_FLOUR()))
+            .group(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
             .offerTo(it, DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL().identifier)
     }
 
