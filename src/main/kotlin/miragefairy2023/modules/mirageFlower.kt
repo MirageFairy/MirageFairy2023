@@ -349,7 +349,7 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
         world.setBlockState(pos, withAge(1), NOTIFY_LISTENERS)
 
         // エフェクト
-        world.playSound(null, pos, soundGroup.breakSound, SoundCategory.NEUTRAL, (soundGroup.volume + 1.0F) / 2.0F * 0.5F, soundGroup.pitch * 0.8F)
+        world.playSound(null, pos, soundGroup.breakSound, SoundCategory.BLOCKS, (soundGroup.volume + 1.0F) / 2.0F * 0.5F, soundGroup.pitch * 0.8F)
 
         return ActionResult.CONSUME
     }

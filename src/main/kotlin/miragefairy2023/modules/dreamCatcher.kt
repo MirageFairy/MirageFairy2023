@@ -173,7 +173,7 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
         nbt.wrapper[MirageFairy2023.modId]["found_motifs"][fairy.getIdentifier().toString()].int.set(1)
 
         // エフェクト
-        player.world.playSound(null, player.x, player.y, player.z, SoundEvents.BLOCK_BEACON_ACTIVATE, SoundCategory.NEUTRAL, 0.5F, 1.0F)
+        player.world.playSound(null, player.x, player.y, player.z, SoundEvents.BLOCK_BEACON_ACTIVATE, SoundCategory.PLAYERS, 0.5F, 1.0F)
 
         player.sendMessage(text { successKey(fairy.getItem().name) })
 

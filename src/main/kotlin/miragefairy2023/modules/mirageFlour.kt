@@ -324,7 +324,7 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
             }
 
             // エフェクト
-            world.playSound(null, user.x, user.y, user.z, SoundEvents.BLOCK_DEEPSLATE_BREAK, SoundCategory.NEUTRAL, 1.0F, 1.0F)
+            world.playSound(null, user.x, user.y, user.z, SoundEvents.BLOCK_DEEPSLATE_BREAK, SoundCategory.PLAYERS, 1.0F, 1.0F)
 
         }
 
