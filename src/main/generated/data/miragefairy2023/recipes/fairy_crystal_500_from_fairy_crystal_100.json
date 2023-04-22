@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "miragefairy2023:fairy_crystal_500",
+  "ingredients": [
+    {
+      "item": "miragefairy2023:fairy_crystal_100"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_100"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_100"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_100"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_100"
+    }
+  ],
+  "result": {
+    "item": "miragefairy2023:fairy_crystal_500"
+  }
+}

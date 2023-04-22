@@ -2,8 +2,10 @@ package miragefairy2023.modules
 
 import miragefairy2023.SlotContainer
 import miragefairy2023.module
+import miragefairy2023.util.concat
 import miragefairy2023.util.gray
 import miragefairy2023.util.identifier
+import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.item
@@ -75,42 +77,45 @@ enum class DemonItemCard(
         "artificial_fairy_crystal", "Artificial Fairy Crystal", "人工フェアリークリスタル",
         "Uncanny crystal not worth even 1 Minia", "妖精さえ怖れる、技術の結晶。",
     ),
+
     /*
     FAIRY_CRYSTAL_1(
         "fairy_crystal_1", "1 Minia Crystal", "1ミーニャクリスタル",
-        "Created by the fairies of commerce", "TODO",
+        "", "ガラスより硬い", // TODO
     ),
     FAIRY_CRYSTAL_5(
         "fairy_crystal_5", "5 Minia Crystal", "5ミーニャクリスタル",
-        "Fairy snack", "",
+        "Fairy snack", "", // TODO
     ),
     FAIRY_CRYSTAL_10(
         "fairy_crystal_10", "10 Minia Crystal", "10ミーニャクリスタル",
-        "TODO", "TODO",
+        "The Society failed to replicate this", "妖精の業が磨き上げる", // TODO
     ),
+    */
     FAIRY_CRYSTAL_50(
         "fairy_crystal_50", "50 Minia Crystal", "50ミーニャクリスタル",
-        "TODO", "TODO",
+        "Has the same hardness as beryl", "世界で50番目に優美な有機結晶。",
     ),
     FAIRY_CRYSTAL_100(
         "fairy_crystal_100", "100 Minia Crystal", "100ミーニャクリスタル",
-        "Crystallized Mirage flower nectar", "TODO",
+        "Created by the fairies of commerce", "妖精と人間が交差する世界。",
     ),
     FAIRY_CRYSTAL_500(
         "fairy_crystal_500", "500 Minia Crystal", "500ミーニャクリスタル",
-        "TODO", "TODO",
+        "Crystallized Mirage flower nectar", "ミラージュの蜜よ、永遠の宝石となれ。",
     ),
+    /*
     FAIRY_CRYSTAL_1000(
         "fairy_crystal_1000", "1000 Minia Crystal", "1000ミーニャクリスタル",
-        "TODO", "TODO",
+        "有毒な揮発成分の味がする", "", // TODO
     ),
     FAIRY_CRYSTAL_5000(
         "fairy_crystal_5000", "5000 Minia Crystal", "5000ミーニャクリスタル",
-        "TODO", "TODO",
+        "", "", // TODO
     ),
     FAIRY_CRYSTAL_10000(
         "fairy_crystal_10000", "10000 Minia Crystal", "10000ミーニャクリスタル",
-        "The Society failed to replicate this", "TODO",
+        "", "妖精の誇り。", // TODO
     ),
     */
 }
@@ -237,6 +242,34 @@ val demonItemModule = module {
             .create(Ingredient.ofItems(MirageFlourCard.MIRAGE_FLOUR()), DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL(), 0.4F, 200, RecipeSerializer.SMELTING)
             .criterion(RecipeProvider.hasItem(MirageFlourCard.MIRAGE_FLOUR()), RecipeProvider.conditionsFromItem(MirageFlourCard.MIRAGE_FLOUR()))
             .offerTo(it, DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL().identifier)
+    }
+
+    // 両替レシピ
+    run {
+
+        fun generateExchangeRecipe(lower: () -> Item, higher: () -> Item, multiplier: Int) = onGenerateRecipes {
+
+            // 圧縮
+            ShapelessRecipeJsonBuilder
+                .create(higher(), 1)
+                .input(lower(), multiplier)
+                .criterion(lower())
+                .group("${higher().identifier}")
+                .offerTo(it, higher().identifier concat "_from_${lower().identifier.path}")
+
+            // 分解
+            ShapelessRecipeJsonBuilder
+                .create(lower(), multiplier)
+                .input(higher(), 1)
+                .criterion(higher())
+                .group("${lower().identifier}")
+                .offerTo(it, lower().identifier concat "_from_${higher().identifier.path}")
+
+        }
+
+        generateExchangeRecipe({ DemonItemCard.FAIRY_CRYSTAL_50() }, { DemonItemCard.FAIRY_CRYSTAL_100() }, 2)
+        generateExchangeRecipe({ DemonItemCard.FAIRY_CRYSTAL_100() }, { DemonItemCard.FAIRY_CRYSTAL_500() }, 5)
+
     }
 
 }
