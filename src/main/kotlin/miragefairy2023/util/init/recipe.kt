@@ -12,6 +12,7 @@ import net.minecraft.data.server.RecipeProvider
 import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.EntityType
+import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.Items
 import net.minecraft.loot.condition.KilledByPlayerLootCondition
@@ -29,6 +30,7 @@ import net.minecraft.predicate.NumberRange
 import net.minecraft.predicate.entity.LocationPredicate
 import net.minecraft.predicate.item.EnchantmentPredicate
 import net.minecraft.predicate.item.ItemPredicate
+import net.minecraft.tag.TagKey
 import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.biome.Biome
 
@@ -139,3 +141,4 @@ fun InitializationScope.registerFuel(item: () -> ItemConvertible, ticks: Int) {
 }
 
 fun CraftingRecipeJsonBuilder.criterion(item: ItemConvertible): CraftingRecipeJsonBuilder = this.criterion("has_${item.identifier.path}", RecipeProvider.conditionsFromItem(item))
+fun CraftingRecipeJsonBuilder.criterion(tagKey: TagKey<Item>): CraftingRecipeJsonBuilder = this.criterion("has_${tagKey.id.path}", RecipeProvider.conditionsFromTag(tagKey))
