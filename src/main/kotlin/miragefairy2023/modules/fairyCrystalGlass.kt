@@ -61,8 +61,23 @@ enum class FairyCrystalGlassCard(
         "Artificial Fairy Crystal Glass", "人工フェアリークリスタルガラス",
         "Fairies fear its distorted molecule", "窓を潤す、模造の美学。",
     ),
-    // TODO 家の外を映し出す鏡。
-    // TODO の壁に咲く、
+    FAIRY_CRYSTAL_50_GLASS(
+        "fairy_crystal_50_glass", { DemonItemCard.FAIRY_CRYSTAL_50() },
+        "50 Minia Crystal Glass", "50ミーニャクリスタルガラス",
+        "Popular among artifact fairies", "家の外を映し出す鏡。",
+    ),
+    //FAIRY_CRYSTAL_100_GLASS(
+    //    "fairy_crystal_100_glass", { DemonItemCard.FAIRY_CRYSTAL_100() },
+    //    "100 Minia Crystal Glass", "100ミーニャクリスタルガラス",
+    //    "", "", // TODO
+    //),
+    //FAIRY_CRYSTAL_500_GLASS(
+    //    "fairy_crystal_500_glass", { DemonItemCard.FAIRY_CRYSTAL_500() },
+    //    "500 Minia Crystal Glass", "500ミーニャクリスタルガラス",
+    //    "", "の壁に咲く、", // TODO
+    //),
+    // TODO 残りのミーニャ系ガラス
+    // TODO 名誉系ガラス
     ;
 
     lateinit var block: FeatureSlot<Block>

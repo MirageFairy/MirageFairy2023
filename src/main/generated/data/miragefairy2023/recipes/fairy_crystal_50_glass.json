@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "miragefairy2023:fairy_crystal_50_glass",
+  "ingredients": [
+    {
+      "item": "miragefairy2023:fairy_crystal_50"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_50"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_50"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_50"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_50"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_50"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_50"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_50"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_50"
+    }
+  ],
+  "result": {
+    "item": "miragefairy2023:fairy_crystal_50_glass"
+  }
+}
