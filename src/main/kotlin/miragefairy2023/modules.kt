@@ -10,12 +10,14 @@ import miragefairy2023.modules.fairyCrystalGlassModule
 import miragefairy2023.modules.mirageFlourModule
 import miragefairy2023.modules.mirageFlowerModule
 import miragefairy2023.modules.passiveskill.passiveSkillModule
+import miragefairy2023.modules.telescopeModule
 
 val modules = module {
     commonModule()
     demonItemModule()
     demonBlockModule()
     fairyCrystalGlassModule()
+    telescopeModule()
     mirageFlourModule()
     mirageFlowerModule()
     fairyModule()

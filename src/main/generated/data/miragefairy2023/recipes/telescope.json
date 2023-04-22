@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "G": {
+      "item": "miragefairy2023:artificial_fairy_crystal"
+    },
+    "I": {
+      "tag": "c:copper_ingots"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "IIG",
+    " S ",
+    "S S"
+  ],
+  "result": {
+    "item": "miragefairy2023:telescope"
+  }
+}
