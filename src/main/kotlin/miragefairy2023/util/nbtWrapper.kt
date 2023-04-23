@@ -19,45 +19,45 @@ import kotlin.reflect.KProperty
 
 // EntryPoint
 
-val NbtCompound.wrapper: NbtProvider<NbtCompound>
+val NbtCompound.wrapper: NbtWrapper<NbtCompound>
     get() {
         val nbt = this
-        return object : NbtProvider<NbtCompound> {
+        return object : NbtWrapper<NbtCompound> {
             override fun getOrNull() = nbt
             override fun getOrCreate() = nbt
         }
     }
 
 
-// NbtProvider
+// NbtWrapper
 
-interface NbtProvider<out T> {
+interface NbtWrapper<out T> {
     fun getOrNull(): T?
     fun getOrCreate(): T
 }
 
 operator fun NbtProperty<NbtElement?, NbtElement>.get(key: String): NbtProperty<NbtElement?, NbtElement?> {
     val parent = this
-    val nbtProvider = object : NbtProvider<NbtCompound> {
+    val nbtWrapper = object : NbtWrapper<NbtCompound> {
         override fun getOrNull() = parent.get() as? NbtCompound
         override fun getOrCreate() = getOrNull() ?: NbtCompound().also { parent.set(it) }
     }
-    return nbtProvider[key]
+    return nbtWrapper[key]
 }
 
 operator fun NbtProperty<NbtElement?, NbtElement>.get(index: Int): NbtProperty<NbtElement?, NbtElement> {
     val parent = this
-    val nbtProvider = object : NbtProvider<NbtList> {
+    val nbtWrapper = object : NbtWrapper<NbtList> {
         override fun getOrNull() = parent.get() as? NbtList
         override fun getOrCreate() = getOrNull() ?: NbtList().also { parent.set(it) }
     }
-    return nbtProvider[index]
+    return nbtWrapper[index]
 }
 
 
 // NbtPath
 
-operator fun NbtProvider<NbtCompound>.get(key: String): NbtProperty<NbtElement?, NbtElement?> {
+operator fun NbtWrapper<NbtCompound>.get(key: String): NbtProperty<NbtElement?, NbtElement?> {
     val parent = this
     return object : NbtProperty<NbtElement?, NbtElement?> {
         override fun get() = parent.getOrNull()?.get(key)
@@ -71,7 +71,7 @@ operator fun NbtProvider<NbtCompound>.get(key: String): NbtProperty<NbtElement?,
     }
 }
 
-operator fun NbtProvider<NbtList>.get(index: Int): NbtProperty<NbtElement?, NbtElement> {
+operator fun NbtWrapper<NbtList>.get(index: Int): NbtProperty<NbtElement?, NbtElement> {
     val parent = this
     return object : NbtProperty<NbtElement?, NbtElement> {
         override fun get() = parent.getOrNull()?.getOrNull(index)
