@@ -3,7 +3,6 @@
 package miragefairy2023.util
 
 import mirrg.kotlin.hydrogen.castOrNull
-import mirrg.kotlin.hydrogen.unit
 import net.minecraft.nbt.AbstractNbtNumber
 import net.minecraft.nbt.NbtByte
 import net.minecraft.nbt.NbtCompound
@@ -51,24 +50,29 @@ operator fun NbtProperty<NbtElement?, NbtElement>.get(index: Int) = ListNbtProvi
 
 // NbtPath
 
-class CompoundElementNbtPath(val nbtProvider: NbtProvider<NbtCompound>, val key: String) : NbtProperty<NbtElement?, NbtElement?> {
-    override fun get() = nbtProvider.getOrNull()?.get(key)
-    override fun set(value: NbtElement?) {
-        if (value != null) {
-            nbtProvider.getOrCreate().put(key, value)
-        } else {
-            nbtProvider.getOrCreate().remove(key)
+operator fun NbtProvider<NbtCompound>.get(key: String): NbtProperty<NbtElement?, NbtElement?> {
+    val nbtProvider = this
+    return object : NbtProperty<NbtElement?, NbtElement?> {
+        override fun get() = nbtProvider.getOrNull()?.get(key)
+        override fun set(value: NbtElement?) {
+            if (value != null) {
+                nbtProvider.getOrCreate().put(key, value)
+            } else {
+                nbtProvider.getOrCreate().remove(key)
+            }
         }
     }
 }
 
-class ListElementNbtPath(val nbtProvider: NbtProvider<NbtList>, val index: Int) : NbtProperty<NbtElement?, NbtElement> {
-    override fun get() = nbtProvider.getOrNull()?.getOrNull(index)
-    override fun set(value: NbtElement) = unit { nbtProvider.getOrCreate()[index] = value }
+operator fun NbtProvider<NbtList>.get(index: Int): NbtProperty<NbtElement?, NbtElement> {
+    val nbtProvider = this
+    return object : NbtProperty<NbtElement?, NbtElement> {
+        override fun get() = nbtProvider.getOrNull()?.getOrNull(index)
+        override fun set(value: NbtElement) {
+            nbtProvider.getOrCreate()[index] = value
+        }
+    }
 }
-
-operator fun NbtProvider<NbtCompound>.get(key: String) = CompoundElementNbtPath(this, key)
-operator fun NbtProvider<NbtList>.get(index: Int) = ListElementNbtPath(this, index)
 
 
 // NbtProperty
