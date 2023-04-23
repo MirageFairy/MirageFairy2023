@@ -73,12 +73,12 @@ operator fun NbtProvider<NbtList>.get(index: Int) = ListElementNbtPath(this, ind
 
 // NbtProperty
 
-interface NbtProperty<T> {
-    fun get(): T?
-    fun set(value: T)
+interface NbtProperty<G, S> {
+    fun get(): G
+    fun set(value: S)
 }
 
-inline fun <T> NbtProperty(crossinline getter: () -> T?, crossinline setter: (T) -> Unit) = object : NbtProperty<T> {
+inline fun <T> NbtProperty(crossinline getter: () -> T?, crossinline setter: (T) -> Unit) = object : NbtProperty<T?, T> {
     override fun get() = getter()
     override fun set(value: T) = setter(value)
 }
@@ -112,7 +112,7 @@ interface NbtDelegate<T> {
     operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T)
 }
 
-fun <T> NbtProperty<T>.orDefault(getter: () -> T) = object : NbtDelegate<T> {
+fun <T> NbtProperty<T?, T>.orDefault(getter: () -> T) = object : NbtDelegate<T> {
     override fun getValue(thisRef: Any?, property: KProperty<*>) = this@orDefault.get() ?: getter()
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) = this@orDefault.set(value)
 }
