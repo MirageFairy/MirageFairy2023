@@ -33,7 +33,7 @@ val debugModule = module {
     item("reset_telescope_mission_debugger", { ResetTelescopeMissionDebuggerItem(FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier("minecraft", "item/book")), Optional.empty())) }
         registerColorProvider { _, _ -> 0xFFC700 }
-        enJaItem({ feature }, "Reset Telescope Mission Debugger", "望遠鏡クエストリセットデバッガー")
+        enJaItem({ feature }, "Reset Telescope Mission Debugger", "望遠鏡ミッションリセットデバッガー")
     }
 }
 
