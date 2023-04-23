@@ -1,0 +1,42 @@
+{
+  "parent": "minecraft:miragefairy2023/root",
+  "criteria": {
+    "got_artificial_fairy_crystal": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "miragefairy2023:artificial_fairy_crystal"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.miragefairy2023.artificial_fairy_crystal.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "miragefairy2023:artificial_fairy_crystal"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.miragefairy2023.artificial_fairy_crystal.title"
+    }
+  },
+  "requirements": [
+    [
+      "got_artificial_fairy_crystal"
+    ]
+  ],
+  "rewards": {
+    "loot": [
+      "miragefairy2023:advancement_reward/tier1_fairy_crystal"
+    ]
+  }
+}

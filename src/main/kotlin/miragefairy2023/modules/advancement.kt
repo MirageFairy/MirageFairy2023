@@ -273,6 +273,26 @@ val advancementModule = module {
             reward(tier2LootTableId)
         }
 
+        val artificialFairyCrystal = advancement(
+            "artificial_fairy_crystal", { DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL() },
+            "Organic Amorphous Material", "水晶の飴",
+            "Coagulate sugar contained in pollen", "花粉に含まれる糖分を凝固させる",
+            parent = root,
+        ) {
+            criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
+            reward(tier1LootTableId)
+        }
+
+        val telescope = advancement(
+            "telescope", { telescopeBlockItem.feature },
+            "Living in the Universe", "ユニバースに佇む",
+            "Investigate the world unknown to fairies", "レンズを通して妖精の知らない世界を見る",
+            parent = artificialFairyCrystal,
+        ) {
+            criterion(telescopeBlockItem.feature)
+            reward(tier1LootTableId)
+        }
+
     }
 
 }
