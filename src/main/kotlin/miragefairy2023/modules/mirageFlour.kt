@@ -212,10 +212,11 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
         val actualFairyList = (commonFairyList + memoryFairyList).distinctBy { it.getIdentifier() }
 
         // 生の提供割合
+        val multiplierByRare = 0.5.pow(7.0 / 4.0)
         val rawChanceTable = actualFairyList
             .filter { minRare == null || it.getRare() >= minRare } // レア度フィルタ
             .filter { maxRare == null || it.getRare() <= maxRare } // レア度フィルタ
-            .map { Chance(0.1.pow((it.getRare() - 1) * 0.5) * factor, it) } // レア度によるドロップ確率の計算
+            .map { Chance(multiplierByRare.pow(it.getRare() - 1) * factor, it) } // レア度によるドロップ確率の計算
 
         // 内容の調整
         val actualChanceTable = run {
