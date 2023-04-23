@@ -226,15 +226,8 @@ class TelescopeBlock(settings: Settings) : Block(settings) {
 
         } else {
 
-            player.sendMessage(text { REWARD_KEY(2500) }, false)
-            player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(5))
-
-            player.sendMessage(text { REWARD_KEY(750) }, false)
+            player.sendMessage(text { REWARD_KEY(500) }, false)
             player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1))
-            player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(5))
-
-            player.sendMessage(text { REWARD_KEY(150) }, false)
-            player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(3))
 
             world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.5F, 1.0F)
 
