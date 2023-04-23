@@ -15,6 +15,7 @@ import miragefairy2023.util.createItemStack
 import miragefairy2023.util.distinct
 import miragefairy2023.util.draw
 import miragefairy2023.util.get
+import miragefairy2023.util.getValue
 import miragefairy2023.util.gray
 import miragefairy2023.util.hasSameItemAndNbt
 import miragefairy2023.util.identifier
@@ -29,6 +30,7 @@ import miragefairy2023.util.int
 import miragefairy2023.util.map
 import miragefairy2023.util.obtain
 import miragefairy2023.util.orDefault
+import miragefairy2023.util.setValue
 import miragefairy2023.util.text
 import miragefairy2023.util.totalWeight
 import miragefairy2023.util.wrapper

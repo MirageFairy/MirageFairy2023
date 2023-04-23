@@ -103,11 +103,14 @@ val NbtProperty<NbtElement?, NbtElement>.map
 // NbtDelegate
 
 interface NbtDelegate<T> {
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): T
-    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T)
+    fun get(): T
+    fun set(value: T)
 }
 
+operator fun <T> NbtDelegate<T>.getValue(thisRef: Any?, property: KProperty<*>): T = this.get()
+operator fun <T> NbtDelegate<T>.setValue(thisRef: Any?, property: KProperty<*>, value: T) = this.set(value)
+
 fun <T> NbtProperty<T?, T>.orDefault(getter: () -> T) = object : NbtDelegate<T> {
-    override fun getValue(thisRef: Any?, property: KProperty<*>) = this@orDefault.get() ?: getter()
-    override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) = this@orDefault.set(value)
+    override fun get() = this@orDefault.get() ?: getter()
+    override fun set(value: T) = this@orDefault.set(value)
 }
