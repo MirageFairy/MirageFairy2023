@@ -245,6 +245,6 @@ var ServerPlayerEntity.lastTelescopeUseTime
         if (it != null) {
             CustomDataHelper.getPersistentData(this).wrapper[MirageFairy2023.modId]["mission"]["last_telescope_use_time"].long.set(it)
         } else {
-            CustomDataHelper.getPersistentData(this).wrapper[MirageFairy2023.modId]["mission"]["last_telescope_use_time"].removeTag()
+            CustomDataHelper.getPersistentData(this).wrapper[MirageFairy2023.modId]["mission"]["last_telescope_use_time"].set(null)
         }
     }
