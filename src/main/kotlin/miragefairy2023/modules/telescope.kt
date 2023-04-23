@@ -6,6 +6,7 @@ import miragefairy2023.module
 import miragefairy2023.util.concat
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.get
+import miragefairy2023.util.getValue
 import miragefairy2023.util.gray
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
@@ -23,6 +24,7 @@ import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
 import miragefairy2023.util.long
 import miragefairy2023.util.obtain
+import miragefairy2023.util.setValue
 import miragefairy2023.util.text
 import miragefairy2023.util.wrapper
 import mirrg.kotlin.hydrogen.floorMod
@@ -186,7 +188,7 @@ class TelescopeBlock(settings: Settings) : Block(settings) {
         fun Instant.toUtcLocalDateTime(): LocalDateTime = this.atOffset(ZONE_OFFSET).toLocalDateTime()
         fun LocalDateTime.toUtcInstant(): Instant = this.toInstant(ZONE_OFFSET)
 
-        var lastTelescopeUseTime by player::lastTelescopeUseTime
+        var lastTelescopeUseTime by player.lastTelescopeUseTimeProperty
         if (lastTelescopeUseTime != null) {
 
             val time = Instant.ofEpochMilli(lastTelescopeUseTime!!).toUtcLocalDateTime()
@@ -239,12 +241,4 @@ class TelescopeBlock(settings: Settings) : Block(settings) {
     }
 }
 
-var ServerPlayerEntity.lastTelescopeUseTime
-    get() = CustomDataHelper.getPersistentData(this).wrapper[MirageFairy2023.modId]["mission"]["last_telescope_use_time"].long.get()
-    set(it) {
-        if (it != null) {
-            CustomDataHelper.getPersistentData(this).wrapper[MirageFairy2023.modId]["mission"]["last_telescope_use_time"].long.set(it)
-        } else {
-            CustomDataHelper.getPersistentData(this).wrapper[MirageFairy2023.modId]["mission"]["last_telescope_use_time"].set(null)
-        }
-    }
+val ServerPlayerEntity.lastTelescopeUseTimeProperty get() = CustomDataHelper.getPersistentData(this).wrapper[MirageFairy2023.modId]["mission"]["last_telescope_use_time"].long

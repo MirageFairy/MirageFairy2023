@@ -72,7 +72,7 @@ class ResetTelescopeMissionDebuggerItem(settings: Settings) : Item(settings) {
         if (world.isClient) return TypedActionResult.consume(itemStack)
         user as ServerPlayerEntity
 
-        user.lastTelescopeUseTime = null
+        user.lastTelescopeUseTimeProperty.set(null)
         user.sendMessage(text { "Reset telescope mission "() }, false)
 
         return TypedActionResult.success(itemStack)
