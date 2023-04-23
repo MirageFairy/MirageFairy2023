@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "group": "miragefairy2023:fairy_crystal_50",
+  "ingredient": {
+    "item": "miragefairy2023:honorable_fairy_crystal"
+  },
+  "result": "miragefairy2023:fairy_crystal_50"
+}

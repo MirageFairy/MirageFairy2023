@@ -26,6 +26,7 @@ import net.minecraft.data.server.RecipeProvider
 import net.minecraft.data.server.recipe.CookingRecipeJsonBuilder
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
+import net.minecraft.data.server.recipe.SingleItemRecipeJsonBuilder
 import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -236,6 +237,22 @@ val demonItemModule = module {
     // ミラージュの茎＞コンポスター
     onRegisterRecipes {
         ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(DemonItemCard.MIRAGE_STEM(), 0.65F)
+    }
+
+    // 3種名誉系フェアリークリスタル→ミーニャのフェアリークリスタル
+    run {
+        // TODO いい感じの加工機械
+        fun generateExchangeRecipe(input: () -> Item, output: () -> Item, outputCount: Int) = onGenerateRecipes {
+            SingleItemRecipeJsonBuilder
+                .createStonecutting(Ingredient.ofItems(input()), output(), outputCount)
+                .criterion(input())
+                .group(output())
+                .offerTo(it, "selling_" concat input().identifier)
+        }
+        // TODO 成果物をシンプルに
+        generateExchangeRecipe({ DemonItemCard.HONORABLE_FAIRY_CRYSTAL() }, { DemonItemCard.FAIRY_CRYSTAL_50() }, 2)
+        generateExchangeRecipe({ DemonItemCard.GLORIOUS_FAIRY_CRYSTAL() }, { DemonItemCard.FAIRY_CRYSTAL_500() }, 2)
+        generateExchangeRecipe({ DemonItemCard.LEGENDARY_FAIRY_CRYSTAL() }, { DemonItemCard.FAIRY_CRYSTAL_500() }, 20)
     }
 
     // ミラージュフラワー→人工フェアリークリスタル
