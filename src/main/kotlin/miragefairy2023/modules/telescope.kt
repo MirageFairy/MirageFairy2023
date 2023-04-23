@@ -8,6 +8,7 @@ import miragefairy2023.util.createItemStack
 import miragefairy2023.util.get
 import miragefairy2023.util.gray
 import miragefairy2023.util.identifier
+import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.Translation
 import miragefairy2023.util.init.block
 import miragefairy2023.util.init.criterion
@@ -64,9 +65,12 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
+lateinit var telescopeBlock: FeatureSlot<TelescopeBlock>
+lateinit var telescopeBlockItem: FeatureSlot<BlockItem>
+
 val telescopeModule = module {
 
-    val telescopeBlock = block("telescope", { TelescopeBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.COPPER).strength(0.5F).nonOpaque()) }) {
+    telescopeBlock = block("telescope", { TelescopeBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.COPPER).strength(0.5F).nonOpaque()) }) {
 
         // レンダリング
         generateBlockState {
@@ -95,7 +99,7 @@ val telescopeModule = module {
         generateDefaultBlockLootTable()
 
     }
-    val telescopeBlockItem = item("telescope", {
+    telescopeBlockItem = item("telescope", {
         object : BlockItem(telescopeBlock.feature, FabricItemSettings().group(commonItemGroup)) {
             override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
                 super.appendTooltip(stack, world, tooltip, context)
