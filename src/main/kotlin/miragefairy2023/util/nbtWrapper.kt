@@ -25,7 +25,7 @@ val NbtCompound.wrapper get() = RootNbtProvider(this)
 
 // NbtProvider
 
-interface NbtProvider<T> {
+interface NbtProvider<out T> {
     fun getOrNull(): T?
     fun getOrCreate(): T
 }
@@ -68,7 +68,7 @@ operator fun NbtProvider<NbtList>.get(index: Int) = ListElementNbtPath(this, ind
 
 // NbtProperty
 
-interface NbtProperty<G, S> {
+interface NbtProperty<out G, in S> {
     fun get(): G
     fun set(value: S)
 }
