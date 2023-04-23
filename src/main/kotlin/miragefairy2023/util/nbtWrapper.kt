@@ -19,7 +19,14 @@ import kotlin.reflect.KProperty
 
 // EntryPoint
 
-val NbtCompound.wrapper get() = RootNbtProvider(this)
+val NbtCompound.wrapper: NbtProvider<NbtCompound>
+    get() {
+        val nbt = this
+        return object : NbtProvider<NbtCompound> {
+            override fun getOrNull() = nbt
+            override fun getOrCreate() = nbt
+        }
+    }
 
 
 // NbtProvider
@@ -29,47 +36,47 @@ interface NbtProvider<out T> {
     fun getOrCreate(): T
 }
 
-class RootNbtProvider(val nbt: NbtCompound) : NbtProvider<NbtCompound> {
-    override fun getOrNull() = nbt
-    override fun getOrCreate() = nbt
+operator fun NbtProperty<NbtElement?, NbtElement>.get(key: String): NbtProperty<NbtElement?, NbtElement?> {
+    val parent = this
+    val nbtProvider = object : NbtProvider<NbtCompound> {
+        override fun getOrNull() = parent.get() as? NbtCompound
+        override fun getOrCreate() = getOrNull() ?: NbtCompound().also { parent.set(it) }
+    }
+    return nbtProvider[key]
 }
 
-class CompoundNbtProvider(val nbtPath: NbtProperty<NbtElement?, NbtElement>) : NbtProvider<NbtCompound> {
-    override fun getOrNull() = nbtPath.get() as? NbtCompound
-    override fun getOrCreate() = getOrNull() ?: NbtCompound().also { nbtPath.set(it) }
+operator fun NbtProperty<NbtElement?, NbtElement>.get(index: Int): NbtProperty<NbtElement?, NbtElement> {
+    val parent = this
+    val nbtProvider = object : NbtProvider<NbtList> {
+        override fun getOrNull() = parent.get() as? NbtList
+        override fun getOrCreate() = getOrNull() ?: NbtList().also { parent.set(it) }
+    }
+    return nbtProvider[index]
 }
-
-class ListNbtProvider(val nbtPath: NbtProperty<NbtElement?, NbtElement>) : NbtProvider<NbtList> {
-    override fun getOrNull() = nbtPath.get() as? NbtList
-    override fun getOrCreate() = getOrNull() ?: NbtList().also { nbtPath.set(it) }
-}
-
-operator fun NbtProperty<NbtElement?, NbtElement>.get(key: String) = CompoundNbtProvider(this)[key]
-operator fun NbtProperty<NbtElement?, NbtElement>.get(index: Int) = ListNbtProvider(this)[index]
 
 
 // NbtPath
 
 operator fun NbtProvider<NbtCompound>.get(key: String): NbtProperty<NbtElement?, NbtElement?> {
-    val nbtProvider = this
+    val parent = this
     return object : NbtProperty<NbtElement?, NbtElement?> {
-        override fun get() = nbtProvider.getOrNull()?.get(key)
+        override fun get() = parent.getOrNull()?.get(key)
         override fun set(value: NbtElement?) {
             if (value != null) {
-                nbtProvider.getOrCreate().put(key, value)
+                parent.getOrCreate().put(key, value)
             } else {
-                nbtProvider.getOrCreate().remove(key)
+                parent.getOrCreate().remove(key)
             }
         }
     }
 }
 
 operator fun NbtProvider<NbtList>.get(index: Int): NbtProperty<NbtElement?, NbtElement> {
-    val nbtProvider = this
+    val parent = this
     return object : NbtProperty<NbtElement?, NbtElement> {
-        override fun get() = nbtProvider.getOrNull()?.getOrNull(index)
+        override fun get() = parent.getOrNull()?.getOrNull(index)
         override fun set(value: NbtElement) {
-            nbtProvider.getOrCreate()[index] = value
+            parent.getOrCreate()[index] = value
         }
     }
 }
