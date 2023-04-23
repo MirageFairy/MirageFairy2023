@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "minecraft:iron_ore",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_ore"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_50"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "minecraft:iron_ore"
+  }
+}

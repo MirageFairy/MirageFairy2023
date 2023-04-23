@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "minecraft:nether_quartz_ore",
+  "ingredients": [
+    {
+      "item": "minecraft:nether_quartz_ore"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_50"
+    }
+  ],
+  "result": {
+    "count": 13,
+    "item": "minecraft:nether_quartz_ore"
+  }
+}

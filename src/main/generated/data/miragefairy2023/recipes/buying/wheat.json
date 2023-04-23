@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "minecraft:wheat",
+  "ingredients": [
+    {
+      "item": "minecraft:wheat"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_50"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "minecraft:wheat"
+  }
+}

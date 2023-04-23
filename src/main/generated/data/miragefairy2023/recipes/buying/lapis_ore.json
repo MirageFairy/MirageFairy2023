@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "minecraft:lapis_ore",
+  "ingredients": [
+    {
+      "item": "minecraft:lapis_ore"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_50"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "item": "minecraft:lapis_ore"
+  }
+}

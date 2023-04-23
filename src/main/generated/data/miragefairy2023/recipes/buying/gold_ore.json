@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "minecraft:gold_ore",
+  "ingredients": [
+    {
+      "item": "minecraft:gold_ore"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_50"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "item": "minecraft:gold_ore"
+  }
+}

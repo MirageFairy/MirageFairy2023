@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "minecraft:spruce_log",
+  "ingredients": [
+    {
+      "item": "minecraft:spruce_log"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_50"
+    }
+  ],
+  "result": {
+    "count": 33,
+    "item": "minecraft:spruce_log"
+  }
+}

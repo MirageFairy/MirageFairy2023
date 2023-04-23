@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "minecraft:nether_star",
+  "ingredients": [
+    {
+      "item": "minecraft:nether_star"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_500"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_500"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_500"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_500"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_500"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_500"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_500"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_500"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "item": "minecraft:nether_star"
+  }
+}

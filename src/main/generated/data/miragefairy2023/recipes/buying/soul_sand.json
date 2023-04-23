@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "minecraft:soul_sand",
+  "ingredients": [
+    {
+      "item": "minecraft:soul_sand"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_50"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "minecraft:soul_sand"
+  }
+}

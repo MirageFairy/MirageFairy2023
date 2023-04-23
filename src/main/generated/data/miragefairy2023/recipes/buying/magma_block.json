@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "minecraft:magma_block",
+  "ingredients": [
+    {
+      "item": "minecraft:magma_block"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_50"
+    }
+  ],
+  "result": {
+    "count": 5,
+    "item": "minecraft:magma_block"
+  }
+}

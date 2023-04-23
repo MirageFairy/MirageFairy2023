@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "minecraft:feather",
+  "ingredients": [
+    {
+      "item": "minecraft:feather"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_50"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "minecraft:feather"
+  }
+}

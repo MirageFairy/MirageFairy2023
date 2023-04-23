@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "minecraft:vine",
+  "ingredients": [
+    {
+      "item": "minecraft:vine"
+    },
+    {
+      "item": "miragefairy2023:fairy_crystal_50"
+    }
+  ],
+  "result": {
+    "count": 17,
+    "item": "minecraft:vine"
+  }
+}
