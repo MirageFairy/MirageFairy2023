@@ -35,36 +35,31 @@ class RootNbtProvider(val nbt: NbtCompound) : NbtProvider<NbtCompound> {
     override fun getOrCreate() = nbt
 }
 
-class CompoundNbtProvider(val nbtPath: NbtPath) : NbtProvider<NbtCompound> {
+class CompoundNbtProvider(val nbtPath: NbtProperty<NbtElement?, NbtElement>) : NbtProvider<NbtCompound> {
     override fun getOrNull() = nbtPath.get() as? NbtCompound
     override fun getOrCreate() = getOrNull() ?: NbtCompound().also { nbtPath.set(it) }
 }
 
-class ListNbtProvider(val nbtPath: NbtPath) : NbtProvider<NbtList> {
+class ListNbtProvider(val nbtPath: NbtProperty<NbtElement?, NbtElement>) : NbtProvider<NbtList> {
     override fun getOrNull() = nbtPath.get() as? NbtList
     override fun getOrCreate() = getOrNull() ?: NbtList().also { nbtPath.set(it) }
 }
 
-operator fun NbtPath.get(key: String) = CompoundNbtProvider(this)[key]
-operator fun NbtPath.get(index: Int) = ListNbtProvider(this)[index]
+operator fun NbtProperty<NbtElement?, NbtElement>.get(key: String) = CompoundNbtProvider(this)[key]
+operator fun NbtProperty<NbtElement?, NbtElement>.get(index: Int) = ListNbtProvider(this)[index]
 
 
 // NbtPath
 
-interface NbtPath {
-    fun get(): NbtElement?
-    fun set(nbt: NbtElement)
-}
-
-class CompoundElementNbtPath(val nbtProvider: NbtProvider<NbtCompound>, val key: String) : NbtPath {
+class CompoundElementNbtPath(val nbtProvider: NbtProvider<NbtCompound>, val key: String) : NbtProperty<NbtElement?, NbtElement> {
     override fun get() = nbtProvider.getOrNull()?.get(key)
-    override fun set(nbt: NbtElement) = unit { nbtProvider.getOrCreate().put(key, nbt) }
+    override fun set(value: NbtElement) = unit { nbtProvider.getOrCreate().put(key, value) }
     fun removeTag() = nbtProvider.getOrCreate().remove(key)
 }
 
-class ListElementNbtPath(val nbtProvider: NbtProvider<NbtList>, val index: Int) : NbtPath {
+class ListElementNbtPath(val nbtProvider: NbtProvider<NbtList>, val index: Int) : NbtProperty<NbtElement?, NbtElement> {
     override fun get() = nbtProvider.getOrNull()?.getOrNull(index)
-    override fun set(nbt: NbtElement) = unit { nbtProvider.getOrCreate()[index] = nbt }
+    override fun set(value: NbtElement) = unit { nbtProvider.getOrCreate()[index] = value }
 }
 
 operator fun NbtProvider<NbtCompound>.get(key: String) = CompoundElementNbtPath(this, key)
@@ -83,16 +78,16 @@ inline fun <T> NbtProperty(crossinline getter: () -> T?, crossinline setter: (T)
     override fun set(value: T) = setter(value)
 }
 
-val NbtPath.byte get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.byteValue() }, { this.set(NbtByte.of(it)) })
-val NbtPath.short get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.shortValue() }, { this.set(NbtShort.of(it)) })
-val NbtPath.int get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.intValue() }, { this.set(NbtInt.of(it)) })
-val NbtPath.long get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.longValue() }, { this.set(NbtLong.of(it)) })
-val NbtPath.float get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.floatValue() }, { this.set(NbtFloat.of(it)) })
-val NbtPath.double get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.doubleValue() }, { this.set(NbtDouble.of(it)) })
-val NbtPath.number get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.numberValue() }, { this.set(NbtDouble.of(it.toDouble())) })
-val NbtPath.string get() = NbtProperty({ this.get()?.asString() }, { this.set(NbtString.of(it)) })
+val NbtProperty<NbtElement?, NbtElement>.byte get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.byteValue() }, { this.set(NbtByte.of(it)) })
+val NbtProperty<NbtElement?, NbtElement>.short get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.shortValue() }, { this.set(NbtShort.of(it)) })
+val NbtProperty<NbtElement?, NbtElement>.int get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.intValue() }, { this.set(NbtInt.of(it)) })
+val NbtProperty<NbtElement?, NbtElement>.long get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.longValue() }, { this.set(NbtLong.of(it)) })
+val NbtProperty<NbtElement?, NbtElement>.float get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.floatValue() }, { this.set(NbtFloat.of(it)) })
+val NbtProperty<NbtElement?, NbtElement>.double get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.doubleValue() }, { this.set(NbtDouble.of(it)) })
+val NbtProperty<NbtElement?, NbtElement>.number get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.numberValue() }, { this.set(NbtDouble.of(it.toDouble())) })
+val NbtProperty<NbtElement?, NbtElement>.string get() = NbtProperty({ this.get()?.asString() }, { this.set(NbtString.of(it)) })
 
-val NbtPath.map
+val NbtProperty<NbtElement?, NbtElement>.map
     get() = NbtProperty({
         val nbt = this.get()?.castOrNull<NbtCompound>() ?: return@NbtProperty null
         nbt.keys.associate { key -> key!! to nbt[key]!! }
