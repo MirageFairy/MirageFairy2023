@@ -24,9 +24,11 @@ import mirrg.kotlin.hydrogen.or
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.block.FluidBlock
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -38,7 +40,9 @@ import net.minecraft.item.ToolItem
 import net.minecraft.item.ToolMaterial
 import net.minecraft.item.ToolMaterials
 import net.minecraft.nbt.AbstractNbtNumber
+import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
@@ -46,7 +50,9 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Box
 import net.minecraft.world.World
+import kotlin.math.roundToInt
 
 lateinit var dreamCatcherItem: FeatureSlot<DreamCatcherItem>
 lateinit var blueDreamCatcherItem: FeatureSlot<DreamCatcherItem>
@@ -193,5 +199,108 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
             }
         }
         return true
+    }
+
+    // TODO すべてをクライアント側の処理に
+    override fun inventoryTick(stack: ItemStack, world: World, entity: Entity, slot: Int, selected: Boolean) {
+        if (world.isClient) return
+        world as ServerWorld
+        if (entity !is ServerPlayerEntity) return
+
+        if (world.random.nextInt(100) != 0) return // 平均して5秒に1回
+
+        // インベントリチェック
+        run ok@{
+            val inventory = entity.inventory.main + entity.inventory.armor + entity.inventory.offHand
+            inventory.forEach {
+                if (it.item is DreamCatcherItem) {
+                    if (it === stack) {
+                        return@ok // インベントリ内に見つかった最初のドリームキャッチャーがこれだった
+                    } else {
+                        return // インベントリ内に別のドリームキャッチャーが存在する
+                    }
+                }
+            }
+            return
+        }
+
+        // 入手済み妖精計算
+        val nbt = CustomDataHelper.getPersistentData(entity)
+        val foundFairies = nbt.wrapper[MirageFairy2023.modId]["found_motifs"].map.get().or { mapOf() }.entries
+            .filter { it.value.castOrNull<AbstractNbtNumber>()?.intValue() != 0 }
+            .map { Identifier(it.key) }
+            .toSet()
+
+        // ブロック判定
+        run {
+            val playerBlockPos = entity.blockPos
+            val a = BlockPos.iterate(
+                playerBlockPos.x - 4,
+                playerBlockPos.y - 4,
+                playerBlockPos.z - 4,
+                playerBlockPos.x + 4,
+                playerBlockPos.y + 4,
+                playerBlockPos.z + 4
+            ).asSequence()
+            val b = (0 until 100).map {
+                playerBlockPos.add(
+                    (world.random.nextGaussian() * 10.0).roundToInt(),
+                    (world.random.nextGaussian() * 10.0).roundToInt(),
+                    (world.random.nextGaussian() * 10.0).roundToInt(),
+                )
+            }.asSequence()
+            (a + b).forEach { blockPos ->
+
+                val blockState = world.getBlockState(blockPos)
+                val block = blockState.block
+
+                // TODO
+                if (blockState.isAir) return@forEach // 空気は除く
+                if (block is FluidBlock) return@forEach // 流体は除く
+
+                // 未知の妖精が入手可能か
+                val hasUnknownFairy = BLOCK_FAIRY_RELATION_LIST
+                    .filter { it.block === block }
+                    .map { it.fairy }
+                    .any { it.getIdentifier() !in foundFairies }
+                if (!hasUnknownFairy) return@forEach
+
+                // 演出
+                world.spawnParticles(
+                    entity, ParticleTypes.ENCHANT, false,
+                    blockPos.x.toDouble() + 0.5, blockPos.y.toDouble() + 0.5 + 1.0, blockPos.z.toDouble() + 0.5,
+                    10,
+                    0.0, 0.0, 0.0,
+                    2.0
+                )
+
+            }
+        }
+
+        // エンティティ判定
+        world.getNonSpectatingEntities(LivingEntity::class.java, Box.of(entity.pos, 32.0, 32.0, 32.0)).forEach { targetEntity ->
+            val entityType = targetEntity.type
+
+            // TODO
+            if (targetEntity === entity) return@forEach // 自分は除く
+
+            // 未知の妖精が入手可能か
+            val hasUnknownFairy = ENTITY_TYPE_FAIRY_RELATION_LIST
+                .filter { it.entityType == entityType }
+                .map { it.fairy }
+                .any { it.getIdentifier() !in foundFairies }
+            if (!hasUnknownFairy) return@forEach
+
+            // 演出
+            world.spawnParticles(
+                entity, ParticleTypes.ENCHANT, false,
+                targetEntity.x, targetEntity.y + targetEntity.height / 2.0 + 1.0, targetEntity.z,
+                10,
+                0.0, 0.0, 0.0,
+                2.0
+            )
+
+        }
+
     }
 }
