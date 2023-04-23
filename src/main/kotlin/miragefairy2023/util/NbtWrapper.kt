@@ -121,28 +121,30 @@ operator fun NbtProperty<NbtElement?, NbtElement>.get(index: Int): NbtProperty<N
 
 // utilities
 
-val NbtProperty<NbtElement?, NbtElement>.byte get() = NbtProperty<Byte?, Byte>({ this.get()?.castOrNull<AbstractNbtNumber>()?.byteValue() }, { this.set(NbtByte.of(it)) })
-val NbtProperty<NbtElement?, NbtElement>.short get() = NbtProperty<Short?, Short>({ this.get()?.castOrNull<AbstractNbtNumber>()?.shortValue() }, { this.set(NbtShort.of(it)) })
-val NbtProperty<NbtElement?, NbtElement>.int get() = NbtProperty<Int?, Int>({ this.get()?.castOrNull<AbstractNbtNumber>()?.intValue() }, { this.set(NbtInt.of(it)) })
-val NbtProperty<NbtElement?, NbtElement>.long get() = NbtProperty<Long?, Long>({ this.get()?.castOrNull<AbstractNbtNumber>()?.longValue() }, { this.set(NbtLong.of(it)) })
-val NbtProperty<NbtElement?, NbtElement>.float get() = NbtProperty<Float?, Float>({ this.get()?.castOrNull<AbstractNbtNumber>()?.floatValue() }, { this.set(NbtFloat.of(it)) })
-val NbtProperty<NbtElement?, NbtElement>.double get() = NbtProperty<Double?, Double>({ this.get()?.castOrNull<AbstractNbtNumber>()?.doubleValue() }, { this.set(NbtDouble.of(it)) })
-val NbtProperty<NbtElement?, NbtElement>.number get() = NbtProperty<Number?, Number>({ this.get()?.castOrNull<AbstractNbtNumber>()?.numberValue() }, { this.set(NbtDouble.of(it.toDouble())) })
-val NbtProperty<NbtElement?, NbtElement>.string get() = NbtProperty<String?, String>({ this.get()?.asString() }, { this.set(NbtString.of(it)) })
+val NbtProperty<NbtElement?, NbtElement?>.byte get() = NbtProperty<Byte?, Byte?>({ this.get()?.castOrNull<AbstractNbtNumber>()?.byteValue() }, { this.set(it?.let { a -> NbtByte.of(a) }) })
+val NbtProperty<NbtElement?, NbtElement?>.short get() = NbtProperty<Short?, Short?>({ this.get()?.castOrNull<AbstractNbtNumber>()?.shortValue() }, { this.set(it?.let { a -> NbtShort.of(a) }) })
+val NbtProperty<NbtElement?, NbtElement?>.int get() = NbtProperty<Int?, Int?>({ this.get()?.castOrNull<AbstractNbtNumber>()?.intValue() }, { this.set(it?.let { a -> NbtInt.of(a) }) })
+val NbtProperty<NbtElement?, NbtElement?>.long get() = NbtProperty<Long?, Long?>({ this.get()?.castOrNull<AbstractNbtNumber>()?.longValue() }, { this.set(it?.let { a -> NbtLong.of(a) }) })
+val NbtProperty<NbtElement?, NbtElement?>.float get() = NbtProperty<Float?, Float?>({ this.get()?.castOrNull<AbstractNbtNumber>()?.floatValue() }, { this.set(it?.let { a -> NbtFloat.of(a) }) })
+val NbtProperty<NbtElement?, NbtElement?>.double get() = NbtProperty<Double?, Double?>({ this.get()?.castOrNull<AbstractNbtNumber>()?.doubleValue() }, { this.set(it?.let { a -> NbtDouble.of(a) }) })
+val NbtProperty<NbtElement?, NbtElement?>.number get() = NbtProperty<Number?, Number?>({ this.get()?.castOrNull<AbstractNbtNumber>()?.numberValue() }, { this.set(it?.let { a -> NbtDouble.of(a.toDouble()) }) })
+val NbtProperty<NbtElement?, NbtElement?>.string get() = NbtProperty<String?, String?>({ this.get()?.asString() }, { this.set(it?.let { a -> NbtString.of(a) }) })
 
-val NbtProperty<NbtElement?, NbtElement>.map
-    get() = NbtProperty<Map<String, NbtElement>?, Map<String, NbtElement>>({
+val NbtProperty<NbtElement?, NbtElement?>.map
+    get() = NbtProperty<Map<String, NbtElement>?, Map<String, NbtElement>?>({
         val nbt = this.get()?.castOrNull<NbtCompound>() ?: return@NbtProperty null
         nbt.keys.associate { key -> key!! to nbt[key]!! }
-    }, { map ->
-        this.set(NbtCompound().also { nbt ->
-            map.forEach { entry ->
-                nbt.put(entry.key, entry.value)
+    }, {
+        this.set(it?.let { a ->
+            NbtCompound().also { nbt ->
+                a.forEach { entry ->
+                    nbt.put(entry.key, entry.value)
+                }
             }
         })
     })
 
-fun <T> NbtProperty<T?, T>.orDefault(getter: () -> T) = object : NbtProperty<T, T> {
+fun <T> NbtProperty<T?, T?>.orDefault(getter: () -> T) = object : NbtProperty<T, T> {
     override fun get() = this@orDefault.get() ?: getter()
     override fun set(value: T) = this@orDefault.set(value)
 }
