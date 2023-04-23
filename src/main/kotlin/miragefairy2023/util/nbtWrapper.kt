@@ -17,46 +17,34 @@ import net.minecraft.nbt.NbtString
 import kotlin.reflect.KProperty
 
 
-// EntryPoint
+// NbtWrapper
 
-val NbtCompound.wrapper: NbtWrapper<NbtCompound>
+/**
+ * [NbtElement]のインスタンスを提供するインターフェースです。
+ * 参照先の[NbtElement]は実体が未生成である可能性があります。
+ * [NbtWrapper]を使って参照先のNbtElementを生成することができます。
+ */
+interface NbtWrapper<out N : NbtElement> {
+    fun getOrNull(): N?
+    fun getOrCreate(): N
+}
+
+/**
+ * 常に生成済みの[NbtElement]を返す[NbtWrapper]を生成します。
+ */
+val <N : NbtElement> N.wrapper: NbtWrapper<N>
     get() {
         val nbt = this
-        return object : NbtWrapper<NbtCompound> {
+        return object : NbtWrapper<N> {
             override fun getOrNull() = nbt
             override fun getOrCreate() = nbt
         }
     }
 
-
-// NbtWrapper
-
-interface NbtWrapper<out T> {
-    fun getOrNull(): T?
-    fun getOrCreate(): T
-}
-
-operator fun NbtProperty<NbtElement?, NbtElement>.get(key: String): NbtProperty<NbtElement?, NbtElement?> {
-    val parent = this
-    val nbtWrapper = object : NbtWrapper<NbtCompound> {
-        override fun getOrNull() = parent.get() as? NbtCompound
-        override fun getOrCreate() = getOrNull() ?: NbtCompound().also { parent.set(it) }
-    }
-    return nbtWrapper[key]
-}
-
-operator fun NbtProperty<NbtElement?, NbtElement>.get(index: Int): NbtProperty<NbtElement?, NbtElement> {
-    val parent = this
-    val nbtWrapper = object : NbtWrapper<NbtList> {
-        override fun getOrNull() = parent.get() as? NbtList
-        override fun getOrCreate() = getOrNull() ?: NbtList().also { parent.set(it) }
-    }
-    return nbtWrapper[index]
-}
-
-
-// NbtPath
-
+/**
+ * [NbtCompound]の子要素にアクセスする[NbtProperty]を生成します。
+ * この[NbtProperty]はnullをセット可能であり、その場合はそのキーを削除します。
+ */
 operator fun NbtWrapper<NbtCompound>.get(key: String): NbtProperty<NbtElement?, NbtElement?> {
     val parent = this
     return object : NbtProperty<NbtElement?, NbtElement?> {
@@ -71,6 +59,9 @@ operator fun NbtWrapper<NbtCompound>.get(key: String): NbtProperty<NbtElement?, 
     }
 }
 
+/**
+ * [NbtList]の子要素にアクセスする[NbtProperty]を生成します。
+ */
 operator fun NbtWrapper<NbtList>.get(index: Int): NbtProperty<NbtElement?, NbtElement> {
     val parent = this
     return object : NbtProperty<NbtElement?, NbtElement> {
@@ -84,27 +75,63 @@ operator fun NbtWrapper<NbtList>.get(index: Int): NbtProperty<NbtElement?, NbtEl
 
 // NbtProperty
 
+/**
+ * 親NBT要素の子に対する取得および設定のアクセスを提供するインターフェースです。
+ * [NbtProperty]は常に親NBT要素の存在を仮定し、設定アクセスは親NBT要素への改変を引き起こします。
+ */
 interface NbtProperty<out G, in S> {
     fun get(): G
     fun set(value: S)
 }
 
-inline fun <T> NbtProperty(crossinline getter: () -> T?, crossinline setter: (T) -> Unit) = object : NbtProperty<T?, T> {
+operator fun <G> NbtProperty<G, *>.getValue(thisRef: Any?, property: KProperty<*>) = this.get()
+operator fun <S> NbtProperty<*, S>.setValue(thisRef: Any?, property: KProperty<*>, value: S) = this.set(value)
+
+inline fun <G, S> NbtProperty(crossinline getter: () -> G, crossinline setter: (S) -> Unit) = object : NbtProperty<G, S> {
     override fun get() = getter()
-    override fun set(value: T) = setter(value)
+    override fun set(value: S) = setter(value)
 }
 
-val NbtProperty<NbtElement?, NbtElement>.byte get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.byteValue() }, { this.set(NbtByte.of(it)) })
-val NbtProperty<NbtElement?, NbtElement>.short get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.shortValue() }, { this.set(NbtShort.of(it)) })
-val NbtProperty<NbtElement?, NbtElement>.int get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.intValue() }, { this.set(NbtInt.of(it)) })
-val NbtProperty<NbtElement?, NbtElement>.long get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.longValue() }, { this.set(NbtLong.of(it)) })
-val NbtProperty<NbtElement?, NbtElement>.float get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.floatValue() }, { this.set(NbtFloat.of(it)) })
-val NbtProperty<NbtElement?, NbtElement>.double get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.doubleValue() }, { this.set(NbtDouble.of(it)) })
-val NbtProperty<NbtElement?, NbtElement>.number get() = NbtProperty({ this.get()?.castOrNull<AbstractNbtNumber>()?.numberValue() }, { this.set(NbtDouble.of(it.toDouble())) })
-val NbtProperty<NbtElement?, NbtElement>.string get() = NbtProperty({ this.get()?.asString() }, { this.set(NbtString.of(it)) })
+/**
+ * 親[NbtProperty]を[NbtCompound]と仮定し、その子要素への[NbtProperty]を返します。
+ * 親NBT要素が[NbtCompound]でなかった場合、取得アクセスではnullが返却され、設定アクセスでは親NBT要素に新しい[NbtCompound]を割り当てます。
+ */
+operator fun NbtProperty<NbtElement?, NbtElement>.get(key: String): NbtProperty<NbtElement?, NbtElement?> {
+    val parent = this
+    val nbtWrapper = object : NbtWrapper<NbtCompound> {
+        override fun getOrNull() = parent.get() as? NbtCompound
+        override fun getOrCreate() = getOrNull() ?: NbtCompound().also { parent.set(it) }
+    }
+    return nbtWrapper[key]
+}
+
+/**
+ * 親[NbtProperty]を[NbtList]と仮定し、その子要素への[NbtProperty]を返します。
+ * 親NBT要素が[NbtList]でなかった場合、取得アクセスではnullが返却され、設定アクセスでは親NBT要素に新しい[NbtList]を割り当てます。
+ */
+operator fun NbtProperty<NbtElement?, NbtElement>.get(index: Int): NbtProperty<NbtElement?, NbtElement> {
+    val parent = this
+    val nbtWrapper = object : NbtWrapper<NbtList> {
+        override fun getOrNull() = parent.get() as? NbtList
+        override fun getOrCreate() = getOrNull() ?: NbtList().also { parent.set(it) }
+    }
+    return nbtWrapper[index]
+}
+
+
+// utilities
+
+val NbtProperty<NbtElement?, NbtElement>.byte get() = NbtProperty<Byte?, Byte>({ this.get()?.castOrNull<AbstractNbtNumber>()?.byteValue() }, { this.set(NbtByte.of(it)) })
+val NbtProperty<NbtElement?, NbtElement>.short get() = NbtProperty<Short?, Short>({ this.get()?.castOrNull<AbstractNbtNumber>()?.shortValue() }, { this.set(NbtShort.of(it)) })
+val NbtProperty<NbtElement?, NbtElement>.int get() = NbtProperty<Int?, Int>({ this.get()?.castOrNull<AbstractNbtNumber>()?.intValue() }, { this.set(NbtInt.of(it)) })
+val NbtProperty<NbtElement?, NbtElement>.long get() = NbtProperty<Long?, Long>({ this.get()?.castOrNull<AbstractNbtNumber>()?.longValue() }, { this.set(NbtLong.of(it)) })
+val NbtProperty<NbtElement?, NbtElement>.float get() = NbtProperty<Float?, Float>({ this.get()?.castOrNull<AbstractNbtNumber>()?.floatValue() }, { this.set(NbtFloat.of(it)) })
+val NbtProperty<NbtElement?, NbtElement>.double get() = NbtProperty<Double?, Double>({ this.get()?.castOrNull<AbstractNbtNumber>()?.doubleValue() }, { this.set(NbtDouble.of(it)) })
+val NbtProperty<NbtElement?, NbtElement>.number get() = NbtProperty<Number?, Number>({ this.get()?.castOrNull<AbstractNbtNumber>()?.numberValue() }, { this.set(NbtDouble.of(it.toDouble())) })
+val NbtProperty<NbtElement?, NbtElement>.string get() = NbtProperty<String?, String>({ this.get()?.asString() }, { this.set(NbtString.of(it)) })
 
 val NbtProperty<NbtElement?, NbtElement>.map
-    get() = NbtProperty({
+    get() = NbtProperty<Map<String, NbtElement>?, Map<String, NbtElement>>({
         val nbt = this.get()?.castOrNull<NbtCompound>() ?: return@NbtProperty null
         nbt.keys.associate { key -> key!! to nbt[key]!! }
     }, { map ->
@@ -114,12 +141,6 @@ val NbtProperty<NbtElement?, NbtElement>.map
             }
         })
     })
-
-
-// NbtDelegate
-
-operator fun <T> NbtProperty<T, T>.getValue(thisRef: Any?, property: KProperty<*>): T = this.get()
-operator fun <T> NbtProperty<T, T>.setValue(thisRef: Any?, property: KProperty<*>, value: T) = this.set(value)
 
 fun <T> NbtProperty<T?, T>.orDefault(getter: () -> T) = object : NbtProperty<T, T> {
     override fun get() = this@orDefault.get() ?: getter()
