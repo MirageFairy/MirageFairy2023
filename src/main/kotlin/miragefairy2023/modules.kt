@@ -1,5 +1,6 @@
 package miragefairy2023
 
+import miragefairy2023.modules.advancementModule
 import miragefairy2023.modules.commonModule
 import miragefairy2023.modules.debugModule
 import miragefairy2023.modules.demonBlockModule
@@ -14,6 +15,7 @@ import miragefairy2023.modules.telescopeModule
 
 val modules = module {
     commonModule()
+    advancementModule()
     demonItemModule()
     demonBlockModule()
     fairyCrystalGlassModule()
