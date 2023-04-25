@@ -24,6 +24,7 @@ import miragefairy2023.modules.passiveskill.InRainPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.IndoorPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.LuckPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.MaxHealthPassiveSkillEffect
+import miragefairy2023.modules.passiveskill.MaximumFoodLevelPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MaximumHealthPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MaximumLevelPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MaximumLightLevelPassiveSkillCondition
@@ -267,7 +268,10 @@ enum class FairyCard(
     ),
     ZOMBIE(
         "zombie", 2, "Zombia", "硬屍精ゾンビャ", 0x2B4219, 0x00AAAA, 0x322976, 0x2B4219,
-        listOf(PassiveSkillProvider(listOf(ShadePassiveSkillCondition())) { AttackDamagePassiveSkillEffect(2.0 * it) }),
+        listOf(
+            PassiveSkillProvider(listOf(MaximumFoodLevelPassiveSkillCondition(6))) { AttackDamagePassiveSkillEffect(2.0 * it) },
+            PassiveSkillProvider(listOf(ShadePassiveSkillCondition())) { AttackDamagePassiveSkillEffect(1.0 * it) },
+        ),
         RecipeContainer().overworld().entityType { EntityType.ZOMBIE },
     ),
     MELON(
