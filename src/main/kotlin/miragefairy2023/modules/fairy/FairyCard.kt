@@ -19,6 +19,7 @@ import miragefairy2023.modules.passiveskill.BiomePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.CollectionPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.ExperiencePassiveSkillEffect
 import miragefairy2023.modules.passiveskill.FairyLevelPassiveSkillCondition
+import miragefairy2023.modules.passiveskill.FoodPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.HasHoePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.InRainPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.IndoorPassiveSkillCondition
@@ -36,6 +37,7 @@ import miragefairy2023.modules.passiveskill.NightPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.OnFirePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.OutdoorPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.OverworldPassiveSkillCondition
+import miragefairy2023.modules.passiveskill.RegenerationPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.ShadePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.StatusEffectPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.SunshinePassiveSkillCondition
@@ -277,8 +279,8 @@ enum class FairyCard(
     MELON(
         "melon", 4, "Melonia", "西瓜精メローニャ", 0xFF5440, 0xA6EE63, 0x195612, 0x01A900,
         listOf(
-            PassiveSkillProvider(listOf(MinimumFoodLevelPassiveSkillCondition(20))) { AttackDamagePassiveSkillEffect(1.0 * it) },
-            PassiveSkillProvider(listOf(MinimumFoodLevelPassiveSkillCondition(20), FairyLevelPassiveSkillCondition(10))) { StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0) },
+            PassiveSkillProvider(listOf(MinimumFoodLevelPassiveSkillCondition(12))) { RegenerationPassiveSkillEffect(0.1 * it) },
+            PassiveSkillProvider(listOf(FoodPassiveSkillCondition { Items.MELON_SLICE })) { RegenerationPassiveSkillEffect(0.4 * it) },
         ),
         RecipeContainer().biome(ConventionalBiomeTags.JUNGLE).block { Blocks.MELON }.recipe { Items.MELON },
     ),
