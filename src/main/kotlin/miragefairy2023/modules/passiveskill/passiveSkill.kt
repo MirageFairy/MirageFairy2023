@@ -97,10 +97,13 @@ val passiveSkillModule = module {
     translation(MaximumLevelPassiveSkillCondition.key)
     translation(MaximumHealthPassiveSkillCondition.key)
     translation(MinimumFoodLevelPassiveSkillCondition.key)
+    translation(MaximumFoodLevelPassiveSkillCondition.key)
     translation(OnFirePassiveSkillCondition.key)
     translation(FairyLevelPassiveSkillCondition.key)
 
+    translation(CombustionPassiveSkillEffect.key)
     translation(ExperiencePassiveSkillEffect.key)
+    translation(RegenerationPassiveSkillEffect.key)
     translation(CollectionPassiveSkillEffect.key)
 
 }

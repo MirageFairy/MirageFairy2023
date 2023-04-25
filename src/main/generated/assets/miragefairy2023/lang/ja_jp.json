@@ -184,6 +184,7 @@
   "miragefairy2023.passive_skill.condition.has_hoe": "クワ",
   "miragefairy2023.passive_skill.condition.in_rain": "雨",
   "miragefairy2023.passive_skill.condition.indoor": "屋内",
+  "miragefairy2023.passive_skill.condition.maximum_food_level": "満腹度%s以下",
   "miragefairy2023.passive_skill.condition.maximum_health": "体力%s以下",
   "miragefairy2023.passive_skill.condition.maximum_level": "レベル%s以下",
   "miragefairy2023.passive_skill.condition.maximum_light_level": "明るさ%s以下",
@@ -206,6 +207,8 @@
   "miragefairy2023.passive_skill.disabled": "3行目でパッシブスキルを有効化",
   "miragefairy2023.passive_skill.duplicated": "パッシブスキルが重複しています！",
   "miragefairy2023.passive_skill.effect.collection": "収集: %sスタック/秒",
+  "miragefairy2023.passive_skill.effect.combustion": "発火",
   "miragefairy2023.passive_skill.effect.experience": "経験値: %s/秒",
+  "miragefairy2023.passive_skill.effect.regeneration": "継続回復: %s/秒",
   "miragefairy2023.passive_skill.enabled": "パッシブスキル有効"
 }

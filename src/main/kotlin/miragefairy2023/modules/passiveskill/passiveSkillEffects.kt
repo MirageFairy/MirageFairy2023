@@ -7,6 +7,7 @@ import miragefairy2023.util.init.Translation
 import miragefairy2023.util.randomInt
 import miragefairy2023.util.text
 import miragefairy2023.util.toRoman
+import mirrg.kotlin.hydrogen.atLeast
 import mirrg.kotlin.hydrogen.formatAs
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.attribute.EntityAttribute
@@ -99,6 +100,18 @@ class StatusEffectPassiveSkillEffect(
     }
 }
 
+class CombustionPassiveSkillEffect : PassiveSkillEffect {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.combustion", "Combustion", "発火")
+    }
+
+    override fun getText() = text { key() }
+    override fun affect(world: ServerWorld, player: PlayerEntity, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) {
+        if (player.isWet || player.inPowderSnow || player.wasInPowderSnow) return
+        player.fireTicks = 30 atLeast player.fireTicks
+    }
+}
+
 class ExperiencePassiveSkillEffect(private val amount: Double) : PassiveSkillEffect {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.experience", "Experience: %s/s", "経験値: %s/秒")
@@ -108,6 +121,17 @@ class ExperiencePassiveSkillEffect(private val amount: Double) : PassiveSkillEff
     override fun affect(world: ServerWorld, player: PlayerEntity, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) {
         val actualAmount = world.random.randomInt(amount)
         if (actualAmount > 0) player.addExperience(actualAmount)
+    }
+}
+
+class RegenerationPassiveSkillEffect(private val amount: Double) : PassiveSkillEffect {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.regeneration", "Regeneration: %s/s", "継続回復: %s/秒")
+    }
+
+    override fun getText() = text { key(amount formatAs "%+.2f") }
+    override fun affect(world: ServerWorld, player: PlayerEntity, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) {
+        if (player.health < player.maxHealth) player.heal(amount.toFloat())
     }
 }
 

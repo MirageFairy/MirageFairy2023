@@ -9,7 +9,9 @@ import miragefairy2023.util.init.Translation
 import miragefairy2023.util.text
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
+import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ToolItem
 import net.minecraft.item.ToolMaterial
@@ -224,6 +226,15 @@ class ToolMaterialPassiveSkillCondition(private val toolMaterial: ToolMaterial, 
     }
 }
 
+class FoodPassiveSkillCondition(private val foodItem: () -> Item) : PassiveSkillCondition {
+    override fun getText() = text { foodItem().name }
+    override fun test(player: PlayerEntity, itemStack: ItemStack): Boolean {
+        val itemStacks = listOf(player.inventory.mainHandStack) + player.inventory.offHand + player.inventory.main
+        val primaryFoodItemStack = itemStacks.firstOrNull { it.isFood }
+        return primaryFoodItemStack?.isOf(foodItem()) ?: false
+    }
+}
+
 class MaximumLevelPassiveSkillCondition(private val level: Int) : PassiveSkillCondition {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.maximum_level", "Level %s↓", "レベル%s以下")
@@ -251,6 +262,15 @@ class MinimumFoodLevelPassiveSkillCondition(private val foodLevel: Int) : Passiv
     override fun test(player: PlayerEntity, itemStack: ItemStack) = player.hungerManager.foodLevel >= foodLevel
 }
 
+class MaximumFoodLevelPassiveSkillCondition(private val foodLevel: Int) : PassiveSkillCondition {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.maximum_food_level", "Food %s↓", "満腹度%s以下")
+    }
+
+    override fun getText() = text { key(foodLevel) }
+    override fun test(player: PlayerEntity, itemStack: ItemStack) = player.hungerManager.foodLevel <= foodLevel
+}
+
 class OnFirePassiveSkillCondition : PassiveSkillCondition {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.on_fire", "Fire", "炎上")
@@ -258,6 +278,11 @@ class OnFirePassiveSkillCondition : PassiveSkillCondition {
 
     override fun getText() = text { key() }
     override fun test(player: PlayerEntity, itemStack: ItemStack) = player.isOnFire
+}
+
+class StatusEffectPassiveSkillCondition(private val statusEffect: StatusEffect) : PassiveSkillCondition {
+    override fun getText() = text { translate(statusEffect.translationKey) }
+    override fun test(player: PlayerEntity, itemStack: ItemStack) = player.hasStatusEffect(statusEffect)
 }
 
 class FairyLevelPassiveSkillCondition(private val fairyLevel: Int) : PassiveSkillCondition {
