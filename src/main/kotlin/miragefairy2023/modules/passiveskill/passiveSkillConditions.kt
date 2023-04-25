@@ -25,7 +25,7 @@ private fun isSkyVisible(player: PlayerEntity) = player.world.isSkyVisible(playe
 
 private fun isSpaceVisible(player: PlayerEntity) = isWorldFine(player) && isSkyVisible(player)
 
-private fun isOutdoor(player: PlayerEntity) = player.blockPos.y >= player.world.getTopPosition(Heightmap.Type.MOTION_BLOCKING, player.blockPos).y
+private fun isOutdoor(player: PlayerEntity) = player.eyeBlockPos.y >= player.world.getTopPosition(Heightmap.Type.MOTION_BLOCKING, player.eyeBlockPos).y
 
 private fun isIndoor(player: PlayerEntity) = !isOutdoor(player)
 
@@ -33,9 +33,9 @@ private fun isWorldFine(player: PlayerEntity) = !isWorldRain(player)
 
 private fun isWorldRain(player: PlayerEntity) = player.world.isRaining
 
-private fun isInFine(player: PlayerEntity) = isWorldFine(player) || !isSkyVisible(player) || isIndoor(player) || player.world.getBiome(player.blockPos).value().precipitation == Biome.Precipitation.NONE
+private fun isInFine(player: PlayerEntity) = isWorldFine(player) || !isSkyVisible(player) || isIndoor(player) || player.world.getBiome(player.eyeBlockPos).value().precipitation == Biome.Precipitation.NONE
 
-private fun isInRain(player: PlayerEntity) = player.world.hasRain(player.blockPos)
+private fun isInRain(player: PlayerEntity) = player.world.hasRain(player.eyeBlockPos)
 
 private fun isWorldDaytime(player: PlayerEntity): Boolean {
     player.world.calculateAmbientDarkness()
