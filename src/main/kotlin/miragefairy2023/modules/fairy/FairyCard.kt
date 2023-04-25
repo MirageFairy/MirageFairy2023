@@ -17,6 +17,7 @@ import miragefairy2023.modules.passiveskill.AirPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.AttackDamagePassiveSkillEffect
 import miragefairy2023.modules.passiveskill.BiomePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.CollectionPassiveSkillEffect
+import miragefairy2023.modules.passiveskill.CombustionPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.ExperiencePassiveSkillEffect
 import miragefairy2023.modules.passiveskill.FairyLevelPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.FoodPassiveSkillCondition
@@ -39,6 +40,7 @@ import miragefairy2023.modules.passiveskill.OutdoorPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.OverworldPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.RegenerationPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.ShadePassiveSkillCondition
+import miragefairy2023.modules.passiveskill.StatusEffectPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.StatusEffectPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.SunshinePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.ToolMaterialPassiveSkillCondition
@@ -276,6 +278,73 @@ enum class FairyCard(
         ),
         RecipeContainer().overworld().entityType { EntityType.ZOMBIE },
     ),
+    SKELETON_HORSE(
+        "skeleton_horse", 6, "Skeletone Horsia", "骸骨馬精スケレトーネホルシャ", 0xA1A1A1, 0xD4D4D4, 0x757575, 0xD5D5D5,
+        listOf(
+            PassiveSkillProvider(listOf(MaximumFoodLevelPassiveSkillCondition(6))) { MovementSpeedPassiveSkillEffect(0.30 * it) },
+            PassiveSkillProvider(listOf(InRainPassiveSkillCondition())) { AttackDamagePassiveSkillEffect(1.0 * it) },
+        ),
+        RecipeContainer().overworld().entityType { EntityType.SKELETON_HORSE },
+    ),
+    WITHER(
+        "wither", 8, "Witheria", "枯精ウィテーリャ", 0x181818, 0x3C3C3C, 0x141414, 0x557272,
+        listOf(
+            PassiveSkillProvider(listOf(MaximumFoodLevelPassiveSkillCondition(6))) { StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 1) },
+            PassiveSkillProvider(listOf(MaximumFoodLevelPassiveSkillCondition(6))) { StatusEffectPassiveSkillEffect(StatusEffects.JUMP_BOOST, 1) },
+            PassiveSkillProvider(listOf(MaximumFoodLevelPassiveSkillCondition(6))) { StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0) },
+        ),
+        RecipeContainer().entityType { EntityType.WITHER },
+    ),
+    BLAZE(
+        "blaze", 7, "Blazia", "烈炎精ブラージャ", 0xE7DA21, 0xCB6E06, 0xB44500, 0xFF8025,
+        listOf(
+            PassiveSkillProvider(listOf(OnFirePassiveSkillCondition())) { AttackDamagePassiveSkillEffect(2.0 * it) },
+            PassiveSkillProvider(listOf(StatusEffectPassiveSkillCondition(StatusEffects.FIRE_RESISTANCE))) { CombustionPassiveSkillEffect() },
+        ),
+        RecipeContainer().biome(ConventionalBiomeTags.IN_NETHER).entityType { EntityType.BLAZE },
+    ),
+    WHEAT(
+        "wheat", 3, "Wheatia", "麦精ウェアーチャ", 0xD8BF7F, 0xDBBB65, 0xDBBB65, 0x896D20,
+        listOf(
+            PassiveSkillProvider(listOf(MinimumFoodLevelPassiveSkillCondition(12))) { RegenerationPassiveSkillEffect(0.1 * it) },
+            PassiveSkillProvider(listOf(FoodPassiveSkillCondition { Items.BREAD })) { RegenerationPassiveSkillEffect(0.3 * it) },
+            PassiveSkillProvider(listOf(FoodPassiveSkillCondition { Items.BREAD })) { AttackDamagePassiveSkillEffect(0.5 * it) },
+        ),
+        RecipeContainer().overworld().block { Blocks.HAY_BLOCK }.recipe { Items.WHEAT },
+    ),
+    CARROT(
+        "carrot", 4, "Carrotia", "人参精ツァッローチャ", 0xF98D10, 0xFD7F11, 0xE3710F, 0x248420,
+        listOf(
+            PassiveSkillProvider(listOf(MinimumFoodLevelPassiveSkillCondition(12))) { RegenerationPassiveSkillEffect(0.1 * it) },
+            PassiveSkillProvider(listOf(FoodPassiveSkillCondition { Items.CARROT })) { StatusEffectPassiveSkillEffect(StatusEffects.NIGHT_VISION, 0, additionalSeconds = 10) },
+        ),
+        RecipeContainer().overworld().block { Blocks.CARROTS }.recipe { Items.CARROT },
+    ),
+    POTATO(
+        "potato", 4, "Potatia", "芋精ポターチャ", 0xEAC278, 0xE7B456, 0xE7B456, 0x248420,
+        listOf(
+            PassiveSkillProvider(listOf(MinimumFoodLevelPassiveSkillCondition(12))) { RegenerationPassiveSkillEffect(0.1 * it) },
+            PassiveSkillProvider(listOf(FoodPassiveSkillCondition { Items.BAKED_POTATO })) { RegenerationPassiveSkillEffect(0.2 * it) },
+            PassiveSkillProvider(listOf(FoodPassiveSkillCondition { Items.BAKED_POTATO })) { AttackDamagePassiveSkillEffect(1.0 * it) },
+        ),
+        RecipeContainer().overworld().block { Blocks.POTATOES }.recipe { Items.POTATO },
+    ),
+    POISONOUS_POTATO(
+        "poisonous_potato", 5, "Poisonouse Potatia", "悪芋精ポイソノウセポターチャ", 0xCFE661, 0xE7B456, 0xE7B456, 0x61B835,
+        listOf(
+            PassiveSkillProvider(listOf(MinimumFoodLevelPassiveSkillCondition(12))) { AttackDamagePassiveSkillEffect(1.0 * it) },
+            PassiveSkillProvider(listOf(FoodPassiveSkillCondition { Items.POISONOUS_POTATO })) { AttackDamagePassiveSkillEffect(2.0 * it) },
+        ),
+        RecipeContainer().overworld().block { Blocks.POTATOES }.recipe { Items.POISONOUS_POTATO },
+    ),
+    BEETROOT(
+        "beetroot", 4, "Beetrootia", "火焔菜精ベートローチャ", 0xC1727C, 0xA74D55, 0x96383D, 0x01A900,
+        listOf(
+            PassiveSkillProvider(listOf(MinimumFoodLevelPassiveSkillCondition(12))) { RegenerationPassiveSkillEffect(0.1 * it) },
+            PassiveSkillProvider(listOf(FoodPassiveSkillCondition { Items.BEETROOT })) { AttackDamagePassiveSkillEffect(2.0 * it) },
+        ),
+        RecipeContainer().overworld().block { Blocks.BEETROOTS }.recipe { Items.BEETROOT },
+    ),
     MELON(
         "melon", 4, "Melonia", "西瓜精メローニャ", 0xFF5440, 0xA6EE63, 0x195612, 0x01A900,
         listOf(
@@ -283,6 +352,14 @@ enum class FairyCard(
             PassiveSkillProvider(listOf(FoodPassiveSkillCondition { Items.MELON_SLICE })) { RegenerationPassiveSkillEffect(0.4 * it) },
         ),
         RecipeContainer().biome(ConventionalBiomeTags.JUNGLE).block { Blocks.MELON }.recipe { Items.MELON },
+    ),
+    APPLE(
+        "apple", 4, "Applia", "林檎精アップーリャ", 0xFF755D, 0xFF564E, 0xFF0000, 0x01A900,
+        listOf(
+            PassiveSkillProvider(listOf(MinimumFoodLevelPassiveSkillCondition(12))) { RegenerationPassiveSkillEffect(0.1 * it) },
+            PassiveSkillProvider(listOf(FoodPassiveSkillCondition { Items.APPLE })) { StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0) },
+        ),
+        RecipeContainer().overworld().recipe { Items.APPLE },
     ),
     WOOD(
         "wood", 1, "Woodia", "木精ウォージャ", 0xE7C697, 0xAD8232, 0xAD8232, 0x8B591C,
@@ -454,6 +531,15 @@ enum class FairyCard(
         listOf(
             PassiveSkillProvider(listOf()) { StatusEffectPassiveSkillEffect(StatusEffects.SLOW_FALLING, 0) },
             PassiveSkillProvider(listOf()) { AttackDamagePassiveSkillEffect(2.0 * it) },
+        ),
+        RecipeContainer().always(),
+    ),
+    DREAM(
+        "dream", 10, "Dreamia", "夢幻精ドレアミャ", 0xBFC3FF, 0xD1BAD8, 0xDBBCD4, 0x848ACC,
+        listOf(
+            PassiveSkillProvider(listOf()) { LuckPassiveSkillEffect(1.0 * it) },
+            PassiveSkillProvider(listOf()) { RegenerationPassiveSkillEffect(0.1 * it) },
+            // TODO 夢のエフェクトが見えるようになる
         ),
         RecipeContainer().always(),
     ),
