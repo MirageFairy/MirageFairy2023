@@ -3,6 +3,7 @@ package miragefairy2023.modules
 import miragefairy2023.module
 import miragefairy2023.modules.fairy.FairyCard
 import miragefairy2023.modules.fairy.invoke
+import miragefairy2023.util.Symbol
 import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.registerColorProvider
@@ -45,7 +46,7 @@ class FairyListDebuggerItem(settings: Settings) : Item(settings) {
         val lines = FairyCard.values().map { fairyCard ->
 
             val passiveSkillTexts = fairyCard().passiveSkills.map { passiveSkill ->
-                text {
+                val string: String = text {
                     val effectText = passiveSkill.effect.getText()
                     val conditionTexts = passiveSkill.conditions.map { it.getText() }
                     if (conditionTexts.isNotEmpty()) {
@@ -54,6 +55,7 @@ class FairyListDebuggerItem(settings: Settings) : Item(settings) {
                         effectText
                     }
                 }.string
+                Symbol.values().fold(string) { it, symbol -> it.replace(symbol.uniformed, symbol.general) }
             }
 
             val recipeTexts = fairyCard.recipeContainer.recipes.map { it.getWikiString() }
