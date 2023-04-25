@@ -8,6 +8,7 @@ import miragefairy2023.util.castOr
 import miragefairy2023.util.eyeBlockPos
 import miragefairy2023.util.init.Translation
 import miragefairy2023.util.text
+import mirrg.kotlin.hydrogen.formatAs
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
 import net.minecraft.entity.effect.StatusEffect
@@ -234,17 +235,17 @@ class MaximumLevelPassiveSkillCondition(private val level: Int) : PassiveSkillCo
 }
 
 class MaximumHealthPassiveSkillCondition(private val health: Int) : PassiveSkillCondition {
-    override fun getText() = text { "${Symbol.HEART}$health${Symbol.DOWN}"() }
+    override fun getText() = text { "${Symbol.HEART}${health * 0.5 formatAs "%.1f"}${Symbol.DOWN}"() }
     override fun test(player: PlayerEntity, itemStack: ItemStack) = player.health <= health
 }
 
 class MinimumFoodLevelPassiveSkillCondition(private val foodLevel: Int) : PassiveSkillCondition {
-    override fun getText() = text { "${Symbol.FOOD}$foodLevel${Symbol.UP}"() }
+    override fun getText() = text { "${Symbol.FOOD}${foodLevel * 0.5 formatAs "%.1f"}${Symbol.UP}"() }
     override fun test(player: PlayerEntity, itemStack: ItemStack) = player.hungerManager.foodLevel >= foodLevel
 }
 
 class MaximumFoodLevelPassiveSkillCondition(private val foodLevel: Int) : PassiveSkillCondition {
-    override fun getText() = text { "${Symbol.FOOD}$foodLevel${Symbol.DOWN}"() }
+    override fun getText() = text { "${Symbol.FOOD}${foodLevel * 0.5 formatAs "%.1f"}${Symbol.DOWN}"() }
     override fun test(player: PlayerEntity, itemStack: ItemStack) = player.hungerManager.foodLevel <= foodLevel
 }
 
