@@ -4,6 +4,7 @@ import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.PassiveSkill
 import miragefairy2023.api.PassiveSkillItem
 import miragefairy2023.modules.passiveskill.getPassiveSkillTooltip
+import miragefairy2023.util.Symbol
 import miragefairy2023.util.aqua
 import miragefairy2023.util.darkGray
 import miragefairy2023.util.formatted
@@ -39,8 +40,8 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
 
         // レア度
         val stars1 = listOf(
-            (1..fairyCard.rare).map { "★" to { text: Text -> text.formatted(getRareColor(fairyCard.rare)) } },
-            (1..(rank - 1) * 2).map { "★" to { text: Text -> text.aqua } },
+            (1..fairyCard.rare).map { Symbol.STAR.uniformed to { text: Text -> text.formatted(getRareColor(fairyCard.rare)) } },
+            (1..(rank - 1) * 2).map { Symbol.STAR.uniformed to { text: Text -> text.aqua } },
         ).flatten()
         val stars2 = if (stars1.size > 15) {
             listOf(

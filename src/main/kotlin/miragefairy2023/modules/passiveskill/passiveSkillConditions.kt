@@ -3,6 +3,7 @@ package miragefairy2023.modules.passiveskill
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.PassiveSkillCondition
 import miragefairy2023.modules.fairy.DemonFairyItem
+import miragefairy2023.util.Symbol
 import miragefairy2023.util.castOr
 import miragefairy2023.util.eyeBlockPos
 import miragefairy2023.util.init.Translation
@@ -177,20 +178,12 @@ class BiomePassiveSkillCondition(private val biomeTag: TagKey<Biome>) : PassiveS
 }
 
 class MinimumLightLevelPassiveSkillCondition(private val lightLevel: Int) : PassiveSkillCondition {
-    companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.minimum_light_level", "Light %s↑", "明るさ%s↑")
-    }
-
-    override fun getText() = text { key(lightLevel) }
+    override fun getText() = text { "${Symbol.LIGHT}$lightLevel${Symbol.UP}"() }
     override fun test(player: PlayerEntity, itemStack: ItemStack) = player.world.getLightLevel(player.eyeBlockPos) >= lightLevel
 }
 
 class MaximumLightLevelPassiveSkillCondition(private val lightLevel: Int) : PassiveSkillCondition {
-    companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.maximum_light_level", "Light %s↓", "明るさ%s↓")
-    }
-
-    override fun getText() = text { key(lightLevel) }
+    override fun getText() = text { "${Symbol.LIGHT}$lightLevel${Symbol.DOWN}"() }
     override fun test(player: PlayerEntity, itemStack: ItemStack) = player.world.getLightLevel(player.eyeBlockPos) <= lightLevel
 }
 
@@ -236,38 +229,22 @@ class FoodPassiveSkillCondition(private val foodItem: () -> Item) : PassiveSkill
 }
 
 class MaximumLevelPassiveSkillCondition(private val level: Int) : PassiveSkillCondition {
-    companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.maximum_level", "Level %s↓", "レベル%s↓")
-    }
-
-    override fun getText() = text { key(level) }
+    override fun getText() = text { "${Symbol.LEVEL}$level${Symbol.DOWN}"() }
     override fun test(player: PlayerEntity, itemStack: ItemStack) = player.experienceLevel <= level
 }
 
 class MaximumHealthPassiveSkillCondition(private val health: Int) : PassiveSkillCondition {
-    companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.maximum_health", "Health %s↓", "体力%s↓")
-    }
-
-    override fun getText() = text { key(health) }
+    override fun getText() = text { "${Symbol.HEART}$health${Symbol.DOWN}"() }
     override fun test(player: PlayerEntity, itemStack: ItemStack) = player.health <= health
 }
 
 class MinimumFoodLevelPassiveSkillCondition(private val foodLevel: Int) : PassiveSkillCondition {
-    companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.minimum_food_level", "Food %s↑", "満腹度%s↑")
-    }
-
-    override fun getText() = text { key(foodLevel) }
+    override fun getText() = text { "${Symbol.FOOD}$foodLevel${Symbol.UP}"() }
     override fun test(player: PlayerEntity, itemStack: ItemStack) = player.hungerManager.foodLevel >= foodLevel
 }
 
 class MaximumFoodLevelPassiveSkillCondition(private val foodLevel: Int) : PassiveSkillCondition {
-    companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.maximum_food_level", "Food %s↓", "満腹度%s↓")
-    }
-
-    override fun getText() = text { key(foodLevel) }
+    override fun getText() = text { "${Symbol.FOOD}$foodLevel${Symbol.DOWN}"() }
     override fun test(player: PlayerEntity, itemStack: ItemStack) = player.hungerManager.foodLevel <= foodLevel
 }
 
@@ -286,10 +263,6 @@ class StatusEffectPassiveSkillCondition(private val statusEffect: StatusEffect) 
 }
 
 class FairyLevelPassiveSkillCondition(private val fairyLevel: Int) : PassiveSkillCondition {
-    companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.fairy_level", "★%s↑", "★%s↑")
-    }
-
-    override fun getText() = text { key(fairyLevel) }
+    override fun getText() = text { "${Symbol.STAR}$fairyLevel${Symbol.UP}"() }
     override fun test(player: PlayerEntity, itemStack: ItemStack) = itemStack.item.castOr<DemonFairyItem> { return false }.fairyLevel >= fairyLevel
 }
