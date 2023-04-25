@@ -48,6 +48,8 @@ private fun isWorldDaytime(player: PlayerEntity): Boolean {
 
 private fun isWorldNight(player: PlayerEntity) = !isWorldDaytime(player)
 
+private fun format(value: Double) = (value formatAs "%.4f").replace("""\.?0*$""".toRegex(), "")
+
 
 class OverworldPassiveSkillCondition : PassiveSkillCondition {
     companion object {
@@ -235,17 +237,17 @@ class MaximumLevelPassiveSkillCondition(private val level: Int) : PassiveSkillCo
 }
 
 class MaximumHealthPassiveSkillCondition(private val health: Int) : PassiveSkillCondition {
-    override fun getText() = text { "${Symbol.HEART}${health * 0.5 formatAs "%.1f"}${Symbol.DOWN}"() }
+    override fun getText() = text { "${Symbol.HEART}${format(health * 0.5)}${Symbol.DOWN}"() }
     override fun test(player: PlayerEntity, itemStack: ItemStack) = player.health <= health
 }
 
 class MinimumFoodLevelPassiveSkillCondition(private val foodLevel: Int) : PassiveSkillCondition {
-    override fun getText() = text { "${Symbol.FOOD}${foodLevel * 0.5 formatAs "%.1f"}${Symbol.UP}"() }
+    override fun getText() = text { "${Symbol.FOOD}${format(foodLevel * 0.5)}${Symbol.UP}"() }
     override fun test(player: PlayerEntity, itemStack: ItemStack) = player.hungerManager.foodLevel >= foodLevel
 }
 
 class MaximumFoodLevelPassiveSkillCondition(private val foodLevel: Int) : PassiveSkillCondition {
-    override fun getText() = text { "${Symbol.FOOD}${foodLevel * 0.5 formatAs "%.1f"}${Symbol.DOWN}"() }
+    override fun getText() = text { "${Symbol.FOOD}${format(foodLevel * 0.5)}${Symbol.DOWN}"() }
     override fun test(player: PlayerEntity, itemStack: ItemStack) = player.hungerManager.foodLevel <= foodLevel
 }
 
