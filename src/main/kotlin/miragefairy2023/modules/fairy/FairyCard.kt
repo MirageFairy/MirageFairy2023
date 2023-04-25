@@ -435,7 +435,7 @@ enum class FairyCard(
         RecipeContainer().overworld(),
     ),
     TIME(
-        "time", 12, "Timia", "時精ティーミャ", 0x89D585, 0xD5DEBC, 0xD8DEA7, 0x8DD586,
+        "time", 12, "Timia", "時精ティーミャ", 0xCDFFBF, 0xD5DEBC, 0xD8DEA7, 0x8DD586,
         listOf(
             PassiveSkillProvider(listOf()) { StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 1) },
             PassiveSkillProvider(listOf()) { MovementSpeedPassiveSkillEffect(0.20 * it) },
