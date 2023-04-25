@@ -4,6 +4,7 @@ import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.PassiveSkillCondition
 import miragefairy2023.modules.fairy.DemonFairyItem
 import miragefairy2023.util.castOr
+import miragefairy2023.util.eyeBlockPos
 import miragefairy2023.util.init.Translation
 import miragefairy2023.util.text
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags
@@ -15,13 +16,12 @@ import net.minecraft.item.ToolMaterial
 import net.minecraft.item.ToolMaterials
 import net.minecraft.tag.FluidTags
 import net.minecraft.tag.TagKey
-import net.minecraft.util.math.BlockPos
 import net.minecraft.world.Heightmap
 import net.minecraft.world.biome.Biome
 
 private fun isInNaturalDimension(player: PlayerEntity) = player.world.dimension.natural
 
-private fun isSkyVisible(player: PlayerEntity) = player.world.isSkyVisible(BlockPos(player.eyePos))
+private fun isSkyVisible(player: PlayerEntity) = player.world.isSkyVisible(player.eyeBlockPos)
 
 private fun isSpaceVisible(player: PlayerEntity) = isWorldFine(player) && isSkyVisible(player)
 
@@ -124,7 +124,7 @@ class AirPassiveSkillCondition : PassiveSkillCondition {
 
     override fun getText() = text { key() }
     override fun test(player: PlayerEntity, itemStack: ItemStack): Boolean {
-        val blockState = player.world.getBlockState(BlockPos(player.eyePos))
+        val blockState = player.world.getBlockState(player.eyeBlockPos)
         return !blockState.isOpaque && blockState.fluidState.isEmpty
     }
 }
@@ -136,7 +136,7 @@ class UnderwaterPassiveSkillCondition : PassiveSkillCondition {
 
     override fun getText() = text { key() }
     override fun test(player: PlayerEntity, itemStack: ItemStack): Boolean {
-        val blockState = player.world.getBlockState(BlockPos(player.eyePos))
+        val blockState = player.world.getBlockState(player.eyeBlockPos)
         return blockState.fluidState.isIn(FluidTags.WATER)
     }
 }
@@ -180,7 +180,7 @@ class MinimumLightLevelPassiveSkillCondition(private val lightLevel: Int) : Pass
     }
 
     override fun getText() = text { key(lightLevel) }
-    override fun test(player: PlayerEntity, itemStack: ItemStack) = player.world.getLightLevel(BlockPos(player.eyePos)) >= lightLevel
+    override fun test(player: PlayerEntity, itemStack: ItemStack) = player.world.getLightLevel(player.eyeBlockPos) >= lightLevel
 }
 
 class MaximumLightLevelPassiveSkillCondition(private val lightLevel: Int) : PassiveSkillCondition {
@@ -189,7 +189,7 @@ class MaximumLightLevelPassiveSkillCondition(private val lightLevel: Int) : Pass
     }
 
     override fun getText() = text { key(lightLevel) }
-    override fun test(player: PlayerEntity, itemStack: ItemStack) = player.world.getLightLevel(BlockPos(player.eyePos)) <= lightLevel
+    override fun test(player: PlayerEntity, itemStack: ItemStack) = player.world.getLightLevel(player.eyeBlockPos) <= lightLevel
 }
 
 class HasHoePassiveSkillCondition : PassiveSkillCondition {

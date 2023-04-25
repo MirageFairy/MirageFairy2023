@@ -2,6 +2,7 @@ package miragefairy2023.modules.passiveskill
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.PassiveSkillEffect
+import miragefairy2023.util.eyeBlockPos
 import miragefairy2023.util.init.Translation
 import miragefairy2023.util.randomInt
 import miragefairy2023.util.text
@@ -125,7 +126,7 @@ class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEff
             initializers += {
                 val actualAmount = world.random.randomInt(passiveSkillVariable[identifier] as Double)
                 if (actualAmount > 0) {
-                    val originalBlockPos = BlockPos(player.eyePos)
+                    val originalBlockPos = player.eyeBlockPos
                     val reach = 15
                     val itemEntities = world.getEntitiesByClass(ItemEntity::class.java, Box(originalBlockPos).expand(reach.toDouble())) {
                         when {
