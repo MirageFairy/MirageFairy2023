@@ -3,16 +3,29 @@ package miragefairy2023
 import miragefairy2023.MirageFairy2023.initializationScope
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.color.item.ItemColorProvider
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.util.Identifier
 
 object MirageFairy2023Client : ClientModInitializer {
     init {
         MirageFairy2023.proxy = object : Proxy {
             override fun getClientPlayer(): PlayerEntity? = MinecraftClient.getInstance().player
+            override fun registerClientPacketReceiver(identifier: Identifier, packetReceiver: ClientPacketReceiver<*>) {
+                fun <T> registerPacketReceiver(packetReceiver: ClientPacketReceiver<T>) {
+                    ClientPlayNetworking.registerGlobalReceiver(identifier) { client, _, buf, _ ->
+                        val data = packetReceiver.read(buf)
+                        client.execute {
+                            packetReceiver.receive(data)
+                        }
+                    }
+                }
+                registerPacketReceiver(packetReceiver)
+            }
         }
     }
 

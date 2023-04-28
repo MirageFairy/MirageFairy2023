@@ -1,7 +1,11 @@
 package miragefairy2023
 
 import net.fabricmc.api.ModInitializer
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.network.PacketByteBuf
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.util.Identifier
 import org.slf4j.LoggerFactory
 
 object MirageFairy2023 : ModInitializer {
@@ -9,7 +13,17 @@ object MirageFairy2023 : ModInitializer {
     val logger = LoggerFactory.getLogger(modId)
     var proxy: Proxy? = null
     var serverProxy: ServerProxy = object : ServerProxy {
-
+        override fun registerServerPacketReceiver(identifier: Identifier, packetReceiver: ServerPacketReceiver<*>) {
+            fun <T> registerPacketReceiver(packetReceiver: ServerPacketReceiver<T>) {
+                ServerPlayNetworking.registerGlobalReceiver(identifier) { server, player, _, buf, _ ->
+                    val data = packetReceiver.read(buf)
+                    server.execute {
+                        packetReceiver.receive(data, player)
+                    }
+                }
+            }
+            registerPacketReceiver(packetReceiver)
+        }
     }
 
     lateinit var initializationScope: InitializationScope
@@ -30,8 +44,19 @@ object MirageFairy2023 : ModInitializer {
 
 interface Proxy {
     fun getClientPlayer(): PlayerEntity?
+    fun registerClientPacketReceiver(identifier: Identifier, packetReceiver: ClientPacketReceiver<*>)
 }
 
 interface ServerProxy {
+    fun registerServerPacketReceiver(identifier: Identifier, packetReceiver: ServerPacketReceiver<*>)
+}
 
+interface ClientPacketReceiver<P> {
+    fun read(buf: PacketByteBuf): P
+    fun receive(packet: P)
+}
+
+interface ServerPacketReceiver<P> {
+    fun read(buf: PacketByteBuf): P
+    fun receive(packet: P, player: ServerPlayerEntity)
 }
