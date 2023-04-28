@@ -205,6 +205,7 @@ class TelescopeBlock(settings: Settings) : Block(settings) {
             }
 
             lastTelescopeUseTime = now.toUtcInstant().toEpochMilli()
+            syncCustomData(player)
 
         } else {
 
@@ -213,6 +214,7 @@ class TelescopeBlock(settings: Settings) : Block(settings) {
             world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.5F, 1.0F)
 
             lastTelescopeUseTime = Instant.now().toEpochMilli()
+            syncCustomData(player)
 
         }
 

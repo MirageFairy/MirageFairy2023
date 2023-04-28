@@ -75,6 +75,7 @@ class ResetTelescopeMissionDebuggerItem(settings: Settings) : Item(settings) {
         user as ServerPlayerEntity
 
         user.lastTelescopeUseTimeProperty.set(null)
+        syncCustomData(user)
         user.sendMessage(text { "Reset telescope mission "() }, false)
 
         return TypedActionResult.success(itemStack)
