@@ -133,9 +133,6 @@ class TelescopeBlock(settings: Settings) : Block(settings) {
             Direction.WEST to createCuboidShape(1.0, 0.0, 4.0, 15.0, 16.0, 12.0)!!,
             Direction.EAST to createCuboidShape(1.0, 0.0, 4.0, 15.0, 16.0, 12.0)!!,
         )
-
-        private val ZONE_OFFSET = ZoneOffset.ofHours(0)
-        private val DAY_OF_WEEK_ORIGIN = DayOfWeek.SUNDAY
     }
 
 
@@ -175,9 +172,6 @@ class TelescopeBlock(settings: Settings) : Block(settings) {
         if (world.isClient) return ActionResult.SUCCESS
         player as ServerPlayerEntity
 
-
-        fun Instant.toUtcLocalDateTime(): LocalDateTime = this.atOffset(ZONE_OFFSET).toLocalDateTime()
-        fun LocalDateTime.toUtcInstant(): Instant = this.toInstant(ZONE_OFFSET)
 
         var lastTelescopeUseTime by player.lastTelescopeUseTimeProperty
         if (lastTelescopeUseTime != null) {
@@ -225,5 +219,11 @@ class TelescopeBlock(settings: Settings) : Block(settings) {
         return ActionResult.CONSUME
     }
 }
+
+private val ZONE_OFFSET = ZoneOffset.ofHours(0)
+private val DAY_OF_WEEK_ORIGIN = DayOfWeek.SUNDAY
+
+private fun Instant.toUtcLocalDateTime(): LocalDateTime = this.atOffset(ZONE_OFFSET).toLocalDateTime()
+private fun LocalDateTime.toUtcInstant(): Instant = this.toInstant(ZONE_OFFSET)
 
 val PlayerEntity.lastTelescopeUseTimeProperty get() = this.customData.wrapper[MirageFairy2023.modId]["mission"]["last_telescope_use_time"].long
