@@ -353,6 +353,7 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
         return ActionResult.CONSUME
     }
 
+    @Suppress("DEPRECATION")
     override fun onStacksDropped(state: BlockState, world: ServerWorld, pos: BlockPos, stack: ItemStack, dropExperience: Boolean) {
         super.onStacksDropped(state, world, pos, stack, dropExperience)
         if (dropExperience) {
