@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.particle.DefaultParticleType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import org.slf4j.LoggerFactory
@@ -45,6 +46,7 @@ object MirageFairy2023 : ModInitializer {
 interface Proxy {
     fun getClientPlayer(): PlayerEntity?
     fun registerClientPacketReceiver(identifier: Identifier, packetReceiver: ClientPacketReceiver<*>)
+    fun registerParticleType(particleType: DefaultParticleType)
 }
 
 interface ServerProxy {
