@@ -34,12 +34,14 @@ private val CUSTOM_DATA_PACKET_ID = Identifier(MirageFairy2023.modId, "custom_da
 val customDataModule = module {
 
     // 受信
-    MirageFairy2023.clientProxy?.registerClientPacketReceiver(CUSTOM_DATA_PACKET_ID, object : ClientPacketReceiver<NbtCompound> {
-        override fun read(buf: PacketByteBuf) = buf.readNbt()!!
-        override fun receive(packet: NbtCompound) {
-            clientCustomData = packet
-        }
-    })
+    onInitializeClient {
+        MirageFairy2023.clientProxy?.registerClientPacketReceiver(CUSTOM_DATA_PACKET_ID, object : ClientPacketReceiver<NbtCompound> {
+            override fun read(buf: PacketByteBuf) = buf.readNbt()!!
+            override fun receive(packet: NbtCompound) {
+                clientCustomData = packet
+            }
+        })
+    }
 
     // ログイン時自動同期
     ServerPlayConnectionEvents.JOIN.register { handler, _, _ ->
