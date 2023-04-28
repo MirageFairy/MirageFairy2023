@@ -9,7 +9,6 @@ import miragefairy2023.util.getValue
 import miragefairy2023.util.gray
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
-import miragefairy2023.util.init.Translation
 import miragefairy2023.util.init.block
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJa
@@ -18,7 +17,6 @@ import miragefairy2023.util.init.generateBlockState
 import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
-import miragefairy2023.util.init.translation
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
 import miragefairy2023.util.long
@@ -124,9 +122,6 @@ val telescopeModule = module {
             .offerTo(it, telescopeBlockItem.feature.identifier)
     }
 
-    translation(TelescopeBlock.REWARD_KEY)
-    translation(TelescopeBlock.FAILURE_KEY)
-
 }
 
 class TelescopeBlock(settings: Settings) : Block(settings) {
@@ -141,9 +136,6 @@ class TelescopeBlock(settings: Settings) : Block(settings) {
 
         private val ZONE_OFFSET = ZoneOffset.ofHours(0)
         private val DAY_OF_WEEK_ORIGIN = DayOfWeek.SUNDAY
-
-        val REWARD_KEY = Translation("block.${MirageFairy2023.modId}.telescope.reward", "Acquired %s Minia Crystals!", "%sミーニャの報酬を手に入れた！")
-        val FAILURE_KEY = Translation("block.${MirageFairy2023.modId}.telescope.failure", "Today's observations are recorded", "明日また観測してみよう")
     }
 
 
@@ -202,32 +194,26 @@ class TelescopeBlock(settings: Settings) : Block(settings) {
             val now: LocalDateTime = Instant.now().toUtcLocalDateTime()
             var success = false
             if (now >= nextMonthlyLimit) {
-                player.sendMessage(text { REWARD_KEY(2500) }, false)
                 player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(5))
                 success = true
             }
             if (now >= nextWeeklyLimit) {
-                player.sendMessage(text { REWARD_KEY(750) }, false)
                 player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1))
                 player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(5))
                 success = true
             }
             if (now >= nextDailyLimit) {
-                player.sendMessage(text { REWARD_KEY(150) }, false)
                 player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(3))
                 success = true
             }
             if (success) {
                 world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.5F, 1.0F)
-            } else {
-                player.sendMessage(text { FAILURE_KEY() }, true)
             }
 
             lastTelescopeUseTime = now.toUtcInstant().toEpochMilli()
 
         } else {
 
-            player.sendMessage(text { REWARD_KEY(500) }, false)
             player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1))
 
             world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.5F, 1.0F)
