@@ -323,7 +323,6 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
 
         // 前提条件を計算
         world as ServerWorld
-        val blockEntity = world.getBlockEntity(pos)
         val tool = player.mainHandStack
 
         // ドロップアイテムを計算
