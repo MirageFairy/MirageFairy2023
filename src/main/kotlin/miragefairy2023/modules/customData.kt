@@ -42,7 +42,7 @@ val customDataModule = module {
     })
 
     // ログイン時自動同期
-    ServerPlayConnectionEvents.JOIN.register { handler, sender, server ->
+    ServerPlayConnectionEvents.JOIN.register { handler, _, _ ->
         syncCustomData(handler.player)
     }
 
