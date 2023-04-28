@@ -30,6 +30,7 @@ class InitializationScope(val modId: String) {
     val onGenerateBlockTags = EventBus<((TagKey<Block>) -> FabricTagProvider<Block>.FabricTagBuilder<Block>) -> Unit>()
     val onGenerateParticles = EventBus<(ParticleProvider) -> Unit>()
 
+    val onInitializeClient = EventBus<() -> Unit>()
     val onRegisterRenderLayers = EventBus<((Block, Unit) -> Unit) -> Unit>()
     val onRegisterColorProvider = EventBus<((Item, (ItemStack, Int) -> Int) -> Unit) -> Unit>()
 

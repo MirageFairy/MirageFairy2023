@@ -15,8 +15,10 @@ import net.minecraft.particle.DefaultParticleType
 import net.minecraft.util.Identifier
 
 object MirageFairy2023Client : ClientModInitializer {
-    init {
+    override fun onInitializeClient() {
+
         MirageFairy2023.clientProxy = object : ClientProxy {
+
             override fun getClientPlayer(): PlayerEntity? = MinecraftClient.getInstance().player
 
             override fun registerClientPacketReceiver(identifier: Identifier, packetReceiver: ClientPacketReceiver<*>) {
@@ -35,10 +37,11 @@ object MirageFairy2023Client : ClientModInitializer {
                 val pendingParticleFactory = SuspendParticle::HappyVillagerFactory
                 ParticleFactoryRegistry.getInstance().register(particleType, pendingParticleFactory)
             }
-        }
-    }
 
-    override fun onInitializeClient() {
+        }
+
+        initializationScope.onInitializeClient.fire { it() }
+
 
         initializationScope.onRegisterRenderLayers.fire {
             it { block, layerName ->
