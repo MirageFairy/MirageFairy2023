@@ -1,5 +1,7 @@
 package miragefairy2023
 
+import com.google.gson.JsonElement
+import com.mojang.logging.LogUtils
 import miragefairy2023.MirageFairy2023.initializationScope
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
@@ -12,6 +14,9 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider
 import net.minecraft.advancement.Advancement
 import net.minecraft.block.Block
+import net.minecraft.data.DataGenerator
+import net.minecraft.data.DataProvider
+import net.minecraft.data.DataWriter
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.ItemModelGenerator
 import net.minecraft.data.server.recipe.RecipeJsonProvider
@@ -20,6 +25,7 @@ import net.minecraft.loot.LootTable
 import net.minecraft.loot.context.LootContextTypes
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
+import java.io.IOException
 import java.util.function.BiConsumer
 import java.util.function.Consumer
 
@@ -81,5 +87,34 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
             }
         })
 
+        fabricDataGenerator.addProvider(ParticleProvider(fabricDataGenerator).also { provider ->
+            initializationScope.onGenerateParticles.fire { it(provider) }
+        })
+
     }
+}
+
+class ParticleProvider(private val dataGenerator: DataGenerator) : DataProvider {
+
+    private val map = mutableMapOf<Identifier, JsonElement>()
+
+    operator fun set(identifier: Identifier, jsonElement: JsonElement) {
+        if (identifier in map) throw Exception("Duplicate particle definition for $identifier")
+        map[identifier] = jsonElement
+    }
+
+    override fun run(writer: DataWriter) {
+        val pathResolver = dataGenerator.createPathResolver(DataGenerator.OutputType.RESOURCE_PACK, "particles")
+        map.forEach { (identifier, jsonElement) ->
+            val path = pathResolver.resolveJson(identifier)
+            try {
+                DataProvider.writeToPath(writer, jsonElement, path)
+            } catch (e: IOException) {
+                LogUtils.getLogger().error("Couldn't save data file {}", path, e)
+            }
+        }
+    }
+
+    override fun getName() = "Particles"
+
 }
