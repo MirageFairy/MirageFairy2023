@@ -8,6 +8,9 @@ object MirageFairy2023 : ModInitializer {
     val modId = "miragefairy2023"
     val logger = LoggerFactory.getLogger(modId)
     var proxy: Proxy? = null
+    var serverProxy: ServerProxy = object : ServerProxy {
+
+    }
 
     lateinit var initializationScope: InitializationScope
 
@@ -27,4 +30,8 @@ object MirageFairy2023 : ModInitializer {
 
 interface Proxy {
     fun getClientPlayer(): PlayerEntity?
+}
+
+interface ServerProxy {
+
 }
