@@ -46,7 +46,7 @@ object MirageFairy2023 : ModInitializer {
 interface ClientProxy {
     fun getClientPlayer(): PlayerEntity?
     fun registerClientPacketReceiver(identifier: Identifier, packetReceiver: ClientPacketReceiver<*>)
-    fun registerParticleType(particleType: DefaultParticleType)
+    fun registerParticleFactory(particleType: DefaultParticleType)
 }
 
 interface ServerProxy {

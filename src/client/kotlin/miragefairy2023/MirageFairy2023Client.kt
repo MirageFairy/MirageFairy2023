@@ -31,7 +31,7 @@ object MirageFairy2023Client : ClientModInitializer {
                 registerPacketReceiver(packetReceiver)
             }
 
-            override fun registerParticleType(particleType: DefaultParticleType) {
+            override fun registerParticleFactory(particleType: DefaultParticleType) {
                 val pendingParticleFactory = SuspendParticle::HappyVillagerFactory
                 ParticleFactoryRegistry.getInstance().register(particleType, pendingParticleFactory)
             }
