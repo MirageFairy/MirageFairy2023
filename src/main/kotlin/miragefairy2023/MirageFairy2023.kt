@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory
 object MirageFairy2023 : ModInitializer {
     val modId = "miragefairy2023"
     val logger = LoggerFactory.getLogger(modId)
-    var proxy: Proxy? = null
+    var clientProxy: ClientProxy? = null
     var serverProxy: ServerProxy = object : ServerProxy {
         override fun registerServerPacketReceiver(identifier: Identifier, packetReceiver: ServerPacketReceiver<*>) {
             fun <T> registerPacketReceiver(packetReceiver: ServerPacketReceiver<T>) {
@@ -43,7 +43,7 @@ object MirageFairy2023 : ModInitializer {
     }
 }
 
-interface Proxy {
+interface ClientProxy {
     fun getClientPlayer(): PlayerEntity?
     fun registerClientPacketReceiver(identifier: Identifier, packetReceiver: ClientPacketReceiver<*>)
     fun registerParticleType(particleType: DefaultParticleType)

@@ -16,7 +16,7 @@ import net.minecraft.util.Identifier
 
 object MirageFairy2023Client : ClientModInitializer {
     init {
-        MirageFairy2023.proxy = object : Proxy {
+        MirageFairy2023.clientProxy = object : ClientProxy {
             override fun getClientPlayer(): PlayerEntity? = MinecraftClient.getInstance().player
 
             override fun registerClientPacketReceiver(identifier: Identifier, packetReceiver: ClientPacketReceiver<*>) {
