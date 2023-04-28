@@ -17,6 +17,7 @@ import miragefairy2023.util.init.generateBlockState
 import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
+import miragefairy2023.util.jsonArrayOf
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
 import miragefairy2023.util.long
@@ -27,6 +28,7 @@ import miragefairy2023.util.wrapper
 import mirrg.kotlin.hydrogen.floorMod
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
+import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
 import net.minecraft.block.AbstractFurnaceBlock
 import net.minecraft.block.Block
@@ -41,6 +43,7 @@ import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.particle.DefaultParticleType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.sound.SoundCategory
@@ -54,9 +57,12 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.BlockMirror
 import net.minecraft.util.BlockRotation
 import net.minecraft.util.Hand
+import net.minecraft.util.Identifier
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.random.Random
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import java.time.DayOfWeek
@@ -66,6 +72,8 @@ import java.time.ZoneOffset
 
 lateinit var telescopeBlock: FeatureSlot<TelescopeBlock>
 lateinit var telescopeBlockItem: FeatureSlot<BlockItem>
+
+val missionParticleType: DefaultParticleType = FabricParticleTypes.simple(true)
 
 val telescopeModule = module {
 
@@ -120,6 +128,20 @@ val telescopeModule = module {
             .criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
             .group(telescopeBlockItem.feature)
             .offerTo(it, telescopeBlockItem.feature.identifier)
+    }
+
+    onGenerateParticles {
+        it[Identifier(modId, "mission")] = jsonObjectOf(
+            "textures" to jsonArrayOf(
+                "miragefairy2023:mission".jsonPrimitive,
+            ),
+        )
+    }
+
+    Registry.register(Registry.PARTICLE_TYPE, Identifier(MirageFairy2023.modId, "mission"), missionParticleType)
+
+    onInitializeClient {
+        MirageFairy2023.clientProxy!!.registerParticleFactory(missionParticleType)
     }
 
 }
@@ -219,6 +241,53 @@ class TelescopeBlock(settings: Settings) : Block(settings) {
         }
 
         return ActionResult.CONSUME
+    }
+
+
+    // 描画
+    override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {
+
+        val lastTelescopeUseTime by MirageFairy2023.clientProxy?.getClientPlayer()?.lastTelescopeUseTimeProperty ?: return
+        if (lastTelescopeUseTime != null) {
+
+            val time = Instant.ofEpochMilli(lastTelescopeUseTime!!).toUtcLocalDateTime()
+            val lastMonthlyLimit: LocalDateTime = time.toLocalDate().withDayOfMonth(1).atStartOfDay()
+
+            val lastWeeklyLimit: LocalDateTime = time.toLocalDate().minusDays((time.dayOfWeek.value - DAY_OF_WEEK_ORIGIN.value floorMod 7).toLong()).atStartOfDay()
+            val lastDailyLimit: LocalDateTime = time.toLocalDate().atStartOfDay()
+            val nextMonthlyLimit = lastMonthlyLimit.plusMonths(1)
+            val nextWeeklyLimit = lastWeeklyLimit.plusDays(7)
+            val nextDailyLimit = lastDailyLimit.plusDays(1)
+
+            val now: LocalDateTime = Instant.now().toUtcLocalDateTime()
+            var success = false
+            if (now >= nextMonthlyLimit) {
+                success = true
+            }
+            if (now >= nextWeeklyLimit) {
+                success = true
+            }
+            if (now >= nextDailyLimit) {
+                success = true
+            }
+            if (!success) {
+                return
+            }
+
+        }
+
+        if (random.nextInt(1) == 0) {
+            val x = pos.x.toDouble() + 0.0 + random.nextDouble() * 1.0
+            val y = pos.y.toDouble() + 0.0 + random.nextDouble() * 0.5
+            val z = pos.z.toDouble() + 0.0 + random.nextDouble() * 1.0
+            world.addParticle(
+                missionParticleType,
+                x, y, z,
+                random.nextGaussian() * 0.00,
+                random.nextGaussian() * 0.00 + 0.4,
+                random.nextGaussian() * 0.00,
+            )
+        }
     }
 }
 
