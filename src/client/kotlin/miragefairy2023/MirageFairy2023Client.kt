@@ -10,11 +10,13 @@ import net.minecraft.client.render.RenderLayer
 import net.minecraft.entity.player.PlayerEntity
 
 object MirageFairy2023Client : ClientModInitializer {
-    override fun onInitializeClient() {
-
+    init {
         MirageFairy2023.proxy = object : Proxy {
             override fun getClientPlayer(): PlayerEntity? = MinecraftClient.getInstance().player
         }
+    }
+
+    override fun onInitializeClient() {
 
         initializationScope.onRegisterRenderLayers.fire {
             it { block, layerName ->
