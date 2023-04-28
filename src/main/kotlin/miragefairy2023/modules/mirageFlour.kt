@@ -1,6 +1,5 @@
 package miragefairy2023.modules
 
-import com.faux.customentitydata.api.CustomDataHelper
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.SlotContainer
 import miragefairy2023.api.Fairy
@@ -204,7 +203,7 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
         val commonFairyList = COMMON_FAIRY_LIST.filter { it.predicate(player) }.map { it.fairy }
 
         // 夢枠
-        val nbt = CustomDataHelper.getPersistentData(player)
+        val nbt = player.customData
         val found = nbt.wrapper[MirageFairy2023.modId]["found_motifs"].map.get().or { mapOf() }.entries
             .filter { it.value.castOrNull<AbstractNbtNumber>()?.intValue() != 0 }
             .map { Identifier(it.key) }
@@ -315,7 +314,7 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
                 user.obtain(fairy.getItem().createItemStack())
 
                 // 妖精召喚履歴に追加
-                val nbt = CustomDataHelper.getPersistentData(user)
+                val nbt = user.customData
                 var count by nbt.wrapper[MirageFairy2023.modId]["fairy_count"][fairy.getIdentifier().toString()].int.orDefault { 0 }
                 count += 1
 

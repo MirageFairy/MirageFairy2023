@@ -1,6 +1,5 @@
 package miragefairy2023.modules
 
-import com.faux.customentitydata.api.CustomDataHelper
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.Fairy
 import miragefairy2023.module
@@ -153,7 +152,7 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
         }
 
         // ストレージ
-        val nbt = CustomDataHelper.getPersistentData(player)
+        val nbt = player.customData
 
         // 入手済み妖精計算
         val foundFairies = nbt.wrapper[MirageFairy2023.modId]["found_motifs"].map.get().or { mapOf() }.entries
@@ -225,7 +224,7 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
         }
 
         // 入手済み妖精計算
-        val nbt = CustomDataHelper.getPersistentData(entity)
+        val nbt = entity.customData
         val foundFairies = nbt.wrapper[MirageFairy2023.modId]["found_motifs"].map.get().or { mapOf() }.entries
             .filter { it.value.castOrNull<AbstractNbtNumber>()?.intValue() != 0 }
             .map { Identifier(it.key) }

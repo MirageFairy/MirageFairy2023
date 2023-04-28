@@ -1,6 +1,5 @@
 package miragefairy2023.modules
 
-import com.faux.customentitydata.api.CustomDataHelper
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.concat
@@ -241,4 +240,4 @@ class TelescopeBlock(settings: Settings) : Block(settings) {
     }
 }
 
-val ServerPlayerEntity.lastTelescopeUseTimeProperty get() = CustomDataHelper.getPersistentData(this).wrapper[MirageFairy2023.modId]["mission"]["last_telescope_use_time"].long
+val PlayerEntity.lastTelescopeUseTimeProperty get() = this.customData.wrapper[MirageFairy2023.modId]["mission"]["last_telescope_use_time"].long
