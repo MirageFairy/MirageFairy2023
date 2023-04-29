@@ -6,11 +6,14 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry
+import net.minecraft.block.Block
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.color.item.ItemColorProvider
 import net.minecraft.client.particle.SuspendParticle
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
 import net.minecraft.particle.DefaultParticleType
 import net.minecraft.util.Identifier
 
@@ -38,26 +41,17 @@ object MirageFairy2023Client : ClientModInitializer {
                 ParticleFactoryRegistry.getInstance().register(particleType, pendingParticleFactory)
             }
 
+            override fun registerBlockRenderLayer(block: Block) {
+                BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), block)
+            }
+
+            override fun registerItemColorProvider(item: Item, colorFunction: (stack: ItemStack, tintIndex: Int) -> Int) {
+                ColorProviderRegistry.ITEM.register(ItemColorProvider { stack, tintIndex -> colorFunction(stack, tintIndex) }, item)
+            }
+
         }
 
         initializationScope.onInitializeClient.fire { it() }
-
-
-        initializationScope.onRegisterRenderLayers.fire {
-            it { block, layerName ->
-                val layer = when (layerName) {
-                    Unit -> RenderLayer.getCutout()
-                    else -> throw AssertionError()
-                }
-                BlockRenderLayerMap.INSTANCE.putBlocks(layer, block)
-            }
-        }
-
-        initializationScope.onRegisterColorProvider.fire {
-            it { item, colorFunction ->
-                ColorProviderRegistry.ITEM.register(ItemColorProvider { stack, tintIndex -> colorFunction(stack, tintIndex) }, item)
-            }
-        }
 
     }
 }

@@ -9,7 +9,6 @@ import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.ItemModelGenerator
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
 import net.minecraft.loot.LootTable
 import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
@@ -31,8 +30,6 @@ class InitializationScope(val modId: String) {
     val onGenerateParticles = EventBus<(ParticleProvider) -> Unit>()
 
     val onInitializeClient = EventBus<() -> Unit>()
-    val onRegisterRenderLayers = EventBus<((Block, Unit) -> Unit) -> Unit>()
-    val onRegisterColorProvider = EventBus<((Item, (ItemStack, Int) -> Int) -> Unit) -> Unit>()
 
     val onRegisterLootConditionType = EventBus<() -> Unit>()
     val onRegisterLootFunctionType = EventBus<() -> Unit>()

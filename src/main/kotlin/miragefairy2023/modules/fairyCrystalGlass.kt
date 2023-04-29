@@ -1,6 +1,7 @@
 package miragefairy2023.modules
 
 import com.google.gson.JsonElement
+import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.concat
 import miragefairy2023.util.gray
@@ -143,7 +144,7 @@ val fairyCrystalGlassModule = module {
             }
 
             // レンダリング関連
-            onRegisterRenderLayers { it(feature, Unit) }
+            onInitializeClient { MirageFairy2023.clientProxy!!.registerBlockRenderLayer(feature) }
 
             // 翻訳
             enJaBlock({ feature }, card.enName, card.jaName)

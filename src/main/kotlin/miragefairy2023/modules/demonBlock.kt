@@ -1,6 +1,7 @@
 package miragefairy2023.modules
 
 import com.google.gson.JsonElement
+import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.gray
 import miragefairy2023.util.init.FeatureSlot
@@ -111,7 +112,7 @@ val demonBlockModule = module {
             val modelId = modelFactory.upload(feature, blockStateModelGenerator.modelCollector)
             blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(feature, modelId))
         }
-        onRegisterRenderLayers { it(feature, Unit) }
+        onInitializeClient { MirageFairy2023.clientProxy!!.registerBlockRenderLayer(feature) }
         enJaBlock({ feature }, "Local Vacuum Decay", "局所真空崩壊")
         enJa({ "${feature.translationKey}.poem" }, "Stable instability caused by anti-entropy", "これが秩序の究極の形だというのか？")
         onGenerateBlockTags { it(BlockTags.DRAGON_IMMUNE).add(feature) }

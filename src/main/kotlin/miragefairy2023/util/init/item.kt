@@ -3,6 +3,7 @@
 package miragefairy2023.util.init
 
 import miragefairy2023.InitializationScope
+import miragefairy2023.MirageFairy2023
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
@@ -24,6 +25,6 @@ fun <T : Item> InitializationScope.item(name: String, itemCreator: () -> T, bloc
     return scope
 }
 
-fun <T : Item> FeatureSlot<T>.registerColorProvider(colorFunction: (ItemStack, Int) -> Int) = initializationScope.onRegisterColorProvider {
-    it(feature, colorFunction)
+fun <T : Item> FeatureSlot<T>.registerColorProvider(colorFunction: (ItemStack, Int) -> Int) = initializationScope.onInitializeClient {
+    MirageFairy2023.clientProxy!!.registerItemColorProvider(feature, colorFunction)
 }

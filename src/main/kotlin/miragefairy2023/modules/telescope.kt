@@ -101,7 +101,7 @@ object TelescopeModule {
                     }),
                 )
             }
-            onRegisterRenderLayers { it(feature, Unit) }
+            onInitializeClient { MirageFairy2023.clientProxy!!.registerBlockRenderLayer(feature) }
 
             // 翻訳
             enJaBlock({ feature }, "Minia's Telescope", "ミーニャの望遠鏡")

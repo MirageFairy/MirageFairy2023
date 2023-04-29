@@ -3,6 +3,7 @@ package miragefairy2023.modules
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializationContext
+import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.concat
 import miragefairy2023.util.createItemStack
@@ -104,7 +105,7 @@ val mirageFlowerModule = module {
                 blockStateModelGenerator.createSubModel(feature, "_age$age", Models.CROSS) { TextureMap.of(TextureKey.CROSS, it) }
             }
         }
-        onRegisterRenderLayers { it(feature, Unit) }
+        onInitializeClient { MirageFairy2023.clientProxy!!.registerBlockRenderLayer(feature) }
         // onGenerateBlockTags { it(BlockTags.SMALL_FLOWERS).add(feature) } // これをやるとエンダーマンが勝手に引っこ抜いていく
         generateBlockLootTable {
             val age2Condition = rangedMatchBlockStatePropertyLootCondition(feature, MirageFlowerBlock.AGE, 2, 3)

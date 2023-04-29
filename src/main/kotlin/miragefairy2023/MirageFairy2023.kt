@@ -2,7 +2,10 @@ package miragefairy2023
 
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
+import net.minecraft.block.Block
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.particle.DefaultParticleType
 import net.minecraft.server.network.ServerPlayerEntity
@@ -47,6 +50,8 @@ interface ClientProxy {
     fun getClientPlayer(): PlayerEntity?
     fun registerClientPacketReceiver(identifier: Identifier, packetReceiver: ClientPacketReceiver<*>)
     fun registerParticleFactory(particleType: DefaultParticleType)
+    fun registerBlockRenderLayer(block: Block)
+    fun registerItemColorProvider(item: Item, colorFunction: (stack: ItemStack, tintIndex: Int) -> Int)
 }
 
 interface ServerProxy {
