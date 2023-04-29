@@ -35,7 +35,7 @@ val customDataModule = module {
 
     // 受信
     onInitializeClient {
-        MirageFairy2023.clientProxy?.registerClientPacketReceiver(CUSTOM_DATA_PACKET_ID, object : ClientPacketReceiver<NbtCompound> {
+        MirageFairy2023.clientProxy!!.registerClientPacketReceiver(CUSTOM_DATA_PACKET_ID, object : ClientPacketReceiver<NbtCompound> {
             override fun read(buf: PacketByteBuf) = buf.readNbt()!!
             override fun receive(packet: NbtCompound) {
                 clientCustomData = packet
