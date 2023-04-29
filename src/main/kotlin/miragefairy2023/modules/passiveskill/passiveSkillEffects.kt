@@ -17,8 +17,6 @@ import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
@@ -185,8 +183,9 @@ class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEff
 
                     if (processedCount > 0) {
 
+                        // TODO sound
                         // Effect
-                        world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 0.25F, 1.0F)
+                        //world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 0.25F, 1.0F)
 
                     }
 
