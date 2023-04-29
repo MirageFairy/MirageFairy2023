@@ -70,78 +70,82 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
-lateinit var telescopeBlock: FeatureSlot<TelescopeBlock>
-lateinit var telescopeBlockItem: FeatureSlot<BlockItem>
+object TelescopeModule {
 
-val missionParticleType: DefaultParticleType = FabricParticleTypes.simple(true)
+    lateinit var telescopeBlock: FeatureSlot<TelescopeBlock>
+    lateinit var telescopeBlockItem: FeatureSlot<BlockItem>
 
-val telescopeModule = module {
+    val missionParticleType: DefaultParticleType = FabricParticleTypes.simple(true)
 
-    telescopeBlock = block("telescope", { TelescopeBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.COPPER).strength(0.5F).nonOpaque()) }) {
+    val module = module {
 
-        // レンダリング
-        generateBlockState {
-            jsonObjectOf(
-                "variants" to jsonObjectOf(listOf(
-                    "north" to 0,
-                    "south" to 180,
-                    "west" to 270,
-                    "east" to 90,
-                ).map { (facing, y) ->
-                    "facing=$facing" to jsonObjectOf(
-                        "model" to "${"block/" concat id}".jsonPrimitive,
-                        "y" to y.jsonPrimitive,
-                    )
-                }),
+        telescopeBlock = block("telescope", { TelescopeBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.COPPER).strength(0.5F).nonOpaque()) }) {
+
+            // レンダリング
+            generateBlockState {
+                jsonObjectOf(
+                    "variants" to jsonObjectOf(listOf(
+                        "north" to 0,
+                        "south" to 180,
+                        "west" to 270,
+                        "east" to 90,
+                    ).map { (facing, y) ->
+                        "facing=$facing" to jsonObjectOf(
+                            "model" to "${"block/" concat id}".jsonPrimitive,
+                            "y" to y.jsonPrimitive,
+                        )
+                    }),
+                )
+            }
+            onRegisterRenderLayers { it(feature, Unit) }
+
+            // 翻訳
+            enJaBlock({ feature }, "Minia's Telescope", "ミーニャの望遠鏡")
+            enJa({ "${feature.translationKey}.poem" }, "Tell me more about the human world!", "きみは妖精には見えないものが見えるんだね。")
+
+            // レシピ
+            onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
+            generateDefaultBlockLootTable()
+
+        }
+        telescopeBlockItem = item("telescope", {
+            object : BlockItem(telescopeBlock.feature, FabricItemSettings().group(commonItemGroup)) {
+                override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
+                    super.appendTooltip(stack, world, tooltip, context)
+                    tooltip += text { translate("$translationKey.poem").gray }
+                    // TODO ミッション達成状況表示
+                }
+            }
+        })
+
+        onGenerateRecipes {
+            ShapedRecipeJsonBuilder
+                .create(telescopeBlockItem.feature)
+                .pattern("IIG")
+                .pattern(" S ")
+                .pattern("S S")
+                .input('I', ConventionalItemTags.COPPER_INGOTS)
+                .input('G', DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
+                .input('S', Items.STICK)
+                .criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
+                .group(telescopeBlockItem.feature)
+                .offerTo(it, telescopeBlockItem.feature.identifier)
+        }
+
+        onGenerateParticles {
+            it[Identifier(modId, "mission")] = jsonObjectOf(
+                "textures" to jsonArrayOf(
+                    "miragefairy2023:mission".jsonPrimitive,
+                ),
             )
         }
-        onRegisterRenderLayers { it(feature, Unit) }
 
-        // 翻訳
-        enJaBlock({ feature }, "Minia's Telescope", "ミーニャの望遠鏡")
-        enJa({ "${feature.translationKey}.poem" }, "Tell me more about the human world!", "きみは妖精には見えないものが見えるんだね。")
+        Registry.register(Registry.PARTICLE_TYPE, Identifier(MirageFairy2023.modId, "mission"), missionParticleType)
 
-        // レシピ
-        onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
-        generateDefaultBlockLootTable()
-
-    }
-    telescopeBlockItem = item("telescope", {
-        object : BlockItem(telescopeBlock.feature, FabricItemSettings().group(commonItemGroup)) {
-            override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-                super.appendTooltip(stack, world, tooltip, context)
-                tooltip += text { translate("$translationKey.poem").gray }
-                // TODO ミッション達成状況表示
-            }
+        onInitializeClient {
+            MirageFairy2023.clientProxy!!.registerParticleFactory(missionParticleType)
         }
-    })
 
-    onGenerateRecipes {
-        ShapedRecipeJsonBuilder
-            .create(telescopeBlockItem.feature)
-            .pattern("IIG")
-            .pattern(" S ")
-            .pattern("S S")
-            .input('I', ConventionalItemTags.COPPER_INGOTS)
-            .input('G', DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
-            .input('S', Items.STICK)
-            .criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
-            .group(telescopeBlockItem.feature)
-            .offerTo(it, telescopeBlockItem.feature.identifier)
-    }
-
-    onGenerateParticles {
-        it[Identifier(modId, "mission")] = jsonObjectOf(
-            "textures" to jsonArrayOf(
-                "miragefairy2023:mission".jsonPrimitive,
-            ),
-        )
-    }
-
-    Registry.register(Registry.PARTICLE_TYPE, Identifier(MirageFairy2023.modId, "mission"), missionParticleType)
-
-    onInitializeClient {
-        MirageFairy2023.clientProxy!!.registerParticleFactory(missionParticleType)
     }
 
 }
@@ -281,7 +285,7 @@ class TelescopeBlock(settings: Settings) : Block(settings) {
             val y = pos.y.toDouble() + 0.0 + random.nextDouble() * 0.5
             val z = pos.z.toDouble() + 0.0 + random.nextDouble() * 1.0
             world.addParticle(
-                missionParticleType,
+                TelescopeModule.missionParticleType,
                 x, y, z,
                 random.nextGaussian() * 0.00,
                 random.nextGaussian() * 0.00 + 0.4,

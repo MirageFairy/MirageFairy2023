@@ -284,12 +284,12 @@ val advancementModule = module {
         }
 
         val telescope = advancement(
-            "telescope", { telescopeBlockItem.feature },
+            "telescope", { TelescopeModule.telescopeBlockItem.feature },
             "Living in the Universe", "ユニバースに佇む",
             "Investigate the world unknown to fairies", "レンズを通して妖精の知らない世界を見る",
             parent = artificialFairyCrystal,
         ) {
-            criterion(telescopeBlockItem.feature)
+            criterion(TelescopeModule.telescopeBlockItem.feature)
             reward(tier1LootTableId)
         }
 
