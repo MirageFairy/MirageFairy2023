@@ -41,7 +41,6 @@ import net.minecraft.item.ToolMaterials
 import net.minecraft.nbt.AbstractNbtNumber
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
@@ -201,13 +200,11 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
         return true
     }
 
-    // TODO すべてをクライアント側の処理に
     override fun inventoryTick(stack: ItemStack, world: World, entity: Entity, slot: Int, selected: Boolean) {
-        if (world.isClient) return
-        world as ServerWorld
-        if (entity !is ServerPlayerEntity) return
+        if (!world.isClient) return
+        if (entity !is PlayerEntity) return
 
-        if (world.random.nextInt(100) != 0) return // 平均して5秒に1回
+        if (world.random.nextInt(40) != 0) return // 平均して2秒に1回
 
         // インベントリチェック
         run ok@{
@@ -242,7 +239,7 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
                 playerBlockPos.y + 4,
                 playerBlockPos.z + 4
             ).asSequence()
-            val b = (0 until 100).map {
+            val b = (0 until 500).map {
                 playerBlockPos.add(
                     (world.random.nextGaussian() * 10.0).roundToInt(),
                     (world.random.nextGaussian() * 10.0).roundToInt(),
@@ -266,13 +263,15 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
                 if (!hasUnknownFairy) return@forEach
 
                 // 演出
-                world.spawnParticles(
-                    entity, ParticleTypes.ENCHANT, false,
-                    blockPos.x.toDouble() + 0.5, blockPos.y.toDouble() + 0.5 + 1.0, blockPos.z.toDouble() + 0.5,
-                    10,
-                    0.0, 0.0, 0.0,
-                    2.0
-                )
+                repeat(5) {
+                    world.addParticle(
+                        ParticleTypes.ENCHANT,
+                        blockPos.x.toDouble() + 0.5, blockPos.y.toDouble() + 0.5 + 1.0, blockPos.z.toDouble() + 0.5,
+                        world.random.nextGaussian() * 2.00,
+                        world.random.nextGaussian() * 2.00,
+                        world.random.nextGaussian() * 2.00,
+                    )
+                }
 
             }
         }
@@ -292,13 +291,15 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
             if (!hasUnknownFairy) return@forEach
 
             // 演出
-            world.spawnParticles(
-                entity, ParticleTypes.ENCHANT, false,
-                targetEntity.x, targetEntity.y + targetEntity.height / 2.0 + 1.0, targetEntity.z,
-                10,
-                0.0, 0.0, 0.0,
-                2.0
-            )
+            repeat(10) {
+                world.addParticle(
+                    ParticleTypes.ENCHANT,
+                    targetEntity.x, targetEntity.y + targetEntity.height / 2.0 + 1.0, targetEntity.z,
+                    world.random.nextGaussian() * 2.00,
+                    world.random.nextGaussian() * 2.00,
+                    world.random.nextGaussian() * 2.00,
+                )
+            }
 
         }
 
