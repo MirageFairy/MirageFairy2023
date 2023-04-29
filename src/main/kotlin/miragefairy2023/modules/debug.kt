@@ -1,14 +1,17 @@
 package miragefairy2023.modules
 
+import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.modules.fairy.FairyCard
 import miragefairy2023.modules.fairy.invoke
 import miragefairy2023.util.Symbol
+import miragefairy2023.util.get
 import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.registerColorProvider
 import miragefairy2023.util.join
 import miragefairy2023.util.text
+import miragefairy2023.util.wrapper
 import mirrg.kotlin.hydrogen.join
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.data.client.Model
@@ -35,6 +38,11 @@ val debugModule = module {
         onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier("minecraft", "item/book")), Optional.empty())) }
         registerColorProvider { _, _ -> 0xFFC700 }
         enJaItem({ feature }, "Reset Telescope Mission Debugger", "望遠鏡ミッションリセットデバッガー")
+    }
+    item("reset_fairy_dream_debugger", { ResetFairyDreamDebuggerItem(FabricItemSettings().group(commonItemGroup)) }) {
+        onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier("minecraft", "item/book")), Optional.empty())) }
+        registerColorProvider { _, _ -> 0x00FFC3 }
+        enJaItem({ feature }, "Reset Fairy Dream Debugger", "妖精の夢リセットデバッガー")
     }
 }
 
@@ -77,6 +85,21 @@ class ResetTelescopeMissionDebuggerItem(settings: Settings) : Item(settings) {
         user.lastTelescopeUseTimeProperty.set(null)
         syncCustomData(user)
         user.sendMessage(text { "Reset telescope mission"() }, false)
+
+        return TypedActionResult.success(itemStack)
+    }
+}
+
+class ResetFairyDreamDebuggerItem(settings: Settings) : Item(settings) {
+    override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
+        val itemStack = user.getStackInHand(hand)
+        if (world.isClient) return TypedActionResult.consume(itemStack)
+        user as ServerPlayerEntity
+
+        val nbt = user.customData
+        nbt.wrapper[MirageFairy2023.modId]["found_motifs"].set(null)
+        syncCustomData(user)
+        user.sendMessage(text { "Reset fairy dreams"() }, false)
 
         return TypedActionResult.success(itemStack)
     }
