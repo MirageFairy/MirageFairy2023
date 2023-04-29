@@ -19,6 +19,8 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
@@ -86,6 +88,8 @@ class ResetTelescopeMissionDebuggerItem(settings: Settings) : Item(settings) {
         syncCustomData(user)
         user.sendMessage(text { "Reset telescope mission"() }, false)
 
+        user.world.playSound(null, user.x, user.y, user.z, SoundEvents.BLOCK_BEACON_DEACTIVATE, SoundCategory.PLAYERS, 0.5F, 1.0F)
+
         return TypedActionResult.success(itemStack)
     }
 }
@@ -100,6 +104,8 @@ class ResetFairyDreamDebuggerItem(settings: Settings) : Item(settings) {
         nbt.wrapper[MirageFairy2023.modId]["found_motifs"].set(null)
         syncCustomData(user)
         user.sendMessage(text { "Reset fairy dreams"() }, false)
+
+        user.world.playSound(null, user.x, user.y, user.z, SoundEvents.BLOCK_BEACON_DEACTIVATE, SoundCategory.PLAYERS, 0.5F, 1.0F)
 
         return TypedActionResult.success(itemStack)
     }
