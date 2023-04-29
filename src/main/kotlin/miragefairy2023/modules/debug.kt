@@ -76,7 +76,7 @@ class ResetTelescopeMissionDebuggerItem(settings: Settings) : Item(settings) {
 
         user.lastTelescopeUseTimeProperty.set(null)
         syncCustomData(user)
-        user.sendMessage(text { "Reset telescope mission "() }, false)
+        user.sendMessage(text { "Reset telescope mission"() }, false)
 
         return TypedActionResult.success(itemStack)
     }
