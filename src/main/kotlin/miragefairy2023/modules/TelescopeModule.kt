@@ -2,6 +2,7 @@ package miragefairy2023.modules
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
+import miragefairy2023.util.InstrumentBlock
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.get
 import miragefairy2023.util.getValue
@@ -30,17 +31,13 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
-import net.minecraft.block.AbstractFurnaceBlock
-import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Material
 import net.minecraft.block.ShapeContext
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
-import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BlockItem
-import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.particle.DefaultParticleType
@@ -48,14 +45,9 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
-import net.minecraft.state.StateManager
-import net.minecraft.state.property.DirectionProperty
-import net.minecraft.state.property.Properties
 import net.minecraft.tag.BlockTags
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
-import net.minecraft.util.BlockMirror
-import net.minecraft.util.BlockRotation
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.hit.BlockHitResult
@@ -138,9 +130,8 @@ object TelescopeModule {
 
 }
 
-class TelescopeBlock(settings: Settings) : Block(settings) {
+class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
     companion object {
-        val FACING: DirectionProperty = Properties.HORIZONTAL_FACING
         private val FACING_TO_SHAPE = mapOf(
             Direction.NORTH to createCuboidShape(4.0, 0.0, 1.0, 12.0, 16.0, 15.0)!!,
             Direction.SOUTH to createCuboidShape(4.0, 0.0, 1.0, 12.0, 16.0, 15.0)!!,
@@ -149,36 +140,10 @@ class TelescopeBlock(settings: Settings) : Block(settings) {
         )
     }
 
-
-    // プロパティ―
-
-    init {
-        defaultState = defaultState.with(FACING, Direction.NORTH)
-    }
-
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        builder.add(FACING)
-    }
-
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState = defaultState.with(FACING, ctx.playerFacing)
-
-
-    // 変形
-
-    @Suppress("OVERRIDE_DEPRECATION")
-    override fun rotate(state: BlockState, rotation: BlockRotation): BlockState = state.with(FACING, rotation.rotate(state[AbstractFurnaceBlock.FACING]))
-
-    @Suppress("OVERRIDE_DEPRECATION")
-    override fun mirror(state: BlockState, mirror: BlockMirror): BlockState = state.rotate(mirror.getRotation(state[FACING]))
-
-
-    // 形状
+    override fun getPlacementDirection(playerDirection: Direction) = playerDirection
 
     @Suppress("OVERRIDE_DEPRECATION")
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = FACING_TO_SHAPE[state[FACING]]
-
-    @Suppress("OVERRIDE_DEPRECATION")
-    override fun canPathfindThrough(state: BlockState, world: BlockView, pos: BlockPos, type: NavigationType?) = false
 
 
     @Suppress("OVERRIDE_DEPRECATION")
@@ -235,8 +200,6 @@ class TelescopeBlock(settings: Settings) : Block(settings) {
         return ActionResult.CONSUME
     }
 
-
-    // 描画
     override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {
 
         val lastTelescopeUseTime by MirageFairy2023.clientProxy?.getClientPlayer()?.lastTelescopeUseTimeProperty ?: return
@@ -281,6 +244,7 @@ class TelescopeBlock(settings: Settings) : Block(settings) {
             )
         }
     }
+
 }
 
 val PlayerEntity.lastTelescopeUseTimeProperty get() = this.customData.wrapper[MirageFairy2023.modId]["mission"]["last_telescope_use_time"].long
