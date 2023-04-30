@@ -102,7 +102,6 @@ object TelescopeModule {
                 override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
                     super.appendTooltip(stack, world, tooltip, context)
                     tooltip += text { translate("$translationKey.poem").gray }
-                    // TODO ミッション達成状況表示
                 }
             }
         })
