@@ -80,7 +80,7 @@ object TelescopeModule {
 
     val missionParticleType: DefaultParticleType = FabricParticleTypes.simple(true)
 
-    val module = module {
+    val init = module {
 
         telescopeBlock = block("telescope", { TelescopeBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.COPPER).strength(0.5F).nonOpaque()) }) {
 

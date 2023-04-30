@@ -20,7 +20,7 @@ val modules = module {
     demonItemModule()
     demonBlockModule()
     fairyCrystalGlassModule()
-    TelescopeModule.module(this)
+    TelescopeModule.init(this)
     mirageFlourModule()
     mirageFlowerModule()
     fairyModule()
