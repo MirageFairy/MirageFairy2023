@@ -4,6 +4,7 @@ package miragefairy2023.util.init
 
 import com.google.gson.JsonElement
 import miragefairy2023.InitializationScope
+import miragefairy2023.util.concat
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
@@ -35,6 +36,22 @@ fun <T : Block> FeatureSlot<T>.generateBlockState(jsonElementSupplier: () -> Jso
             override fun get() = jsonElementSupplier()
         })
     }
+}
+
+fun <T : Block> FeatureSlot<T>.generateHorizontalFacingBlockState() = generateBlockState {
+    jsonObjectOf(
+        "variants" to jsonObjectOf(listOf(
+            "north" to 0,
+            "south" to 180,
+            "west" to 270,
+            "east" to 90,
+        ).map { (facing, y) ->
+            "facing=$facing" to jsonObjectOf(
+                "model" to "${"block/" concat id}".jsonPrimitive,
+                "y" to y.jsonPrimitive,
+            )
+        }),
+    )
 }
 
 fun <T : Block> FeatureSlot<T>.generateSimpleCubeAllBlockState() {

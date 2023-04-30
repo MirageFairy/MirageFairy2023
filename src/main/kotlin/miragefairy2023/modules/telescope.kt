@@ -2,7 +2,6 @@ package miragefairy2023.modules
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
-import miragefairy2023.util.concat
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.get
 import miragefairy2023.util.getValue
@@ -13,8 +12,8 @@ import miragefairy2023.util.init.block
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaBlock
-import miragefairy2023.util.init.generateBlockState
 import miragefairy2023.util.init.generateDefaultBlockLootTable
+import miragefairy2023.util.init.generateHorizontalFacingBlockState
 import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
 import miragefairy2023.util.jsonArrayOf
@@ -86,21 +85,7 @@ object TelescopeModule {
         telescopeBlock = block("telescope", { TelescopeBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.COPPER).strength(0.5F).nonOpaque()) }) {
 
             // レンダリング
-            generateBlockState {
-                jsonObjectOf(
-                    "variants" to jsonObjectOf(listOf(
-                        "north" to 0,
-                        "south" to 180,
-                        "west" to 270,
-                        "east" to 90,
-                    ).map { (facing, y) ->
-                        "facing=$facing" to jsonObjectOf(
-                            "model" to "${"block/" concat id}".jsonPrimitive,
-                            "y" to y.jsonPrimitive,
-                        )
-                    }),
-                )
-            }
+            generateHorizontalFacingBlockState()
             onInitializeClient { MirageFairy2023.clientProxy!!.registerBlockRenderLayer(feature) }
 
             // 翻訳
