@@ -143,7 +143,7 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
     override fun getPlacementDirection(playerDirection: Direction) = playerDirection
 
     @Suppress("OVERRIDE_DEPRECATION")
-    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = FACING_TO_SHAPE[state[FACING]]
+    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = FACING_TO_SHAPE[getFacing(state)]
 
 
     @Suppress("OVERRIDE_DEPRECATION")

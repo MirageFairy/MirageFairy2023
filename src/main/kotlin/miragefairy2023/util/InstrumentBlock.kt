@@ -29,6 +29,8 @@ open class InstrumentBlock(settings: Settings) : Block(settings) {
         builder.add(FACING)
     }
 
+    fun getFacing(blockState: BlockState): Direction = blockState[FACING]
+
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState = defaultState.with(FACING, getPlacementDirection(ctx.playerFacing))
 
     open fun getPlacementDirection(playerDirection: Direction): Direction = playerDirection.opposite
