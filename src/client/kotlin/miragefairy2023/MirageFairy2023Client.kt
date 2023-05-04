@@ -9,6 +9,8 @@ import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry
 import net.minecraft.block.Block
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.color.item.ItemColorProvider
+import net.minecraft.client.particle.EnchantGlyphParticle
+import net.minecraft.client.particle.EndRodParticle
 import net.minecraft.client.particle.SuspendParticle
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.entity.player.PlayerEntity
@@ -36,8 +38,12 @@ object MirageFairy2023Client : ClientModInitializer {
                 registerPacketReceiver(packetReceiver)
             }
 
-            override fun registerParticleFactory(particleType: DefaultParticleType) {
-                val pendingParticleFactory = SuspendParticle::HappyVillagerFactory
+            override fun registerParticleFactory(particleType: DefaultParticleType, demonParticleBehaviour: DemonParticleBehaviour) {
+                val pendingParticleFactory = when (demonParticleBehaviour) {
+                    DemonParticleBehaviour.HAPPY -> SuspendParticle::HappyVillagerFactory
+                    DemonParticleBehaviour.ENCHANT -> EnchantGlyphParticle::EnchantFactory
+                    DemonParticleBehaviour.END_ROD -> EndRodParticle::Factory
+                }
                 ParticleFactoryRegistry.getInstance().register(particleType, pendingParticleFactory)
             }
 

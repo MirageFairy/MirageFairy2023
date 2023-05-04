@@ -17,9 +17,6 @@ import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.generateHorizontalFacingBlockState
 import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
-import miragefairy2023.util.jsonArrayOf
-import miragefairy2023.util.jsonObjectOf
-import miragefairy2023.util.jsonPrimitive
 import miragefairy2023.util.long
 import miragefairy2023.util.obtain
 import miragefairy2023.util.setValue
@@ -29,7 +26,6 @@ import miragefairy2023.util.wrapper
 import mirrg.kotlin.hydrogen.floorMod
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
 import net.minecraft.block.BlockState
 import net.minecraft.block.Material
@@ -40,7 +36,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.particle.DefaultParticleType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.sound.SoundCategory
@@ -49,12 +44,10 @@ import net.minecraft.tag.BlockTags
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
-import net.minecraft.util.registry.Registry
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import java.time.DayOfWeek
@@ -69,8 +62,6 @@ object TelescopeModule {
 
     lateinit var telescopeBlock: FeatureSlot<TelescopeBlock>
     lateinit var telescopeBlockItem: FeatureSlot<BlockItem>
-
-    val missionParticleType: DefaultParticleType = FabricParticleTypes.simple(true)
 
     val init = module {
 
@@ -110,20 +101,6 @@ object TelescopeModule {
                 .criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
                 .group(telescopeBlockItem.feature)
                 .offerTo(it, telescopeBlockItem.feature.identifier)
-        }
-
-        onGenerateParticles {
-            it[Identifier(modId, "mission")] = jsonObjectOf(
-                "textures" to jsonArrayOf(
-                    "miragefairy2023:mission".jsonPrimitive,
-                ),
-            )
-        }
-
-        Registry.register(Registry.PARTICLE_TYPE, Identifier(MirageFairy2023.modId, "mission"), missionParticleType)
-
-        onInitializeClient {
-            MirageFairy2023.clientProxy!!.registerParticleFactory(missionParticleType)
         }
 
     }
@@ -236,7 +213,7 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
             val y = pos.y.toDouble() + 0.0 + random.nextDouble() * 0.5
             val z = pos.z.toDouble() + 0.0 + random.nextDouble() * 1.0
             world.addParticle(
-                TelescopeModule.missionParticleType,
+                DemonParticleTypeCard.MISSION.particleType,
                 x, y, z,
                 random.nextGaussian() * 0.00,
                 random.nextGaussian() * 0.00 + 0.4,

@@ -50,9 +50,15 @@ object MirageFairy2023 : ModInitializer {
 interface ClientProxy {
     fun getClientPlayer(): PlayerEntity?
     fun registerClientPacketReceiver(identifier: Identifier, packetReceiver: ClientPacketReceiver<*>)
-    fun registerParticleFactory(particleType: DefaultParticleType)
+    fun registerParticleFactory(particleType: DefaultParticleType, demonParticleBehaviour: DemonParticleBehaviour)
     fun registerBlockRenderLayer(block: Block)
     fun registerItemColorProvider(item: Item, colorFunction: (stack: ItemStack, tintIndex: Int) -> Int)
+}
+
+enum class DemonParticleBehaviour {
+    HAPPY,
+    ENCHANT,
+    END_ROD,
 }
 
 interface ServerProxy {

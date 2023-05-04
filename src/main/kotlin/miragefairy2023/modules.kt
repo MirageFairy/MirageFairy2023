@@ -1,5 +1,6 @@
 package miragefairy2023
 
+import miragefairy2023.modules.ParticleModule
 import miragefairy2023.modules.TelescopeModule
 import miragefairy2023.modules.advancementModule
 import miragefairy2023.modules.commonModule
@@ -28,4 +29,5 @@ val modules = module {
     passiveSkillModule()
     debugModule()
     customDataModule()
+    ParticleModule.init(this)
 }
