@@ -3,6 +3,8 @@ package miragefairy2023
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.block.Block
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -53,12 +55,29 @@ interface ClientProxy {
     fun registerParticleFactory(particleType: DefaultParticleType, demonParticleBehaviour: DemonParticleBehaviour)
     fun registerBlockRenderLayer(block: Block)
     fun registerItemColorProvider(item: Item, colorFunction: (stack: ItemStack, tintIndex: Int) -> Int)
+    fun <T> registerRenderingProxyBlockEntityRendererFactory(blockEntityType: BlockEntityType<T>) where T : BlockEntity, T : RenderingProxyBlockEntity
 }
 
 enum class DemonParticleBehaviour {
     HAPPY,
     ENCHANT,
     END_ROD,
+}
+
+interface RenderingProxy {
+    fun stack(block: () -> Unit)
+
+    fun translate(x: Double, y: Double, z: Double)
+    fun scale(x: Float, y: Float, z: Float)
+    fun rotateX(degrees: Float)
+    fun rotateY(degrees: Float)
+    fun rotateZ(degrees: Float)
+
+    fun renderItem(itemStack: ItemStack)
+}
+
+interface RenderingProxyBlockEntity {
+    fun render(renderingProxy: RenderingProxy, tickDelta: Float, light: Int, overlay: Int)
 }
 
 interface ServerProxy {
