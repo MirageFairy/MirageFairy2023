@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "miragefairy2023:fairy_fluid_drainer",
+  "key": {
+    "B": {
+      "item": "minecraft:bucket"
+    },
+    "F": {
+      "item": "minecraft:iron_bars"
+    },
+    "I": {
+      "tag": "c:iron_ingots"
+    },
+    "M": {
+      "item": "miragefairy2023:miranagite"
+    }
+  },
+  "pattern": [
+    "FMB",
+    "III"
+  ],
+  "result": {
+    "item": "miragefairy2023:fairy_fluid_drainer"
+  }
+}
