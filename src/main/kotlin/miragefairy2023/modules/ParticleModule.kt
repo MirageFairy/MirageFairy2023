@@ -18,6 +18,8 @@ enum class DemonParticleTypeCard(
     alwaysSpawn: Boolean
 ) {
     MISSION("mission", "mission", DemonParticleBehaviour.HAPPY, true),
+    COLLECTING_MAGIC("collecting_magic", "magic", DemonParticleBehaviour.ENCHANT, false),
+    DESCENDING_MAGIC("descending_magic", "magic", DemonParticleBehaviour.END_ROD, false),
     MIRAGE_FLOUR("mirage_flour", "mirage_flour", DemonParticleBehaviour.HAPPY, false),
     ;
 
