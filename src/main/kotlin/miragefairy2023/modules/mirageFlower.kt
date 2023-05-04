@@ -270,7 +270,7 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
                 val blockState = world.getBlockState(targetPos)
                 val blankScore = when {
                     blockState.isAir -> 2 // 空気なら2
-                    !blockState.isOpaque -> 1 // 不透明でないなら1
+                    !blockState.isSolidBlock(world, targetPos) -> 1 // 固体ブロックなら1
                     else -> 0 // 不透明なら0
                 }
                 blankScore
