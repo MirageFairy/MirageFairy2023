@@ -5,6 +5,7 @@ package miragefairy2023.util
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.recipe.Ingredient
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
@@ -17,6 +18,10 @@ val ItemConvertible.identifier get(): Identifier = Registry.ITEM.getId(this.asIt
 val EMPTY_ITEM_STACK: ItemStack get() = ItemStack.EMPTY
 
 val ItemStack.isNotEmpty get() = !this.isEmpty
+val ItemStack.notEmptyOrNull get() = takeIf { this.isNotEmpty }
+
+fun NbtCompound.toItemStack(): ItemStack = ItemStack.fromNbt(this)
+fun ItemStack.toNbt() = NbtCompound().also { this.writeNbt(it) }
 
 infix fun ItemStack.hasSameItem(other: ItemStack) = this.item === other.item
 infix fun ItemStack.hasSameItemAndNbt(other: ItemStack) = this hasSameItem other && ItemStack.areNbtEqual(this, other)
