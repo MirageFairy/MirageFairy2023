@@ -18,6 +18,7 @@ enum class DemonParticleTypeCard(
     alwaysSpawn: Boolean
 ) {
     MISSION("mission", "mission", DemonParticleBehaviour.HAPPY, true),
+    MIRAGE_FLOUR("mirage_flour", "mirage_flour", DemonParticleBehaviour.HAPPY, false),
     ;
 
     val particleType: DefaultParticleType = FabricParticleTypes.simple(alwaysSpawn)

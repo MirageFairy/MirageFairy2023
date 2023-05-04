@@ -363,6 +363,22 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
         }
     }
 
+    override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {
+        if (getAge(state) >= 3) {
+            if (random.nextInt(20) == 0) {
+                world.addParticle(
+                    DemonParticleTypeCard.MIRAGE_FLOUR.particleType,
+                    pos.x.toDouble() + 8.0 / 16.0,
+                    pos.y.toDouble() + 14.0 / 16.0,
+                    pos.z.toDouble() + 8.0 / 16.0,
+                    random.nextGaussian() * 0.04,
+                    random.nextGaussian() * 0.01 + 0.01,
+                    random.nextGaussian() * 0.04,
+                )
+            }
+        }
+    }
+
 }
 
 class MirageSeedItem(block: Block, settings: Settings) : AliasedBlockItem(block, settings) {
