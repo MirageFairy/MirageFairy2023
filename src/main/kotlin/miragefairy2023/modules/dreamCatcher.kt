@@ -162,8 +162,8 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
         // 妖精判定
         val fairy = run found@{
             fairyListSupplier().forEach { fairy ->
-                if (fairy.getIdentifier() in foundFairies) {
-                    player.sendMessage(text { knownKey(fairy.getItem().name) }, true)
+                if (fairy.motif in foundFairies) {
+                    player.sendMessage(text { knownKey(fairy.item.name) }, true)
                 } else {
                     return@found fairy
                 }
@@ -174,13 +174,13 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
         // ----- 結果の成立 -----
 
         // 生産
-        nbt.wrapper[MirageFairy2023.modId]["found_motifs"][fairy.getIdentifier().toString()].int.set(1)
+        nbt.wrapper[MirageFairy2023.modId]["found_motifs"][fairy.motif.toString()].int.set(1)
         syncCustomData(player)
 
         // エフェクト
         player.world.playSound(null, player.x, player.y, player.z, SoundEvents.BLOCK_BEACON_ACTIVATE, SoundCategory.PLAYERS, 0.5F, 1.0F)
 
-        player.sendMessage(text { successKey(fairy.getItem().name) })
+        player.sendMessage(text { successKey(fairy.item.name) })
 
     }
 
@@ -259,7 +259,7 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
                 val hasUnknownFairy = BLOCK_FAIRY_RELATION_LIST
                     .filter { it.block === block }
                     .map { it.fairy }
-                    .any { it.getIdentifier() !in foundFairies }
+                    .any { it.motif !in foundFairies }
                 if (!hasUnknownFairy) return@forEach
 
                 // 演出
@@ -287,7 +287,7 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
             val hasUnknownFairy = ENTITY_TYPE_FAIRY_RELATION_LIST
                 .filter { it.entityType == entityType }
                 .map { it.fairy }
-                .any { it.getIdentifier() !in foundFairies }
+                .any { it.motif !in foundFairies }
             if (!hasUnknownFairy) return@forEach
 
             // 演出

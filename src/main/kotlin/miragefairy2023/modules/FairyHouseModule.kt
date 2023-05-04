@@ -342,7 +342,7 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : BlockEnti
     val fairyInventory = object : SimpleInventory(1) {
         override fun isValid(slot: Int, stack: ItemStack): Boolean {
             val fairyItem = stack.item as? FairyItem ?: return false
-            return when (fairyItem.getFairy().getIdentifier()) {
+            return when (fairyItem.fairy.motif) {
                 Identifier(MirageFairy2023.modId, "water") -> true // TODO respect
                 Identifier(MirageFairy2023.modId, "lava") -> true
                 else -> false

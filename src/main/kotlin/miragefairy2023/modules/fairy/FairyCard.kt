@@ -65,7 +65,7 @@ import net.minecraft.world.biome.Biome
 import net.minecraft.world.biome.BiomeKeys
 
 enum class FairyCard(
-    val motif: String,
+    val motifPath: String,
     val rare: Int,
     val enName: String,
     val jaName: String,
@@ -545,11 +545,11 @@ enum class FairyCard(
     ),
     ;
 
-    val identifier = Identifier(MirageFairy2023.modId, motif)
+    val motif = Identifier(MirageFairy2023.modId, motifPath)
     val fairy: Fairy = object : Fairy {
-        override fun getIdentifier() = identifier
-        override fun getItem() = this@FairyCard()
-        override fun getRare() = rare
+        override val motif get() = this@FairyCard.motif
+        override val item get() = this@FairyCard()
+        override val rare get() = this@FairyCard.rare
     }
 
 
@@ -663,7 +663,7 @@ private fun FairyCard.RecipeContainer.recipe(inputItemSupplier: () -> Item) = th
                     .input(inputItem)
                     .criterion(inputItem)
                     .group(fairyCard())
-                    .offerTo(it, "fairy/" concat fairyCard.identifier)
+                    .offerTo(it, "fairy/" concat fairyCard.motif)
             }
         }
     }

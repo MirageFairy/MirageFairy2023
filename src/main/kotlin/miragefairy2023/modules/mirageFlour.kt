@@ -210,14 +210,14 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
         val memoryFairyList = found.mapNotNull { fairyRegistry[it] }
 
         // 妖精リスト
-        val actualFairyList = (commonFairyList + memoryFairyList).distinctBy { it.getIdentifier() }
+        val actualFairyList = (commonFairyList + memoryFairyList).distinctBy { it.motif }
 
         // 生の提供割合
         val multiplierByRare = 0.5.pow(7.0 / 4.0)
         val rawChanceTable = actualFairyList
-            .filter { minRare == null || it.getRare() >= minRare } // レア度フィルタ
-            .filter { maxRare == null || it.getRare() <= maxRare } // レア度フィルタ
-            .map { Chance(multiplierByRare.pow(it.getRare() - 1) * factor, it) } // レア度によるドロップ確率の計算
+            .filter { minRare == null || it.rare >= minRare } // レア度フィルタ
+            .filter { maxRare == null || it.rare <= maxRare } // レア度フィルタ
+            .map { Chance(multiplierByRare.pow(it.rare - 1) * factor, it) } // レア度によるドロップ確率の計算
 
         // 内容の調整
         val actualChanceTable = run {
@@ -231,7 +231,7 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
 
         // データの整形
         return actualChanceTable
-            .distinct { a, b -> a.getIdentifier() === b.getIdentifier() }
+            .distinct { a, b -> a.motif === b.motif }
             .sortedBy { it.weight }
     }
 
@@ -239,7 +239,7 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
         player.sendMessage(text { "["() + mirageFlourItemStack.name + "]"() }, false)
         val totalWeight = chanceTable.totalWeight
         chanceTable.forEach { chance ->
-            player.sendMessage(text { "${(chance.weight / totalWeight * 100 formatAs "%8.4f%%").replace(' ', '_')}: "() + chance.item.getItem().name }, false)
+            player.sendMessage(text { "${(chance.weight / totalWeight * 100 formatAs "%8.4f%%").replace(' ', '_')}: "() + chance.item.item.name }, false)
         }
     }
 
@@ -311,11 +311,11 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
                 val fairy = chanceTable.draw(world.random) ?: FairyCard.AIR.fairy
 
                 // 入手
-                user.obtain(fairy.getItem().createItemStack())
+                user.obtain(fairy.item.createItemStack())
 
                 // 妖精召喚履歴に追加
                 val nbt = user.customData
-                var count by nbt.wrapper[MirageFairy2023.modId]["fairy_count"][fairy.getIdentifier().toString()].int.orDefault { 0 }
+                var count by nbt.wrapper[MirageFairy2023.modId]["fairy_count"][fairy.motif.toString()].int.orDefault { 0 }
                 count += 1
 
             }

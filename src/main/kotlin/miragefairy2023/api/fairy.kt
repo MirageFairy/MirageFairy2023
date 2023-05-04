@@ -8,13 +8,13 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.registry.SimpleRegistry
 
 interface FairyItem {
-    fun getFairy(): Fairy
+    val fairy: Fairy
 }
 
 interface Fairy {
-    fun getIdentifier(): Identifier
-    fun getItem(): Item
-    fun getRare(): Int
+    val motif: Identifier
+    val item: Item
+    val rare: Int
 }
 
 val fairyRegistry: SimpleRegistry<Fairy> = FabricRegistryBuilder.createSimple(Fairy::class.java, Identifier(MirageFairy2023.modId, "fairy"))

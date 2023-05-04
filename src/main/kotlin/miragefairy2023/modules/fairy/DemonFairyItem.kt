@@ -30,10 +30,10 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
         val BOTH_RECIPE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.recipe.both", "Can condense 8 fairies/decondense ", "作業台で8体で凝縮、1体で展開")
     }
 
-    override fun getFairy() = fairyCard.fairy
+    override val fairy get() = fairyCard.fairy
     val fairyLevel get() = fairyCard.rare + (rank - 1) * 2
 
-    override fun getPassiveSkillIdentifier() = fairyCard.identifier
+    override fun getPassiveSkillIdentifier() = fairyCard.motif
     val passiveSkills = fairyCard.passiveSkillProviders.map { PassiveSkill(it.conditions, it.effectProvider(if (fairyLevel != 0) fairyLevel / 10.0 else 0.05)) }
     override fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack) = passiveSkills
 
@@ -75,11 +75,11 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
         }
 
         // motif
-        if (context.isAdvanced) tooltip += text { ("Motif: ${fairyCard.identifier}"()).darkGray }
+        if (context.isAdvanced) tooltip += text { ("Motif: ${fairyCard.motif}"()).darkGray }
 
     }
 
-    override fun getTranslationKey(): String = if (rank == 1) super.getTranslationKey() else fairyCard.fairy.getItem().translationKey
+    override fun getTranslationKey(): String = if (rank == 1) super.getTranslationKey() else fairyCard.fairy.item.translationKey
     override fun getName() = text { super.getName() + (if (rank == 1) "" else " ${rank.toRoman()}")() }
     override fun getName(stack: ItemStack) = text { super.getName(stack) + (if (rank == 1) "" else " ${rank.toRoman()}")() }
 }

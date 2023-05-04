@@ -122,10 +122,10 @@ val fairyModule = module {
             }
 
             // 翻訳登録
-            enJa("item.${fairyCard.identifier.toTranslationKey()}_fairy", fairyCard.enName, fairyCard.jaName)
+            enJa("item.${fairyCard.motif.toTranslationKey()}_fairy", fairyCard.enName, fairyCard.jaName)
 
             // モチーフを妖精レジストリに登録
-            Registry.register(fairyRegistry, fairyCard.identifier, fairyCard.fairy)
+            Registry.register(fairyRegistry, fairyCard.motif, fairyCard.fairy)
 
             // モチーフ固有の初期化処理
             fairyCard.recipeContainer.recipes.forEach {
