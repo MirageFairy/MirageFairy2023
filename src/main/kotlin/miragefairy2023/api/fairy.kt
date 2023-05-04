@@ -7,6 +7,10 @@ import net.minecraft.item.Item
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.SimpleRegistry
 
+interface FairyItem {
+    fun getFairy(): Fairy
+}
+
 interface Fairy {
     fun getIdentifier(): Identifier
     fun getItem(): Item

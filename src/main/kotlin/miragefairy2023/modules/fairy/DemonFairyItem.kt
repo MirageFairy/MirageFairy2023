@@ -1,6 +1,7 @@
 package miragefairy2023.modules.fairy
 
 import miragefairy2023.MirageFairy2023
+import miragefairy2023.api.FairyItem
 import miragefairy2023.api.PassiveSkill
 import miragefairy2023.api.PassiveSkillItem
 import miragefairy2023.modules.passiveskill.getPassiveSkillTooltip
@@ -21,7 +22,7 @@ import net.minecraft.text.Text
 import net.minecraft.world.World
 
 /** @param rank 1から始まります。 */
-class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings) : Item(settings), PassiveSkillItem {
+class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings) : Item(settings), FairyItem, PassiveSkillItem {
     companion object {
         val RARE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.rare", "Rare", "レア度")
         val CONDENSATION_RECIPE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.recipe.condensation", "Can condense 8 fairies", "作業台で8体で凝縮")
@@ -29,6 +30,7 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
         val BOTH_RECIPE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.recipe.both", "Can condense 8 fairies/decondense ", "作業台で8体で凝縮、1体で展開")
     }
 
+    override fun getFairy() = fairyCard.fairy
     val fairyLevel get() = fairyCard.rare + (rank - 1) * 2
 
     override fun getPassiveSkillIdentifier() = fairyCard.identifier
