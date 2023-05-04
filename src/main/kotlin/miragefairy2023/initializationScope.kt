@@ -34,6 +34,7 @@ class InitializationScope(val modId: String) {
     val onRegisterLootConditionType = EventBus<() -> Unit>()
     val onRegisterLootFunctionType = EventBus<() -> Unit>()
     val onRegisterBlocks = EventBus<() -> Unit>()
+    val onRegisterBlockEntities = EventBus<() -> Unit>()
     val onRegisterItems = EventBus<() -> Unit>()
     val onRegisterRecipes = EventBus<() -> Unit>()
 

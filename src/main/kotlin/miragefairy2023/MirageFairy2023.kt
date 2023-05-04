@@ -40,6 +40,7 @@ object MirageFairy2023 : ModInitializer {
         initializationScope.onRegisterLootConditionType.fire { it() }
         initializationScope.onRegisterLootFunctionType.fire { it() }
         initializationScope.onRegisterBlocks.fire { it() }
+        initializationScope.onRegisterBlockEntities.fire { it() }
         initializationScope.onRegisterItems.fire { it() }
         initializationScope.onRegisterRecipes.fire { it() }
 
