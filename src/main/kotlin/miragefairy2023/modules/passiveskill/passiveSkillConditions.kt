@@ -12,6 +12,7 @@ import mirrg.kotlin.hydrogen.formatAs
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
 import net.minecraft.entity.effect.StatusEffect
+import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -20,6 +21,7 @@ import net.minecraft.item.ToolMaterial
 import net.minecraft.item.ToolMaterials
 import net.minecraft.tag.FluidTags
 import net.minecraft.tag.TagKey
+import net.minecraft.util.math.Box
 import net.minecraft.world.Heightmap
 import net.minecraft.world.biome.Biome
 
@@ -36,6 +38,8 @@ private fun isIndoor(player: PlayerEntity) = !isOutdoor(player)
 private fun isWorldFine(player: PlayerEntity) = !isWorldRain(player)
 
 private fun isWorldRain(player: PlayerEntity) = player.world.isRaining
+
+private fun isWorldThunder(player: PlayerEntity) = player.world.isThundering
 
 private fun isInFine(player: PlayerEntity) = isWorldFine(player) || !isSkyVisible(player) || isIndoor(player) || player.world.getBiome(player.eyeBlockPos).value().precipitation == Biome.Precipitation.NONE
 
@@ -156,6 +160,15 @@ class InRainPassiveSkillCondition : PassiveSkillCondition {
     override fun test(player: PlayerEntity, itemStack: ItemStack) = isInRain(player)
 }
 
+class ThunderingPassiveSkillCondition : PassiveSkillCondition {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.thundering", "Thundering", "雷雨")
+    }
+
+    override fun getText() = text { key() }
+    override fun test(player: PlayerEntity, itemStack: ItemStack) = isWorldThunder(player)
+}
+
 class BiomePassiveSkillCondition(private val biomeTag: TagKey<Biome>) : PassiveSkillCondition {
     companion object {
         val keyPrefix = "${MirageFairy2023.modId}.passive_skill.condition.biome"
@@ -178,6 +191,17 @@ class BiomePassiveSkillCondition(private val biomeTag: TagKey<Biome>) : PassiveS
 
     override fun getText() = text { translate(biomeTag.id.toTranslationKey(keyPrefix)) }
     override fun test(player: PlayerEntity, itemStack: ItemStack) = player.world.getBiome(player.blockPos).isIn(biomeTag)
+}
+
+class InVillagePassiveSkillCondition() : PassiveSkillCondition {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.in_village", "Village", "村")
+    }
+
+    override fun getText() = text { key() }
+    override fun test(player: PlayerEntity, itemStack: ItemStack): Boolean {
+        return player.world.getNonSpectatingEntities(VillagerEntity::class.java, Box(player.pos, player.pos).expand(32.0)).isNotEmpty()
+    }
 }
 
 class MinimumLightLevelPassiveSkillCondition(private val lightLevel: Int) : PassiveSkillCondition {

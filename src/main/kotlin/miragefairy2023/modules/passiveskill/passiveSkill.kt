@@ -87,7 +87,9 @@ val passiveSkillModule = module {
     BiomePassiveSkillCondition.Key.values().forEach {
         translation(it.translation)
     }
+    translation(InVillagePassiveSkillCondition.key)
     translation(InRainPassiveSkillCondition.key)
+    translation(ThunderingPassiveSkillCondition.key)
     translation(HasHoePassiveSkillCondition.key)
     ToolMaterialPassiveSkillCondition.Key.values().forEach {
         translation(it.translation)
