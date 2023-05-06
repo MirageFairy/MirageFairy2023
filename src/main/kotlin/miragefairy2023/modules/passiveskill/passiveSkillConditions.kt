@@ -153,7 +153,7 @@ class UnderwaterPassiveSkillCondition : PassiveSkillCondition {
 
 class InRainPassiveSkillCondition : PassiveSkillCondition {
     companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.in_rain", "Rain", "雨")
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.in_rain", "In Rain", "雨中")
     }
 
     override fun getText() = text { key() }
