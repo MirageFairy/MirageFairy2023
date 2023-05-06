@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "miragefairy2023:miranagite_fairy",
+  "ingredients": [
+    {
+      "item": "miragefairy2023:xarpite"
+    },
+    {
+      "item": "miragefairy2023:very_rare_mirage_flour"
+    },
+    {
+      "item": "miragefairy2023:miranagite"
+    }
+  ],
+  "result": {
+    "item": "miragefairy2023:miranagite_fairy"
+  }
+}

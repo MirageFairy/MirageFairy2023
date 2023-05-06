@@ -23,6 +23,7 @@ import miragefairy2023.modules.passiveskill.FairyLevelPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.FoodPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.HasHoePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.InRainPassiveSkillCondition
+import miragefairy2023.modules.passiveskill.InVillagePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.IndoorPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.LuckPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.MaxHealthPassiveSkillEffect
@@ -43,6 +44,7 @@ import miragefairy2023.modules.passiveskill.ShadePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.StatusEffectPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.StatusEffectPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.SunshinePassiveSkillCondition
+import miragefairy2023.modules.passiveskill.ThunderingPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.ToolMaterialPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.UnderwaterPassiveSkillCondition
 import miragefairy2023.util.concat
@@ -192,6 +194,14 @@ enum class FairyCard(
         ),
         RecipeContainer().biome(ConventionalBiomeTags.END_ISLANDS).block { Blocks.PURPUR_BLOCK }.recipe { Items.PURPUR_BLOCK },
     ),
+    COPPER(
+        "copper", 3, "Copperia", "銅精ツォッペーリャ", 0xF69D7F, 0xF77653, 0xF77653, 0x5DC09A,
+        listOf(
+            PassiveSkillProvider(listOf()) { LuckPassiveSkillEffect(0.2 * it) },
+            PassiveSkillProvider(listOf(ThunderingPassiveSkillCondition())) { AttackDamagePassiveSkillEffect(2.5 * it) },
+        ),
+        RecipeContainer().overworld().block { Blocks.COPPER_BLOCK }.recipe { Items.COPPER_INGOT },
+    ),
     IRON(
         "iron", 4, "Ironia", "鉄精イローニャ", 0xA0A0A0, 0xD8D8D8, 0x727272, 0xD8AF93,
         listOf(
@@ -220,6 +230,31 @@ enum class FairyCard(
         ),
         RecipeContainer().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.NETHERITE_BLOCK }.recipe { Items.NETHERITE_INGOT },
     ),
+    MIRANAGITE(
+        "miranagite", 5, "Miranagitia", "蒼天石精ミラナギーチャ", 0x4EC5F4, 0x4394D3, 0x004477, 0x0C4CEF,
+        listOf(
+            PassiveSkillProvider(listOf()) { LuckPassiveSkillEffect(0.5 * it) },
+            // TODO 妖精のレア度上昇
+        ),
+        RecipeContainer().overworld().recipe { DemonItemCard.MIRANAGITE() },
+    ),
+    AMETHYST(
+        "amethyst", 5, "Amethystia", "紫水晶精アメティスチャ", 0xCAA9FF, 0xA974FF, 0x9D60FF, 0xBC92FF,
+        listOf(
+            PassiveSkillProvider(listOf()) { LuckPassiveSkillEffect(0.5 * it) },
+            PassiveSkillProvider(listOf(MaximumLightLevelPassiveSkillCondition(7))) { AttackDamagePassiveSkillEffect(0.5 * it) },
+            PassiveSkillProvider(listOf(MaximumLightLevelPassiveSkillCondition(7))) { LuckPassiveSkillEffect(2.0 * it) },
+        ),
+        RecipeContainer().overworld().block { Blocks.AMETHYST_BLOCK }.recipe { Items.AMETHYST_SHARD },
+    ),
+    EMERALD(
+        "emerald", 6, "Emeraldia", "翠玉精エメラルジャ", 0x9FF9B5, 0x81F99E, 0x17DD62, 0x008A25,
+        listOf(
+            PassiveSkillProvider(listOf()) { LuckPassiveSkillEffect(0.5 * it) },
+            PassiveSkillProvider(listOf(InVillagePassiveSkillCondition())) { LuckPassiveSkillEffect(1.5 * it) },
+        ),
+        RecipeContainer().overworld().block { Blocks.EMERALD_BLOCK }.recipe { Items.EMERALD },
+    ),
     DIAMOND(
         "diamond", 7, "Diamondia", "金剛石精ディアモンジャ", 0x97FFE3, 0xD1FAF3, 0x70FFD9, 0x30DBBD,
         listOf(
@@ -229,6 +264,55 @@ enum class FairyCard(
             PassiveSkillProvider(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.DIAMOND), FairyLevelPassiveSkillCondition(12))) { StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 1) },
         ),
         RecipeContainer().overworld().block { Blocks.DIAMOND_BLOCK }.recipe { Items.DIAMOND },
+    ),
+    ADAMANTITE(
+        "adamantite", 9, "Adamantitia", "精金精アダマンティーチャ", 0xE5B3CA, 0xDB7A9C, 0xDB7A9C, 0xFD2888,
+        listOf(
+            PassiveSkillProvider(listOf()) { LuckPassiveSkillEffect(0.5 * it) },
+            PassiveSkillProvider(listOf()) { AttackDamagePassiveSkillEffect(2.0 * it) },
+        ),
+        RecipeContainer().always(), // TODO イベ限解除
+    ),
+    COAL(
+        "coal", 2, "Coalia", "石炭精ツォアーリャ", 0x4C2510, 0x52504C, 0x39352E, 0x150B00,
+        listOf(
+            PassiveSkillProvider(listOf()) { MaxHealthPassiveSkillEffect(4.0 * it) },
+            PassiveSkillProvider(listOf(OnFirePassiveSkillCondition())) { LuckPassiveSkillEffect(2.0 * it) },
+        ),
+        RecipeContainer().overworld().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.COAL_BLOCK }.recipe { Items.COAL },
+    ),
+    REDSTONE(
+        "redstone", 4, "Redstonia", "赤石精レドストーニャ", 0xFF5959, 0xFF0000, 0xCD0000, 0xBA0000,
+        listOf(
+            PassiveSkillProvider(listOf(IndoorPassiveSkillCondition())) { LuckPassiveSkillEffect(0.5 * it) },
+            PassiveSkillProvider(listOf(IndoorPassiveSkillCondition())) { AttackDamagePassiveSkillEffect(1.0 * it) },
+            PassiveSkillProvider(listOf(IndoorPassiveSkillCondition())) { MaxHealthPassiveSkillEffect(2.0 * it) },
+        ),
+        RecipeContainer().overworld().block { Blocks.REDSTONE_BLOCK }.recipe { Items.REDSTONE },
+    ),
+    LAPIS_LAZULI(
+        "lapis_lazuli", 5, "Lapise Lazulia", "瑠璃石精ラピセラズーリャ", 0x77A2FF, 0x3064D3, 0x3064D3, 0x3976F9,
+        listOf(
+            PassiveSkillProvider(listOf()) { LuckPassiveSkillEffect(0.5 * it) },
+            PassiveSkillProvider(listOf(OverworldPassiveSkillCondition())) { LuckPassiveSkillEffect(1.5 * it) },
+        ),
+        RecipeContainer().overworld().block { Blocks.LAPIS_BLOCK }.recipe { Items.LAPIS_LAZULI },
+    ),
+    GLOWSTONE(
+        "glowstone", 6, "Glowstonia", "蛍光石精グロウストーニャ", 0xEFC298, 0xEAA463, 0xEAA463, 0xEADD52,
+        listOf(
+            PassiveSkillProvider(listOf()) { StatusEffectPassiveSkillEffect(StatusEffects.GLOWING, 0) },
+            PassiveSkillProvider(listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.IN_NETHER))) { AttackDamagePassiveSkillEffect(1.5 * it) },
+        ),
+        RecipeContainer().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.GLOWSTONE }.recipe { Items.GLOWSTONE_DUST },
+    ),
+    OBSIDIAN(
+        "obsidian", 5, "Obsidiania", "黒耀石精オブシディアーニャ", 0x775599, 0x6029B3, 0x2E095E, 0x0F0033,
+        listOf(
+            PassiveSkillProvider(listOf()) { StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0) },
+            PassiveSkillProvider(listOf(FairyLevelPassiveSkillCondition(9))) { StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 1) },
+        ),
+        RecipeContainer().overworld().biome(ConventionalBiomeTags.IN_THE_END).block { Blocks.OBSIDIAN }.recipe { Items.OBSIDIAN },
     ),
     FISH(
         "fish", 2, "Fishia", "魚精フィーシャ", 0x6B9F93, 0x5A867C, 0x43655D, 0xADBEDB,
