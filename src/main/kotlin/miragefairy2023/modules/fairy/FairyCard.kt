@@ -542,6 +542,7 @@ enum class FairyCard(
             PassiveSkillProvider(listOf()) { LuckPassiveSkillEffect(1.0 * it) },
             PassiveSkillProvider(listOf()) { RegenerationPassiveSkillEffect(0.1 * it) },
             // TODO 夢のエフェクトが見えるようになる
+            // TODO 妖精のレア度上昇
         ),
         RecipeContainer().always(),
     ),
