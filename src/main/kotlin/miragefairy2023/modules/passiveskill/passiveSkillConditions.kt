@@ -193,7 +193,7 @@ class BiomePassiveSkillCondition(private val biomeTag: TagKey<Biome>) : PassiveS
     override fun test(player: PlayerEntity, itemStack: ItemStack) = player.world.getBiome(player.blockPos).isIn(biomeTag)
 }
 
-class InVillagePassiveSkillCondition() : PassiveSkillCondition {
+class InVillagePassiveSkillCondition : PassiveSkillCondition {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.in_village", "Village", "村")
     }
