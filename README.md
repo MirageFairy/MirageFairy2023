@@ -2,6 +2,8 @@
 
 MirageFairyの世界観に基づいたMinecraft MOD
 
+[このページの読みやすいバージョン](https://miragefairy.github.io/MirageFairy2023/)
+
 ## 動作環境
 
 - Minecraft 1.19.2
