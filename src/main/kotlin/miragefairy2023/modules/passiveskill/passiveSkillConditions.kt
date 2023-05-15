@@ -200,7 +200,7 @@ class InVillagePassiveSkillCondition : PassiveSkillCondition {
 
     override fun getText() = text { key() }
     override fun test(player: PlayerEntity, itemStack: ItemStack): Boolean {
-        return player.world.getNonSpectatingEntities(VillagerEntity::class.java, Box(player.pos, player.pos).expand(32.0)).isNotEmpty()
+        return player.world.getNonSpectatingEntities(VillagerEntity::class.java, Box(player.eyePos, player.eyePos).expand(32.0)).isNotEmpty()
     }
 }
 
