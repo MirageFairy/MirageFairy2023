@@ -90,7 +90,7 @@ object FairyHouseModule {
 
             // レンダリング
             generateHorizontalFacingBlockState()
-            onInitializeClient { MirageFairy2023.clientProxy!!.registerBlockRenderLayer(feature) }
+            onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(feature) }
 
             // 翻訳
             enJaBlock({ feature }, "Fairy Fluid Drainer", "妖精の水汲み所")

@@ -69,7 +69,7 @@ object TelescopeModule {
 
             // レンダリング
             generateHorizontalFacingBlockState()
-            onInitializeClient { MirageFairy2023.clientProxy!!.registerBlockRenderLayer(feature) }
+            onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(feature) }
 
             // 翻訳
             enJaBlock({ feature }, "Minia's Telescope", "ミーニャの望遠鏡")

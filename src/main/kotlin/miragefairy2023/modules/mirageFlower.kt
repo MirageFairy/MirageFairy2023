@@ -105,7 +105,7 @@ val mirageFlowerModule = module {
                 blockStateModelGenerator.createSubModel(feature, "_age$age", Models.CROSS) { TextureMap.of(TextureKey.CROSS, it) }
             }
         }
-        onInitializeClient { MirageFairy2023.clientProxy!!.registerBlockRenderLayer(feature) }
+        onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(feature) }
         // onGenerateBlockTags { it(BlockTags.SMALL_FLOWERS).add(feature) } // これをやるとエンダーマンが勝手に引っこ抜いていく
         generateBlockLootTable {
             val age2Condition = rangedMatchBlockStatePropertyLootCondition(feature, MirageFlowerBlock.AGE, 2, 3)

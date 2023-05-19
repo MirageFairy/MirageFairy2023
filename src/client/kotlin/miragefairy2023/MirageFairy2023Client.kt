@@ -50,7 +50,7 @@ object MirageFairy2023Client : ClientModInitializer {
                 ParticleFactoryRegistry.getInstance().register(particleType, pendingParticleFactory)
             }
 
-            override fun registerBlockRenderLayer(block: Block) {
+            override fun registerCutoutBlockRenderLayer(block: Block) {
                 BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), block)
             }
 

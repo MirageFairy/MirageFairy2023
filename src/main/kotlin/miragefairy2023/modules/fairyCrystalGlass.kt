@@ -144,7 +144,7 @@ val fairyCrystalGlassModule = module {
             }
 
             // レンダリング関連
-            onInitializeClient { MirageFairy2023.clientProxy!!.registerBlockRenderLayer(feature) }
+            onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(feature) }
 
             // 翻訳
             enJaBlock({ feature }, card.enName, card.jaName)

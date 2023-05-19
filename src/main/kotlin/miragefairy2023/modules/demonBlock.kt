@@ -112,7 +112,7 @@ val demonBlockModule = module {
             val modelId = modelFactory.upload(feature, blockStateModelGenerator.modelCollector)
             blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(feature, modelId))
         }
-        onInitializeClient { MirageFairy2023.clientProxy!!.registerBlockRenderLayer(feature) }
+        onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(feature) }
         enJaBlock({ feature }, "Local Vacuum Decay", "局所真空崩壊")
         enJa({ "${feature.translationKey}.poem" }, "Stable instability caused by anti-entropy", "これが秩序の究極の形だというのか？")
         onGenerateBlockTags { it(BlockTags.DRAGON_IMMUNE).add(feature) }

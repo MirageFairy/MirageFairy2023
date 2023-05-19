@@ -53,7 +53,7 @@ interface ClientProxy {
     fun getClientPlayer(): PlayerEntity?
     fun registerClientPacketReceiver(identifier: Identifier, packetReceiver: ClientPacketReceiver<*>)
     fun registerParticleFactory(particleType: DefaultParticleType, demonParticleBehaviour: DemonParticleBehaviour)
-    fun registerBlockRenderLayer(block: Block)
+    fun registerCutoutBlockRenderLayer(block: Block)
     fun registerItemColorProvider(item: Item, colorFunction: (stack: ItemStack, tintIndex: Int) -> Int)
     fun <T> registerRenderingProxyBlockEntityRendererFactory(blockEntityType: BlockEntityType<T>) where T : BlockEntity, T : RenderingProxyBlockEntity
 }
