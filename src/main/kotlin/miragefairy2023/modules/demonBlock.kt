@@ -3,12 +3,17 @@ package miragefairy2023.modules
 import com.google.gson.JsonElement
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
+import miragefairy2023.util.concat
 import miragefairy2023.util.gray
+import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.block
+import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaBlock
+import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.generateSimpleCubeAllBlockState
+import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
 import miragefairy2023.util.jsonArrayOf
 import miragefairy2023.util.jsonObjectOf
@@ -17,6 +22,7 @@ import miragefairy2023.util.text
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
+import net.minecraft.block.MapColor
 import net.minecraft.block.Material
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.BlockStateModelGenerator
@@ -24,6 +30,8 @@ import net.minecraft.data.client.Model
 import net.minecraft.data.client.TextureKey
 import net.minecraft.data.client.TextureMap
 import net.minecraft.data.client.TexturedModel
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
+import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
 import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
 import net.minecraft.tag.BlockTags
@@ -39,6 +47,9 @@ lateinit var creativeAuraStoneBlockItem: FeatureSlot<BlockItem>
 
 lateinit var localVacuumDecayBlock: FeatureSlot<Block>
 lateinit var localVacuumDecayBlockItem: FeatureSlot<BlockItem>
+
+lateinit var miranagiteBlockBlock: FeatureSlot<Block>
+lateinit var miranagiteBlockBlockItem: FeatureSlot<BlockItem>
 
 val demonBlockModule = module {
 
@@ -128,5 +139,41 @@ val demonBlockModule = module {
             }
         }
     })
+
+    miranagiteBlockBlock = block("miranagite_block", { Block(FabricBlockSettings.of(Material.METAL, MapColor.LIGHT_BLUE).strength(3.0f, 3.0f).requiresTool()) }) {
+        generateSimpleCubeAllBlockState()
+        enJaBlock({ feature }, "Miranagite Block", "蒼天石ブロック")
+        enJa({ "${feature.translationKey}.poem" }, "Passivation confines discontinuous space", "虚空に出現した、現世との接点。")
+        onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
+        onGenerateBlockTags { it(BlockTags.NEEDS_STONE_TOOL).add(feature) }
+        generateDefaultBlockLootTable()
+    }
+    miranagiteBlockBlockItem = item("miranagite_block", {
+        object : BlockItem(miranagiteBlockBlock.feature, FabricItemSettings().group(commonItemGroup)) {
+            override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
+                super.appendTooltip(stack, world, tooltip, context)
+                tooltip += text { translate("$translationKey.poem").gray }
+            }
+        }
+    })
+    onGenerateRecipes {
+        ShapedRecipeJsonBuilder
+            .create(miranagiteBlockBlockItem.feature)
+            .pattern("###")
+            .pattern("###")
+            .pattern("###")
+            .input('#', DemonItemCard.MIRANAGITE())
+            .criterion(DemonItemCard.MIRANAGITE())
+            .group(miranagiteBlockBlockItem.feature)
+            .offerTo(it, miranagiteBlockBlockItem.feature.identifier)
+    }
+    onGenerateRecipes {
+        ShapelessRecipeJsonBuilder
+            .create(DemonItemCard.MIRANAGITE(), 9)
+            .input(miranagiteBlockBlockItem.feature)
+            .criterion(miranagiteBlockBlockItem.feature)
+            .group(DemonItemCard.MIRANAGITE())
+            .offerTo(it, DemonItemCard.MIRANAGITE().identifier concat "_from_" concat miranagiteBlockBlockItem.feature.identifier.path)
+    }
 
 }

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "miragefairy2023:miranagite",
+  "ingredients": [
+    {
+      "item": "miragefairy2023:miranagite_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "miragefairy2023:miranagite"
+  }
+}
