@@ -46,6 +46,7 @@ import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.DoubleInventory
+import net.minecraft.inventory.Inventory
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.inventory.SimpleInventory
 import net.minecraft.item.BlockItem
@@ -162,6 +163,59 @@ object FairyHouseModule {
 }
 
 
+abstract class FairyHouseBlock(settings: Settings) : InstrumentBlock(settings), BlockEntityProvider {
+
+    @Suppress("OVERRIDE_DEPRECATION")
+    override fun onSyncedBlockEvent(state: BlockState, world: World, pos: BlockPos, type: Int, data: Int): Boolean {
+        @Suppress("DEPRECATION")
+        super.onSyncedBlockEvent(state, world, pos, type, data)
+        val blockEntity = world.getBlockEntity(pos) ?: return false
+        return blockEntity.onSyncedBlockEvent(type, data)
+    }
+
+    @Suppress("OVERRIDE_DEPRECATION")
+    override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos, newState: BlockState, moved: Boolean) {
+        if (!state.isOf(newState.block)) {
+            val blockEntity = world.getBlockEntity(pos)
+            if (blockEntity is FairyHouseBlockEntity) blockEntity.dropItems()
+        }
+        @Suppress("DEPRECATION")
+        super.onStateReplaced(state, world, pos, newState, moved)
+    }
+
+    override fun hasRandomTicks(state: BlockState) = true
+
+}
+
+abstract class FairyHouseBlockEntity(type: BlockEntityType<*>, pos: BlockPos, state: BlockState) : BlockEntity(type, pos, state), Clearable, SidedInventory, RenderingProxyBlockEntity {
+
+    override fun toUpdatePacket(): Packet<ClientPlayPacketListener> = BlockEntityUpdateS2CPacket.create(this)
+
+    abstract fun dropItems()
+
+    override fun markDirty() {
+        super.markDirty()
+        world?.updateListeners(pos, cachedState, cachedState, Block.NOTIFY_ALL)
+    }
+
+    abstract val combinedInventory: Inventory
+
+    override fun size() = combinedInventory.size()
+    override fun isEmpty() = combinedInventory.isEmpty
+    override fun getStack(slot: Int): ItemStack = combinedInventory.getStack(slot)
+    override fun removeStack(slot: Int, amount: Int): ItemStack = combinedInventory.removeStack(slot, amount)
+    override fun removeStack(slot: Int): ItemStack = combinedInventory.removeStack(slot)
+    override fun setStack(slot: Int, stack: ItemStack) = combinedInventory.setStack(slot, stack)
+    override fun getMaxCountPerStack() = combinedInventory.maxCountPerStack
+    override fun canPlayerUse(player: PlayerEntity) = combinedInventory.canPlayerUse(player)
+    override fun isValid(slot: Int, stack: ItemStack?) = combinedInventory.isValid(slot, stack)
+    override fun getAvailableSlots(side: Direction) = (0 until combinedInventory.size()).toList().toIntArray()
+    override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?) = getStack(slot).count < maxCountPerStack
+    override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = getStack(slot).isNotEmpty
+
+}
+
+
 interface FairyFluidDrainerRecipe {
     fun match(world: World, blockPos: BlockPos, blockState: BlockState): FairyFluidDrainerRecipeResult?
 }
@@ -171,7 +225,7 @@ interface FairyFluidDrainerRecipeResult {
     fun getSoundEvent(): SoundEvent
 }
 
-class FairyFluidDrainerBlock(settings: Settings) : InstrumentBlock(settings), BlockEntityProvider {
+class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
     companion object {
         private val SHAPE = createCuboidShape(0.0, 0.0, 0.0, 16.0, 6.0, 16.0)!!
 
@@ -231,14 +285,6 @@ class FairyFluidDrainerBlock(settings: Settings) : InstrumentBlock(settings), Bl
     @Suppress("OVERRIDE_DEPRECATION")
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = SHAPE
 
-    @Suppress("OVERRIDE_DEPRECATION")
-    override fun onSyncedBlockEvent(state: BlockState, world: World, pos: BlockPos, type: Int, data: Int): Boolean {
-        @Suppress("DEPRECATION")
-        super.onSyncedBlockEvent(state, world, pos, type, data)
-        val blockEntity = world.getBlockEntity(pos) ?: return false
-        return blockEntity.onSyncedBlockEvent(type, data)
-    }
-
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = FairyFluidDrainerBlockEntity(pos, state)
 
     @Suppress("OVERRIDE_DEPRECATION")
@@ -284,18 +330,6 @@ class FairyFluidDrainerBlock(settings: Settings) : InstrumentBlock(settings), Bl
 
         return ActionResult.PASS
     }
-
-    @Suppress("OVERRIDE_DEPRECATION")
-    override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos, newState: BlockState, moved: Boolean) {
-        if (!state.isOf(newState.block)) {
-            val blockEntity = world.getBlockEntity(pos)
-            if (blockEntity is FairyFluidDrainerBlockEntity) blockEntity.dropItems()
-        }
-        @Suppress("DEPRECATION")
-        super.onStateReplaced(state, world, pos, newState, moved)
-    }
-
-    override fun hasRandomTicks(state: BlockState) = true
 
     @Suppress("OVERRIDE_DEPRECATION")
     override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
@@ -366,7 +400,7 @@ class FairyFluidDrainerBlock(settings: Settings) : InstrumentBlock(settings), Bl
 
 }
 
-class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(FairyHouseCard.FAIRY_FLUID_DRAINER.blockEntityType.feature, pos, state), Clearable, SidedInventory, RenderingProxyBlockEntity {
+class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHouseBlockEntity(FairyHouseCard.FAIRY_FLUID_DRAINER.blockEntityType.feature, pos, state) {
 
     val fairyInventory = object : SimpleInventory(1) {
         override fun isValid(slot: Int, stack: ItemStack): Boolean {
@@ -384,7 +418,7 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : BlockEnti
         override fun isValid(slot: Int, stack: ItemStack) = stack.isOf(Items.BUCKET)
         override fun getMaxCountPerStack() = 1
     }
-    val combinedInventory = DoubleInventory(fairyInventory, bucketInventory)
+    override val combinedInventory = DoubleInventory(fairyInventory, bucketInventory)
 
     var fairyItemStack: ItemStack
         get() = fairyInventory.getStack(0)
@@ -419,8 +453,6 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : BlockEnti
         nbtWrapper["BucketInventory"].list.set(bucketInventory.toNbtList())
     }
 
-    override fun toUpdatePacket(): Packet<ClientPlayPacketListener> = BlockEntityUpdateS2CPacket.create(this)
-
     override fun toInitialChunkDataNbt(): NbtCompound {
         val nbt = NbtCompound()
         val nbtWrapper = nbt.wrapper
@@ -429,29 +461,13 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : BlockEnti
         return nbt
     }
 
-    fun dropItems() {
+    override fun dropItems() {
         ItemScatterer.spawn(world, pos, fairyInventory)
         ItemScatterer.spawn(world, pos, bucketInventory)
     }
 
-    override fun markDirty() {
-        super.markDirty()
-        world?.updateListeners(pos, cachedState, cachedState, Block.NOTIFY_ALL)
-    }
-
-
-    override fun size() = combinedInventory.size()
-    override fun isEmpty() = combinedInventory.isEmpty
-    override fun getStack(slot: Int): ItemStack = combinedInventory.getStack(slot)
-    override fun removeStack(slot: Int, amount: Int): ItemStack = combinedInventory.removeStack(slot, amount)
-    override fun removeStack(slot: Int): ItemStack = combinedInventory.removeStack(slot)
-    override fun setStack(slot: Int, stack: ItemStack) = combinedInventory.setStack(slot, stack)
-    override fun getMaxCountPerStack() = combinedInventory.maxCountPerStack
-    override fun canPlayerUse(player: PlayerEntity) = combinedInventory.canPlayerUse(player)
-    override fun isValid(slot: Int, stack: ItemStack?) = combinedInventory.isValid(slot, stack)
-    override fun getAvailableSlots(side: Direction) = (0 until combinedInventory.size()).toList().toIntArray()
-    override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?) = getStack(slot).count < maxCountPerStack && slot == 1
-    override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = getStack(slot).isNotEmpty && slot == 1 && !bucketItemStack.isOf(Items.BUCKET)
+    override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?) = super.canInsert(slot, stack, dir) && slot == 1
+    override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = super.canExtract(slot, stack, dir) && slot == 1 && !bucketItemStack.isOf(Items.BUCKET)
 
     override fun render(renderingProxy: RenderingProxy, tickDelta: Float, light: Int, overlay: Int) {
         val blockEntity = this
