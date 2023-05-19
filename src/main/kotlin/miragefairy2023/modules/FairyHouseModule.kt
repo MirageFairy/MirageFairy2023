@@ -90,7 +90,7 @@ class FairyHouseCard<B, BE>(
     val jaDescription: String,
     val material: Material,
     val soundGroup: BlockSoundGroup,
-    val needsToolTag: TagKey<Block>,
+    val needsToolTag: TagKey<Block>?,
 ) where B : Block, BE : BlockEntity, BE : RenderingProxyBlockEntity {
     companion object {
         val FAIRY_FLUID_DRAINER = FairyHouseCard(
@@ -124,7 +124,7 @@ object FairyHouseModule {
 
                 // レシピ
                 onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
-                onGenerateBlockTags { it(card.needsToolTag).add(feature) }
+                if (card.needsToolTag != null) onGenerateBlockTags { it(card.needsToolTag).add(feature) }
                 generateDefaultBlockLootTable()
 
             }
