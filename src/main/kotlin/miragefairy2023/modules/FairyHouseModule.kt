@@ -30,13 +30,13 @@ import mirrg.kotlin.hydrogen.or
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
+import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.block.BlockEntityProvider
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.FluidDrainable
 import net.minecraft.block.LeveledCauldronBlock
-import net.minecraft.block.MapColor
 import net.minecraft.block.Material
 import net.minecraft.block.ShapeContext
 import net.minecraft.block.entity.BlockEntity
@@ -62,6 +62,7 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.BlockTags
+import net.minecraft.tag.TagKey
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Clearable
@@ -77,47 +78,75 @@ import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 import kotlin.jvm.optionals.getOrNull
 
+class FairyHouseCard<B, BE>(
+    val path: String,
+    val blockCreator: (AbstractBlock.Settings) -> B,
+    val blockEntityCreator: (BlockPos, BlockState) -> BE,
+    val enName: String,
+    val jaName: String,
+    val enPoem: String,
+    val jaPoem: String,
+    val enDescription: String,
+    val jaDescription: String,
+    val material: Material,
+    val soundGroup: BlockSoundGroup,
+    val needsToolTag: TagKey<Block>,
+) where B : Block, BE : BlockEntity, BE : RenderingProxyBlockEntity {
+    companion object {
+        val FAIRY_FLUID_DRAINER = FairyHouseCard(
+            "fairy_fluid_drainer", ::FairyFluidDrainerBlock, ::FairyFluidDrainerBlockEntity,
+            "Fairy Fluid Drainer", "妖精の水汲み所",
+            "Causes anti-Brownian motion", "覆水、盆に返る。",
+            "Place a liquid fairy and a bucket", "液体系妖精と空バケツを配置",
+            Material.METAL, BlockSoundGroup.METAL, BlockTags.NEEDS_STONE_TOOL,
+        )
+    }
+
+    lateinit var block: FeatureSlot<B>
+    lateinit var blockEntityType: FeatureSlot<BlockEntityType<BE>>
+    lateinit var blockItem: FeatureSlot<BlockItem>
+}
+
 object FairyHouseModule {
-
-    lateinit var fairyFluidDrainerBlock: FeatureSlot<FairyFluidDrainerBlock>
-    lateinit var fairyFluidDrainerBlockEntityType: FeatureSlot<BlockEntityType<FairyFluidDrainerBlockEntity>>
-    lateinit var fairyFluidDrainerBlockItem: FeatureSlot<BlockItem>
-
     val init = module {
 
-        // 妖精の水汲み所
-        fairyFluidDrainerBlock = block("fairy_fluid_drainer", { FairyFluidDrainerBlock(FabricBlockSettings.of(Material.METAL, MapColor.STONE_GRAY).sounds(BlockSoundGroup.METAL).requiresTool().strength(2.0F).nonOpaque()) }) {
+        fun <B, BE> registerFairyHouse(card: FairyHouseCard<B, BE>) where B : Block, BE : BlockEntity, BE : RenderingProxyBlockEntity {
+            card.block = block(card.path, { card.blockCreator(FabricBlockSettings.of(card.material).sounds(card.soundGroup).requiresTool().strength(2.0F).nonOpaque()) }) {
 
-            // レンダリング
-            generateHorizontalFacingBlockState()
-            onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(feature) }
+                // レンダリング
+                generateHorizontalFacingBlockState()
+                onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(feature) }
 
-            // 翻訳
-            enJaBlock({ feature }, "Fairy Fluid Drainer", "妖精の水汲み所")
-            enJa({ "${feature.translationKey}.poem" }, "Causes anti-Brownian motion", "覆水、盆に返る。")
-            enJa({ "${feature.translationKey}.description" }, "Place a liquid fairy and a bucket", "液体系妖精と空バケツを配置")
+                // 翻訳
+                enJaBlock({ feature }, card.enName, card.jaName)
+                enJa({ "${feature.translationKey}.poem" }, card.enPoem, card.jaPoem)
+                enJa({ "${feature.translationKey}.description" }, card.enDescription, card.jaDescription)
 
-            // レシピ
-            onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
-            onGenerateBlockTags { it(BlockTags.NEEDS_STONE_TOOL).add(feature) }
-            generateDefaultBlockLootTable()
+                // レシピ
+                onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
+                onGenerateBlockTags { it(card.needsToolTag).add(feature) }
+                generateDefaultBlockLootTable()
 
-        }
-        fairyFluidDrainerBlockEntityType = blockEntity("fairy_fluid_drainer", ::FairyFluidDrainerBlockEntity, { fairyFluidDrainerBlock.feature }) {
-            onInitializeClient { MirageFairy2023.clientProxy!!.registerRenderingProxyBlockEntityRendererFactory(feature) }
-        }
-        fairyFluidDrainerBlockItem = item("fairy_fluid_drainer", {
-            object : BlockItem(fairyFluidDrainerBlock.feature, FabricItemSettings().group(commonItemGroup)) {
-                override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-                    super.appendTooltip(stack, world, tooltip, context)
-                    tooltip += text { translate("$translationKey.poem").gray }
-                    tooltip += text { translate("$translationKey.description").yellow }
-                }
             }
-        })
+            card.blockEntityType = blockEntity(card.path, card.blockEntityCreator, { card.block.feature }) {
+                onInitializeClient { MirageFairy2023.clientProxy!!.registerRenderingProxyBlockEntityRendererFactory(feature) }
+            }
+            card.blockItem = item(card.path, {
+                object : BlockItem(card.block.feature, FabricItemSettings().group(commonItemGroup)) {
+                    override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
+                        super.appendTooltip(stack, world, tooltip, context)
+                        tooltip += text { translate("$translationKey.poem").gray }
+                        tooltip += text { translate("$translationKey.description").yellow }
+                    }
+                }
+            })
+        }
+
+        // 妖精の水汲み所
+        registerFairyHouse(FairyHouseCard.FAIRY_FLUID_DRAINER)
         onGenerateRecipes {
             ShapedRecipeJsonBuilder
-                .create(fairyFluidDrainerBlockItem.feature)
+                .create(FairyHouseCard.FAIRY_FLUID_DRAINER.blockItem.feature)
                 .pattern("FMB")
                 .pattern("III")
                 .input('I', ConventionalItemTags.IRON_INGOTS)
@@ -125,13 +154,13 @@ object FairyHouseModule {
                 .input('M', DemonItemCard.MIRANAGITE())
                 .input('B', Items.BUCKET)
                 .criterion(DemonItemCard.MIRANAGITE())
-                .group(fairyFluidDrainerBlockItem.feature)
-                .offerTo(it, fairyFluidDrainerBlockItem.feature.identifier)
+                .group(FairyHouseCard.FAIRY_FLUID_DRAINER.blockItem.feature)
+                .offerTo(it, FairyHouseCard.FAIRY_FLUID_DRAINER.blockItem.feature.identifier)
         }
 
     }
-
 }
+
 
 interface FairyFluidDrainerRecipe {
     fun match(world: World, blockPos: BlockPos, blockState: BlockState): FairyFluidDrainerRecipeResult?
@@ -337,7 +366,7 @@ class FairyFluidDrainerBlock(settings: Settings) : InstrumentBlock(settings), Bl
 
 }
 
-class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(FairyHouseModule.fairyFluidDrainerBlockEntityType.feature, pos, state), Clearable, SidedInventory, RenderingProxyBlockEntity {
+class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(FairyHouseCard.FAIRY_FLUID_DRAINER.blockEntityType.feature, pos, state), Clearable, SidedInventory, RenderingProxyBlockEntity {
 
     val fairyInventory = object : SimpleInventory(1) {
         override fun isValid(slot: Int, stack: ItemStack): Boolean {
