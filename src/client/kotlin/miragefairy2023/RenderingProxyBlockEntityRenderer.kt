@@ -34,4 +34,3 @@ class RenderingProxyBlockEntityRenderer<T>(ctx: BlockEntityRendererFactory.Conte
         blockEntity.render(renderingProxy, tickDelta, light, overlay)
     }
 }
-
