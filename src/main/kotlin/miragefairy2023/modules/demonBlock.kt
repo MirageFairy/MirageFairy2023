@@ -143,7 +143,7 @@ val demonBlockModule = module {
     miranagiteBlockBlock = block("miranagite_block", { Block(FabricBlockSettings.of(Material.METAL, MapColor.LIGHT_BLUE).strength(3.0f, 3.0f).requiresTool()) }) {
         generateSimpleCubeAllBlockState()
         enJaBlock({ feature }, "Miranagite Block", "蒼天石ブロック")
-        enJa({ "${feature.translationKey}.poem" }, "Passivation confines discontinuous space", "虚空に出現した、現世との接点。")
+        enJa({ "${feature.translationKey}.poem" }, "Passivation confines discontinuous space", "虚空に導かれし、霊界との接合点。")
         onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
         onGenerateBlockTags { it(BlockTags.NEEDS_STONE_TOOL).add(feature) }
         generateDefaultBlockLootTable()
