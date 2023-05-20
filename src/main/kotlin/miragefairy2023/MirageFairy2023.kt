@@ -62,6 +62,7 @@ enum class DemonParticleBehaviour {
     HAPPY,
     ENCHANT,
     END_ROD,
+    ATTRACTING,
 }
 
 interface RenderingProxy {

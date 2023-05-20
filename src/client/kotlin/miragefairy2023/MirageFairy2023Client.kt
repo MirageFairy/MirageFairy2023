@@ -46,6 +46,7 @@ object MirageFairy2023Client : ClientModInitializer {
                     DemonParticleBehaviour.HAPPY -> SuspendParticle::HappyVillagerFactory
                     DemonParticleBehaviour.ENCHANT -> EnchantGlyphParticle::EnchantFactory
                     DemonParticleBehaviour.END_ROD -> EndRodParticle::Factory
+                    DemonParticleBehaviour.ATTRACTING -> AttractingParticle::Factory
                 }
                 ParticleFactoryRegistry.getInstance().register(particleType, pendingParticleFactory)
             }
