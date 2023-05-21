@@ -5,9 +5,13 @@ import miragefairy2023.RenderingProxy
 import miragefairy2023.RenderingProxyBlockEntity
 import miragefairy2023.api.FairyItem
 import miragefairy2023.module
+import miragefairy2023.modules.fairy.isLiquidFairy
 import miragefairy2023.util.InstrumentBlock
+import miragefairy2023.util.Inventory
+import miragefairy2023.util.castOr
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.get
+import miragefairy2023.util.getValue
 import miragefairy2023.util.gray
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
@@ -23,6 +27,9 @@ import miragefairy2023.util.init.item
 import miragefairy2023.util.isNotEmpty
 import miragefairy2023.util.list
 import miragefairy2023.util.notEmptyOrNull
+import miragefairy2023.util.plus
+import miragefairy2023.util.setValue
+import miragefairy2023.util.slot
 import miragefairy2023.util.text
 import miragefairy2023.util.wrapper
 import miragefairy2023.util.yellow
@@ -45,10 +52,8 @@ import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.inventory.DoubleInventory
 import net.minecraft.inventory.Inventory
 import net.minecraft.inventory.SidedInventory
-import net.minecraft.inventory.SimpleInventory
 import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
@@ -68,7 +73,6 @@ import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Clearable
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 import net.minecraft.util.ItemScatterer
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
@@ -397,35 +401,12 @@ class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
 
 class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHouseBlockEntity(FairyHouseCard.FAIRY_FLUID_DRAINER.blockEntityType.feature, pos, state) {
 
-    val fairyInventory = object : SimpleInventory(1) {
-        override fun isValid(slot: Int, stack: ItemStack): Boolean {
-            val fairyItem = stack.item as? FairyItem ?: return false
-            return when (fairyItem.fairy.motif) {
-                Identifier(MirageFairy2023.modId, "water") -> true // TODO respect
-                Identifier(MirageFairy2023.modId, "lava") -> true
-                else -> false
-            }
-        }
+    val fairyInventory = Inventory(1, maxCountPerStack = 1) { it.item.castOr<FairyItem> { return@Inventory false }.fairy.isLiquidFairy }
+    val bucketInventory = Inventory(1, maxCountPerStack = 1) { it.isOf(Items.BUCKET) }
+    override val combinedInventory = fairyInventory + bucketInventory
 
-        override fun getMaxCountPerStack() = 1
-    }
-    val bucketInventory = object : SimpleInventory(1) {
-        override fun isValid(slot: Int, stack: ItemStack) = stack.isOf(Items.BUCKET)
-        override fun getMaxCountPerStack() = 1
-    }
-    override val combinedInventory = DoubleInventory(fairyInventory, bucketInventory)
-
-    var fairyItemStack: ItemStack
-        get() = fairyInventory.getStack(0)
-        set(it) {
-            fairyInventory.setStack(0, it)
-        }
-
-    var bucketItemStack: ItemStack
-        get() = bucketInventory.getStack(0)
-        set(it) {
-            bucketInventory.setStack(0, it)
-        }
+    var fairyItemStack by fairyInventory.slot(0)
+    var bucketItemStack by bucketInventory.slot(0)
 
     override fun clear() {
         fairyInventory.clear()
