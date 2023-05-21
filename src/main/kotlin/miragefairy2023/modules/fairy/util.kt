@@ -1,6 +1,9 @@
 package miragefairy2023.modules.fairy
 
+import miragefairy2023.MirageFairy2023
+import miragefairy2023.api.Fairy
 import net.minecraft.util.Formatting
+import net.minecraft.util.Identifier
 
 fun getRareColor(rare: Int): Formatting = when (rare) {
     0 -> Formatting.AQUA
@@ -31,3 +34,11 @@ fun getRankRgb(rank: Int) = when (rank) {
     9 -> 0xBD41FF // purple
     else -> 0xFF00FF
 }
+
+// TODO respect
+val Fairy.isLiquidFairy
+    get() = when (this.motif) {
+        Identifier(MirageFairy2023.modId, "water") -> true
+        Identifier(MirageFairy2023.modId, "lava") -> true
+        else -> false
+    }
