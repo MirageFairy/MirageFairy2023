@@ -73,6 +73,7 @@ import net.minecraft.util.ItemScatterer
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
@@ -213,6 +214,10 @@ abstract class FairyHouseBlockEntity(type: BlockEntityType<*>, pos: BlockPos, st
     override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?) = getStack(slot).count < maxCountPerStack
     override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = getStack(slot).isNotEmpty
 
+}
+
+private fun ServerWorld.spawnCraftingCompletionParticles(pos: Vec3d) {
+    this.spawnParticles(DemonParticleTypeCard.DESCENDING_MAGIC.particleType, pos.x, pos.y, pos.z, 5, 0.0, 0.0, 0.0, 0.02)
 }
 
 
@@ -382,17 +387,7 @@ class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
             blockEntity.markDirty()
 
             // エフェクト
-            serverWorld.spawnParticles(
-                DemonParticleTypeCard.DESCENDING_MAGIC.particleType,
-                blockPos.x.toDouble() + 0.5,
-                blockPos.y.toDouble() + 0.6,
-                blockPos.z.toDouble() + 0.5,
-                5,
-                0.0,
-                0.0,
-                0.0,
-                0.02,
-            )
+            serverWorld.spawnCraftingCompletionParticles(Vec3d.of(blockPos).add(0.5, 0.6, 0.5))
             world.playSound(null, blockPos, recipeResult.getSoundEvent(), SoundCategory.BLOCKS, (soundGroup.volume + 1.0F) / 2.0F * 0.5F, soundGroup.pitch * 0.8F)
 
         }
