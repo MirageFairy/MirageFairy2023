@@ -446,23 +446,22 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
     override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = super.canExtract(slot, stack, dir) && slot == 1 && !bucketItemStack.isOf(Items.BUCKET)
 
     override fun render(renderingProxy: RenderingProxy, tickDelta: Float, light: Int, overlay: Int) {
-        val blockEntity = this
-        val blockState = blockEntity.world.or { return }.getBlockState(blockEntity.pos)
-        val block = blockState.block as? FairyFluidDrainerBlock ?: return
+        val blockState = world.or { return }.getBlockState(pos)
+        val block = blockState.block as? FairyHouseBlock ?: return
 
         renderingProxy.stack {
             renderingProxy.translate(0.5, 0.5, 0.5)
             renderingProxy.rotateY(-90F * block.getFacing(blockState).horizontal.toFloat())
 
             renderingProxy.stack {
-                renderingProxy.translate(0.0 / 16.0, -4.0 / 16.0, -0.0 / 16.0)
-                renderingProxy.renderItem(blockEntity.bucketItemStack)
+                renderingProxy.translate(0.0 / 16.0, -4.0 / 16.0, 0.0 / 16.0)
+                renderingProxy.renderItem(bucketItemStack)
             }
 
             renderingProxy.stack {
                 renderingProxy.translate(0.0 / 16.0, -5.0 / 16.0, 6.0 / 16.0)
                 renderingProxy.scale(0.5F, 0.5F, 0.5F)
-                renderingProxy.renderItem(blockEntity.fairyItemStack)
+                renderingProxy.renderItem(fairyItemStack)
             }
 
         }
