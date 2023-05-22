@@ -258,7 +258,7 @@ abstract class FairyHouseBlockEntity(type: BlockEntityType<*>, pos: BlockPos, st
     override fun removeStack(slot: Int, amount: Int): ItemStack = combinedInventory.removeStack(slot, amount)
     override fun removeStack(slot: Int): ItemStack = combinedInventory.removeStack(slot)
     override fun setStack(slot: Int, stack: ItemStack) = combinedInventory.setStack(slot, stack)
-    override fun getMaxCountPerStack() = combinedInventory.maxCountPerStack
+    override fun getMaxCountPerStack() = combinedInventory.maxCountPerStack // TODO ここが64固定になっている問題
     override fun canPlayerUse(player: PlayerEntity) = combinedInventory.canPlayerUse(player)
     override fun isValid(slot: Int, stack: ItemStack?) = combinedInventory.isValid(slot, stack)
     override fun getAvailableSlots(side: Direction) = (0 until combinedInventory.size()).toList().toIntArray()
