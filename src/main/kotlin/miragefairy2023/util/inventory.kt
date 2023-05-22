@@ -1,5 +1,6 @@
 package miragefairy2023.util
 
+import mirrg.kotlin.hydrogen.unit
 import net.minecraft.inventory.DoubleInventory
 import net.minecraft.inventory.Inventory
 import net.minecraft.inventory.SimpleInventory
@@ -22,5 +23,5 @@ fun Inventory.slot(slot: Int) = InventorySlot(this, slot)
 
 class InventorySlot(val inventory: Inventory, val slot: Int)
 
-operator fun InventorySlot.getValue(thisRef: Any?, property: KProperty<*>): ItemStack = this.inventory.getStack(slot)
-operator fun InventorySlot.setValue(thisRef: Any?, property: KProperty<*>, value: ItemStack) = this.inventory.setStack(slot, value)
+operator fun InventorySlot.getValue(thisRef: Any?, property: KProperty<*>): ItemStack = this.inventory[slot]
+operator fun InventorySlot.setValue(thisRef: Any?, property: KProperty<*>, value: ItemStack) = unit { this.inventory[slot] = value }
