@@ -25,3 +25,5 @@ class InventorySlot(val inventory: Inventory, val slot: Int)
 
 operator fun InventorySlot.getValue(thisRef: Any?, property: KProperty<*>): ItemStack = this.inventory[slot]
 operator fun InventorySlot.setValue(thisRef: Any?, property: KProperty<*>, value: ItemStack) = unit { this.inventory[slot] = value }
+
+fun Inventory.toList() = (0 until this.size()).map { this[it] }
