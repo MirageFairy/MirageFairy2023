@@ -29,6 +29,7 @@ import miragefairy2023.util.int
 import miragefairy2023.util.map
 import miragefairy2023.util.obtain
 import miragefairy2023.util.orDefault
+import miragefairy2023.util.set
 import miragefairy2023.util.setValue
 import miragefairy2023.util.text
 import miragefairy2023.util.totalWeight
@@ -289,7 +290,7 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
                             if (searchingItemStack !== stack) { // 同一のアイテムスタックでなく、
                                 if (searchingItemStack hasSameItemAndNbt stack) { // 両者が同一種類のアイテムスタックならば、
                                     val count = searchingItemStack.count
-                                    user.inventory.setStack(index, EMPTY_ITEM_STACK) // そのアイテムスタックを消して
+                                    user.inventory[index] = EMPTY_ITEM_STACK // そのアイテムスタックを消して
                                     stack.count = count // 手に持っているアイテムスタックに移動する
                                     // stack.count == 1なので、このときアイテムが1個消費される
                                     return@run true
