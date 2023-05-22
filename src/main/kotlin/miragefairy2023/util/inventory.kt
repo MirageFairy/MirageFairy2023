@@ -6,6 +6,9 @@ import net.minecraft.inventory.SimpleInventory
 import net.minecraft.item.ItemStack
 import kotlin.reflect.KProperty
 
+operator fun Inventory.get(slot: Int): ItemStack = this.getStack(slot)
+operator fun Inventory.set(slot: Int, stack: ItemStack) = this.setStack(slot, stack)
+
 operator fun Inventory.plus(other: Inventory) = DoubleInventory(this, other)
 
 fun Inventory(size: Int, maxCountPerStack: Int, itemFilter: (ItemStack) -> Boolean = { true }): SimpleInventory {
