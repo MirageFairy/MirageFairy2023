@@ -28,6 +28,7 @@ import miragefairy2023.util.isNotEmpty
 import miragefairy2023.util.list
 import miragefairy2023.util.notEmptyOrNull
 import miragefairy2023.util.plus
+import miragefairy2023.util.set
 import miragefairy2023.util.setValue
 import miragefairy2023.util.slot
 import miragefairy2023.util.text
@@ -262,8 +263,8 @@ abstract class FairyHouseBlockEntity(type: BlockEntityType<*>, pos: BlockPos, st
     override fun canPlayerUse(player: PlayerEntity) = combinedInventory.canPlayerUse(player)
     override fun isValid(slot: Int, stack: ItemStack?) = combinedInventory.isValid(slot, stack)
     override fun getAvailableSlots(side: Direction) = (0 until combinedInventory.size()).toList().toIntArray()
-    override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?) = getStack(slot).count < maxCountPerStack
-    override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = getStack(slot).isNotEmpty
+    override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?) = this[slot].count < maxCountPerStack
+    override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = this[slot].isNotEmpty
 
 }
 
@@ -350,14 +351,14 @@ class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
 
         // 配置
         (0 until blockEntity.size()).forEach nextSlot@{ slot ->
-            if (blockEntity.getStack(slot).isNotEmpty) return@nextSlot // 埋まっている場合は次へ
+            if (blockEntity[slot].isNotEmpty) return@nextSlot // 埋まっている場合は次へ
             if (!blockEntity.isValid(slot, itemStack)) return@nextSlot // 入れられない場合は次へ
 
             // 成立
 
             if (world.isClient) return ActionResult.CONSUME
 
-            blockEntity.setStack(slot, (if (player.abilities.creativeMode) itemStack.copy() else itemStack).split(1))
+            blockEntity[slot] = (if (player.abilities.creativeMode) itemStack.copy() else itemStack).split(1)
 
             world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, blockEntity.cachedState))
             blockEntity.markDirty()
@@ -367,7 +368,7 @@ class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
 
         // 回収
         (0 until blockEntity.size()).reversed().forEach nextSlot@{ slot ->
-            if (blockEntity.getStack(slot).isEmpty) return@nextSlot // 空である場合は次へ
+            if (blockEntity[slot].isEmpty) return@nextSlot // 空である場合は次へ
 
             // 成立
 
