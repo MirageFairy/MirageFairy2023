@@ -192,6 +192,52 @@ abstract class FairyHouseBlock(settings: Settings) : InstrumentBlock(settings), 
 
     override fun hasRandomTicks(state: BlockState) = true
 
+    @Suppress("OVERRIDE_DEPRECATION")
+    override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
+        val blockEntity = world.getBlockEntity(pos) as? FairyHouseBlockEntity ?: return ActionResult.PASS
+        val itemStack = player.getStackInHand(hand)
+
+        // 配置
+        (0 until blockEntity.size()).forEach nextSlot@{ slot ->
+            if (blockEntity[slot].isNotEmpty) return@nextSlot // 埋まっている場合は次へ
+            if (!blockEntity.isValid(slot, itemStack)) return@nextSlot // 入れられない場合は次へ
+            // この判定はホッパーと異なりcanInsert/Extract判定を貫通する
+
+            // 成立
+
+            if (world.isClient) return ActionResult.CONSUME
+
+            blockEntity[slot] = (if (player.abilities.creativeMode) itemStack.copy() else itemStack).split(1)
+
+            world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, blockEntity.cachedState))
+            blockEntity.markDirty()
+
+            return ActionResult.SUCCESS
+        }
+
+        // 回収
+        (0 until blockEntity.size()).reversed().forEach nextSlot@{ slot ->
+            if (blockEntity[slot].isEmpty) return@nextSlot // 空である場合は次へ
+            // この判定はホッパーと異なりcanInsert/Extract判定を貫通する
+
+            // 成立
+
+            if (world.isClient) return ActionResult.CONSUME
+
+            val itemEntity = ItemEntity(world, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, blockEntity.removeStack(slot).copy())
+            itemEntity.setVelocity(0.0, 0.0, 0.0)
+            itemEntity.resetPickupDelay()
+            world.spawnEntity(itemEntity)
+
+            world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, blockEntity.cachedState))
+            blockEntity.markDirty()
+
+            return ActionResult.SUCCESS
+        }
+
+        return ActionResult.PASS
+    }
+
 }
 
 abstract class FairyHouseBlockEntity(type: BlockEntityType<*>, pos: BlockPos, state: BlockState) : BlockEntity(type, pos, state), Clearable, SidedInventory, RenderingProxyBlockEntity {
@@ -343,50 +389,6 @@ class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = SHAPE
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = FairyFluidDrainerBlockEntity(pos, state)
-
-    @Suppress("OVERRIDE_DEPRECATION")
-    override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
-        val blockEntity = world.getBlockEntity(pos) as? FairyFluidDrainerBlockEntity ?: return ActionResult.PASS
-        val itemStack = player.getStackInHand(hand)
-
-        // 配置
-        (0 until blockEntity.size()).forEach nextSlot@{ slot ->
-            if (blockEntity[slot].isNotEmpty) return@nextSlot // 埋まっている場合は次へ
-            if (!blockEntity.isValid(slot, itemStack)) return@nextSlot // 入れられない場合は次へ
-
-            // 成立
-
-            if (world.isClient) return ActionResult.CONSUME
-
-            blockEntity[slot] = (if (player.abilities.creativeMode) itemStack.copy() else itemStack).split(1)
-
-            world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, blockEntity.cachedState))
-            blockEntity.markDirty()
-
-            return ActionResult.SUCCESS
-        }
-
-        // 回収
-        (0 until blockEntity.size()).reversed().forEach nextSlot@{ slot ->
-            if (blockEntity[slot].isEmpty) return@nextSlot // 空である場合は次へ
-
-            // 成立
-
-            if (world.isClient) return ActionResult.CONSUME
-
-            val itemEntity = ItemEntity(world, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, blockEntity.removeStack(slot).copy())
-            itemEntity.setVelocity(0.0, 0.0, 0.0)
-            itemEntity.resetPickupDelay()
-            world.spawnEntity(itemEntity)
-
-            world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, blockEntity.cachedState))
-            blockEntity.markDirty()
-
-            return ActionResult.SUCCESS
-        }
-
-        return ActionResult.PASS
-    }
 
     @Suppress("OVERRIDE_DEPRECATION")
     override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
