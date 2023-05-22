@@ -54,6 +54,7 @@ import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.Inventory
 import net.minecraft.inventory.SidedInventory
+import net.minecraft.inventory.SimpleInventory
 import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
@@ -194,16 +195,62 @@ abstract class FairyHouseBlock(settings: Settings) : InstrumentBlock(settings), 
 
 abstract class FairyHouseBlockEntity(type: BlockEntityType<*>, pos: BlockPos, state: BlockState) : BlockEntity(type, pos, state), Clearable, SidedInventory, RenderingProxyBlockEntity {
 
+    private val inventories = mutableListOf<Pair<String, SimpleInventory>>()
+    private var combinedInventory: Inventory = SimpleInventory(0)
+
+    protected fun addInventory(name: String, inventory: SimpleInventory) {
+        inventories += Pair(name, inventory)
+        if (combinedInventory.size() == 0) {
+            combinedInventory = inventory
+        } else {
+            combinedInventory += inventory
+        }
+    }
+
+    override fun clear() {
+        inventories.forEach {
+            it.second.clear()
+        }
+    }
+
+    override fun readNbt(nbt: NbtCompound) {
+        super.readNbt(nbt)
+        val nbtWrapper = nbt.wrapper
+        inventories.forEach {
+            it.second.clear()
+            it.second.readNbtList(nbtWrapper[it.first].list.get() ?: NbtList())
+        }
+    }
+
+    override fun writeNbt(nbt: NbtCompound) {
+        super.writeNbt(nbt)
+        val nbtWrapper = nbt.wrapper
+        inventories.forEach {
+            nbtWrapper[it.first].list.set(it.second.toNbtList())
+        }
+    }
+
+    override fun toInitialChunkDataNbt(): NbtCompound {
+        val nbt = NbtCompound()
+        val nbtWrapper = nbt.wrapper
+        inventories.forEach {
+            nbtWrapper[it.first].list.set(it.second.toNbtList())
+        }
+        return nbt
+    }
+
     override fun toUpdatePacket(): Packet<ClientPlayPacketListener> = BlockEntityUpdateS2CPacket.create(this)
 
-    abstract fun dropItems()
+    fun dropItems() {
+        inventories.forEach {
+            ItemScatterer.spawn(world, pos, it.second)
+        }
+    }
 
     override fun markDirty() {
         super.markDirty()
         world?.updateListeners(pos, cachedState, cachedState, Block.NOTIFY_ALL)
     }
-
-    abstract val combinedInventory: Inventory
 
     override fun size() = combinedInventory.size()
     override fun isEmpty() = combinedInventory.isEmpty
@@ -401,46 +448,11 @@ class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
 
 class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHouseBlockEntity(FairyHouseCard.FAIRY_FLUID_DRAINER.blockEntityType.feature, pos, state) {
 
-    val fairyInventory = Inventory(1, maxCountPerStack = 1) { it.item.castOr<FairyItem> { return@Inventory false }.fairy.isLiquidFairy }
-    val bucketInventory = Inventory(1, maxCountPerStack = 1) { it.isOf(Items.BUCKET) }
-    override val combinedInventory = fairyInventory + bucketInventory
+    val fairyInventory = Inventory(1, maxCountPerStack = 1) { it.item.castOr<FairyItem> { return@Inventory false }.fairy.isLiquidFairy }.also { addInventory("FairyInventory", it) }
+    val bucketInventory = Inventory(1, maxCountPerStack = 1) { it.isOf(Items.BUCKET) }.also { addInventory("BucketInventory", it) }
 
     var fairyItemStack by fairyInventory.slot(0)
     var bucketItemStack by bucketInventory.slot(0)
-
-    override fun clear() {
-        fairyInventory.clear()
-        bucketInventory.clear()
-    }
-
-    override fun readNbt(nbt: NbtCompound) {
-        super.readNbt(nbt)
-        val nbtWrapper = nbt.wrapper
-        fairyInventory.clear()
-        fairyInventory.readNbtList(nbtWrapper["FairyInventory"].list.get() ?: NbtList())
-        bucketInventory.clear()
-        bucketInventory.readNbtList(nbtWrapper["BucketInventory"].list.get() ?: NbtList())
-    }
-
-    override fun writeNbt(nbt: NbtCompound) {
-        super.writeNbt(nbt)
-        val nbtWrapper = nbt.wrapper
-        nbtWrapper["FairyInventory"].list.set(fairyInventory.toNbtList())
-        nbtWrapper["BucketInventory"].list.set(bucketInventory.toNbtList())
-    }
-
-    override fun toInitialChunkDataNbt(): NbtCompound {
-        val nbt = NbtCompound()
-        val nbtWrapper = nbt.wrapper
-        nbtWrapper["FairyInventory"].list.set(fairyInventory.toNbtList())
-        nbtWrapper["BucketInventory"].list.set(bucketInventory.toNbtList())
-        return nbt
-    }
-
-    override fun dropItems() {
-        ItemScatterer.spawn(world, pos, fairyInventory)
-        ItemScatterer.spawn(world, pos, bucketInventory)
-    }
 
     override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?) = super.canInsert(slot, stack, dir) && slot == 1
     override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = super.canExtract(slot, stack, dir) && slot == 1 && !bucketItemStack.isOf(Items.BUCKET)
