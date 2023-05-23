@@ -50,8 +50,6 @@ val fairyFluidDrainer = FairyHouseCard(
 )
 
 val fairyFluidDrainerModule = module {
-
-    // 妖精の水汲み所
     registerFairyHouse(fairyFluidDrainer)
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
@@ -66,7 +64,6 @@ val fairyFluidDrainerModule = module {
             .group(fairyFluidDrainer.blockItem.feature)
             .offerTo(it, fairyFluidDrainer.blockItem.feature.identifier)
     }
-
 }
 
 interface FairyFluidDrainerRecipe {
