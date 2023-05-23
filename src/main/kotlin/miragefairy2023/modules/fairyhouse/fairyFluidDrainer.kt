@@ -205,7 +205,7 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
 
             // エフェクト
             serverWorld.spawnCraftingCompletionParticles(Vec3d.of(pos).add(0.5, 0.6, 0.5))
-            serverWorld.playSound(null, pos, result.getSoundEvent(), SoundCategory.BLOCKS, (1.0F + 1.0F) / 2.0F * 0.5F, 1.0F * 0.8F)
+            serverWorld.playSound(null, pos, result.getSoundEvent(), SoundCategory.BLOCKS, 0.5F, 0.8F)
 
         }
     }
