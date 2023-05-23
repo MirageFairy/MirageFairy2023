@@ -154,11 +154,11 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
     }
 
     override fun randomTick(world: ServerWorld, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) {
-        match(world, pos, block, blockState)?.craft()
+        match(block.getFacing(blockState))?.craft(world)
     }
 
     override fun randomDisplayTick(world: World, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) {
-        val result = match(world, pos, block, blockState) ?: return
+        val result = match(block.getFacing(blockState)) ?: return
         world.addParticle(
             DemonParticleTypeCard.COLLECTING_MAGIC.particleType,
             pos.x.toDouble() + 0.5,
@@ -170,23 +170,16 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
         )
     }
 
-    class Result<out W : World>(
-        val recipeResult: FairyFluidDrainerRecipe.Result,
-        val world: W,
-        val blockPos: BlockPos,
-        val blockEntity: FairyFluidDrainerBlockEntity,
-        val fluidBlockPos: BlockPos,
-    )
+    class Result(val recipeResult: FairyFluidDrainerRecipe.Result, val fluidBlockPos: BlockPos)
 
-    fun <W : World> match(world: W, blockPos: BlockPos, block: FairyHouseBlock, blockState: BlockState): Result<W>? {
-        val facing = block.getFacing(blockState)
-        val blockEntity = world.getBlockEntity(blockPos) as? FairyFluidDrainerBlockEntity ?: return null
+    fun match(facing: Direction): Result? {
+        val world = world ?: return null
 
-        if (blockEntity.fairyInventory[0].isEmpty) return null // 妖精が居ない
-        if (!blockEntity.craftingInventory[0].isOf(Items.BUCKET)) return null // 空のバケツが無い
-        if (blockEntity.resultInventory[0].isNotEmpty) return null // 出力先が埋まっている
+        if (fairyInventory[0].isEmpty) return null // 妖精が居ない
+        if (!craftingInventory[0].isOf(Items.BUCKET)) return null // 空のバケツが無い
+        if (resultInventory[0].isNotEmpty) return null // 出力先が埋まっている
 
-        val frontBlockPos = blockPos.offset(facing)
+        val frontBlockPos = pos.offset(facing)
         if (world.getBlockState(frontBlockPos).isSolidBlock(world, frontBlockPos)) return null // 正面が埋まっている
 
         val fluidBlockPos = frontBlockPos.down()
@@ -198,22 +191,22 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
 
         // 成立
 
-        return Result(recipeResult, world, blockPos, blockEntity, fluidBlockPos)
+        return Result(recipeResult, fluidBlockPos)
     }
 
-    fun Result<ServerWorld>.craft() {
+    fun Result.craft(world: ServerWorld) {
 
         // 消費
         val filledBucketItemStack = recipeResult.tryDrain() ?: return // 吸えなかった
 
         // 生産
-        blockEntity.craftingInventory[0] = EMPTY_ITEM_STACK
-        blockEntity.resultInventory[0] = filledBucketItemStack
-        blockEntity.markDirty()
+        craftingInventory[0] = EMPTY_ITEM_STACK
+        resultInventory[0] = filledBucketItemStack
+        markDirty()
 
         // エフェクト
-        world.spawnCraftingCompletionParticles(Vec3d.of(blockPos).add(0.5, 0.6, 0.5))
-        world.playSound(null, blockPos, recipeResult.getSoundEvent(), SoundCategory.BLOCKS, (1.0F + 1.0F) / 2.0F * 0.5F, 1.0F * 0.8F)
+        world.spawnCraftingCompletionParticles(Vec3d.of(pos).add(0.5, 0.6, 0.5))
+        world.playSound(null, pos, recipeResult.getSoundEvent(), SoundCategory.BLOCKS, (1.0F + 1.0F) / 2.0F * 0.5F, 1.0F * 0.8F)
 
     }
 
