@@ -23,6 +23,14 @@ import net.minecraft.tag.BlockTags
 import net.minecraft.tag.TagKey
 import net.minecraft.util.math.BlockPos
 
+val fairyFluidDrainer = FairyHouseCard(
+    "fairy_fluid_drainer", ::FairyFluidDrainerBlock, ::FairyFluidDrainerBlockEntity,
+    "Fairy Fluid Drainer", "妖精の水汲み所",
+    "Causes anti-Brownian motion", "覆水、盆に返る。",
+    "Place a liquid fairy and a bucket", "液体系妖精と空バケツを配置",
+    Material.METAL, BlockSoundGroup.METAL, BlockTags.NEEDS_STONE_TOOL,
+)
+
 class FairyHouseCard<B, BE>(
     val path: String,
     val blockCreator: (AbstractBlock.Settings) -> B,
@@ -37,16 +45,6 @@ class FairyHouseCard<B, BE>(
     val soundGroup: BlockSoundGroup,
     val needsToolTag: TagKey<Block>?,
 ) where B : Block, BE : BlockEntity, BE : RenderingProxyBlockEntity {
-    companion object {
-        val FAIRY_FLUID_DRAINER = FairyHouseCard(
-            "fairy_fluid_drainer", ::FairyFluidDrainerBlock, ::FairyFluidDrainerBlockEntity,
-            "Fairy Fluid Drainer", "妖精の水汲み所",
-            "Causes anti-Brownian motion", "覆水、盆に返る。",
-            "Place a liquid fairy and a bucket", "液体系妖精と空バケツを配置",
-            Material.METAL, BlockSoundGroup.METAL, BlockTags.NEEDS_STONE_TOOL,
-        )
-    }
-
     lateinit var block: FeatureSlot<B>
     lateinit var blockEntityType: FeatureSlot<BlockEntityType<BE>>
     lateinit var blockItem: FeatureSlot<BlockItem>
@@ -56,10 +54,10 @@ object FairyHouseModule {
     val init = module {
 
         // 妖精の水汲み所
-        registerFairyHouse(FairyHouseCard.FAIRY_FLUID_DRAINER)
+        registerFairyHouse(fairyFluidDrainer)
         onGenerateRecipes {
             ShapedRecipeJsonBuilder
-                .create(FairyHouseCard.FAIRY_FLUID_DRAINER.blockItem.feature)
+                .create(fairyFluidDrainer.blockItem.feature)
                 .pattern("FMB")
                 .pattern("III")
                 .input('I', ConventionalItemTags.IRON_INGOTS)
@@ -67,8 +65,8 @@ object FairyHouseModule {
                 .input('M', DemonItemCard.MIRANAGITE())
                 .input('B', Items.BUCKET)
                 .criterion(DemonItemCard.MIRANAGITE())
-                .group(FairyHouseCard.FAIRY_FLUID_DRAINER.blockItem.feature)
-                .offerTo(it, FairyHouseCard.FAIRY_FLUID_DRAINER.blockItem.feature.identifier)
+                .group(fairyFluidDrainer.blockItem.feature)
+                .offerTo(it, fairyFluidDrainer.blockItem.feature.identifier)
         }
 
     }

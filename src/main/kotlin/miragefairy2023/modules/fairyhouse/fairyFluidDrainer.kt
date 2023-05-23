@@ -169,7 +169,7 @@ class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
 
 }
 
-class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHouseBlockEntity(FairyHouseCard.FAIRY_FLUID_DRAINER.blockEntityType.feature, pos, state) {
+class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHouseBlockEntity(fairyFluidDrainer.blockEntityType.feature, pos, state) {
 
     val fairyInventory = Inventory(1, maxCountPerStack = 1) { it.item.castOr<FairyItem> { return@Inventory false }.fairy.isLiquidFairy }.also { addInventory("FairyInventory", it) }
     val bucketInventory = Inventory(1, maxCountPerStack = 1) { it.isOf(Items.BUCKET) }.also { addInventory("BucketInventory", it) }
