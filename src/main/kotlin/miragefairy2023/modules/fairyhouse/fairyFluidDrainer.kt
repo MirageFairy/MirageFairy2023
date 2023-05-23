@@ -7,6 +7,7 @@ import miragefairy2023.modules.DemonItemCard
 import miragefairy2023.modules.DemonParticleTypeCard
 import miragefairy2023.modules.fairy.isLiquidFairy
 import miragefairy2023.modules.invoke
+import miragefairy2023.util.EMPTY_ITEM_STACK
 import miragefairy2023.util.Inventory
 import miragefairy2023.util.castOr
 import miragefairy2023.util.createItemStack
@@ -14,6 +15,7 @@ import miragefairy2023.util.get
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.group
+import miragefairy2023.util.isNotEmpty
 import miragefairy2023.util.notEmptyOrNull
 import miragefairy2023.util.set
 import mirrg.kotlin.hydrogen.or
@@ -132,9 +134,10 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
 
     val fairyInventory = Inventory(1, maxCountPerStack = 1) { it.item.castOr<FairyItem> { return@Inventory false }.fairy.isLiquidFairy }.also { addInventory("FairyInventory", it) }
     val bucketInventory = Inventory(1, maxCountPerStack = 1) { it.isOf(Items.BUCKET) }.also { addInventory("BucketInventory", it) }
+    val resultInventory = Inventory(1) { false }.also { addInventory("ResultInventory", it) }
 
     override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?) = super.canInsert(slot, stack, dir) && slot == 1
-    override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = super.canExtract(slot, stack, dir) && slot == 1 && !bucketInventory[0].isOf(Items.BUCKET)
+    override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = super.canExtract(slot, stack, dir) && slot == 2
 
     override fun render(renderingProxy: RenderingProxy, tickDelta: Float, light: Int, overlay: Int) {
         val blockState = world.or { return }.getBlockState(pos)
@@ -144,7 +147,13 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
             renderingProxy.translate(0.5, 0.5, 0.5)
             renderingProxy.rotateY(-90F * block.getFacing(blockState).horizontal.toFloat())
 
-            renderingProxy.renderItemStack(bucketInventory[0], 0.0, -4.0, 0.0)
+            if (bucketInventory[0].isNotEmpty && resultInventory[0].isNotEmpty) {
+                renderingProxy.renderItemStack(bucketInventory[0], 0.0, -4.0, 0.0)
+                renderingProxy.renderItemStack(resultInventory[0], 5.0, -5.0, 5.0, scale = 0.5F)
+            } else {
+                renderingProxy.renderItemStack(bucketInventory[0], 0.0, -4.0, 0.0)
+                renderingProxy.renderItemStack(resultInventory[0], 0.0, -4.0, 0.0)
+            }
             renderingProxy.renderItemStack(fairyInventory[0], 0.0, -5.0, 6.0, scale = 0.5F)
         }
     }
@@ -182,6 +191,7 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
 
         if (blockEntity.fairyInventory[0].isEmpty) return null // 妖精が居ない
         if (!blockEntity.bucketInventory[0].isOf(Items.BUCKET)) return null // 空のバケツが無い
+        if (blockEntity.resultInventory[0].isNotEmpty) return null // 出力先が埋まっている
 
         val frontBlockPos = blockPos.offset(facing)
         if (world.getBlockState(frontBlockPos).isSolidBlock(world, frontBlockPos)) return null // 正面が埋まっている
@@ -204,7 +214,8 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
         val filledBucketItemStack = recipeResult.tryDrain() ?: return // 吸えなかった
 
         // 生産
-        blockEntity.bucketInventory[0] = filledBucketItemStack
+        blockEntity.bucketInventory[0] = EMPTY_ITEM_STACK
+        blockEntity.resultInventory[0] = filledBucketItemStack
         blockEntity.markDirty()
 
         // エフェクト
