@@ -4,6 +4,7 @@ import miragefairy2023.InitializationScope
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.RenderingProxy
 import miragefairy2023.RenderingProxyBlockEntity
+import miragefairy2023.api.FairyItem
 import miragefairy2023.modules.DemonParticleTypeCard
 import miragefairy2023.modules.commonItemGroup
 import miragefairy2023.util.InstrumentBlock
@@ -23,6 +24,7 @@ import miragefairy2023.util.list
 import miragefairy2023.util.plus
 import miragefairy2023.util.set
 import miragefairy2023.util.text
+import miragefairy2023.util.toList
 import miragefairy2023.util.wrapper
 import miragefairy2023.util.yellow
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
@@ -277,6 +279,14 @@ abstract class FairyHouseBlockEntity(type: BlockEntityType<*>, pos: BlockPos, st
 
     open fun randomDisplayTick(world: World, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) = Unit
 
+}
+
+fun SimpleInventory.filterFairySlot(itemStack: ItemStack): Boolean {
+    val item = itemStack.item as? FairyItem ?: return false
+    return this.toList().none nextSlot@{ inventoryItemStack ->
+        val inventoryItem = inventoryItemStack.item as? FairyItem ?: return@nextSlot false
+        item.fairy.motif == inventoryItem.fairy.motif
+    }
 }
 
 fun ServerWorld.spawnCraftingCompletionParticles(pos: Vec3d) {
