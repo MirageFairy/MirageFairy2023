@@ -136,13 +136,35 @@ class FairyFluidDrainerBlock(card: FairyHouseCard<*, *>, settings: Settings) : F
     @Suppress("OVERRIDE_DEPRECATION")
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = SHAPE
 
-    @Suppress("OVERRIDE_DEPRECATION")
-    override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
-        match(state, world, pos)?.craft()
+}
+
+class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHouseBlockEntity(fairyFluidDrainer.blockEntityType.feature, pos, state) {
+
+    val fairyInventory = Inventory(1, maxCountPerStack = 1) { it.item.castOr<FairyItem> { return@Inventory false }.fairy.isLiquidFairy }.also { addInventory("FairyInventory", it) }
+    val bucketInventory = Inventory(1, maxCountPerStack = 1) { it.isOf(Items.BUCKET) }.also { addInventory("BucketInventory", it) }
+
+    override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?) = super.canInsert(slot, stack, dir) && slot == 1
+    override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = super.canExtract(slot, stack, dir) && slot == 1 && !bucketInventory[0].isOf(Items.BUCKET)
+
+    override fun render(renderingProxy: RenderingProxy, tickDelta: Float, light: Int, overlay: Int) {
+        val blockState = world.or { return }.getBlockState(pos)
+        val block = blockState.block as? FairyHouseBlock ?: return
+
+        renderingProxy.stack {
+            renderingProxy.translate(0.5, 0.5, 0.5)
+            renderingProxy.rotateY(-90F * block.getFacing(blockState).horizontal.toFloat())
+
+            renderingProxy.renderItemStack(bucketInventory[0], 0.0, -4.0, 0.0)
+            renderingProxy.renderItemStack(fairyInventory[0], 0.0, -5.0, 6.0, scale = 0.5F)
+        }
     }
 
-    override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {
-        val result = match(state, world, pos)
+    override fun randomTick(world: ServerWorld, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) {
+        match(world, pos, block, blockState)?.craft()
+    }
+
+    override fun randomDisplayTick(world: World, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) {
+        val result = match(world, pos, block, blockState)
         if (result != null) {
             world.addParticle(
                 DemonParticleTypeCard.COLLECTING_MAGIC.particleType,
@@ -164,8 +186,8 @@ class FairyFluidDrainerBlock(card: FairyHouseCard<*, *>, settings: Settings) : F
         val fluidBlockPos: BlockPos,
     )
 
-    fun <W : World> match(blockState: BlockState, world: W, blockPos: BlockPos): Result<W>? {
-        val facing = getFacing(blockState)
+    fun <W : World> match(world: W, blockPos: BlockPos, block: FairyHouseBlock, blockState: BlockState): Result<W>? {
+        val facing = block.getFacing(blockState)
         val blockEntity = world.getBlockEntity(blockPos) as? FairyFluidDrainerBlockEntity ?: return null
 
         if (blockEntity.fairyInventory[0].isEmpty) return null // 妖精が居ない
@@ -197,31 +219,8 @@ class FairyFluidDrainerBlock(card: FairyHouseCard<*, *>, settings: Settings) : F
 
         // エフェクト
         world.spawnCraftingCompletionParticles(Vec3d.of(blockPos).add(0.5, 0.6, 0.5))
-        world.playSound(null, blockPos, recipeResult.getSoundEvent(), SoundCategory.BLOCKS, (soundGroup.volume + 1.0F) / 2.0F * 0.5F, soundGroup.pitch * 0.8F)
+        world.playSound(null, blockPos, recipeResult.getSoundEvent(), SoundCategory.BLOCKS, (1.0F + 1.0F) / 2.0F * 0.5F, 1.0F * 0.8F)
 
-    }
-
-}
-
-class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHouseBlockEntity(fairyFluidDrainer.blockEntityType.feature, pos, state) {
-
-    val fairyInventory = Inventory(1, maxCountPerStack = 1) { it.item.castOr<FairyItem> { return@Inventory false }.fairy.isLiquidFairy }.also { addInventory("FairyInventory", it) }
-    val bucketInventory = Inventory(1, maxCountPerStack = 1) { it.isOf(Items.BUCKET) }.also { addInventory("BucketInventory", it) }
-
-    override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?) = super.canInsert(slot, stack, dir) && slot == 1
-    override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = super.canExtract(slot, stack, dir) && slot == 1 && !bucketInventory[0].isOf(Items.BUCKET)
-
-    override fun render(renderingProxy: RenderingProxy, tickDelta: Float, light: Int, overlay: Int) {
-        val blockState = world.or { return }.getBlockState(pos)
-        val block = blockState.block as? FairyHouseBlock ?: return
-
-        renderingProxy.stack {
-            renderingProxy.translate(0.5, 0.5, 0.5)
-            renderingProxy.rotateY(-90F * block.getFacing(blockState).horizontal.toFloat())
-
-            renderingProxy.renderItemStack(bucketInventory[0], 0.0, -4.0, 0.0)
-            renderingProxy.renderItemStack(fairyInventory[0], 0.0, -5.0, 6.0, scale = 0.5F)
-        }
     }
 
 }

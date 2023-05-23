@@ -7,6 +7,7 @@ import miragefairy2023.RenderingProxyBlockEntity
 import miragefairy2023.modules.DemonParticleTypeCard
 import miragefairy2023.modules.commonItemGroup
 import miragefairy2023.util.InstrumentBlock
+import miragefairy2023.util.castOr
 import miragefairy2023.util.get
 import miragefairy2023.util.gray
 import miragefairy2023.util.init.FeatureSlot
@@ -59,6 +60,7 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 
@@ -136,6 +138,15 @@ abstract class FairyHouseBlock(val card: FairyHouseCard<*, *>, settings: Setting
     }
 
     override fun hasRandomTicks(state: BlockState) = true
+
+    @Suppress("OVERRIDE_DEPRECATION")
+    override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
+        world.getBlockEntity(pos)?.castOr<FairyHouseBlockEntity> { return }?.randomTick(world, this, pos, state, random)
+    }
+
+    override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {
+        world.getBlockEntity(pos)?.castOr<FairyHouseBlockEntity> { return }?.randomDisplayTick(world, this, pos, state, random)
+    }
 
     @Suppress("OVERRIDE_DEPRECATION")
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
@@ -256,6 +267,10 @@ abstract class FairyHouseBlockEntity(type: BlockEntityType<*>, pos: BlockPos, st
     override fun getAvailableSlots(side: Direction) = (0 until combinedInventory.size()).toList().toIntArray()
     override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?) = this[slot].count < maxCountPerStack
     override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = this[slot].isNotEmpty
+
+    open fun randomTick(world: ServerWorld, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) = Unit
+
+    open fun randomDisplayTick(world: World, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) = Unit
 
 }
 
