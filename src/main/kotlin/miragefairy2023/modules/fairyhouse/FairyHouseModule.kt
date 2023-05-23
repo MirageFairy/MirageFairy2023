@@ -1,27 +1,17 @@
 package miragefairy2023.modules.fairyhouse
 
-import miragefairy2023.RenderingProxyBlockEntity
 import miragefairy2023.module
 import miragefairy2023.modules.DemonItemCard
 import miragefairy2023.modules.invoke
 import miragefairy2023.util.identifier
-import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.group
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
-import net.minecraft.block.AbstractBlock
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
 import net.minecraft.block.Material
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
-import net.minecraft.item.BlockItem
 import net.minecraft.item.Items
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.tag.BlockTags
-import net.minecraft.tag.TagKey
-import net.minecraft.util.math.BlockPos
 
 val fairyFluidDrainer = FairyHouseCard(
     "fairy_fluid_drainer", ::FairyFluidDrainerBlock, ::FairyFluidDrainerBlockEntity,
@@ -30,25 +20,6 @@ val fairyFluidDrainer = FairyHouseCard(
     "Place a liquid fairy and a bucket", "液体系妖精と空バケツを配置",
     Material.METAL, BlockSoundGroup.METAL, BlockTags.NEEDS_STONE_TOOL,
 )
-
-class FairyHouseCard<B, BE>(
-    val path: String,
-    val blockCreator: (AbstractBlock.Settings) -> B,
-    val blockEntityCreator: (BlockPos, BlockState) -> BE,
-    val enName: String,
-    val jaName: String,
-    val enPoem: String,
-    val jaPoem: String,
-    val enDescription: String,
-    val jaDescription: String,
-    val material: Material,
-    val soundGroup: BlockSoundGroup,
-    val needsToolTag: TagKey<Block>?,
-) where B : Block, BE : BlockEntity, BE : RenderingProxyBlockEntity {
-    lateinit var block: FeatureSlot<B>
-    lateinit var blockEntityType: FeatureSlot<BlockEntityType<BE>>
-    lateinit var blockItem: FeatureSlot<BlockItem>
-}
 
 object FairyHouseModule {
     val init = module {

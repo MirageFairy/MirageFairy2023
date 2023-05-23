@@ -7,6 +7,7 @@ import miragefairy2023.RenderingProxyBlockEntity
 import miragefairy2023.modules.DemonParticleTypeCard
 import miragefairy2023.modules.commonItemGroup
 import miragefairy2023.util.gray
+import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.block
 import miragefairy2023.util.init.blockEntity
 import miragefairy2023.util.init.enJa
@@ -18,16 +19,42 @@ import miragefairy2023.util.text
 import miragefairy2023.util.yellow
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
+import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
+import net.minecraft.block.BlockState
+import net.minecraft.block.Material
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.tag.BlockTags
+import net.minecraft.tag.TagKey
 import net.minecraft.text.Text
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+
+class FairyHouseCard<B, BE>(
+    val path: String,
+    val blockCreator: (AbstractBlock.Settings) -> B,
+    val blockEntityCreator: (BlockPos, BlockState) -> BE,
+    val enName: String,
+    val jaName: String,
+    val enPoem: String,
+    val jaPoem: String,
+    val enDescription: String,
+    val jaDescription: String,
+    val material: Material,
+    val soundGroup: BlockSoundGroup,
+    val needsToolTag: TagKey<Block>?,
+) where B : Block, BE : BlockEntity, BE : RenderingProxyBlockEntity {
+    lateinit var block: FeatureSlot<B>
+    lateinit var blockEntityType: FeatureSlot<BlockEntityType<BE>>
+    lateinit var blockItem: FeatureSlot<BlockItem>
+}
 
 fun <B, BE> InitializationScope.registerFairyHouse(card: FairyHouseCard<B, BE>) where B : Block, BE : BlockEntity, BE : RenderingProxyBlockEntity {
     card.block = block(card.path, { card.blockCreator(FabricBlockSettings.of(card.material).sounds(card.soundGroup).requiresTool().strength(2.0F).nonOpaque()) }) {
