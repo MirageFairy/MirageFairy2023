@@ -31,7 +31,7 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
     }
 
     override val fairy get() = fairyCard.fairy
-    val fairyLevel get() = fairyCard.rare + (rank - 1) * 2
+    override val fairyLevel get() = fairyCard.rare + (rank - 1) * 2
 
     override fun getPassiveSkillIdentifier() = fairyCard.motif
     val passiveSkills = fairyCard.passiveSkillProviders.map { PassiveSkill(it.conditions, it.effectProvider(if (fairyLevel != 0) fairyLevel / 10.0 else 0.05)) }

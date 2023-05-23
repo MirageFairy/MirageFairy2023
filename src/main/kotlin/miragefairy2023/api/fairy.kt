@@ -9,6 +9,7 @@ import net.minecraft.util.registry.SimpleRegistry
 
 interface FairyItem {
     val fairy: Fairy
+    val fairyLevel: Int
 }
 
 interface Fairy {
