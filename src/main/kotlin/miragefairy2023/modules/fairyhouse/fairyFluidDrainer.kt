@@ -158,21 +158,20 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
     }
 
     override fun randomDisplayTick(world: World, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) {
-        val result = match() ?: return
+        match() ?: return
+        val fluidBlockPos = pos.offset(block.getFacing(blockState)).down()
         world.addParticle(
             DemonParticleTypeCard.COLLECTING_MAGIC.particleType,
             pos.x.toDouble() + 0.5,
             pos.y.toDouble() + 0.8 + 1.0,
             pos.z.toDouble() + 0.5,
-            result.fluidBlockPos.x.toDouble() + 0.1 + random.nextDouble() * 0.8 - (pos.x.toDouble() + 0.5),
-            result.fluidBlockPos.y.toDouble() + 0.8 - (pos.y.toDouble() + 0.8 + 1.0),
-            result.fluidBlockPos.z.toDouble() + 0.1 + random.nextDouble() * 0.8 - (pos.z.toDouble() + 0.5),
+            fluidBlockPos.x.toDouble() + 0.1 + random.nextDouble() * 0.8 - (pos.x.toDouble() + 0.5),
+            fluidBlockPos.y.toDouble() + 0.8 - (pos.y.toDouble() + 0.8 + 1.0),
+            fluidBlockPos.z.toDouble() + 0.1 + random.nextDouble() * 0.8 - (pos.z.toDouble() + 0.5),
         )
     }
 
-    class Result(val recipeResult: FairyFluidDrainerRecipe.Result, val fluidBlockPos: BlockPos)
-
-    fun match(): Result? {
+    fun match(): FairyFluidDrainerRecipe.Result? {
         val world = world ?: return null
         val blockState = world.getBlockState(pos)
         val block = blockState.block as? FairyHouseBlock ?: return null
@@ -194,13 +193,13 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
 
         // 成立
 
-        return Result(recipeResult, fluidBlockPos)
+        return recipeResult
     }
 
-    fun Result.craft(world: ServerWorld) {
+    fun FairyFluidDrainerRecipe.Result.craft(world: ServerWorld) {
 
         // 消費
-        val filledBucketItemStack = recipeResult.tryDrain() ?: return // 吸えなかった
+        val filledBucketItemStack = this.tryDrain() ?: return // 吸えなかった
 
         // 生産
         craftingInventory[0] = EMPTY_ITEM_STACK
@@ -209,7 +208,7 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
 
         // エフェクト
         world.spawnCraftingCompletionParticles(Vec3d.of(pos).add(0.5, 0.6, 0.5))
-        world.playSound(null, pos, recipeResult.getSoundEvent(), SoundCategory.BLOCKS, (1.0F + 1.0F) / 2.0F * 0.5F, 1.0F * 0.8F)
+        world.playSound(null, pos, this.getSoundEvent(), SoundCategory.BLOCKS, (1.0F + 1.0F) / 2.0F * 0.5F, 1.0F * 0.8F)
 
     }
 
