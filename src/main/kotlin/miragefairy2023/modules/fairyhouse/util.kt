@@ -162,37 +162,41 @@ class FairyHouseBlock(val card: FairyHouseCard<*>, settings: Settings) : Instrum
         val itemStack = player.getStackInHand(hand)
 
         // 配置
-        (0 until blockEntity.size()).forEach nextSlot@{ slot ->
-            if (blockEntity[slot].isNotEmpty) return@nextSlot // 埋まっている場合は次へ
-            if (!blockEntity.isValid(slot, itemStack)) return@nextSlot // 入れられない場合は次へ
-            // この判定はホッパーと異なりcanInsert/Extract判定を貫通する
+        if (itemStack.isNotEmpty) {
+            (0 until blockEntity.size()).forEach nextSlot@{ slot ->
+                if (blockEntity[slot].isNotEmpty) return@nextSlot // 埋まっている場合は次へ
+                if (!blockEntity.isValid(slot, itemStack)) return@nextSlot // 入れられない場合は次へ
+                // この判定はホッパーと異なりcanInsert/Extract判定を貫通する
 
-            // 成立
+                // 成立
 
-            blockEntity[slot] = (if (player.abilities.creativeMode) itemStack.copy() else itemStack).split(1)
+                blockEntity[slot] = (if (player.abilities.creativeMode) itemStack.copy() else itemStack).split(1)
 
-            world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, blockEntity.cachedState))
-            blockEntity.markDirty()
+                world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, blockEntity.cachedState))
+                blockEntity.markDirty()
 
-            return ActionResult.CONSUME
+                return ActionResult.CONSUME
+            }
         }
 
         // 回収
-        (0 until blockEntity.size()).reversed().forEach nextSlot@{ slot ->
-            if (blockEntity[slot].isEmpty) return@nextSlot // 空である場合は次へ
-            // この判定はホッパーと異なりcanInsert/Extract判定を貫通する
+        run {
+            (0 until blockEntity.size()).reversed().forEach nextSlot@{ slot ->
+                if (blockEntity[slot].isEmpty) return@nextSlot // 空である場合は次へ
+                // この判定はホッパーと異なりcanInsert/Extract判定を貫通する
 
-            // 成立
+                // 成立
 
-            val itemEntity = ItemEntity(world, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, blockEntity.removeStack(slot).copy())
-            itemEntity.setVelocity(0.0, 0.0, 0.0)
-            itemEntity.resetPickupDelay()
-            world.spawnEntity(itemEntity)
+                val itemEntity = ItemEntity(world, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, blockEntity.removeStack(slot).copy())
+                itemEntity.setVelocity(0.0, 0.0, 0.0)
+                itemEntity.resetPickupDelay()
+                world.spawnEntity(itemEntity)
 
-            world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, blockEntity.cachedState))
-            blockEntity.markDirty()
+                world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, blockEntity.cachedState))
+                blockEntity.markDirty()
 
-            return ActionResult.CONSUME
+                return ActionResult.CONSUME
+            }
         }
 
         return ActionResult.CONSUME
