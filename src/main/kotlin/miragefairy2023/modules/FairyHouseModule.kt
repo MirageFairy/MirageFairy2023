@@ -326,18 +326,7 @@ private fun RenderingProxy.renderItemStack(itemStack: ItemStack, dotX: Double, d
 
 
 interface FairyFluidDrainerRecipe {
-    interface Result {
-        fun tryDrain(): ItemStack?
-        fun getSoundEvent(): SoundEvent
-    }
-
-    fun match(world: World, blockPos: BlockPos, blockState: BlockState): Result?
-}
-
-class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
     companion object {
-        private val SHAPE = createCuboidShape(0.0, 0.0, 0.0, 16.0, 6.0, 16.0)!!
-
         val RECIPES = mutableListOf<FairyFluidDrainerRecipe>()
 
         init {
@@ -388,7 +377,19 @@ class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
             }
 
         }
+    }
 
+    interface Result {
+        fun tryDrain(): ItemStack?
+        fun getSoundEvent(): SoundEvent
+    }
+
+    fun match(world: World, blockPos: BlockPos, blockState: BlockState): Result?
+}
+
+class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
+    companion object {
+        private val SHAPE = createCuboidShape(0.0, 0.0, 0.0, 16.0, 6.0, 16.0)!!
     }
 
     @Suppress("OVERRIDE_DEPRECATION")
@@ -430,7 +431,7 @@ class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
 
         val fluidBlockPos = frontBlockPos.down()
         val fluidBlockState = world.getBlockState(fluidBlockPos)
-        val recipeResult = RECIPES
+        val recipeResult = FairyFluidDrainerRecipe.RECIPES
             .asSequence()
             .mapNotNull { it.match(world, fluidBlockPos, fluidBlockState) }
             .firstOrNull() ?: return null // 該当するレシピがない
