@@ -56,53 +56,51 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 object TelescopeModule {
-
     val ZONE_OFFSET = ZoneOffset.ofHours(0)
     val DAY_OF_WEEK_ORIGIN = DayOfWeek.SUNDAY
+}
 
-    lateinit var telescopeBlock: FeatureSlot<TelescopeBlock>
-    lateinit var telescopeBlockItem: FeatureSlot<BlockItem>
+lateinit var telescopeBlock: FeatureSlot<TelescopeBlock>
+lateinit var telescopeBlockItem: FeatureSlot<BlockItem>
 
-    val init = module {
+val telescopeModule = module {
 
-        telescopeBlock = block("telescope", { TelescopeBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.COPPER).strength(0.5F).nonOpaque()) }) {
+    telescopeBlock = block("telescope", { TelescopeBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.COPPER).strength(0.5F).nonOpaque()) }) {
 
-            // レンダリング
-            generateHorizontalFacingBlockState()
-            onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(feature) }
+        // レンダリング
+        generateHorizontalFacingBlockState()
+        onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(feature) }
 
-            // 翻訳
-            enJaBlock({ feature }, "Minia's Telescope", "ミーニャの望遠鏡")
-            enJa({ "${feature.translationKey}.poem" }, "Tell me more about the human world!", "きみは妖精には見えないものが見えるんだね。")
+        // 翻訳
+        enJaBlock({ feature }, "Minia's Telescope", "ミーニャの望遠鏡")
+        enJa({ "${feature.translationKey}.poem" }, "Tell me more about the human world!", "きみは妖精には見えないものが見えるんだね。")
 
-            // レシピ
-            onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
-            generateDefaultBlockLootTable()
+        // レシピ
+        onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
+        generateDefaultBlockLootTable()
 
-        }
-        telescopeBlockItem = item("telescope", {
-            object : BlockItem(telescopeBlock.feature, FabricItemSettings().group(commonItemGroup)) {
-                override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-                    super.appendTooltip(stack, world, tooltip, context)
-                    tooltip += text { translate("$translationKey.poem").gray }
-                }
+    }
+    telescopeBlockItem = item("telescope", {
+        object : BlockItem(telescopeBlock.feature, FabricItemSettings().group(commonItemGroup)) {
+            override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
+                super.appendTooltip(stack, world, tooltip, context)
+                tooltip += text { translate("$translationKey.poem").gray }
             }
-        })
-
-        onGenerateRecipes {
-            ShapedRecipeJsonBuilder
-                .create(telescopeBlockItem.feature)
-                .pattern("IIG")
-                .pattern(" S ")
-                .pattern("S S")
-                .input('I', ConventionalItemTags.COPPER_INGOTS)
-                .input('G', DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
-                .input('S', Items.STICK)
-                .criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
-                .group(telescopeBlockItem.feature)
-                .offerTo(it, telescopeBlockItem.feature.identifier)
         }
+    })
 
+    onGenerateRecipes {
+        ShapedRecipeJsonBuilder
+            .create(telescopeBlockItem.feature)
+            .pattern("IIG")
+            .pattern(" S ")
+            .pattern("S S")
+            .input('I', ConventionalItemTags.COPPER_INGOTS)
+            .input('G', DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
+            .input('S', Items.STICK)
+            .criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
+            .group(telescopeBlockItem.feature)
+            .offerTo(it, telescopeBlockItem.feature.identifier)
     }
 
 }
