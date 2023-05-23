@@ -27,7 +27,6 @@ import miragefairy2023.util.wrapper
 import miragefairy2023.util.yellow
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.block.BlockEntityProvider
 import net.minecraft.block.BlockState
@@ -67,9 +66,8 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 
-class FairyHouseCard<B, BE>(
+class FairyHouseCard<BE>(
     val path: String,
-    val blockCreator: (FairyHouseCard<*, *>, AbstractBlock.Settings) -> B,
     val blockEntityCreator: (BlockPos, BlockState) -> BE,
     val enName: String,
     val jaName: String,
@@ -81,14 +79,14 @@ class FairyHouseCard<B, BE>(
     val soundGroup: BlockSoundGroup,
     val needsToolTag: TagKey<Block>?,
     val voxelShape: VoxelShape,
-) where B : Block, BE : BlockEntity, BE : RenderingProxyBlockEntity {
-    lateinit var block: FeatureSlot<B>
+) where BE : BlockEntity, BE : RenderingProxyBlockEntity {
+    lateinit var block: FeatureSlot<FairyHouseBlock>
     lateinit var blockEntityType: FeatureSlot<BlockEntityType<BE>>
     lateinit var blockItem: FeatureSlot<BlockItem>
 }
 
-fun <B, BE> InitializationScope.registerFairyHouse(card: FairyHouseCard<B, BE>) where B : Block, BE : BlockEntity, BE : RenderingProxyBlockEntity {
-    card.block = block(card.path, { card.blockCreator(card, FabricBlockSettings.of(card.material).sounds(card.soundGroup).requiresTool().strength(2.0F).nonOpaque()) }) {
+fun <BE> InitializationScope.registerFairyHouse(card: FairyHouseCard<BE>) where BE : BlockEntity, BE : RenderingProxyBlockEntity {
+    card.block = block(card.path, { FairyHouseBlock(card, FabricBlockSettings.of(card.material).sounds(card.soundGroup).requiresTool().strength(2.0F).nonOpaque()) }) {
 
         // レンダリング
         generateHorizontalFacingBlockState()
@@ -119,7 +117,7 @@ fun <B, BE> InitializationScope.registerFairyHouse(card: FairyHouseCard<B, BE>) 
     })
 }
 
-abstract class FairyHouseBlock(val card: FairyHouseCard<*, *>, settings: Settings) : InstrumentBlock(settings), BlockEntityProvider {
+class FairyHouseBlock(val card: FairyHouseCard<*>, settings: Settings) : InstrumentBlock(settings), BlockEntityProvider {
 
     @Suppress("OVERRIDE_DEPRECATION")
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = card.voxelShape

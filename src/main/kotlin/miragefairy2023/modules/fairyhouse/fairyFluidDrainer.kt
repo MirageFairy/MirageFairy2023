@@ -41,7 +41,7 @@ import net.minecraft.world.World
 import kotlin.jvm.optionals.getOrNull
 
 val fairyFluidDrainer = FairyHouseCard(
-    "fairy_fluid_drainer", ::FairyFluidDrainerBlock, ::FairyFluidDrainerBlockEntity,
+    "fairy_fluid_drainer", ::FairyFluidDrainerBlockEntity,
     "Fairy Fluid Drainer", "妖精の水汲み所",
     "Causes anti-Brownian motion", "覆水、盆に返る。",
     "Place a liquid fairy and a bucket", "液体系妖精と空バケツを配置",
@@ -127,8 +127,6 @@ interface FairyFluidDrainerRecipe {
 
     fun match(world: World, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result?
 }
-
-class FairyFluidDrainerBlock(card: FairyHouseCard<*, *>, settings: Settings) : FairyHouseBlock(card, settings)
 
 class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHouseBlockEntity(fairyFluidDrainer.blockEntityType.feature, pos, state) {
 
