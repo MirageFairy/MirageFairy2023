@@ -181,6 +181,7 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
         val fluidBlockState = world.getBlockState(fluidBlockPos)
 
         if (fairyInventory[0].isEmpty) return null // 妖精が居ない
+        if (craftingInventory[0].count != 1) return null // 入力スロットが空かスタックされている
         if (!craftingInventory[0].isOf(Items.BUCKET)) return null // 空のバケツが無い
         if (resultInventory[0].isNotEmpty) return null // 出力スロットが埋まっている
         if (world.getBlockState(frontBlockPos).isSolidBlock(world, frontBlockPos)) return null // 正面が塞がっている
