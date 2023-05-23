@@ -11,7 +11,6 @@ import miragefairy2023.util.Inventory
 import miragefairy2023.util.castOr
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.get
-import miragefairy2023.util.getValue
 import miragefairy2023.util.gray
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
@@ -29,8 +28,6 @@ import miragefairy2023.util.list
 import miragefairy2023.util.notEmptyOrNull
 import miragefairy2023.util.plus
 import miragefairy2023.util.set
-import miragefairy2023.util.setValue
-import miragefairy2023.util.slot
 import miragefairy2023.util.text
 import miragefairy2023.util.wrapper
 import miragefairy2023.util.yellow
@@ -416,8 +413,8 @@ class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
         val facing = getFacing(blockState)
         val blockEntity = world.getBlockEntity(blockPos) as? FairyFluidDrainerBlockEntity ?: return null
 
-        if (blockEntity.fairyItemStack.isEmpty) return null // 妖精が居ない
-        if (!blockEntity.bucketItemStack.isOf(Items.BUCKET)) return null // 空のバケツが無い
+        if (blockEntity.fairyInventory[0].isEmpty) return null // 妖精が居ない
+        if (!blockEntity.bucketInventory[0].isOf(Items.BUCKET)) return null // 空のバケツが無い
 
         val frontBlockPos = blockPos.offset(facing)
         if (world.getBlockState(frontBlockPos).isSolidBlock(world, frontBlockPos)) return null // 正面が埋まっている
@@ -437,7 +434,7 @@ class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
             val filledBucketItemStack = recipeResult.tryDrain() ?: return@Result // 吸えなかった
 
             // 生産
-            blockEntity.bucketItemStack = filledBucketItemStack
+            blockEntity.bucketInventory[0] = filledBucketItemStack
             blockEntity.markDirty()
 
             // エフェクト
@@ -454,11 +451,8 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
     val fairyInventory = Inventory(1, maxCountPerStack = 1) { it.item.castOr<FairyItem> { return@Inventory false }.fairy.isLiquidFairy }.also { addInventory("FairyInventory", it) }
     val bucketInventory = Inventory(1, maxCountPerStack = 1) { it.isOf(Items.BUCKET) }.also { addInventory("BucketInventory", it) }
 
-    var fairyItemStack by fairyInventory.slot(0)
-    var bucketItemStack by bucketInventory.slot(0)
-
     override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?) = super.canInsert(slot, stack, dir) && slot == 1
-    override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = super.canExtract(slot, stack, dir) && slot == 1 && !bucketItemStack.isOf(Items.BUCKET)
+    override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = super.canExtract(slot, stack, dir) && slot == 1 && !bucketInventory[0].isOf(Items.BUCKET)
 
     override fun render(renderingProxy: RenderingProxy, tickDelta: Float, light: Int, overlay: Int) {
         val blockState = world.or { return }.getBlockState(pos)
@@ -470,13 +464,13 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
 
             renderingProxy.stack {
                 renderingProxy.translate(0.0 / 16.0, -4.0 / 16.0, 0.0 / 16.0)
-                renderingProxy.renderItem(bucketItemStack)
+                renderingProxy.renderItem(bucketInventory[0])
             }
 
             renderingProxy.stack {
                 renderingProxy.translate(0.0 / 16.0, -5.0 / 16.0, 6.0 / 16.0)
                 renderingProxy.scale(0.5F, 0.5F, 0.5F)
-                renderingProxy.renderItem(fairyItemStack)
+                renderingProxy.renderItem(fairyInventory[0])
             }
 
         }
