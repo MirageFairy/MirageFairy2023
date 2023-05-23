@@ -333,10 +333,12 @@ interface FairyFluidDrainerRecipe {
 
             // 液体ブロックとか
             RECIPES += object : FairyFluidDrainerRecipe {
-                override fun match(world: World, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result? {
+                override fun <W : World> match(world: W, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result<W>? {
                     val block = fluidBlockState.block
                     if (block !is FluidDrainable) return null
-                    return object : Result {
+                    return object : Result<W> {
+                        override val world = world
+                        override val fluidBlockPos = fluidBlockPos
                         override fun tryDrain() = block.tryDrainFluid(world, fluidBlockPos, fluidBlockState).notEmptyOrNull
                         override fun getSoundEvent() = block.bucketFillSound.getOrNull() ?: SoundEvents.ITEM_BUCKET_FILL
                     }
@@ -345,12 +347,14 @@ interface FairyFluidDrainerRecipe {
 
             // 水入り大釜
             RECIPES += object : FairyFluidDrainerRecipe {
-                override fun match(world: World, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result? {
+                override fun <W : World> match(world: W, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result<W>? {
                     val block = fluidBlockState.block
                     if (!fluidBlockState.isOf(Blocks.WATER_CAULDRON)) return null
                     if (block !is LeveledCauldronBlock) return null
                     if (!block.isFull(fluidBlockState)) return null
-                    return object : Result {
+                    return object : Result<W> {
+                        override val world = world
+                        override val fluidBlockPos = fluidBlockPos
                         override fun tryDrain(): ItemStack? {
                             if (!world.setBlockState(fluidBlockPos, Blocks.CAULDRON.defaultState)) return null
                             return Items.WATER_BUCKET.createItemStack()
@@ -363,9 +367,11 @@ interface FairyFluidDrainerRecipe {
 
             // 溶岩入り大釜
             RECIPES += object : FairyFluidDrainerRecipe {
-                override fun match(world: World, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result? {
+                override fun <W : World> match(world: W, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result<W>? {
                     if (!fluidBlockState.isOf(Blocks.LAVA_CAULDRON)) return null
-                    return object : Result {
+                    return object : Result<W> {
+                        override val world = world
+                        override val fluidBlockPos = fluidBlockPos
                         override fun tryDrain(): ItemStack? {
                             if (!world.setBlockState(fluidBlockPos, Blocks.CAULDRON.defaultState)) return null
                             return Items.LAVA_BUCKET.createItemStack()
@@ -379,12 +385,14 @@ interface FairyFluidDrainerRecipe {
         }
     }
 
-    interface Result {
+    interface Result<W : World> {
+        val world: W
+        val fluidBlockPos: BlockPos
         fun tryDrain(): ItemStack?
         fun getSoundEvent(): SoundEvent
     }
 
-    fun match(world: World, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result?
+    fun <W : World> match(world: W, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result<W>?
 }
 
 class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
@@ -419,7 +427,7 @@ class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
 
     class Result(val fluidBlockPos: BlockPos, val craft: (ServerWorld) -> Unit)
 
-    fun match(blockState: BlockState, world: World, blockPos: BlockPos): Result? {
+    fun <W : World> match(blockState: BlockState, world: W, blockPos: BlockPos): Result? {
         val facing = getFacing(blockState)
         val blockEntity = world.getBlockEntity(blockPos) as? FairyFluidDrainerBlockEntity ?: return null
 
