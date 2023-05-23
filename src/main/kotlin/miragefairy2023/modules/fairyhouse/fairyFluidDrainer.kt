@@ -154,7 +154,7 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
     }
 
     override fun randomTick(world: ServerWorld, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) {
-        match()?.craft(world)
+        match()?.invoke(world)
     }
 
     override fun randomDisplayTick(world: World, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) {
@@ -171,7 +171,7 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
         )
     }
 
-    private fun match(): FairyFluidDrainerRecipe.Result? {
+    private fun match(): ((ServerWorld) -> Unit)? {
         val world = world ?: return null
         val blockState = world.getBlockState(pos)
         val block = blockState.block as? FairyHouseBlock ?: return null
@@ -186,26 +186,28 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
         if (world.getBlockState(frontBlockPos).isSolidBlock(world, frontBlockPos)) return null // 正面が塞がっている
 
         // レシピ判定
-        return FairyFluidDrainerRecipe.RECIPES
+        val result = FairyFluidDrainerRecipe.RECIPES
             .asSequence()
             .mapNotNull { it.match(world, fluidBlockPos, fluidBlockState) }
-            .firstOrNull()
-    }
+            .firstOrNull() ?: return null
 
-    private fun FairyFluidDrainerRecipe.Result.craft(world: ServerWorld) {
+        // 成立
 
-        // 消費
-        val filledBucketItemStack = this.tryDrain() ?: return // 吸えなかった
+        return craft@{ serverWorld ->
 
-        // 生産
-        craftingInventory[0] = EMPTY_ITEM_STACK
-        resultInventory[0] = filledBucketItemStack
-        markDirty()
+            // 消費
+            val filledBucketItemStack = result.tryDrain() ?: return@craft // 吸えなかった
 
-        // エフェクト
-        world.spawnCraftingCompletionParticles(Vec3d.of(pos).add(0.5, 0.6, 0.5))
-        world.playSound(null, pos, this.getSoundEvent(), SoundCategory.BLOCKS, (1.0F + 1.0F) / 2.0F * 0.5F, 1.0F * 0.8F)
+            // 生産
+            craftingInventory[0] = EMPTY_ITEM_STACK
+            resultInventory[0] = filledBucketItemStack
+            markDirty()
 
+            // エフェクト
+            serverWorld.spawnCraftingCompletionParticles(Vec3d.of(pos).add(0.5, 0.6, 0.5))
+            serverWorld.playSound(null, pos, result.getSoundEvent(), SoundCategory.BLOCKS, (1.0F + 1.0F) / 2.0F * 0.5F, 1.0F * 0.8F)
+
+        }
     }
 
 }
