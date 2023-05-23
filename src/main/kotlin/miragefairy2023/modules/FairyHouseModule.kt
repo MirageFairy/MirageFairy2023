@@ -333,10 +333,10 @@ interface FairyFluidDrainerRecipe {
 
             // 液体ブロックとか
             RECIPES += object : FairyFluidDrainerRecipe {
-                override fun match(world: World, fluidBlockPos: BlockPos, fluidBlockState: BlockState): FairyFluidDrainerRecipe.Result? {
+                override fun match(world: World, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result? {
                     val block = fluidBlockState.block
                     if (block !is FluidDrainable) return null
-                    return object : FairyFluidDrainerRecipe.Result {
+                    return object : Result {
                         override fun tryDrain() = block.tryDrainFluid(world, fluidBlockPos, fluidBlockState).notEmptyOrNull
                         override fun getSoundEvent() = block.bucketFillSound.getOrNull() ?: SoundEvents.ITEM_BUCKET_FILL
                     }
@@ -345,12 +345,12 @@ interface FairyFluidDrainerRecipe {
 
             // 水入り大釜
             RECIPES += object : FairyFluidDrainerRecipe {
-                override fun match(world: World, fluidBlockPos: BlockPos, fluidBlockState: BlockState): FairyFluidDrainerRecipe.Result? {
+                override fun match(world: World, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result? {
                     val block = fluidBlockState.block
                     if (!fluidBlockState.isOf(Blocks.WATER_CAULDRON)) return null
                     if (block !is LeveledCauldronBlock) return null
                     if (!block.isFull(fluidBlockState)) return null
-                    return object : FairyFluidDrainerRecipe.Result {
+                    return object : Result {
                         override fun tryDrain(): ItemStack? {
                             if (!world.setBlockState(fluidBlockPos, Blocks.CAULDRON.defaultState)) return null
                             return Items.WATER_BUCKET.createItemStack()
@@ -363,9 +363,9 @@ interface FairyFluidDrainerRecipe {
 
             // 溶岩入り大釜
             RECIPES += object : FairyFluidDrainerRecipe {
-                override fun match(world: World, fluidBlockPos: BlockPos, fluidBlockState: BlockState): FairyFluidDrainerRecipe.Result? {
+                override fun match(world: World, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result? {
                     if (!fluidBlockState.isOf(Blocks.LAVA_CAULDRON)) return null
-                    return object : FairyFluidDrainerRecipe.Result {
+                    return object : Result {
                         override fun tryDrain(): ItemStack? {
                             if (!world.setBlockState(fluidBlockPos, Blocks.CAULDRON.defaultState)) return null
                             return Items.LAVA_BUCKET.createItemStack()
