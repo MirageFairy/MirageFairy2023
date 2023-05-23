@@ -157,7 +157,8 @@ class FairyHouseBlock(val card: FairyHouseCard<*>, settings: Settings) : Instrum
 
     @Suppress("OVERRIDE_DEPRECATION")
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
-        val blockEntity = world.getBlockEntity(pos) as? FairyHouseBlockEntity ?: return ActionResult.PASS
+        if (world.isClient) return ActionResult.SUCCESS
+        val blockEntity = world.getBlockEntity(pos) as? FairyHouseBlockEntity ?: return ActionResult.CONSUME
         val itemStack = player.getStackInHand(hand)
 
         // 配置
@@ -168,14 +169,12 @@ class FairyHouseBlock(val card: FairyHouseCard<*>, settings: Settings) : Instrum
 
             // 成立
 
-            if (world.isClient) return ActionResult.CONSUME
-
             blockEntity[slot] = (if (player.abilities.creativeMode) itemStack.copy() else itemStack).split(1)
 
             world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, blockEntity.cachedState))
             blockEntity.markDirty()
 
-            return ActionResult.SUCCESS
+            return ActionResult.CONSUME
         }
 
         // 回収
@@ -185,8 +184,6 @@ class FairyHouseBlock(val card: FairyHouseCard<*>, settings: Settings) : Instrum
 
             // 成立
 
-            if (world.isClient) return ActionResult.CONSUME
-
             val itemEntity = ItemEntity(world, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, blockEntity.removeStack(slot).copy())
             itemEntity.setVelocity(0.0, 0.0, 0.0)
             itemEntity.resetPickupDelay()
@@ -195,10 +192,10 @@ class FairyHouseBlock(val card: FairyHouseCard<*>, settings: Settings) : Instrum
             world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, blockEntity.cachedState))
             blockEntity.markDirty()
 
-            return ActionResult.SUCCESS
+            return ActionResult.CONSUME
         }
 
-        return ActionResult.PASS
+        return ActionResult.CONSUME
     }
 
 }
