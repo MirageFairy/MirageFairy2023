@@ -128,15 +128,13 @@ interface FairyFluidDrainerRecipe {
     fun match(world: World, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result?
 }
 
-class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
+class FairyFluidDrainerBlock(card: FairyHouseCard<*, *>, settings: Settings) : FairyHouseBlock(card, settings) {
     companion object {
         private val SHAPE = createCuboidShape(0.0, 0.0, 0.0, 16.0, 6.0, 16.0)!!
     }
 
     @Suppress("OVERRIDE_DEPRECATION")
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = SHAPE
-
-    override fun createBlockEntity(pos: BlockPos, state: BlockState) = FairyFluidDrainerBlockEntity(pos, state)
 
     @Suppress("OVERRIDE_DEPRECATION")
     override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {

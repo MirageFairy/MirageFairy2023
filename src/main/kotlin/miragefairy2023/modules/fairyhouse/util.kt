@@ -64,7 +64,7 @@ import net.minecraft.world.event.GameEvent
 
 class FairyHouseCard<B, BE>(
     val path: String,
-    val blockCreator: (AbstractBlock.Settings) -> B,
+    val blockCreator: (FairyHouseCard<*, *>, AbstractBlock.Settings) -> B,
     val blockEntityCreator: (BlockPos, BlockState) -> BE,
     val enName: String,
     val jaName: String,
@@ -82,7 +82,7 @@ class FairyHouseCard<B, BE>(
 }
 
 fun <B, BE> InitializationScope.registerFairyHouse(card: FairyHouseCard<B, BE>) where B : Block, BE : BlockEntity, BE : RenderingProxyBlockEntity {
-    card.block = block(card.path, { card.blockCreator(FabricBlockSettings.of(card.material).sounds(card.soundGroup).requiresTool().strength(2.0F).nonOpaque()) }) {
+    card.block = block(card.path, { card.blockCreator(card, FabricBlockSettings.of(card.material).sounds(card.soundGroup).requiresTool().strength(2.0F).nonOpaque()) }) {
 
         // レンダリング
         generateHorizontalFacingBlockState()
@@ -113,7 +113,9 @@ fun <B, BE> InitializationScope.registerFairyHouse(card: FairyHouseCard<B, BE>) 
     })
 }
 
-abstract class FairyHouseBlock(settings: Settings) : InstrumentBlock(settings), BlockEntityProvider {
+abstract class FairyHouseBlock(val card: FairyHouseCard<*, *>, settings: Settings) : InstrumentBlock(settings), BlockEntityProvider {
+
+    override fun createBlockEntity(pos: BlockPos, state: BlockState) = card.blockEntityCreator(pos, state)
 
     @Suppress("OVERRIDE_DEPRECATION")
     override fun onSyncedBlockEvent(state: BlockState, world: World, pos: BlockPos, type: Int, data: Int): Boolean {
