@@ -315,6 +315,15 @@ private fun ServerWorld.spawnCraftingCompletionParticles(pos: Vec3d) {
     this.spawnParticles(DemonParticleTypeCard.DESCENDING_MAGIC.particleType, pos.x, pos.y, pos.z, 5, 0.0, 0.0, 0.0, 0.02)
 }
 
+private fun RenderingProxy.renderItemStack(itemStack: ItemStack, dotX: Double, dotY: Double, dotZ: Double, scale: Float = 1.0F, rotate: Float = 0.0F) {
+    this.stack {
+        this.translate(dotX / 16.0, dotY / 16.0, dotZ / 16.0)
+        this.scale(scale, scale, scale)
+        this.rotateY(rotate)
+        this.renderItem(itemStack)
+    }
+}
+
 
 interface FairyFluidDrainerRecipe {
     fun match(world: World, blockPos: BlockPos, blockState: BlockState): FairyFluidDrainerRecipeResult?
@@ -462,17 +471,8 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
             renderingProxy.translate(0.5, 0.5, 0.5)
             renderingProxy.rotateY(-90F * block.getFacing(blockState).horizontal.toFloat())
 
-            renderingProxy.stack {
-                renderingProxy.translate(0.0 / 16.0, -4.0 / 16.0, 0.0 / 16.0)
-                renderingProxy.renderItem(bucketInventory[0])
-            }
-
-            renderingProxy.stack {
-                renderingProxy.translate(0.0 / 16.0, -5.0 / 16.0, 6.0 / 16.0)
-                renderingProxy.scale(0.5F, 0.5F, 0.5F)
-                renderingProxy.renderItem(fairyInventory[0])
-            }
-
+            renderingProxy.renderItemStack(bucketInventory[0], 0.0, -4.0, 0.0)
+            renderingProxy.renderItemStack(fairyInventory[0], 0.0, -5.0, 6.0, scale = 0.5F)
         }
     }
 
