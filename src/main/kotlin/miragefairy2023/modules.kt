@@ -1,6 +1,6 @@
 package miragefairy2023
 
-import miragefairy2023.modules.FairyHouseModule
+import miragefairy2023.modules.fairyhouse.FairyHouseModule
 import miragefairy2023.modules.ParticleModule
 import miragefairy2023.modules.TelescopeModule
 import miragefairy2023.modules.advancementModule
