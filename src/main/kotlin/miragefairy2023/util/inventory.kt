@@ -12,7 +12,7 @@ operator fun Inventory.set(slot: Int, stack: ItemStack) = this.setStack(slot, st
 
 operator fun Inventory.plus(other: Inventory) = DoubleInventory(this, other)
 
-fun Inventory(size: Int, maxCountPerStack: Int, itemFilter: (ItemStack) -> Boolean = { true }): SimpleInventory {
+fun Inventory(size: Int, maxCountPerStack: Int, itemFilter: SimpleInventory.(ItemStack) -> Boolean = { true }): SimpleInventory {
     return object : SimpleInventory(size) {
         override fun isValid(slot: Int, stack: ItemStack) = itemFilter(stack)
         override fun getMaxCountPerStack() = maxCountPerStack
