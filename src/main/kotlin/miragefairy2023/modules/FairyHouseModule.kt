@@ -385,7 +385,7 @@ interface FairyFluidDrainerRecipe {
         }
     }
 
-    interface Result<W : World> {
+    interface Result<out W : World> {
         val world: W
         val fluidBlockPos: BlockPos
         fun tryDrain(): ItemStack?
@@ -407,7 +407,7 @@ class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
 
     @Suppress("OVERRIDE_DEPRECATION")
     override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
-        match(state, world, pos)?.craft?.invoke(world)
+        match(state, world, pos)?.craft()
     }
 
     override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {
@@ -418,16 +418,20 @@ class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
                 pos.x.toDouble() + 0.5,
                 pos.y.toDouble() + 0.8 + 1.0,
                 pos.z.toDouble() + 0.5,
-                result.fluidBlockPos.x.toDouble() + 0.1 + random.nextDouble() * 0.8 - (pos.x.toDouble() + 0.5),
-                result.fluidBlockPos.y.toDouble() + 0.8 - (pos.y.toDouble() + 0.8 + 1.0),
-                result.fluidBlockPos.z.toDouble() + 0.1 + random.nextDouble() * 0.8 - (pos.z.toDouble() + 0.5),
+                result.recipeResult.fluidBlockPos.x.toDouble() + 0.1 + random.nextDouble() * 0.8 - (pos.x.toDouble() + 0.5),
+                result.recipeResult.fluidBlockPos.y.toDouble() + 0.8 - (pos.y.toDouble() + 0.8 + 1.0),
+                result.recipeResult.fluidBlockPos.z.toDouble() + 0.1 + random.nextDouble() * 0.8 - (pos.z.toDouble() + 0.5),
             )
         }
     }
 
-    class Result(val fluidBlockPos: BlockPos, val craft: (ServerWorld) -> Unit)
+    class Result<out W : World>(
+        val recipeResult: FairyFluidDrainerRecipe.Result<W>,
+        val blockPos: BlockPos,
+        val blockEntity: FairyFluidDrainerBlockEntity,
+    )
 
-    fun <W : World> match(blockState: BlockState, world: W, blockPos: BlockPos): Result? {
+    fun <W : World> match(blockState: BlockState, world: W, blockPos: BlockPos): Result<W>? {
         val facing = getFacing(blockState)
         val blockEntity = world.getBlockEntity(blockPos) as? FairyFluidDrainerBlockEntity ?: return null
 
@@ -446,20 +450,22 @@ class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
 
         // 成立
 
-        return Result(fluidBlockPos) { serverWorld ->
+        return Result(recipeResult, blockPos, blockEntity)
+    }
 
-            // 消費
-            val filledBucketItemStack = recipeResult.tryDrain() ?: return@Result // 吸えなかった
+    fun Result<ServerWorld>.craft() {
 
-            // 生産
-            blockEntity.bucketInventory[0] = filledBucketItemStack
-            blockEntity.markDirty()
+        // 消費
+        val filledBucketItemStack = recipeResult.tryDrain() ?: return // 吸えなかった
 
-            // エフェクト
-            serverWorld.spawnCraftingCompletionParticles(Vec3d.of(blockPos).add(0.5, 0.6, 0.5))
-            world.playSound(null, blockPos, recipeResult.getSoundEvent(), SoundCategory.BLOCKS, (soundGroup.volume + 1.0F) / 2.0F * 0.5F, soundGroup.pitch * 0.8F)
+        // 生産
+        blockEntity.bucketInventory[0] = filledBucketItemStack
+        blockEntity.markDirty()
 
-        }
+        // エフェクト
+        recipeResult.world.spawnCraftingCompletionParticles(Vec3d.of(blockPos).add(0.5, 0.6, 0.5))
+        recipeResult.world.playSound(null, blockPos, recipeResult.getSoundEvent(), SoundCategory.BLOCKS, (soundGroup.volume + 1.0F) / 2.0F * 0.5F, soundGroup.pitch * 0.8F)
+
     }
 
 }
