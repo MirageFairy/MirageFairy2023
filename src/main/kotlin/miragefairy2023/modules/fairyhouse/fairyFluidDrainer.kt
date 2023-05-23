@@ -133,7 +133,7 @@ interface FairyFluidDrainerRecipe {
 class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHouseBlockEntity(fairyFluidDrainer.blockEntityType.feature, pos, state) {
 
     val fairyInventory = Inventory(1, maxCountPerStack = 1) { it.item.castOr<FairyItem> { return@Inventory false }.fairy.isLiquidFairy }.also { addInventory("FairyInventory", it) }
-    val craftingInventory = Inventory(1, maxCountPerStack = 1) { it.isOf(Items.BUCKET) }.also { addInventory("BucketInventory", it) }
+    val craftingInventory = Inventory(1, maxCountPerStack = 1) { it.isOf(Items.BUCKET) && resultInventory[0].isEmpty }.also { addInventory("BucketInventory", it) }
     val resultInventory = Inventory(1) { false }.also { addInventory("ResultInventory", it) }
 
     override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?) = super.canInsert(slot, stack, dir) && slot == 1
