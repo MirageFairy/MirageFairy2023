@@ -326,12 +326,12 @@ private fun RenderingProxy.renderItemStack(itemStack: ItemStack, dotX: Double, d
 
 
 interface FairyFluidDrainerRecipe {
-    fun match(world: World, blockPos: BlockPos, blockState: BlockState): FairyFluidDrainerRecipeResult?
-}
+    interface Result {
+        fun tryDrain(): ItemStack?
+        fun getSoundEvent(): SoundEvent
+    }
 
-interface FairyFluidDrainerRecipeResult {
-    fun tryDrain(): ItemStack?
-    fun getSoundEvent(): SoundEvent
+    fun match(world: World, blockPos: BlockPos, blockState: BlockState): Result?
 }
 
 class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
@@ -344,10 +344,10 @@ class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
 
             // 液体ブロックとか
             RECIPES += object : FairyFluidDrainerRecipe {
-                override fun match(world: World, blockPos: BlockPos, blockState: BlockState): FairyFluidDrainerRecipeResult? {
+                override fun match(world: World, blockPos: BlockPos, blockState: BlockState): FairyFluidDrainerRecipe.Result? {
                     val block = blockState.block
                     if (block !is FluidDrainable) return null
-                    return object : FairyFluidDrainerRecipeResult {
+                    return object : FairyFluidDrainerRecipe.Result {
                         override fun tryDrain() = block.tryDrainFluid(world, blockPos, blockState).notEmptyOrNull
                         override fun getSoundEvent() = block.bucketFillSound.getOrNull() ?: SoundEvents.ITEM_BUCKET_FILL
                     }
@@ -356,12 +356,12 @@ class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
 
             // 水入り大釜
             RECIPES += object : FairyFluidDrainerRecipe {
-                override fun match(world: World, blockPos: BlockPos, blockState: BlockState): FairyFluidDrainerRecipeResult? {
+                override fun match(world: World, blockPos: BlockPos, blockState: BlockState): FairyFluidDrainerRecipe.Result? {
                     val block = blockState.block
                     if (!blockState.isOf(Blocks.WATER_CAULDRON)) return null
                     if (block !is LeveledCauldronBlock) return null
                     if (!block.isFull(blockState)) return null
-                    return object : FairyFluidDrainerRecipeResult {
+                    return object : FairyFluidDrainerRecipe.Result {
                         override fun tryDrain(): ItemStack? {
                             if (!world.setBlockState(blockPos, Blocks.CAULDRON.defaultState)) return null
                             return Items.WATER_BUCKET.createItemStack()
@@ -374,9 +374,9 @@ class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
 
             // 溶岩入り大釜
             RECIPES += object : FairyFluidDrainerRecipe {
-                override fun match(world: World, blockPos: BlockPos, blockState: BlockState): FairyFluidDrainerRecipeResult? {
+                override fun match(world: World, blockPos: BlockPos, blockState: BlockState): FairyFluidDrainerRecipe.Result? {
                     if (!blockState.isOf(Blocks.LAVA_CAULDRON)) return null
-                    return object : FairyFluidDrainerRecipeResult {
+                    return object : FairyFluidDrainerRecipe.Result {
                         override fun tryDrain(): ItemStack? {
                             if (!world.setBlockState(blockPos, Blocks.CAULDRON.defaultState)) return null
                             return Items.LAVA_BUCKET.createItemStack()
