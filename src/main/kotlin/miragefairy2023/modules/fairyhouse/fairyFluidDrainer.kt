@@ -154,11 +154,11 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
     }
 
     override fun randomTick(world: ServerWorld, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) {
-        match(block.getFacing(blockState))?.craft(world)
+        match()?.craft(world)
     }
 
     override fun randomDisplayTick(world: World, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) {
-        val result = match(block.getFacing(blockState)) ?: return
+        val result = match() ?: return
         world.addParticle(
             DemonParticleTypeCard.COLLECTING_MAGIC.particleType,
             pos.x.toDouble() + 0.5,
@@ -172,22 +172,25 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
 
     class Result(val recipeResult: FairyFluidDrainerRecipe.Result, val fluidBlockPos: BlockPos)
 
-    fun match(facing: Direction): Result? {
+    fun match(): Result? {
         val world = world ?: return null
+        val blockState = world.getBlockState(pos)
+        val block = blockState.block as? FairyHouseBlock ?: return null
+        val facing = block.getFacing(blockState)
+        val frontBlockPos = pos.offset(facing)
+        val fluidBlockPos = frontBlockPos.down()
+        val fluidBlockState = world.getBlockState(fluidBlockPos)
 
         if (fairyInventory[0].isEmpty) return null // 妖精が居ない
         if (!craftingInventory[0].isOf(Items.BUCKET)) return null // 空のバケツが無い
-        if (resultInventory[0].isNotEmpty) return null // 出力先が埋まっている
+        if (resultInventory[0].isNotEmpty) return null // 出力スロットが埋まっている
+        if (world.getBlockState(frontBlockPos).isSolidBlock(world, frontBlockPos)) return null // 正面が塞がっている
 
-        val frontBlockPos = pos.offset(facing)
-        if (world.getBlockState(frontBlockPos).isSolidBlock(world, frontBlockPos)) return null // 正面が埋まっている
-
-        val fluidBlockPos = frontBlockPos.down()
-        val fluidBlockState = world.getBlockState(fluidBlockPos)
+        // レシピ判定
         val recipeResult = FairyFluidDrainerRecipe.RECIPES
             .asSequence()
             .mapNotNull { it.match(world, fluidBlockPos, fluidBlockState) }
-            .firstOrNull() ?: return null // 該当するレシピがない
+            .firstOrNull() ?: return null
 
         // 成立
 
