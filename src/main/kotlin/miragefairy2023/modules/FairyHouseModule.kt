@@ -333,12 +333,10 @@ interface FairyFluidDrainerRecipe {
 
             // 液体ブロックとか
             RECIPES += object : FairyFluidDrainerRecipe {
-                override fun <W : World> match(world: W, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result<W>? {
+                override fun match(world: World, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result? {
                     val block = fluidBlockState.block
                     if (block !is FluidDrainable) return null
-                    return object : Result<W> {
-                        override val world = world
-                        override val fluidBlockPos = fluidBlockPos
+                    return object : Result {
                         override fun tryDrain() = block.tryDrainFluid(world, fluidBlockPos, fluidBlockState).notEmptyOrNull
                         override fun getSoundEvent() = block.bucketFillSound.getOrNull() ?: SoundEvents.ITEM_BUCKET_FILL
                     }
@@ -347,14 +345,12 @@ interface FairyFluidDrainerRecipe {
 
             // 水入り大釜
             RECIPES += object : FairyFluidDrainerRecipe {
-                override fun <W : World> match(world: W, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result<W>? {
+                override fun match(world: World, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result? {
                     val block = fluidBlockState.block
                     if (!fluidBlockState.isOf(Blocks.WATER_CAULDRON)) return null
                     if (block !is LeveledCauldronBlock) return null
                     if (!block.isFull(fluidBlockState)) return null
-                    return object : Result<W> {
-                        override val world = world
-                        override val fluidBlockPos = fluidBlockPos
+                    return object : Result {
                         override fun tryDrain(): ItemStack? {
                             if (!world.setBlockState(fluidBlockPos, Blocks.CAULDRON.defaultState)) return null
                             return Items.WATER_BUCKET.createItemStack()
@@ -367,11 +363,9 @@ interface FairyFluidDrainerRecipe {
 
             // 溶岩入り大釜
             RECIPES += object : FairyFluidDrainerRecipe {
-                override fun <W : World> match(world: W, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result<W>? {
+                override fun match(world: World, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result? {
                     if (!fluidBlockState.isOf(Blocks.LAVA_CAULDRON)) return null
-                    return object : Result<W> {
-                        override val world = world
-                        override val fluidBlockPos = fluidBlockPos
+                    return object : Result {
                         override fun tryDrain(): ItemStack? {
                             if (!world.setBlockState(fluidBlockPos, Blocks.CAULDRON.defaultState)) return null
                             return Items.LAVA_BUCKET.createItemStack()
@@ -385,14 +379,12 @@ interface FairyFluidDrainerRecipe {
         }
     }
 
-    interface Result<out W : World> {
-        val world: W
-        val fluidBlockPos: BlockPos
+    interface Result {
         fun tryDrain(): ItemStack?
         fun getSoundEvent(): SoundEvent
     }
 
-    fun <W : World> match(world: W, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result<W>?
+    fun match(world: World, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result?
 }
 
 class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
@@ -418,17 +410,19 @@ class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
                 pos.x.toDouble() + 0.5,
                 pos.y.toDouble() + 0.8 + 1.0,
                 pos.z.toDouble() + 0.5,
-                result.recipeResult.fluidBlockPos.x.toDouble() + 0.1 + random.nextDouble() * 0.8 - (pos.x.toDouble() + 0.5),
-                result.recipeResult.fluidBlockPos.y.toDouble() + 0.8 - (pos.y.toDouble() + 0.8 + 1.0),
-                result.recipeResult.fluidBlockPos.z.toDouble() + 0.1 + random.nextDouble() * 0.8 - (pos.z.toDouble() + 0.5),
+                result.fluidBlockPos.x.toDouble() + 0.1 + random.nextDouble() * 0.8 - (pos.x.toDouble() + 0.5),
+                result.fluidBlockPos.y.toDouble() + 0.8 - (pos.y.toDouble() + 0.8 + 1.0),
+                result.fluidBlockPos.z.toDouble() + 0.1 + random.nextDouble() * 0.8 - (pos.z.toDouble() + 0.5),
             )
         }
     }
 
     class Result<out W : World>(
-        val recipeResult: FairyFluidDrainerRecipe.Result<W>,
+        val recipeResult: FairyFluidDrainerRecipe.Result,
+        val world: W,
         val blockPos: BlockPos,
         val blockEntity: FairyFluidDrainerBlockEntity,
+        val fluidBlockPos: BlockPos,
     )
 
     fun <W : World> match(blockState: BlockState, world: W, blockPos: BlockPos): Result<W>? {
@@ -450,7 +444,7 @@ class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
 
         // 成立
 
-        return Result(recipeResult, blockPos, blockEntity)
+        return Result(recipeResult, world, blockPos, blockEntity, fluidBlockPos)
     }
 
     fun Result<ServerWorld>.craft() {
@@ -463,8 +457,8 @@ class FairyFluidDrainerBlock(settings: Settings) : FairyHouseBlock(settings) {
         blockEntity.markDirty()
 
         // エフェクト
-        recipeResult.world.spawnCraftingCompletionParticles(Vec3d.of(blockPos).add(0.5, 0.6, 0.5))
-        recipeResult.world.playSound(null, blockPos, recipeResult.getSoundEvent(), SoundCategory.BLOCKS, (soundGroup.volume + 1.0F) / 2.0F * 0.5F, soundGroup.pitch * 0.8F)
+        world.spawnCraftingCompletionParticles(Vec3d.of(blockPos).add(0.5, 0.6, 0.5))
+        world.playSound(null, blockPos, recipeResult.getSoundEvent(), SoundCategory.BLOCKS, (soundGroup.volume + 1.0F) / 2.0F * 0.5F, soundGroup.pitch * 0.8F)
 
     }
 
