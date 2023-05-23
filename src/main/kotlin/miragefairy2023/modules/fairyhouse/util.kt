@@ -32,6 +32,7 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockEntityProvider
 import net.minecraft.block.BlockState
 import net.minecraft.block.Material
+import net.minecraft.block.ShapeContext
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.client.item.TooltipContext
@@ -61,6 +62,8 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.random.Random
+import net.minecraft.util.shape.VoxelShape
+import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 
@@ -77,6 +80,7 @@ class FairyHouseCard<B, BE>(
     val material: Material,
     val soundGroup: BlockSoundGroup,
     val needsToolTag: TagKey<Block>?,
+    val voxelShape: VoxelShape,
 ) where B : Block, BE : BlockEntity, BE : RenderingProxyBlockEntity {
     lateinit var block: FeatureSlot<B>
     lateinit var blockEntityType: FeatureSlot<BlockEntityType<BE>>
@@ -116,6 +120,9 @@ fun <B, BE> InitializationScope.registerFairyHouse(card: FairyHouseCard<B, BE>) 
 }
 
 abstract class FairyHouseBlock(val card: FairyHouseCard<*, *>, settings: Settings) : InstrumentBlock(settings), BlockEntityProvider {
+
+    @Suppress("OVERRIDE_DEPRECATION")
+    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = card.voxelShape
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = card.blockEntityCreator(pos, state)
 

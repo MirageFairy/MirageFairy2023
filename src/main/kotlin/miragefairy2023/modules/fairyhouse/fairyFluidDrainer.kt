@@ -18,12 +18,12 @@ import miragefairy2023.util.notEmptyOrNull
 import miragefairy2023.util.set
 import mirrg.kotlin.hydrogen.or
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.FluidDrainable
 import net.minecraft.block.LeveledCauldronBlock
 import net.minecraft.block.Material
-import net.minecraft.block.ShapeContext
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
@@ -37,7 +37,6 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.random.Random
-import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import kotlin.jvm.optionals.getOrNull
 
@@ -47,6 +46,7 @@ val fairyFluidDrainer = FairyHouseCard(
     "Causes anti-Brownian motion", "覆水、盆に返る。",
     "Place a liquid fairy and a bucket", "液体系妖精と空バケツを配置",
     Material.METAL, BlockSoundGroup.METAL, BlockTags.NEEDS_STONE_TOOL,
+    Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 6.0, 16.0),
 )
 
 val fairyFluidDrainerModule = module {
@@ -128,15 +128,7 @@ interface FairyFluidDrainerRecipe {
     fun match(world: World, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result?
 }
 
-class FairyFluidDrainerBlock(card: FairyHouseCard<*, *>, settings: Settings) : FairyHouseBlock(card, settings) {
-    companion object {
-        private val SHAPE = createCuboidShape(0.0, 0.0, 0.0, 16.0, 6.0, 16.0)!!
-    }
-
-    @Suppress("OVERRIDE_DEPRECATION")
-    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = SHAPE
-
-}
+class FairyFluidDrainerBlock(card: FairyHouseCard<*, *>, settings: Settings) : FairyHouseBlock(card, settings)
 
 class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHouseBlockEntity(fairyFluidDrainer.blockEntityType.feature, pos, state) {
 
