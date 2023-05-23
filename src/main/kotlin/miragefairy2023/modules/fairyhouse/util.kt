@@ -272,7 +272,7 @@ abstract class FairyHouseBlockEntity(type: BlockEntityType<*>, pos: BlockPos, st
     override fun canPlayerUse(player: PlayerEntity) = combinedInventory.canPlayerUse(player)
     override fun isValid(slot: Int, stack: ItemStack?) = combinedInventory.isValid(slot, stack)
     override fun getAvailableSlots(side: Direction) = (0 until combinedInventory.size()).toList().toIntArray()
-    override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?) = this[slot].count < maxCountPerStack
+    override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?) = isValid(slot, stack) && this[slot].count < maxCountPerStack
     override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = this[slot].isNotEmpty
 
     open fun randomTick(world: ServerWorld, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) = Unit
