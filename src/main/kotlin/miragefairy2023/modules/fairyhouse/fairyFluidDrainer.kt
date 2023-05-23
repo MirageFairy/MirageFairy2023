@@ -132,9 +132,9 @@ interface FairyFluidDrainerRecipe {
 
 class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHouseBlockEntity(fairyFluidDrainer.blockEntityType.feature, pos, state) {
 
-    val fairyInventory = Inventory(1, maxCountPerStack = 1) { it.item.castOr<FairyItem> { return@Inventory false }.fairy.isLiquidFairy }.also { addInventory("FairyInventory", it) }
-    val craftingInventory = Inventory(1, maxCountPerStack = 1) { it.isOf(Items.BUCKET) && resultInventory[0].isEmpty }.also { addInventory("BucketInventory", it) }
-    val resultInventory = Inventory(1) { false }.also { addInventory("ResultInventory", it) }
+    private val fairyInventory = Inventory(1, maxCountPerStack = 1) { it.item.castOr<FairyItem> { return@Inventory false }.fairy.isLiquidFairy }.also { addInventory("FairyInventory", it) }
+    private val craftingInventory = Inventory(1, maxCountPerStack = 1) { it.isOf(Items.BUCKET) && resultInventory[0].isEmpty }.also { addInventory("BucketInventory", it) }
+    private val resultInventory = Inventory(1) { false }.also { addInventory("ResultInventory", it) }
 
     override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?) = super.canInsert(slot, stack, dir) && slot == 1
     override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = super.canExtract(slot, stack, dir) && slot == 2
@@ -171,7 +171,7 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
         )
     }
 
-    fun match(): FairyFluidDrainerRecipe.Result? {
+    private fun match(): FairyFluidDrainerRecipe.Result? {
         val world = world ?: return null
         val blockState = world.getBlockState(pos)
         val block = blockState.block as? FairyHouseBlock ?: return null
@@ -186,17 +186,13 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
         if (world.getBlockState(frontBlockPos).isSolidBlock(world, frontBlockPos)) return null // 正面が塞がっている
 
         // レシピ判定
-        val recipeResult = FairyFluidDrainerRecipe.RECIPES
+        return FairyFluidDrainerRecipe.RECIPES
             .asSequence()
             .mapNotNull { it.match(world, fluidBlockPos, fluidBlockState) }
-            .firstOrNull() ?: return null
-
-        // 成立
-
-        return recipeResult
+            .firstOrNull()
     }
 
-    fun FairyFluidDrainerRecipe.Result.craft(world: ServerWorld) {
+    private fun FairyFluidDrainerRecipe.Result.craft(world: ServerWorld) {
 
         // 消費
         val filledBucketItemStack = this.tryDrain() ?: return // 吸えなかった
