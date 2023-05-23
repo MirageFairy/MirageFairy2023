@@ -158,18 +158,16 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
     }
 
     override fun randomDisplayTick(world: World, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) {
-        val result = match(world, pos, block, blockState)
-        if (result != null) {
-            world.addParticle(
-                DemonParticleTypeCard.COLLECTING_MAGIC.particleType,
-                pos.x.toDouble() + 0.5,
-                pos.y.toDouble() + 0.8 + 1.0,
-                pos.z.toDouble() + 0.5,
-                result.fluidBlockPos.x.toDouble() + 0.1 + random.nextDouble() * 0.8 - (pos.x.toDouble() + 0.5),
-                result.fluidBlockPos.y.toDouble() + 0.8 - (pos.y.toDouble() + 0.8 + 1.0),
-                result.fluidBlockPos.z.toDouble() + 0.1 + random.nextDouble() * 0.8 - (pos.z.toDouble() + 0.5),
-            )
-        }
+        val result = match(world, pos, block, blockState) ?: return
+        world.addParticle(
+            DemonParticleTypeCard.COLLECTING_MAGIC.particleType,
+            pos.x.toDouble() + 0.5,
+            pos.y.toDouble() + 0.8 + 1.0,
+            pos.z.toDouble() + 0.5,
+            result.fluidBlockPos.x.toDouble() + 0.1 + random.nextDouble() * 0.8 - (pos.x.toDouble() + 0.5),
+            result.fluidBlockPos.y.toDouble() + 0.8 - (pos.y.toDouble() + 0.8 + 1.0),
+            result.fluidBlockPos.z.toDouble() + 0.1 + random.nextDouble() * 0.8 - (pos.z.toDouble() + 0.5),
+        )
     }
 
     class Result<out W : World>(
