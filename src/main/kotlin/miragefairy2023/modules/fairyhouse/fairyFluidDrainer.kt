@@ -80,7 +80,7 @@ interface FairyFluidDrainerRecipe {
                     val block = fluidBlockState.block
                     if (block !is FluidDrainable) return null
                     return object : Result {
-                        override fun tryDrain() = block.tryDrainFluid(world, fluidBlockPos, fluidBlockState).notEmptyOrNull
+                        override fun tryCreateDrainedItemStack() = block.tryDrainFluid(world, fluidBlockPos, fluidBlockState).notEmptyOrNull
                         override fun getSoundEvent() = block.bucketFillSound.getOrNull() ?: SoundEvents.ITEM_BUCKET_FILL
                     }
                 }
@@ -94,7 +94,7 @@ interface FairyFluidDrainerRecipe {
                     if (block !is LeveledCauldronBlock) return null
                     if (!block.isFull(fluidBlockState)) return null
                     return object : Result {
-                        override fun tryDrain(): ItemStack? {
+                        override fun tryCreateDrainedItemStack(): ItemStack? {
                             if (!world.setBlockState(fluidBlockPos, Blocks.CAULDRON.defaultState)) return null
                             return Items.WATER_BUCKET.createItemStack()
                         }
@@ -109,7 +109,7 @@ interface FairyFluidDrainerRecipe {
                 override fun match(world: World, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result? {
                     if (!fluidBlockState.isOf(Blocks.LAVA_CAULDRON)) return null
                     return object : Result {
-                        override fun tryDrain(): ItemStack? {
+                        override fun tryCreateDrainedItemStack(): ItemStack? {
                             if (!world.setBlockState(fluidBlockPos, Blocks.CAULDRON.defaultState)) return null
                             return Items.LAVA_BUCKET.createItemStack()
                         }
@@ -123,7 +123,7 @@ interface FairyFluidDrainerRecipe {
     }
 
     interface Result {
-        fun tryDrain(): ItemStack?
+        fun tryCreateDrainedItemStack(): ItemStack?
         fun getSoundEvent(): SoundEvent
     }
 
@@ -196,7 +196,7 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
         return craft@{ serverWorld ->
 
             // 消費
-            val filledBucketItemStack = result.tryDrain() ?: return@craft // 吸えなかった
+            val filledBucketItemStack = result.tryCreateDrainedItemStack() ?: return@craft // 吸えなかった
 
             // 生産
             craftingInventory[0] = EMPTY_ITEM_STACK
