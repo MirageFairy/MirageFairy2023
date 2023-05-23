@@ -147,14 +147,9 @@ class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHous
             renderingProxy.translate(0.5, 0.5, 0.5)
             renderingProxy.rotateY(-90F * block.getFacing(blockState).horizontal.toFloat())
 
-            if (craftingInventory[0].isNotEmpty && resultInventory[0].isNotEmpty) {
-                renderingProxy.renderItemStack(craftingInventory[0], 0.0, -4.0, 0.0)
-                renderingProxy.renderItemStack(resultInventory[0], 5.0, -5.0, 5.0, scale = 0.5F)
-            } else {
-                renderingProxy.renderItemStack(craftingInventory[0], 0.0, -4.0, 0.0)
-                renderingProxy.renderItemStack(resultInventory[0], 0.0, -4.0, 0.0)
-            }
             renderingProxy.renderItemStack(fairyInventory[0], 0.0, -5.0, 6.0, scale = 0.5F)
+            renderingProxy.renderItemStack(craftingInventory[0], 0.0, -4.0, 0.0)
+            renderingProxy.renderItemStack(resultInventory[0], 0.0, -4.0, 0.0)
         }
     }
 
