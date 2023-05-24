@@ -120,6 +120,11 @@ enum class DemonItemCard(
         "", "妖精の誇り。", // TODO
     ),
     */
+
+    CHAOS_STONE(
+        "chaos_stone", "Chaos Stone", "混沌の石",
+        "Chemical promoting catalyst", "魔力の暴走、加速する無秩序の流れ。",
+    ),
 }
 
 private val demonItems = SlotContainer<DemonItemCard, Item>()
