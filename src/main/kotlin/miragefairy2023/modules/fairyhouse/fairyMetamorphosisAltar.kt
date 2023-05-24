@@ -122,6 +122,8 @@ object FairyMetamorphosisAltarRecipe {
         //register(Items.FLINT, Category.SSR, Items.ENCHANTED_GOLDEN_APPLE.createItemStack())
         //register(Items.FLINT, Category.SSR, Items.HEART_OF_THE_SEA.createItemStack())
         register(Items.FLINT, Category.SSR, MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR().createItemStack())
+
+        register(DemonItemCard.CHAOS_STONE(), Category.N, Items.DIAMOND.createItemStack())
     }
 
 }
