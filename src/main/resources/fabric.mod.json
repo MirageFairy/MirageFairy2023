@@ -33,6 +33,18 @@
         "value": "miragefairy2023.MirageFairy2023DataGenerator",
         "adapter": "kotlin"
       }
+    ],
+    "rei_server": [
+      {
+        "value": "miragefairy2023.MirageFairy2023ReiServerPlugin",
+        "adapter": "kotlin"
+      }
+    ],
+    "rei_client": [
+      {
+        "value": "miragefairy2023.MirageFairy2023ReiClientPlugin",
+        "adapter": "kotlin"
+      }
     ]
   },
   "mixins": [],
