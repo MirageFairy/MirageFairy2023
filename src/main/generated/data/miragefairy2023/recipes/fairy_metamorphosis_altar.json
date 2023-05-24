@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "miragefairy2023:fairy_metamorphosis_altar",
+  "key": {
+    "B": {
+      "item": "miragefairy2023:miranagite_block"
+    },
+    "D": {
+      "item": "miragefairy2023:mirage_flour"
+    },
+    "G": {
+      "item": "miragefairy2023:miranagite"
+    },
+    "S": {
+      "item": "minecraft:stone"
+    }
+  },
+  "pattern": [
+    " B ",
+    "GDG",
+    "SSS"
+  ],
+  "result": {
+    "item": "miragefairy2023:fairy_metamorphosis_altar"
+  }
+}
