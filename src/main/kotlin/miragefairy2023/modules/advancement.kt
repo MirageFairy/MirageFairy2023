@@ -6,6 +6,7 @@ import miragefairy2023.modules.fairy.FairyCard
 import miragefairy2023.modules.fairy.fairiesItemTag
 import miragefairy2023.modules.fairy.fairiesOfRareItemTag
 import miragefairy2023.modules.fairy.invoke
+import miragefairy2023.modules.fairyhouse.fairyMetamorphosisAltar
 import miragefairy2023.util.init.advancement
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.itemEntry
@@ -291,6 +292,26 @@ val advancementModule = module {
         ) {
             criterion(telescopeBlockItem.feature)
             reward(tier1LootTableId)
+        }
+
+        val fairyMetamorphosisAltar = advancement(
+            "fairy_metamorphosis_altar", { fairyMetamorphosisAltar.blockItem.feature },
+            "The Unknown World of Thaumaturgy", "魔術の世界",
+            "Cause a arcane reaction", "神秘反応を起こす",
+            parent = root,
+        ) {
+            criterion(fairyMetamorphosisAltar.blockItem.feature)
+            reward(tier1LootTableId)
+        }
+
+        val chaosStone = advancement(
+            "chaos_stone", { DemonItemCard.CHAOS_STONE() },
+            "The World of Science", "知られざる科学の世界",
+            "Cause a chemical reaction", "化学反応を起こす",
+            parent = fairyMetamorphosisAltar,
+        ) {
+            criterion(DemonItemCard.CHAOS_STONE())
+            reward(tier2LootTableId)
         }
 
     }

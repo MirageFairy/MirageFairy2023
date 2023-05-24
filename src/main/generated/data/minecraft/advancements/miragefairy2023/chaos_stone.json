@@ -1,0 +1,42 @@
+{
+  "parent": "minecraft:miragefairy2023/fairy_metamorphosis_altar",
+  "criteria": {
+    "got_chaos_stone": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "miragefairy2023:chaos_stone"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.miragefairy2023.chaos_stone.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "miragefairy2023:chaos_stone"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.miragefairy2023.chaos_stone.title"
+    }
+  },
+  "requirements": [
+    [
+      "got_chaos_stone"
+    ]
+  ],
+  "rewards": {
+    "loot": [
+      "miragefairy2023:advancement_reward/tier2_fairy_crystal"
+    ]
+  }
+}
