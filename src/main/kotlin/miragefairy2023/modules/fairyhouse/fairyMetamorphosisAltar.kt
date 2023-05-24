@@ -129,7 +129,7 @@ object FairyMetamorphosisAltarRecipe {
 class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : FairyHouseBlockEntity(fairyMetamorphosisAltar.blockEntityType.feature, pos, state) {
 
     private val fairyInventory = Inventory(4, maxCountPerStack = 1) { filterFairySlot(it) }.also { addInventory("FairyInventory", it) }
-    private val craftingInventory = Inventory(1, maxCountPerStack = 1) { FairyMetamorphosisAltarRecipe.canInput(it.item) && resultInventory[0].isEmpty }.also { addInventory("CraftingInventory", it) }
+    private val craftingInventory = Inventory(1, maxCountPerStack = 1) { it.item !is FairyItem && resultInventory[0].isEmpty }.also { addInventory("CraftingInventory", it) }
     private val resultInventory = Inventory(1) { false }.also { addInventory("ResultInventory", it) }
 
     override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?) = super.canInsert(slot, stack, dir) && slot == 4
