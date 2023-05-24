@@ -72,7 +72,7 @@ object FairyMetamorphosisAltarRecipe {
         SSR, // 0.1%
     }
 
-    private val RECIPES = mutableMapOf<Item, MutableMap<Category, MutableList<ItemStack>>>()
+    val RECIPES = mutableMapOf<Item, MutableMap<Category, MutableList<ItemStack>>>()
 
     val DEFAULT_OUTPUT = Items.FLINT.createItemStack()
 
