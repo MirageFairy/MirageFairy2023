@@ -78,7 +78,7 @@ interface RenderingProxy {
 }
 
 interface RenderingProxyBlockEntity {
-    fun render(renderingProxy: RenderingProxy, tickDelta: Float, light: Int, overlay: Int)
+    fun render(renderingProxy: RenderingProxy, tickDelta: Float, light: Int, overlay: Int) = Unit
 }
 
 interface ServerProxy {
