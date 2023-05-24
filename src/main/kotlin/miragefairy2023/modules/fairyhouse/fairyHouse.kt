@@ -4,4 +4,5 @@ import miragefairy2023.module
 
 val fairyHouseModule = module {
     fairyFluidDrainerModule()
+    fairyMetamorphosisAltarModule()
 }
