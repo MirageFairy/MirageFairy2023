@@ -7,6 +7,8 @@ import net.minecraft.util.math.random.Random
 
 class Chance<out T : Any>(val weight: Double, val item: T) {
     override fun toString() = "${weight formatAs "%8.4f"}: $item"
+    operator fun component1() = weight
+    operator fun component2() = item
 }
 
 val <T : Any> List<Chance<T>>.totalWeight get() = this.sumOf { it.weight }
