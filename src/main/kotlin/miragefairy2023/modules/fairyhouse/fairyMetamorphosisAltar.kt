@@ -8,10 +8,12 @@ import miragefairy2023.modules.DemonParticleTypeCard
 import miragefairy2023.modules.MirageFlourCard
 import miragefairy2023.modules.invoke
 import miragefairy2023.modules.miranagiteBlockBlockItem
+import miragefairy2023.util.Chance
 import miragefairy2023.util.EMPTY_ITEM_STACK
 import miragefairy2023.util.Inventory
 import miragefairy2023.util.castOr
 import miragefairy2023.util.createItemStack
+import miragefairy2023.util.draw
 import miragefairy2023.util.get
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.criterion
@@ -65,11 +67,11 @@ val fairyMetamorphosisAltarModule = module {
 
 object FairyMetamorphosisAltarRecipe {
 
-    enum class Category {
-        N, // 90%
-        R, // 9%
-        SR, // 0.9%
-        SSR, // 0.1%
+    enum class Category(val rate: Double) {
+        N(1.0),
+        R(0.1),
+        SR(0.01),
+        SSR(0.001),
     }
 
     val RECIPES = mutableMapOf<Item, MutableMap<Category, MutableList<ItemStack>>>()
@@ -80,9 +82,30 @@ object FairyMetamorphosisAltarRecipe {
         RECIPES.getOrPut(input) { mutableMapOf() }.getOrPut(category) { mutableListOf() } += output
     }
 
-    fun canInput(input: Item) = input in RECIPES
+    /**
+     * @return nullでないとき、必ず1個以上の要素が含まれ、確率の合計は100%になります。
+     */
+    fun getChanceTable(input: Item): List<Chance<ItemStack>>? {
+        if (input !in RECIPES) return null
 
-    fun getOutputList(input: Item, category: Category): List<ItemStack>? = RECIPES.getOrElse(input) { return null }.getOrElse(category) { return listOf() }
+        val outputTable = RECIPES.getOrElse(input) { mapOf() }
+
+        val chanceTable = mutableListOf<Chance<ItemStack>>()
+        var remainingRate = 1.0
+
+        Category.values().sortedBy { it.rate }.forEach { category ->
+            val nextRemainingRate = 1.0 - category.rate
+            val outputs = outputTable.getOrElse(category) { listOf() }
+            if (outputs.isNotEmpty()) {
+                chanceTable += outputs.map { Chance((remainingRate - nextRemainingRate) / outputs.size.toDouble(), it) }
+                remainingRate = nextRemainingRate
+            }
+        }
+
+        if (chanceTable.isEmpty()) return null
+
+        return chanceTable
+    }
 
     init {
         register(Items.FLINT, Category.N, Items.STONE.createItemStack())
@@ -192,15 +215,8 @@ class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : Fai
         if (craftingInventory[0].count != 1) return null // 入力スロットが空かスタックされている
         if (resultInventory[0].isNotEmpty) return null // 出力スロットが埋まっている
 
-        val r = world.random.nextDouble()
-        val category = when {
-            r < 0.001 -> FairyMetamorphosisAltarRecipe.Category.SSR
-            r < 0.01 -> FairyMetamorphosisAltarRecipe.Category.SR
-            r < 0.1 -> FairyMetamorphosisAltarRecipe.Category.R
-            else -> FairyMetamorphosisAltarRecipe.Category.N
-        }
-        val outputList = FairyMetamorphosisAltarRecipe.getOutputList(craftingInventory[0].item, category) ?: return null // 加工できないアイテム
-        val output = if (outputList.isNotEmpty()) outputList[world.random.nextInt(outputList.size)] else FairyMetamorphosisAltarRecipe.DEFAULT_OUTPUT
+        val chanceTable = FairyMetamorphosisAltarRecipe.getChanceTable(craftingInventory[0].item) ?: return null // 加工できないアイテム
+        val output = chanceTable.draw(world.random)!!
 
         // 成立
 

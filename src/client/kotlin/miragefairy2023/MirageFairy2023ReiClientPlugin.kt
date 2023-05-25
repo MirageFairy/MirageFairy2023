@@ -24,18 +24,10 @@ class MirageFairy2023ReiClientPlugin : REIClientPlugin {
     }
 
     override fun registerDisplays(registry: DisplayRegistry) {
-        FairyMetamorphosisAltarRecipe.RECIPES.forEach { (input, recipe2) ->
-            recipe2.forEach { (category, outputList) ->
-                val baseRate = when (category) {
-                    FairyMetamorphosisAltarRecipe.Category.N -> 0.9
-                    FairyMetamorphosisAltarRecipe.Category.R -> 0.09
-                    FairyMetamorphosisAltarRecipe.Category.SR -> 0.009
-                    FairyMetamorphosisAltarRecipe.Category.SSR -> 0.001
-                }
-                val rate = baseRate / outputList.size.toDouble()
-                outputList.forEach { output ->
-                    registry.add(FairyMetamorphosisAltarDisplay(EntryIngredient.of(EntryStacks.of(input)), rate, EntryIngredient.of(EntryStacks.of(output))))
-                }
+        FairyMetamorphosisAltarRecipe.RECIPES.keys.forEach { input ->
+            val chanceTable = FairyMetamorphosisAltarRecipe.getChanceTable(input) ?: return@forEach
+            chanceTable.forEach { (chance, output) ->
+                registry.add(FairyMetamorphosisAltarDisplay(EntryIngredient.of(EntryStacks.of(input)), chance, EntryIngredient.of(EntryStacks.of(output))))
             }
         }
     }
