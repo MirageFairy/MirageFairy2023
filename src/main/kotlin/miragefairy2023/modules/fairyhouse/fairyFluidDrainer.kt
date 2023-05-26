@@ -35,6 +35,7 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.BlockTags
+import net.minecraft.util.Formatting
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
@@ -45,8 +46,10 @@ import kotlin.jvm.optionals.getOrNull
 val fairyFluidDrainer = FairyHouseCard(
     "fairy_fluid_drainer", ::FairyFluidDrainerBlockEntity,
     "Fairy Fluid Drainer", "妖精の水汲み所",
-    "Causes anti-Brownian motion", "覆水、盆に返る。",
-    "Place a liquid fairy and a bucket", "液体系妖精と空バケツを配置",
+    listOf(
+        TooltipText("poem", "Causes anti-Brownian motion", "覆水、盆に返る。", Formatting.GRAY),
+        TooltipText("description", "Place a liquid fairy and a bucket", "液体系妖精と空バケツを配置", Formatting.YELLOW),
+    ),
     Material.METAL, BlockSoundGroup.METAL, BlockTags.NEEDS_STONE_TOOL,
     Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 6.0, 16.0),
 )

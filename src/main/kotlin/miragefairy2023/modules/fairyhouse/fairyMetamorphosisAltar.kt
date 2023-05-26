@@ -32,6 +32,7 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
+import net.minecraft.util.Formatting
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
@@ -41,8 +42,10 @@ import net.minecraft.world.World
 val fairyMetamorphosisAltar = FairyHouseCard(
     "fairy_metamorphosis_altar", ::FairyMetamorphosisAltarBlockEntity,
     "Fairy Metamorphosis Altar", "妖精の魔法の祭壇",
-    "Weaken the nuclear force to resonate", "妖精と無機物が心を通わすとき。",
-    "Place 4 fairies and 1 material", "4体の妖精と素材を配置",
+    listOf(
+        TooltipText("poem", "Weaken the nuclear force to resonate", "妖精と無機物が心を通わすとき。", Formatting.GRAY),
+        TooltipText("description", "Place 4 fairies and 1 material", "4体の妖精と素材を配置", Formatting.YELLOW),
+    ),
     Material.STONE, BlockSoundGroup.STONE, null,
     Block.createCuboidShape(1.0, 0.0, 1.0, 15.0, 5.0, 15.0),
 )

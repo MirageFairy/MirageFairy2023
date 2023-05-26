@@ -9,8 +9,8 @@ import miragefairy2023.modules.DemonParticleTypeCard
 import miragefairy2023.modules.commonItemGroup
 import miragefairy2023.util.InstrumentBlock
 import miragefairy2023.util.castOr
+import miragefairy2023.util.formatted
 import miragefairy2023.util.get
-import miragefairy2023.util.gray
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.block
 import miragefairy2023.util.init.blockEntity
@@ -26,7 +26,6 @@ import miragefairy2023.util.set
 import miragefairy2023.util.text
 import miragefairy2023.util.toList
 import miragefairy2023.util.wrapper
-import miragefairy2023.util.yellow
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
@@ -56,6 +55,7 @@ import net.minecraft.tag.TagKey
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Clearable
+import net.minecraft.util.Formatting
 import net.minecraft.util.Hand
 import net.minecraft.util.ItemScatterer
 import net.minecraft.util.hit.BlockHitResult
@@ -68,15 +68,14 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 
+class TooltipText(val key: String, val en: String, val ja: String, val color: Formatting)
+
 class FairyHouseCard<BE>(
     val path: String,
     val blockEntityCreator: (BlockPos, BlockState) -> BE,
     val enName: String,
     val jaName: String,
-    val enPoem: String,
-    val jaPoem: String,
-    val enDescription: String,
-    val jaDescription: String,
+    val tooltipTexts: List<TooltipText>,
     val material: Material,
     val soundGroup: BlockSoundGroup,
     val needsToolTag: TagKey<Block>?,
@@ -96,8 +95,9 @@ fun <BE> InitializationScope.registerFairyHouse(card: FairyHouseCard<BE>) where 
 
         // 翻訳
         enJaBlock({ feature }, card.enName, card.jaName)
-        enJa({ "${feature.translationKey}.poem" }, card.enPoem, card.jaPoem)
-        enJa({ "${feature.translationKey}.description" }, card.enDescription, card.jaDescription)
+        card.tooltipTexts.forEach {
+            enJa({ "${feature.translationKey}.${it.key}" }, it.en, it.ja)
+        }
 
         // レシピ
         onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
@@ -112,8 +112,9 @@ fun <BE> InitializationScope.registerFairyHouse(card: FairyHouseCard<BE>) where 
         object : BlockItem(card.block.feature, FabricItemSettings().group(commonItemGroup)) {
             override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
                 super.appendTooltip(stack, world, tooltip, context)
-                tooltip += text { translate("$translationKey.poem").gray }
-                tooltip += text { translate("$translationKey.description").yellow }
+                card.tooltipTexts.forEach {
+                    tooltip += text { translate("$translationKey.${it.key}").formatted(it.color) }
+                }
             }
         }
     })
