@@ -172,7 +172,7 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
         val MAX_RARE_KEY = Translation("$prefix.max_rare_key", "Maximum Rare: %s", "最高レア度: %s")
         val DROP_RATE_FACTOR_KEY = Translation("$prefix.drop_rate_factor_key", "Drop Rate Amplification: %s", "出現率倍率: %s")
         val RIGHT_CLICK_KEY = Translation("$prefix.right_click", "Right click and hold to summon fairies", "右クリック長押しで妖精を召喚")
-        val SHIFT_RIGHT_CLICK_KEY = Translation("$prefix.shift_right_click", "%s+right click to show fairy table", "%s+右クリックで提供割合表示")
+        val SHIFT_RIGHT_CLICK_KEY = Translation("$prefix.shift_right_click", "Use while sneaking to show table", "スニーク中に使用で提供割合を表示")
         val COMMON_FAIRY_LIST = mutableListOf<CommonFairyEntry>()
     }
 
@@ -191,7 +191,7 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
 
         // 機能説明
         tooltip += text { RIGHT_CLICK_KEY().yellow }
-        tooltip += text { SHIFT_RIGHT_CLICK_KEY(Text.keybind("key.sneak")).yellow }
+        tooltip += text { SHIFT_RIGHT_CLICK_KEY().yellow }
 
     }
 

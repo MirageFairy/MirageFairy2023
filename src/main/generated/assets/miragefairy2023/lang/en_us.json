@@ -143,7 +143,7 @@
   "item.miragefairy2023.mirage_flour.min_rare_key": "Minimum Rare: %s",
   "item.miragefairy2023.mirage_flour.poem": "Containing metallic organic matter",
   "item.miragefairy2023.mirage_flour.right_click": "Right click and hold to summon fairies",
-  "item.miragefairy2023.mirage_flour.shift_right_click": "%s+right click to show fairy table",
+  "item.miragefairy2023.mirage_flour.shift_right_click": "Use while sneaking to show table",
   "item.miragefairy2023.mirage_seed": "Mirage Seed",
   "item.miragefairy2023.mirage_seed.poem": "Scientific name: miragiume haimekunofa",
   "item.miragefairy2023.mirage_stem": "Mirage Stem",
