@@ -1,5 +1,6 @@
 package miragefairy2023.modules.fairyhouse
 
+import miragefairy2023.MirageFairy2023
 import miragefairy2023.RenderingProxy
 import miragefairy2023.api.FairyItem
 import miragefairy2023.module
@@ -16,16 +17,22 @@ import miragefairy2023.util.createItemStack
 import miragefairy2023.util.draw
 import miragefairy2023.util.get
 import miragefairy2023.util.identifier
+import miragefairy2023.util.init.Translation
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.group
+import miragefairy2023.util.init.translation
 import miragefairy2023.util.isNotEmpty
 import miragefairy2023.util.set
+import miragefairy2023.util.text
+import miragefairy2023.util.totalWeight
+import mirrg.kotlin.hydrogen.formatAs
 import mirrg.kotlin.hydrogen.or
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.Material
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
@@ -46,6 +53,7 @@ val fairyMetamorphosisAltar = FairyHouseCard(
     listOf(
         TooltipText("poem", "Weaken the nuclear force to resonate", "妖精と無機物が心を通わすとき。", Formatting.GRAY),
         TooltipText("description", "Place 4 fairies and 1 material", "4体の妖精と素材を配置", Formatting.YELLOW),
+        TooltipText("description2", "Use while sneaking to show table", "スニーク中に使用で提供割合を表示", Formatting.YELLOW),
     ),
     Material.STONE, BlockSoundGroup.STONE, null,
     Block.createCuboidShape(1.0, 0.0, 1.0, 15.0, 5.0, 15.0),
@@ -53,6 +61,7 @@ val fairyMetamorphosisAltar = FairyHouseCard(
 
 val fairyMetamorphosisAltarModule = module {
     registerFairyHouse(fairyMetamorphosisAltar)
+    translation(FairyMetamorphosisAltarBlockEntity.INVALID_KEY)
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
             .create(fairyMetamorphosisAltar.blockItem.feature)
@@ -156,6 +165,9 @@ object FairyMetamorphosisAltarRecipe {
 }
 
 class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : FairyHouseBlockEntity(fairyMetamorphosisAltar.blockEntityType.feature, pos, state) {
+    companion object {
+        val INVALID_KEY = Translation("block.${MirageFairy2023.modId}.fairy_metamorphosis_altar.message.invalid", "Cannot be processed!", "加工ができません！")
+    }
 
     private val fairyInventory = Inventory(4, maxCountPerStack = 1) { filterFairySlot(it) }.also { addInventory("FairyInventory", it) }
     private val craftingInventory = Inventory(1, maxCountPerStack = 1) { it.item !is FairyItem && resultInventory[0].isEmpty }.also { addInventory("CraftingInventory", it) }
@@ -208,6 +220,19 @@ class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : Fai
             2 -> addParticle(4F, 4F)
             3 -> addParticle(-4F, 4F)
             else -> throw AssertionError()
+        }
+    }
+
+    override fun onShiftUse(world: World, blockPos: BlockPos, blockState: BlockState, player: PlayerEntity) {
+        val result = match()
+        if (result != null) {
+            player.sendMessage(text { "["() + craftingInventory[0].item.name + "]"() }, false)
+            val totalWeight = result.first.totalWeight
+            result.first.sortedBy { it.weight }.forEach { chance ->
+                player.sendMessage(text { "${(chance.weight / totalWeight * 100 formatAs "%8.4f%%").replace(' ', '_')}: "() + chance.item.name }, false)
+            }
+        } else {
+            player.sendMessage(text { INVALID_KEY() }, true)
         }
     }
 

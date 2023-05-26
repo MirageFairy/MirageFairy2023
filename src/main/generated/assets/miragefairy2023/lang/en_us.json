@@ -62,6 +62,8 @@
   "block.miragefairy2023.fairy_fluid_drainer.poem": "Causes anti-Brownian motion",
   "block.miragefairy2023.fairy_metamorphosis_altar": "Fairy Metamorphosis Altar",
   "block.miragefairy2023.fairy_metamorphosis_altar.description": "Place 4 fairies and 1 material",
+  "block.miragefairy2023.fairy_metamorphosis_altar.description2": "Use while sneaking to show table",
+  "block.miragefairy2023.fairy_metamorphosis_altar.message.invalid": "Cannot be processed!",
   "block.miragefairy2023.fairy_metamorphosis_altar.poem": "Weaken the nuclear force to resonate",
   "block.miragefairy2023.local_vacuum_decay": "Local Vacuum Decay",
   "block.miragefairy2023.local_vacuum_decay.poem": "Stable instability caused by anti-entropy",
