@@ -20,6 +20,7 @@ import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.group
 import miragefairy2023.util.isNotEmpty
 import miragefairy2023.util.set
+import mirrg.kotlin.hydrogen.or
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -182,7 +183,7 @@ class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : Fai
     }
 
     override fun randomTick(world: ServerWorld, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) {
-        match()?.invoke(world)
+        match().or { return }.second(world)
     }
 
     override fun randomDisplayTick(world: World, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) {
@@ -210,7 +211,7 @@ class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : Fai
         }
     }
 
-    private fun match(): ((ServerWorld) -> Unit)? {
+    private fun match(): Pair<List<Chance<ItemStack>>, ((ServerWorld) -> Unit)>? {
         val world = world ?: return null
 
         val fairyLevel = (0..3).sumOf { fairyInventory[it].item.castOr<FairyItem> { return@sumOf 0 }.fairyLevel + 1 }
@@ -219,11 +220,12 @@ class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : Fai
         if (resultInventory[0].isNotEmpty) return null // 出力スロットが埋まっている
 
         val chanceTable = FairyMetamorphosisAltarRecipe.getChanceTable(craftingInventory[0].item) ?: return null // 加工できないアイテム
-        val output = chanceTable.draw(world.random)!!
 
         // 成立
 
-        return { serverWorld ->
+        return Pair(chanceTable) { serverWorld ->
+
+            val output = chanceTable.draw(world.random)!!
 
             craftingInventory[0] = EMPTY_ITEM_STACK
             resultInventory[0] = output.copy()
