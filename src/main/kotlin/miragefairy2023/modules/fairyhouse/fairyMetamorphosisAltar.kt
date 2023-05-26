@@ -93,14 +93,14 @@ object FairyMetamorphosisAltarRecipe {
 
         val outputTable = RECIPES.getOrElse(input) { mapOf() }
 
-        val chanceTable = mutableListOf<Chance<ItemStack>>()
+        var chanceTable = listOf<Chance<ItemStack>>()
         var remainingRate = 1.0
 
         Category.values().sortedBy { it.rate }.forEach { category ->
             val nextRemainingRate = 1.0 - category.rate
             val outputs = outputTable.getOrElse(category) { listOf() }
             if (outputs.isNotEmpty()) {
-                chanceTable += outputs.map { Chance((remainingRate - nextRemainingRate) / outputs.size.toDouble(), it) }
+                chanceTable = outputs.map { Chance((remainingRate - nextRemainingRate) / outputs.size.toDouble(), it) } + chanceTable
                 remainingRate = nextRemainingRate
             }
         }
