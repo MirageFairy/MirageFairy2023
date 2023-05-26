@@ -161,6 +161,11 @@ class FairyHouseBlock(val card: FairyHouseCard<*>, settings: Settings) : Instrum
         val blockEntity = world.getBlockEntity(pos) as? FairyHouseBlockEntity ?: return ActionResult.CONSUME
         val itemStack = player.getStackInHand(hand)
 
+        if (player.isSneaking) {
+            blockEntity.onShiftUse(world, pos, state, player)
+            return ActionResult.CONSUME
+        }
+
         // 配置
         if (itemStack.isNotEmpty) {
             (0 until blockEntity.size()).forEach nextSlot@{ slot ->
@@ -279,6 +284,8 @@ abstract class FairyHouseBlockEntity(type: BlockEntityType<*>, pos: BlockPos, st
     open fun randomTick(world: ServerWorld, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) = Unit
 
     open fun randomDisplayTick(world: World, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) = Unit
+
+    open fun onShiftUse(world: World, blockPos: BlockPos, blockState: BlockState, player: PlayerEntity) = Unit
 
 }
 
