@@ -15,6 +15,7 @@ import miragefairy2023.modules.mirageFlowerModule
 import miragefairy2023.modules.particleModule
 import miragefairy2023.modules.passiveskill.passiveSkillModule
 import miragefairy2023.modules.telescopeModule
+import miragefairy2023.modules.toolItemModule
 
 val modules = module {
     commonModule()
@@ -32,4 +33,5 @@ val modules = module {
     debugModule()
     customDataModule()
     particleModule()
+    toolItemModule()
 }
