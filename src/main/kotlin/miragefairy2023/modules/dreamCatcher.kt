@@ -37,7 +37,6 @@ import net.minecraft.item.ItemUsageContext
 import net.minecraft.item.Items
 import net.minecraft.item.ToolItem
 import net.minecraft.item.ToolMaterial
-import net.minecraft.item.ToolMaterials
 import net.minecraft.nbt.AbstractNbtNumber
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.network.ServerPlayerEntity
@@ -81,7 +80,7 @@ val dreamCatcherModule = module {
     }
 
     // 蒼天のドリームキャッチャー
-    blueDreamCatcherItem = item("blue_dream_catcher", { DreamCatcherItem(ToolMaterials.NETHERITE, 400, FabricItemSettings().group(commonItemGroup)) }) {
+    blueDreamCatcherItem = item("blue_dream_catcher", { DreamCatcherItem(DemonToolMaterials.CHAOS_STONE, 400, FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Models.HANDHELD) }
         enJaItem({ feature }, "Blue Dream Catcher", "蒼天のドリームキャッチャー")
         enJa({ "${feature.translationKey}.poem" }, "What are good memories for you?", "信愛、悲哀、混沌の果て。")
@@ -94,7 +93,7 @@ val dreamCatcherModule = module {
             .pattern("IGG")
             .input('#', dreamCatcherItem.feature)
             .input('G', DemonItemCard.MIRANAGITE())
-            .input('I', Items.NETHERITE_INGOT) // TODO 緩和
+            .input('I', DemonItemCard.CHAOS_STONE())
             .criterion(dreamCatcherItem.feature)
             .group(blueDreamCatcherItem.feature)
             .offerTo(it, blueDreamCatcherItem.feature.identifier)
