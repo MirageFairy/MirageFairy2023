@@ -126,45 +126,89 @@ object FairyMetamorphosisAltarRecipe {
     }
 
     init {
-        register(Items.FLINT, Category.N, Items.STONE.createItemStack())
-        register(Items.FLINT, Category.N, Items.GRANITE.createItemStack())
-        register(Items.FLINT, Category.N, Items.DIORITE.createItemStack())
-        register(Items.FLINT, Category.N, Items.ANDESITE.createItemStack())
-        register(Items.FLINT, Category.N, Items.DEEPSLATE.createItemStack())
-        register(Items.FLINT, Category.N, Items.TUFF.createItemStack())
-        register(Items.FLINT, Category.N, Items.CALCITE.createItemStack())
-        register(Items.FLINT, Category.N, Items.BASALT.createItemStack())
-        register(Items.FLINT, Category.N, Items.BLACKSTONE.createItemStack())
-        register(Items.FLINT, Category.N, Items.GLASS.createItemStack())
-        register(Items.FLINT, Category.N, Items.OBSIDIAN.createItemStack())
-        register(Items.FLINT, Category.N, Items.SANDSTONE.createItemStack())
-        register(Items.FLINT, Category.N, Items.CLAY_BALL.createItemStack())
-        register(Items.FLINT, Category.N, MirageFlourCard.VERY_RARE_MIRAGE_FLOUR().createItemStack())
+        fun registerMirageFlour(item: Item) {
+            register(item, Category.N, MirageFlourCard.VERY_RARE_MIRAGE_FLOUR().createItemStack())
+            register(item, Category.R, MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR().createItemStack())
+            register(item, Category.SR, MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR().createItemStack())
+            register(item, Category.SSR, MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR().createItemStack())
+        }
 
-        register(Items.FLINT, Category.R, Items.RAW_COPPER.createItemStack())
-        register(Items.FLINT, Category.R, Items.RAW_IRON.createItemStack())
-        register(Items.FLINT, Category.R, Items.RAW_GOLD.createItemStack())
-        register(Items.FLINT, Category.R, Items.REDSTONE.createItemStack())
-        register(Items.FLINT, Category.R, Items.LAPIS_LAZULI.createItemStack())
-        register(Items.FLINT, Category.R, Items.GLOWSTONE.createItemStack())
-        register(Items.FLINT, Category.R, Items.AMETHYST_SHARD.createItemStack())
-        register(Items.FLINT, Category.R, DemonItemCard.MIRANAGITE().createItemStack())
-        register(Items.FLINT, Category.R, DemonItemCard.XARPITE().createItemStack())
-        register(Items.FLINT, Category.R, MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR().createItemStack())
+        fun registerInteractive(item1: Item, category1: Category, item2: Item) {
+            register(item1, category1, item2.createItemStack())
+            register(item2, Category.N, item1.createItemStack())
+        }
 
-        register(Items.FLINT, Category.SR, Items.DIAMOND.createItemStack())
-        register(Items.FLINT, Category.SR, Items.EMERALD.createItemStack())
-        register(Items.FLINT, Category.SR, DemonItemCard.CHAOS_STONE().createItemStack())
-        register(Items.FLINT, Category.SR, MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR().createItemStack())
 
-        register(Items.FLINT, Category.SSR, Items.SHULKER_SHELL.createItemStack())
-        register(Items.FLINT, Category.SSR, Items.TOTEM_OF_UNDYING.createItemStack())
-        //register(Items.FLINT, Category.SSR, Items.NETHER_STAR.createItemStack())
-        //register(Items.FLINT, Category.SSR, Items.ENCHANTED_GOLDEN_APPLE.createItemStack())
-        //register(Items.FLINT, Category.SSR, Items.HEART_OF_THE_SEA.createItemStack())
-        register(Items.FLINT, Category.SSR, MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR().createItemStack())
+        registerMirageFlour(Items.GRAVEL)
 
-        register(DemonItemCard.CHAOS_STONE(), Category.N, Items.DIAMOND.createItemStack())
+        registerInteractive(Items.GRAVEL, Category.N, Items.STONE)
+        registerInteractive(Items.GRAVEL, Category.N, Items.DIRT)
+        registerInteractive(Items.GRAVEL, Category.N, Items.GRASS_BLOCK)
+        registerInteractive(Items.GRAVEL, Category.N, Items.COARSE_DIRT)
+        registerInteractive(Items.GRAVEL, Category.N, Items.PODZOL)
+        registerInteractive(Items.GRAVEL, Category.N, Items.SAND)
+        registerInteractive(Items.GRAVEL, Category.N, Items.DEEPSLATE)
+
+        registerInteractive(Items.GRAVEL, Category.R, Items.CLAY)
+        registerInteractive(Items.GRAVEL, Category.R, Items.SANDSTONE)
+        registerInteractive(Items.GRAVEL, Category.R, Items.GRANITE)
+        registerInteractive(Items.GRAVEL, Category.R, Items.DIORITE)
+        registerInteractive(Items.GRAVEL, Category.R, Items.ANDESITE)
+        registerInteractive(Items.GRAVEL, Category.R, Items.TUFF)
+        registerInteractive(Items.GRAVEL, Category.R, Items.CALCITE)
+        registerInteractive(Items.GRAVEL, Category.R, Items.BASALT)
+        registerInteractive(Items.GRAVEL, Category.R, Items.BLACKSTONE)
+
+        registerInteractive(Items.GRAVEL, Category.SR, Items.OBSIDIAN)
+        registerInteractive(Items.GRAVEL, Category.SR, Items.MAGMA_BLOCK)
+
+
+        registerMirageFlour(Items.FLINT)
+
+        registerInteractive(Items.FLINT, Category.N, Items.GLASS)
+        registerInteractive(Items.FLINT, Category.N, Items.CLAY_BALL)
+
+        registerInteractive(Items.FLINT, Category.R, Items.RAW_COPPER)
+        registerInteractive(Items.FLINT, Category.R, Items.RAW_IRON)
+        registerInteractive(Items.FLINT, Category.R, Items.RAW_GOLD)
+        registerInteractive(Items.FLINT, Category.R, Items.REDSTONE)
+        registerInteractive(Items.FLINT, Category.R, Items.LAPIS_LAZULI)
+
+        registerInteractive(Items.FLINT, Category.SR, Items.AMETHYST_SHARD)
+        registerInteractive(Items.FLINT, Category.SR, Items.GLOWSTONE_DUST)
+        registerInteractive(Items.FLINT, Category.SR, DemonItemCard.MIRANAGITE())
+        registerInteractive(Items.FLINT, Category.SR, DemonItemCard.XARPITE())
+        registerInteractive(Items.FLINT, Category.SR, DemonItemCard.CHAOS_STONE())
+
+        registerInteractive(Items.FLINT, Category.SSR, Items.DIAMOND)
+        registerInteractive(Items.FLINT, Category.SSR, Items.EMERALD)
+
+
+        registerMirageFlour(Items.ROTTEN_FLESH)
+
+        registerInteractive(Items.ROTTEN_FLESH, Category.N, Items.FEATHER)
+        registerInteractive(Items.ROTTEN_FLESH, Category.N, Items.STRING)
+        registerInteractive(Items.ROTTEN_FLESH, Category.N, Items.BONE)
+
+        registerInteractive(Items.ROTTEN_FLESH, Category.R, Items.LEATHER)
+        registerInteractive(Items.ROTTEN_FLESH, Category.R, Items.GUNPOWDER)
+        registerInteractive(Items.ROTTEN_FLESH, Category.R, Items.BEEF)
+        registerInteractive(Items.ROTTEN_FLESH, Category.R, Items.PORKCHOP)
+        registerInteractive(Items.ROTTEN_FLESH, Category.R, Items.CHICKEN)
+        registerInteractive(Items.ROTTEN_FLESH, Category.R, Items.MUTTON)
+
+        registerInteractive(Items.ROTTEN_FLESH, Category.SR, Items.SPIDER_EYE)
+
+        registerInteractive(Items.ROTTEN_FLESH, Category.SSR, Items.SHULKER_SHELL)
+
+
+        register(DemonItemCard.CHAOS_STONE(), Category.N, Items.DIAMOND.createItemStack()) // TODO remove
+
+
+        //registerInteractive(Items.FLINT, Category.SSR, Items.TOTEM_OF_UNDYING)
+        //registerInteractive(Items.FLINT, Category.SSR, Items.NETHER_STAR)
+        //registerInteractive(Items.FLINT, Category.SSR, Items.ENCHANTED_GOLDEN_APPLE)
+        //registerInteractive(Items.FLINT, Category.SSR, Items.HEART_OF_THE_SEA)
     }
 
 }
