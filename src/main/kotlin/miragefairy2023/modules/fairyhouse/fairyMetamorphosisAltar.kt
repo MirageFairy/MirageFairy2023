@@ -12,7 +12,6 @@ import miragefairy2023.modules.miranagiteBlockBlockItem
 import miragefairy2023.util.Chance
 import miragefairy2023.util.EMPTY_ITEM_STACK
 import miragefairy2023.util.Inventory
-import miragefairy2023.util.castOr
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.draw
 import miragefairy2023.util.get
@@ -24,10 +23,11 @@ import miragefairy2023.util.init.translation
 import miragefairy2023.util.isNotEmpty
 import miragefairy2023.util.set
 import miragefairy2023.util.text
+import miragefairy2023.util.toList
 import miragefairy2023.util.totalWeight
 import mirrg.kotlin.hydrogen.atLeast
+import mirrg.kotlin.hydrogen.atMost
 import mirrg.kotlin.hydrogen.formatAs
-import mirrg.kotlin.hydrogen.or
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -63,6 +63,8 @@ val fairyMetamorphosisAltar = FairyHouseCard(
 val fairyMetamorphosisAltarModule = module {
     registerFairyHouse(fairyMetamorphosisAltar)
     translation(FairyMetamorphosisAltarBlockEntity.INVALID_KEY)
+    translation(FairyMetamorphosisAltarBlockEntity.PROCESSING_SPEED_KEY)
+    translation(FairyMetamorphosisAltarBlockEntity.FORTUNE_FACTOR_KEY)
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
             .create(fairyMetamorphosisAltar.blockItem.feature)
@@ -217,6 +219,8 @@ object FairyMetamorphosisAltarRecipe {
 class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : FairyHouseBlockEntity(fairyMetamorphosisAltar.blockEntityType.feature, pos, state) {
     companion object {
         val INVALID_KEY = Translation("block.${MirageFairy2023.modId}.fairy_metamorphosis_altar.message.invalid", "Cannot be processed!", "加工ができません！")
+        val PROCESSING_SPEED_KEY = Translation("block.${MirageFairy2023.modId}.fairy_metamorphosis_altar.message.processing_speed", "Processing Speed", "加工速度")
+        val FORTUNE_FACTOR_KEY = Translation("block.${MirageFairy2023.modId}.fairy_metamorphosis_altar.message.fortune_factor", "Fortune Factor", "幸運係数")
     }
 
     private val fairyInventory = Inventory(4, maxCountPerStack = 1) { filterFairySlot(it) }.also { addInventory("FairyInventory", it) }
@@ -245,7 +249,10 @@ class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : Fai
     }
 
     override fun randomTick(world: ServerWorld, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) {
-        match().or { return }.craft(world)
+        val result = match() ?: return
+        if (random.nextDouble() < result.processingSpeed) {
+            result.craft(world)
+        }
     }
 
     override fun randomDisplayTick(world: World, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) {
@@ -276,17 +283,26 @@ class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : Fai
     override fun onShiftUse(world: World, blockPos: BlockPos, blockState: BlockState, player: PlayerEntity) {
         val result = match()
         if (result != null) {
+
             player.sendMessage(text { "["() + craftingInventory[0].item.name + "]"() }, false)
             val totalWeight = result.chanceTable.totalWeight
             result.chanceTable.sortedBy { it.weight }.forEach { chance ->
                 player.sendMessage(text { "${(chance.weight / totalWeight * 100 formatAs "%8.4f%%").replace(' ', '_')}: "() + chance.item.name }, false)
             }
+
+            player.sendMessage(text { ""() }, false)
+
+            player.sendMessage(text { PROCESSING_SPEED_KEY() + ": "() + (result.processingSpeed * 100.0 formatAs "%.0f%%")() }, false)
+            player.sendMessage(text { FORTUNE_FACTOR_KEY() + ": ×"() + (result.fortune formatAs "%.2f")() }, false)
+
         } else {
             player.sendMessage(text { INVALID_KEY() }, true)
         }
     }
 
     class Result(
+        val processingSpeed: Double,
+        val fortune: Double,
         val chanceTable: List<Chance<ItemStack>>,
         val craft: ((ServerWorld) -> Unit),
     )
@@ -294,16 +310,20 @@ class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : Fai
     private fun match(): Result? {
         val world = world ?: return null
 
-        val fairyLevel = (0..3).sumOf { fairyInventory[it].item.castOr<FairyItem> { return@sumOf 0 }.fairyLevel + 1 }
-        if (fairyLevel <= 0) return null // 妖精が居ない
+        val fairyLevel = getFairyLevel()
+        if (fairyLevel <= 0.0) return null // 妖精が居ない
+
+        val processingSpeed = getProcessingSpeed(fairyLevel)
+        val fortuneFactor = getFortuneFactor(fairyLevel)
+
         if (craftingInventory[0].count != 1) return null // 入力スロットが空かスタックされている
         if (resultInventory[0].isNotEmpty) return null // 出力スロットが埋まっている
 
-        val chanceTable = FairyMetamorphosisAltarRecipe.getChanceTable(craftingInventory[0].item, 1.0) ?: return null // 加工できないアイテム
+        val chanceTable = FairyMetamorphosisAltarRecipe.getChanceTable(craftingInventory[0].item, fortuneFactor) ?: return null // 加工できないアイテム
 
         // 成立
 
-        return Result(chanceTable) { serverWorld ->
+        return Result(processingSpeed, fortuneFactor, chanceTable) { serverWorld ->
 
             val output = chanceTable.draw(world.random)!!
 
@@ -317,5 +337,16 @@ class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : Fai
 
         }
     }
+
+    // TODO パッシブスキルの適用
+    private fun getFairyLevel() = fairyInventory.toList().sumOf { itemStack ->
+        val item = itemStack.item as? FairyItem ?: return@sumOf 0.0
+        if (item.fairyLevel == 0) return@sumOf 0.5
+        item.fairyLevel.toDouble()
+    }
+
+    private fun getProcessingSpeed(fairyLevel: Double) = fairyLevel / 40.0 atMost 1.0
+
+    private fun getFortuneFactor(fairyLevel: Double) = 1.0 + fairyLevel / 40.0
 
 }
