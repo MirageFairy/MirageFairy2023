@@ -25,7 +25,7 @@ class MirageFairy2023ReiClientPlugin : REIClientPlugin {
 
     override fun registerDisplays(registry: DisplayRegistry) {
         FairyMetamorphosisAltarRecipe.RECIPES.keys.forEach { input ->
-            val chanceTable = FairyMetamorphosisAltarRecipe.getChanceTable(input) ?: return@forEach
+            val chanceTable = FairyMetamorphosisAltarRecipe.getChanceTable(input, 1.0) ?: return@forEach
             chanceTable.forEach { (chance, output) ->
                 registry.add(FairyMetamorphosisAltarDisplay(EntryIngredient.of(EntryStacks.of(input)), chance, EntryIngredient.of(EntryStacks.of(output))))
             }

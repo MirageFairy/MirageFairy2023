@@ -99,7 +99,7 @@ object FairyMetamorphosisAltarRecipe {
     /**
      * @return nullでないとき、必ず1個以上の要素が含まれ、確率の合計は100%になります。
      */
-    fun getChanceTable(input: Item): List<Chance<ItemStack>>? {
+    fun getChanceTable(input: Item, fortuneFactor: Double): List<Chance<ItemStack>>? {
         if (input !in RECIPES) return null
 
         val outputTable = RECIPES.getOrElse(input) { mapOf() }
@@ -108,7 +108,7 @@ object FairyMetamorphosisAltarRecipe {
         var remainingRate = 1.0
 
         Category.values().sortedBy { it.rate }.forEach { category ->
-            val nextRemainingRate = 1.0 - category.rate atLeast 0.0
+            val nextRemainingRate = 1.0 - category.rate * fortuneFactor atLeast 0.0
             val availableRate = remainingRate - nextRemainingRate
             if (availableRate > 0) {
                 val outputs = outputTable.getOrElse(category) { listOf() }
@@ -294,7 +294,7 @@ class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : Fai
         if (craftingInventory[0].count != 1) return null // 入力スロットが空かスタックされている
         if (resultInventory[0].isNotEmpty) return null // 出力スロットが埋まっている
 
-        val chanceTable = FairyMetamorphosisAltarRecipe.getChanceTable(craftingInventory[0].item) ?: return null // 加工できないアイテム
+        val chanceTable = FairyMetamorphosisAltarRecipe.getChanceTable(craftingInventory[0].item, 1.0) ?: return null // 加工できないアイテム
 
         // 成立
 
