@@ -9,6 +9,9 @@ import net.minecraft.util.registry.SimpleRegistry
 
 interface FairyItem {
     val fairy: Fairy
+
+    // TODO -> Double
+    // TODO 元のレア度が0の場合は0.5扱い
     val fairyLevel: Int
 }
 
