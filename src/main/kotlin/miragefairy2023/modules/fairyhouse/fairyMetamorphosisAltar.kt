@@ -245,7 +245,7 @@ class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : Fai
     }
 
     override fun randomTick(world: ServerWorld, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) {
-        match().or { return }.second(world)
+        match().or { return }.craft(world)
     }
 
     override fun randomDisplayTick(world: World, block: FairyHouseBlock, blockPos: BlockPos, blockState: BlockState, random: Random) {
@@ -277,8 +277,8 @@ class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : Fai
         val result = match()
         if (result != null) {
             player.sendMessage(text { "["() + craftingInventory[0].item.name + "]"() }, false)
-            val totalWeight = result.first.totalWeight
-            result.first.sortedBy { it.weight }.forEach { chance ->
+            val totalWeight = result.chanceTable.totalWeight
+            result.chanceTable.sortedBy { it.weight }.forEach { chance ->
                 player.sendMessage(text { "${(chance.weight / totalWeight * 100 formatAs "%8.4f%%").replace(' ', '_')}: "() + chance.item.name }, false)
             }
         } else {
@@ -286,7 +286,12 @@ class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : Fai
         }
     }
 
-    private fun match(): Pair<List<Chance<ItemStack>>, ((ServerWorld) -> Unit)>? {
+    class Result(
+        val chanceTable: List<Chance<ItemStack>>,
+        val craft: ((ServerWorld) -> Unit),
+    )
+
+    private fun match(): Result? {
         val world = world ?: return null
 
         val fairyLevel = (0..3).sumOf { fairyInventory[it].item.castOr<FairyItem> { return@sumOf 0 }.fairyLevel + 1 }
@@ -298,7 +303,7 @@ class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : Fai
 
         // 成立
 
-        return Pair(chanceTable) { serverWorld ->
+        return Result(chanceTable) { serverWorld ->
 
             val output = chanceTable.draw(world.random)!!
 
