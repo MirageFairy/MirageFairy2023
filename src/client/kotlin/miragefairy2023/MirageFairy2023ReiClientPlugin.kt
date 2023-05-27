@@ -39,13 +39,14 @@ class FairyMetamorphosisAltarCategory : DisplayCategory<FairyMetamorphosisAltarD
     override fun getTitle(): Text = fairyMetamorphosisAltar.block.feature.name
     override fun setupDisplay(display: FairyMetamorphosisAltarDisplay, bounds: Rectangle): List<Widget> {
         val p = Point(bounds.centerX - 41, bounds.centerY - 13)
+        val rateText = (display.rate * 100 formatAs "%.3f").replace("""\.?0+$""".toRegex(), "") + "%"
         return listOf(
             Widgets.createRecipeBase(bounds),
-            Widgets.createArrow(p + Point(12, 4)),
-            Widgets.createResultSlotBackground(p + Point(46, 5)),
-            Widgets.createSlot(p + Point(-11, 5)).entries(display.inputEntries[0]).markInput(),
-            Widgets.createSlot(p + Point(46, 5)).entries(display.outputEntries[0]).disableBackground().markOutput(),
-            Widgets.createLabel(p + Point(87, 9), text { "${display.rate * 100 formatAs "%.2f"}%"() }).color(0xFF404040.toInt(), 0xFFBBBBBB.toInt()).noShadow(),
+            Widgets.createArrow(p + Point(7, 4)),
+            Widgets.createResultSlotBackground(p + Point(41, 5)),
+            Widgets.createSlot(p + Point(-16, 5)).entries(display.inputEntries[0]).markInput(),
+            Widgets.createSlot(p + Point(41, 5)).entries(display.outputEntries[0]).disableBackground().markOutput(),
+            Widgets.createLabel(p + Point(88, 9), text { rateText() }).color(0xFF404040.toInt(), 0xFFBBBBBB.toInt()).noShadow(),
         )
     }
 
