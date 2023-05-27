@@ -25,6 +25,7 @@ import miragefairy2023.util.isNotEmpty
 import miragefairy2023.util.set
 import miragefairy2023.util.text
 import miragefairy2023.util.totalWeight
+import mirrg.kotlin.hydrogen.atLeast
 import mirrg.kotlin.hydrogen.formatAs
 import mirrg.kotlin.hydrogen.or
 import net.minecraft.block.Block
@@ -107,7 +108,7 @@ object FairyMetamorphosisAltarRecipe {
         var remainingRate = 1.0
 
         Category.values().sortedBy { it.rate }.forEach { category ->
-            val nextRemainingRate = 1.0 - category.rate
+            val nextRemainingRate = 1.0 - category.rate atLeast 0.0
             val availableRate = remainingRate - nextRemainingRate
             if (availableRate > 0) {
                 val outputs = outputTable.getOrElse(category) { listOf() }
