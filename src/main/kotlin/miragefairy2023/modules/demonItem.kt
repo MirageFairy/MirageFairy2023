@@ -140,6 +140,7 @@ enum class DemonToolMaterials(
     private val repairIngredient: () -> Ingredient,
 ) : ToolMaterial {
     MIRAGE(48, 1.6F, 0.0F, MiningLevels.WOOD, 17, { DemonItemCard.MIRAGE_STEM().toIngredient() }),
+    CHAOS_STONE(666, 9.0F, 2.0F, MiningLevels.NETHERITE, 15, { DemonItemCard.CHAOS_STONE().toIngredient() }),
     ;
 
     override fun getDurability() = durability
