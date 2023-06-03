@@ -8,7 +8,7 @@ import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
-enum class TrinketsSlot(val groupName: String, val slotName: String) {
+enum class TrinketsSlotCard(val groupName: String, val slotName: String) {
     HEAD_FAIRY("head", "fairy"),
     CHEST_NECKLACE("chest", "necklace"),
     ;
@@ -20,16 +20,16 @@ enum class TrinketsSlot(val groupName: String, val slotName: String) {
 val trinketsSlotModule = module {
 
     // 全体
-    TrinketsSlot.values().forEach { trinketsSlot ->
+    TrinketsSlotCard.values().forEach { card ->
         onGenerateTrinketsEntities {
-            it.slots += trinketsSlot.path
+            it.slots += card.path
         }
     }
 
     // 妖精スロット
     onGenerateTrinketsSlot {
-        it.slots += TrinketsSlot.HEAD_FAIRY.path to TrinketsSlotDataProvider.TrinketsSlotEntry(
-            Identifier("trinkets", "gui/slots/${TrinketsSlot.HEAD_FAIRY.slotName}"),
+        it.slots += TrinketsSlotCard.HEAD_FAIRY.path to TrinketsSlotDataProvider.TrinketsSlotEntry(
+            Identifier("trinkets", "gui/slots/${TrinketsSlotCard.HEAD_FAIRY.slotName}"),
             quickMovePredicates = listOf("trinkets:none"),
         )
     }
