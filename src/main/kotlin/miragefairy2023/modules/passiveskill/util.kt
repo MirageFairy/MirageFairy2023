@@ -26,7 +26,7 @@ fun getPassiveSkillTooltip(itemStack: ItemStack, passiveSkills: List<PassiveSkil
 
     val tooltip = mutableListOf<Text>()
 
-    val entry = player.getPassiveFairies().find { it.itemStack === itemStack }
+    val entry = player.getPassiveSkillEntries().find { it.itemStack === itemStack }
     val isEnabled = entry != null
     val isDuplicated = entry != null && entry.isDuplicated
 
@@ -70,17 +70,22 @@ fun getPassiveSkillTooltip(itemStack: ItemStack, passiveSkills: List<PassiveSkil
     return tooltip
 }
 
-private class PassiveFairy(val itemStack: ItemStack, val isDuplicated: Boolean)
+class PassiveSkillEntry(val itemStack: ItemStack, val isDuplicated: Boolean)
 
-private fun PlayerEntity.getPassiveFairies(): List<PassiveFairy> {
+fun PlayerEntity.getPassiveSkillEntries(): List<PassiveSkillEntry> {
+
+    // パッシブスキル発動対象アイテム
     val itemStacks: List<ItemStack> = this.inventory.offHand + this.inventory.main.slice(9 * 3 until 9 * 4)
-    val result = mutableListOf<PassiveFairy>()
+
+    // 有効化されたパッシブスキル発動アイテムのリスト
+    val entries = mutableListOf<PassiveSkillEntry>()
     val collectedFairyIdentifiers = mutableSetOf<Identifier>()
     itemStacks.forEach { itemStack ->
         val item = itemStack.item as? PassiveSkillItem ?: return@forEach
         val isDuplicated = item.getPassiveSkillIdentifier() in collectedFairyIdentifiers
         collectedFairyIdentifiers += item.getPassiveSkillIdentifier()
-        result += PassiveFairy(itemStack, isDuplicated)
+        entries += PassiveSkillEntry(itemStack, isDuplicated)
     }
-    return result.toList()
+
+    return entries.toList()
 }
