@@ -19,6 +19,15 @@ enum class TrinketsSlotCard(val groupName: String, val slotName: String) {
 
 val trinketsSlotModule = module {
 
+    // デフォルトのメッセージの翻訳
+    onGenerateJapaneseTranslations { it.add("trinkets.tooltip.slots.any", "§9任意§rのTrinketスロットに装備可能") }
+    onGenerateJapaneseTranslations { it.add("trinkets.tooltip.slots.list", "Trinketスロットに装備可能:") }
+    onGenerateJapaneseTranslations { it.add("trinkets.tooltip.slots.single", "%dのTrinketスロットに装備可能") }
+    onGenerateJapaneseTranslations { it.add("trinkets.tooltip.attributes.all", "装備時:") }
+    onGenerateJapaneseTranslations { it.add("trinkets.tooltip.attributes.single", "%dTrinketスロットに装備時:") }
+    onGenerateJapaneseTranslations { it.add("trinkets.tooltip.attributes.slots", "%dスロット") }
+    onGenerateJapaneseTranslations { it.add("trinkets.slot.chest.necklace", "ネックレス") }
+
     // 全体
     TrinketsSlotCard.values().forEach { card ->
         onGenerateTrinketsEntities {
