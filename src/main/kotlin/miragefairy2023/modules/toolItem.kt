@@ -2,7 +2,11 @@ package miragefairy2023.modules
 
 import miragefairy2023.InitializationScope
 import miragefairy2023.MirageFairy2023
+import miragefairy2023.api.PassiveSkill
+import miragefairy2023.api.PassiveSkillItem
 import miragefairy2023.module
+import miragefairy2023.modules.passiveskill.MovementSpeedPassiveSkillEffect
+import miragefairy2023.modules.passiveskill.getPassiveSkillTooltip
 import miragefairy2023.util.gray
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
@@ -17,11 +21,13 @@ import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.item.PickaxeItem
 import net.minecraft.item.ToolMaterial
+import net.minecraft.item.Vanishable
 import net.minecraft.tag.ItemTags
 import net.minecraft.tag.TagKey
 import net.minecraft.text.Text
@@ -41,6 +47,13 @@ enum class ToolItemCard(
         "artificial_fairy_crystal_pickaxe", "Crystal Pickaxe", "クリスタルのつるはし",
         "Amorphous mental body of fairies", "妖精さえ怖れる、技術の結晶。",
         pickaxe(DemonToolMaterials.ARTIFICIAL_FAIRY_CRYSTAL, 1, -2.8F),
+    ),
+    ARTIFICIAL_FAIRY_CRYSTAL_PENDANT(
+        "artificial_fairy_crystal_pendant", "Crystal Pendant", "クリスタルのペンダント",
+        "Object that makes Mirage fairies fairies", "『妖精』だったあのころ――",
+        accessory(TrinketsSlot.CHEST_NECKLACE, buildList {
+            this += PassiveSkill(listOf(), MovementSpeedPassiveSkillEffect(0.20 * 0.5)) // TODO レベル制、すべての妖精のレベルUP
+        }),
     ),
     MIRANAGITE_PICKAXE(
         "miranagite_pickaxe", "Miranagi Pickaxe", "蒼天のつるはし",
@@ -92,6 +105,20 @@ val toolItemModule = module {
             .offerTo(it, ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE.item.feature.identifier)
     }
 
+    // クリスタルのペンダント
+    onGenerateRecipes {
+        ShapedRecipeJsonBuilder
+            .create(ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PENDANT.item.feature)
+            .pattern(" s ")
+            .pattern("s s")
+            .pattern(" G ")
+            .input('G', DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
+            .input('s', Items.STRING)
+            .criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
+            .group(ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PENDANT.item.feature)
+            .offerTo(it, ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PENDANT.item.feature.identifier)
+    }
+
     // 蒼天のつるはし
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
@@ -137,5 +164,26 @@ private fun pickaxe(toolMaterial: ToolMaterial, attackDamage: Int, attackSpeed: 
         enJa({ "${feature.translationKey}.poem" }, card.enPoem, card.jaPoem)
         onGenerateItemTags { it(ItemTags.CLUSTER_MAX_HARVESTABLES).add(feature) }
         onGenerateItemTags { it(ConventionalItemTags.PICKAXES).add(feature) }
+    }
+}
+
+private fun accessory(trinketsSlot: TrinketsSlot, passiveSkills: List<PassiveSkill>): InitializationScope.(ToolItemCard) -> Unit = { card ->
+    card.item = item(card.path, {
+        class AccessoryItem : Item(FabricItemSettings().group(commonItemGroup).maxCount(1)), PassiveSkillItem, Vanishable {
+            override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
+                super.appendTooltip(stack, world, tooltip, context)
+                tooltip += text { translate("$translationKey.poem").gray }
+                tooltip += getPassiveSkillTooltip(stack, passiveSkills)
+            }
+
+            override fun getPassiveSkillIdentifier() = card.identifier
+            override fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack) = passiveSkills
+        }
+        AccessoryItem()
+    }) {
+        onGenerateItemModels { it.register(feature, Models.GENERATED) }
+        enJaItem({ feature }, card.enName, card.jaName)
+        enJa({ "${feature.translationKey}.poem" }, card.enPoem, card.jaPoem)
+        onGenerateItemTags { it(trinketsSlot.tag).add(feature) }
     }
 }
