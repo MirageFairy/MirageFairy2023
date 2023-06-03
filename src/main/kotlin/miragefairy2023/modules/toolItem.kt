@@ -39,6 +39,11 @@ enum class ToolItemCard(
         "Amorphous mental body of fairies", "妖精さえ怖れる、技術の結晶。",
         DemonToolMaterials.ARTIFICIAL_FAIRY_CRYSTAL, 1, -2.8F,
     ),
+    MIRANAGITE_PICKAXE(
+        "miranagite_pickaxe", "Miranagi Pickaxe", "蒼天のつるはし",
+        "Promotes ore recrystallization", "凝集する秩序、蒼穹彩煌が如く。",
+        DemonToolMaterials.MIRANAGITE, 1, -2.8F,
+    ),
     CHAOS_STONE_PICKAXE(
         "chaos_stone_pickaxe", "Chaos Pickaxe", "混沌のつるはし",
         "Is this made of metal? Or clay?", "時空結晶の交点に、古代の産業が芽吹く。",
@@ -81,6 +86,20 @@ val toolItemModule = module {
             .criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
             .group(ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE.item.feature)
             .offerTo(it, ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE.item.feature.identifier)
+    }
+
+    // 蒼天のつるはし
+    onGenerateRecipes {
+        ShapedRecipeJsonBuilder
+            .create(ToolItemCard.MIRANAGITE_PICKAXE.item.feature)
+            .pattern("GGG")
+            .pattern(" S ")
+            .pattern(" S ")
+            .input('G', DemonItemCard.MIRANAGITE())
+            .input('S', Items.STICK)
+            .criterion(DemonItemCard.MIRANAGITE())
+            .group(ToolItemCard.MIRANAGITE_PICKAXE.item.feature)
+            .offerTo(it, ToolItemCard.MIRANAGITE_PICKAXE.item.feature.identifier)
     }
 
     // 混沌のつるはし
