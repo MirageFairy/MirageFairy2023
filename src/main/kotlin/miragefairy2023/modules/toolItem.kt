@@ -23,8 +23,10 @@ import net.minecraft.item.Items
 import net.minecraft.item.PickaxeItem
 import net.minecraft.item.ToolMaterial
 import net.minecraft.tag.ItemTags
+import net.minecraft.tag.TagKey
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 
 enum class ToolItemCard(
@@ -56,7 +58,20 @@ enum class ToolItemCard(
     lateinit var item: FeatureSlot<Item>
 }
 
+enum class TrinketsSlot(val groupName: String, val slotName: String) {
+    CHEST_NECKLACE("chest", "necklace"),
+    ;
+
+    val path = "$groupName/$slotName"
+    val tag: TagKey<Item> = TagKey.of(Registry.ITEM_KEY, Identifier("trinkets", path))
+}
+
 val toolItemModule = module {
+
+    // Trinkets
+    onGenerateTrinketsEntities {
+        it.slots += TrinketsSlot.CHEST_NECKLACE.path
+    }
 
     // 全体
     ToolItemCard.values().forEach { card ->
