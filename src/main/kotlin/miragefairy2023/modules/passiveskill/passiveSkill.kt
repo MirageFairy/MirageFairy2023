@@ -31,9 +31,9 @@ val passiveSkillModule = module {
 
                     if (player.isSpectator) return@nextPlayer // スペクテイターモードでは無効
 
-                    // 有効な妖精のリスト
+                    // パッシブスキル判定
                     val itemStacks: List<ItemStack> = player.inventory.offHand + player.inventory.main.slice(9 * 3 until 9 * 4)
-                    val triples = itemStacks
+                    val entries = itemStacks
                         .mapNotNull { itemStack ->
                             val item = itemStack.item as? PassiveSkillItem ?: return@mapNotNull null
                             Pair(itemStack, item)
@@ -44,10 +44,10 @@ val passiveSkillModule = module {
 
                     // 効果の計算
                     val passiveSkillVariable = mutableMapOf<Identifier, Any>()
-                    triples.forEach { pair ->
-                        pair.second.getPassiveSkills(player, pair.first).forEach passiveSkillIsFailed@{ passiveSkill ->
+                    entries.forEach nextEntry@{ entry ->
+                        entry.second.getPassiveSkills(player, entry.first).forEach nextPassiveSkill@{ passiveSkill ->
                             passiveSkill.conditions.forEach { condition ->
-                                if (!condition.test(player, pair.first)) return@passiveSkillIsFailed
+                                if (!condition.test(player, entry.first)) return@nextPassiveSkill
                             }
                             passiveSkill.effect.update(world, player, passiveSkillVariable, initializers, terminators)
                             passiveSkill.effect.affect(world, player, passiveSkillVariable, initializers)

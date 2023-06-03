@@ -26,9 +26,9 @@ fun getPassiveSkillTooltip(itemStack: ItemStack, passiveSkills: List<PassiveSkil
 
     val tooltip = mutableListOf<Text>()
 
-    val passiveFairy = player.getPassiveFairies().find { it.itemStack === itemStack }
-    val isEnabled = passiveFairy != null
-    val isDuplicated = passiveFairy != null && passiveFairy.isDuplicated
+    val entry = player.getPassiveFairies().find { it.itemStack === itemStack }
+    val isEnabled = entry != null
+    val isDuplicated = entry != null && entry.isDuplicated
 
     // タイトルラベル
     tooltip += text {
