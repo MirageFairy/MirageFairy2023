@@ -100,6 +100,8 @@ dependencies {
     modApi "com.faux.fauxcustomentitydata:FauxCustomEntityData-fabric-1.19.2:2.0.2"
 
     modApi "dev.emi:trinkets:3.4.1"
+    // https://github.com/emilyploszaj/trinkets/blob/3.4.1/gradle.properties
+    modApi "dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.0.0-beta.1"
 
 }
 
