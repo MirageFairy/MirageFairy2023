@@ -1,6 +1,7 @@
 package miragefairy2023.modules
 
 import miragefairy2023.InitializationScope
+import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.gray
 import miragefairy2023.util.identifier
@@ -23,6 +24,7 @@ import net.minecraft.item.PickaxeItem
 import net.minecraft.item.ToolMaterial
 import net.minecraft.tag.ItemTags
 import net.minecraft.text.Text
+import net.minecraft.util.Identifier
 import net.minecraft.world.World
 
 enum class ToolItemCard(
@@ -50,6 +52,7 @@ enum class ToolItemCard(
     ),
     ;
 
+    val identifier = Identifier(MirageFairy2023.modId, path)
     lateinit var item: FeatureSlot<Item>
 }
 
