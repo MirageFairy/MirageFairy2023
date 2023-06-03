@@ -3,6 +3,7 @@ package miragefairy2023
 import com.google.gson.JsonElement
 import com.mojang.logging.LogUtils
 import miragefairy2023.MirageFairy2023.initializationScope
+import miragefairy2023.util.jsonArray
 import miragefairy2023.util.jsonArrayOf
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonObjectOfNotNull
@@ -164,7 +165,7 @@ class TrinketsSlotDataProvider(private val dataGenerator: FabricDataGenerator) :
 
     class TrinketsSlotEntry(
         val icon: Identifier,
-        val quickMovePredicates: String? = null,
+        val quickMovePredicates: List<String>? = null,
     )
 
     override fun run(writer: DataWriter) {
@@ -173,7 +174,7 @@ class TrinketsSlotDataProvider(private val dataGenerator: FabricDataGenerator) :
             val path = pathResolver.resolveJson(Identifier("trinkets", name))
             val jsonElement = jsonObjectOfNotNull(
                 "icon" to entry.icon.toString().jsonPrimitive,
-                entry.quickMovePredicates?.let { "quick_move_predicates" to entry.quickMovePredicates.jsonPrimitive },
+                entry.quickMovePredicates?.let { "quick_move_predicates" to entry.quickMovePredicates.map { it.jsonPrimitive }.jsonArray },
             )
             try {
                 DataProvider.writeToPath(writer, jsonElement, path)
