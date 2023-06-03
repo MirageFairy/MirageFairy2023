@@ -7,6 +7,8 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 
+fun jsonObjectOfNotNull(vararg pairs: Pair<String, JsonElement>?) = jsonObjectOf(pairs.filterNotNull())
+fun jsonObjectOfNotNull(pairs: List<Pair<String, JsonElement>?>) = jsonObjectOf(pairs.filterNotNull())
 fun jsonObjectOf(vararg pairs: Pair<String, JsonElement>) = jsonObjectOf(pairs.toList())
 fun jsonObjectOf(pairs: List<Pair<String, JsonElement>>) = JsonObject().also { json ->
     pairs.forEach {
@@ -14,6 +16,8 @@ fun jsonObjectOf(pairs: List<Pair<String, JsonElement>>) = JsonObject().also { j
     }
 }
 
+fun jsonArrayOfNotNull(vararg items: JsonElement?) = jsonArrayOf(items.filterNotNull())
+fun jsonArrayOfNotNull(items: List<JsonElement?>) = jsonArrayOf(items.filterNotNull())
 fun jsonArrayOf(vararg items: JsonElement) = jsonArrayOf(items.toList())
 fun jsonArrayOf(items: List<JsonElement>) = JsonArray().also { json ->
     items.forEach {
