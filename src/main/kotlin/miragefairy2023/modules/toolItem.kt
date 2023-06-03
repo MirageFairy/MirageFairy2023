@@ -1,5 +1,6 @@
 package miragefairy2023.modules
 
+import miragefairy2023.InitializationScope
 import miragefairy2023.module
 import miragefairy2023.util.gray
 import miragefairy2023.util.identifier
@@ -30,24 +31,22 @@ enum class ToolItemCard(
     val jaName: String,
     val enPoem: String,
     val jaPoem: String,
-    val toolMaterial: ToolMaterial,
-    val attackDamage: Int,
-    val attackSpeed: Float,
+    val initializer: InitializationScope.(ToolItemCard) -> Unit,
 ) {
     ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE(
         "artificial_fairy_crystal_pickaxe", "Crystal Pickaxe", "クリスタルのつるはし",
         "Amorphous mental body of fairies", "妖精さえ怖れる、技術の結晶。",
-        DemonToolMaterials.ARTIFICIAL_FAIRY_CRYSTAL, 1, -2.8F,
+        pickaxe(DemonToolMaterials.ARTIFICIAL_FAIRY_CRYSTAL, 1, -2.8F),
     ),
     MIRANAGITE_PICKAXE(
         "miranagite_pickaxe", "Miranagi Pickaxe", "蒼天のつるはし",
         "Promotes ore recrystallization", "凝集する秩序、蒼穹彩煌が如く。",
-        DemonToolMaterials.MIRANAGITE, 1, -2.8F,
+        pickaxe(DemonToolMaterials.MIRANAGITE, 1, -2.8F),
     ),
     CHAOS_STONE_PICKAXE(
         "chaos_stone_pickaxe", "Chaos Pickaxe", "混沌のつるはし",
         "Is this made of metal? Or clay?", "時空結晶の交点に、古代の産業が芽吹く。",
-        DemonToolMaterials.CHAOS_STONE, 1, -2.8F,
+        pickaxe(DemonToolMaterials.CHAOS_STONE, 1, -2.8F),
     ),
     ;
 
@@ -58,20 +57,7 @@ val toolItemModule = module {
 
     // 全体
     ToolItemCard.values().forEach { card ->
-        card.item = item(card.path, {
-            object : PickaxeItem(card.toolMaterial, card.attackDamage, card.attackSpeed, FabricItemSettings().group(commonItemGroup)) {
-                override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-                    super.appendTooltip(stack, world, tooltip, context)
-                    tooltip += text { translate("$translationKey.poem").gray }
-                }
-            }
-        }) {
-            onGenerateItemModels { it.register(feature, Models.HANDHELD) }
-            enJaItem({ feature }, card.enName, card.jaName)
-            enJa({ "${feature.translationKey}.poem" }, card.enPoem, card.jaPoem)
-            onGenerateItemTags { it(ItemTags.CLUSTER_MAX_HARVESTABLES).add(feature) }
-            onGenerateItemTags { it(ConventionalItemTags.PICKAXES).add(feature) }
-        }
+        card.initializer(this, card)
     }
 
     // クリスタルのつるはし
@@ -116,4 +102,22 @@ val toolItemModule = module {
             .offerTo(it, ToolItemCard.CHAOS_STONE_PICKAXE.item.feature.identifier)
     }
 
+}
+
+
+private fun pickaxe(toolMaterial: ToolMaterial, attackDamage: Int, attackSpeed: Float): InitializationScope.(ToolItemCard) -> Unit = { card ->
+    card.item = item(card.path, {
+        object : PickaxeItem(toolMaterial, attackDamage, attackSpeed, FabricItemSettings().group(commonItemGroup)) {
+            override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
+                super.appendTooltip(stack, world, tooltip, context)
+                tooltip += text { translate("$translationKey.poem").gray }
+            }
+        }
+    }) {
+        onGenerateItemModels { it.register(feature, Models.HANDHELD) }
+        enJaItem({ feature }, card.enName, card.jaName)
+        enJa({ "${feature.translationKey}.poem" }, card.enPoem, card.jaPoem)
+        onGenerateItemTags { it(ItemTags.CLUSTER_MAX_HARVESTABLES).add(feature) }
+        onGenerateItemTags { it(ConventionalItemTags.PICKAXES).add(feature) }
+    }
 }
