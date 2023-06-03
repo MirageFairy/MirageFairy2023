@@ -1,5 +1,6 @@
 package miragefairy2023.modules
 
+import dev.emi.trinkets.api.TrinketItem
 import miragefairy2023.InitializationScope
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.PassiveSkill
@@ -28,9 +29,12 @@ import net.minecraft.item.Items
 import net.minecraft.item.PickaxeItem
 import net.minecraft.item.ToolMaterial
 import net.minecraft.item.Vanishable
+import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.ItemTags
 import net.minecraft.text.Text
+import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
+import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 
 enum class ToolItemCard(
@@ -163,6 +167,16 @@ private fun accessory(trinketsSlotCard: TrinketsSlotCard, passiveSkills: List<Pa
 
             override fun getPassiveSkillIdentifier() = card.identifier
             override fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack) = passiveSkills
+
+            override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
+                val itemStack = user.getStackInHand(hand)
+                if (TrinketItem.equipItem(user, itemStack)) {
+                    return TypedActionResult.success(itemStack, world.isClient)
+                }
+                return super.use(world, user, hand)
+            }
+
+            override fun getEquipSound() = SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND
         }
         AccessoryItem()
     }) {
