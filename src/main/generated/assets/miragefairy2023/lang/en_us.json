@@ -244,7 +244,7 @@
   "miragefairy2023.passive_skill.condition.tool_material.stone": "Stone Tool",
   "miragefairy2023.passive_skill.condition.tool_material.wood": "Wooden Tool",
   "miragefairy2023.passive_skill.condition.underwater": "Underwater",
-  "miragefairy2023.passive_skill.disabled": "Put in 3rd row for passive skills",
+  "miragefairy2023.passive_skill.disabled": "Passive skills are disabled",
   "miragefairy2023.passive_skill.duplicated": "Duplicated passive skills!",
   "miragefairy2023.passive_skill.effect.collection": "Collection: %s Stacks/s",
   "miragefairy2023.passive_skill.effect.combustion": "Combustion",
