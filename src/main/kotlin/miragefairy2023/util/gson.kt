@@ -28,3 +28,7 @@ fun jsonArrayOf(items: List<JsonElement>) = JsonArray().also { json ->
 val Number.jsonPrimitive get() = JsonPrimitive(this)
 val String.jsonPrimitive get() = JsonPrimitive(this)
 val Boolean.jsonPrimitive get() = JsonPrimitive(this)
+
+val List<Pair<String, JsonElement>>.jsonObject get() = jsonObjectOf(this)
+val Map<String, JsonElement>.jsonObject get() = jsonObjectOf(this.entries.map { it.key to it.value })
+val List<JsonElement>.jsonArray get() = jsonArrayOf(this)
