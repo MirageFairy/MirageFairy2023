@@ -68,9 +68,9 @@ val passiveSkillModule = module {
     }
 
 
-    translation(PassiveSkillKeys.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
-    translation(PassiveSkillKeys.DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY)
     translation(PassiveSkillKeys.ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
+    translation(PassiveSkillKeys.DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY)
+    translation(PassiveSkillKeys.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
 
     translation(attributeKey)
 

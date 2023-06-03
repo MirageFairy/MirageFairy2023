@@ -15,9 +15,9 @@ import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
 object PassiveSkillKeys {
-    val DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("${MirageFairy2023.modId}.passive_skill.disabled", "Put in 3rd row for passive skills", "3行目でパッシブスキルを有効化")
-    val DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("${MirageFairy2023.modId}.passive_skill.duplicated", "Duplicated passive skills!", "パッシブスキルが重複しています！")
     val ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("${MirageFairy2023.modId}.passive_skill.enabled", "Passive skills are enabled", "パッシブスキル有効")
+    val DUPLICATED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("${MirageFairy2023.modId}.passive_skill.duplicated", "Duplicated passive skills!", "パッシブスキルが重複しています！")
+    val DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("${MirageFairy2023.modId}.passive_skill.disabled", "Put in 3rd row for passive skills", "3行目でパッシブスキルを有効化")
 }
 
 fun getPassiveSkillTooltip(itemStack: ItemStack, passiveSkills: List<PassiveSkill>): List<Text> {
