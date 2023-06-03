@@ -19,6 +19,7 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.item.PickaxeItem
+import net.minecraft.item.ToolMaterial
 import net.minecraft.tag.ItemTags
 import net.minecraft.text.Text
 import net.minecraft.world.World
@@ -29,10 +30,14 @@ enum class ToolItemCard(
     val jaName: String,
     val enPoem: String,
     val jaPoem: String,
+    val toolMaterial: ToolMaterial,
+    val attackDamage: Int,
+    val attackSpeed: Float,
 ) {
     CHAOS_STONE_PICKAXE(
         "chaos_stone_pickaxe", "Chaos Pickaxe", "混沌のつるはし",
         "Is this made of metal? Or clay?", "時空結晶の交点に、古代の産業が芽吹く。",
+        DemonToolMaterials.CHAOS_STONE, 1, -2.8F,
     ),
     ;
 
@@ -44,7 +49,7 @@ val toolItemModule = module {
     // 全体
     ToolItemCard.values().forEach { card ->
         card.item = item(card.path, {
-            object : PickaxeItem(DemonToolMaterials.CHAOS_STONE, 1, -2.8F, FabricItemSettings().group(commonItemGroup)) {
+            object : PickaxeItem(card.toolMaterial, card.attackDamage, card.attackSpeed, FabricItemSettings().group(commonItemGroup)) {
                 override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
                     super.appendTooltip(stack, world, tooltip, context)
                     tooltip += text { translate("$translationKey.poem").gray }
