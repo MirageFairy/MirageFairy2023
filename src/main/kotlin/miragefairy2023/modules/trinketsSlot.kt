@@ -19,6 +19,13 @@ enum class TrinketsSlot(val groupName: String, val slotName: String) {
 
 val trinketsSlotModule = module {
 
+    // 全体
+    TrinketsSlot.values().forEach { trinketsSlot ->
+        onGenerateTrinketsEntities {
+            it.slots += trinketsSlot.path
+        }
+    }
+
     // 妖精スロット
     onGenerateTrinketsSlot {
         it.slots += TrinketsSlot.HEAD_FAIRY.path to TrinketsSlotDataProvider.TrinketsSlotEntry(
@@ -27,11 +34,5 @@ val trinketsSlotModule = module {
         )
     }
     enJa("trinkets.slot.head.fairy", "Fairy", "妖精")
-
-    // 全体
-    onGenerateTrinketsEntities {
-        it.slots += TrinketsSlot.HEAD_FAIRY.path
-        it.slots += TrinketsSlot.CHEST_NECKLACE.path
-    }
 
 }
