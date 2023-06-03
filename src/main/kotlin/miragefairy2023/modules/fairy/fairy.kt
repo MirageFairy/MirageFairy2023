@@ -6,6 +6,7 @@ import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.fairyRegistry
 import miragefairy2023.getOrPut
 import miragefairy2023.module
+import miragefairy2023.modules.TrinketsSlot
 import miragefairy2023.slotOf
 import miragefairy2023.util.EMPTY_ITEM_STACK
 import miragefairy2023.util.createItemStack
@@ -103,6 +104,7 @@ val fairyModule = module {
                     // タグに登録
                     registerToTag { fairiesItemTag.getOrPut { itemTag("fairies") } }
                     registerToTag { fairiesOfRareItemTag.getOrPut(feature.fairyLevel) { itemTag("rare${feature.fairyLevel}_fairies") } }
+                    onGenerateItemTags { it(TrinketsSlot.HEAD_FAIRY.tag).add(feature) }
 
                     // モデル系
                     onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier(modId, "item/fairy")), Optional.empty())) }
