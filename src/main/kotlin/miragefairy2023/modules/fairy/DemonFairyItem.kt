@@ -11,9 +11,11 @@ import miragefairy2023.util.darkGray
 import miragefairy2023.util.formatted
 import miragefairy2023.util.init.Translation
 import miragefairy2023.util.join
+import miragefairy2023.util.removeTrailingZeros
 import miragefairy2023.util.text
 import miragefairy2023.util.toRoman
 import miragefairy2023.util.yellow
+import mirrg.kotlin.hydrogen.formatAs
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
@@ -33,10 +35,10 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
     val rare get() = fairyCard.rare + (rank - 1) * 2
 
     override val fairy get() = fairyCard.fairy
-    override val fairyLevel get() = rare
+    override val fairyLevel get() = if (rare != 0) rare.toDouble() else 0.5
 
     override fun getPassiveSkillIdentifier() = fairyCard.motif
-    val passiveSkills = fairyCard.passiveSkillProviders.map { PassiveSkill(it.conditions, it.effectProvider(if (fairyLevel != 0) fairyLevel / 10.0 else 0.05)) }
+    val passiveSkills = fairyCard.passiveSkillProviders.map { PassiveSkill(it.conditions, it.effectProvider(fairyLevel / 10.0)) }
     override fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack) = passiveSkills
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
@@ -64,7 +66,7 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
             .map { it.join(text { " "() }) }
             .toList()
             .join(text { "  "() })
-        tooltip += text { (RARE_KEY() + ": "() + stars3 + " $fairyLevel"()).aqua }
+        tooltip += text { (RARE_KEY() + ": "() + stars3 + " ${(fairyLevel formatAs "%.3f").removeTrailingZeros()}"()).aqua }
 
         // パッシブスキル
         tooltip += getPassiveSkillTooltip(stack, passiveSkills)

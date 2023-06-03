@@ -8,11 +8,16 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.registry.SimpleRegistry
 
 interface FairyItem {
+
     val fairy: Fairy
 
-    // TODO -> Double
-    // TODO 元のレア度が0の場合は0.5扱い
-    val fairyLevel: Int
+    /**
+     * この妖精アイテムのベースの強さを表します。
+     * スケールは妖精のレア度と同じですが、小数値を持ち、様々な補正が加算されます。
+     * この値はパッシブスキルに乗じられるため、0を超えることが推奨されます。
+     */
+    val fairyLevel: Double
+
 }
 
 interface Fairy {

@@ -27,6 +27,7 @@ import miragefairy2023.util.toList
 import miragefairy2023.util.totalWeight
 import mirrg.kotlin.hydrogen.atLeast
 import mirrg.kotlin.hydrogen.atMost
+import mirrg.kotlin.hydrogen.castOrNull
 import mirrg.kotlin.hydrogen.formatAs
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -339,11 +340,7 @@ class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : Fai
     }
 
     // TODO パッシブスキルの適用
-    private fun getFairyLevel() = fairyInventory.toList().sumOf { itemStack ->
-        val item = itemStack.item as? FairyItem ?: return@sumOf 0.0
-        if (item.fairyLevel == 0) return@sumOf 0.5
-        item.fairyLevel.toDouble()
-    }
+    private fun getFairyLevel() = fairyInventory.toList().sumOf { it.item.castOrNull<FairyItem>()?.fairyLevel ?: 0.0 }
 
     private fun getProcessingSpeed(fairyLevel: Double) = fairyLevel / 40.0 atMost 1.0
 
