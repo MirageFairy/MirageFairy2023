@@ -250,5 +250,6 @@
   "miragefairy2023.passive_skill.effect.combustion": "発火",
   "miragefairy2023.passive_skill.effect.experience": "経験値: %s/秒",
   "miragefairy2023.passive_skill.effect.regeneration": "継続回復: %s/秒",
-  "miragefairy2023.passive_skill.enabled": "パッシブスキル有効"
+  "miragefairy2023.passive_skill.enabled": "パッシブスキル有効",
+  "trinkets.slot.head.fairy": "妖精"
 }

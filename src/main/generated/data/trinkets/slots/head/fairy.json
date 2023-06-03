@@ -1,0 +1,6 @@
+{
+  "icon": "trinkets:gui/slots/fairy",
+  "quick_move_predicates": [
+    "trinkets:none"
+  ]
+}
