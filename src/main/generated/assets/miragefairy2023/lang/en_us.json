@@ -251,5 +251,6 @@
   "miragefairy2023.passive_skill.effect.regeneration": "Regeneration: %s/s",
   "miragefairy2023.passive_skill.enabled": "Passive skills are enabled",
   "miragefairy2023.passive_skill.hidden": "Duplicated passive skills!",
+  "miragefairy2023.passive_skill.overflowed": "Too many passive skills!",
   "trinkets.slot.head.fairy": "Fairy"
 }

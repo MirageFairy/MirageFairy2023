@@ -1,5 +1,6 @@
 package miragefairy2023.modules.passiveskill
 
+import dev.emi.trinkets.api.TrinketsApi
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.PassiveSkill
 import miragefairy2023.api.PassiveSkillItem
@@ -9,13 +10,16 @@ import miragefairy2023.util.init.Translation
 import miragefairy2023.util.join
 import miragefairy2023.util.red
 import miragefairy2023.util.text
+import mirrg.kotlin.hydrogen.or
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
+import kotlin.jvm.optionals.getOrNull
 
 object PassiveSkillKeys {
     val ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("${MirageFairy2023.modId}.passive_skill.enabled", "Passive skills are enabled", "パッシブスキル有効")
+    val OVERFLOWED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("${MirageFairy2023.modId}.passive_skill.overflowed", "Too many passive skills!", "パッシブスキルが多すぎます！")
     val HIDDEN_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("${MirageFairy2023.modId}.passive_skill.hidden", "Duplicated passive skills!", "パッシブスキルが重複しています！")
     val DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("${MirageFairy2023.modId}.passive_skill.disabled", "Passive skills are disabled", "パッシブスキル無効")
 }
@@ -27,15 +31,15 @@ fun getPassiveSkillTooltip(itemStack: ItemStack, passiveSkills: List<PassiveSkil
     val tooltip = mutableListOf<Text>()
 
     val entry = player.getPassiveSkillEntries().find { it.itemStack === itemStack }
-    val isEnabled = entry != null
-    val isDuplicated = entry != null && entry.isDuplicated
+    val availability = entry?.availability ?: PassiveSkillAvailability.DISABLED
 
     // タイトルラベル
     tooltip += text {
-        when {
-            !isEnabled -> PassiveSkillKeys.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY().gray
-            isDuplicated -> PassiveSkillKeys.HIDDEN_PASSIVE_SKILL_DESCRIPTION_KEY().red
-            else -> PassiveSkillKeys.ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY().gold
+        when (availability) {
+            PassiveSkillAvailability.ENABLED -> PassiveSkillKeys.ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY().gold
+            PassiveSkillAvailability.OVERFLOWED -> PassiveSkillKeys.OVERFLOWED_PASSIVE_SKILL_DESCRIPTION_KEY().red
+            PassiveSkillAvailability.HIDDEN -> PassiveSkillKeys.HIDDEN_PASSIVE_SKILL_DESCRIPTION_KEY().red
+            PassiveSkillAvailability.DISABLED -> PassiveSkillKeys.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY().gray
         }
     }
 
@@ -62,7 +66,7 @@ fun getPassiveSkillTooltip(itemStack: ItemStack, passiveSkills: List<PassiveSkil
             } else {
                 effectText
             }
-            if (isEnabled && !isDuplicated && conditions.all { it.second }) text.gold else text.gray
+            if (availability == PassiveSkillAvailability.ENABLED && conditions.all { it.second }) text.gold else text.gray
         }
 
     }
@@ -70,22 +74,45 @@ fun getPassiveSkillTooltip(itemStack: ItemStack, passiveSkills: List<PassiveSkil
     return tooltip
 }
 
-class PassiveSkillEntry(val itemStack: ItemStack, val isDuplicated: Boolean)
+
+class PassiveSkillEntry(val itemStack: ItemStack, val item: PassiveSkillItem, val availability: PassiveSkillAvailability)
+
+enum class PassiveSkillAvailability {
+    ENABLED,
+    OVERFLOWED,
+    HIDDEN,
+    DISABLED,
+}
 
 fun PlayerEntity.getPassiveSkillEntries(): List<PassiveSkillEntry> {
 
     // パッシブスキル発動対象アイテム
-    val itemStacks: List<ItemStack> = this.inventory.offHand + this.inventory.main.slice(9 * 3 until 9 * 4)
+    val itemStacks: List<ItemStack> = listOf(
+        this.inventory.offHand, // オフハンド
+        this.inventory.armor, // 装備
+        TrinketsApi.getTrinketComponent(this).getOrNull()?.allEquipped.or { listOf() }.map { it.right }, // Trinkets
+        this.inventory.main.slice(9 * 3 until 9 * 4), // インベントリ3行目
+    ).flatten()
 
     // 有効化されたパッシブスキル発動アイテムのリスト
-    val entries = mutableListOf<PassiveSkillEntry>()
-    val collectedFairyIdentifiers = mutableSetOf<Identifier>()
-    itemStacks.forEach { itemStack ->
-        val item = itemStack.item as? PassiveSkillItem ?: return@forEach
-        val isDuplicated = item.getPassiveSkillIdentifier() in collectedFairyIdentifiers
-        collectedFairyIdentifiers += item.getPassiveSkillIdentifier()
-        entries += PassiveSkillEntry(itemStack, isDuplicated)
-    }
+    val acceptedIdentifiers = mutableSetOf<Identifier>()
+    var count = 0
+    val entries = itemStacks
+        .mapNotNull { itemStack ->
+            val item = itemStack.item as? PassiveSkillItem ?: return@mapNotNull null
+            Pair(itemStack, item)
+        }
+        .map { (itemStack, item) ->
+            val identifier = item.getPassiveSkillIdentifier()
 
-    return entries.toList()
+            if (identifier in acceptedIdentifiers) return@map PassiveSkillEntry(itemStack, item, PassiveSkillAvailability.HIDDEN) // 同じアイテムは多重に発動しない
+            if (count >= 10) return@map PassiveSkillEntry(itemStack, item, PassiveSkillAvailability.OVERFLOWED) // 既に10個発動している場合は発動しない
+
+            acceptedIdentifiers += identifier
+            count++
+
+            PassiveSkillEntry(itemStack, item, PassiveSkillAvailability.ENABLED)
+        }
+
+    return entries
 }

@@ -1,13 +1,11 @@
 package miragefairy2023.modules.passiveskill
 
 import miragefairy2023.MirageFairy2023
-import miragefairy2023.api.PassiveSkillItem
 import miragefairy2023.module
 import miragefairy2023.util.init.Translation
 import miragefairy2023.util.init.translation
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
-import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 
 val attributeKey = Translation("${MirageFairy2023.modId}.passive_skill.attribute", "Fairy Bonus", "妖精ボーナス")
@@ -32,22 +30,17 @@ val passiveSkillModule = module {
                     if (player.isSpectator) return@nextPlayer // スペクテイターモードでは無効
 
                     // パッシブスキル判定
-                    val itemStacks: List<ItemStack> = player.inventory.offHand + player.inventory.main.slice(9 * 3 until 9 * 4)
-                    val entries = itemStacks
-                        .mapNotNull { itemStack ->
-                            val item = itemStack.item as? PassiveSkillItem ?: return@mapNotNull null
-                            Pair(itemStack, item)
-                        }
-                        .distinctBy { it.second.getPassiveSkillIdentifier() }
+                    val entries = player.getPassiveSkillEntries()
 
                     val initializers = mutableListOf<() -> Unit>()
 
                     // 効果の計算
                     val passiveSkillVariable = mutableMapOf<Identifier, Any>()
                     entries.forEach nextEntry@{ entry ->
-                        entry.second.getPassiveSkills(player, entry.first).forEach nextPassiveSkill@{ passiveSkill ->
+                        if (entry.availability != PassiveSkillAvailability.ENABLED) return@nextEntry
+                        entry.item.getPassiveSkills(player, entry.itemStack).forEach nextPassiveSkill@{ passiveSkill ->
                             passiveSkill.conditions.forEach { condition ->
-                                if (!condition.test(player, entry.first)) return@nextPassiveSkill
+                                if (!condition.test(player, entry.itemStack)) return@nextPassiveSkill
                             }
                             passiveSkill.effect.update(world, player, passiveSkillVariable, initializers, terminators)
                             passiveSkill.effect.affect(world, player, passiveSkillVariable, initializers)
@@ -69,6 +62,7 @@ val passiveSkillModule = module {
 
 
     translation(PassiveSkillKeys.ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
+    translation(PassiveSkillKeys.OVERFLOWED_PASSIVE_SKILL_DESCRIPTION_KEY)
     translation(PassiveSkillKeys.HIDDEN_PASSIVE_SKILL_DESCRIPTION_KEY)
     translation(PassiveSkillKeys.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
 

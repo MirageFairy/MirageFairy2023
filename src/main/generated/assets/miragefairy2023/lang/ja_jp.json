@@ -251,6 +251,7 @@
   "miragefairy2023.passive_skill.effect.regeneration": "継続回復: %s/秒",
   "miragefairy2023.passive_skill.enabled": "パッシブスキル有効",
   "miragefairy2023.passive_skill.hidden": "パッシブスキルが重複しています！",
+  "miragefairy2023.passive_skill.overflowed": "パッシブスキルが多すぎます！",
   "trinkets.slot.chest.necklace": "ネックレス",
   "trinkets.slot.head.fairy": "妖精",
   "trinkets.tooltip.attributes.all": "装備時:",
