@@ -5,6 +5,7 @@ import com.mojang.logging.LogUtils
 import miragefairy2023.MirageFairy2023.initializationScope
 import miragefairy2023.util.jsonArrayOf
 import miragefairy2023.util.jsonObjectOf
+import miragefairy2023.util.jsonObjectOfNotNull
 import miragefairy2023.util.jsonPrimitive
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
@@ -97,6 +98,9 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
         fabricDataGenerator.addProvider(TrinketsEntitiesDataProvider(fabricDataGenerator).also { provider ->
             initializationScope.onGenerateTrinketsEntities.fire { it(provider) }
         })
+        fabricDataGenerator.addProvider(TrinketsSlotDataProvider(fabricDataGenerator).also { provider ->
+            initializationScope.onGenerateTrinketsSlot.fire { it(provider) }
+        })
 
     }
 }
@@ -141,6 +145,35 @@ class TrinketsEntitiesDataProvider(private val dataGenerator: FabricDataGenerato
                 "slots" to jsonArrayOf(
                     *slots.map { it.jsonPrimitive }.toTypedArray(),
                 ),
+            )
+            try {
+                DataProvider.writeToPath(writer, jsonElement, path)
+            } catch (e: IOException) {
+                LogUtils.getLogger().error("Couldn't save data file {}", path, e)
+            }
+        }
+    }
+
+    override fun getName() = "Trinkets Entities"
+
+}
+
+class TrinketsSlotDataProvider(private val dataGenerator: FabricDataGenerator) : DataProvider {
+
+    val slots = mutableListOf<Pair<String, TrinketsSlotEntry>>()
+
+    class TrinketsSlotEntry(
+        val icon: Identifier,
+        val quickMovePredicates: String? = null,
+    )
+
+    override fun run(writer: DataWriter) {
+        val pathResolver = dataGenerator.createPathResolver(DataGenerator.OutputType.DATA_PACK, "slots")
+        slots.forEach { (name, entry) ->
+            val path = pathResolver.resolveJson(Identifier("trinkets", name))
+            val jsonElement = jsonObjectOfNotNull(
+                "icon" to entry.icon.toString().jsonPrimitive,
+                entry.quickMovePredicates?.let { "quick_move_predicates" to entry.quickMovePredicates.jsonPrimitive },
             )
             try {
                 DataProvider.writeToPath(writer, jsonElement, path)
