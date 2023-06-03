@@ -28,6 +28,7 @@ class InitializationScope(val modId: String) {
     val onGenerateItemTags = EventBus<((TagKey<Item>) -> FabricTagProvider<Item>.FabricTagBuilder<Item>) -> Unit>()
     val onGenerateBlockTags = EventBus<((TagKey<Block>) -> FabricTagProvider<Block>.FabricTagBuilder<Block>) -> Unit>()
     val onGenerateParticles = EventBus<(ParticleProvider) -> Unit>()
+    val onGenerateTrinketsEntities = EventBus<(TrinketsEntitiesDataProvider) -> Unit>()
 
     val onInitializeClient = EventBus<() -> Unit>()
 
