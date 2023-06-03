@@ -30,8 +30,10 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
         val BOTH_RECIPE_KEY = Translation("item.${MirageFairy2023.modId}.fairy.recipe.both", "Can condense 8 fairies/decondense ", "作業台で8体で凝縮、1体で展開")
     }
 
+    val rare get() = fairyCard.rare + (rank - 1) * 2
+
     override val fairy get() = fairyCard.fairy
-    override val fairyLevel get() = fairyCard.rare + (rank - 1) * 2
+    override val fairyLevel get() = rare
 
     override fun getPassiveSkillIdentifier() = fairyCard.motif
     val passiveSkills = fairyCard.passiveSkillProviders.map { PassiveSkill(it.conditions, it.effectProvider(if (fairyLevel != 0) fairyLevel / 10.0 else 0.05)) }

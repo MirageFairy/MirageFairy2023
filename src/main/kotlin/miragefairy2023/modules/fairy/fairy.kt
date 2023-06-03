@@ -103,7 +103,7 @@ val fairyModule = module {
 
                     // タグに登録
                     registerToTag { fairiesItemTag.getOrPut { itemTag("fairies") } }
-                    registerToTag { fairiesOfRareItemTag.getOrPut(feature.fairyLevel) { itemTag("rare${feature.fairyLevel}_fairies") } }
+                    registerToTag { fairiesOfRareItemTag.getOrPut(feature.rare) { itemTag("rare${feature.rare}_fairies") } }
                     onGenerateItemTags { it(TrinketsSlotCard.HEAD_FAIRY.tag).add(feature) }
 
                     // モデル系
