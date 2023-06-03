@@ -77,7 +77,7 @@ enum class DemonItemCard(
     ),
     ARTIFICIAL_FAIRY_CRYSTAL(
         "artificial_fairy_crystal", "Artificial Fairy Crystal", "人工フェアリークリスタル",
-        "Uncanny crystal not worth even 1 Minia", "妖精さえ怖れる、技術の結晶。",
+        "Uncanny crystal not worth even 1 Minia", "20Wのかまどで10秒。",
     ),
 
     /*
@@ -140,6 +140,7 @@ enum class DemonToolMaterials(
     private val repairIngredient: () -> Ingredient,
 ) : ToolMaterial {
     MIRAGE(48, 1.6F, 0.0F, MiningLevels.WOOD, 17, { DemonItemCard.MIRAGE_STEM().toIngredient() }),
+    ARTIFICIAL_FAIRY_CRYSTAL(235, 5.0F, 1.5F, MiningLevels.IRON, 7, { DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL().toIngredient() }),
     CHAOS_STONE(666, 9.0F, 2.0F, MiningLevels.NETHERITE, 15, { DemonItemCard.CHAOS_STONE().toIngredient() }),
     ;
 

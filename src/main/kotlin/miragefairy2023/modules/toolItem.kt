@@ -34,6 +34,11 @@ enum class ToolItemCard(
     val attackDamage: Int,
     val attackSpeed: Float,
 ) {
+    ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE(
+        "artificial_fairy_crystal_pickaxe", "Crystal Pickaxe", "クリスタルのつるはし",
+        "Amorphous mental body of fairies", "妖精さえ怖れる、技術の結晶。",
+        DemonToolMaterials.ARTIFICIAL_FAIRY_CRYSTAL, 1, -2.8F,
+    ),
     CHAOS_STONE_PICKAXE(
         "chaos_stone_pickaxe", "Chaos Pickaxe", "混沌のつるはし",
         "Is this made of metal? Or clay?", "時空結晶の交点に、古代の産業が芽吹く。",
@@ -62,6 +67,20 @@ val toolItemModule = module {
             onGenerateItemTags { it(ItemTags.CLUSTER_MAX_HARVESTABLES).add(feature) }
             onGenerateItemTags { it(ConventionalItemTags.PICKAXES).add(feature) }
         }
+    }
+
+    // クリスタルのつるはし
+    onGenerateRecipes {
+        ShapedRecipeJsonBuilder
+            .create(ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE.item.feature)
+            .pattern("GGG")
+            .pattern(" S ")
+            .pattern(" S ")
+            .input('G', DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
+            .input('S', Items.STICK)
+            .criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
+            .group(ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE.item.feature)
+            .offerTo(it, ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE.item.feature.identifier)
     }
 
     // 混沌のつるはし
