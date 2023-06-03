@@ -7,6 +7,7 @@ import miragefairy2023.util.Symbol
 import miragefairy2023.util.castOr
 import miragefairy2023.util.eyeBlockPos
 import miragefairy2023.util.init.Translation
+import miragefairy2023.util.removeTrailingZeros
 import miragefairy2023.util.text
 import mirrg.kotlin.hydrogen.formatAs
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags
@@ -52,7 +53,7 @@ private fun isWorldDaytime(player: PlayerEntity): Boolean {
 
 private fun isWorldNight(player: PlayerEntity) = !isWorldDaytime(player)
 
-private fun format(value: Double) = (value formatAs "%.4f").replace("""\.?0*$""".toRegex(), "")
+private fun format(value: Double) = (value formatAs "%.4f").removeTrailingZeros()
 
 
 class OverworldPassiveSkillCondition : PassiveSkillCondition {

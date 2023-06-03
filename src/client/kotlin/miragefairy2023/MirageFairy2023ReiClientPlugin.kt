@@ -13,6 +13,7 @@ import me.shedaniel.rei.api.common.entry.EntryIngredient
 import me.shedaniel.rei.api.common.util.EntryStacks
 import miragefairy2023.modules.fairyhouse.FairyMetamorphosisAltarRecipe
 import miragefairy2023.modules.fairyhouse.fairyMetamorphosisAltar
+import miragefairy2023.util.removeTrailingZeros
 import miragefairy2023.util.text
 import mirrg.kotlin.hydrogen.formatAs
 import net.minecraft.text.Text
@@ -39,7 +40,7 @@ class FairyMetamorphosisAltarCategory : DisplayCategory<FairyMetamorphosisAltarD
     override fun getTitle(): Text = fairyMetamorphosisAltar.block.feature.name
     override fun setupDisplay(display: FairyMetamorphosisAltarDisplay, bounds: Rectangle): List<Widget> {
         val p = Point(bounds.centerX - 41, bounds.centerY - 13)
-        val rateText = (display.rate * 100 formatAs "%.3f").replace("""\.?0+$""".toRegex(), "") + "%"
+        val rateText = (display.rate * 100 formatAs "%.3f").removeTrailingZeros() + "%"
         return listOf(
             Widgets.createRecipeBase(bounds),
             Widgets.createArrow(p + Point(7, 4)),

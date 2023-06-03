@@ -24,3 +24,5 @@ fun Int.toRoman() = when (this) {
     9 -> "IX"
     else -> "$this"
 }
+
+fun String.removeTrailingZeros() = this.replace("""\.?0+$""".toRegex(), "")
