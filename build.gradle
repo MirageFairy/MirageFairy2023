@@ -27,6 +27,10 @@ repositories {
     // FauxCustomEntityData-fabric-1.19.2
     maven { url 'https://maven.blamejared.com' }
 
+    // dev.emi:trinkets
+    maven { url 'https://maven.terraformersmc.com/' }
+    maven { url 'https://ladysnake.jfrog.io/artifactory/mods' }
+
 }
 
 loom {
@@ -94,6 +98,8 @@ dependencies {
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:$rei_version"
 
     modApi "com.faux.fauxcustomentitydata:FauxCustomEntityData-fabric-1.19.2:2.0.2"
+
+    modApi "dev.emi:trinkets:3.4.1"
 
 }
 
