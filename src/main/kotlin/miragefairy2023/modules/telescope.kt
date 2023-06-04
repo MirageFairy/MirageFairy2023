@@ -68,6 +68,7 @@ val telescopeModule = module {
 
     val telescopeBlockTooltipTexts = listOf(
         TooltipText("poem", Formatting.GRAY, "きみは妖精には見えないものが見えるんだね。", "Tell me more about the human world!"),
+        TooltipText("description", Formatting.YELLOW, "1日1回使用時にミーニャクリスタルを獲得", "Use once a day to obtain Minia Crystals"),
     )
     telescopeBlock = block("telescope", { TelescopeBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.COPPER).strength(0.5F).nonOpaque()) }) {
 
