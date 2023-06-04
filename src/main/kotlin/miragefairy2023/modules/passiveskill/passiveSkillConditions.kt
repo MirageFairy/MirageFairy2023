@@ -290,7 +290,7 @@ class StatusEffectPassiveSkillCondition(private val statusEffect: StatusEffect) 
     override fun test(player: PlayerEntity, itemStack: ItemStack) = player.hasStatusEffect(statusEffect)
 }
 
-class FairyLevelPassiveSkillCondition(private val fairyLevel: Double) : PassiveSkillCondition {
-    override fun getText() = text { "${Symbol.STAR}$fairyLevel${Symbol.UP}"() }
-    override fun test(player: PlayerEntity, itemStack: ItemStack) = itemStack.item.castOr<DemonFairyItem> { return false }.fairyLevel >= fairyLevel
+class PassiveSkillLevelPassiveSkillCondition(private val passiveSkillLevel: Double) : PassiveSkillCondition {
+    override fun getText() = text { "${Symbol.STAR}$passiveSkillLevel${Symbol.UP}"() }
+    override fun test(player: PlayerEntity, itemStack: ItemStack) = itemStack.item.castOr<DemonFairyItem> { return false }.getPassiveSkillLevel() >= passiveSkillLevel
 }

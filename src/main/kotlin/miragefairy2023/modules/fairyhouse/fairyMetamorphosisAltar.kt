@@ -3,6 +3,7 @@ package miragefairy2023.modules.fairyhouse
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.RenderingProxy
 import miragefairy2023.api.FairyItem
+import miragefairy2023.api.PassiveSkillItem
 import miragefairy2023.module
 import miragefairy2023.modules.DemonItemCard
 import miragefairy2023.modules.DemonParticleTypeCard
@@ -311,11 +312,11 @@ class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : Fai
     private fun match(): Result? {
         val world = world ?: return null
 
-        val fairyLevel = getFairyLevel()
-        if (fairyLevel <= 0.0) return null // 妖精が居ない
+        val level = getLevel()
+        if (level <= 0.0) return null // 妖精が居ない
 
-        val processingSpeed = getProcessingSpeed(fairyLevel)
-        val fortuneFactor = getFortuneFactor(fairyLevel)
+        val processingSpeed = getProcessingSpeed(level)
+        val fortuneFactor = getFortuneFactor(level)
 
         if (craftingInventory[0].count != 1) return null // 入力スロットが空かスタックされている
         if (resultInventory[0].isNotEmpty) return null // 出力スロットが埋まっている
@@ -340,10 +341,10 @@ class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : Fai
     }
 
     // TODO パッシブスキルの適用
-    private fun getFairyLevel() = fairyInventory.toList().sumOf { it.item.castOrNull<FairyItem>()?.fairyLevel ?: 0.0 }
+    private fun getLevel() = fairyInventory.toList().sumOf { it.item.castOrNull<PassiveSkillItem>()?.getPassiveSkillLevel() ?: 0.0 }
 
-    private fun getProcessingSpeed(fairyLevel: Double) = fairyLevel / 40.0 atMost 1.0
+    private fun getProcessingSpeed(level: Double) = level / 40.0 atMost 1.0
 
-    private fun getFortuneFactor(fairyLevel: Double) = 1.0 + fairyLevel / 40.0
+    private fun getFortuneFactor(level: Double) = 1.0 + level / 40.0
 
 }
