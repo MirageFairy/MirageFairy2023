@@ -3,6 +3,8 @@ package miragefairy2023.modules.fairy
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.FairyItem
 import miragefairy2023.api.PassiveSkillItem
+import miragefairy2023.modules.passiveskill.PassiveSkillAvailability
+import miragefairy2023.modules.passiveskill.getPassiveSkillEntries
 import miragefairy2023.modules.passiveskill.getPassiveSkillTooltip
 import miragefairy2023.util.Symbol
 import miragefairy2023.util.aqua
@@ -41,6 +43,25 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         super.appendTooltip(stack, world, tooltip, context)
+        val player = MirageFairy2023.clientProxy?.getClientPlayer() ?: return
+
+        // パッシブスキル判定
+        val entries = player.getPassiveSkillEntries()
+
+        // スキルブースト効果計算
+        var additionalPassiveSkillLevel = 0.0
+        entries.forEach nextEntry@{ entry ->
+            if (entry.availability != PassiveSkillAvailability.ENABLED) return@nextEntry
+            entry.item.getPassiveSkills(player, entry.itemStack).forEach nextPassiveSkill@{ passiveSkill ->
+                val additionalPassiveSkillLevel2 = passiveSkill.effect.getAdditionalPassiveSkillLevel()
+                if (additionalPassiveSkillLevel2 > 0.0) {
+                    passiveSkill.conditions.forEach { condition ->
+                        if (!condition.test(player, entry.item.basePassiveSkillLevel)) return@nextPassiveSkill
+                    }
+                    additionalPassiveSkillLevel += additionalPassiveSkillLevel2
+                }
+            }
+        }
 
         // レア度
         val stars1 = listOf(
@@ -64,10 +85,10 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
             .map { it.join(text { " "() }) }
             .toList()
             .join(text { "  "() })
-        tooltip += text { (RARE_KEY() + ": "() + stars3 + " ${(basePassiveSkillLevel formatAs "%.3f").removeTrailingZeros()}"()).aqua }
+        tooltip += text { (RARE_KEY() + ": "() + stars3 + " ${(basePassiveSkillLevel + additionalPassiveSkillLevel formatAs "%.3f").removeTrailingZeros()}"()).aqua }
 
         // パッシブスキル
-        tooltip += getPassiveSkillTooltip(stack, basePassiveSkillLevel, fairyCard.passiveSkills)
+        tooltip += getPassiveSkillTooltip(stack, basePassiveSkillLevel + additionalPassiveSkillLevel, fairyCard.passiveSkills)
 
         // 凝縮レシピ
         when (rank) {

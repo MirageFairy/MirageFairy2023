@@ -51,4 +51,6 @@ interface PassiveSkillEffect {
      */
     fun affect(world: ServerWorld, player: PlayerEntity, efficiency: Double, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) = Unit
 
+    fun getAdditionalPassiveSkillLevel() = 0.0
+
 }
