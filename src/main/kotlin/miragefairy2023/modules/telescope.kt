@@ -37,7 +37,6 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.BlockTags
 import net.minecraft.util.ActionResult
-import net.minecraft.util.Formatting
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
@@ -76,8 +75,8 @@ val telescopeModule = module {
     }
     telescopeBlockItem = item("telescope", { BlockItem(telescopeBlock.feature, FabricItemSettings().group(commonItemGroup)) }) {
         val poemList = listOf(
-            Poem("poem", Formatting.GRAY, "Tell me more about the human world!", "きみは妖精には見えないものが見えるんだね。"),
-            Poem("description", Formatting.YELLOW, "Use once a day to obtain Minia Crystals", "1日1回使用時にミーニャクリスタルを獲得"),
+            Poem("Tell me more about the human world!", "きみは妖精には見えないものが見えるんだね。"),
+            Description("Use once a day to obtain Minia Crystals", "1日1回使用時にミーニャクリスタルを獲得"),
         )
         generatePoemList(poemList)
         onRegisterItems { registerPoemList(feature, poemList) }

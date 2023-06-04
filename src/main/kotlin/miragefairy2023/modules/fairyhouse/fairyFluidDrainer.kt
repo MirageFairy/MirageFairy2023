@@ -5,6 +5,7 @@ import miragefairy2023.api.FairyItem
 import miragefairy2023.module
 import miragefairy2023.modules.DemonItemCard
 import miragefairy2023.modules.DemonParticleTypeCard
+import miragefairy2023.modules.Description
 import miragefairy2023.modules.Poem
 import miragefairy2023.modules.fairy.isLiquidFairy
 import miragefairy2023.modules.invoke
@@ -36,7 +37,6 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.BlockTags
-import net.minecraft.util.Formatting
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
@@ -48,8 +48,8 @@ val fairyFluidDrainer = FairyHouseCard(
     "fairy_fluid_drainer", ::FairyFluidDrainerBlockEntity,
     "Fairy Fluid Drainer", "妖精の水汲み所",
     listOf(
-        Poem("poem", Formatting.GRAY, "Causes anti-Brownian motion", "覆水、盆に返る。"),
-        Poem("description", Formatting.YELLOW, "Place a liquid fairy and a bucket", "液体系妖精と空バケツを配置"),
+        Poem("Causes anti-Brownian motion", "覆水、盆に返る。"),
+        Description("Place a liquid fairy and a bucket", "液体系妖精と空バケツを配置"),
     ),
     Material.METAL, BlockSoundGroup.METAL, BlockTags.NEEDS_STONE_TOOL,
     Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 6.0, 16.0),
