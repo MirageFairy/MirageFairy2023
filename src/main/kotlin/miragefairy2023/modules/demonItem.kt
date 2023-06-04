@@ -162,6 +162,10 @@ val demonItemModule = module {
     registerBlockDrop({ Blocks.COPPER_ORE }, { DemonItemCard.MIRANAGITE() }, dropRate = 0.05F, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
     registerBlockDrop({ Blocks.DEEPSLATE_COPPER_ORE }, { DemonItemCard.MIRANAGITE() }, dropRate = 0.05F, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
 
+    // レッドストーン鉱石→蒼天石
+    registerBlockDrop({ Blocks.REDSTONE_ORE }, { DemonItemCard.MIRANAGITE() }, dropRate = 0.05F, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
+    registerBlockDrop({ Blocks.DEEPSLATE_REDSTONE_ORE }, { DemonItemCard.MIRANAGITE() }, dropRate = 0.05F, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
+
     // 雑草→蒼天石
     registerGrassDrop({ DemonItemCard.MIRANAGITE() }, 0.01)
 
