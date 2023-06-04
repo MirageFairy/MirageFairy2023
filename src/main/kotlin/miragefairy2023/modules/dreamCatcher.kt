@@ -59,7 +59,11 @@ val dreamCatcherModule = module {
     dreamCatcherItem = item("dream_catcher", { DreamCatcherItem(DemonToolMaterials.MIRAGE, 20, FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Models.HANDHELD) }
         enJaItem({ feature }, "Dream Catcher", "ドリームキャッチャー")
-        val poemList = listOf(Poem("Tool to capture the free astral vortices", "未知なる記憶が、ほらそこに。"))
+        val poemList = listOf(
+            Poem("Tool to capture the free astral vortices", "未知なる記憶が、ほらそこに。"),
+            Description("description1", "Show fairy dreams when in inventory", "インベントリ内に所持時、妖精の夢を表示"),
+            Description("description2", "Acquire the fairy dream when used", "使用時、妖精の夢を獲得"),
+        )
         generatePoemList(poemList)
         onRegisterItems { registerPoemList(feature, poemList) }
     }
@@ -81,7 +85,11 @@ val dreamCatcherModule = module {
     blueDreamCatcherItem = item("blue_dream_catcher", { DreamCatcherItem(DemonToolMaterials.CHAOS_STONE, 400, FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Models.HANDHELD) }
         enJaItem({ feature }, "Blue Dream Catcher", "蒼天のドリームキャッチャー")
-        val poemList = listOf(Poem("What are good memories for you?", "信愛、悲哀、混沌の果て。"))
+        val poemList = listOf(
+            Poem("What are good memories for you?", "信愛、悲哀、混沌の果て。"),
+            Description("description1", "Show fairy dreams when in inventory", "インベントリ内に所持時、妖精の夢を表示"),
+            Description("description2", "Acquire the fairy dream when used", "使用時、妖精の夢を獲得"),
+        )
         generatePoemList(poemList)
         onRegisterItems { registerPoemList(feature, poemList) }
     }
