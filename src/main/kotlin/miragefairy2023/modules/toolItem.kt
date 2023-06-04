@@ -162,7 +162,7 @@ private fun accessory(trinketsSlotCard: TrinketsSlotCard, passiveSkillLevel: Dou
             override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
                 super.appendTooltip(stack, world, tooltip, context)
                 tooltip += text { translate("$translationKey.poem").gray }
-                tooltip += getPassiveSkillTooltip(stack, passiveSkillLevel / 10.0, passiveSkills)
+                tooltip += getPassiveSkillTooltip(stack, passiveSkillLevel, passiveSkills)
             }
 
             override val passiveSkillIdentifier get() = card.identifier

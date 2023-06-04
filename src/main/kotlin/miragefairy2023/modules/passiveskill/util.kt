@@ -24,7 +24,7 @@ object PassiveSkillKeys {
     val DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("${MirageFairy2023.modId}.passive_skill.disabled", "Passive skills are disabled", "パッシブスキル無効")
 }
 
-fun getPassiveSkillTooltip(itemStack: ItemStack, efficiency: Double, passiveSkills: List<PassiveSkill>): List<Text> {
+fun getPassiveSkillTooltip(itemStack: ItemStack, passiveSkillLevel: Double, passiveSkills: List<PassiveSkill>): List<Text> {
     val player = MirageFairy2023.clientProxy?.getClientPlayer() ?: return listOf()
     val item = itemStack.item as? PassiveSkillItem ?: return listOf()
     if (passiveSkills.isEmpty()) return listOf() // パッシブスキルが無い場合は何も表示しない
@@ -54,7 +54,7 @@ fun getPassiveSkillTooltip(itemStack: ItemStack, efficiency: Double, passiveSkil
 
         // 追加
         tooltip += text {
-            val effectText = passiveSkill.effect.getText(efficiency)
+            val effectText = passiveSkill.effect.getText(passiveSkillLevel / 10.0)
             val conditionTexts = conditions.map {
                 if (it.second) {
                     it.first.getText()
