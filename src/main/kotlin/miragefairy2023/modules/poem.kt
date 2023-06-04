@@ -22,9 +22,9 @@ val poemModule = module {
 
 class Poem(val key: String, val color: Formatting, val en: String, val ja: String)
 
-fun Poem(en: String, ja: String) = Poem("poem", Formatting.GRAY, en, ja)
+fun Poem(en: String, ja: String) = Poem("poem", Formatting.DARK_AQUA, en, ja)
 
-fun Poem(key: String, en: String, ja: String) = Poem(key, Formatting.GRAY, en, ja)
+fun Poem(key: String, en: String, ja: String) = Poem(key, Formatting.DARK_AQUA, en, ja)
 
 @Suppress("FunctionName")
 fun Description(en: String, ja: String) = Poem("description", Formatting.YELLOW, en, ja)
