@@ -233,6 +233,7 @@ class ToolMaterialPassiveSkillCondition(private val toolMaterial: ToolMaterial, 
         GOLD(Translation("$keyPrefix.gold", "Golden Tool", "金ツール")),
         DIAMOND(Translation("$keyPrefix.diamond", "Diamond Tool", "ダイヤモンドツール")),
         NETHERITE(Translation("$keyPrefix.netherite", "Netherite Tool", "ネザライトツール")),
+        MIRANAGITE(Translation("$keyPrefix.miranagite", "Miranagite Tool", "蒼天石ツール")),
     }
 
     constructor(toolMaterial: ToolMaterials) : this(toolMaterial, toolMaterial.name.lowercase())
