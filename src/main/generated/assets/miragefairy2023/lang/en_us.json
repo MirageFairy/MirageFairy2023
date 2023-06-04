@@ -248,7 +248,7 @@
   "miragefairy2023.passive_skill.effect.collection": "Collection: %s Stacks/s",
   "miragefairy2023.passive_skill.effect.combustion": "Combustion",
   "miragefairy2023.passive_skill.effect.experience": "Experience: %s/s",
-  "miragefairy2023.passive_skill.effect.passive_skill_level": "Mana: %s",
+  "miragefairy2023.passive_skill.effect.mana": "Mana: %s",
   "miragefairy2023.passive_skill.effect.regeneration": "Regeneration: %s/s",
   "miragefairy2023.passive_skill.enabled": "Passive skills are enabled",
   "miragefairy2023.passive_skill.hidden": "Duplicated passive skills!",

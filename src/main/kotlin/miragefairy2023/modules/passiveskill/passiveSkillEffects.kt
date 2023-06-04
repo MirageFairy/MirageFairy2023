@@ -234,12 +234,12 @@ fun blockVisitor(maxDistance: Int, originalBlockPos: BlockPos, predicate: (fromB
 
 }
 
-class PassiveSkillLevelPassiveSkillEffect(private val level: Double) : PassiveSkillEffect {
+class ManaPassiveSkillEffect(private val mana: Double) : PassiveSkillEffect {
     companion object {
-        val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.passive_skill_level", "Mana: %s", "魔力: %s")
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.mana", "Mana: %s", "魔力: %s")
         private val identifier = Identifier(MirageFairy2023.modId, "collection")
     }
 
-    override fun getText(efficiency: Double) = text { key((level formatAs "${Symbol.STAR}%+.3f").removeTrailingZeros()) }
-    override fun getAdditionalPassiveSkillLevel() = level
+    override fun getText(efficiency: Double) = text { key((mana formatAs "${Symbol.STAR}%+.3f").removeTrailingZeros()) }
+    override fun getMana() = mana
 }

@@ -312,11 +312,11 @@ class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : Fai
     private fun match(): Result? {
         val world = world ?: return null
 
-        val level = getLevel()
-        if (level <= 0.0) return null // 妖精が居ない
+        val mana = getMana()
+        if (mana <= 0.0) return null // 妖精が居ない
 
-        val processingSpeed = getProcessingSpeed(level)
-        val fortuneFactor = getFortuneFactor(level)
+        val processingSpeed = getProcessingSpeed(mana)
+        val fortuneFactor = getFortuneFactor(mana)
 
         if (craftingInventory[0].count != 1) return null // 入力スロットが空かスタックされている
         if (resultInventory[0].isNotEmpty) return null // 出力スロットが埋まっている
@@ -341,10 +341,10 @@ class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : Fai
     }
 
     // TODO パッシブスキルの適用
-    private fun getLevel() = fairyInventory.toList().sumOf { it.item.castOrNull<PassiveSkillItem>()?.passiveSkillProvider?.mana ?: 0.0 }
+    private fun getMana() = fairyInventory.toList().sumOf { it.item.castOrNull<PassiveSkillItem>()?.passiveSkillProvider?.mana ?: 0.0 }
 
-    private fun getProcessingSpeed(level: Double) = level / 40.0 atMost 1.0
+    private fun getProcessingSpeed(mana: Double) = mana / 40.0 atMost 1.0
 
-    private fun getFortuneFactor(level: Double) = 1.0 + level / 40.0
+    private fun getFortuneFactor(mana: Double) = 1.0 + mana / 40.0
 
 }

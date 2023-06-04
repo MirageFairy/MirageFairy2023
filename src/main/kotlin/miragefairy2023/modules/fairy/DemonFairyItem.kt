@@ -53,16 +53,16 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
         val entries = player.getPassiveSkillEntries()
 
         // スキルブースト効果計算
-        var additionalPassiveSkillLevel = 0.0
+        var passiveSkillMana = 0.0
         entries.forEach nextEntry@{ entry ->
             if (entry.availability != PassiveSkillAvailability.ENABLED) return@nextEntry
             entry.item.passiveSkillProvider.getPassiveSkills(player, entry.itemStack).forEach nextPassiveSkill@{ passiveSkill ->
-                val additionalPassiveSkillLevel2 = passiveSkill.effect.getAdditionalPassiveSkillLevel()
-                if (additionalPassiveSkillLevel2 > 0.0) {
+                val passiveSkillMana2 = passiveSkill.effect.getMana()
+                if (passiveSkillMana2 > 0.0) {
                     passiveSkill.conditions.forEach { condition ->
                         if (!condition.test(player, entry.item.passiveSkillProvider.mana)) return@nextPassiveSkill
                     }
-                    additionalPassiveSkillLevel += additionalPassiveSkillLevel2
+                    passiveSkillMana += passiveSkillMana2
                 }
             }
         }
@@ -89,10 +89,10 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
             .map { it.join(text { " "() }) }
             .toList()
             .join(text { "  "() })
-        tooltip += text { (RARE_KEY() + ": "() + stars3 + " ${(passiveSkillProvider.mana + additionalPassiveSkillLevel formatAs "%.3f").removeTrailingZeros()}"()).aqua }
+        tooltip += text { (RARE_KEY() + ": "() + stars3 + " ${(passiveSkillProvider.mana + passiveSkillMana formatAs "%.3f").removeTrailingZeros()}"()).aqua }
 
         // パッシブスキル
-        tooltip += getPassiveSkillTooltip(stack, passiveSkillProvider.mana + additionalPassiveSkillLevel, fairyCard.passiveSkills)
+        tooltip += getPassiveSkillTooltip(stack, passiveSkillProvider.mana + passiveSkillMana, fairyCard.passiveSkills)
 
         // 凝縮レシピ
         when (rank) {

@@ -7,7 +7,7 @@ import miragefairy2023.api.PassiveSkill
 import miragefairy2023.api.PassiveSkillItem
 import miragefairy2023.api.PassiveSkillProvider
 import miragefairy2023.module
-import miragefairy2023.modules.passiveskill.PassiveSkillLevelPassiveSkillEffect
+import miragefairy2023.modules.passiveskill.ManaPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.getPassiveSkillTooltip
 import miragefairy2023.util.gray
 import miragefairy2023.util.identifier
@@ -55,7 +55,7 @@ enum class ToolItemCard(
         "artificial_fairy_crystal_pendant", "Crystal Pendant", "クリスタルのペンダント",
         "Object that makes Mirage fairies fairies", "『妖精』だったあのころ――",
         accessory(TrinketsSlotCard.CHEST_NECKLACE, 5.0, buildList {
-            this += PassiveSkill(listOf(), PassiveSkillLevelPassiveSkillEffect(0.25))
+            this += PassiveSkill(listOf(), ManaPassiveSkillEffect(0.25))
         }),
     ),
     MIRANAGITE_PICKAXE(
@@ -157,19 +157,19 @@ private fun pickaxe(toolMaterial: ToolMaterial, attackDamage: Int, attackSpeed: 
     }
 }
 
-private fun accessory(trinketsSlotCard: TrinketsSlotCard, passiveSkillLevel: Double, passiveSkills: List<PassiveSkill>): InitializationScope.(ToolItemCard) -> Unit = { card ->
+private fun accessory(trinketsSlotCard: TrinketsSlotCard, mana: Double, passiveSkills: List<PassiveSkill>): InitializationScope.(ToolItemCard) -> Unit = { card ->
     card.item = item(card.path, {
         class AccessoryItem : Item(FabricItemSettings().group(commonItemGroup).maxCount(1)), PassiveSkillItem, Vanishable {
             override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
                 super.appendTooltip(stack, world, tooltip, context)
                 tooltip += text { translate("$translationKey.poem").gray }
-                tooltip += getPassiveSkillTooltip(stack, passiveSkillLevel, passiveSkills)
+                tooltip += getPassiveSkillTooltip(stack, mana, passiveSkills)
             }
 
             override val passiveSkillProvider: PassiveSkillProvider
                 get() = object : PassiveSkillProvider {
                     override val identifier get() = card.identifier
-                    override val mana get() = passiveSkillLevel
+                    override val mana get() = mana
                     override fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack) = passiveSkills
                 }
 

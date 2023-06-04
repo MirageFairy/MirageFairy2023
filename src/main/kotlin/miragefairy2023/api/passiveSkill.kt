@@ -32,7 +32,7 @@ class PassiveSkill(val conditions: List<PassiveSkillCondition>, val effect: Pass
 
 interface PassiveSkillCondition {
     fun getText(): Text
-    fun test(player: PlayerEntity, passiveSkillLevel: Double): Boolean
+    fun test(player: PlayerEntity, mana: Double): Boolean
 }
 
 interface PassiveSkillEffect {
@@ -58,6 +58,6 @@ interface PassiveSkillEffect {
      */
     fun affect(world: ServerWorld, player: PlayerEntity, efficiency: Double, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) = Unit
 
-    fun getAdditionalPassiveSkillLevel() = 0.0
+    fun getMana() = 0.0
 
 }

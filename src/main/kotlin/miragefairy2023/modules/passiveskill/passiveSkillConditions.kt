@@ -59,7 +59,7 @@ class OverworldPassiveSkillCondition : PassiveSkillCondition {
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double) = isInNaturalDimension(player)
+    override fun test(player: PlayerEntity, mana: Double) = isInNaturalDimension(player)
 }
 
 class DaytimePassiveSkillCondition : PassiveSkillCondition {
@@ -68,7 +68,7 @@ class DaytimePassiveSkillCondition : PassiveSkillCondition {
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double) = isInNaturalDimension(player) && isWorldDaytime(player)
+    override fun test(player: PlayerEntity, mana: Double) = isInNaturalDimension(player) && isWorldDaytime(player)
 }
 
 class NightPassiveSkillCondition : PassiveSkillCondition {
@@ -77,7 +77,7 @@ class NightPassiveSkillCondition : PassiveSkillCondition {
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double) = isInNaturalDimension(player) && isWorldNight(player)
+    override fun test(player: PlayerEntity, mana: Double) = isInNaturalDimension(player) && isWorldNight(player)
 }
 
 class SunshinePassiveSkillCondition : PassiveSkillCondition {
@@ -86,7 +86,7 @@ class SunshinePassiveSkillCondition : PassiveSkillCondition {
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double) = isInNaturalDimension(player) && isWorldDaytime(player) && isSpaceVisible(player)
+    override fun test(player: PlayerEntity, mana: Double) = isInNaturalDimension(player) && isWorldDaytime(player) && isSpaceVisible(player)
 }
 
 class MoonlightPassiveSkillCondition : PassiveSkillCondition {
@@ -95,7 +95,7 @@ class MoonlightPassiveSkillCondition : PassiveSkillCondition {
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double) = isInNaturalDimension(player) && isWorldNight(player) && isSpaceVisible(player)
+    override fun test(player: PlayerEntity, mana: Double) = isInNaturalDimension(player) && isWorldNight(player) && isSpaceVisible(player)
 }
 
 class ShadePassiveSkillCondition : PassiveSkillCondition {
@@ -104,7 +104,7 @@ class ShadePassiveSkillCondition : PassiveSkillCondition {
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double) = !(isInNaturalDimension(player) && isWorldDaytime(player) && isSpaceVisible(player))
+    override fun test(player: PlayerEntity, mana: Double) = !(isInNaturalDimension(player) && isWorldDaytime(player) && isSpaceVisible(player))
 }
 
 class OutdoorPassiveSkillCondition : PassiveSkillCondition {
@@ -113,7 +113,7 @@ class OutdoorPassiveSkillCondition : PassiveSkillCondition {
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double) = isOutdoor(player)
+    override fun test(player: PlayerEntity, mana: Double) = isOutdoor(player)
 }
 
 class IndoorPassiveSkillCondition : PassiveSkillCondition {
@@ -122,7 +122,7 @@ class IndoorPassiveSkillCondition : PassiveSkillCondition {
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double) = isIndoor(player)
+    override fun test(player: PlayerEntity, mana: Double) = isIndoor(player)
 }
 
 class AirPassiveSkillCondition : PassiveSkillCondition {
@@ -131,7 +131,7 @@ class AirPassiveSkillCondition : PassiveSkillCondition {
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double): Boolean {
+    override fun test(player: PlayerEntity, mana: Double): Boolean {
         val blockState = player.world.getBlockState(player.eyeBlockPos)
         return !blockState.isOpaque && blockState.fluidState.isEmpty
     }
@@ -143,7 +143,7 @@ class UnderwaterPassiveSkillCondition : PassiveSkillCondition {
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double): Boolean {
+    override fun test(player: PlayerEntity, mana: Double): Boolean {
         val blockState = player.world.getBlockState(player.eyeBlockPos)
         return blockState.fluidState.isIn(FluidTags.WATER)
     }
@@ -155,7 +155,7 @@ class InRainPassiveSkillCondition : PassiveSkillCondition {
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double) = isInRain(player)
+    override fun test(player: PlayerEntity, mana: Double) = isInRain(player)
 }
 
 class ThunderingPassiveSkillCondition : PassiveSkillCondition {
@@ -164,7 +164,7 @@ class ThunderingPassiveSkillCondition : PassiveSkillCondition {
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double) = isWorldThunder(player)
+    override fun test(player: PlayerEntity, mana: Double) = isWorldThunder(player)
 }
 
 class BiomePassiveSkillCondition(private val biomeTag: TagKey<Biome>) : PassiveSkillCondition {
@@ -188,7 +188,7 @@ class BiomePassiveSkillCondition(private val biomeTag: TagKey<Biome>) : PassiveS
     }
 
     override fun getText() = text { translate(biomeTag.id.toTranslationKey(keyPrefix)) }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double) = player.world.getBiome(player.blockPos).isIn(biomeTag)
+    override fun test(player: PlayerEntity, mana: Double) = player.world.getBiome(player.blockPos).isIn(biomeTag)
 }
 
 class InVillagePassiveSkillCondition : PassiveSkillCondition {
@@ -197,19 +197,19 @@ class InVillagePassiveSkillCondition : PassiveSkillCondition {
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double): Boolean {
+    override fun test(player: PlayerEntity, mana: Double): Boolean {
         return player.world.getNonSpectatingEntities(VillagerEntity::class.java, Box(player.eyePos, player.eyePos).expand(32.0)).isNotEmpty()
     }
 }
 
 class MinimumLightLevelPassiveSkillCondition(private val lightLevel: Int) : PassiveSkillCondition {
     override fun getText() = text { "${Symbol.LIGHT}$lightLevel${Symbol.UP}"() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double) = player.world.getLightLevel(player.eyeBlockPos) >= lightLevel
+    override fun test(player: PlayerEntity, mana: Double) = player.world.getLightLevel(player.eyeBlockPos) >= lightLevel
 }
 
 class MaximumLightLevelPassiveSkillCondition(private val lightLevel: Int) : PassiveSkillCondition {
     override fun getText() = text { "${Symbol.LIGHT}$lightLevel${Symbol.DOWN}"() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double) = player.world.getLightLevel(player.eyeBlockPos) <= lightLevel
+    override fun test(player: PlayerEntity, mana: Double) = player.world.getLightLevel(player.eyeBlockPos) <= lightLevel
 }
 
 class HasHoePassiveSkillCondition : PassiveSkillCondition {
@@ -218,7 +218,7 @@ class HasHoePassiveSkillCondition : PassiveSkillCondition {
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double) = player.mainHandStack.isIn(ConventionalItemTags.HOES)
+    override fun test(player: PlayerEntity, mana: Double) = player.mainHandStack.isIn(ConventionalItemTags.HOES)
 }
 
 class ToolMaterialPassiveSkillCondition(private val toolMaterial: ToolMaterial, private val toolMaterialName: String) : PassiveSkillCondition {
@@ -238,7 +238,7 @@ class ToolMaterialPassiveSkillCondition(private val toolMaterial: ToolMaterial, 
     constructor(toolMaterial: ToolMaterials) : this(toolMaterial, toolMaterial.name.lowercase())
 
     override fun getText() = text { translate("$keyPrefix.$toolMaterialName") }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double): Boolean {
+    override fun test(player: PlayerEntity, mana: Double): Boolean {
         val item = player.mainHandStack.item as? ToolItem ?: return false
         return item.material === toolMaterial
     }
@@ -246,7 +246,7 @@ class ToolMaterialPassiveSkillCondition(private val toolMaterial: ToolMaterial, 
 
 class FoodPassiveSkillCondition(private val foodItem: () -> Item) : PassiveSkillCondition {
     override fun getText() = text { foodItem().name }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double): Boolean {
+    override fun test(player: PlayerEntity, mana: Double): Boolean {
         val itemStacks = listOf(player.inventory.mainHandStack) + player.inventory.offHand + player.inventory.main
         val primaryFoodItemStack = itemStacks.firstOrNull { it.isFood }
         return primaryFoodItemStack?.isOf(foodItem()) ?: false
@@ -255,22 +255,22 @@ class FoodPassiveSkillCondition(private val foodItem: () -> Item) : PassiveSkill
 
 class MaximumLevelPassiveSkillCondition(private val level: Int) : PassiveSkillCondition {
     override fun getText() = text { "${Symbol.LEVEL}$level${Symbol.DOWN}"() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double) = player.experienceLevel <= level
+    override fun test(player: PlayerEntity, mana: Double) = player.experienceLevel <= level
 }
 
 class MaximumHealthPassiveSkillCondition(private val health: Int) : PassiveSkillCondition {
     override fun getText() = text { "${Symbol.HEART}${format(health * 0.5)}${Symbol.DOWN}"() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double) = player.health <= health
+    override fun test(player: PlayerEntity, mana: Double) = player.health <= health
 }
 
 class MinimumFoodLevelPassiveSkillCondition(private val foodLevel: Int) : PassiveSkillCondition {
     override fun getText() = text { "${Symbol.FOOD}${format(foodLevel * 0.5)}${Symbol.UP}"() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double) = player.hungerManager.foodLevel >= foodLevel
+    override fun test(player: PlayerEntity, mana: Double) = player.hungerManager.foodLevel >= foodLevel
 }
 
 class MaximumFoodLevelPassiveSkillCondition(private val foodLevel: Int) : PassiveSkillCondition {
     override fun getText() = text { "${Symbol.FOOD}${format(foodLevel * 0.5)}${Symbol.DOWN}"() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double) = player.hungerManager.foodLevel <= foodLevel
+    override fun test(player: PlayerEntity, mana: Double) = player.hungerManager.foodLevel <= foodLevel
 }
 
 class OnFirePassiveSkillCondition : PassiveSkillCondition {
@@ -279,15 +279,15 @@ class OnFirePassiveSkillCondition : PassiveSkillCondition {
     }
 
     override fun getText() = text { key() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double) = player.isOnFire
+    override fun test(player: PlayerEntity, mana: Double) = player.isOnFire
 }
 
 class StatusEffectPassiveSkillCondition(private val statusEffect: StatusEffect) : PassiveSkillCondition {
     override fun getText() = text { translate(statusEffect.translationKey) }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double) = player.hasStatusEffect(statusEffect)
+    override fun test(player: PlayerEntity, mana: Double) = player.hasStatusEffect(statusEffect)
 }
 
-class PassiveSkillLevelPassiveSkillCondition(private val level: Double) : PassiveSkillCondition {
-    override fun getText() = text { "${Symbol.STAR}$level${Symbol.UP}"() }
-    override fun test(player: PlayerEntity, passiveSkillLevel: Double) = passiveSkillLevel >= level
+class MinimumManaPassiveSkillCondition(private val mana: Double) : PassiveSkillCondition {
+    override fun getText() = text { "${Symbol.STAR}$mana${Symbol.UP}"() }
+    override fun test(player: PlayerEntity, mana: Double) = mana >= this.mana
 }
