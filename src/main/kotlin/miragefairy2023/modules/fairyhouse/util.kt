@@ -6,10 +6,11 @@ import miragefairy2023.RenderingProxy
 import miragefairy2023.RenderingProxyBlockEntity
 import miragefairy2023.api.FairyItem
 import miragefairy2023.modules.DemonParticleTypeCard
+import miragefairy2023.modules.PoemLine
 import miragefairy2023.modules.commonItemGroup
+import miragefairy2023.modules.generatePoem
+import miragefairy2023.modules.registerPoem
 import miragefairy2023.util.InstrumentBlock
-import miragefairy2023.util.TooltipText
-import miragefairy2023.util.appendTooltip
 import miragefairy2023.util.castOr
 import miragefairy2023.util.get
 import miragefairy2023.util.init.FeatureSlot
@@ -19,7 +20,6 @@ import miragefairy2023.util.init.enJaBlock
 import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.generateHorizontalFacingBlockState
 import miragefairy2023.util.init.item
-import miragefairy2023.util.initBlockTooltipTexts
 import miragefairy2023.util.isNotEmpty
 import miragefairy2023.util.list
 import miragefairy2023.util.plus
@@ -35,7 +35,6 @@ import net.minecraft.block.Material
 import net.minecraft.block.ShapeContext
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
-import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.Inventory
@@ -52,7 +51,6 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.tag.BlockTags
 import net.minecraft.tag.TagKey
-import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Clearable
 import net.minecraft.util.Hand
@@ -72,7 +70,7 @@ class FairyHouseCard<BE>(
     val blockEntityCreator: (BlockPos, BlockState) -> BE,
     val enName: String,
     val jaName: String,
-    val tooltipTexts: List<TooltipText>,
+    val poem: List<PoemLine>,
     val material: Material,
     val soundGroup: BlockSoundGroup,
     val needsToolTag: TagKey<Block>?,
@@ -92,7 +90,6 @@ fun <BE> InitializationScope.registerFairyHouse(card: FairyHouseCard<BE>) where 
 
         // 翻訳
         enJaBlock({ feature }, card.enName, card.jaName)
-        initBlockTooltipTexts(card.tooltipTexts)
 
         // レシピ
         onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
@@ -103,14 +100,10 @@ fun <BE> InitializationScope.registerFairyHouse(card: FairyHouseCard<BE>) where 
     card.blockEntityType = blockEntity(card.path, card.blockEntityCreator, { card.block.feature }) {
         onInitializeClient { MirageFairy2023.clientProxy!!.registerRenderingProxyBlockEntityRendererFactory(feature) }
     }
-    card.blockItem = item(card.path, {
-        object : BlockItem(card.block.feature, FabricItemSettings().group(commonItemGroup)) {
-            override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-                super.appendTooltip(stack, world, tooltip, context)
-                card.tooltipTexts.appendTooltip(this, tooltip)
-            }
-        }
-    })
+    card.blockItem = item(card.path, { BlockItem(card.block.feature, FabricItemSettings().group(commonItemGroup)) }) {
+        generatePoem(card.poem)
+        onRegisterItems { registerPoem(feature, card.poem) }
+    }
 }
 
 class FairyHouseBlock(val card: FairyHouseCard<*>, settings: Settings) : InstrumentBlock(settings), BlockEntityProvider {

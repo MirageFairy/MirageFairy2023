@@ -3,8 +3,6 @@ package miragefairy2023.modules
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.InstrumentBlock
-import miragefairy2023.util.TooltipText
-import miragefairy2023.util.appendTooltip
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.get
 import miragefairy2023.util.getValue
@@ -17,7 +15,6 @@ import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.generateHorizontalFacingBlockState
 import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
-import miragefairy2023.util.initBlockTooltipTexts
 import miragefairy2023.util.long
 import miragefairy2023.util.obtain
 import miragefairy2023.util.setValue
@@ -30,18 +27,15 @@ import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
 import net.minecraft.block.BlockState
 import net.minecraft.block.Material
 import net.minecraft.block.ShapeContext
-import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BlockItem
-import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.BlockTags
-import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Formatting
 import net.minecraft.util.Hand
@@ -66,10 +60,6 @@ lateinit var telescopeBlockItem: FeatureSlot<BlockItem>
 
 val telescopeModule = module {
 
-    val telescopeBlockTooltipTexts = listOf(
-        TooltipText("poem", Formatting.GRAY, "Tell me more about the human world!", "きみは妖精には見えないものが見えるんだね。"),
-        TooltipText("description", Formatting.YELLOW, "Use once a day to obtain Minia Crystals", "1日1回使用時にミーニャクリスタルを獲得"),
-    )
     telescopeBlock = block("telescope", { TelescopeBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.COPPER).strength(0.5F).nonOpaque()) }) {
 
         // レンダリング
@@ -78,21 +68,20 @@ val telescopeModule = module {
 
         // 翻訳
         enJaBlock({ feature }, "Minia's Telescope", "ミーニャの望遠鏡")
-        initBlockTooltipTexts(telescopeBlockTooltipTexts)
 
         // レシピ
         onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
         generateDefaultBlockLootTable()
 
     }
-    telescopeBlockItem = item("telescope", {
-        object : BlockItem(telescopeBlock.feature, FabricItemSettings().group(commonItemGroup)) {
-            override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-                super.appendTooltip(stack, world, tooltip, context)
-                telescopeBlockTooltipTexts.appendTooltip(this, tooltip)
-            }
-        }
-    })
+    telescopeBlockItem = item("telescope", { BlockItem(telescopeBlock.feature, FabricItemSettings().group(commonItemGroup)) }) {
+        val poem = listOf(
+            PoemLine("poem", Formatting.GRAY, "Tell me more about the human world!", "きみは妖精には見えないものが見えるんだね。"),
+            PoemLine("description", Formatting.YELLOW, "Use once a day to obtain Minia Crystals", "1日1回使用時にミーニャクリスタルを獲得"),
+        )
+        generatePoem(poem)
+        onRegisterItems { registerPoem(feature, poem) }
+    }
 
     onGenerateRecipes {
         ShapedRecipeJsonBuilder

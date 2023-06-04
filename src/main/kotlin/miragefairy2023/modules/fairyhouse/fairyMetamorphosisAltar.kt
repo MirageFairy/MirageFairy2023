@@ -8,12 +8,12 @@ import miragefairy2023.module
 import miragefairy2023.modules.DemonItemCard
 import miragefairy2023.modules.DemonParticleTypeCard
 import miragefairy2023.modules.MirageFlourCard
+import miragefairy2023.modules.PoemLine
 import miragefairy2023.modules.invoke
 import miragefairy2023.modules.miranagiteBlockBlockItem
 import miragefairy2023.util.Chance
 import miragefairy2023.util.EMPTY_ITEM_STACK
 import miragefairy2023.util.Inventory
-import miragefairy2023.util.TooltipText
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.draw
 import miragefairy2023.util.get
@@ -55,9 +55,9 @@ val fairyMetamorphosisAltar = FairyHouseCard(
     "fairy_metamorphosis_altar", ::FairyMetamorphosisAltarBlockEntity,
     "Fairy Metamorphosis Altar", "妖精の魔法の祭壇",
     listOf(
-        TooltipText("poem", Formatting.GRAY, "Weaken the nuclear force to resonate", "妖精と無機物が心を通わすとき。"),
-        TooltipText("description", Formatting.YELLOW, "Place 4 fairies and 1 material", "4体の妖精と素材を配置"),
-        TooltipText("description2", Formatting.YELLOW, "Use while sneaking to show table", "スニーク中に使用で提供割合を表示"),
+        PoemLine("poem", Formatting.GRAY, "Weaken the nuclear force to resonate", "妖精と無機物が心を通わすとき。"),
+        PoemLine("description", Formatting.YELLOW, "Place 4 fairies and 1 material", "4体の妖精と素材を配置"),
+        PoemLine("description2", Formatting.YELLOW, "Use while sneaking to show table", "スニーク中に使用で提供割合を表示"),
     ),
     Material.STONE, BlockSoundGroup.STONE, null,
     Block.createCuboidShape(1.0, 0.0, 1.0, 15.0, 5.0, 15.0),
