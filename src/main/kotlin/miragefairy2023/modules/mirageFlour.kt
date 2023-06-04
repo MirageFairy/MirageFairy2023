@@ -15,12 +15,10 @@ import miragefairy2023.util.distinct
 import miragefairy2023.util.draw
 import miragefairy2023.util.get
 import miragefairy2023.util.getValue
-import miragefairy2023.util.gray
 import miragefairy2023.util.hasSameItemAndNbt
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.Translation
 import miragefairy2023.util.init.criterion
-import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
@@ -51,6 +49,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
+import net.minecraft.util.Formatting
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
@@ -60,51 +59,49 @@ import kotlin.math.pow
 import kotlin.math.roundToInt
 
 
-class Poem(val en: String, val ja: String)
-
 enum class MirageFlourCard(
     val creator: MirageFlourCard.(Item.Settings) -> Item,
     val itemId: String,
     val enName: String,
     val jaName: String,
-    val poems: List<Poem>,
+    val poem: List<PoemLine>,
 ) {
     TINY_MIRAGE_FLOUR(
         { MirageFlourItem(this, it, null, 2, 1.0, 1) },
         "tiny_mirage_flour", "Tiny Pile of Mirage Flour", "ミラージュの花粉",
-        listOf(Poem("Compose the body of Mirage fairy", "ささやかな温もりを、てのひらの上に。")),
+        listOf(PoemLine("poem", Formatting.GRAY, "Compose the body of Mirage fairy", "ささやかな温もりを、てのひらの上に。")),
     ),
     MIRAGE_FLOUR(
         { MirageFlourItem(this, it, 1, null, 1.0, 1) },
         "mirage_flour", "Mirage Flour", "ミラージュフラワー",
-        listOf(Poem("Containing metallic organic matter", "叡智の根源、創発のファンタジア。")),
+        listOf(PoemLine("poem", Formatting.GRAY, "Containing metallic organic matter", "叡智の根源、創発のファンタジア。")),
     ),
     RARE_MIRAGE_FLOUR(
         { MirageFlourItem(this, it, 3, null, 10.0, 1) },
         "rare_mirage_flour", "Rare Mirage Flour", "中級ミラージュフラワー",
-        listOf(Poem("Use the difference in ether resistance", "艶やかなほたる色に煌めく鱗粉、妖精の耽美主義。")),
+        listOf(PoemLine("poem", Formatting.GRAY, "Use the difference in ether resistance", "艶やかなほたる色に煌めく鱗粉、妖精の耽美主義。")),
     ),
     VERY_RARE_MIRAGE_FLOUR(
         { MirageFlourItem(this, it, 5, null, 100.0, 1) },
         "very_rare_mirage_flour", "Very Rare Mirage Flour", "上級ミラージュフラワー",
-        listOf(Poem("As intelligent as humans", "金色の御霊示すは好奇心、朽ちた業前、明日を信じて。")),
+        listOf(PoemLine("poem", Formatting.GRAY, "As intelligent as humans", "金色の御霊示すは好奇心、朽ちた業前、明日を信じて。")),
     ),
     ULTRA_RARE_MIRAGE_FLOUR(
         { MirageFlourItem(this, it, 7, null, 1_000.0, 1) },
         "ultra_rare_mirage_flour", "Ultra Rare Mirage Flour", "高純度ミラージュフラワー",
-        listOf(Poem("Awaken fairies in the world and below", "現し世と常夜のほむら、空の下。大礼の咎、火の粉に宿る。")),
+        listOf(PoemLine("poem", Formatting.GRAY, "Awaken fairies in the world and below", "現し世と常夜のほむら、空の下。大礼の咎、火の粉に宿る。")),
     ),
     SUPER_RARE_MIRAGE_FLOUR(
         { MirageFlourItem(this, it, 9, null, 10_000.0, 1) },
         "super_rare_mirage_flour", "Super Rare Mirage Flour", "超高純度ミラージュフラワー",
-        listOf(Poem("Explore atmosphere and nearby universe", "蒼淵を彷徨い歩く人々の、帰路を結える仁愛の光。")),
+        listOf(PoemLine("poem", Formatting.GRAY, "Explore atmosphere and nearby universe", "蒼淵を彷徨い歩く人々の、帰路を結える仁愛の光。")),
     ),
     EXTREMELY_RARE_MIRAGE_FLOUR(
         { MirageFlourItem(this, it, 11, null, 100_000.0, 1) },
         "extremely_rare_mirage_flour", "Extremely Rare Mirage Flour", "極超高純度ミラージュフラワー",
         listOf(
-            Poem("Leap spaces by collapsing time crystals", "運命の束、広がる時間の結晶、惨憺たる光速の呪いを解放せよ、"),
-            Poem("and capture ethers beyond observable universe", "讃えよ、アーカーシャに眠る自由と功徳の頂きを。"),
+            PoemLine("poem1", Formatting.GRAY, "Leap spaces by collapsing time crystals", "運命の束、広がる時間の結晶、惨憺たる光速の呪いを解放せよ、"),
+            PoemLine("poem2", Formatting.GRAY, "and capture ethers beyond observable universe", "讃えよ、アーカーシャに眠る自由と功徳の頂きを。"),
         ),
     ),
 }
@@ -123,9 +120,8 @@ val mirageFlourModule = module {
             onGenerateItemModels { it.register(feature, Models.GENERATED) }
 
             enJaItem({ feature }, card.enName, card.jaName)
-            card.poems.forEachIndexed { index, poem ->
-                enJa({ "${feature.translationKey}.poem${if (index + 1 == 1) "" else "${index + 1}"}" }, poem.en, poem.ja)
-            }
+            generatePoem(card.poem)
+            onRegisterItems { registerPoem(feature, card.poem) }
         }
     }
 
@@ -178,11 +174,6 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         super.appendTooltip(stack, world, tooltip, context)
-
-        // ポエム
-        card.poems.forEachIndexed { index, _ ->
-            tooltip += text { translate("$translationKey.poem${if (index + 1 == 1) "" else "${index + 1}"}").gray }
-        }
 
         // 性能
         if (minRare != null) tooltip += text { MIN_RARE_KEY(minRare).blue }
