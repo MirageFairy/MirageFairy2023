@@ -12,88 +12,91 @@ import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
-object ToolMaterialTags {
+enum class ToolMaterialCard(path: String) {
 
-    val WOOD: TagKey<Item> = register("wooden_tools")
-    val STONE: TagKey<Item> = register("stone_tools")
-    val GOLD: TagKey<Item> = register("golden_tools")
-    val IRON: TagKey<Item> = register("iron_tools")
-    val DIAMOND: TagKey<Item> = register("diamond_tools")
-    val NETHERITE: TagKey<Item> = register("netherite_tools")
+    WOOD("wooden_tools"),
+    STONE("stone_tools"),
+    GOLD("golden_tools"),
+    IRON("iron_tools"),
+    DIAMOND("diamond_tools"),
+    NETHERITE("netherite_tools"),
 
-    val MIRAGE: TagKey<Item> = register("mirage_tools")
-    val ARTIFICIAL_FAIRY_CRYSTAL: TagKey<Item> = register("artificial_fairy_crystal_tools")
-    val MIRANAGITE: TagKey<Item> = register("miranagite_tools")
-    val CHAOS_STONE: TagKey<Item> = register("chaos_stone_tools")
+    MIRAGE("mirage_tools"),
+    ARTIFICIAL_FAIRY_CRYSTAL("artificial_fairy_crystal_tools"),
+    MIRANAGITE("miranagite_tools"),
+    CHAOS_STONE("chaos_stone_tools"),
 
-    private fun register(path: String) = TagKey.of(Registry.ITEM_KEY, Identifier(MirageFairy2023.modId, path))
+    ;
+
+    val tag: TagKey<Item> = TagKey.of(Registry.ITEM_KEY, Identifier(MirageFairy2023.modId, path))
+
 }
 
 val toolMaterialModule = module {
 
-    fun register(tag: TagKey<Item>, item: () -> Item) = onGenerateItemTags { it(tag).add(item()) }
+    fun register(card: ToolMaterialCard, item: () -> Item) = onGenerateItemTags { it(card.tag).add(item()) }
 
     // WOOD
-    register(ToolMaterialTags.WOOD) { Items.WOODEN_SWORD }
-    register(ToolMaterialTags.WOOD) { Items.WOODEN_SHOVEL }
-    register(ToolMaterialTags.WOOD) { Items.WOODEN_PICKAXE }
-    register(ToolMaterialTags.WOOD) { Items.WOODEN_AXE }
-    register(ToolMaterialTags.WOOD) { Items.WOODEN_HOE }
-    register(ToolMaterialTags.WOOD) { Items.BOW }
-    register(ToolMaterialTags.WOOD) { Items.CROSSBOW }
-    register(ToolMaterialTags.WOOD) { Items.FISHING_ROD }
-    register(ToolMaterialTags.WOOD) { Items.CARROT_ON_A_STICK }
-    register(ToolMaterialTags.WOOD) { Items.WARPED_FUNGUS_ON_A_STICK }
+    register(ToolMaterialCard.WOOD) { Items.WOODEN_SWORD }
+    register(ToolMaterialCard.WOOD) { Items.WOODEN_SHOVEL }
+    register(ToolMaterialCard.WOOD) { Items.WOODEN_PICKAXE }
+    register(ToolMaterialCard.WOOD) { Items.WOODEN_AXE }
+    register(ToolMaterialCard.WOOD) { Items.WOODEN_HOE }
+    register(ToolMaterialCard.WOOD) { Items.BOW }
+    register(ToolMaterialCard.WOOD) { Items.CROSSBOW }
+    register(ToolMaterialCard.WOOD) { Items.FISHING_ROD }
+    register(ToolMaterialCard.WOOD) { Items.CARROT_ON_A_STICK }
+    register(ToolMaterialCard.WOOD) { Items.WARPED_FUNGUS_ON_A_STICK }
 
     // STONE
-    register(ToolMaterialTags.STONE) { Items.STONE_SWORD }
-    register(ToolMaterialTags.STONE) { Items.STONE_SHOVEL }
-    register(ToolMaterialTags.STONE) { Items.STONE_PICKAXE }
-    register(ToolMaterialTags.STONE) { Items.STONE_AXE }
-    register(ToolMaterialTags.STONE) { Items.STONE_HOE }
+    register(ToolMaterialCard.STONE) { Items.STONE_SWORD }
+    register(ToolMaterialCard.STONE) { Items.STONE_SHOVEL }
+    register(ToolMaterialCard.STONE) { Items.STONE_PICKAXE }
+    register(ToolMaterialCard.STONE) { Items.STONE_AXE }
+    register(ToolMaterialCard.STONE) { Items.STONE_HOE }
 
     // GOLD
-    register(ToolMaterialTags.GOLD) { Items.GOLDEN_SWORD }
-    register(ToolMaterialTags.GOLD) { Items.GOLDEN_SHOVEL }
-    register(ToolMaterialTags.GOLD) { Items.GOLDEN_PICKAXE }
-    register(ToolMaterialTags.GOLD) { Items.GOLDEN_AXE }
-    register(ToolMaterialTags.GOLD) { Items.GOLDEN_HOE }
+    register(ToolMaterialCard.GOLD) { Items.GOLDEN_SWORD }
+    register(ToolMaterialCard.GOLD) { Items.GOLDEN_SHOVEL }
+    register(ToolMaterialCard.GOLD) { Items.GOLDEN_PICKAXE }
+    register(ToolMaterialCard.GOLD) { Items.GOLDEN_AXE }
+    register(ToolMaterialCard.GOLD) { Items.GOLDEN_HOE }
 
     // IRON
-    register(ToolMaterialTags.IRON) { Items.IRON_SWORD }
-    register(ToolMaterialTags.IRON) { Items.IRON_SHOVEL }
-    register(ToolMaterialTags.IRON) { Items.IRON_PICKAXE }
-    register(ToolMaterialTags.IRON) { Items.IRON_AXE }
-    register(ToolMaterialTags.IRON) { Items.IRON_HOE }
-    register(ToolMaterialTags.IRON) { Items.FLINT_AND_STEEL }
-    register(ToolMaterialTags.IRON) { Items.SHEARS }
+    register(ToolMaterialCard.IRON) { Items.IRON_SWORD }
+    register(ToolMaterialCard.IRON) { Items.IRON_SHOVEL }
+    register(ToolMaterialCard.IRON) { Items.IRON_PICKAXE }
+    register(ToolMaterialCard.IRON) { Items.IRON_AXE }
+    register(ToolMaterialCard.IRON) { Items.IRON_HOE }
+    register(ToolMaterialCard.IRON) { Items.FLINT_AND_STEEL }
+    register(ToolMaterialCard.IRON) { Items.SHEARS }
 
     // DIAMOND
-    register(ToolMaterialTags.DIAMOND) { Items.DIAMOND_SWORD }
-    register(ToolMaterialTags.DIAMOND) { Items.DIAMOND_SHOVEL }
-    register(ToolMaterialTags.DIAMOND) { Items.DIAMOND_PICKAXE }
-    register(ToolMaterialTags.DIAMOND) { Items.DIAMOND_AXE }
-    register(ToolMaterialTags.DIAMOND) { Items.DIAMOND_HOE }
+    register(ToolMaterialCard.DIAMOND) { Items.DIAMOND_SWORD }
+    register(ToolMaterialCard.DIAMOND) { Items.DIAMOND_SHOVEL }
+    register(ToolMaterialCard.DIAMOND) { Items.DIAMOND_PICKAXE }
+    register(ToolMaterialCard.DIAMOND) { Items.DIAMOND_AXE }
+    register(ToolMaterialCard.DIAMOND) { Items.DIAMOND_HOE }
 
     // NETHERITE
-    register(ToolMaterialTags.NETHERITE) { Items.NETHERITE_SWORD }
-    register(ToolMaterialTags.NETHERITE) { Items.NETHERITE_SHOVEL }
-    register(ToolMaterialTags.NETHERITE) { Items.NETHERITE_PICKAXE }
-    register(ToolMaterialTags.NETHERITE) { Items.NETHERITE_AXE }
-    register(ToolMaterialTags.NETHERITE) { Items.NETHERITE_HOE }
+    register(ToolMaterialCard.NETHERITE) { Items.NETHERITE_SWORD }
+    register(ToolMaterialCard.NETHERITE) { Items.NETHERITE_SHOVEL }
+    register(ToolMaterialCard.NETHERITE) { Items.NETHERITE_PICKAXE }
+    register(ToolMaterialCard.NETHERITE) { Items.NETHERITE_AXE }
+    register(ToolMaterialCard.NETHERITE) { Items.NETHERITE_HOE }
 
     // MIRAGE
-    register(ToolMaterialTags.MIRAGE) { dreamCatcherItem.feature }
+    register(ToolMaterialCard.MIRAGE) { dreamCatcherItem.feature }
 
     // ARTIFICIAL_FAIRY_CRYSTAL
-    register(ToolMaterialTags.ARTIFICIAL_FAIRY_CRYSTAL) { ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE.item.feature }
+    register(ToolMaterialCard.ARTIFICIAL_FAIRY_CRYSTAL) { ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE.item.feature }
 
     // MIRANAGITE
-    register(ToolMaterialTags.MIRANAGITE) { ToolItemCard.MIRANAGITE_PICKAXE.item.feature }
+    register(ToolMaterialCard.MIRANAGITE) { ToolItemCard.MIRANAGITE_PICKAXE.item.feature }
 
     // CHAOS_STONE
-    register(ToolMaterialTags.CHAOS_STONE) { blueDreamCatcherItem.feature }
-    register(ToolMaterialTags.CHAOS_STONE) { ToolItemCard.CHAOS_STONE_PICKAXE.item.feature }
+    register(ToolMaterialCard.CHAOS_STONE) { blueDreamCatcherItem.feature }
+    register(ToolMaterialCard.CHAOS_STONE) { ToolItemCard.CHAOS_STONE_PICKAXE.item.feature }
 
 }
 
