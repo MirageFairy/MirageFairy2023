@@ -7,6 +7,10 @@ import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
 interface PassiveSkillItem {
+    val passiveSkillProvider: PassiveSkillProvider
+}
+
+interface PassiveSkillProvider {
 
     val passiveSkillIdentifier: Identifier
 

@@ -36,11 +36,11 @@ val passiveSkillModule = module {
                     var additionalPassiveSkillLevel = 0.0
                     entries.forEach nextEntry@{ entry ->
                         if (entry.availability != PassiveSkillAvailability.ENABLED) return@nextEntry
-                        entry.item.getPassiveSkills(player, entry.itemStack).forEach nextPassiveSkill@{ passiveSkill ->
+                        entry.item.passiveSkillProvider.getPassiveSkills(player, entry.itemStack).forEach nextPassiveSkill@{ passiveSkill ->
                             val additionalPassiveSkillLevel2 = passiveSkill.effect.getAdditionalPassiveSkillLevel()
                             if (additionalPassiveSkillLevel2 > 0.0) {
                                 passiveSkill.conditions.forEach { condition ->
-                                    if (!condition.test(player, entry.item.basePassiveSkillLevel)) return@nextPassiveSkill
+                                    if (!condition.test(player, entry.item.passiveSkillProvider.basePassiveSkillLevel)) return@nextPassiveSkill
                                 }
                                 additionalPassiveSkillLevel += additionalPassiveSkillLevel2
                             }
@@ -53,12 +53,12 @@ val passiveSkillModule = module {
                     val passiveSkillVariable = mutableMapOf<Identifier, Any>()
                     entries.forEach nextEntry@{ entry ->
                         if (entry.availability != PassiveSkillAvailability.ENABLED) return@nextEntry
-                        entry.item.getPassiveSkills(player, entry.itemStack).forEach nextPassiveSkill@{ passiveSkill ->
+                        entry.item.passiveSkillProvider.getPassiveSkills(player, entry.itemStack).forEach nextPassiveSkill@{ passiveSkill ->
                             passiveSkill.conditions.forEach { condition ->
-                                if (!condition.test(player, entry.item.basePassiveSkillLevel + additionalPassiveSkillLevel)) return@nextPassiveSkill
+                                if (!condition.test(player, entry.item.passiveSkillProvider.basePassiveSkillLevel + additionalPassiveSkillLevel)) return@nextPassiveSkill
                             }
-                            passiveSkill.effect.update(world, player, (entry.item.basePassiveSkillLevel + additionalPassiveSkillLevel) / 10.0, passiveSkillVariable, initializers, terminators)
-                            passiveSkill.effect.affect(world, player, (entry.item.basePassiveSkillLevel + additionalPassiveSkillLevel) / 10.0, passiveSkillVariable, initializers)
+                            passiveSkill.effect.update(world, player, (entry.item.passiveSkillProvider.basePassiveSkillLevel + additionalPassiveSkillLevel) / 10.0, passiveSkillVariable, initializers, terminators)
+                            passiveSkill.effect.affect(world, player, (entry.item.passiveSkillProvider.basePassiveSkillLevel + additionalPassiveSkillLevel) / 10.0, passiveSkillVariable, initializers)
                         }
                     }
 

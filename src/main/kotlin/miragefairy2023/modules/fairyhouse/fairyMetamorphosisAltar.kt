@@ -341,7 +341,7 @@ class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : Fai
     }
 
     // TODO パッシブスキルの適用
-    private fun getLevel() = fairyInventory.toList().sumOf { it.item.castOrNull<PassiveSkillItem>()?.basePassiveSkillLevel ?: 0.0 }
+    private fun getLevel() = fairyInventory.toList().sumOf { it.item.castOrNull<PassiveSkillItem>()?.passiveSkillProvider?.basePassiveSkillLevel ?: 0.0 }
 
     private fun getProcessingSpeed(level: Double) = level / 40.0 atMost 1.0
 

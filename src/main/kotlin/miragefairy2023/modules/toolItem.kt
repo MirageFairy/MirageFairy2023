@@ -5,6 +5,7 @@ import miragefairy2023.InitializationScope
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.PassiveSkill
 import miragefairy2023.api.PassiveSkillItem
+import miragefairy2023.api.PassiveSkillProvider
 import miragefairy2023.module
 import miragefairy2023.modules.passiveskill.PassiveSkillLevelPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.getPassiveSkillTooltip
@@ -165,9 +166,12 @@ private fun accessory(trinketsSlotCard: TrinketsSlotCard, passiveSkillLevel: Dou
                 tooltip += getPassiveSkillTooltip(stack, passiveSkillLevel, passiveSkills)
             }
 
-            override val passiveSkillIdentifier get() = card.identifier
-            override val basePassiveSkillLevel get() = passiveSkillLevel
-            override fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack) = passiveSkills
+            override val passiveSkillProvider: PassiveSkillProvider
+                get() = object : PassiveSkillProvider {
+                    override val passiveSkillIdentifier get() = card.identifier
+                    override val basePassiveSkillLevel get() = passiveSkillLevel
+                    override fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack) = passiveSkills
+                }
 
             override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
                 val itemStack = user.getStackInHand(hand)

@@ -3,6 +3,7 @@ package miragefairy2023.modules.fairy
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.FairyItem
 import miragefairy2023.api.PassiveSkillItem
+import miragefairy2023.api.PassiveSkillProvider
 import miragefairy2023.modules.passiveskill.PassiveSkillAvailability
 import miragefairy2023.modules.passiveskill.getPassiveSkillEntries
 import miragefairy2023.modules.passiveskill.getPassiveSkillTooltip
@@ -37,9 +38,12 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
 
     override val fairy get() = fairyCard.fairy
 
-    override val passiveSkillIdentifier get() = fairyCard.motif
-    override val basePassiveSkillLevel get() = if (rare != 0) rare.toDouble() else 0.5
-    override fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack) = fairyCard.passiveSkills
+    override val passiveSkillProvider: PassiveSkillProvider
+        get() = object : PassiveSkillProvider {
+            override val passiveSkillIdentifier get() = fairyCard.motif
+            override val basePassiveSkillLevel get() = if (rare != 0) rare.toDouble() else 0.5
+            override fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack) = fairyCard.passiveSkills
+        }
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         super.appendTooltip(stack, world, tooltip, context)
@@ -52,11 +56,11 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
         var additionalPassiveSkillLevel = 0.0
         entries.forEach nextEntry@{ entry ->
             if (entry.availability != PassiveSkillAvailability.ENABLED) return@nextEntry
-            entry.item.getPassiveSkills(player, entry.itemStack).forEach nextPassiveSkill@{ passiveSkill ->
+            entry.item.passiveSkillProvider.getPassiveSkills(player, entry.itemStack).forEach nextPassiveSkill@{ passiveSkill ->
                 val additionalPassiveSkillLevel2 = passiveSkill.effect.getAdditionalPassiveSkillLevel()
                 if (additionalPassiveSkillLevel2 > 0.0) {
                     passiveSkill.conditions.forEach { condition ->
-                        if (!condition.test(player, entry.item.basePassiveSkillLevel)) return@nextPassiveSkill
+                        if (!condition.test(player, entry.item.passiveSkillProvider.basePassiveSkillLevel)) return@nextPassiveSkill
                     }
                     additionalPassiveSkillLevel += additionalPassiveSkillLevel2
                 }
@@ -85,10 +89,10 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
             .map { it.join(text { " "() }) }
             .toList()
             .join(text { "  "() })
-        tooltip += text { (RARE_KEY() + ": "() + stars3 + " ${(basePassiveSkillLevel + additionalPassiveSkillLevel formatAs "%.3f").removeTrailingZeros()}"()).aqua }
+        tooltip += text { (RARE_KEY() + ": "() + stars3 + " ${(passiveSkillProvider.basePassiveSkillLevel + additionalPassiveSkillLevel formatAs "%.3f").removeTrailingZeros()}"()).aqua }
 
         // パッシブスキル
-        tooltip += getPassiveSkillTooltip(stack, basePassiveSkillLevel + additionalPassiveSkillLevel, fairyCard.passiveSkills)
+        tooltip += getPassiveSkillTooltip(stack, passiveSkillProvider.basePassiveSkillLevel + additionalPassiveSkillLevel, fairyCard.passiveSkills)
 
         // 凝縮レシピ
         when (rank) {
