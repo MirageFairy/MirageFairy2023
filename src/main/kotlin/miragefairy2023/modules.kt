@@ -10,6 +10,7 @@ import miragefairy2023.modules.dreamCatcherModule
 import miragefairy2023.modules.fairy.fairyModule
 import miragefairy2023.modules.fairyCrystalGlassModule
 import miragefairy2023.modules.fairyhouse.fairyHouseModule
+import miragefairy2023.modules.luckBonusModule
 import miragefairy2023.modules.mirageFlourModule
 import miragefairy2023.modules.mirageFlowerModule
 import miragefairy2023.modules.particleModule
@@ -36,4 +37,5 @@ val modules = module {
     particleModule()
     toolItemModule()
     trinketsSlotModule()
+    luckBonusModule()
 }

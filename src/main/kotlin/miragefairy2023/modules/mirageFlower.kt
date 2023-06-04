@@ -47,7 +47,6 @@ import net.minecraft.data.client.Models
 import net.minecraft.data.client.TextureKey
 import net.minecraft.data.client.TextureMap
 import net.minecraft.enchantment.Enchantments
-import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.AliasedBlockItem
 import net.minecraft.item.ItemStack
@@ -58,8 +57,6 @@ import net.minecraft.loot.context.LootContext
 import net.minecraft.loot.context.LootContextParameters
 import net.minecraft.loot.context.LootContextTypes
 import net.minecraft.loot.function.ApplyBonusLootFunction
-import net.minecraft.loot.function.LootFunction
-import net.minecraft.loot.function.LootFunctionType
 import net.minecraft.loot.function.SetCountLootFunction
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider
 import net.minecraft.loot.provider.number.UniformLootNumberProvider
@@ -81,7 +78,6 @@ import net.minecraft.util.math.random.Random
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
-import kotlin.math.pow
 
 
 lateinit var mirageFlowerBlock: FeatureSlot<MirageFlowerBlock>
@@ -170,17 +166,6 @@ val mirageFlowerModule = module {
         pickedUpLootConditionType = Registry.register(Registry.LOOT_CONDITION_TYPE, Identifier(modId, "picked_up"), LootConditionType(serializer))
     }
 
-    onRegisterLootFunctionType {
-        val serializer = object : JsonSerializer<ApplyLuckBonusLootFunction> {
-            override fun toJson(json: JsonObject, `object`: ApplyLuckBonusLootFunction, context: JsonSerializationContext) {
-                if (`object`.factor != null) json.add("factor", `object`.factor.jsonPrimitive)
-            }
-
-            override fun fromJson(json: JsonObject, context: JsonDeserializationContext) = ApplyLuckBonusLootFunction(json["factor"]?.asDouble)
-        }
-        applyLuckBonusLootFunctionType = Registry.register(Registry.LOOT_FUNCTION_TYPE, Identifier(modId, "apply_luck_bonus"), LootFunctionType(serializer))
-    }
-
 }
 
 
@@ -191,27 +176,6 @@ private class PickingUpDummyBlockEntity : BlockEntity(BlockEntityType.CHEST, Blo
 class PickedUpLootCondition : LootCondition {
     override fun getType() = pickedUpLootConditionType
     override fun test(t: LootContext) = t[LootContextParameters.BLOCK_ENTITY] is PickingUpDummyBlockEntity
-}
-
-
-private lateinit var applyLuckBonusLootFunctionType: LootFunctionType
-
-class ApplyLuckBonusLootFunction(val factor: Double? = null) : LootFunction {
-    override fun getType() = applyLuckBonusLootFunctionType
-    override fun apply(t: ItemStack, u: LootContext): ItemStack {
-        val player = u[LootContextParameters.THIS_ENTITY] as? PlayerEntity ?: return t
-        val luck = player.getAttributeValue(EntityAttributes.GENERIC_LUCK)
-
-        val itemStack = t.copy()
-        val factor = when {
-            luck > 0 -> 1.0 + (factor ?: 0.2) * luck // 正効果
-            luck < 0 -> (1.0 - (factor ?: 0.2)).pow(-luck) // 負効果
-            else -> 1.0
-        }
-        itemStack.count = u.random.randomInt(t.count * factor) atLeast 0 atMost itemStack.maxCount
-
-        return itemStack
-    }
 }
 
 
