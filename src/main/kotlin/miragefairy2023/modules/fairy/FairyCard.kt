@@ -342,7 +342,7 @@ enum class FairyCard(
     ),
     PLAYER(
         "player", 5, "Playeria", "人精プライェーリャ", 0xB58D63, 0x00AAAA, 0x322976, 0x4B3422,
-        listOf(PassiveSkill(listOf(MaximumLevelPassiveSkillCondition(29)), ExperiencePassiveSkillEffect(0.1))),
+        listOf(PassiveSkill(listOf(MaximumLevelPassiveSkillCondition(29)), ExperiencePassiveSkillEffect(0.05))),
         RecipeContainer().always().entityType { EntityType.PLAYER },
     ),
     ENDERMAN(
@@ -487,8 +487,8 @@ enum class FairyCard(
     ENCHANTING_TABLE(
         "enchanting_table", 6, "Enchantinge Tablia", "付魔台精エンキャンティンゲターブリャ", 0x472F65, 0xCE2828, 0xCE2828, 0x7BFFDD,
         listOf(
-            PassiveSkill(listOf(IndoorPassiveSkillCondition(), MaximumLevelPassiveSkillCondition(19)), ExperiencePassiveSkillEffect(0.04)),
-            PassiveSkill(listOf(IndoorPassiveSkillCondition(), MaximumLevelPassiveSkillCondition(29)), ExperiencePassiveSkillEffect(0.06)),
+            PassiveSkill(listOf(IndoorPassiveSkillCondition(), MaximumLevelPassiveSkillCondition(19)), ExperiencePassiveSkillEffect(0.03)),
+            PassiveSkill(listOf(IndoorPassiveSkillCondition(), MaximumLevelPassiveSkillCondition(29)), ExperiencePassiveSkillEffect(0.03)),
         ),
         RecipeContainer().block { Blocks.ENCHANTING_TABLE }.recipe { Items.ENCHANTING_TABLE },
     ),
