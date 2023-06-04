@@ -38,10 +38,7 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
 
     override fun getPassiveSkillIdentifier() = fairyCard.motif
     override fun getPassiveSkillLevel() = fairyLevel
-
-    // TODO inline
-    val passiveSkills = fairyCard.passiveSkills
-    override fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack) = passiveSkills
+    override fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack) = fairyCard.passiveSkills
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         super.appendTooltip(stack, world, tooltip, context)
@@ -71,7 +68,7 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
         tooltip += text { (RARE_KEY() + ": "() + stars3 + " ${(fairyLevel formatAs "%.3f").removeTrailingZeros()}"()).aqua }
 
         // パッシブスキル
-        tooltip += getPassiveSkillTooltip(stack, getPassiveSkillLevel() / 10.0, passiveSkills)
+        tooltip += getPassiveSkillTooltip(stack, getPassiveSkillLevel() / 10.0, fairyCard.passiveSkills)
 
         // 凝縮レシピ
         when (rank) {

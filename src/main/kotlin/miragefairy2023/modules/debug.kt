@@ -56,7 +56,7 @@ class FairyListDebuggerItem(settings: Settings) : Item(settings) {
         val lines = FairyCard.values().map { fairyCard ->
 
             val item = fairyCard()
-            val passiveSkillTexts = item.passiveSkills.map { passiveSkill ->
+            val passiveSkillTexts = item.fairyCard.passiveSkills.map { passiveSkill ->
                 val string: String = text {
                     val effectText = passiveSkill.effect.getText(item.getPassiveSkillLevel() / 10.0)
                     val conditionTexts = passiveSkill.conditions.map { it.getText() }
