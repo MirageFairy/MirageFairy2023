@@ -53,8 +53,8 @@ enum class ToolItemCard(
     ARTIFICIAL_FAIRY_CRYSTAL_PENDANT(
         "artificial_fairy_crystal_pendant", "Crystal Pendant", "クリスタルのペンダント",
         "Object that makes Mirage fairies fairies", "『妖精』だったあのころ――",
-        accessory(TrinketsSlotCard.CHEST_NECKLACE, buildList {
-            this += PassiveSkill(listOf(), MovementSpeedPassiveSkillEffect(0.20 * 0.5)) // TODO レベル制、すべての妖精のレベルUP
+        accessory(TrinketsSlotCard.CHEST_NECKLACE, 5.0, buildList {
+            this += PassiveSkill(listOf(), MovementSpeedPassiveSkillEffect(0.20)) // TODO レベル制、すべての妖精のレベルUP
         }),
     ),
     MIRANAGITE_PICKAXE(
@@ -156,16 +156,17 @@ private fun pickaxe(toolMaterial: ToolMaterial, attackDamage: Int, attackSpeed: 
     }
 }
 
-private fun accessory(trinketsSlotCard: TrinketsSlotCard, passiveSkills: List<PassiveSkill>): InitializationScope.(ToolItemCard) -> Unit = { card ->
+private fun accessory(trinketsSlotCard: TrinketsSlotCard, passiveSkillLevel: Double, passiveSkills: List<PassiveSkill>): InitializationScope.(ToolItemCard) -> Unit = { card ->
     card.item = item(card.path, {
         class AccessoryItem : Item(FabricItemSettings().group(commonItemGroup).maxCount(1)), PassiveSkillItem, Vanishable {
             override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
                 super.appendTooltip(stack, world, tooltip, context)
                 tooltip += text { translate("$translationKey.poem").gray }
-                tooltip += getPassiveSkillTooltip(stack, passiveSkills)
+                tooltip += getPassiveSkillTooltip(stack, passiveSkillLevel / 10.0, passiveSkills)
             }
 
             override fun getPassiveSkillIdentifier() = card.identifier
+            override fun getPassiveSkillLevel() = passiveSkillLevel
             override fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack) = passiveSkills
 
             override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {

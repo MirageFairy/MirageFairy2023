@@ -58,7 +58,7 @@ class FairyListDebuggerItem(settings: Settings) : Item(settings) {
             val item = fairyCard()
             val passiveSkillTexts = item.passiveSkills.map { passiveSkill ->
                 val string: String = text {
-                    val effectText = passiveSkill.effect.getText()
+                    val effectText = passiveSkill.effect.getText(item.getPassiveSkillLevel() / 10.0)
                     val conditionTexts = passiveSkill.conditions.map { it.getText() }
                     if (conditionTexts.isNotEmpty()) {
                         effectText + " ["() + conditionTexts.join(","()) + "]"()

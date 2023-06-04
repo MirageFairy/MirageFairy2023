@@ -29,7 +29,7 @@ abstract class AttributePassiveSkillEffect : PassiveSkillEffect {
     protected abstract val entityAttribute: EntityAttribute
     protected abstract val operation: EntityAttributeModifier.Operation
     protected abstract val power: Double
-    override fun update(world: ServerWorld, player: PlayerEntity, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>, terminators: MutableList<() -> Unit>) {
+    override fun update(world: ServerWorld, player: PlayerEntity, efficiency: Double, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>, terminators: MutableList<() -> Unit>) {
 
         if (passiveSkillVariable[identifier] == null) {
             passiveSkillVariable[identifier] = 0.0
@@ -49,13 +49,13 @@ abstract class AttributePassiveSkillEffect : PassiveSkillEffect {
             }
         }
 
-        passiveSkillVariable[identifier] = passiveSkillVariable[identifier] as Double + power
+        passiveSkillVariable[identifier] = passiveSkillVariable[identifier] as Double + power * efficiency
 
     }
 }
 
 class MovementSpeedPassiveSkillEffect(override val power: Double) : AttributePassiveSkillEffect() {
-    override fun getText() = text { translate("attribute.name.generic.movement_speed") + ": "() + (power * 100 formatAs "%+.1f%%")() }
+    override fun getText(efficiency: Double) = text { translate("attribute.name.generic.movement_speed") + ": "() + (power * efficiency * 100 formatAs "%+.1f%%")() }
     override val uuid: UUID = UUID.fromString("378C9369-6CC3-4B45-AADD-5B221DF26ED0")
     override val identifier = Identifier(MirageFairy2023.modId, "movement_speed")
     override val entityAttribute: EntityAttribute get() = EntityAttributes.GENERIC_MOVEMENT_SPEED
@@ -63,7 +63,7 @@ class MovementSpeedPassiveSkillEffect(override val power: Double) : AttributePas
 }
 
 class AttackDamagePassiveSkillEffect(override val power: Double) : AttributePassiveSkillEffect() {
-    override fun getText() = text { translate("attribute.name.generic.attack_damage") + ": "() + (power formatAs "%+.2f")() }
+    override fun getText(efficiency: Double) = text { translate("attribute.name.generic.attack_damage") + ": "() + (power * efficiency formatAs "%+.2f")() }
     override val uuid: UUID = UUID.fromString("19306783-21EE-4A02-AC1F-46FFECE309A2")
     override val identifier = Identifier(MirageFairy2023.modId, "attack_damage")
     override val entityAttribute: EntityAttribute = EntityAttributes.GENERIC_ATTACK_DAMAGE
@@ -71,7 +71,7 @@ class AttackDamagePassiveSkillEffect(override val power: Double) : AttributePass
 }
 
 class MaxHealthPassiveSkillEffect(override val power: Double) : AttributePassiveSkillEffect() {
-    override fun getText() = text { translate("attribute.name.generic.max_health") + ": "() + (power formatAs "%+.2f")() }
+    override fun getText(efficiency: Double) = text { translate("attribute.name.generic.max_health") + ": "() + (power * efficiency formatAs "%+.2f")() }
     override val uuid: UUID = UUID.fromString("A3610FD7-694C-443C-B9D3-7F2815526EA7")
     override val identifier = Identifier(MirageFairy2023.modId, "max_health")
     override val entityAttribute: EntityAttribute = EntityAttributes.GENERIC_MAX_HEALTH
@@ -79,7 +79,7 @@ class MaxHealthPassiveSkillEffect(override val power: Double) : AttributePassive
 }
 
 class LuckPassiveSkillEffect(override val power: Double) : AttributePassiveSkillEffect() {
-    override fun getText() = text { translate("attribute.name.generic.luck") + ": "() + (power formatAs "%+.2f")() }
+    override fun getText(efficiency: Double) = text { translate("attribute.name.generic.luck") + ": "() + (power * efficiency formatAs "%+.2f")() }
     override val uuid: UUID = UUID.fromString("A69D69CB-1658-4D58-BB45-B18445DD8757")
     override val identifier = Identifier(MirageFairy2023.modId, "luck")
     override val entityAttribute: EntityAttribute = EntityAttributes.GENERIC_LUCK
@@ -92,8 +92,8 @@ class StatusEffectPassiveSkillEffect(
     private val additionalSeconds: Int = 0,
     private val showParticles: Boolean = false,
 ) : PassiveSkillEffect {
-    override fun getText() = text { translate(statusEffect.translationKey) + (if (amplifier > 0) " ${(amplifier + 1).toRoman()}" else "")() }
-    override fun affect(world: ServerWorld, player: PlayerEntity, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) {
+    override fun getText(efficiency: Double) = text { translate(statusEffect.translationKey) + (if (amplifier > 0) " ${(amplifier + 1).toRoman()}" else "")() }
+    override fun affect(world: ServerWorld, player: PlayerEntity, efficiency: Double, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) {
         player.addStatusEffect(StatusEffectInstance(statusEffect, 20 * (1 + 1 + additionalSeconds), amplifier, true, showParticles, true))
     }
 }
@@ -103,8 +103,8 @@ class CombustionPassiveSkillEffect : PassiveSkillEffect {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.combustion", "Combustion", "発火")
     }
 
-    override fun getText() = text { key() }
-    override fun affect(world: ServerWorld, player: PlayerEntity, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) {
+    override fun getText(efficiency: Double) = text { key() }
+    override fun affect(world: ServerWorld, player: PlayerEntity, efficiency: Double, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) {
         if (player.isWet || player.inPowderSnow || player.wasInPowderSnow) return
         player.fireTicks = 30 atLeast player.fireTicks
     }
@@ -115,9 +115,9 @@ class ExperiencePassiveSkillEffect(private val amount: Double) : PassiveSkillEff
         val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.experience", "Experience: %s/s", "経験値: %s/秒")
     }
 
-    override fun getText() = text { key(amount formatAs "%+.2f") }
-    override fun affect(world: ServerWorld, player: PlayerEntity, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) {
-        val actualAmount = world.random.randomInt(amount)
+    override fun getText(efficiency: Double) = text { key(amount * efficiency formatAs "%+.2f") }
+    override fun affect(world: ServerWorld, player: PlayerEntity, efficiency: Double, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) {
+        val actualAmount = world.random.randomInt(amount * efficiency)
         if (actualAmount > 0) player.addExperience(actualAmount)
     }
 }
@@ -127,9 +127,9 @@ class RegenerationPassiveSkillEffect(private val amount: Double) : PassiveSkillE
         val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.regeneration", "Regeneration: %s/s", "継続回復: %s/秒")
     }
 
-    override fun getText() = text { key(amount formatAs "%+.2f") }
-    override fun affect(world: ServerWorld, player: PlayerEntity, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) {
-        if (player.health < player.maxHealth) player.heal(amount.toFloat())
+    override fun getText(efficiency: Double) = text { key(amount * efficiency formatAs "%+.2f") }
+    override fun affect(world: ServerWorld, player: PlayerEntity, efficiency: Double, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) {
+        if (player.health < player.maxHealth) player.heal((amount * efficiency).toFloat())
     }
 }
 
@@ -139,8 +139,8 @@ class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEff
         private val identifier = Identifier(MirageFairy2023.modId, "collection")
     }
 
-    override fun getText() = text { key(amount formatAs "%.2f") }
-    override fun affect(world: ServerWorld, player: PlayerEntity, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) {
+    override fun getText(efficiency: Double) = text { key(amount * efficiency formatAs "%.2f") }
+    override fun affect(world: ServerWorld, player: PlayerEntity, efficiency: Double, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) {
 
         if (passiveSkillVariable[identifier] == null) {
             passiveSkillVariable[identifier] = 0.0
@@ -193,7 +193,7 @@ class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEff
             }
         }
 
-        passiveSkillVariable[identifier] = passiveSkillVariable[identifier] as Double + amount
+        passiveSkillVariable[identifier] = passiveSkillVariable[identifier] as Double + amount * efficiency
 
     }
 }

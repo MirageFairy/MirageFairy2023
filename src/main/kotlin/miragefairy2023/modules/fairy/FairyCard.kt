@@ -3,6 +3,7 @@ package miragefairy2023.modules.fairy
 import miragefairy2023.InitializationScope
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.Fairy
+import miragefairy2023.api.PassiveSkill
 import miragefairy2023.api.PassiveSkillCondition
 import miragefairy2023.api.PassiveSkillEffect
 import miragefairy2023.modules.BlockFairyRelation
@@ -658,6 +659,8 @@ enum class FairyCard(
      * この変数には様々な補正が乗る可能性があります。
      */
     class PassiveSkillProvider(val conditions: List<PassiveSkillCondition>, val effectProvider: (multiplier: Double) -> PassiveSkillEffect)
+
+    val passiveSkills = passiveSkillProviders.map { PassiveSkill(it.conditions, it.effectProvider(1.0)) }
 
 }
 
