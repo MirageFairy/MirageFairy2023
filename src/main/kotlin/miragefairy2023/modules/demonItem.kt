@@ -3,10 +3,8 @@ package miragefairy2023.modules
 import miragefairy2023.SlotContainer
 import miragefairy2023.module
 import miragefairy2023.util.concat
-import miragefairy2023.util.gray
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.criterion
-import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
@@ -14,11 +12,9 @@ import miragefairy2023.util.init.registerBlockDrop
 import miragefairy2023.util.init.registerGrassDrop
 import miragefairy2023.util.init.registerMobDrop
 import miragefairy2023.util.init.uniformLootNumberProvider
-import miragefairy2023.util.text
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.Blocks
 import net.minecraft.block.ComposterBlock
-import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
 import net.minecraft.data.server.RecipeProvider
 import net.minecraft.data.server.recipe.CookingRecipeJsonBuilder
@@ -27,30 +23,26 @@ import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
 import net.minecraft.data.server.recipe.SingleItemRecipeJsonBuilder
 import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.tag.ItemTags
-import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import net.minecraft.world.World
 
 
 enum class DemonItemCard(
     val itemId: String,
     val enName: String,
     val jaName: String,
-    val enPoem: String,
-    val jaPoem: String,
+    val poemList: List<Poem>,
 ) {
     XARPITE(
         "xarpite", "Xarpite", "紅天石",
-        "Binds astral flux with magnetic force", "黒鉄の鎖は繋がれる。血腥い魂の檻へ。",
+        listOf(Poem("Binds astral flux with magnetic force", "黒鉄の鎖は繋がれる。血腥い魂の檻へ。")),
     ),
     MIRANAGITE(
         "miranagite", "Miranagite", "蒼天石",
-        "Astral body crystallized by anti-entropy", "秩序の叛乱、天地創造の逆光。",
+        listOf(Poem("Astral body crystallized by anti-entropy", "秩序の叛乱、天地創造の逆光。")),
     ),
 
     // ミラージュの葉
@@ -58,23 +50,23 @@ enum class DemonItemCard(
     // 鋭利なため気を付けてください
     MIRAGE_STEM(
         "mirage_stem", "Mirage Stem", "ミラージュの茎",
-        "Cell wall composed of amorphous ether", "植物が手掛ける、分子レベルの硝子細工。",
+        listOf(Poem("Cell wall composed of amorphous ether", "植物が手掛ける、分子レベルの硝子細工。")),
     ),
     HONORABLE_FAIRY_CRYSTAL(
         "honorable_fairy_crystal", "Honorable Fairy Crystal", "名誉のフェアリークリスタル",
-        "Appear out of nowhere", "妖精からの贈り物",
+        listOf(Poem("Appear out of nowhere", "妖精からの贈り物")),
     ),
     GLORIOUS_FAIRY_CRYSTAL(
         "glorious_fairy_crystal", "Glorious Fairy Crystal", "栄光のフェアリークリスタル",
-        "Not a substance formed in this world", "精霊王の表彰状",
+        listOf(Poem("Not a substance formed in this world", "精霊王の表彰状")),
     ),
     LEGENDARY_FAIRY_CRYSTAL(
         "legendary_fairy_crystal", "Legendary Fairy Crystal", "伝説のフェアリークリスタル",
-        "Pluto exploded", "冥王が跳ね上がった",
+        listOf(Poem("Pluto exploded", "冥王が跳ね上がった")),
     ),
     ARTIFICIAL_FAIRY_CRYSTAL(
         "artificial_fairy_crystal", "Artificial Fairy Crystal", "人工フェアリークリスタル",
-        "Uncanny crystal not worth even 1 Minia", "20Wのかまどで10秒。",
+        listOf(Poem("Uncanny crystal not worth even 1 Minia", "20Wのかまどで10秒。")),
     ),
 
     /*
@@ -93,15 +85,15 @@ enum class DemonItemCard(
     */
     FAIRY_CRYSTAL_50(
         "fairy_crystal_50", "50 Minia Crystal", "50ミーニャクリスタル",
-        "Has the same hardness as beryl", "世界で50番目に優美な有機結晶。",
+        listOf(Poem("Has the same hardness as beryl", "世界で50番目に優美な有機結晶。")),
     ),
     FAIRY_CRYSTAL_100(
         "fairy_crystal_100", "100 Minia Crystal", "100ミーニャクリスタル",
-        "Created by the fairies of commerce", "妖精と人間が交差する世界。",
+        listOf(Poem("Created by the fairies of commerce", "妖精と人間が交差する世界。")),
     ),
     FAIRY_CRYSTAL_500(
         "fairy_crystal_500", "500 Minia Crystal", "500ミーニャクリスタル",
-        "Crystallized Mirage flower nectar", "ミラージュの蜜よ、永遠の宝石となれ。",
+        listOf(Poem("Crystallized Mirage flower nectar", "ミラージュの蜜よ、永遠の宝石となれ。")),
     ),
     /*
     FAIRY_CRYSTAL_1000(
@@ -120,7 +112,7 @@ enum class DemonItemCard(
 
     CHAOS_STONE(
         "chaos_stone", "Chaos Stone", "混沌の石",
-        "Chemical promoting catalyst", "魔力の暴走、加速する無秩序の流れ。",
+        listOf(Poem("Chemical promoting catalyst", "魔力の暴走、加速する無秩序の流れ。")),
     ),
 }
 
@@ -132,13 +124,14 @@ val demonItemModule = module {
 
     // 全体
     DemonItemCard.values().forEach { card ->
-        item(card.itemId, { DemonItem(FabricItemSettings().group(commonItemGroup)) }) {
+        item(card.itemId, { Item(FabricItemSettings().group(commonItemGroup)) }) {
             onRegisterItems { demonItems[card] = feature }
 
             onGenerateItemModels { it.register(feature, Models.GENERATED) }
 
             enJaItem({ feature }, card.enName, card.jaName)
-            enJa({ "${feature.translationKey}.poem" }, card.enPoem, card.jaPoem)
+            generatePoemList(card.poemList)
+            onRegisterItems { registerPoemList(feature, card.poemList) }
         }
     }
 
@@ -355,12 +348,4 @@ val demonItemModule = module {
         generateBuyingRecipe(50, { Items.MAGMA_BLOCK }, 4)
     }
 
-}
-
-
-open class DemonItem(settings: Settings) : Item(settings) {
-    override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-        super.appendTooltip(stack, world, tooltip, context)
-        tooltip += text { translate("$translationKey.poem").gray }
-    }
 }

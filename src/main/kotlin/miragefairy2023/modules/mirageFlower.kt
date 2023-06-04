@@ -7,11 +7,9 @@ import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.concat
 import miragefairy2023.util.createItemStack
-import miragefairy2023.util.gray
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.applyExplosionDecay
 import miragefairy2023.util.init.block
-import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.exactMatchBlockStatePropertyLootCondition
 import miragefairy2023.util.init.generateBlockLootTable
@@ -25,7 +23,6 @@ import miragefairy2023.util.init.registerGrassDrop
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
 import miragefairy2023.util.randomInt
-import miragefairy2023.util.text
 import mirrg.kotlin.hydrogen.atLeast
 import mirrg.kotlin.hydrogen.atMost
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
@@ -42,7 +39,6 @@ import net.minecraft.block.ShapeContext
 import net.minecraft.block.SideShapeType
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
-import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
 import net.minecraft.data.client.TextureKey
 import net.minecraft.data.client.TextureMap
@@ -65,7 +61,6 @@ import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties
-import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
@@ -81,7 +76,7 @@ import net.minecraft.world.World
 
 
 lateinit var mirageFlowerBlock: FeatureSlot<MirageFlowerBlock>
-lateinit var mirageSeedItem: FeatureSlot<MirageSeedItem>
+lateinit var mirageSeedItem: FeatureSlot<AliasedBlockItem>
 
 
 val mirageFlowerModule = module {
@@ -148,10 +143,12 @@ val mirageFlowerModule = module {
         }
     }
 
-    mirageSeedItem = item("mirage_seed", { MirageSeedItem(mirageFlowerBlock.feature, FabricItemSettings().group(commonItemGroup)) }) {
+    mirageSeedItem = item("mirage_seed", { AliasedBlockItem(mirageFlowerBlock.feature, FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Models.GENERATED) }
         enJaItem({ feature }, "Mirage Seed", "ミラージュの球根")
-        enJa({ "${feature.translationKey}.poem" }, "Scientific name: miragiume haimekunofa", "学名：ミラギウメ・ハイメクノファ")
+        val poemList = listOf(Poem("Scientific name: miragiume haimekunofa", "学名：ミラギウメ・ハイメクノファ"))
+        generatePoemList(poemList)
+        onRegisterItems { registerPoemList(feature, poemList) }
         registerGrassDrop({ feature }, 0.1)
         onRegisterRecipes {
             ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(feature, 0.3F)
@@ -346,11 +343,4 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
         }
     }
 
-}
-
-class MirageSeedItem(block: Block, settings: Settings) : AliasedBlockItem(block, settings) {
-    override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-        super.appendTooltip(stack, world, tooltip, context)
-        tooltip += text { translate("$translationKey.poem").gray }
-    }
 }

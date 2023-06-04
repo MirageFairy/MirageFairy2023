@@ -4,12 +4,10 @@ import com.google.gson.JsonElement
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.concat
-import miragefairy2023.util.gray
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.block
 import miragefairy2023.util.init.criterion
-import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaBlock
 import miragefairy2023.util.init.generateBlockState
 import miragefairy2023.util.init.generateDefaultBlockLootTable
@@ -18,7 +16,6 @@ import miragefairy2023.util.init.item
 import miragefairy2023.util.jsonArrayOf
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
-import miragefairy2023.util.text
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.AbstractGlassBlock
@@ -26,7 +23,6 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ConnectingBlock
 import net.minecraft.block.Material
-import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Model
 import net.minecraft.data.client.TextureKey
 import net.minecraft.data.client.TextureMap
@@ -34,16 +30,13 @@ import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemPlacementContext
-import net.minecraft.item.ItemStack
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties
 import net.minecraft.tag.BlockTags
-import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
-import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import java.util.Optional
 import java.util.function.BiConsumer
@@ -55,18 +48,17 @@ enum class FairyCrystalGlassCard(
     val gemItemGetter: () -> Item,
     val enName: String,
     val jaName: String,
-    val enPoem: String,
-    val jaPoem: String,
+    val poemList: List<Poem>,
 ) {
     ARTIFICIAL_FAIRY_CRYSTAL_GLASS(
         "artificial_fairy_crystal_glass", { DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL() },
         "Artificial Fairy Crystal Glass", "人工フェアリークリスタルガラス",
-        "Fairies fear its distorted molecule", "窓を潤す、模造の美学。",
+        listOf(Poem("Fairies fear its distorted molecule", "窓を潤す、模造の美学。")),
     ),
     FAIRY_CRYSTAL_50_GLASS(
         "fairy_crystal_50_glass", { DemonItemCard.FAIRY_CRYSTAL_50() },
         "50 Minia Crystal Glass", "50ミーニャクリスタルガラス",
-        "Popular among artifact fairies", "家の外を映し出す鏡。",
+        listOf(Poem("Popular among artifact fairies", "家の外を映し出す鏡。")),
     ),
     //FAIRY_CRYSTAL_100_GLASS(
     //    "fairy_crystal_100_glass", { DemonItemCard.FAIRY_CRYSTAL_100() },
@@ -148,7 +140,6 @@ val fairyCrystalGlassModule = module {
 
             // 翻訳
             enJaBlock({ feature }, card.enName, card.jaName)
-            enJa({ "${feature.translationKey}.poem" }, card.enPoem, card.jaPoem)
 
             // レシピ
             onGenerateBlockTags { it(BlockTags.IMPERMEABLE).add(feature) }
@@ -158,7 +149,13 @@ val fairyCrystalGlassModule = module {
         }
 
         // アイテム
-        card.item = item(card.path, { FairyCrystalGlassBlockItem(card.block.feature, FabricItemSettings().group(commonItemGroup)) })
+        card.item = item(card.path, { BlockItem(card.block.feature, FabricItemSettings().group(commonItemGroup)) }) {
+
+            // ポエム
+            generatePoemList(card.poemList)
+            onRegisterItems { registerPoemList(feature, card.poemList) }
+
+        }
 
         // 変換レシピ
         onGenerateRecipes {
@@ -274,12 +271,5 @@ class FairyCrystalGlassBlockModel : Model(Optional.empty(), Optional.empty()) {
             )
         }
         return id
-    }
-}
-
-private class FairyCrystalGlassBlockItem(block: Block, settings: Settings) : BlockItem(block, settings) {
-    override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-        super.appendTooltip(stack, world, tooltip, context)
-        tooltip += text { translate("$translationKey.poem").gray }
     }
 }

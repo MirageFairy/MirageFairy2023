@@ -4,12 +4,10 @@ import com.google.gson.JsonElement
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.concat
-import miragefairy2023.util.gray
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.block
 import miragefairy2023.util.init.criterion
-import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaBlock
 import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.generateSimpleCubeAllBlockState
@@ -18,13 +16,11 @@ import miragefairy2023.util.init.item
 import miragefairy2023.util.jsonArrayOf
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
-import miragefairy2023.util.text
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.MapColor
 import net.minecraft.block.Material
-import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.Model
 import net.minecraft.data.client.TextureKey
@@ -33,11 +29,8 @@ import net.minecraft.data.client.TexturedModel
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
 import net.minecraft.item.BlockItem
-import net.minecraft.item.ItemStack
 import net.minecraft.tag.BlockTags
-import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import net.minecraft.world.World
 import java.util.Optional
 import java.util.function.BiConsumer
 import java.util.function.Supplier
@@ -56,20 +49,16 @@ val demonBlockModule = module {
     creativeAuraStoneBlock = block("creative_aura_stone", { Block(FabricBlockSettings.of(Material.STONE).strength(-1.0F, 3600000.0F).dropsNothing().allowsSpawning { _, _, _, _ -> false }) }) {
         generateSimpleCubeAllBlockState()
         enJaBlock({ feature }, "Neutronium Block", "アカーシャの霊氣石")
-        enJa({ "${feature.translationKey}.poem" }, "Hypothetical substance with ideal hardness", "終末と創造の波紋。")
         onGenerateBlockTags { it(BlockTags.DRAGON_IMMUNE).add(feature) }
         onGenerateBlockTags { it(BlockTags.WITHER_IMMUNE).add(feature) }
         onGenerateBlockTags { it(BlockTags.FEATURES_CANNOT_REPLACE).add(feature) }
         onGenerateBlockTags { it(BlockTags.GEODE_INVALID_BLOCKS).add(feature) }
     }
-    creativeAuraStoneBlockItem = item("creative_aura_stone", {
-        object : BlockItem(creativeAuraStoneBlock.feature, FabricItemSettings().group(commonItemGroup)) {
-            override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-                super.appendTooltip(stack, world, tooltip, context)
-                tooltip += text { translate("$translationKey.poem").gray }
-            }
-        }
-    })
+    creativeAuraStoneBlockItem = item("creative_aura_stone", { BlockItem(creativeAuraStoneBlock.feature, FabricItemSettings().group(commonItemGroup)) }) {
+        val poemList = listOf(Poem("Hypothetical substance with ideal hardness", "終末と創造の波紋。"))
+        generatePoemList(poemList)
+        onRegisterItems { registerPoemList(feature, poemList) }
+    }
 
     localVacuumDecayBlock = block("local_vacuum_decay", { Block(FabricBlockSettings.of(Material.STONE).strength(-1.0F, 3600000.0F).dropsNothing().allowsSpawning { _, _, _, _ -> false }) }) {
         initializationScope.onGenerateBlockStateModels { blockStateModelGenerator ->
@@ -125,37 +114,29 @@ val demonBlockModule = module {
         }
         onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(feature) }
         enJaBlock({ feature }, "Local Vacuum Decay", "局所真空崩壊")
-        enJa({ "${feature.translationKey}.poem" }, "Stable instability caused by anti-entropy", "これが秩序の究極の形だというのか？")
         onGenerateBlockTags { it(BlockTags.DRAGON_IMMUNE).add(feature) }
         onGenerateBlockTags { it(BlockTags.WITHER_IMMUNE).add(feature) }
         onGenerateBlockTags { it(BlockTags.FEATURES_CANNOT_REPLACE).add(feature) }
         onGenerateBlockTags { it(BlockTags.GEODE_INVALID_BLOCKS).add(feature) }
     }
-    localVacuumDecayBlockItem = item("local_vacuum_decay", {
-        object : BlockItem(localVacuumDecayBlock.feature, FabricItemSettings().group(commonItemGroup)) {
-            override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-                super.appendTooltip(stack, world, tooltip, context)
-                tooltip += text { translate("$translationKey.poem").gray }
-            }
-        }
-    })
+    localVacuumDecayBlockItem = item("local_vacuum_decay", { BlockItem(localVacuumDecayBlock.feature, FabricItemSettings().group(commonItemGroup)) }) {
+        val poemList = listOf(Poem("Stable instability caused by anti-entropy", "これが秩序の究極の形だというのか？"))
+        generatePoemList(poemList)
+        onRegisterItems { registerPoemList(feature, poemList) }
+    }
 
     miranagiteBlockBlock = block("miranagite_block", { Block(FabricBlockSettings.of(Material.METAL, MapColor.LIGHT_BLUE).strength(3.0f, 3.0f).requiresTool()) }) {
         generateSimpleCubeAllBlockState()
         enJaBlock({ feature }, "Miranagite Block", "蒼天石ブロック")
-        enJa({ "${feature.translationKey}.poem" }, "Passivation confines discontinuous space", "虚空に導かれし、霊界との接合点。")
         onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
         onGenerateBlockTags { it(BlockTags.NEEDS_STONE_TOOL).add(feature) }
         generateDefaultBlockLootTable()
     }
-    miranagiteBlockBlockItem = item("miranagite_block", {
-        object : BlockItem(miranagiteBlockBlock.feature, FabricItemSettings().group(commonItemGroup)) {
-            override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-                super.appendTooltip(stack, world, tooltip, context)
-                tooltip += text { translate("$translationKey.poem").gray }
-            }
-        }
-    })
+    miranagiteBlockBlockItem = item("miranagite_block", { BlockItem(miranagiteBlockBlock.feature, FabricItemSettings().group(commonItemGroup)) }) {
+        val poemList = listOf(Poem("Passivation confines discontinuous space", "虚空に導かれし、霊界との接合点。"))
+        generatePoemList(poemList)
+        onRegisterItems { registerPoemList(feature, poemList) }
+    }
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
             .create(miranagiteBlockBlockItem.feature)

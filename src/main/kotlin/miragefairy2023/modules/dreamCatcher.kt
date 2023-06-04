@@ -4,12 +4,10 @@ import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.Fairy
 import miragefairy2023.module
 import miragefairy2023.util.get
-import miragefairy2023.util.gray
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.Translation
 import miragefairy2023.util.init.criterion
-import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
@@ -24,7 +22,6 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.FluidBlock
-import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.entity.Entity
@@ -42,7 +39,6 @@ import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
-import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
@@ -63,7 +59,9 @@ val dreamCatcherModule = module {
     dreamCatcherItem = item("dream_catcher", { DreamCatcherItem(DemonToolMaterials.MIRAGE, 20, FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Models.HANDHELD) }
         enJaItem({ feature }, "Dream Catcher", "ドリームキャッチャー")
-        enJa({ "${feature.translationKey}.poem" }, "Tool to capture the free astral vortices", "未知なる記憶が、ほらそこに。")
+        val poemList = listOf(Poem("Tool to capture the free astral vortices", "未知なる記憶が、ほらそこに。"))
+        generatePoemList(poemList)
+        onRegisterItems { registerPoemList(feature, poemList) }
     }
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
@@ -83,7 +81,9 @@ val dreamCatcherModule = module {
     blueDreamCatcherItem = item("blue_dream_catcher", { DreamCatcherItem(DemonToolMaterials.CHAOS_STONE, 400, FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Models.HANDHELD) }
         enJaItem({ feature }, "Blue Dream Catcher", "蒼天のドリームキャッチャー")
-        enJa({ "${feature.translationKey}.poem" }, "What are good memories for you?", "信愛、悲哀、混沌の果て。")
+        val poemList = listOf(Poem("What are good memories for you?", "信愛、悲哀、混沌の果て。"))
+        generatePoemList(poemList)
+        onRegisterItems { registerPoemList(feature, poemList) }
     }
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
@@ -110,11 +110,6 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
         val successKey = Translation("item.${MirageFairy2023.modId}.dream_catcher.success_message", "I dreamed of %s!", "%s の夢を見た！")
         val BLOCK_FAIRY_RELATION_LIST = mutableListOf<BlockFairyRelation>()
         val ENTITY_TYPE_FAIRY_RELATION_LIST = mutableListOf<EntityTypeFairyRelation>()
-    }
-
-    override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-        super.appendTooltip(stack, world, tooltip, context)
-        tooltip += text { translate("$translationKey.poem").gray }
     }
 
     override fun useOnBlock(context: ItemUsageContext): ActionResult {
