@@ -9,22 +9,21 @@ import miragefairy2023.modules.DemonParticleTypeCard
 import miragefairy2023.modules.commonItemGroup
 import miragefairy2023.util.InstrumentBlock
 import miragefairy2023.util.TooltipText
+import miragefairy2023.util.appendTooltip
 import miragefairy2023.util.castOr
-import miragefairy2023.util.formatted
 import miragefairy2023.util.get
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.block
 import miragefairy2023.util.init.blockEntity
-import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaBlock
 import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.generateHorizontalFacingBlockState
 import miragefairy2023.util.init.item
+import miragefairy2023.util.initBlockTooltipTexts
 import miragefairy2023.util.isNotEmpty
 import miragefairy2023.util.list
 import miragefairy2023.util.plus
 import miragefairy2023.util.set
-import miragefairy2023.util.text
 import miragefairy2023.util.toList
 import miragefairy2023.util.wrapper
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
@@ -93,9 +92,7 @@ fun <BE> InitializationScope.registerFairyHouse(card: FairyHouseCard<BE>) where 
 
         // 翻訳
         enJaBlock({ feature }, card.enName, card.jaName)
-        card.tooltipTexts.forEach {
-            enJa({ "${feature.translationKey}.${it.key}" }, it.en, it.ja)
-        }
+        initBlockTooltipTexts(card.tooltipTexts)
 
         // レシピ
         onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
@@ -110,9 +107,7 @@ fun <BE> InitializationScope.registerFairyHouse(card: FairyHouseCard<BE>) where 
         object : BlockItem(card.block.feature, FabricItemSettings().group(commonItemGroup)) {
             override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
                 super.appendTooltip(stack, world, tooltip, context)
-                card.tooltipTexts.forEach {
-                    tooltip += text { translate("$translationKey.${it.key}").formatted(it.color) }
-                }
+                card.tooltipTexts.appendTooltip(this, tooltip)
             }
         }
     })
