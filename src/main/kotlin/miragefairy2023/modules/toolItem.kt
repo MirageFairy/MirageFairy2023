@@ -6,7 +6,7 @@ import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.PassiveSkill
 import miragefairy2023.api.PassiveSkillItem
 import miragefairy2023.module
-import miragefairy2023.modules.passiveskill.MovementSpeedPassiveSkillEffect
+import miragefairy2023.modules.passiveskill.PassiveSkillLevelPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.getPassiveSkillTooltip
 import miragefairy2023.util.gray
 import miragefairy2023.util.identifier
@@ -54,7 +54,7 @@ enum class ToolItemCard(
         "artificial_fairy_crystal_pendant", "Crystal Pendant", "クリスタルのペンダント",
         "Object that makes Mirage fairies fairies", "『妖精』だったあのころ――",
         accessory(TrinketsSlotCard.CHEST_NECKLACE, 5.0, buildList {
-            this += PassiveSkill(listOf(), MovementSpeedPassiveSkillEffect(0.20)) // TODO レベル制、すべての妖精のレベルUP
+            this += PassiveSkill(listOf(), PassiveSkillLevelPassiveSkillEffect(0.25))
         }),
     ),
     MIRANAGITE_PICKAXE(

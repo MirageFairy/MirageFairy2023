@@ -38,6 +38,7 @@ import miragefairy2023.modules.passiveskill.OnFirePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.OutdoorPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.OverworldPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.PassiveSkillLevelPassiveSkillCondition
+import miragefairy2023.modules.passiveskill.PassiveSkillLevelPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.RegenerationPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.ShadePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.StatusEffectPassiveSkillCondition
@@ -233,7 +234,8 @@ enum class FairyCard(
         "miranagite", 5, "Miranagitia", "蒼天石精ミラナギーチャ", 0x4EC5F4, 0x4394D3, 0x004477, 0x0C4CEF,
         listOf(
             PassiveSkill(listOf(), LuckPassiveSkillEffect(0.5)),
-            // TODO 妖精のレア度上昇
+            PassiveSkill(listOf(), PassiveSkillLevelPassiveSkillEffect(0.5)),
+            PassiveSkill(listOf(PassiveSkillLevelPassiveSkillCondition(9.0)), PassiveSkillLevelPassiveSkillEffect(0.5)),
         ),
         RecipeContainer().overworld().recipe { DemonItemCard.MIRANAGITE() },
     ),
@@ -624,8 +626,8 @@ enum class FairyCard(
         listOf(
             PassiveSkill(listOf(), LuckPassiveSkillEffect(1.0)),
             PassiveSkill(listOf(), RegenerationPassiveSkillEffect(0.1)),
+            PassiveSkill(listOf(), PassiveSkillLevelPassiveSkillEffect(0.5)),
             // TODO 夢のエフェクトが見えるようになる
-            // TODO 妖精のレア度上昇
         ),
         RecipeContainer().always(),
     ),
