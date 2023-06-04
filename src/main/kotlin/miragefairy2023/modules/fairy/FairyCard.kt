@@ -76,7 +76,7 @@ enum class FairyCard(
     val frontColor: Int,
     val backColor: Int,
     val hairColor: Int,
-    val passiveSkillProviders: List<PassiveSkillProvider>,
+    val passiveSkills: List<PassiveSkill>,
     val recipeContainer: RecipeContainer,
 ) {
     AIR(
@@ -652,16 +652,10 @@ enum class FairyCard(
         fun init(initializationScope: InitializationScope, fairyCard: FairyCard)
     }
 
+}
 
-    /**
-     * multiplier: 妖精の★の数に比例し、★10のときに1.0です。
-     * ただし、★0の場合は例外的に0.05です。
-     * この変数には様々な補正が乗る可能性があります。
-     */
-    class PassiveSkillProvider(val conditions: List<PassiveSkillCondition>, val effectProvider: (multiplier: Double) -> PassiveSkillEffect)
-
-    val passiveSkills = passiveSkillProviders.map { PassiveSkill(it.conditions, it.effectProvider(1.0)) }
-
+private fun PassiveSkillProvider(conditions: List<PassiveSkillCondition>, effectProvider: (multiplier: Double) -> PassiveSkillEffect): PassiveSkill {
+    return PassiveSkill(conditions, effectProvider(1.0))
 }
 
 private fun FairyCard.RecipeContainer.always() = this.also {
