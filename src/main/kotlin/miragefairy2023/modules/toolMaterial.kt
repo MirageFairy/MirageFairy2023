@@ -2,6 +2,8 @@ package miragefairy2023.modules
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
+import miragefairy2023.util.init.Translation
+import miragefairy2023.util.init.translation
 import miragefairy2023.util.toIngredient
 import net.fabricmc.yarn.constants.MiningLevels
 import net.minecraft.item.Item
@@ -12,27 +14,34 @@ import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
-enum class ToolMaterialCard(path: String) {
+enum class ToolMaterialCard(val path: String, en: String, ja: String) {
 
-    WOOD("wooden_tools"),
-    STONE("stone_tools"),
-    GOLD("golden_tools"),
-    IRON("iron_tools"),
-    DIAMOND("diamond_tools"),
-    NETHERITE("netherite_tools"),
+    WOOD("wooden_tools", "Wooden Tool", "木ツール"),
+    STONE("stone_tools", "Stone Tool", "石ツール"),
+    GOLD("golden_tools", "Golden Tool", "金ツール"),
+    IRON("iron_tools", "Iron Tool", "鉄ツール"),
+    DIAMOND("diamond_tools", "Diamond Tool", "ダイヤモンドツール"),
+    NETHERITE("netherite_tools", "Netherite Tool", "ネザライトツール"),
 
-    MIRAGE("mirage_tools"),
-    ARTIFICIAL_FAIRY_CRYSTAL("artificial_fairy_crystal_tools"),
-    MIRANAGITE("miranagite_tools"),
-    CHAOS_STONE("chaos_stone_tools"),
+    MIRAGE("mirage_tools", "Mirage Tool", "ミラージュツール"),
+    ARTIFICIAL_FAIRY_CRYSTAL("artificial_fairy_crystal_tools", "Crystal Tool", "クリスタルツール"),
+    MIRANAGITE("miranagite_tools", "Miranagi Tool", "蒼天のツール"),
+    CHAOS_STONE("chaos_stone_tools", "Chaos Tool", "混沌のツール"),
 
     ;
 
     val tag: TagKey<Item> = TagKey.of(Registry.ITEM_KEY, Identifier(MirageFairy2023.modId, path))
+    val key = "${MirageFairy2023.modId}.tool_material.$path"
+    val translation = Translation(key, en, ja)
 
 }
 
 val toolMaterialModule = module {
+
+    ToolMaterialCard.values().forEach { card ->
+        translation(card.translation)
+    }
+
 
     fun register(card: ToolMaterialCard, item: () -> Item) = onGenerateItemTags { it(card.tag).add(item()) }
 
