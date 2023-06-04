@@ -8,6 +8,7 @@ import miragefairy2023.api.FairyItem
 import miragefairy2023.modules.DemonParticleTypeCard
 import miragefairy2023.modules.commonItemGroup
 import miragefairy2023.util.InstrumentBlock
+import miragefairy2023.util.TooltipText
 import miragefairy2023.util.castOr
 import miragefairy2023.util.formatted
 import miragefairy2023.util.get
@@ -55,7 +56,6 @@ import net.minecraft.tag.TagKey
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Clearable
-import net.minecraft.util.Formatting
 import net.minecraft.util.Hand
 import net.minecraft.util.ItemScatterer
 import net.minecraft.util.hit.BlockHitResult
@@ -67,8 +67,6 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
-
-class TooltipText(val key: String, val en: String, val ja: String, val color: Formatting)
 
 class FairyHouseCard<BE>(
     val path: String,

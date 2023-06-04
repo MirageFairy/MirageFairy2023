@@ -9,6 +9,7 @@ import miragefairy2023.modules.fairy.isLiquidFairy
 import miragefairy2023.modules.invoke
 import miragefairy2023.util.EMPTY_ITEM_STACK
 import miragefairy2023.util.Inventory
+import miragefairy2023.util.TooltipText
 import miragefairy2023.util.castOr
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.get
