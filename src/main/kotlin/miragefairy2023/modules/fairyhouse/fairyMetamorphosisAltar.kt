@@ -56,7 +56,7 @@ val fairyMetamorphosisAltar = FairyHouseCard(
     "Fairy Metamorphosis Altar", "妖精の魔法の祭壇",
     listOf(
         Poem("Weaken the nuclear force to resonate", "妖精と無機物が心を通わすとき。"),
-        Description("description", "Place 4 fairies and 1 material", "4体の妖精と素材を配置"),
+        Description("description1", "Place 4 fairies and 1 material", "4体の妖精と素材を配置"),
         Description("description2", "Use while sneaking to show table", "スニーク中に使用で提供割合を表示"),
     ),
     Material.STONE, BlockSoundGroup.STONE, null,
