@@ -19,6 +19,7 @@ interface PassiveSkillCondition {
 }
 
 interface PassiveSkillEffect {
+
     fun getText(): Text
 
     /**
@@ -34,4 +35,5 @@ interface PassiveSkillEffect {
      * このメソッドは必ず論理サーバーで呼び出されます。
      */
     fun affect(world: ServerWorld, player: PlayerEntity, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) = Unit
+
 }
