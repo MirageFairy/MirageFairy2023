@@ -3,6 +3,7 @@ package miragefairy2023
 import miragefairy2023.MirageFairy2023.initializationScope
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry
@@ -20,6 +21,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.particle.DefaultParticleType
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
 object MirageFairy2023Client : ClientModInitializer {
@@ -61,6 +63,12 @@ object MirageFairy2023Client : ClientModInitializer {
 
             override fun <T> registerRenderingProxyBlockEntityRendererFactory(blockEntityType: BlockEntityType<T>) where T : BlockEntity, T : RenderingProxyBlockEntity {
                 BlockEntityRendererFactories.register(blockEntityType, ::RenderingProxyBlockEntityRenderer)
+            }
+
+            override fun registerItemTooltipCallback(block: (stack: ItemStack, lines: MutableList<Text>) -> Unit) {
+                ItemTooltipCallback.EVENT.register { stack, _, lines ->
+                    block(stack, lines)
+                }
             }
 
         }
