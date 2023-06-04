@@ -75,12 +75,12 @@ val telescopeModule = module {
 
     }
     telescopeBlockItem = item("telescope", { BlockItem(telescopeBlock.feature, FabricItemSettings().group(commonItemGroup)) }) {
-        val poem = listOf(
-            PoemLine("poem", Formatting.GRAY, "Tell me more about the human world!", "きみは妖精には見えないものが見えるんだね。"),
-            PoemLine("description", Formatting.YELLOW, "Use once a day to obtain Minia Crystals", "1日1回使用時にミーニャクリスタルを獲得"),
+        val poemList = listOf(
+            Poem("poem", Formatting.GRAY, "Tell me more about the human world!", "きみは妖精には見えないものが見えるんだね。"),
+            Poem("description", Formatting.YELLOW, "Use once a day to obtain Minia Crystals", "1日1回使用時にミーニャクリスタルを獲得"),
         )
-        generatePoem(poem)
-        onRegisterItems { registerPoem(feature, poem) }
+        generatePoemList(poemList)
+        onRegisterItems { registerPoemList(feature, poemList) }
     }
 
     onGenerateRecipes {

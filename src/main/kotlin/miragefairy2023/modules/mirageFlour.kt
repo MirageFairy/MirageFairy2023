@@ -64,44 +64,44 @@ enum class MirageFlourCard(
     val itemId: String,
     val enName: String,
     val jaName: String,
-    val poem: List<PoemLine>,
+    val poemList: List<Poem>,
 ) {
     TINY_MIRAGE_FLOUR(
         { MirageFlourItem(this, it, null, 2, 1.0, 1) },
         "tiny_mirage_flour", "Tiny Pile of Mirage Flour", "ミラージュの花粉",
-        listOf(PoemLine("poem", Formatting.GRAY, "Compose the body of Mirage fairy", "ささやかな温もりを、てのひらの上に。")),
+        listOf(Poem("poem", Formatting.GRAY, "Compose the body of Mirage fairy", "ささやかな温もりを、てのひらの上に。")),
     ),
     MIRAGE_FLOUR(
         { MirageFlourItem(this, it, 1, null, 1.0, 1) },
         "mirage_flour", "Mirage Flour", "ミラージュフラワー",
-        listOf(PoemLine("poem", Formatting.GRAY, "Containing metallic organic matter", "叡智の根源、創発のファンタジア。")),
+        listOf(Poem("poem", Formatting.GRAY, "Containing metallic organic matter", "叡智の根源、創発のファンタジア。")),
     ),
     RARE_MIRAGE_FLOUR(
         { MirageFlourItem(this, it, 3, null, 10.0, 1) },
         "rare_mirage_flour", "Rare Mirage Flour", "中級ミラージュフラワー",
-        listOf(PoemLine("poem", Formatting.GRAY, "Use the difference in ether resistance", "艶やかなほたる色に煌めく鱗粉、妖精の耽美主義。")),
+        listOf(Poem("poem", Formatting.GRAY, "Use the difference in ether resistance", "艶やかなほたる色に煌めく鱗粉、妖精の耽美主義。")),
     ),
     VERY_RARE_MIRAGE_FLOUR(
         { MirageFlourItem(this, it, 5, null, 100.0, 1) },
         "very_rare_mirage_flour", "Very Rare Mirage Flour", "上級ミラージュフラワー",
-        listOf(PoemLine("poem", Formatting.GRAY, "As intelligent as humans", "金色の御霊示すは好奇心、朽ちた業前、明日を信じて。")),
+        listOf(Poem("poem", Formatting.GRAY, "As intelligent as humans", "金色の御霊示すは好奇心、朽ちた業前、明日を信じて。")),
     ),
     ULTRA_RARE_MIRAGE_FLOUR(
         { MirageFlourItem(this, it, 7, null, 1_000.0, 1) },
         "ultra_rare_mirage_flour", "Ultra Rare Mirage Flour", "高純度ミラージュフラワー",
-        listOf(PoemLine("poem", Formatting.GRAY, "Awaken fairies in the world and below", "現し世と常夜のほむら、空の下。大礼の咎、火の粉に宿る。")),
+        listOf(Poem("poem", Formatting.GRAY, "Awaken fairies in the world and below", "現し世と常夜のほむら、空の下。大礼の咎、火の粉に宿る。")),
     ),
     SUPER_RARE_MIRAGE_FLOUR(
         { MirageFlourItem(this, it, 9, null, 10_000.0, 1) },
         "super_rare_mirage_flour", "Super Rare Mirage Flour", "超高純度ミラージュフラワー",
-        listOf(PoemLine("poem", Formatting.GRAY, "Explore atmosphere and nearby universe", "蒼淵を彷徨い歩く人々の、帰路を結える仁愛の光。")),
+        listOf(Poem("poem", Formatting.GRAY, "Explore atmosphere and nearby universe", "蒼淵を彷徨い歩く人々の、帰路を結える仁愛の光。")),
     ),
     EXTREMELY_RARE_MIRAGE_FLOUR(
         { MirageFlourItem(this, it, 11, null, 100_000.0, 1) },
         "extremely_rare_mirage_flour", "Extremely Rare Mirage Flour", "極超高純度ミラージュフラワー",
         listOf(
-            PoemLine("poem1", Formatting.GRAY, "Leap spaces by collapsing time crystals", "運命の束、広がる時間の結晶、惨憺たる光速の呪いを解放せよ、"),
-            PoemLine("poem2", Formatting.GRAY, "and capture ethers beyond observable universe", "讃えよ、アーカーシャに眠る自由と功徳の頂きを。"),
+            Poem("poem1", Formatting.GRAY, "Leap spaces by collapsing time crystals", "運命の束、広がる時間の結晶、惨憺たる光速の呪いを解放せよ、"),
+            Poem("poem2", Formatting.GRAY, "and capture ethers beyond observable universe", "讃えよ、アーカーシャに眠る自由と功徳の頂きを。"),
         ),
     ),
 }
@@ -120,8 +120,8 @@ val mirageFlourModule = module {
             onGenerateItemModels { it.register(feature, Models.GENERATED) }
 
             enJaItem({ feature }, card.enName, card.jaName)
-            generatePoem(card.poem)
-            onRegisterItems { registerPoem(feature, card.poem) }
+            generatePoemList(card.poemList)
+            onRegisterItems { registerPoemList(feature, card.poemList) }
         }
     }
 

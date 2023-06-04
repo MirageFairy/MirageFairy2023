@@ -11,24 +11,24 @@ import net.minecraft.util.Formatting
 
 val poemModule = module {
     ItemTooltipCallback.EVENT.register { stack, _, lines ->
-        val poem = poemRegistry[stack.item] ?: return@register
-        poem.forEachIndexed { index, poemLine ->
+        val poemList = poemListRegistry[stack.item] ?: return@register
+        poemList.forEachIndexed { index, poemLine ->
             lines.add(1 + index, text { translate("${stack.translationKey}.${poemLine.key}").formatted(poemLine.color) })
         }
     }
 }
 
-class PoemLine(val key: String, val color: Formatting, val en: String, val ja: String)
+class Poem(val key: String, val color: Formatting, val en: String, val ja: String)
 
-fun FeatureSlot<Item>.generatePoem(poem: List<PoemLine>) {
-    poem.forEach {
+fun FeatureSlot<Item>.generatePoemList(poemList: List<Poem>) {
+    poemList.forEach {
         initializationScope.enJa({ "${feature.translationKey}.${it.key}" }, it.en, it.ja)
     }
 }
 
-private val poemRegistry = mutableMapOf<Item, List<PoemLine>>()
+private val poemListRegistry = mutableMapOf<Item, List<Poem>>()
 
-fun registerPoem(item: Item, poem: List<PoemLine>) {
-    check(item !in poemRegistry)
-    poemRegistry[item] = poem
+fun registerPoemList(item: Item, poemList: List<Poem>) {
+    check(item !in poemListRegistry)
+    poemListRegistry[item] = poemList
 }

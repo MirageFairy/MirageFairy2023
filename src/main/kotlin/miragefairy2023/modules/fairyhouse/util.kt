@@ -6,10 +6,10 @@ import miragefairy2023.RenderingProxy
 import miragefairy2023.RenderingProxyBlockEntity
 import miragefairy2023.api.FairyItem
 import miragefairy2023.modules.DemonParticleTypeCard
-import miragefairy2023.modules.PoemLine
+import miragefairy2023.modules.Poem
 import miragefairy2023.modules.commonItemGroup
-import miragefairy2023.modules.generatePoem
-import miragefairy2023.modules.registerPoem
+import miragefairy2023.modules.generatePoemList
+import miragefairy2023.modules.registerPoemList
 import miragefairy2023.util.InstrumentBlock
 import miragefairy2023.util.castOr
 import miragefairy2023.util.get
@@ -70,7 +70,7 @@ class FairyHouseCard<BE>(
     val blockEntityCreator: (BlockPos, BlockState) -> BE,
     val enName: String,
     val jaName: String,
-    val poem: List<PoemLine>,
+    val poemList: List<Poem>,
     val material: Material,
     val soundGroup: BlockSoundGroup,
     val needsToolTag: TagKey<Block>?,
@@ -101,8 +101,8 @@ fun <BE> InitializationScope.registerFairyHouse(card: FairyHouseCard<BE>) where 
         onInitializeClient { MirageFairy2023.clientProxy!!.registerRenderingProxyBlockEntityRendererFactory(feature) }
     }
     card.blockItem = item(card.path, { BlockItem(card.block.feature, FabricItemSettings().group(commonItemGroup)) }) {
-        generatePoem(card.poem)
-        onRegisterItems { registerPoem(feature, card.poem) }
+        generatePoemList(card.poemList)
+        onRegisterItems { registerPoemList(feature, card.poemList) }
     }
 }
 
