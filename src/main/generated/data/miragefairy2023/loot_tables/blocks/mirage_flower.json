@@ -127,6 +127,7 @@
               }
             },
             {
+              "factor": 0.2,
               "function": "miragefairy2023:apply_luck_bonus"
             }
           ],

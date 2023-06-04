@@ -144,7 +144,7 @@ val mirageFlowerModule = module {
                     with(itemEntry(MirageFlourCard.TINY_MIRAGE_FLOUR()) {
                         apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(2.0F, 6.0F)))
                         apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 1.0F, 0))
-                        apply { ApplyLuckBonusLootFunction() }
+                        apply { ApplyLuckBonusLootFunction(0.2) }
                     })
                 })
 
