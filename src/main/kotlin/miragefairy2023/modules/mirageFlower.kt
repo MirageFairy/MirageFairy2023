@@ -171,9 +171,12 @@ val mirageFlowerModule = module {
     }
 
     onRegisterLootFunctionType {
-        val serializer = object : JsonSerializer<LootFunction> {
-            override fun toJson(json: JsonObject, `object`: LootFunction, context: JsonSerializationContext) = Unit
-            override fun fromJson(json: JsonObject, context: JsonDeserializationContext) = ApplyLuckBonusLootFunction()
+        val serializer = object : JsonSerializer<ApplyLuckBonusLootFunction> {
+            override fun toJson(json: JsonObject, `object`: ApplyLuckBonusLootFunction, context: JsonSerializationContext) {
+                if (`object`.factor != null) json.add("factor", `object`.factor.jsonPrimitive)
+            }
+
+            override fun fromJson(json: JsonObject, context: JsonDeserializationContext) = ApplyLuckBonusLootFunction(json["factor"]?.asDouble)
         }
         applyLuckBonusLootFunctionType = Registry.register(Registry.LOOT_FUNCTION_TYPE, Identifier(modId, "apply_luck_bonus"), LootFunctionType(serializer))
     }
@@ -193,7 +196,7 @@ class PickedUpLootCondition : LootCondition {
 
 private lateinit var applyLuckBonusLootFunctionType: LootFunctionType
 
-class ApplyLuckBonusLootFunction : LootFunction {
+class ApplyLuckBonusLootFunction(val factor: Double? = null) : LootFunction {
     override fun getType() = applyLuckBonusLootFunctionType
     override fun apply(t: ItemStack, u: LootContext): ItemStack {
         val player = u[LootContextParameters.THIS_ENTITY] as? PlayerEntity ?: return t
@@ -201,8 +204,8 @@ class ApplyLuckBonusLootFunction : LootFunction {
 
         val itemStack = t.copy()
         val factor = when {
-            luck > 0 -> 1.0 + 0.2 * luck // 正効果
-            luck < 0 -> 0.8.pow(-luck) // 負効果
+            luck > 0 -> 1.0 + (factor ?: 0.2) * luck // 正効果
+            luck < 0 -> (1.0 - (factor ?: 0.2)).pow(-luck) // 負効果
             else -> 1.0
         }
         itemStack.count = u.random.randomInt(t.count * factor) atLeast 0 atMost itemStack.maxCount
