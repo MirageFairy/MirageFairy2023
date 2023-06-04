@@ -7,11 +7,11 @@ import miragefairy2023.api.PassiveSkill
 import miragefairy2023.modules.BlockFairyRelation
 import miragefairy2023.modules.CommonFairyEntry
 import miragefairy2023.modules.DemonItemCard
-import miragefairy2023.modules.DemonToolMaterials
 import miragefairy2023.modules.DreamCatcherItem
 import miragefairy2023.modules.EntityTypeFairyRelation
 import miragefairy2023.modules.MirageFlourCard
 import miragefairy2023.modules.MirageFlourItem
+import miragefairy2023.modules.ToolMaterialCard
 import miragefairy2023.modules.invoke
 import miragefairy2023.modules.passiveskill.AirPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.AttackDamagePassiveSkillEffect
@@ -60,7 +60,6 @@ import net.minecraft.entity.EntityType
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.item.Item
 import net.minecraft.item.Items
-import net.minecraft.item.ToolMaterials
 import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.RegistryKey
@@ -155,9 +154,9 @@ enum class FairyCard(
     STONE(
         "stone", 1, "Stonia", "石精ストーニャ", 0x333333, 0x8F8F8F, 0x686868, 0x747474,
         listOf(
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.STONE)), AttackDamagePassiveSkillEffect(2.0)),
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.STONE)), StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0)),
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.STONE), MinimumManaPassiveSkillCondition(7.0)), StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 1)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.STONE)), AttackDamagePassiveSkillEffect(2.0)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.STONE)), StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.STONE), MinimumManaPassiveSkillCondition(7.0)), StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 1)),
         ),
         RecipeContainer().overworld().block { Blocks.STONE }.recipe { Items.STONE },
     ),
@@ -206,9 +205,9 @@ enum class FairyCard(
     IRON(
         "iron", 4, "Ironia", "鉄精イローニャ", 0xA0A0A0, 0xD8D8D8, 0x727272, 0xD8AF93,
         listOf(
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.IRON)), AttackDamagePassiveSkillEffect(2.0)),
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.IRON)), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0)),
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.IRON), MinimumManaPassiveSkillCondition(8.0)), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 1)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.IRON)), AttackDamagePassiveSkillEffect(2.0)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.IRON)), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.IRON), MinimumManaPassiveSkillCondition(8.0)), StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 1)),
         ),
         RecipeContainer().overworld().block { Blocks.IRON_BLOCK }.recipe { Items.IRON_INGOT },
     ),
@@ -216,18 +215,18 @@ enum class FairyCard(
         "gold", 6, "Goldia", "金精ゴルジャ", 0xEFE642, 0xF4CC17, 0xF4CC17, 0xFDB61E,
         listOf(
             PassiveSkill(listOf(), LuckPassiveSkillEffect(0.8)),
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD)), AttackDamagePassiveSkillEffect(2.0)),
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD)), StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 0)),
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.GOLD), MinimumManaPassiveSkillCondition(10.0)), StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 1)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.GOLD)), AttackDamagePassiveSkillEffect(2.0)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.GOLD)), StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 0)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.GOLD), MinimumManaPassiveSkillCondition(10.0)), StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 1)),
         ),
         RecipeContainer().overworld().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.GOLD_BLOCK }.recipe { Items.GOLD_INGOT },
     ),
     NETHERITE(
         "netherite", 8, "Netheritia", "地獄合金精ネテリーチャ", 0x8F788F, 0x74585B, 0x705558, 0x77302D,
         listOf(
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.NETHERITE)), AttackDamagePassiveSkillEffect(2.0)),
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.NETHERITE)), StatusEffectPassiveSkillEffect(StatusEffects.FIRE_RESISTANCE, 0)),
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.NETHERITE), MinimumManaPassiveSkillCondition(12.0)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 1)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.NETHERITE)), AttackDamagePassiveSkillEffect(2.0)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.NETHERITE)), StatusEffectPassiveSkillEffect(StatusEffects.FIRE_RESISTANCE, 0)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.NETHERITE), MinimumManaPassiveSkillCondition(12.0)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 1)),
         ),
         RecipeContainer().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.NETHERITE_BLOCK }.recipe { Items.NETHERITE_INGOT },
     ),
@@ -235,7 +234,7 @@ enum class FairyCard(
         "miranagite", 5, "Miranagitia", "蒼天石精ミラナギーチャ", 0x4EC5F4, 0x4394D3, 0x004477, 0x0C4CEF,
         listOf(
             PassiveSkill(listOf(), LuckPassiveSkillEffect(0.5)),
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(DemonToolMaterials.MIRANAGITE)), StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 0)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.MIRANAGITE)), StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 0)),
             PassiveSkill(listOf(), ManaPassiveSkillEffect(0.3)),
             PassiveSkill(listOf(MinimumManaPassiveSkillCondition(9.0)), ManaPassiveSkillEffect(0.2)),
         ),
@@ -262,9 +261,9 @@ enum class FairyCard(
         "diamond", 7, "Diamondia", "金剛石精ディアモンジャ", 0x97FFE3, 0xD1FAF3, 0x70FFD9, 0x30DBBD,
         listOf(
             PassiveSkill(listOf(), LuckPassiveSkillEffect(0.5)),
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.DIAMOND)), AttackDamagePassiveSkillEffect(2.0)),
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.DIAMOND)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.DIAMOND), MinimumManaPassiveSkillCondition(12.0)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 1)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.DIAMOND)), AttackDamagePassiveSkillEffect(2.0)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.DIAMOND)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.DIAMOND), MinimumManaPassiveSkillCondition(12.0)), StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 1)),
         ),
         RecipeContainer().overworld().block { Blocks.DIAMOND_BLOCK }.recipe { Items.DIAMOND },
     ),
@@ -453,9 +452,9 @@ enum class FairyCard(
     WOOD(
         "wood", 1, "Woodia", "木精ウォージャ", 0xE7C697, 0xAD8232, 0xAD8232, 0x8B591C,
         listOf(
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.WOOD)), AttackDamagePassiveSkillEffect(2.0)),
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.WOOD)), StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 0)),
-            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterials.WOOD), MinimumManaPassiveSkillCondition(7.0)), StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 1)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.WOOD)), AttackDamagePassiveSkillEffect(2.0)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.WOOD)), StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 0)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.WOOD), MinimumManaPassiveSkillCondition(7.0)), StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 1)),
         ),
         RecipeContainer().overworld().block { Blocks.OAK_PLANKS }.recipe { Items.OAK_PLANKS },
     ),

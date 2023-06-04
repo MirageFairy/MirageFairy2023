@@ -2,7 +2,7 @@ package miragefairy2023.modules.passiveskill
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.PassiveSkillCondition
-import miragefairy2023.modules.DemonToolMaterials
+import miragefairy2023.modules.ToolMaterialCard
 import miragefairy2023.util.Symbol
 import miragefairy2023.util.eyeBlockPos
 import miragefairy2023.util.init.Translation
@@ -15,9 +15,6 @@ import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
-import net.minecraft.item.ToolItem
-import net.minecraft.item.ToolMaterial
-import net.minecraft.item.ToolMaterials
 import net.minecraft.tag.FluidTags
 import net.minecraft.tag.TagKey
 import net.minecraft.util.math.Box
@@ -222,29 +219,9 @@ class HasHoePassiveSkillCondition : PassiveSkillCondition {
     override fun test(player: PlayerEntity, mana: Double) = player.mainHandStack.isIn(ConventionalItemTags.HOES)
 }
 
-class ToolMaterialPassiveSkillCondition(private val toolMaterial: ToolMaterial, private val toolMaterialName: String) : PassiveSkillCondition {
-    companion object {
-        val keyPrefix = "${MirageFairy2023.modId}.passive_skill.condition.tool_material"
-    }
-
-    enum class Key(val translation: Translation) {
-        WOOD(Translation("$keyPrefix.wood", "Wooden Tool", "木ツール")),
-        STONE(Translation("$keyPrefix.stone", "Stone Tool", "石ツール")),
-        IRON(Translation("$keyPrefix.iron", "Iron Tool", "鉄ツール")),
-        GOLD(Translation("$keyPrefix.gold", "Golden Tool", "金ツール")),
-        DIAMOND(Translation("$keyPrefix.diamond", "Diamond Tool", "ダイヤモンドツール")),
-        NETHERITE(Translation("$keyPrefix.netherite", "Netherite Tool", "ネザライトツール")),
-        MIRANAGITE(Translation("$keyPrefix.miranagite", "Miranagite Tool", "蒼天石ツール")),
-    }
-
-    constructor(toolMaterial: ToolMaterials) : this(toolMaterial, toolMaterial.name.lowercase())
-    constructor(toolMaterial: DemonToolMaterials) : this(toolMaterial, toolMaterial.name.lowercase())
-
-    override fun getText() = text { translate("$keyPrefix.$toolMaterialName") }
-    override fun test(player: PlayerEntity, mana: Double): Boolean {
-        val item = player.mainHandStack.item as? ToolItem ?: return false
-        return item.material === toolMaterial
-    }
+class ToolMaterialPassiveSkillCondition(private val toolMaterialCard: ToolMaterialCard) : PassiveSkillCondition {
+    override fun getText() = text { toolMaterialCard.translation() }
+    override fun test(player: PlayerEntity, mana: Double) = player.mainHandStack.isIn(toolMaterialCard.tag)
 }
 
 class FoodPassiveSkillCondition(private val foodItem: () -> Item) : PassiveSkillCondition {
