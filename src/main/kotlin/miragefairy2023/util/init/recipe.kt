@@ -3,6 +3,7 @@
 package miragefairy2023.util.init
 
 import miragefairy2023.InitializationScope
+import miragefairy2023.modules.ApplyLuckBonusLootFunction
 import miragefairy2023.util.identifier
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.fabricmc.fabric.api.registry.FuelRegistry
@@ -72,6 +73,7 @@ fun InitializationScope.registerBlockDrop(
     amount: Int? = null,
     fortuneOreDrops: Boolean = false,
     suppressIfSilkTouch: Boolean = false,
+    luckBonus: Double? = null,
 ) {
     onRegisterRecipes {
         val lootTableId = block().lootTableId
@@ -84,6 +86,7 @@ fun InitializationScope.registerBlockDrop(
                                 if (dropRate != null) conditionally(RandomChanceLootCondition.builder(dropRate))
                                 if (amount != null) apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(amount.toFloat())))
                                 if (fortuneOreDrops) apply(ApplyBonusLootFunction.oreDrops(Enchantments.FORTUNE))
+                                if (luckBonus != null) apply { ApplyLuckBonusLootFunction(luckBonus) }
                                 apply(ExplosionDecayLootFunction.builder())
                             }
                             if (suppressIfSilkTouch) {
