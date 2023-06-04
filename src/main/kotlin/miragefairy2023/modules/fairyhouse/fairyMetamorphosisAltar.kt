@@ -55,9 +55,9 @@ val fairyMetamorphosisAltar = FairyHouseCard(
     "fairy_metamorphosis_altar", ::FairyMetamorphosisAltarBlockEntity,
     "Fairy Metamorphosis Altar", "妖精の魔法の祭壇",
     listOf(
-        TooltipText("poem", "Weaken the nuclear force to resonate", "妖精と無機物が心を通わすとき。", Formatting.GRAY),
-        TooltipText("description", "Place 4 fairies and 1 material", "4体の妖精と素材を配置", Formatting.YELLOW),
-        TooltipText("description2", "Use while sneaking to show table", "スニーク中に使用で提供割合を表示", Formatting.YELLOW),
+        TooltipText("poem", Formatting.GRAY, "妖精と無機物が心を通わすとき。", "Weaken the nuclear force to resonate"),
+        TooltipText("description", Formatting.YELLOW, "4体の妖精と素材を配置", "Place 4 fairies and 1 material"),
+        TooltipText("description2", Formatting.YELLOW, "スニーク中に使用で提供割合を表示", "Use while sneaking to show table"),
     ),
     Material.STONE, BlockSoundGroup.STONE, null,
     Block.createCuboidShape(1.0, 0.0, 1.0, 15.0, 5.0, 15.0),

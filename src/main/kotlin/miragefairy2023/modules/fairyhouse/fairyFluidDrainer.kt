@@ -48,8 +48,8 @@ val fairyFluidDrainer = FairyHouseCard(
     "fairy_fluid_drainer", ::FairyFluidDrainerBlockEntity,
     "Fairy Fluid Drainer", "妖精の水汲み所",
     listOf(
-        TooltipText("poem", "Causes anti-Brownian motion", "覆水、盆に返る。", Formatting.GRAY),
-        TooltipText("description", "Place a liquid fairy and a bucket", "液体系妖精と空バケツを配置", Formatting.YELLOW),
+        TooltipText("poem", Formatting.GRAY, "覆水、盆に返る。", "Causes anti-Brownian motion"),
+        TooltipText("description", Formatting.YELLOW, "液体系妖精と空バケツを配置", "Place a liquid fairy and a bucket"),
     ),
     Material.METAL, BlockSoundGroup.METAL, BlockTags.NEEDS_STONE_TOOL,
     Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 6.0, 16.0),
