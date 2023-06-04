@@ -7,6 +7,7 @@ import miragefairy2023.api.PassiveSkill
 import miragefairy2023.modules.BlockFairyRelation
 import miragefairy2023.modules.CommonFairyEntry
 import miragefairy2023.modules.DemonItemCard
+import miragefairy2023.modules.DemonToolMaterials
 import miragefairy2023.modules.DreamCatcherItem
 import miragefairy2023.modules.EntityTypeFairyRelation
 import miragefairy2023.modules.MirageFlourCard
@@ -234,6 +235,7 @@ enum class FairyCard(
         "miranagite", 5, "Miranagitia", "蒼天石精ミラナギーチャ", 0x4EC5F4, 0x4394D3, 0x004477, 0x0C4CEF,
         listOf(
             PassiveSkill(listOf(), LuckPassiveSkillEffect(0.5)),
+            PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(DemonToolMaterials.MIRANAGITE)), StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 0)),
             PassiveSkill(listOf(), ManaPassiveSkillEffect(0.5)),
             PassiveSkill(listOf(MinimumManaPassiveSkillCondition(9.0)), ManaPassiveSkillEffect(0.5)),
         ),

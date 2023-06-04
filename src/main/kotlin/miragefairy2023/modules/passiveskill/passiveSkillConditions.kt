@@ -2,6 +2,7 @@ package miragefairy2023.modules.passiveskill
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.PassiveSkillCondition
+import miragefairy2023.modules.DemonToolMaterials
 import miragefairy2023.util.Symbol
 import miragefairy2023.util.eyeBlockPos
 import miragefairy2023.util.init.Translation
@@ -237,6 +238,7 @@ class ToolMaterialPassiveSkillCondition(private val toolMaterial: ToolMaterial, 
     }
 
     constructor(toolMaterial: ToolMaterials) : this(toolMaterial, toolMaterial.name.lowercase())
+    constructor(toolMaterial: DemonToolMaterials) : this(toolMaterial, toolMaterial.name.lowercase())
 
     override fun getText() = text { translate("$keyPrefix.$toolMaterialName") }
     override fun test(player: PlayerEntity, mana: Double): Boolean {
