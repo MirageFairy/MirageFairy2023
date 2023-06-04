@@ -42,8 +42,8 @@ val passiveSkillModule = module {
                             passiveSkill.conditions.forEach { condition ->
                                 if (!condition.test(player, entry.itemStack)) return@nextPassiveSkill
                             }
-                            passiveSkill.effect.update(world, player, entry.item.getPassiveSkillLevel() / 10.0, passiveSkillVariable, initializers, terminators)
-                            passiveSkill.effect.affect(world, player, entry.item.getPassiveSkillLevel() / 10.0, passiveSkillVariable, initializers)
+                            passiveSkill.effect.update(world, player, entry.item.basePassiveSkillLevel / 10.0, passiveSkillVariable, initializers, terminators)
+                            passiveSkill.effect.affect(world, player, entry.item.basePassiveSkillLevel / 10.0, passiveSkillVariable, initializers)
                         }
                     }
 

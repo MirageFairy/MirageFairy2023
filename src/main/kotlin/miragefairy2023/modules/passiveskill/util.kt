@@ -103,7 +103,7 @@ fun PlayerEntity.getPassiveSkillEntries(): List<PassiveSkillEntry> {
             Pair(itemStack, item)
         }
         .map { (itemStack, item) ->
-            val identifier = item.getPassiveSkillIdentifier()
+            val identifier = item.passiveSkillIdentifier
 
             if (identifier in acceptedIdentifiers) return@map PassiveSkillEntry(itemStack, item, PassiveSkillAvailability.HIDDEN) // 同じアイテムは多重に発動しない
             if (count >= 10) return@map PassiveSkillEntry(itemStack, item, PassiveSkillAvailability.OVERFLOWED) // 既に10個発動している場合は発動しない

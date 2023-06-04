@@ -8,14 +8,14 @@ import net.minecraft.util.Identifier
 
 interface PassiveSkillItem {
 
-    fun getPassiveSkillIdentifier(): Identifier
+    val passiveSkillIdentifier: Identifier
 
     /**
      * このアイテムのベースの強さを表します。
      * スケールは妖精のレア度と同じですが、小数値を持ち、様々な補正が加算されます。
      * この値はパッシブスキルに乗じられるため、0を超えることが推奨されます。
      */
-    fun getPassiveSkillLevel(): Double
+    val basePassiveSkillLevel: Double
 
     fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack): List<PassiveSkill>
 

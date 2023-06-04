@@ -165,8 +165,8 @@ private fun accessory(trinketsSlotCard: TrinketsSlotCard, passiveSkillLevel: Dou
                 tooltip += getPassiveSkillTooltip(stack, passiveSkillLevel / 10.0, passiveSkills)
             }
 
-            override fun getPassiveSkillIdentifier() = card.identifier
-            override fun getPassiveSkillLevel() = passiveSkillLevel
+            override val passiveSkillIdentifier get() = card.identifier
+            override val basePassiveSkillLevel get() = passiveSkillLevel
             override fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack) = passiveSkills
 
             override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
