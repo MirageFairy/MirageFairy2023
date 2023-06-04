@@ -31,7 +31,10 @@ fun getPassiveSkillTooltip(itemStack: ItemStack, passiveSkillLevel: Double, pass
 
     val tooltip = mutableListOf<Text>()
 
-    val entry = player.getPassiveSkillEntries().find { it.itemStack === itemStack }
+    // パッシブスキル判定
+    val entries = player.getPassiveSkillEntries()
+
+    val entry = entries.find { it.itemStack === itemStack }
     val availability = entry?.availability ?: PassiveSkillAvailability.DISABLED
 
     // タイトルラベル
