@@ -2,9 +2,11 @@ package miragefairy2023.modules.passiveskill
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.PassiveSkillEffect
+import miragefairy2023.util.Symbol
 import miragefairy2023.util.eyeBlockPos
 import miragefairy2023.util.init.Translation
 import miragefairy2023.util.randomInt
+import miragefairy2023.util.removeTrailingZeros
 import miragefairy2023.util.text
 import miragefairy2023.util.toRoman
 import mirrg.kotlin.hydrogen.atLeast
@@ -230,4 +232,14 @@ fun blockVisitor(maxDistance: Int, originalBlockPos: BlockPos, predicate: (fromB
 
     }
 
+}
+
+class PassiveSkillLevelPassiveSkillEffect(private val level: Double) : PassiveSkillEffect {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.passive_skill_level", "Mana: %s", "魔力: %s")
+        private val identifier = Identifier(MirageFairy2023.modId, "collection")
+    }
+
+    override fun getText(efficiency: Double) = text { key((level formatAs "${Symbol.STAR}%+.3f").removeTrailingZeros()) }
+    override fun getAdditionalPassiveSkillLevel() = level
 }
