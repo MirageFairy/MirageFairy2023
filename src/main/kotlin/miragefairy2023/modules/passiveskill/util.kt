@@ -26,6 +26,7 @@ object PassiveSkillKeys {
 
 fun getPassiveSkillTooltip(itemStack: ItemStack, efficiency: Double, passiveSkills: List<PassiveSkill>): List<Text> {
     val player = MirageFairy2023.clientProxy?.getClientPlayer() ?: return listOf()
+    val item = itemStack.item as? PassiveSkillItem ?: return listOf()
     if (passiveSkills.isEmpty()) return listOf() // パッシブスキルが無い場合は何も表示しない
 
     val tooltip = mutableListOf<Text>()
@@ -48,7 +49,7 @@ fun getPassiveSkillTooltip(itemStack: ItemStack, efficiency: Double, passiveSkil
 
         // 条件判定
         val conditions = passiveSkill.conditions.map { condition ->
-            Pair(condition, condition.test(player, itemStack))
+            Pair(condition, condition.test(player, item.basePassiveSkillLevel))
         }
 
         // 追加

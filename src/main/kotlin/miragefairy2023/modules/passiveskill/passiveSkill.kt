@@ -40,7 +40,7 @@ val passiveSkillModule = module {
                         if (entry.availability != PassiveSkillAvailability.ENABLED) return@nextEntry
                         entry.item.getPassiveSkills(player, entry.itemStack).forEach nextPassiveSkill@{ passiveSkill ->
                             passiveSkill.conditions.forEach { condition ->
-                                if (!condition.test(player, entry.itemStack)) return@nextPassiveSkill
+                                if (!condition.test(player, entry.item.basePassiveSkillLevel)) return@nextPassiveSkill
                             }
                             passiveSkill.effect.update(world, player, entry.item.basePassiveSkillLevel / 10.0, passiveSkillVariable, initializers, terminators)
                             passiveSkill.effect.affect(world, player, entry.item.basePassiveSkillLevel / 10.0, passiveSkillVariable, initializers)
