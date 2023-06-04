@@ -23,6 +23,8 @@ import net.minecraft.block.BlockState
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
+import net.minecraft.enchantment.EnchantmentHelper
+import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -30,6 +32,7 @@ import net.minecraft.item.Items
 import net.minecraft.item.PickaxeItem
 import net.minecraft.item.ToolMaterial
 import net.minecraft.item.Vanishable
+import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.BlockTags
 import net.minecraft.tag.ItemTags
@@ -61,8 +64,11 @@ enum class ToolItemCard(
     ),
     MIRANAGITE_PICKAXE(
         "miranagite_pickaxe", "Miranagi Pickaxe", "蒼天のつるはし",
-        listOf(Poem("Promotes ore recrystallization", "凝集する秩序、蒼穹彩煌が如く。")),
-        pickaxe(DemonToolMaterials.MIRANAGITE, 1, -2.8F, BlockTags.PICKAXE_MINEABLE),
+        listOf(
+            Poem("Promotes ore recrystallization", "凝集する秩序、蒼穹彩煌が如く。"),
+            Description("Enchant silk touch when using raw item", "生のアイテム使用時、シルクタッチ付与")
+        ),
+        pickaxe(DemonToolMaterials.MIRANAGITE, 1, -2.8F, BlockTags.PICKAXE_MINEABLE, silkTouch = true),
     ),
     CHAOS_STONE_PICKAXE(
         "chaos_stone_pickaxe", "Chaos Pickaxe", "混沌のつるはし",
@@ -144,7 +150,7 @@ val toolItemModule = module {
 }
 
 
-private fun pickaxe(toolMaterial: ToolMaterial, attackDamage: Int, attackSpeed: Float, vararg effectiveBlockTags: TagKey<Block>): InitializationScope.(ToolItemCard) -> Unit = { card ->
+private fun pickaxe(toolMaterial: ToolMaterial, attackDamage: Int, attackSpeed: Float, vararg effectiveBlockTags: TagKey<Block>, silkTouch: Boolean = false): InitializationScope.(ToolItemCard) -> Unit = { card ->
     card.item = item(card.path, {
         object : PickaxeItem(toolMaterial, attackDamage, attackSpeed, FabricItemSettings().group(commonItemGroup)) {
             override fun getMiningSpeedMultiplier(stack: ItemStack, state: BlockState) = if (effectiveBlockTags.any { state.isIn(it) }) miningSpeed else 1.0F
@@ -157,6 +163,22 @@ private fun pickaxe(toolMaterial: ToolMaterial, attackDamage: Int, attackSpeed: 
                     itemMiningLevel < MiningLevels.STONE && state.isIn(BlockTags.NEEDS_STONE_TOOL) -> false
                     else -> effectiveBlockTags.any { state.isIn(it) }
                 }
+            }
+
+            override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
+                if (world.isClient) return super.use(world, user, hand)
+                if (silkTouch) {
+                    val itemStack = user.getStackInHand(hand)
+                    if (EnchantmentHelper.get(itemStack).isEmpty()) {
+                        if (user.isCreative || user.experienceLevel >= 5) {
+                            if (!user.isCreative) user.addExperienceLevels(-5)
+                            EnchantmentHelper.set(mapOf(Enchantments.SILK_TOUCH to 1), itemStack)
+                            world.playSound(null, user.x, user.y, user.z, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.PLAYERS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F)
+                        }
+                    }
+                    return TypedActionResult.consume(itemStack)
+                }
+                return super.use(world, user, hand)
             }
         }
     }) {
