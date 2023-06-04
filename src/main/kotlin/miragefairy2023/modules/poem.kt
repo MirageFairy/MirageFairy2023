@@ -20,6 +20,16 @@ val poemModule = module {
 
 class Poem(val key: String, val color: Formatting, val en: String, val ja: String)
 
+fun Poem(en: String, ja: String) = Poem("poem", Formatting.GRAY, en, ja)
+
+fun Poem(key: String, en: String, ja: String) = Poem(key, Formatting.GRAY, en, ja)
+
+@Suppress("FunctionName")
+fun Description(en: String, ja: String) = Poem("description", Formatting.YELLOW, en, ja)
+
+@Suppress("FunctionName")
+fun Description(key: String, en: String, ja: String) = Poem(key, Formatting.YELLOW, en, ja)
+
 fun FeatureSlot<Item>.generatePoemList(poemList: List<Poem>) {
     poemList.forEach {
         initializationScope.enJa({ "${feature.translationKey}.${it.key}" }, it.en, it.ja)
