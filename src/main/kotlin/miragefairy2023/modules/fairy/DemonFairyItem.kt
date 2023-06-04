@@ -40,8 +40,8 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
 
     override val passiveSkillProvider: PassiveSkillProvider
         get() = object : PassiveSkillProvider {
-            override val passiveSkillIdentifier get() = fairyCard.motif
-            override val basePassiveSkillLevel get() = if (rare != 0) rare.toDouble() else 0.5
+            override val identifier get() = fairyCard.motif
+            override val mana get() = if (rare != 0) rare.toDouble() else 0.5
             override fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack) = fairyCard.passiveSkills
         }
 
@@ -60,7 +60,7 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
                 val additionalPassiveSkillLevel2 = passiveSkill.effect.getAdditionalPassiveSkillLevel()
                 if (additionalPassiveSkillLevel2 > 0.0) {
                     passiveSkill.conditions.forEach { condition ->
-                        if (!condition.test(player, entry.item.passiveSkillProvider.basePassiveSkillLevel)) return@nextPassiveSkill
+                        if (!condition.test(player, entry.item.passiveSkillProvider.mana)) return@nextPassiveSkill
                     }
                     additionalPassiveSkillLevel += additionalPassiveSkillLevel2
                 }
@@ -89,10 +89,10 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
             .map { it.join(text { " "() }) }
             .toList()
             .join(text { "  "() })
-        tooltip += text { (RARE_KEY() + ": "() + stars3 + " ${(passiveSkillProvider.basePassiveSkillLevel + additionalPassiveSkillLevel formatAs "%.3f").removeTrailingZeros()}"()).aqua }
+        tooltip += text { (RARE_KEY() + ": "() + stars3 + " ${(passiveSkillProvider.mana + additionalPassiveSkillLevel formatAs "%.3f").removeTrailingZeros()}"()).aqua }
 
         // パッシブスキル
-        tooltip += getPassiveSkillTooltip(stack, passiveSkillProvider.basePassiveSkillLevel + additionalPassiveSkillLevel, fairyCard.passiveSkills)
+        tooltip += getPassiveSkillTooltip(stack, passiveSkillProvider.mana + additionalPassiveSkillLevel, fairyCard.passiveSkills)
 
         // 凝縮レシピ
         when (rank) {

@@ -168,8 +168,8 @@ private fun accessory(trinketsSlotCard: TrinketsSlotCard, passiveSkillLevel: Dou
 
             override val passiveSkillProvider: PassiveSkillProvider
                 get() = object : PassiveSkillProvider {
-                    override val passiveSkillIdentifier get() = card.identifier
-                    override val basePassiveSkillLevel get() = passiveSkillLevel
+                    override val identifier get() = card.identifier
+                    override val mana get() = passiveSkillLevel
                     override fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack) = passiveSkills
                 }
 

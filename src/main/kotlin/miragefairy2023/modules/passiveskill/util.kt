@@ -52,7 +52,7 @@ fun getPassiveSkillTooltip(itemStack: ItemStack, passiveSkillLevel: Double, pass
 
         // 条件判定
         val conditions = passiveSkill.conditions.map { condition ->
-            Pair(condition, condition.test(player, item.passiveSkillProvider.basePassiveSkillLevel))
+            Pair(condition, condition.test(player, item.passiveSkillProvider.mana))
         }
 
         // 追加
@@ -107,7 +107,7 @@ fun PlayerEntity.getPassiveSkillEntries(): List<PassiveSkillEntry> {
             Pair(itemStack, item)
         }
         .map { (itemStack, item) ->
-            val identifier = item.passiveSkillProvider.passiveSkillIdentifier
+            val identifier = item.passiveSkillProvider.identifier
 
             if (identifier in acceptedIdentifiers) return@map PassiveSkillEntry(itemStack, item, PassiveSkillAvailability.HIDDEN) // 同じアイテムは多重に発動しない
             if (count >= 10) return@map PassiveSkillEntry(itemStack, item, PassiveSkillAvailability.OVERFLOWED) // 既に10個発動している場合は発動しない

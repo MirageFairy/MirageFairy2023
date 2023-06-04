@@ -12,14 +12,17 @@ interface PassiveSkillItem {
 
 interface PassiveSkillProvider {
 
-    val passiveSkillIdentifier: Identifier
+    /**
+     * 同時発動を抑制するための識別子です。
+     */
+    val identifier: Identifier
 
     /**
      * このアイテムのベースの強さを表します。
      * スケールは妖精のレア度と同じですが、小数値を持ち、様々な補正が加算されます。
      * この値はパッシブスキルに乗じられるため、0を超えることが推奨されます。
      */
-    val basePassiveSkillLevel: Double
+    val mana: Double
 
     fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack): List<PassiveSkill>
 
