@@ -7,7 +7,7 @@ import net.minecraft.item.Item
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 
-class TooltipText(val key: String, val color: Formatting, val ja: String, val en: String)
+class TooltipText(val key: String, val color: Formatting, val en: String, val ja: String)
 
 fun FeatureSlot<Item>.initItemTooltipTexts(tooltipTexts: List<TooltipText>) {
     tooltipTexts.forEach {
