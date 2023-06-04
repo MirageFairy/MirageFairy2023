@@ -20,6 +20,9 @@ import miragefairy2023.util.init.item
 import miragefairy2023.util.text
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
+import net.fabricmc.yarn.constants.MiningLevels
+import net.minecraft.block.Block
+import net.minecraft.block.BlockState
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
@@ -31,7 +34,9 @@ import net.minecraft.item.PickaxeItem
 import net.minecraft.item.ToolMaterial
 import net.minecraft.item.Vanishable
 import net.minecraft.sound.SoundEvents
+import net.minecraft.tag.BlockTags
 import net.minecraft.tag.ItemTags
+import net.minecraft.tag.TagKey
 import net.minecraft.text.Text
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
@@ -49,7 +54,7 @@ enum class ToolItemCard(
     ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE(
         "artificial_fairy_crystal_pickaxe", "Crystal Pickaxe", "クリスタルのつるはし",
         "Amorphous mental body of fairies", "妖精さえ怖れる、技術の結晶。",
-        pickaxe(DemonToolMaterials.ARTIFICIAL_FAIRY_CRYSTAL, 1, -2.8F),
+        pickaxe(DemonToolMaterials.ARTIFICIAL_FAIRY_CRYSTAL, 1, -2.8F, BlockTags.PICKAXE_MINEABLE),
     ),
     ARTIFICIAL_FAIRY_CRYSTAL_PENDANT(
         "artificial_fairy_crystal_pendant", "Crystal Pendant", "クリスタルのペンダント",
@@ -61,12 +66,12 @@ enum class ToolItemCard(
     MIRANAGITE_PICKAXE(
         "miranagite_pickaxe", "Miranagi Pickaxe", "蒼天のつるはし",
         "Promotes ore recrystallization", "凝集する秩序、蒼穹彩煌が如く。",
-        pickaxe(DemonToolMaterials.MIRANAGITE, 1, -2.8F),
+        pickaxe(DemonToolMaterials.MIRANAGITE, 1, -2.8F, BlockTags.PICKAXE_MINEABLE),
     ),
     CHAOS_STONE_PICKAXE(
         "chaos_stone_pickaxe", "Chaos Pickaxe", "混沌のつるはし",
         "Is this made of metal? Or clay?", "時空結晶の交点に、古代の産業が芽吹く。",
-        pickaxe(DemonToolMaterials.CHAOS_STONE, 1, -2.8F),
+        pickaxe(DemonToolMaterials.CHAOS_STONE, 1, -2.8F, BlockTags.PICKAXE_MINEABLE),
     ),
     ;
 
@@ -140,12 +145,24 @@ val toolItemModule = module {
 }
 
 
-private fun pickaxe(toolMaterial: ToolMaterial, attackDamage: Int, attackSpeed: Float): InitializationScope.(ToolItemCard) -> Unit = { card ->
+private fun pickaxe(toolMaterial: ToolMaterial, attackDamage: Int, attackSpeed: Float, vararg effectiveBlockTags: TagKey<Block>): InitializationScope.(ToolItemCard) -> Unit = { card ->
     card.item = item(card.path, {
         object : PickaxeItem(toolMaterial, attackDamage, attackSpeed, FabricItemSettings().group(commonItemGroup)) {
             override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
                 super.appendTooltip(stack, world, tooltip, context)
                 tooltip += text { translate("$translationKey.poem").gray }
+            }
+
+            override fun getMiningSpeedMultiplier(stack: ItemStack, state: BlockState) = if (effectiveBlockTags.any { state.isIn(it) }) miningSpeed else 1.0F
+
+            override fun isSuitableFor(state: BlockState): Boolean {
+                val itemMiningLevel = material.miningLevel
+                return when {
+                    itemMiningLevel < MiningLevels.DIAMOND && state.isIn(BlockTags.NEEDS_DIAMOND_TOOL) -> false
+                    itemMiningLevel < MiningLevels.IRON && state.isIn(BlockTags.NEEDS_IRON_TOOL) -> false
+                    itemMiningLevel < MiningLevels.STONE && state.isIn(BlockTags.NEEDS_STONE_TOOL) -> false
+                    else -> effectiveBlockTags.any { state.isIn(it) }
+                }
             }
         }
     }) {
