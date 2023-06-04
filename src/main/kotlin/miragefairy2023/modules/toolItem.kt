@@ -71,7 +71,7 @@ enum class ToolItemCard(
     CHAOS_STONE_PICKAXE(
         "chaos_stone_pickaxe", "Chaos Pickaxe", "混沌のつるはし",
         "Is this made of metal? Or clay?", "時空結晶の交点に、古代の産業が芽吹く。",
-        pickaxe(DemonToolMaterials.CHAOS_STONE, 1, -2.8F, BlockTags.PICKAXE_MINEABLE),
+        pickaxe(DemonToolMaterials.CHAOS_STONE, 1, -2.8F, BlockTags.PICKAXE_MINEABLE, BlockTags.SHOVEL_MINEABLE),
     ),
     ;
 
