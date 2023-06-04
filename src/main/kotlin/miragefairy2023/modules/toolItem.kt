@@ -9,15 +9,12 @@ import miragefairy2023.api.PassiveSkillProvider
 import miragefairy2023.module
 import miragefairy2023.modules.passiveskill.ManaPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.getPassiveSkillTooltip
-import miragefairy2023.util.gray
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.criterion
-import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
-import miragefairy2023.util.text
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
 import net.fabricmc.yarn.constants.MiningLevels
@@ -47,30 +44,29 @@ enum class ToolItemCard(
     val path: String,
     val enName: String,
     val jaName: String,
-    val enPoem: String,
-    val jaPoem: String,
+    val poemList: List<Poem>,
     val initializer: InitializationScope.(ToolItemCard) -> Unit,
 ) {
     ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE(
         "artificial_fairy_crystal_pickaxe", "Crystal Pickaxe", "クリスタルのつるはし",
-        "Amorphous mental body of fairies", "妖精さえ怖れる、技術の結晶。",
+        listOf(Poem("Amorphous mental body of fairies", "妖精さえ怖れる、技術の結晶。")),
         pickaxe(DemonToolMaterials.ARTIFICIAL_FAIRY_CRYSTAL, 1, -2.8F, BlockTags.PICKAXE_MINEABLE),
     ),
     ARTIFICIAL_FAIRY_CRYSTAL_PENDANT(
         "artificial_fairy_crystal_pendant", "Crystal Pendant", "クリスタルのペンダント",
-        "Object that makes Mirage fairies fairies", "『妖精』だったあのころ――",
+        listOf(Poem("Object that makes Mirage fairies fairies", "『妖精』だったあのころ――")),
         accessory(TrinketsSlotCard.CHEST_NECKLACE, 5.0, buildList {
             this += PassiveSkill(listOf(), ManaPassiveSkillEffect(0.2))
         }),
     ),
     MIRANAGITE_PICKAXE(
         "miranagite_pickaxe", "Miranagi Pickaxe", "蒼天のつるはし",
-        "Promotes ore recrystallization", "凝集する秩序、蒼穹彩煌が如く。",
+        listOf(Poem("Promotes ore recrystallization", "凝集する秩序、蒼穹彩煌が如く。")),
         pickaxe(DemonToolMaterials.MIRANAGITE, 1, -2.8F, BlockTags.PICKAXE_MINEABLE),
     ),
     CHAOS_STONE_PICKAXE(
         "chaos_stone_pickaxe", "Chaos Pickaxe", "混沌のつるはし",
-        "Is this made of metal? Or clay?", "時空結晶の交点に、古代の産業が芽吹く。",
+        listOf(Poem("Is this made of metal? Or clay?", "時空結晶の交点に、古代の産業が芽吹く。")),
         pickaxe(DemonToolMaterials.CHAOS_STONE, 1, -2.8F, BlockTags.PICKAXE_MINEABLE, BlockTags.SHOVEL_MINEABLE),
     ),
     ;
@@ -148,11 +144,6 @@ val toolItemModule = module {
 private fun pickaxe(toolMaterial: ToolMaterial, attackDamage: Int, attackSpeed: Float, vararg effectiveBlockTags: TagKey<Block>): InitializationScope.(ToolItemCard) -> Unit = { card ->
     card.item = item(card.path, {
         object : PickaxeItem(toolMaterial, attackDamage, attackSpeed, FabricItemSettings().group(commonItemGroup)) {
-            override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-                super.appendTooltip(stack, world, tooltip, context)
-                tooltip += text { translate("$translationKey.poem").gray }
-            }
-
             override fun getMiningSpeedMultiplier(stack: ItemStack, state: BlockState) = if (effectiveBlockTags.any { state.isIn(it) }) miningSpeed else 1.0F
 
             override fun isSuitableFor(state: BlockState): Boolean {
@@ -168,7 +159,8 @@ private fun pickaxe(toolMaterial: ToolMaterial, attackDamage: Int, attackSpeed: 
     }) {
         onGenerateItemModels { it.register(feature, Models.HANDHELD) }
         enJaItem({ feature }, card.enName, card.jaName)
-        enJa({ "${feature.translationKey}.poem" }, card.enPoem, card.jaPoem)
+        generatePoemList(card.poemList)
+        onRegisterItems { registerPoemList(feature, card.poemList) }
         onGenerateItemTags { it(ItemTags.CLUSTER_MAX_HARVESTABLES).add(feature) }
         onGenerateItemTags { it(ConventionalItemTags.PICKAXES).add(feature) }
     }
@@ -179,7 +171,6 @@ private fun accessory(trinketsSlotCard: TrinketsSlotCard, mana: Double, passiveS
         class AccessoryItem : Item(FabricItemSettings().group(commonItemGroup).maxCount(1)), PassiveSkillItem, Vanishable {
             override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
                 super.appendTooltip(stack, world, tooltip, context)
-                tooltip += text { translate("$translationKey.poem").gray }
                 tooltip += getPassiveSkillTooltip(stack, mana, passiveSkills)
             }
 
@@ -204,7 +195,8 @@ private fun accessory(trinketsSlotCard: TrinketsSlotCard, mana: Double, passiveS
     }) {
         onGenerateItemModels { it.register(feature, Models.GENERATED) }
         enJaItem({ feature }, card.enName, card.jaName)
-        enJa({ "${feature.translationKey}.poem" }, card.enPoem, card.jaPoem)
+        generatePoemList(card.poemList)
+        onRegisterItems { registerPoemList(feature, card.poemList) }
         onGenerateItemTags { it(trinketsSlotCard.tag).add(feature) }
     }
 }
