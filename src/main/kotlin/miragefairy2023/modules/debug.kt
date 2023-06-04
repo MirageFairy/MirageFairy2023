@@ -82,7 +82,7 @@ class FairyListDebuggerItem(settings: Settings) : Item(settings) {
 class ResetTelescopeMissionDebuggerItem(settings: Settings) : Item(settings) {
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val itemStack = user.getStackInHand(hand)
-        if (world.isClient) return TypedActionResult.consume(itemStack)
+        if (world.isClient) return TypedActionResult.success(itemStack)
         user as ServerPlayerEntity
 
         user.lastTelescopeUseTimeProperty.set(null)
@@ -91,14 +91,14 @@ class ResetTelescopeMissionDebuggerItem(settings: Settings) : Item(settings) {
 
         user.world.playSound(null, user.x, user.y, user.z, SoundEvents.BLOCK_BEACON_DEACTIVATE, SoundCategory.PLAYERS, 0.5F, 1.0F)
 
-        return TypedActionResult.success(itemStack)
+        return TypedActionResult.consume(itemStack)
     }
 }
 
 class ResetFairyDreamDebuggerItem(settings: Settings) : Item(settings) {
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val itemStack = user.getStackInHand(hand)
-        if (world.isClient) return TypedActionResult.consume(itemStack)
+        if (world.isClient) return TypedActionResult.success(itemStack)
         user as ServerPlayerEntity
 
         val nbt = user.customData
@@ -108,7 +108,7 @@ class ResetFairyDreamDebuggerItem(settings: Settings) : Item(settings) {
 
         user.world.playSound(null, user.x, user.y, user.z, SoundEvents.BLOCK_BEACON_DEACTIVATE, SoundCategory.PLAYERS, 0.5F, 1.0F)
 
-        return TypedActionResult.success(itemStack)
+        return TypedActionResult.consume(itemStack)
     }
 }
 
