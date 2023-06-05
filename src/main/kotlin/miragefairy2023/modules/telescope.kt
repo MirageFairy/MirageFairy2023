@@ -120,16 +120,19 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
         val now = Instant.now()
         val actions = getTelescopeActions(now.toLocalDateTime(TelescopeModule.ZONE_OFFSET), player)
 
-        actions.forEach {
-            it()
-        }
 
         if (actions.isNotEmpty()) {
-            world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.5F, 1.0F)
-        }
 
-        player.lastTelescopeUseTimeProperty.set(now.toEpochMilli())
-        syncCustomData(player)
+            actions.forEach {
+                it()
+            }
+
+            world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.5F, 1.0F)
+
+            player.lastTelescopeUseTimeProperty.set(now.toEpochMilli())
+            syncCustomData(player)
+
+        }
 
         return ActionResult.CONSUME
     }
