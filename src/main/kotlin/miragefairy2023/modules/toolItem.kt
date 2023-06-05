@@ -15,6 +15,7 @@ import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
+import miragefairy2023.util.init.translation
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
 import net.fabricmc.yarn.constants.MiningLevels
@@ -194,6 +195,9 @@ val toolItemModule = module {
             .group(ToolItemCard.CHAOS_STONE_PICKAXE.item.feature)
             .offerTo(it, ToolItemCard.CHAOS_STONE_PICKAXE.item.feature.identifier)
     }
+
+    translation(DreamCatcherItem.knownKey)
+    translation(DreamCatcherItem.successKey)
 
 }
 

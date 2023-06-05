@@ -37,11 +37,6 @@ import net.minecraft.util.math.Box
 import net.minecraft.world.World
 import kotlin.math.roundToInt
 
-val dreamCatcherModule = module {
-    translation(DreamCatcherItem.knownKey)
-    translation(DreamCatcherItem.successKey)
-}
-
 class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Settings) : ToolItem(material, settings.maxDamage(maxDamage)) {
     companion object {
         val knownKey = Translation("item.${MirageFairy2023.modId}.dream_catcher.known_message", "Already have memory of %s", "%s の記憶は既に持っている")

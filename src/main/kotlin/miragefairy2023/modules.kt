@@ -6,7 +6,6 @@ import miragefairy2023.modules.customDataModule
 import miragefairy2023.modules.debugModule
 import miragefairy2023.modules.demonBlockModule
 import miragefairy2023.modules.demonItemModule
-import miragefairy2023.modules.dreamCatcherModule
 import miragefairy2023.modules.fairy.fairyModule
 import miragefairy2023.modules.fairyCrystalGlassModule
 import miragefairy2023.modules.fairyhouse.fairyHouseModule
@@ -47,7 +46,6 @@ val modules = module {
     mirageFlourModule()
     mirageFlowerModule()
     fairyModule()
-    dreamCatcherModule()
     debugModule()
     toolItemModule()
 
