@@ -119,7 +119,6 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
 
 
         val now1 = Instant.now()
-        var success = false
         val actions = mutableListOf<() -> Unit>()
         val lastTelescopeUseTime = player.lastTelescopeUseTimeProperty.get()
         if (lastTelescopeUseTime != null) {
@@ -136,22 +135,18 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
             val now: LocalDateTime = now1.toLocalDateTime(TelescopeModule.ZONE_OFFSET)
             if (now >= nextMonthlyLimit) {
                 actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(5)) }
-                success = true
             }
             if (now >= nextWeeklyLimit) {
                 actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1)) }
                 actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(5)) }
-                success = true
             }
             if (now >= nextDailyLimit) {
                 actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(3)) }
-                success = true
             }
 
         } else {
 
             actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1)) }
-            success = true
 
         }
 
@@ -159,6 +154,7 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
             it()
         }
 
+        val success = actions.isNotEmpty()
         if (success) {
             world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.5F, 1.0F)
         }
@@ -173,7 +169,6 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
         val player = MirageFairy2023.clientProxy?.getClientPlayer() ?: return
 
         val now1 = Instant.now()
-        var success = false
         val actions = mutableListOf<() -> Unit>()
         val lastTelescopeUseTime = player.lastTelescopeUseTimeProperty.get()
         if (lastTelescopeUseTime != null) {
@@ -190,25 +185,22 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
             val now: LocalDateTime = now1.toLocalDateTime(TelescopeModule.ZONE_OFFSET)
             if (now >= nextMonthlyLimit) {
                 actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(5)) }
-                success = true
             }
             if (now >= nextWeeklyLimit) {
                 actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1)) }
                 actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(5)) }
-                success = true
             }
             if (now >= nextDailyLimit) {
                 actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(3)) }
-                success = true
             }
 
         } else {
 
             actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1)) }
-            success = true
 
         }
 
+        val success = actions.isNotEmpty()
         if (!success) {
             return
         }
