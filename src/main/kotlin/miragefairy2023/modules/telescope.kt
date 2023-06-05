@@ -5,7 +5,6 @@ import miragefairy2023.module
 import miragefairy2023.util.InstrumentBlock
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.get
-import miragefairy2023.util.getValue
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.block
@@ -17,7 +16,6 @@ import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
 import miragefairy2023.util.long
 import miragefairy2023.util.obtain
-import miragefairy2023.util.setValue
 import miragefairy2023.util.toLocalDateTime
 import miragefairy2023.util.wrapper
 import mirrg.kotlin.hydrogen.floorMod
@@ -119,85 +117,28 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
         if (world.isClient) return ActionResult.SUCCESS
         player as ServerPlayerEntity
 
+        val now = Instant.now()
+        val actions = getTelescopeActions(now.toLocalDateTime(TelescopeModule.ZONE_OFFSET), player)
+        if (actions.isEmpty()) return ActionResult.CONSUME
 
-        var lastTelescopeUseTime by player.lastTelescopeUseTimeProperty
-        if (lastTelescopeUseTime != null) {
-
-            val time = Instant.ofEpochMilli(lastTelescopeUseTime!!).toLocalDateTime(TelescopeModule.ZONE_OFFSET)
-            val lastMonthlyLimit: LocalDateTime = time.toLocalDate().withDayOfMonth(1).atStartOfDay()
-
-            val lastWeeklyLimit: LocalDateTime = time.toLocalDate().minusDays((time.dayOfWeek.value - TelescopeModule.DAY_OF_WEEK_ORIGIN.value floorMod 7).toLong()).atStartOfDay()
-            val lastDailyLimit: LocalDateTime = time.toLocalDate().atStartOfDay()
-            val nextMonthlyLimit = lastMonthlyLimit.plusMonths(1)
-            val nextWeeklyLimit = lastWeeklyLimit.plusDays(7)
-            val nextDailyLimit = lastDailyLimit.plusDays(1)
-
-            val now: LocalDateTime = Instant.now().toLocalDateTime(TelescopeModule.ZONE_OFFSET)
-            var success = false
-            if (now >= nextMonthlyLimit) {
-                player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(5))
-                success = true
-            }
-            if (now >= nextWeeklyLimit) {
-                player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1))
-                player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(5))
-                success = true
-            }
-            if (now >= nextDailyLimit) {
-                player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(3))
-                success = true
-            }
-            if (success) {
-                world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.5F, 1.0F)
-            }
-
-            lastTelescopeUseTime = now.toInstant(TelescopeModule.ZONE_OFFSET).toEpochMilli()
-            syncCustomData(player)
-
-        } else {
-
-            player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1))
-
-            world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.5F, 1.0F)
-
-            lastTelescopeUseTime = Instant.now().toEpochMilli()
-            syncCustomData(player)
-
+        actions.forEach {
+            it()
         }
+
+        world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.5F, 1.0F)
+
+        player.lastTelescopeUseTimeProperty.set(now.toEpochMilli())
+        syncCustomData(player)
 
         return ActionResult.CONSUME
     }
 
     override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {
+        val player = MirageFairy2023.clientProxy?.getClientPlayer() ?: return
 
-        val lastTelescopeUseTime by MirageFairy2023.clientProxy?.getClientPlayer()?.lastTelescopeUseTimeProperty ?: return
-        if (lastTelescopeUseTime != null) {
-
-            val time = Instant.ofEpochMilli(lastTelescopeUseTime!!).toLocalDateTime(TelescopeModule.ZONE_OFFSET)
-            val lastMonthlyLimit: LocalDateTime = time.toLocalDate().withDayOfMonth(1).atStartOfDay()
-
-            val lastWeeklyLimit: LocalDateTime = time.toLocalDate().minusDays((time.dayOfWeek.value - TelescopeModule.DAY_OF_WEEK_ORIGIN.value floorMod 7).toLong()).atStartOfDay()
-            val lastDailyLimit: LocalDateTime = time.toLocalDate().atStartOfDay()
-            val nextMonthlyLimit = lastMonthlyLimit.plusMonths(1)
-            val nextWeeklyLimit = lastWeeklyLimit.plusDays(7)
-            val nextDailyLimit = lastDailyLimit.plusDays(1)
-
-            val now: LocalDateTime = Instant.now().toLocalDateTime(TelescopeModule.ZONE_OFFSET)
-            var success = false
-            if (now >= nextMonthlyLimit) {
-                success = true
-            }
-            if (now >= nextWeeklyLimit) {
-                success = true
-            }
-            if (now >= nextDailyLimit) {
-                success = true
-            }
-            if (!success) {
-                return
-            }
-
-        }
+        val now = Instant.now()
+        val actions = getTelescopeActions(now.toLocalDateTime(TelescopeModule.ZONE_OFFSET), player)
+        if (actions.isEmpty()) return
 
         if (random.nextInt(1) == 0) {
             val x = pos.x.toDouble() + 0.0 + random.nextDouble() * 1.0
@@ -211,8 +152,44 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
                 random.nextGaussian() * 0.00,
             )
         }
+
     }
 
+}
+
+fun getTelescopeActions(now: LocalDateTime, player: PlayerEntity): List<() -> Unit> {
+    val actions = mutableListOf<() -> Unit>()
+
+    val lastTelescopeUseTime = player.lastTelescopeUseTimeProperty.get()
+    if (lastTelescopeUseTime != null) {
+
+        val time = Instant.ofEpochMilli(lastTelescopeUseTime).toLocalDateTime(TelescopeModule.ZONE_OFFSET)
+        val lastMonthlyLimit: LocalDateTime = time.toLocalDate().withDayOfMonth(1).atStartOfDay()
+
+        val lastWeeklyLimit: LocalDateTime = time.toLocalDate().minusDays((time.dayOfWeek.value - TelescopeModule.DAY_OF_WEEK_ORIGIN.value floorMod 7).toLong()).atStartOfDay()
+        val lastDailyLimit: LocalDateTime = time.toLocalDate().atStartOfDay()
+        val nextMonthlyLimit = lastMonthlyLimit.plusMonths(1)
+        val nextWeeklyLimit = lastWeeklyLimit.plusDays(7)
+        val nextDailyLimit = lastDailyLimit.plusDays(1)
+
+        if (now >= nextMonthlyLimit) {
+            actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(5)) }
+        }
+        if (now >= nextWeeklyLimit) {
+            actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1)) }
+            actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(5)) }
+        }
+        if (now >= nextDailyLimit) {
+            actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(3)) }
+        }
+
+    } else {
+
+        actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1)) }
+
+    }
+
+    return actions
 }
 
 val PlayerEntity.lastTelescopeUseTimeProperty get() = this.customData.wrapper[MirageFairy2023.modId]["mission"]["last_telescope_use_time"].long
