@@ -148,16 +148,16 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
                 player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(3))
                 success = true
             }
-            if (success) {
-                world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.5F, 1.0F)
-            }
 
         } else {
 
             player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1))
+            success = true
 
+        }
+
+        if (success) {
             world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.5F, 1.0F)
-
         }
 
         lastTelescopeUseTime = now1.toEpochMilli()
@@ -193,10 +193,15 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
             if (now >= nextDailyLimit) {
                 success = true
             }
-            if (!success) {
-                return
-            }
 
+        } else {
+
+            success = true
+
+        }
+
+        if (!success) {
+            return
         }
 
         if (random.nextInt(1) == 0) {
