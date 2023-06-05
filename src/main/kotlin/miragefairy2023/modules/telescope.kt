@@ -124,8 +124,7 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
             it()
         }
 
-        val success = actions.isNotEmpty()
-        if (success) {
+        if (actions.isNotEmpty()) {
             world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.5F, 1.0F)
         }
 
@@ -141,22 +140,19 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
         val now = Instant.now()
         val actions = getTelescopeActions(now.toLocalDateTime(TelescopeModule.ZONE_OFFSET), player)
 
-        val success = actions.isNotEmpty()
-        if (!success) {
-            return
-        }
-
-        if (random.nextInt(1) == 0) {
-            val x = pos.x.toDouble() + 0.0 + random.nextDouble() * 1.0
-            val y = pos.y.toDouble() + 0.0 + random.nextDouble() * 0.5
-            val z = pos.z.toDouble() + 0.0 + random.nextDouble() * 1.0
-            world.addParticle(
-                DemonParticleTypeCard.MISSION.particleType,
-                x, y, z,
-                random.nextGaussian() * 0.00,
-                random.nextGaussian() * 0.00 + 0.4,
-                random.nextGaussian() * 0.00,
-            )
+        if (actions.isNotEmpty()) {
+            if (random.nextInt(1) == 0) {
+                val x = pos.x.toDouble() + 0.0 + random.nextDouble() * 1.0
+                val y = pos.y.toDouble() + 0.0 + random.nextDouble() * 0.5
+                val z = pos.z.toDouble() + 0.0 + random.nextDouble() * 1.0
+                world.addParticle(
+                    DemonParticleTypeCard.MISSION.particleType,
+                    x, y, z,
+                    random.nextGaussian() * 0.00,
+                    random.nextGaussian() * 0.00 + 0.4,
+                    random.nextGaussian() * 0.00,
+                )
+            }
         }
     }
 
