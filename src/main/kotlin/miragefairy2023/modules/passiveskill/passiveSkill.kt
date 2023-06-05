@@ -101,6 +101,7 @@ val passiveSkillModule = module {
     translation(ThunderingPassiveSkillCondition.key)
     translation(HasHoePassiveSkillCondition.key)
     translation(OnFirePassiveSkillCondition.key)
+    translation(TelescopeMissionPassiveSkillCondition.key)
 
     translation(CombustionPassiveSkillEffect.key)
     translation(ExperiencePassiveSkillEffect.key)

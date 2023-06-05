@@ -3,6 +3,7 @@ package miragefairy2023.modules.passiveskill
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.PassiveSkillCondition
 import miragefairy2023.modules.ToolMaterialCard
+import miragefairy2023.modules.getTelescopeActions
 import miragefairy2023.util.Symbol
 import miragefairy2023.util.eyeBlockPos
 import miragefairy2023.util.init.Translation
@@ -20,6 +21,7 @@ import net.minecraft.tag.TagKey
 import net.minecraft.util.math.Box
 import net.minecraft.world.Heightmap
 import net.minecraft.world.biome.Biome
+import java.time.Instant
 
 private fun isInNaturalDimension(player: PlayerEntity) = player.world.dimension.natural
 
@@ -270,4 +272,13 @@ class StatusEffectPassiveSkillCondition(private val statusEffect: StatusEffect) 
 class MinimumManaPassiveSkillCondition(private val mana: Double) : PassiveSkillCondition {
     override fun getText() = text { "${Symbol.STAR}$mana${Symbol.UP}"() }
     override fun test(player: PlayerEntity, mana: Double) = mana >= this.mana
+}
+
+class TelescopeMissionPassiveSkillCondition : PassiveSkillCondition {
+    companion object {
+        val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.telescope_mission", "Telescope Mission", "望遠鏡ミッション")
+    }
+
+    override fun getText() = text { key() }
+    override fun test(player: PlayerEntity, mana: Double) = getTelescopeActions(Instant.now(), player).isEmpty()
 }
