@@ -152,19 +152,16 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
                 world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.5F, 1.0F)
             }
 
-            lastTelescopeUseTime = now.toInstant(TelescopeModule.ZONE_OFFSET).toEpochMilli()
-            syncCustomData(player)
-
         } else {
 
             player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1))
 
             world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.5F, 1.0F)
 
-            lastTelescopeUseTime = Instant.now().toEpochMilli()
-            syncCustomData(player)
-
         }
+
+        lastTelescopeUseTime = now1.toEpochMilli()
+        syncCustomData(player)
 
         return ActionResult.CONSUME
     }
