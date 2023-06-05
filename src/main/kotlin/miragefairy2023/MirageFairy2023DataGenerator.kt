@@ -96,10 +96,10 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
             initializationScope.onGenerateParticles.fire { it(provider) }
         })
 
-        fabricDataGenerator.addProvider(TrinketsEntitiesDataProvider(fabricDataGenerator).also { provider ->
+        fabricDataGenerator.addProvider(TrinketsEntitiesProvider(fabricDataGenerator).also { provider ->
             initializationScope.onGenerateTrinketsEntities.fire { it(provider) }
         })
-        fabricDataGenerator.addProvider(TrinketsSlotDataProvider(fabricDataGenerator).also { provider ->
+        fabricDataGenerator.addProvider(TrinketsSlotProvider(fabricDataGenerator).also { provider ->
             initializationScope.onGenerateTrinketsSlot.fire { it(provider) }
         })
 
@@ -131,7 +131,7 @@ class ParticleProvider(private val dataGenerator: DataGenerator) : DataProvider 
 
 }
 
-class TrinketsEntitiesDataProvider(private val dataGenerator: FabricDataGenerator) : DataProvider {
+class TrinketsEntitiesProvider(private val dataGenerator: FabricDataGenerator) : DataProvider {
 
     val slots = mutableListOf<String>()
 
@@ -159,7 +159,7 @@ class TrinketsEntitiesDataProvider(private val dataGenerator: FabricDataGenerato
 
 }
 
-class TrinketsSlotDataProvider(private val dataGenerator: FabricDataGenerator) : DataProvider {
+class TrinketsSlotProvider(private val dataGenerator: FabricDataGenerator) : DataProvider {
 
     val slots = mutableListOf<Pair<String, TrinketsSlotEntry>>()
 

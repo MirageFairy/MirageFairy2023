@@ -1,6 +1,6 @@
 package miragefairy2023.modules
 
-import miragefairy2023.TrinketsSlotDataProvider
+import miragefairy2023.TrinketsSlotProvider
 import miragefairy2023.module
 import miragefairy2023.util.init.enJa
 import net.minecraft.item.Item
@@ -37,7 +37,7 @@ val trinketsSlotModule = module {
 
     // 妖精スロット
     onGenerateTrinketsSlot {
-        it.slots += TrinketsSlotCard.HEAD_FAIRY.path to TrinketsSlotDataProvider.TrinketsSlotEntry(
+        it.slots += TrinketsSlotCard.HEAD_FAIRY.path to TrinketsSlotProvider.TrinketsSlotEntry(
             Identifier("trinkets", "gui/slots/${TrinketsSlotCard.HEAD_FAIRY.slotName}"),
             quickMovePredicates = listOf("trinkets:none"),
         )
