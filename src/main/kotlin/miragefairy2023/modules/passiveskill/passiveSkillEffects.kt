@@ -241,5 +241,5 @@ class ManaPassiveSkillEffect(private val mana: Double) : PassiveSkillEffect {
     }
 
     override fun getText(baseEfficiency: Double, efficiency: Double) = text { key((mana formatAs "${Symbol.STAR}%+.3f").removeTrailingZeros()) }
-    override fun getMana() = mana
+    override fun getMana(baseEfficiency: Double) = mana
 }

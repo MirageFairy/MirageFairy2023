@@ -59,6 +59,9 @@ interface PassiveSkillEffect {
      */
     fun affect(world: ServerWorld, player: PlayerEntity, efficiency: Double, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) = Unit
 
-    fun getMana() = 0.0
+    /**
+     * @param baseEfficiency パッシブスキルの補正が考慮されません。
+     */
+    fun getMana(baseEfficiency: Double) = 0.0
 
 }

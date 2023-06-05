@@ -37,7 +37,7 @@ val passiveSkillModule = module {
                     entries.forEach nextEntry@{ entry ->
                         if (entry.availability != PassiveSkillAvailability.ENABLED) return@nextEntry
                         entry.item.passiveSkillProvider.getPassiveSkills(player, entry.itemStack).forEach nextPassiveSkill@{ passiveSkill ->
-                            val passiveSkillMana2 = passiveSkill.effect.getMana()
+                            val passiveSkillMana2 = passiveSkill.effect.getMana(entry.item.passiveSkillProvider.mana / 10.0)
                             if (passiveSkillMana2 > 0.0) {
                                 passiveSkill.conditions.forEach { condition ->
                                     if (!condition.test(player, entry.item.passiveSkillProvider.mana)) return@nextPassiveSkill
