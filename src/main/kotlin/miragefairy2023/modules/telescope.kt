@@ -121,6 +121,7 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
 
 
         val now1 = Instant.now()
+        var success = false
         var lastTelescopeUseTime by player.lastTelescopeUseTimeProperty
         if (lastTelescopeUseTime != null) {
 
@@ -134,7 +135,6 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
             val nextDailyLimit = lastDailyLimit.plusDays(1)
 
             val now: LocalDateTime = now1.toLocalDateTime(TelescopeModule.ZONE_OFFSET)
-            var success = false
             if (now >= nextMonthlyLimit) {
                 player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(5))
                 success = true
@@ -170,6 +170,7 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
         val player = MirageFairy2023.clientProxy?.getClientPlayer() ?: return
 
         val now1 = Instant.now()
+        var success = false
         val lastTelescopeUseTime by player.lastTelescopeUseTimeProperty
         if (lastTelescopeUseTime != null) {
 
@@ -183,7 +184,6 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
             val nextDailyLimit = lastDailyLimit.plusDays(1)
 
             val now: LocalDateTime = now1.toLocalDateTime(TelescopeModule.ZONE_OFFSET)
-            var success = false
             if (now >= nextMonthlyLimit) {
                 success = true
             }
