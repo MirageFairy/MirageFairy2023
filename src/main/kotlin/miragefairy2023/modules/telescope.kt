@@ -163,8 +163,8 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
 }
 
 fun getTelescopeActions(now: LocalDateTime, player: PlayerEntity): List<() -> Unit> {
-
     val actions = mutableListOf<() -> Unit>()
+
     val lastTelescopeUseTime = player.lastTelescopeUseTimeProperty.get()
     if (lastTelescopeUseTime != null) {
 
