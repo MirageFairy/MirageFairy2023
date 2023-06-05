@@ -9,24 +9,25 @@ import net.fabricmc.yarn.constants.MiningLevels
 import net.minecraft.item.Item
 import net.minecraft.item.Items
 import net.minecraft.item.ToolMaterial
+import net.minecraft.item.ToolMaterials
 import net.minecraft.recipe.Ingredient
 import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
-enum class ToolMaterialCard(val path: String, en: String, ja: String) {
+enum class ToolMaterialCard(val toolMaterial: ToolMaterial, val path: String, en: String, ja: String) {
 
-    WOOD("wooden_tools", "Wooden Tool", "木ツール"),
-    STONE("stone_tools", "Stone Tool", "石ツール"),
-    GOLD("golden_tools", "Golden Tool", "金ツール"),
-    IRON("iron_tools", "Iron Tool", "鉄ツール"),
-    DIAMOND("diamond_tools", "Diamond Tool", "ダイヤモンドツール"),
-    NETHERITE("netherite_tools", "Netherite Tool", "ネザライトツール"),
+    WOOD(ToolMaterials.WOOD, "wooden_tools", "Wooden Tool", "木ツール"),
+    STONE(ToolMaterials.STONE, "stone_tools", "Stone Tool", "石ツール"),
+    GOLD(ToolMaterials.GOLD, "golden_tools", "Golden Tool", "金ツール"),
+    IRON(ToolMaterials.IRON, "iron_tools", "Iron Tool", "鉄ツール"),
+    DIAMOND(ToolMaterials.DIAMOND, "diamond_tools", "Diamond Tool", "ダイヤモンドツール"),
+    NETHERITE(ToolMaterials.NETHERITE, "netherite_tools", "Netherite Tool", "ネザライトツール"),
 
-    MIRAGE("mirage_tools", "Mirage Tool", "ミラージュツール"),
-    ARTIFICIAL_FAIRY_CRYSTAL("artificial_fairy_crystal_tools", "Crystal Tool", "クリスタルツール"),
-    MIRANAGITE("miranagite_tools", "Miranagi Tool", "蒼天のツール"),
-    CHAOS_STONE("chaos_stone_tools", "Chaos Tool", "混沌のツール"),
+    MIRAGE(DemonToolMaterials.MIRAGE, "mirage_tools", "Mirage Tool", "ミラージュツール"),
+    ARTIFICIAL_FAIRY_CRYSTAL(DemonToolMaterials.ARTIFICIAL_FAIRY_CRYSTAL, "artificial_fairy_crystal_tools", "Crystal Tool", "クリスタルツール"),
+    MIRANAGITE(DemonToolMaterials.MIRANAGITE, "miranagite_tools", "Miranagi Tool", "蒼天のツール"),
+    CHAOS_STONE(DemonToolMaterials.CHAOS_STONE, "chaos_stone_tools", "Chaos Tool", "混沌のツール"),
 
     ;
 
@@ -93,19 +94,6 @@ val toolMaterialModule = module {
     register(ToolMaterialCard.NETHERITE) { Items.NETHERITE_PICKAXE }
     register(ToolMaterialCard.NETHERITE) { Items.NETHERITE_AXE }
     register(ToolMaterialCard.NETHERITE) { Items.NETHERITE_HOE }
-
-    // MIRAGE
-    register(ToolMaterialCard.MIRAGE) { ToolItemCard.DREAM_CATCHER.item.feature }
-
-    // ARTIFICIAL_FAIRY_CRYSTAL
-    register(ToolMaterialCard.ARTIFICIAL_FAIRY_CRYSTAL) { ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE.item.feature }
-
-    // MIRANAGITE
-    register(ToolMaterialCard.MIRANAGITE) { ToolItemCard.MIRANAGITE_PICKAXE.item.feature }
-
-    // CHAOS_STONE
-    register(ToolMaterialCard.CHAOS_STONE) { ToolItemCard.BLUE_DREAM_CATCHER.item.feature }
-    register(ToolMaterialCard.CHAOS_STONE) { ToolItemCard.CHAOS_STONE_PICKAXE.item.feature }
 
 }
 

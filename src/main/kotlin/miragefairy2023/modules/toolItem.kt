@@ -31,7 +31,6 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.item.PickaxeItem
-import net.minecraft.item.ToolMaterial
 import net.minecraft.item.Vanishable
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
@@ -58,7 +57,7 @@ enum class ToolItemCard(
             Description("description1", "Show fairy dreams when in inventory", "インベントリ内に所持時、妖精の夢を表示"),
             Description("description2", "Acquire the fairy dream when used", "使用時、妖精の夢を獲得"),
         ),
-        dreamCatcher(DemonToolMaterials.MIRAGE, 20),
+        dreamCatcher(ToolMaterialCard.MIRAGE, 20),
     ),
     BLUE_DREAM_CATCHER(
         "blue_dream_catcher", "Blue Dream Catcher", "蒼天のドリームキャッチャー",
@@ -67,12 +66,12 @@ enum class ToolItemCard(
             Description("description1", "Show fairy dreams when in inventory", "インベントリ内に所持時、妖精の夢を表示"),
             Description("description2", "Acquire the fairy dream when used", "使用時、妖精の夢を獲得"),
         ),
-        dreamCatcher(DemonToolMaterials.CHAOS_STONE, 400),
+        dreamCatcher(ToolMaterialCard.CHAOS_STONE, 400),
     ),
     ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE(
         "artificial_fairy_crystal_pickaxe", "Crystal Pickaxe", "クリスタルのつるはし",
         listOf(Poem("Amorphous mental body of fairies", "妖精さえ怖れる、技術の結晶。")),
-        pickaxe(DemonToolMaterials.ARTIFICIAL_FAIRY_CRYSTAL, 1, -2.8F, BlockTags.PICKAXE_MINEABLE),
+        pickaxe(ToolMaterialCard.ARTIFICIAL_FAIRY_CRYSTAL, 1, -2.8F, BlockTags.PICKAXE_MINEABLE),
     ),
     ARTIFICIAL_FAIRY_CRYSTAL_PENDANT(
         "artificial_fairy_crystal_pendant", "Crystal Pendant", "クリスタルのペンダント",
@@ -87,7 +86,7 @@ enum class ToolItemCard(
             Poem("Promotes ore recrystallization", "凝集する秩序、蒼穹彩煌が如く。"),
             Description("Enchant silk touch when using raw item", "生のアイテム使用時、シルクタッチ付与")
         ),
-        pickaxe(DemonToolMaterials.MIRANAGITE, 1, -2.8F, BlockTags.PICKAXE_MINEABLE, silkTouch = true),
+        pickaxe(ToolMaterialCard.MIRANAGITE, 1, -2.8F, BlockTags.PICKAXE_MINEABLE, silkTouch = true),
     ),
     CHAOS_STONE_PICKAXE(
         "chaos_stone_pickaxe", "Chaos Pickaxe", "混沌のつるはし",
@@ -95,7 +94,7 @@ enum class ToolItemCard(
             Poem("Is this made of metal? Or clay?", "時空結晶の交点に、古代の産業が芽吹く。"),
             Description("Can dig like a shovel", "シャベルのように掘れる")
         ),
-        pickaxe(DemonToolMaterials.CHAOS_STONE, 1, -2.8F, BlockTags.PICKAXE_MINEABLE, BlockTags.SHOVEL_MINEABLE),
+        pickaxe(ToolMaterialCard.CHAOS_STONE, 1, -2.8F, BlockTags.PICKAXE_MINEABLE, BlockTags.SHOVEL_MINEABLE),
     ),
     ;
 
@@ -202,18 +201,19 @@ val toolItemModule = module {
 }
 
 
-private fun dreamCatcher(toolMaterial: ToolMaterial, maxDamage: Int): InitializationScope.(ToolItemCard) -> Unit = { card ->
-    card.item = item(card.path, { DreamCatcherItem(toolMaterial, maxDamage, FabricItemSettings().group(commonItemGroup)) }) {
+private fun dreamCatcher(toolMaterialCard: ToolMaterialCard, maxDamage: Int): InitializationScope.(ToolItemCard) -> Unit = { card ->
+    card.item = item(card.path, { DreamCatcherItem(toolMaterialCard.toolMaterial, maxDamage, FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Models.HANDHELD) }
         enJaItem({ feature }, card.enName, card.jaName)
         generatePoemList(card.poemList)
         onRegisterItems { registerPoemList(feature, card.poemList) }
+        onGenerateItemTags { it(toolMaterialCard.tag).add(feature) }
     }
 }
 
-private fun pickaxe(toolMaterial: ToolMaterial, attackDamage: Int, attackSpeed: Float, vararg effectiveBlockTags: TagKey<Block>, silkTouch: Boolean = false): InitializationScope.(ToolItemCard) -> Unit = { card ->
+private fun pickaxe(toolMaterialCard: ToolMaterialCard, attackDamage: Int, attackSpeed: Float, vararg effectiveBlockTags: TagKey<Block>, silkTouch: Boolean = false): InitializationScope.(ToolItemCard) -> Unit = { card ->
     card.item = item(card.path, {
-        object : PickaxeItem(toolMaterial, attackDamage, attackSpeed, FabricItemSettings().group(commonItemGroup)) {
+        object : PickaxeItem(toolMaterialCard.toolMaterial, attackDamage, attackSpeed, FabricItemSettings().group(commonItemGroup)) {
             override fun getMiningSpeedMultiplier(stack: ItemStack, state: BlockState) = if (effectiveBlockTags.any { state.isIn(it) }) miningSpeed else 1.0F
 
             override fun isSuitableFor(state: BlockState): Boolean {
@@ -247,6 +247,7 @@ private fun pickaxe(toolMaterial: ToolMaterial, attackDamage: Int, attackSpeed: 
         enJaItem({ feature }, card.enName, card.jaName)
         generatePoemList(card.poemList)
         onRegisterItems { registerPoemList(feature, card.poemList) }
+        onGenerateItemTags { it(toolMaterialCard.tag).add(feature) }
         onGenerateItemTags { it(ItemTags.CLUSTER_MAX_HARVESTABLES).add(feature) }
         onGenerateItemTags { it(ConventionalItemTags.PICKAXES).add(feature) }
     }
