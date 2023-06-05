@@ -117,37 +117,8 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
         if (world.isClient) return ActionResult.SUCCESS
         player as ServerPlayerEntity
 
-
         val now = Instant.now()
-        val actions = mutableListOf<() -> Unit>()
-        val lastTelescopeUseTime = player.lastTelescopeUseTimeProperty.get()
-        if (lastTelescopeUseTime != null) {
-
-            val time = Instant.ofEpochMilli(lastTelescopeUseTime).toLocalDateTime(TelescopeModule.ZONE_OFFSET)
-            val lastMonthlyLimit: LocalDateTime = time.toLocalDate().withDayOfMonth(1).atStartOfDay()
-
-            val lastWeeklyLimit: LocalDateTime = time.toLocalDate().minusDays((time.dayOfWeek.value - TelescopeModule.DAY_OF_WEEK_ORIGIN.value floorMod 7).toLong()).atStartOfDay()
-            val lastDailyLimit: LocalDateTime = time.toLocalDate().atStartOfDay()
-            val nextMonthlyLimit = lastMonthlyLimit.plusMonths(1)
-            val nextWeeklyLimit = lastWeeklyLimit.plusDays(7)
-            val nextDailyLimit = lastDailyLimit.plusDays(1)
-
-            if (now.toLocalDateTime(TelescopeModule.ZONE_OFFSET) >= nextMonthlyLimit) {
-                actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(5)) }
-            }
-            if (now.toLocalDateTime(TelescopeModule.ZONE_OFFSET) >= nextWeeklyLimit) {
-                actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1)) }
-                actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(5)) }
-            }
-            if (now.toLocalDateTime(TelescopeModule.ZONE_OFFSET) >= nextDailyLimit) {
-                actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(3)) }
-            }
-
-        } else {
-
-            actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1)) }
-
-        }
+        val actions = getTelescopeActions(now.toLocalDateTime(TelescopeModule.ZONE_OFFSET), player)
 
         actions.forEach {
             it()
@@ -168,35 +139,7 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
         val player = MirageFairy2023.clientProxy?.getClientPlayer() ?: return
 
         val now = Instant.now()
-        val actions = mutableListOf<() -> Unit>()
-        val lastTelescopeUseTime = player.lastTelescopeUseTimeProperty.get()
-        if (lastTelescopeUseTime != null) {
-
-            val time = Instant.ofEpochMilli(lastTelescopeUseTime).toLocalDateTime(TelescopeModule.ZONE_OFFSET)
-            val lastMonthlyLimit: LocalDateTime = time.toLocalDate().withDayOfMonth(1).atStartOfDay()
-
-            val lastWeeklyLimit: LocalDateTime = time.toLocalDate().minusDays((time.dayOfWeek.value - TelescopeModule.DAY_OF_WEEK_ORIGIN.value floorMod 7).toLong()).atStartOfDay()
-            val lastDailyLimit: LocalDateTime = time.toLocalDate().atStartOfDay()
-            val nextMonthlyLimit = lastMonthlyLimit.plusMonths(1)
-            val nextWeeklyLimit = lastWeeklyLimit.plusDays(7)
-            val nextDailyLimit = lastDailyLimit.plusDays(1)
-
-            if (now.toLocalDateTime(TelescopeModule.ZONE_OFFSET) >= nextMonthlyLimit) {
-                actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(5)) }
-            }
-            if (now.toLocalDateTime(TelescopeModule.ZONE_OFFSET) >= nextWeeklyLimit) {
-                actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1)) }
-                actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(5)) }
-            }
-            if (now.toLocalDateTime(TelescopeModule.ZONE_OFFSET) >= nextDailyLimit) {
-                actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(3)) }
-            }
-
-        } else {
-
-            actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1)) }
-
-        }
+        val actions = getTelescopeActions(now.toLocalDateTime(TelescopeModule.ZONE_OFFSET), player)
 
         val success = actions.isNotEmpty()
         if (!success) {
@@ -217,6 +160,41 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
         }
     }
 
+}
+
+fun getTelescopeActions(now: LocalDateTime, player: PlayerEntity): List<() -> Unit> {
+
+    val actions = mutableListOf<() -> Unit>()
+    val lastTelescopeUseTime = player.lastTelescopeUseTimeProperty.get()
+    if (lastTelescopeUseTime != null) {
+
+        val time = Instant.ofEpochMilli(lastTelescopeUseTime).toLocalDateTime(TelescopeModule.ZONE_OFFSET)
+        val lastMonthlyLimit: LocalDateTime = time.toLocalDate().withDayOfMonth(1).atStartOfDay()
+
+        val lastWeeklyLimit: LocalDateTime = time.toLocalDate().minusDays((time.dayOfWeek.value - TelescopeModule.DAY_OF_WEEK_ORIGIN.value floorMod 7).toLong()).atStartOfDay()
+        val lastDailyLimit: LocalDateTime = time.toLocalDate().atStartOfDay()
+        val nextMonthlyLimit = lastMonthlyLimit.plusMonths(1)
+        val nextWeeklyLimit = lastWeeklyLimit.plusDays(7)
+        val nextDailyLimit = lastDailyLimit.plusDays(1)
+
+        if (now >= nextMonthlyLimit) {
+            actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(5)) }
+        }
+        if (now >= nextWeeklyLimit) {
+            actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1)) }
+            actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(5)) }
+        }
+        if (now >= nextDailyLimit) {
+            actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(3)) }
+        }
+
+    } else {
+
+        actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1)) }
+
+    }
+
+    return actions
 }
 
 val PlayerEntity.lastTelescopeUseTimeProperty get() = this.customData.wrapper[MirageFairy2023.modId]["mission"]["last_telescope_use_time"].long
