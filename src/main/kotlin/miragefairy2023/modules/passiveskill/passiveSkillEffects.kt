@@ -240,6 +240,6 @@ class ManaPassiveSkillEffect(private val mana: Double) : PassiveSkillEffect {
         private val identifier = Identifier(MirageFairy2023.modId, "collection")
     }
 
-    override fun getText(baseEfficiency: Double, efficiency: Double) = text { key((mana formatAs "${Symbol.STAR}%+.3f").removeTrailingZeros()) }
-    override fun getMana(baseEfficiency: Double) = mana
+    override fun getText(baseEfficiency: Double, efficiency: Double) = text { key((mana * baseEfficiency formatAs "${Symbol.STAR}%+.3f").removeTrailingZeros()) }
+    override fun getMana(baseEfficiency: Double) = mana * baseEfficiency
 }
