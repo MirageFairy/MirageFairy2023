@@ -52,9 +52,6 @@ lateinit var blueDreamCatcherItem: FeatureSlot<DreamCatcherItem>
 
 val dreamCatcherModule = module {
 
-    translation(DreamCatcherItem.knownKey)
-    translation(DreamCatcherItem.successKey)
-
     // ドリームキャッチャー
     dreamCatcherItem = item("dream_catcher", { DreamCatcherItem(DemonToolMaterials.MIRAGE, 20, FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Models.HANDHELD) }
@@ -106,6 +103,9 @@ val dreamCatcherModule = module {
             .group(blueDreamCatcherItem.feature)
             .offerTo(it, blueDreamCatcherItem.feature.identifier)
     }
+
+    translation(DreamCatcherItem.knownKey)
+    translation(DreamCatcherItem.successKey)
 
 }
 
