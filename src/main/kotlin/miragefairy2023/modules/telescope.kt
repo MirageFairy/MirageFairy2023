@@ -5,7 +5,6 @@ import miragefairy2023.module
 import miragefairy2023.util.InstrumentBlock
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.get
-import miragefairy2023.util.getValue
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.block
@@ -17,7 +16,6 @@ import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
 import miragefairy2023.util.long
 import miragefairy2023.util.obtain
-import miragefairy2023.util.setValue
 import miragefairy2023.util.toLocalDateTime
 import miragefairy2023.util.wrapper
 import mirrg.kotlin.hydrogen.floorMod
@@ -123,10 +121,10 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
         val now1 = Instant.now()
         var success = false
         val actions = mutableListOf<() -> Unit>()
-        var lastTelescopeUseTime by player.lastTelescopeUseTimeProperty
+        val lastTelescopeUseTime = player.lastTelescopeUseTimeProperty.get()
         if (lastTelescopeUseTime != null) {
 
-            val time = Instant.ofEpochMilli(lastTelescopeUseTime!!).toLocalDateTime(TelescopeModule.ZONE_OFFSET)
+            val time = Instant.ofEpochMilli(lastTelescopeUseTime).toLocalDateTime(TelescopeModule.ZONE_OFFSET)
             val lastMonthlyLimit: LocalDateTime = time.toLocalDate().withDayOfMonth(1).atStartOfDay()
 
             val lastWeeklyLimit: LocalDateTime = time.toLocalDate().minusDays((time.dayOfWeek.value - TelescopeModule.DAY_OF_WEEK_ORIGIN.value floorMod 7).toLong()).atStartOfDay()
@@ -165,7 +163,7 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
             world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.5F, 1.0F)
         }
 
-        lastTelescopeUseTime = now1.toEpochMilli()
+        player.lastTelescopeUseTimeProperty.set(now1.toEpochMilli())
         syncCustomData(player)
 
         return ActionResult.CONSUME
@@ -177,10 +175,10 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
         val now1 = Instant.now()
         var success = false
         val actions = mutableListOf<() -> Unit>()
-        val lastTelescopeUseTime by player.lastTelescopeUseTimeProperty
+        val lastTelescopeUseTime = player.lastTelescopeUseTimeProperty.get()
         if (lastTelescopeUseTime != null) {
 
-            val time = Instant.ofEpochMilli(lastTelescopeUseTime!!).toLocalDateTime(TelescopeModule.ZONE_OFFSET)
+            val time = Instant.ofEpochMilli(lastTelescopeUseTime).toLocalDateTime(TelescopeModule.ZONE_OFFSET)
             val lastMonthlyLimit: LocalDateTime = time.toLocalDate().withDayOfMonth(1).atStartOfDay()
 
             val lastWeeklyLimit: LocalDateTime = time.toLocalDate().minusDays((time.dayOfWeek.value - TelescopeModule.DAY_OF_WEEK_ORIGIN.value floorMod 7).toLong()).atStartOfDay()
