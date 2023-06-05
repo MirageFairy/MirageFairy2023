@@ -258,7 +258,7 @@ private fun accessory(trinketsSlotCard: TrinketsSlotCard, mana: Double, passiveS
         class AccessoryItem : Item(FabricItemSettings().group(commonItemGroup).maxCount(1)), PassiveSkillItem, Vanishable {
             override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
                 super.appendTooltip(stack, world, tooltip, context)
-                tooltip += getPassiveSkillTooltip(stack, mana, passiveSkills)
+                tooltip += getPassiveSkillTooltip(stack, mana, mana, passiveSkills)
             }
 
             override val passiveSkillProvider: PassiveSkillProvider

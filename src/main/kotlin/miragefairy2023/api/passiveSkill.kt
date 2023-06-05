@@ -38,9 +38,10 @@ interface PassiveSkillCondition {
 interface PassiveSkillEffect {
 
     /**
+     * @param baseEfficiency [efficiency]と同様ですが、パッシブスキルの補正が考慮されません。
      * @param efficiency 妖精のレア度10相当のときに1.0になります。
      */
-    fun getText(efficiency: Double): Text
+    fun getText(baseEfficiency: Double, efficiency: Double): Text
 
     /**
      * 任意のタイミングで更新されうる持続的な効果を更新します。

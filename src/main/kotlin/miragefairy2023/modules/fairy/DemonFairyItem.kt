@@ -92,7 +92,7 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
         tooltip += text { (RARE_KEY() + ": "() + stars3 + " ${(passiveSkillProvider.mana + passiveSkillMana formatAs "%.3f").removeTrailingZeros()}"()).aqua }
 
         // パッシブスキル
-        tooltip += getPassiveSkillTooltip(stack, passiveSkillProvider.mana + passiveSkillMana, fairyCard.passiveSkills)
+        tooltip += getPassiveSkillTooltip(stack, passiveSkillProvider.mana, passiveSkillProvider.mana + passiveSkillMana, fairyCard.passiveSkills)
 
         // 凝縮レシピ
         when (rank) {
