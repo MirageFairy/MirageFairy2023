@@ -118,7 +118,7 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
         player as ServerPlayerEntity
 
         val now = Instant.now()
-        val actions = getTelescopeActions(now.toLocalDateTime(TelescopeModule.ZONE_OFFSET), player)
+        val actions = getTelescopeActions(now, player)
         if (actions.isEmpty()) return ActionResult.CONSUME
 
         actions.forEach {
@@ -137,7 +137,7 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
         val player = MirageFairy2023.clientProxy?.getClientPlayer() ?: return
 
         val now = Instant.now()
-        val actions = getTelescopeActions(now.toLocalDateTime(TelescopeModule.ZONE_OFFSET), player)
+        val actions = getTelescopeActions(now, player)
         if (actions.isEmpty()) return
 
         if (random.nextInt(1) == 0) {
@@ -157,7 +157,7 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
 
 }
 
-fun getTelescopeActions(now: LocalDateTime, player: PlayerEntity): List<() -> Unit> {
+fun getTelescopeActions(now: Instant, player: PlayerEntity): List<() -> Unit> {
     val actions = mutableListOf<() -> Unit>()
 
     val lastTelescopeUseTime = player.lastTelescopeUseTimeProperty.get()
@@ -172,14 +172,15 @@ fun getTelescopeActions(now: LocalDateTime, player: PlayerEntity): List<() -> Un
         val nextWeeklyLimit = lastWeeklyLimit.plusDays(7)
         val nextDailyLimit = lastDailyLimit.plusDays(1)
 
-        if (now >= nextMonthlyLimit) {
+        val now2 = now.toLocalDateTime(TelescopeModule.ZONE_OFFSET)
+        if (now2 >= nextMonthlyLimit) {
             actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(5)) }
         }
-        if (now >= nextWeeklyLimit) {
+        if (now2 >= nextWeeklyLimit) {
             actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1)) }
             actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(5)) }
         }
-        if (now >= nextDailyLimit) {
+        if (now2 >= nextDailyLimit) {
             actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(3)) }
         }
 
