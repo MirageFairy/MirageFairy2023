@@ -169,8 +169,9 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
     }
 
     override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {
+        val player = MirageFairy2023.clientProxy?.getClientPlayer() ?: return
 
-        val lastTelescopeUseTime by MirageFairy2023.clientProxy?.getClientPlayer()?.lastTelescopeUseTimeProperty ?: return
+        val lastTelescopeUseTime by player.lastTelescopeUseTimeProperty
         if (lastTelescopeUseTime != null) {
 
             val time = Instant.ofEpochMilli(lastTelescopeUseTime!!).toLocalDateTime(TelescopeModule.ZONE_OFFSET)
