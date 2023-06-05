@@ -255,22 +255,22 @@ val advancementModule = module {
         }
 
         val dreamCatcher = advancement(
-            "dream_catcher", { dreamCatcherItem.feature },
+            "dream_catcher", { DreamCatcherCard.DREAM_CATCHER.item.feature },
             "Dreamy Filtration Medium", "夢取り網",
             "Make a tool to collect good dreams", "夢を集める道具を作る",
             parent = root,
         ) {
-            criterion(dreamCatcherItem.feature)
+            criterion(DreamCatcherCard.DREAM_CATCHER.item.feature)
             reward(tier1LootTableId)
         }
 
         val blueDreamCatcher = advancement(
-            "blue_dream_catcher", { blueDreamCatcherItem.feature },
+            "blue_dream_catcher", { DreamCatcherCard.BLUE_DREAM_CATCHER.item.feature },
             "Law of the Happiness", "しあわせは儚き渦の中心に",
             "Adsorb viral memes with reticulated anti-entropy", "秩序の宝石で邪気を分解する",
             parent = dreamCatcher,
         ) {
-            criterion(blueDreamCatcherItem.feature)
+            criterion(DreamCatcherCard.BLUE_DREAM_CATCHER.item.feature)
             reward(tier2LootTableId)
         }
 
