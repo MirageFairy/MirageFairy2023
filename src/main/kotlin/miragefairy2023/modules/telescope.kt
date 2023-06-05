@@ -132,15 +132,14 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
             val nextWeeklyLimit = lastWeeklyLimit.plusDays(7)
             val nextDailyLimit = lastDailyLimit.plusDays(1)
 
-            val now: LocalDateTime = now1.toLocalDateTime(TelescopeModule.ZONE_OFFSET)
-            if (now >= nextMonthlyLimit) {
+            if (now1.toLocalDateTime(TelescopeModule.ZONE_OFFSET) >= nextMonthlyLimit) {
                 actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(5)) }
             }
-            if (now >= nextWeeklyLimit) {
+            if (now1.toLocalDateTime(TelescopeModule.ZONE_OFFSET) >= nextWeeklyLimit) {
                 actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1)) }
                 actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(5)) }
             }
-            if (now >= nextDailyLimit) {
+            if (now1.toLocalDateTime(TelescopeModule.ZONE_OFFSET) >= nextDailyLimit) {
                 actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(3)) }
             }
 
@@ -182,15 +181,14 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
             val nextWeeklyLimit = lastWeeklyLimit.plusDays(7)
             val nextDailyLimit = lastDailyLimit.plusDays(1)
 
-            val now: LocalDateTime = now1.toLocalDateTime(TelescopeModule.ZONE_OFFSET)
-            if (now >= nextMonthlyLimit) {
+            if (now1.toLocalDateTime(TelescopeModule.ZONE_OFFSET) >= nextMonthlyLimit) {
                 actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(5)) }
             }
-            if (now >= nextWeeklyLimit) {
+            if (now1.toLocalDateTime(TelescopeModule.ZONE_OFFSET) >= nextWeeklyLimit) {
                 actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500().createItemStack(1)) }
                 actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(5)) }
             }
-            if (now >= nextDailyLimit) {
+            if (now1.toLocalDateTime(TelescopeModule.ZONE_OFFSET) >= nextDailyLimit) {
                 actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50().createItemStack(3)) }
             }
 
