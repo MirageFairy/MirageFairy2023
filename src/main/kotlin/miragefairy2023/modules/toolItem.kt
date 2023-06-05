@@ -77,7 +77,7 @@ enum class ToolItemCard(
         "artificial_fairy_crystal_pendant", "Crystal Pendant", "クリスタルのペンダント",
         listOf(Poem("Object that makes Mirage fairies fairies", "『妖精』だったあのころ――")),
         accessory(TrinketsSlotCard.CHEST_NECKLACE, 5.0, buildList {
-            this += PassiveSkill(listOf(), ManaPassiveSkillEffect(0.2))
+            this += PassiveSkill(listOf(), ManaPassiveSkillEffect(0.4))
         }),
     ),
     MIRANAGITE_PICKAXE(

@@ -233,8 +233,7 @@ enum class FairyCard(
         listOf(
             PassiveSkill(listOf(), LuckPassiveSkillEffect(0.5)),
             PassiveSkill(listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.MIRANAGITE)), StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 0)),
-            PassiveSkill(listOf(), ManaPassiveSkillEffect(0.3)),
-            PassiveSkill(listOf(MinimumManaPassiveSkillCondition(9.0)), ManaPassiveSkillEffect(0.2)),
+            PassiveSkill(listOf(), ManaPassiveSkillEffect(0.5)),
         ),
         RecipeContainer().overworld().recipe { DemonItemCard.MIRANAGITE() },
     ),
@@ -633,7 +632,7 @@ enum class FairyCard(
     MINA(
         "mina", 5, "Minia", "銀子精ミーニャ", 0xFFFF84, 0xFFFF00, 0xFFFF00, 0xFFC800,
         listOf(
-            PassiveSkill(listOf(TelescopeMissionPassiveSkillCondition()), ManaPassiveSkillEffect(1.2)),
+            PassiveSkill(listOf(TelescopeMissionPassiveSkillCondition()), ManaPassiveSkillEffect(1.0)),
         ),
         RecipeContainer().always(),
     ),
