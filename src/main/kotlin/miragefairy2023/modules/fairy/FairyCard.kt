@@ -4,11 +4,8 @@ import miragefairy2023.InitializationScope
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.Fairy
 import miragefairy2023.api.PassiveSkill
-import miragefairy2023.modules.BlockFairyRelation
 import miragefairy2023.modules.CommonFairyEntry
 import miragefairy2023.modules.DemonItemCard
-import miragefairy2023.modules.DreamCatcherItem
-import miragefairy2023.modules.EntityTypeFairyRelation
 import miragefairy2023.modules.MirageFlourCard
 import miragefairy2023.modules.MirageFlourItem
 import miragefairy2023.modules.ToolMaterialCard
@@ -704,7 +701,7 @@ private fun FairyCard.RecipeContainer.block(blockSupplier: () -> Block) = this.a
         override fun getWikiString() = "夢：ブロック：${blockSupplier().name.string}"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onRegisterRecipes {
-                DreamCatcherItem.BLOCK_FAIRY_RELATION_LIST += BlockFairyRelation(blockSupplier(), fairyCard.fairy)
+                BLOCK_FAIRY_RELATION_LIST += BlockFairyRelation(blockSupplier(), fairyCard.fairy)
             }
         }
     }
@@ -715,7 +712,7 @@ private fun FairyCard.RecipeContainer.entityType(entityTypeSupplier: () -> Entit
         override fun getWikiString() = "夢：エンティティ：${entityTypeSupplier().name.string}"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onRegisterRecipes {
-                DreamCatcherItem.ENTITY_TYPE_FAIRY_RELATION_LIST += EntityTypeFairyRelation(entityTypeSupplier(), fairyCard.fairy)
+                ENTITY_TYPE_FAIRY_RELATION_LIST += EntityTypeFairyRelation(entityTypeSupplier(), fairyCard.fairy)
             }
         }
     }

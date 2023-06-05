@@ -3,6 +3,8 @@ package miragefairy2023.modules
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.Fairy
 import miragefairy2023.module
+import miragefairy2023.modules.fairy.BLOCK_FAIRY_RELATION_LIST
+import miragefairy2023.modules.fairy.ENTITY_TYPE_FAIRY_RELATION_LIST
 import miragefairy2023.util.get
 import miragefairy2023.util.init.Translation
 import miragefairy2023.util.init.translation
@@ -12,11 +14,9 @@ import miragefairy2023.util.text
 import miragefairy2023.util.wrapper
 import mirrg.kotlin.hydrogen.castOrNull
 import mirrg.kotlin.hydrogen.or
-import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.FluidBlock
 import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -42,15 +42,10 @@ val dreamCatcherModule = module {
     translation(DreamCatcherItem.successKey)
 }
 
-class BlockFairyRelation(val block: Block, val fairy: Fairy)
-class EntityTypeFairyRelation(val entityType: EntityType<*>, val fairy: Fairy)
-
 class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Settings) : ToolItem(material, settings.maxDamage(maxDamage)) {
     companion object {
         val knownKey = Translation("item.${MirageFairy2023.modId}.dream_catcher.known_message", "Already have memory of %s", "%s の記憶は既に持っている")
         val successKey = Translation("item.${MirageFairy2023.modId}.dream_catcher.success_message", "I dreamed of %s!", "%s の夢を見た！")
-        val BLOCK_FAIRY_RELATION_LIST = mutableListOf<BlockFairyRelation>()
-        val ENTITY_TYPE_FAIRY_RELATION_LIST = mutableListOf<EntityTypeFairyRelation>()
     }
 
     override fun useOnBlock(context: ItemUsageContext): ActionResult {
