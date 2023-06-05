@@ -2,12 +2,10 @@ package miragefairy2023.modules
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.Fairy
-import miragefairy2023.module
 import miragefairy2023.modules.fairy.BLOCK_FAIRY_RELATION_LIST
 import miragefairy2023.modules.fairy.ENTITY_TYPE_FAIRY_RELATION_LIST
 import miragefairy2023.util.get
 import miragefairy2023.util.init.Translation
-import miragefairy2023.util.init.translation
 import miragefairy2023.util.int
 import miragefairy2023.util.map
 import miragefairy2023.util.text
@@ -117,7 +115,7 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
     }
 
     override fun postMine(stack: ItemStack, world: World, state: BlockState, pos: BlockPos, miner: LivingEntity): Boolean {
-        if (state.getHardness(world, pos) != 0.0f) {
+        if (state.getHardness(world, pos) != 0.0F) {
             stack.damage(1, miner) {
                 it.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND)
             }
