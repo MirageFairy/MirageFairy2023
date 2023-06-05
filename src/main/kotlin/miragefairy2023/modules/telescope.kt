@@ -119,20 +119,16 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
 
         val now = Instant.now()
         val actions = getTelescopeActions(now.toLocalDateTime(TelescopeModule.ZONE_OFFSET), player)
+        if (actions.isEmpty()) return ActionResult.CONSUME
 
-
-        if (actions.isNotEmpty()) {
-
-            actions.forEach {
-                it()
-            }
-
-            world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.5F, 1.0F)
-
-            player.lastTelescopeUseTimeProperty.set(now.toEpochMilli())
-            syncCustomData(player)
-
+        actions.forEach {
+            it()
         }
+
+        world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.5F, 1.0F)
+
+        player.lastTelescopeUseTimeProperty.set(now.toEpochMilli())
+        syncCustomData(player)
 
         return ActionResult.CONSUME
     }
@@ -142,21 +138,21 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
 
         val now = Instant.now()
         val actions = getTelescopeActions(now.toLocalDateTime(TelescopeModule.ZONE_OFFSET), player)
+        if (actions.isEmpty()) return
 
-        if (actions.isNotEmpty()) {
-            if (random.nextInt(1) == 0) {
-                val x = pos.x.toDouble() + 0.0 + random.nextDouble() * 1.0
-                val y = pos.y.toDouble() + 0.0 + random.nextDouble() * 0.5
-                val z = pos.z.toDouble() + 0.0 + random.nextDouble() * 1.0
-                world.addParticle(
-                    DemonParticleTypeCard.MISSION.particleType,
-                    x, y, z,
-                    random.nextGaussian() * 0.00,
-                    random.nextGaussian() * 0.00 + 0.4,
-                    random.nextGaussian() * 0.00,
-                )
-            }
+        if (random.nextInt(1) == 0) {
+            val x = pos.x.toDouble() + 0.0 + random.nextDouble() * 1.0
+            val y = pos.y.toDouble() + 0.0 + random.nextDouble() * 0.5
+            val z = pos.z.toDouble() + 0.0 + random.nextDouble() * 1.0
+            world.addParticle(
+                DemonParticleTypeCard.MISSION.particleType,
+                x, y, z,
+                random.nextGaussian() * 0.00,
+                random.nextGaussian() * 0.00 + 0.4,
+                random.nextGaussian() * 0.00,
+            )
         }
+
     }
 
 }
