@@ -42,6 +42,7 @@ import miragefairy2023.modules.passiveskill.ShadePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.StatusEffectPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.StatusEffectPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.SunshinePassiveSkillCondition
+import miragefairy2023.modules.passiveskill.TelescopeMissionPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.ThunderingPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.ToolMaterialPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.UnderwaterPassiveSkillCondition
@@ -626,6 +627,13 @@ enum class FairyCard(
             PassiveSkill(listOf(), RegenerationPassiveSkillEffect(0.1)),
             PassiveSkill(listOf(), ManaPassiveSkillEffect(0.5)),
             // TODO 夢のエフェクトが見えるようになる
+        ),
+        RecipeContainer().always(),
+    ),
+    MINA(
+        "mina", 5, "Minia", "銀子精ミーニャ", 0xFFFF84, 0xFFFF00, 0xFFFF00, 0xFFC800,
+        listOf(
+            PassiveSkill(listOf(TelescopeMissionPassiveSkillCondition()), ManaPassiveSkillEffect(1.2)),
         ),
         RecipeContainer().always(),
     ),
