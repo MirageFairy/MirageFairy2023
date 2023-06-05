@@ -15,6 +15,28 @@ import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
+enum class DemonToolMaterials(
+    private val durability: Int,
+    private val miningSpeedMultiplier: Float,
+    private val attackDamage: Float,
+    private val miningLevel: Int,
+    private val enchantability: Int,
+    private val repairIngredient: () -> Ingredient,
+) : ToolMaterial {
+    MIRAGE(48, 1.6F, 0.0F, MiningLevels.WOOD, 17, { DemonItemCard.MIRAGE_STEM().toIngredient() }),
+    ARTIFICIAL_FAIRY_CRYSTAL(235, 5.0F, 1.5F, MiningLevels.IRON, 7, { DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL().toIngredient() }),
+    MIRANAGITE(256, 6.5F, 2.0F, MiningLevels.IRON, 24, { DemonItemCard.MIRANAGITE().toIngredient() }),
+    CHAOS_STONE(666, 9.0F, 2.0F, MiningLevels.NETHERITE, 15, { DemonItemCard.CHAOS_STONE().toIngredient() }),
+    ;
+
+    override fun getDurability() = durability
+    override fun getMiningSpeedMultiplier() = miningSpeedMultiplier
+    override fun getAttackDamage() = attackDamage
+    override fun getMiningLevel() = miningLevel
+    override fun getEnchantability() = enchantability
+    override fun getRepairIngredient() = repairIngredient()
+}
+
 enum class ToolMaterialCard(val toolMaterial: ToolMaterial, val path: String, en: String, ja: String) {
 
     WOOD(ToolMaterials.WOOD, "wooden_tools", "Wooden Tool", "木ツール"),
@@ -95,26 +117,4 @@ val toolMaterialModule = module {
     register(ToolMaterialCard.NETHERITE) { Items.NETHERITE_AXE }
     register(ToolMaterialCard.NETHERITE) { Items.NETHERITE_HOE }
 
-}
-
-enum class DemonToolMaterials(
-    private val durability: Int,
-    private val miningSpeedMultiplier: Float,
-    private val attackDamage: Float,
-    private val miningLevel: Int,
-    private val enchantability: Int,
-    private val repairIngredient: () -> Ingredient,
-) : ToolMaterial {
-    MIRAGE(48, 1.6F, 0.0F, MiningLevels.WOOD, 17, { DemonItemCard.MIRAGE_STEM().toIngredient() }),
-    ARTIFICIAL_FAIRY_CRYSTAL(235, 5.0F, 1.5F, MiningLevels.IRON, 7, { DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL().toIngredient() }),
-    MIRANAGITE(256, 6.5F, 2.0F, MiningLevels.IRON, 24, { DemonItemCard.MIRANAGITE().toIngredient() }),
-    CHAOS_STONE(666, 9.0F, 2.0F, MiningLevels.NETHERITE, 15, { DemonItemCard.CHAOS_STONE().toIngredient() }),
-    ;
-
-    override fun getDurability() = durability
-    override fun getMiningSpeedMultiplier() = miningSpeedMultiplier
-    override fun getAttackDamage() = attackDamage
-    override fun getMiningLevel() = miningLevel
-    override fun getEnchantability() = enchantability
-    override fun getRepairIngredient() = repairIngredient()
 }
