@@ -22,7 +22,22 @@ import miragefairy2023.modules.toolMaterialModule
 import miragefairy2023.modules.trinketsSlotModule
 
 val modules = module {
+
+    // システム系
+    customDataModule()
+    poemModule()
+
+    // コンポーネント系
+    passiveSkillModule()
+    particleModule()
+    luckBonusModule()
+    toolMaterialModule()
+
+    // 共用コンテンツの生成
     commonModule()
+    trinketsSlotModule()
+
+    // コンテンツ系
     advancementModule()
     demonItemModule()
     demonBlockModule()
@@ -33,13 +48,7 @@ val modules = module {
     mirageFlowerModule()
     fairyModule()
     dreamCatcherModule()
-    passiveSkillModule()
     debugModule()
-    customDataModule()
-    particleModule()
     toolItemModule()
-    trinketsSlotModule()
-    luckBonusModule()
-    toolMaterialModule()
-    poemModule()
+
 }
