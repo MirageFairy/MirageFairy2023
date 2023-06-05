@@ -50,6 +50,24 @@ enum class ToolItemCard(
     val poemList: List<Poem>,
     val initializer: InitializationScope.(ToolItemCard) -> Unit,
 ) {
+    DREAM_CATCHER(
+        "dream_catcher", "Dream Catcher", "ドリームキャッチャー",
+        listOf(
+            Poem("Tool to capture the free astral vortices", "未知なる記憶が、ほらそこに。"),
+            Description("description1", "Show fairy dreams when in inventory", "インベントリ内に所持時、妖精の夢を表示"),
+            Description("description2", "Acquire the fairy dream when used", "使用時、妖精の夢を獲得"),
+        ),
+        dreamCatcher(DemonToolMaterials.MIRAGE, 20),
+    ),
+    BLUE_DREAM_CATCHER(
+        "blue_dream_catcher", "Blue Dream Catcher", "蒼天のドリームキャッチャー",
+        listOf(
+            Poem("What are good memories for you?", "信愛、悲哀、混沌の果て。"),
+            Description("description1", "Show fairy dreams when in inventory", "インベントリ内に所持時、妖精の夢を表示"),
+            Description("description2", "Acquire the fairy dream when used", "使用時、妖精の夢を獲得"),
+        ),
+        dreamCatcher(DemonToolMaterials.CHAOS_STONE, 400),
+    ),
     ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE(
         "artificial_fairy_crystal_pickaxe", "Crystal Pickaxe", "クリスタルのつるはし",
         listOf(Poem("Amorphous mental body of fairies", "妖精さえ怖れる、技術の結晶。")),
@@ -89,6 +107,36 @@ val toolItemModule = module {
     // 全体
     ToolItemCard.values().forEach { card ->
         card.initializer(this, card)
+    }
+
+    // ドリームキャッチャー
+    onGenerateRecipes {
+        ShapedRecipeJsonBuilder
+            .create(ToolItemCard.DREAM_CATCHER.item.feature)
+            .pattern("FSS")
+            .pattern("FSS")
+            .pattern("RFF")
+            .input('F', Items.FEATHER)
+            .input('S', Items.STRING)
+            .input('R', DemonItemCard.MIRAGE_STEM())
+            .criterion(DemonItemCard.MIRAGE_STEM())
+            .group(ToolItemCard.DREAM_CATCHER.item.feature)
+            .offerTo(it, ToolItemCard.DREAM_CATCHER.item.feature.identifier)
+    }
+
+    // 蒼天のドリームキャッチャー
+    onGenerateRecipes {
+        ShapedRecipeJsonBuilder
+            .create(ToolItemCard.BLUE_DREAM_CATCHER.item.feature)
+            .pattern("GII")
+            .pattern("G#I")
+            .pattern("IGG")
+            .input('#', ToolItemCard.DREAM_CATCHER.item.feature)
+            .input('G', DemonItemCard.MIRANAGITE())
+            .input('I', DemonItemCard.CHAOS_STONE())
+            .criterion(ToolItemCard.DREAM_CATCHER.item.feature)
+            .group(ToolItemCard.BLUE_DREAM_CATCHER.item.feature)
+            .offerTo(it, ToolItemCard.BLUE_DREAM_CATCHER.item.feature.identifier)
     }
 
     // クリスタルのつるはし
@@ -149,6 +197,15 @@ val toolItemModule = module {
 
 }
 
+
+private fun dreamCatcher(toolMaterial: ToolMaterial, maxDamage: Int): InitializationScope.(ToolItemCard) -> Unit = { card ->
+    card.item = item(card.path, { DreamCatcherItem(toolMaterial, maxDamage, FabricItemSettings().group(commonItemGroup)) }) {
+        onGenerateItemModels { it.register(feature, Models.HANDHELD) }
+        enJaItem({ feature }, card.enName, card.jaName)
+        generatePoemList(card.poemList)
+        onRegisterItems { registerPoemList(feature, card.poemList) }
+    }
+}
 
 private fun pickaxe(toolMaterial: ToolMaterial, attackDamage: Int, attackSpeed: Float, vararg effectiveBlockTags: TagKey<Block>, silkTouch: Boolean = false): InitializationScope.(ToolItemCard) -> Unit = { card ->
     card.item = item(card.path, {

@@ -95,7 +95,7 @@ val toolMaterialModule = module {
     register(ToolMaterialCard.NETHERITE) { Items.NETHERITE_HOE }
 
     // MIRAGE
-    register(ToolMaterialCard.MIRAGE) { DreamCatcherCard.DREAM_CATCHER.item.feature }
+    register(ToolMaterialCard.MIRAGE) { ToolItemCard.DREAM_CATCHER.item.feature }
 
     // ARTIFICIAL_FAIRY_CRYSTAL
     register(ToolMaterialCard.ARTIFICIAL_FAIRY_CRYSTAL) { ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE.item.feature }
@@ -104,7 +104,7 @@ val toolMaterialModule = module {
     register(ToolMaterialCard.MIRANAGITE) { ToolItemCard.MIRANAGITE_PICKAXE.item.feature }
 
     // CHAOS_STONE
-    register(ToolMaterialCard.CHAOS_STONE) { DreamCatcherCard.BLUE_DREAM_CATCHER.item.feature }
+    register(ToolMaterialCard.CHAOS_STONE) { ToolItemCard.BLUE_DREAM_CATCHER.item.feature }
     register(ToolMaterialCard.CHAOS_STONE) { ToolItemCard.CHAOS_STONE_PICKAXE.item.feature }
 
 }

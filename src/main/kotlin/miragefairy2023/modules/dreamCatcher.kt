@@ -1,17 +1,10 @@
 package miragefairy2023.modules
 
-import miragefairy2023.InitializationScope
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.Fairy
 import miragefairy2023.module
 import miragefairy2023.util.get
-import miragefairy2023.util.identifier
-import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.Translation
-import miragefairy2023.util.init.criterion
-import miragefairy2023.util.init.enJaItem
-import miragefairy2023.util.init.group
-import miragefairy2023.util.init.item
 import miragefairy2023.util.init.translation
 import miragefairy2023.util.int
 import miragefairy2023.util.map
@@ -19,21 +12,16 @@ import miragefairy2023.util.text
 import miragefairy2023.util.wrapper
 import mirrg.kotlin.hydrogen.castOrNull
 import mirrg.kotlin.hydrogen.or
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.FluidBlock
-import net.minecraft.data.client.Models
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsageContext
-import net.minecraft.item.Items
 import net.minecraft.item.ToolItem
 import net.minecraft.item.ToolMaterial
 import net.minecraft.nbt.AbstractNbtNumber
@@ -49,85 +37,9 @@ import net.minecraft.util.math.Box
 import net.minecraft.world.World
 import kotlin.math.roundToInt
 
-enum class DreamCatcherCard(
-    val path: String,
-    val enName: String,
-    val jaName: String,
-    val poemList: List<Poem>,
-    val initializer: InitializationScope.(DreamCatcherCard) -> Unit,
-) {
-    DREAM_CATCHER(
-        "dream_catcher", "Dream Catcher", "ドリームキャッチャー",
-        listOf(
-            Poem("Tool to capture the free astral vortices", "未知なる記憶が、ほらそこに。"),
-            Description("description1", "Show fairy dreams when in inventory", "インベントリ内に所持時、妖精の夢を表示"),
-            Description("description2", "Acquire the fairy dream when used", "使用時、妖精の夢を獲得"),
-        ),
-        dreamCatcher(DemonToolMaterials.MIRAGE, 20),
-    ),
-    BLUE_DREAM_CATCHER(
-        "blue_dream_catcher", "Blue Dream Catcher", "蒼天のドリームキャッチャー",
-        listOf(
-            Poem("What are good memories for you?", "信愛、悲哀、混沌の果て。"),
-            Description("description1", "Show fairy dreams when in inventory", "インベントリ内に所持時、妖精の夢を表示"),
-            Description("description2", "Acquire the fairy dream when used", "使用時、妖精の夢を獲得"),
-        ),
-        dreamCatcher(DemonToolMaterials.CHAOS_STONE, 400),
-    ),
-    ;
-
-    lateinit var item: FeatureSlot<Item>
-}
-
 val dreamCatcherModule = module {
-
-    // 全体
-    DreamCatcherCard.values().forEach { card ->
-        card.initializer(this, card)
-    }
-
-    // ドリームキャッチャー
-    onGenerateRecipes {
-        ShapedRecipeJsonBuilder
-            .create(DreamCatcherCard.DREAM_CATCHER.item.feature)
-            .pattern("FSS")
-            .pattern("FSS")
-            .pattern("RFF")
-            .input('F', Items.FEATHER)
-            .input('S', Items.STRING)
-            .input('R', DemonItemCard.MIRAGE_STEM())
-            .criterion(DemonItemCard.MIRAGE_STEM())
-            .group(DreamCatcherCard.DREAM_CATCHER.item.feature)
-            .offerTo(it, DreamCatcherCard.DREAM_CATCHER.item.feature.identifier)
-    }
-
-    // 蒼天のドリームキャッチャー
-    onGenerateRecipes {
-        ShapedRecipeJsonBuilder
-            .create(DreamCatcherCard.BLUE_DREAM_CATCHER.item.feature)
-            .pattern("GII")
-            .pattern("G#I")
-            .pattern("IGG")
-            .input('#', DreamCatcherCard.DREAM_CATCHER.item.feature)
-            .input('G', DemonItemCard.MIRANAGITE())
-            .input('I', DemonItemCard.CHAOS_STONE())
-            .criterion(DreamCatcherCard.DREAM_CATCHER.item.feature)
-            .group(DreamCatcherCard.BLUE_DREAM_CATCHER.item.feature)
-            .offerTo(it, DreamCatcherCard.BLUE_DREAM_CATCHER.item.feature.identifier)
-    }
-
     translation(DreamCatcherItem.knownKey)
     translation(DreamCatcherItem.successKey)
-
-}
-
-fun dreamCatcher(toolMaterial: ToolMaterial, maxDamage: Int): InitializationScope.(DreamCatcherCard) -> Unit = { card ->
-    card.item = item(card.path, { DreamCatcherItem(toolMaterial, maxDamage, FabricItemSettings().group(commonItemGroup)) }) {
-        onGenerateItemModels { it.register(feature, Models.HANDHELD) }
-        enJaItem({ feature }, card.enName, card.jaName)
-        generatePoemList(card.poemList)
-        onRegisterItems { registerPoemList(feature, card.poemList) }
-    }
 }
 
 class BlockFairyRelation(val block: Block, val fairy: Fairy)
