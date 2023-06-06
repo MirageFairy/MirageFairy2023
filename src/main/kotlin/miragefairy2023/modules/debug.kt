@@ -69,7 +69,7 @@ class FairyListDebuggerItem(settings: Settings) : Item(settings) {
                 Symbol.values().fold(string) { it, symbol -> it.replace(symbol.uniformed, symbol.general) }
             }
 
-            val recipeTexts = fairyCard.recipeContainer.recipes.map { it.getWikiString() }
+            val recipeTexts = fairyCard.fairyRecipes.recipes.map { it.getWikiString() }
 
             "|${fairyCard.jaName}|${fairyCard.rare}|${passiveSkillTexts.join("&br;")}|${recipeTexts.join("&br;")}|"
         }

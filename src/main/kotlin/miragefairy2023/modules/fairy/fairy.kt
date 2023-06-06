@@ -129,7 +129,7 @@ val fairyModule = module {
             Registry.register(fairyRegistry, fairyCard.motif, fairyCard.fairy)
 
             // モチーフ固有の初期化処理
-            fairyCard.recipeContainer.recipes.forEach {
+            fairyCard.fairyRecipes.recipes.forEach {
                 it.init(this, fairyCard)
             }
 
