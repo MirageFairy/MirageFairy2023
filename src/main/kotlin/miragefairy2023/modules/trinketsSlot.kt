@@ -11,6 +11,8 @@ import net.minecraft.util.registry.Registry
 enum class TrinketsSlotCard(val groupName: String, val slotName: String) {
     HEAD_FAIRY("head", "fairy"),
     CHEST_NECKLACE("chest", "necklace"),
+    HAND_GLOVE("hand", "glove"),
+    OFFHAND_GLOVE("offhand", "glove"),
     ;
 
     val path = "$groupName/$slotName"
