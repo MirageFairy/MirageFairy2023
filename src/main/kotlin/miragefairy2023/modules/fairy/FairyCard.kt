@@ -137,7 +137,7 @@ enum class FairyCard(
             AttackDamagePassiveSkillEffect(1.0) on listOf()
             AttackDamagePassiveSkillEffect(2.0) on BiomePassiveSkillCondition(ConventionalBiomeTags.MUSHROOM)
             MaxHealthPassiveSkillEffect(12.0) on BiomePassiveSkillCondition(ConventionalBiomeTags.MUSHROOM)
-            StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0) on listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.MUSHROOM), MinimumManaPassiveSkillCondition(10.0))
+            StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0) on BiomePassiveSkillCondition(ConventionalBiomeTags.MUSHROOM) * MinimumManaPassiveSkillCondition(10.0)
         },
         FairyRecipes().biome(ConventionalBiomeTags.MUSHROOM).block { Blocks.MYCELIUM }.recipe { Items.MYCELIUM },
     ),
@@ -154,7 +154,7 @@ enum class FairyCard(
         PassiveSkills {
             AttackDamagePassiveSkillEffect(2.0) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.STONE)
             StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.STONE)
-            StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 1) on listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.STONE), MinimumManaPassiveSkillCondition(7.0))
+            StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 1) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.STONE) * MinimumManaPassiveSkillCondition(7.0)
         },
         FairyRecipes().overworld().block { Blocks.STONE }.recipe { Items.STONE },
     ),
@@ -205,7 +205,7 @@ enum class FairyCard(
         PassiveSkills {
             AttackDamagePassiveSkillEffect(2.0) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.IRON)
             StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.IRON)
-            StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 1) on listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.IRON), MinimumManaPassiveSkillCondition(8.0))
+            StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 1) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.IRON) * MinimumManaPassiveSkillCondition(8.0)
         },
         FairyRecipes().overworld().block { Blocks.IRON_BLOCK }.recipe { Items.IRON_INGOT },
     ),
@@ -215,7 +215,7 @@ enum class FairyCard(
             LuckPassiveSkillEffect(0.8) on listOf()
             AttackDamagePassiveSkillEffect(2.0) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.GOLD)
             StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 0) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.GOLD)
-            StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 1) on listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.GOLD), MinimumManaPassiveSkillCondition(10.0))
+            StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 1) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.GOLD) * MinimumManaPassiveSkillCondition(10.0)
         },
         FairyRecipes().overworld().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.GOLD_BLOCK }.recipe { Items.GOLD_INGOT },
     ),
@@ -224,7 +224,7 @@ enum class FairyCard(
         PassiveSkills {
             AttackDamagePassiveSkillEffect(2.0) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.NETHERITE)
             StatusEffectPassiveSkillEffect(StatusEffects.FIRE_RESISTANCE, 0) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.NETHERITE)
-            StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 1) on listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.NETHERITE), MinimumManaPassiveSkillCondition(12.0))
+            StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 1) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.NETHERITE) * MinimumManaPassiveSkillCondition(12.0)
         },
         FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.NETHERITE_BLOCK }.recipe { Items.NETHERITE_INGOT },
     ),
@@ -260,7 +260,7 @@ enum class FairyCard(
             LuckPassiveSkillEffect(0.5) on listOf()
             AttackDamagePassiveSkillEffect(2.0) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.DIAMOND)
             StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.DIAMOND)
-            StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 1) on listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.DIAMOND), MinimumManaPassiveSkillCondition(12.0))
+            StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 1) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.DIAMOND) * MinimumManaPassiveSkillCondition(12.0)
         },
         FairyRecipes().overworld().block { Blocks.DIAMOND_BLOCK }.recipe { Items.DIAMOND },
     ),
@@ -317,15 +317,15 @@ enum class FairyCard(
         "fish", 2, "Fishia", "魚精フィーシャ", 0x6B9F93, 0x5A867C, 0x43655D, 0xADBEDB,
         PassiveSkills {
             StatusEffectPassiveSkillEffect(StatusEffects.NIGHT_VISION, 0, additionalSeconds = 10) on UnderwaterPassiveSkillCondition()
-            StatusEffectPassiveSkillEffect(StatusEffects.WATER_BREATHING, 0) on listOf(UnderwaterPassiveSkillCondition(), MinimumManaPassiveSkillCondition(10.0))
+            StatusEffectPassiveSkillEffect(StatusEffects.WATER_BREATHING, 0) on UnderwaterPassiveSkillCondition() * MinimumManaPassiveSkillCondition(10.0)
         },
         FairyRecipes().overworld().recipe { Items.COD }.entityType { EntityType.COD }, // TODO 魚精は希釈で得る
     ),
     CLOWNFISH(
         "clownfish", 7, "Clownfishia", "隈之実精ツロウンフィーシャ", 0xE46A22, 0xF46F20, 0xA94B1D, 0xFFDBC5,
         PassiveSkills {
-            StatusEffectPassiveSkillEffect(StatusEffects.WATER_BREATHING, 0) on listOf(UnderwaterPassiveSkillCondition(), MinimumLightLevelPassiveSkillCondition(4))
-            StatusEffectPassiveSkillEffect(StatusEffects.WATER_BREATHING, 0) on listOf(UnderwaterPassiveSkillCondition(), MinimumManaPassiveSkillCondition(10.0))
+            StatusEffectPassiveSkillEffect(StatusEffects.WATER_BREATHING, 0) on UnderwaterPassiveSkillCondition() * MinimumLightLevelPassiveSkillCondition(4)
+            StatusEffectPassiveSkillEffect(StatusEffects.WATER_BREATHING, 0) on UnderwaterPassiveSkillCondition() * MinimumManaPassiveSkillCondition(10.0)
         },
         FairyRecipes().overworld().recipe { Items.TROPICAL_FISH }.entityType { EntityType.TROPICAL_FISH },
     ),
@@ -333,7 +333,7 @@ enum class FairyCard(
         "sponge", 4, "Spongia", "海綿精スポンギャ", 0xEADF67, 0xB1A947, 0xB1A947, 0xDBCD5A,
         PassiveSkills {
             AttackDamagePassiveSkillEffect(2.0) on UnderwaterPassiveSkillCondition()
-            StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0) on listOf(UnderwaterPassiveSkillCondition(), MinimumManaPassiveSkillCondition(10.0))
+            StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0) on UnderwaterPassiveSkillCondition() * MinimumManaPassiveSkillCondition(10.0)
         },
         FairyRecipes().biome(ConventionalBiomeTags.OCEAN).block { Blocks.SPONGE }.recipe { Items.SPONGE },
     ),
@@ -455,7 +455,7 @@ enum class FairyCard(
         PassiveSkills {
             AttackDamagePassiveSkillEffect(2.0) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.WOOD)
             StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 0) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.WOOD)
-            StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 1) on listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.WOOD), MinimumManaPassiveSkillCondition(7.0))
+            StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 1) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.WOOD) * MinimumManaPassiveSkillCondition(7.0)
         },
         FairyRecipes().overworld().block { Blocks.OAK_PLANKS }.recipe { Items.OAK_PLANKS },
     ),
@@ -492,8 +492,8 @@ enum class FairyCard(
     ENCHANTING_TABLE(
         "enchanting_table", 6, "Enchantinge Tablia", "付魔台精エンキャンティンゲターブリャ", 0x472F65, 0xCE2828, 0xCE2828, 0x7BFFDD,
         PassiveSkills {
-            ExperiencePassiveSkillEffect(0.03) on listOf(IndoorPassiveSkillCondition(), MaximumLevelPassiveSkillCondition(19))
-            ExperiencePassiveSkillEffect(0.03) on listOf(IndoorPassiveSkillCondition(), MaximumLevelPassiveSkillCondition(29))
+            ExperiencePassiveSkillEffect(0.03) on IndoorPassiveSkillCondition() * MaximumLevelPassiveSkillCondition(19)
+            ExperiencePassiveSkillEffect(0.03) on IndoorPassiveSkillCondition() * MaximumLevelPassiveSkillCondition(29)
         },
         FairyRecipes().block { Blocks.ENCHANTING_TABLE }.recipe { Items.ENCHANTING_TABLE },
     ),
@@ -544,7 +544,7 @@ enum class FairyCard(
         "plains", 2, "Plainsia", "平原精プラインシャ", 0xB0DF83, 0xD4FF82, 0x86C91C, 0x489F25,
         PassiveSkills {
             StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 0) on BiomePassiveSkillCondition(ConventionalBiomeTags.PLAINS)
-            StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 1) on listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.PLAINS), MinimumManaPassiveSkillCondition(7.0))
+            StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 1) on BiomePassiveSkillCondition(ConventionalBiomeTags.PLAINS) * MinimumManaPassiveSkillCondition(7.0)
         },
         FairyRecipes().biome(ConventionalBiomeTags.PLAINS),
     ),
@@ -552,7 +552,7 @@ enum class FairyCard(
         "ocean", 3, "Oceania", "海精オツェアーニャ", 0x7DAEF5, 0x1B6CE9, 0x191CF0, 0x004DA5,
         PassiveSkills {
             StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 0) on BiomePassiveSkillCondition(ConventionalBiomeTags.OCEAN)
-            StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 1) on listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.OCEAN), MinimumManaPassiveSkillCondition(7.0))
+            StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 1) on BiomePassiveSkillCondition(ConventionalBiomeTags.OCEAN) * MinimumManaPassiveSkillCondition(7.0)
         },
         FairyRecipes().biome(ConventionalBiomeTags.OCEAN),
     ),
@@ -560,7 +560,7 @@ enum class FairyCard(
         "taiga", 4, "Taigia", "針葉樹林精タイギャ", 0x5D985E, 0x476545, 0x223325, 0x5A3711,
         PassiveSkills {
             StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0) on BiomePassiveSkillCondition(ConventionalBiomeTags.TAIGA)
-            StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 1) on listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.TAIGA), MinimumManaPassiveSkillCondition(7.0))
+            StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 1) on BiomePassiveSkillCondition(ConventionalBiomeTags.TAIGA) * MinimumManaPassiveSkillCondition(7.0)
         },
         FairyRecipes().biome(ConventionalBiomeTags.TAIGA),
     ),
@@ -568,7 +568,7 @@ enum class FairyCard(
         "mountain", 3, "Mountainia", "山精モウンタイニャ", 0x84BF80, 0xB1B0B1, 0x717173, 0xF0F0F0,
         PassiveSkills {
             StatusEffectPassiveSkillEffect(StatusEffects.JUMP_BOOST, 0) on BiomePassiveSkillCondition(ConventionalBiomeTags.MOUNTAIN)
-            StatusEffectPassiveSkillEffect(StatusEffects.JUMP_BOOST, 1) on listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.MOUNTAIN), MinimumManaPassiveSkillCondition(7.0))
+            StatusEffectPassiveSkillEffect(StatusEffects.JUMP_BOOST, 1) on BiomePassiveSkillCondition(ConventionalBiomeTags.MOUNTAIN) * MinimumManaPassiveSkillCondition(7.0)
         },
         FairyRecipes().biome(ConventionalBiomeTags.MOUNTAIN),
     ),
@@ -576,16 +576,16 @@ enum class FairyCard(
         "forest", 3, "Forestia", "森精フォレスチャ", 0x8EBF7A, 0x7B9C62, 0x89591D, 0x2E6E14,
         PassiveSkills {
             StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0) on BiomePassiveSkillCondition(ConventionalBiomeTags.FOREST)
-            StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 1) on listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.FOREST), MinimumManaPassiveSkillCondition(7.0))
+            StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 1) on BiomePassiveSkillCondition(ConventionalBiomeTags.FOREST) * MinimumManaPassiveSkillCondition(7.0)
         },
         FairyRecipes().biome(ConventionalBiomeTags.FOREST),
     ),
     DESERT(
         "desert", 2, "Desertia", "砂漠精デセルチャ", 0xF9F0C8, 0xDDD6A5, 0xD6CE9D, 0x656054,
         PassiveSkills {
-            StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0) on listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.DESERT), SunshinePassiveSkillCondition())
+            StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0) on BiomePassiveSkillCondition(ConventionalBiomeTags.DESERT) * SunshinePassiveSkillCondition()
             StatusEffectPassiveSkillEffect(StatusEffects.FIRE_RESISTANCE, 0) on listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.DESERT), SunshinePassiveSkillCondition(), MinimumManaPassiveSkillCondition(7.0))
-            StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0) on listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.DESERT), MoonlightPassiveSkillCondition())
+            StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0) on BiomePassiveSkillCondition(ConventionalBiomeTags.DESERT) * MoonlightPassiveSkillCondition()
             StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 1) on listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.DESERT), MoonlightPassiveSkillCondition(), MinimumManaPassiveSkillCondition(7.0))
         },
         FairyRecipes().biome(ConventionalBiomeTags.DESERT),
