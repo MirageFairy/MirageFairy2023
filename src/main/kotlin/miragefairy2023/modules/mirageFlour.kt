@@ -1,7 +1,6 @@
 package miragefairy2023.modules
 
 import miragefairy2023.MirageFairy2023
-import miragefairy2023.SlotContainer
 import miragefairy2023.api.Fairy
 import miragefairy2023.api.fairyRegistry
 import miragefairy2023.module
@@ -17,6 +16,7 @@ import miragefairy2023.util.get
 import miragefairy2023.util.getValue
 import miragefairy2023.util.hasSameItemAndNbt
 import miragefairy2023.util.identifier
+import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.Translation
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJaItem
@@ -103,21 +103,20 @@ enum class MirageFlourCard(
             Poem("poem2", "and capture ethers beyond observable universe", "讃えよ、アーカーシャに眠る自由と功徳の頂きを。"),
         ),
     ),
+    ;
+
+    lateinit var item: FeatureSlot<Item>
 }
 
-private val mirageFlourItems = SlotContainer<MirageFlourCard, Item>()
-operator fun MirageFlourCard.invoke() = mirageFlourItems[this]
+operator fun MirageFlourCard.invoke() = this.item.feature
 
 
 val mirageFlourModule = module {
 
     // 全体
     MirageFlourCard.values().forEach { card ->
-        item(card.itemId, { card.creator(card, FabricItemSettings().group(commonItemGroup)) }) {
-            onRegisterItems { mirageFlourItems[card] = feature }
-
+        card.item = item(card.itemId, { card.creator(card, FabricItemSettings().group(commonItemGroup)) }) {
             onGenerateItemModels { it.register(feature, Models.GENERATED) }
-
             enJaItem({ feature }, card.enName, card.jaName)
             generatePoemList(card.poemList)
             onRegisterItems { registerPoemList(feature, card.poemList) }

@@ -1,9 +1,9 @@
 package miragefairy2023.modules
 
-import miragefairy2023.SlotContainer
 import miragefairy2023.module
 import miragefairy2023.util.concat
 import miragefairy2023.util.identifier
+import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.group
@@ -114,21 +114,20 @@ enum class DemonItemCard(
         "chaos_stone", "Chaos Stone", "混沌の石",
         listOf(Poem("Chemical promoting catalyst", "魔力の暴走、加速する無秩序の流れ。")),
     ),
+    ;
+
+    lateinit var item: FeatureSlot<Item>
 }
 
-private val demonItems = SlotContainer<DemonItemCard, Item>()
-operator fun DemonItemCard.invoke() = demonItems[this]
+operator fun DemonItemCard.invoke() = this.item.feature
 
 
 val demonItemModule = module {
 
     // 全体
     DemonItemCard.values().forEach { card ->
-        item(card.itemId, { Item(FabricItemSettings().group(commonItemGroup)) }) {
-            onRegisterItems { demonItems[card] = feature }
-
+        card.item = item(card.itemId, { Item(FabricItemSettings().group(commonItemGroup)) }) {
             onGenerateItemModels { it.register(feature, Models.GENERATED) }
-
             enJaItem({ feature }, card.enName, card.jaName)
             generatePoemList(card.poemList)
             onRegisterItems { registerPoemList(feature, card.poemList) }
