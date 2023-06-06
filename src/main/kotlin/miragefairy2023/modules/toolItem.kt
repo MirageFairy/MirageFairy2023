@@ -193,9 +193,7 @@ private fun dreamCatcher(toolMaterialCard: ToolMaterialCard, maxDamage: Int): In
 }
 
 private fun pickaxe(toolMaterialCard: ToolMaterialCard, attackDamage: Int, attackSpeed: Float, vararg effectiveBlockTags: TagKey<Block>, silkTouch: Boolean = false): InitializationScope.(ToolItemCard) -> Unit = { card ->
-    card.item = item(card.path, {
-        DemonPickaxeItem(toolMaterialCard.toolMaterial, attackDamage, attackSpeed, effectiveBlockTags.toList(), silkTouch, FabricItemSettings().group(commonItemGroup))
-    }) {
+    card.item = item(card.path, { DemonPickaxeItem(toolMaterialCard.toolMaterial, attackDamage, attackSpeed, effectiveBlockTags.toList(), silkTouch, FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Models.HANDHELD) }
         enJaItem({ feature }, card.enName, card.jaName)
         generatePoemList(card.poemList)
