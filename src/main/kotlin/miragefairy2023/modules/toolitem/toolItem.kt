@@ -1,4 +1,4 @@
-package miragefairy2023.modules
+package miragefairy2023.modules.toolitem
 
 import dev.emi.trinkets.api.Trinket
 import dev.emi.trinkets.api.TrinketsApi
@@ -6,7 +6,17 @@ import miragefairy2023.InitializationScope
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.PassiveSkill
 import miragefairy2023.module
+import miragefairy2023.modules.DemonItemCard
+import miragefairy2023.modules.Description
+import miragefairy2023.modules.Penalty
+import miragefairy2023.modules.Poem
+import miragefairy2023.modules.ToolMaterialCard
+import miragefairy2023.modules.TrinketsSlotCard
+import miragefairy2023.modules.commonItemGroup
+import miragefairy2023.modules.generatePoemList
+import miragefairy2023.modules.invoke
 import miragefairy2023.modules.passiveskill.ManaPassiveSkillEffect
+import miragefairy2023.modules.registerPoemList
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.criterion

@@ -1,9 +1,11 @@
-package miragefairy2023.modules
+package miragefairy2023.modules.toolitem
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.Fairy
+import miragefairy2023.modules.customData
 import miragefairy2023.modules.fairy.BLOCK_FAIRY_RELATION_LIST
 import miragefairy2023.modules.fairy.ENTITY_TYPE_FAIRY_RELATION_LIST
+import miragefairy2023.modules.syncCustomData
 import miragefairy2023.util.get
 import miragefairy2023.util.init.Translation
 import miragefairy2023.util.int

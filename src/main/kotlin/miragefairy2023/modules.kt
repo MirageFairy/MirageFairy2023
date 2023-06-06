@@ -16,8 +16,8 @@ import miragefairy2023.modules.particleModule
 import miragefairy2023.modules.passiveskill.passiveSkillModule
 import miragefairy2023.modules.poemModule
 import miragefairy2023.modules.telescopeModule
-import miragefairy2023.modules.toolItemModule
 import miragefairy2023.modules.toolMaterialModule
+import miragefairy2023.modules.toolitem.toolItemModule
 import miragefairy2023.modules.trinketsSlotModule
 
 val modules = module {

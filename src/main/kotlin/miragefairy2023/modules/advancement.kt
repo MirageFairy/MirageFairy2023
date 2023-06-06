@@ -7,6 +7,7 @@ import miragefairy2023.modules.fairy.fairiesItemTag
 import miragefairy2023.modules.fairy.fairiesOfRareItemTag
 import miragefairy2023.modules.fairy.invoke
 import miragefairy2023.modules.fairyhouse.fairyMetamorphosisAltar
+import miragefairy2023.modules.toolitem.ToolItemCard
 import miragefairy2023.util.init.advancement
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.itemEntry

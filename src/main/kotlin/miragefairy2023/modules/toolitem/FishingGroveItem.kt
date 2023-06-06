@@ -1,9 +1,10 @@
-package miragefairy2023.modules
+package miragefairy2023.modules.toolitem
 
 import dev.emi.trinkets.api.SlotReference
 import dev.emi.trinkets.api.Trinket
 import dev.emi.trinkets.api.TrinketItem
 import miragefairy2023.mixins.api.FishingBobberEntityHelper
+import miragefairy2023.modules.ToolMaterialCard
 import miragefairy2023.util.randomInt
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.LivingEntity

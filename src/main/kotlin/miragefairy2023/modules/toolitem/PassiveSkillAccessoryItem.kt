@@ -1,4 +1,4 @@
-package miragefairy2023.modules
+package miragefairy2023.modules.toolitem
 
 import dev.emi.trinkets.api.TrinketItem
 import miragefairy2023.api.PassiveSkill

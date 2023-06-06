@@ -1,4 +1,4 @@
-package miragefairy2023.modules
+package miragefairy2023.modules.toolitem
 
 import net.fabricmc.yarn.constants.MiningLevels
 import net.minecraft.block.Block
