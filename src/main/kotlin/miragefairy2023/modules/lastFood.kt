@@ -9,12 +9,16 @@ import miragefairy2023.util.toItemStack
 import miragefairy2023.util.toNbt
 import miragefairy2023.util.wrapper
 import mirrg.kotlin.hydrogen.castOrNull
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.world.GameRules
 
 val lastFoodModule = module {
+
+    // 食べ物を食べるとlastFoodをそれにする
     EatFoodCallback.EVENT.register { entity, world, stack ->
         if (world.isClient) return@register
         if (entity !is PlayerEntity) return@register
@@ -22,6 +26,16 @@ val lastFoodModule = module {
         entity.lastFoodProperty.set(stack)
         (entity as ServerPlayerEntity).syncCustomData()
     }
+
+    // プレイヤーが死ぬとリセット
+    ServerLivingEntityEvents.AFTER_DEATH.register { entity, damageSource ->
+        if (entity !is PlayerEntity) return@register
+        if (entity.isSpectator) return@register
+        if (entity.world.gameRules.getBoolean(GameRules.KEEP_INVENTORY)) return@register
+        entity.lastFoodProperty.set(null)
+        (entity as ServerPlayerEntity).syncCustomData()
+    }
+
 }
 
 // TODO 一旦NBTにするのではなくItemStackをそのまま格納する
