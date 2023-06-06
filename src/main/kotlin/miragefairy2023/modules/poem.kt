@@ -32,6 +32,12 @@ fun Description(en: String, ja: String) = Poem("description", Formatting.YELLOW,
 @Suppress("FunctionName")
 fun Description(key: String, en: String, ja: String) = Poem(key, Formatting.YELLOW, en, ja)
 
+@Suppress("FunctionName")
+fun Penalty(en: String, ja: String) = Poem("penalty", Formatting.RED, en, ja)
+
+@Suppress("FunctionName")
+fun Penalty(key: String, en: String, ja: String) = Poem(key, Formatting.RED, en, ja)
+
 fun FeatureSlot<Item>.generatePoemList(poemList: List<Poem>) {
     poemList.forEach {
         initializationScope.enJa({ "${feature.translationKey}.${it.key}" }, it.en, it.ja)
