@@ -65,7 +65,7 @@ enum class ToolItemCard(
         "miranagite_pickaxe", "Miranagi Pickaxe", "蒼天のつるはし",
         listOf(
             Poem("Promotes ore recrystallization", "凝集する秩序、蒼穹彩煌が如く。"),
-            Description("Enchant silk touch when using raw item", "生のアイテム使用時、シルクタッチ付与")
+            Description("Enchant silk touch when using raw item", "生のアイテム使用時、シルクタッチ付与"),
         ),
         pickaxe(ToolMaterialCard.MIRANAGITE, 1, -2.8F, BlockTags.PICKAXE_MINEABLE, silkTouch = true),
     ),
@@ -73,7 +73,7 @@ enum class ToolItemCard(
         "chaos_stone_pickaxe", "Chaos Pickaxe", "混沌のつるはし",
         listOf(
             Poem("Is this made of metal? Or clay?", "時空結晶の交点に、古代の産業が芽吹く。"),
-            Description("Can dig like a shovel", "シャベルのように掘れる")
+            Description("Can dig like a shovel", "シャベルのように掘れる"),
         ),
         pickaxe(ToolMaterialCard.CHAOS_STONE, 1, -2.8F, BlockTags.PICKAXE_MINEABLE, BlockTags.SHOVEL_MINEABLE),
     ),
