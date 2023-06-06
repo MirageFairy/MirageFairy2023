@@ -256,7 +256,7 @@ private fun pickaxe(toolMaterialCard: ToolMaterialCard, attackDamage: Int, attac
 
 private fun accessory(trinketsSlotCard: TrinketsSlotCard, mana: Double, passiveSkills: List<PassiveSkill>): InitializationScope.(ToolItemCard) -> Unit = { card ->
     card.item = item(card.path, {
-        class PassiveSkillAccessoryItem : Item(FabricItemSettings().group(commonItemGroup).maxCount(1)), PassiveSkillItem, Vanishable {
+        class PassiveSkillAccessoryItem(private val mana: Double, private val passiveSkills: List<PassiveSkill>, settings: Settings) : Item(settings), PassiveSkillItem, Vanishable {
             override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
                 super.appendTooltip(stack, world, tooltip, context)
                 tooltip += getPassiveSkillTooltip(stack, mana, mana, passiveSkills)
@@ -264,8 +264,8 @@ private fun accessory(trinketsSlotCard: TrinketsSlotCard, mana: Double, passiveS
 
             override val passiveSkillProvider: PassiveSkillProvider
                 get() = object : PassiveSkillProvider {
-                    override val identifier get() = card.identifier
-                    override val mana get() = mana
+                    override val identifier get() = this@PassiveSkillAccessoryItem.identifier
+                    override val mana get() = this@PassiveSkillAccessoryItem.mana
                     override fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack) = passiveSkills
                 }
 
@@ -279,7 +279,7 @@ private fun accessory(trinketsSlotCard: TrinketsSlotCard, mana: Double, passiveS
 
             override fun getEquipSound(): SoundEvent = SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND
         }
-        PassiveSkillAccessoryItem()
+        PassiveSkillAccessoryItem(mana, passiveSkills, FabricItemSettings().group(commonItemGroup).maxCount(1))
     }) {
         onGenerateItemModels { it.register(feature, Models.GENERATED) }
         enJaItem({ feature }, card.enName, card.jaName)
