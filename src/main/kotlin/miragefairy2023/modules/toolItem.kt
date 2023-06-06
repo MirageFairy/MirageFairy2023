@@ -57,7 +57,7 @@ enum class ToolItemCard(
     ARTIFICIAL_FAIRY_CRYSTAL_PENDANT(
         "artificial_fairy_crystal_pendant", "Crystal Pendant", "クリスタルのペンダント",
         listOf(Poem("Object that makes Mirage fairies fairies", "『妖精』だったあのころ――")),
-        passiveSkillAccessory(TrinketsSlotCard.CHEST_NECKLACE, 5.0, buildList {
+        passiveSkillAccessory(listOf(TrinketsSlotCard.CHEST_NECKLACE), 5.0, buildList {
             this += PassiveSkill(listOf(), ManaPassiveSkillEffect(0.4))
         }),
     ),
@@ -204,12 +204,14 @@ private fun pickaxe(toolMaterialCard: ToolMaterialCard, attackDamage: Int, attac
     }
 }
 
-private fun passiveSkillAccessory(trinketsSlotCard: TrinketsSlotCard, mana: Double, passiveSkills: List<PassiveSkill>): InitializationScope.(ToolItemCard) -> Unit = { card ->
+private fun passiveSkillAccessory(trinketsSlotCards: List<TrinketsSlotCard>, mana: Double, passiveSkills: List<PassiveSkill>): InitializationScope.(ToolItemCard) -> Unit = { card ->
     card.item = item(card.path, { PassiveSkillAccessoryItem(mana, passiveSkills, FabricItemSettings().group(commonItemGroup).maxCount(1)) }) {
         onGenerateItemModels { it.register(feature, Models.GENERATED) }
         enJaItem({ feature }, card.enName, card.jaName)
         generatePoemList(card.poemList)
         onRegisterItems { registerPoemList(feature, card.poemList) }
-        onGenerateItemTags { it(trinketsSlotCard.tag).add(feature) }
+        trinketsSlotCards.forEach { trinketsSlotCard ->
+            onGenerateItemTags { it(trinketsSlotCard.tag).add(feature) }
+        }
     }
 }
