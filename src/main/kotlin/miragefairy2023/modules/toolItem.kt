@@ -255,7 +255,7 @@ private fun pickaxe(toolMaterialCard: ToolMaterialCard, attackDamage: Int, attac
 
 private fun accessory(trinketsSlotCard: TrinketsSlotCard, mana: Double, passiveSkills: List<PassiveSkill>): InitializationScope.(ToolItemCard) -> Unit = { card ->
     card.item = item(card.path, {
-        class AccessoryItem : Item(FabricItemSettings().group(commonItemGroup).maxCount(1)), PassiveSkillItem, Vanishable {
+        class PassiveSkillAccessoryItem : Item(FabricItemSettings().group(commonItemGroup).maxCount(1)), PassiveSkillItem, Vanishable {
             override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
                 super.appendTooltip(stack, world, tooltip, context)
                 tooltip += getPassiveSkillTooltip(stack, mana, mana, passiveSkills)
@@ -278,7 +278,7 @@ private fun accessory(trinketsSlotCard: TrinketsSlotCard, mana: Double, passiveS
 
             override fun getEquipSound() = SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND
         }
-        AccessoryItem()
+        PassiveSkillAccessoryItem()
     }) {
         onGenerateItemModels { it.register(feature, Models.GENERATED) }
         enJaItem({ feature }, card.enName, card.jaName)
