@@ -27,7 +27,6 @@ import miragefairy2023.modules.passiveskill.MinimumFoodLevelPassiveSkillConditio
 import miragefairy2023.modules.passiveskill.MinimumLightLevelPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MinimumManaPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MoonlightPassiveSkillCondition
-import miragefairy2023.modules.passiveskill.MovementSpeedPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.NightPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.OnFirePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.OutdoorPassiveSkillCondition
@@ -75,7 +74,7 @@ enum class FairyCard(
     LIGHT(
         "light", 3, "Lightia", "光精リグチャ", 0xFFFFD8, 0xFFFFD8, 0xFFFFC5, 0xFFFF00,
         PassiveSkills {
-            MovementSpeedPassiveSkillEffect(0.30) on listOf(MinimumLightLevelPassiveSkillCondition(12))
+            movementSpeed(0.30) on listOf(MinimumLightLevelPassiveSkillCondition(12))
         },
         FairyRecipes().always(),
     ),
@@ -371,7 +370,7 @@ enum class FairyCard(
     SKELETON_HORSE(
         "skeleton_horse", 6, "Skeletone Horsia", "骸骨馬精スケレトーネホルシャ", 0xA1A1A1, 0xD4D4D4, 0x757575, 0xD5D5D5,
         PassiveSkills {
-            MovementSpeedPassiveSkillEffect(0.30) on listOf(MaximumFoodLevelPassiveSkillCondition(6))
+            movementSpeed(0.30) on listOf(MaximumFoodLevelPassiveSkillCondition(6))
             AttackDamagePassiveSkillEffect(1.0) on listOf(InRainPassiveSkillCondition())
         },
         FairyRecipes().overworld().entityType { EntityType.SKELETON_HORSE },
@@ -621,7 +620,7 @@ enum class FairyCard(
         "time", 12, "Timia", "時精ティーミャ", 0xCDFFBF, 0xD5DEBC, 0xD8DEA7, 0x8DD586,
         PassiveSkills {
             StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 1) on listOf()
-            MovementSpeedPassiveSkillEffect(0.20) on listOf()
+            movementSpeed(0.20) on listOf()
             StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 1) on listOf()
         },
         FairyRecipes().always(),
