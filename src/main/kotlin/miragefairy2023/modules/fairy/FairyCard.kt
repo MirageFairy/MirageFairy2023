@@ -17,7 +17,6 @@ import miragefairy2023.modules.passiveskill.InRainPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.InVillagePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.IndoorPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.LuckPassiveSkillEffect
-import miragefairy2023.modules.passiveskill.ManaPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.MaxHealthPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.MaximumFoodLevelPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.MaximumHealthPassiveSkillCondition
@@ -42,6 +41,7 @@ import miragefairy2023.modules.passiveskill.ThunderingPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.ToolMaterialPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.UnderwaterPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.air
+import miragefairy2023.modules.passiveskill.mana
 import miragefairy2023.modules.passiveskill.movementSpeed
 import miragefairy2023.modules.passiveskill.overworld
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags
@@ -233,7 +233,7 @@ enum class FairyCard(
         PassiveSkills {
             LuckPassiveSkillEffect(0.5) on listOf()
             StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 0) on listOf(ToolMaterialPassiveSkillCondition(ToolMaterialCard.MIRANAGITE))
-            ManaPassiveSkillEffect(0.5) on listOf()
+            mana(0.5) on listOf()
         },
         FairyRecipes().overworld().recipe { DemonItemCard.MIRANAGITE() },
     ),
@@ -638,7 +638,7 @@ enum class FairyCard(
         PassiveSkills {
             LuckPassiveSkillEffect(1.0) on listOf()
             RegenerationPassiveSkillEffect(0.1) on listOf()
-            ManaPassiveSkillEffect(0.5) on listOf()
+            mana(0.5) on listOf()
             // TODO 夢のエフェクトが見えるようになる
         },
         FairyRecipes().always(),
@@ -646,7 +646,7 @@ enum class FairyCard(
     MINA(
         "mina", 5, "Minia", "銀子精ミーニャ", 0xFFFF84, 0xFFFF00, 0xFFFF00, 0xFFC800,
         PassiveSkills {
-            ManaPassiveSkillEffect(1.0) on listOf(TelescopeMissionPassiveSkillCondition())
+            mana(1.0) on listOf(TelescopeMissionPassiveSkillCondition())
         },
         FairyRecipes().always(),
     ),
