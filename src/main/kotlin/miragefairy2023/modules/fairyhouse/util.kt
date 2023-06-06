@@ -10,7 +10,6 @@ import miragefairy2023.modules.Poem
 import miragefairy2023.modules.commonItemGroup
 import miragefairy2023.modules.generatePoemList
 import miragefairy2023.modules.registerPoemList
-import miragefairy2023.util.InstrumentBlock
 import miragefairy2023.util.castOr
 import miragefairy2023.util.get
 import miragefairy2023.util.init.FeatureSlot
@@ -21,6 +20,7 @@ import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.generateHorizontalFacingBlockState
 import miragefairy2023.util.init.item
 import miragefairy2023.util.isNotEmpty
+import miragefairy2023.util.lib.InstrumentBlock
 import miragefairy2023.util.list
 import miragefairy2023.util.plus
 import miragefairy2023.util.set

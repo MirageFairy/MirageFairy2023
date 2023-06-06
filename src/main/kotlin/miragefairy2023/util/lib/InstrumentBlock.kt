@@ -1,4 +1,4 @@
-package miragefairy2023.util
+package miragefairy2023.util.lib
 
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState

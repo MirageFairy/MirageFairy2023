@@ -2,7 +2,6 @@ package miragefairy2023.modules
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
-import miragefairy2023.util.InstrumentBlock
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.get
 import miragefairy2023.util.identifier
@@ -14,6 +13,7 @@ import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.generateHorizontalFacingBlockState
 import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
+import miragefairy2023.util.lib.InstrumentBlock
 import miragefairy2023.util.long
 import miragefairy2023.util.obtain
 import miragefairy2023.util.toLocalDateTime
