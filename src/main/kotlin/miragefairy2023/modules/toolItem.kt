@@ -215,3 +215,16 @@ private fun passiveSkillAccessory(trinketsSlotCards: List<TrinketsSlotCard>, man
         }
     }
 }
+
+private fun <I> trinketAccessory(trinketsSlotCards: List<TrinketsSlotCard>, itemCreator: (Item.Settings) -> I): InitializationScope.(ToolItemCard) -> Unit where I : Item, I : Trinket = { card ->
+    card.item = item(card.path, { itemCreator(FabricItemSettings().maxCount(1).group(commonItemGroup)) }) {
+        onGenerateItemModels { it.register(feature, Models.GENERATED) }
+        enJaItem({ feature }, card.enName, card.jaName)
+        generatePoemList(card.poemList)
+        onRegisterItems { registerPoemList(feature, card.poemList) }
+        trinketsSlotCards.forEach { trinketsSlotCard ->
+            onGenerateItemTags { it(trinketsSlotCard.tag).add(feature) }
+        }
+        onRegisterItems { TrinketsApi.registerTrinket(feature, feature) }
+    }
+}
