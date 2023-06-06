@@ -67,6 +67,9 @@ class MovementSpeedPassiveSkillEffect(override val power: Double) : AttributePas
     override val operation = EntityAttributeModifier.Operation.MULTIPLY_BASE
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.attackDamage(power: Double) = AttackDamagePassiveSkillEffect(power)
+
 class AttackDamagePassiveSkillEffect(override val power: Double) : AttributePassiveSkillEffect() {
     override fun getText(baseEfficiency: Double, efficiency: Double) = text { translate("attribute.name.generic.attack_damage") + ": "() + (power * efficiency formatAs "%+.2f")() }
     override val uuid: UUID = UUID.fromString("19306783-21EE-4A02-AC1F-46FFECE309A2")
@@ -74,6 +77,9 @@ class AttackDamagePassiveSkillEffect(override val power: Double) : AttributePass
     override val entityAttribute: EntityAttribute = EntityAttributes.GENERIC_ATTACK_DAMAGE
     override val operation = EntityAttributeModifier.Operation.ADDITION
 }
+
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.maxHealth(power: Double) = MaxHealthPassiveSkillEffect(power)
 
 class MaxHealthPassiveSkillEffect(override val power: Double) : AttributePassiveSkillEffect() {
     override fun getText(baseEfficiency: Double, efficiency: Double) = text { translate("attribute.name.generic.max_health") + ": "() + (power * efficiency formatAs "%+.2f")() }
@@ -83,6 +89,9 @@ class MaxHealthPassiveSkillEffect(override val power: Double) : AttributePassive
     override val operation = EntityAttributeModifier.Operation.ADDITION
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.luck(power: Double) = LuckPassiveSkillEffect(power)
+
 class LuckPassiveSkillEffect(override val power: Double) : AttributePassiveSkillEffect() {
     override fun getText(baseEfficiency: Double, efficiency: Double) = text { translate("attribute.name.generic.luck") + ": "() + (power * efficiency formatAs "%+.2f")() }
     override val uuid: UUID = UUID.fromString("A69D69CB-1658-4D58-BB45-B18445DD8757")
@@ -91,17 +100,28 @@ class LuckPassiveSkillEffect(override val power: Double) : AttributePassiveSkill
     override val operation = EntityAttributeModifier.Operation.ADDITION
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.statusEffect(
+    statusEffect: StatusEffect,
+    amplifier: Int,
+    additionalSeconds: Int = 0,
+    showParticles: Boolean = false,
+) = StatusEffectPassiveSkillEffect(statusEffect, amplifier, additionalSeconds, showParticles)
+
 class StatusEffectPassiveSkillEffect(
     private val statusEffect: StatusEffect,
     private val amplifier: Int,
-    private val additionalSeconds: Int = 0,
-    private val showParticles: Boolean = false,
+    private val additionalSeconds: Int,
+    private val showParticles: Boolean,
 ) : PassiveSkillEffect {
     override fun getText(baseEfficiency: Double, efficiency: Double) = text { translate(statusEffect.translationKey) + (if (amplifier > 0) " ${(amplifier + 1).toRoman()}" else "")() }
     override fun affect(world: ServerWorld, player: PlayerEntity, efficiency: Double, passiveSkillVariable: MutableMap<Identifier, Any>, initializers: MutableList<() -> Unit>) {
         player.addStatusEffect(StatusEffectInstance(statusEffect, 20 * (1 + 1 + additionalSeconds), amplifier, true, showParticles, true))
     }
 }
+
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.combustion() = CombustionPassiveSkillEffect()
 
 class CombustionPassiveSkillEffect : PassiveSkillEffect {
     companion object {
@@ -115,6 +135,9 @@ class CombustionPassiveSkillEffect : PassiveSkillEffect {
     }
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.experience(amount: Double) = ExperiencePassiveSkillEffect(amount)
+
 class ExperiencePassiveSkillEffect(private val amount: Double) : PassiveSkillEffect {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.experience", "Experience: %s/s", "経験値: %s/秒")
@@ -127,6 +150,9 @@ class ExperiencePassiveSkillEffect(private val amount: Double) : PassiveSkillEff
     }
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.regeneration(amount: Double) = RegenerationPassiveSkillEffect(amount)
+
 class RegenerationPassiveSkillEffect(private val amount: Double) : PassiveSkillEffect {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.regeneration", "Regeneration: %s/s", "継続回復: %s/秒")
@@ -137,6 +163,9 @@ class RegenerationPassiveSkillEffect(private val amount: Double) : PassiveSkillE
         if (player.health < player.maxHealth) player.heal((amount * efficiency).toFloat())
     }
 }
+
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.collection(amount: Double) = CollectionPassiveSkillEffect(amount)
 
 class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEffect {
     companion object {
