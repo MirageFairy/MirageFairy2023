@@ -30,6 +30,10 @@ class PassiveSkillsBuilder {
     infix fun PassiveSkillEffect.on(conditions: List<PassiveSkillCondition>) {
         this on PassiveSkillConditions(conditions)
     }
+
+    infix fun PassiveSkillEffect.on(conditions: PassiveSkillCondition) {
+        this on PassiveSkillConditions(listOf(conditions))
+    }
 }
 
 class PassiveSkillConditions(val conditions: List<PassiveSkillCondition>) {
