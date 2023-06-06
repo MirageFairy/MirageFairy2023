@@ -9,6 +9,7 @@ import miragefairy2023.modules.demonItemModule
 import miragefairy2023.modules.fairy.fairyModule
 import miragefairy2023.modules.fairyCrystalGlassModule
 import miragefairy2023.modules.fairyhouse.fairyHouseModule
+import miragefairy2023.modules.lastFoodModule
 import miragefairy2023.modules.luckBonusModule
 import miragefairy2023.modules.mirageFlourModule
 import miragefairy2023.modules.mirageFlowerModule
@@ -25,6 +26,7 @@ val modules = module {
     // システム系
     customDataModule()
     poemModule()
+    lastFoodModule()
 
     // コンポーネント系
     passiveSkillModule()
