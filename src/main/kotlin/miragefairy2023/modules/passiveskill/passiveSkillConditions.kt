@@ -204,6 +204,9 @@ class ThunderingPassiveSkillCondition : PassiveSkillCondition {
     override fun test(player: PlayerEntity, mana: Double) = isWorldThunder(player)
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.biome(biomeTag: TagKey<Biome>) = PassiveSkillConditions(BiomePassiveSkillCondition(biomeTag))
+
 class BiomePassiveSkillCondition(private val biomeTag: TagKey<Biome>) : PassiveSkillCondition {
     companion object {
         val keyPrefix = "${MirageFairy2023.modId}.passive_skill.condition.biome"
@@ -242,10 +245,16 @@ class InVillagePassiveSkillCondition : PassiveSkillCondition {
     }
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.minimumLightLevel(lightLevel: Int) = PassiveSkillConditions(MinimumLightLevelPassiveSkillCondition(lightLevel))
+
 class MinimumLightLevelPassiveSkillCondition(private val lightLevel: Int) : PassiveSkillCondition {
     override fun getText() = text { "${Symbol.LIGHT}$lightLevel${Symbol.UP}"() }
     override fun test(player: PlayerEntity, mana: Double) = player.world.getLightLevel(player.eyeBlockPos) >= lightLevel
 }
+
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.maximumLightLevel(lightLevel: Int) = PassiveSkillConditions(MaximumLightLevelPassiveSkillCondition(lightLevel))
 
 class MaximumLightLevelPassiveSkillCondition(private val lightLevel: Int) : PassiveSkillCondition {
     override fun getText() = text { "${Symbol.LIGHT}$lightLevel${Symbol.DOWN}"() }
@@ -264,30 +273,48 @@ class HasHoePassiveSkillCondition : PassiveSkillCondition {
     override fun test(player: PlayerEntity, mana: Double) = player.mainHandStack.isIn(ConventionalItemTags.HOES)
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.toolMaterial(toolMaterialCard: ToolMaterialCard) = PassiveSkillConditions(ToolMaterialPassiveSkillCondition(toolMaterialCard))
+
 class ToolMaterialPassiveSkillCondition(private val toolMaterialCard: ToolMaterialCard) : PassiveSkillCondition {
     override fun getText() = text { toolMaterialCard.translation() }
     override fun test(player: PlayerEntity, mana: Double) = player.mainHandStack.isIn(toolMaterialCard.tag)
 }
+
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.food(foodItem: () -> Item) = PassiveSkillConditions(FoodPassiveSkillCondition(foodItem))
 
 class FoodPassiveSkillCondition(private val foodItem: () -> Item) : PassiveSkillCondition {
     override fun getText() = text { foodItem().name }
     override fun test(player: PlayerEntity, mana: Double) = player.lastFoodProperty.get()?.isOf(foodItem()) ?: false
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.maximumLevel(level: Int) = PassiveSkillConditions(MaximumLevelPassiveSkillCondition(level))
+
 class MaximumLevelPassiveSkillCondition(private val level: Int) : PassiveSkillCondition {
     override fun getText() = text { "${Symbol.LEVEL}$level${Symbol.DOWN}"() }
     override fun test(player: PlayerEntity, mana: Double) = player.experienceLevel <= level
 }
+
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.maximumHealth(health: Int) = PassiveSkillConditions(MaximumHealthPassiveSkillCondition(health))
 
 class MaximumHealthPassiveSkillCondition(private val health: Int) : PassiveSkillCondition {
     override fun getText() = text { "${Symbol.HEART}${format(health * 0.5)}${Symbol.DOWN}"() }
     override fun test(player: PlayerEntity, mana: Double) = player.health <= health
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.minimumFoodLevel(foodLevel: Int) = PassiveSkillConditions(MinimumFoodLevelPassiveSkillCondition(foodLevel))
+
 class MinimumFoodLevelPassiveSkillCondition(private val foodLevel: Int) : PassiveSkillCondition {
     override fun getText() = text { "${Symbol.FOOD}${format(foodLevel * 0.5)}${Symbol.UP}"() }
     override fun test(player: PlayerEntity, mana: Double) = player.hungerManager.foodLevel >= foodLevel
 }
+
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.maximumFoodLevel(foodLevel: Int) = PassiveSkillConditions(MaximumFoodLevelPassiveSkillCondition(foodLevel))
 
 class MaximumFoodLevelPassiveSkillCondition(private val foodLevel: Int) : PassiveSkillCondition {
     override fun getText() = text { "${Symbol.FOOD}${format(foodLevel * 0.5)}${Symbol.DOWN}"() }
@@ -306,10 +333,16 @@ class OnFirePassiveSkillCondition : PassiveSkillCondition {
     override fun test(player: PlayerEntity, mana: Double) = player.isOnFire
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.statusEffect(statusEffect: StatusEffect) = PassiveSkillConditions(StatusEffectPassiveSkillCondition(statusEffect))
+
 class StatusEffectPassiveSkillCondition(private val statusEffect: StatusEffect) : PassiveSkillCondition {
     override fun getText() = text { translate(statusEffect.translationKey) }
     override fun test(player: PlayerEntity, mana: Double) = player.hasStatusEffect(statusEffect)
 }
+
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.minimumMana(mana: Double) = PassiveSkillConditions(MinimumManaPassiveSkillCondition(mana))
 
 class MinimumManaPassiveSkillCondition(private val mana: Double) : PassiveSkillCondition {
     override fun getText() = text { "${Symbol.STAR}$mana${Symbol.UP}"() }
