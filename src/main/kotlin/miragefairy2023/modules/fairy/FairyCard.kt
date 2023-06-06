@@ -645,22 +645,10 @@ enum class FairyCard(
         override val rare get() = this@FairyCard.rare
     }
 
-
-    // 妖精レシピ
-
-    class FairyRecipes {
-        val recipes = mutableListOf<FairyRecipe>()
-    }
-
-    interface FairyRecipe {
-        fun getWikiString(): String
-        fun init(initializationScope: InitializationScope, fairyCard: FairyCard)
-    }
-
 }
 
-private fun FairyCard.FairyRecipes.always() = this.also {
-    this.recipes += object : FairyCard.FairyRecipe {
+private fun FairyRecipes.always() = this.also {
+    this.recipes += object : FairyRecipe {
         override fun getWikiString() = "コモン：全世界"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onRegisterRecipes {
@@ -670,8 +658,8 @@ private fun FairyCard.FairyRecipes.always() = this.also {
     }
 }
 
-private fun FairyCard.FairyRecipes.overworld() = this.also {
-    this.recipes += object : FairyCard.FairyRecipe {
+private fun FairyRecipes.overworld() = this.also {
+    this.recipes += object : FairyRecipe {
         override fun getWikiString() = "コモン：地上世界"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onRegisterRecipes {
@@ -681,8 +669,8 @@ private fun FairyCard.FairyRecipes.overworld() = this.also {
     }
 }
 
-private fun FairyCard.FairyRecipes.biome(biomeTag: TagKey<Biome>) = this.also {
-    this.recipes += object : FairyCard.FairyRecipe {
+private fun FairyRecipes.biome(biomeTag: TagKey<Biome>) = this.also {
+    this.recipes += object : FairyRecipe {
         override fun getWikiString() = "コモン：${text { translate(biomeTag.id.toTranslationKey(BiomePassiveSkillCondition.keyPrefix)) }.string}"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onRegisterRecipes {
@@ -692,8 +680,8 @@ private fun FairyCard.FairyRecipes.biome(biomeTag: TagKey<Biome>) = this.also {
     }
 }
 
-private fun FairyCard.FairyRecipes.biome(biome: RegistryKey<Biome>) = this.also {
-    this.recipes += object : FairyCard.FairyRecipe {
+private fun FairyRecipes.biome(biome: RegistryKey<Biome>) = this.also {
+    this.recipes += object : FairyRecipe {
         override fun getWikiString() = "コモン：${text { translate(biome.value.toTranslationKey("biome")) }.string}"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onRegisterRecipes {
@@ -703,8 +691,8 @@ private fun FairyCard.FairyRecipes.biome(biome: RegistryKey<Biome>) = this.also 
     }
 }
 
-private fun FairyCard.FairyRecipes.block(blockSupplier: () -> Block) = this.also {
-    this.recipes += object : FairyCard.FairyRecipe {
+private fun FairyRecipes.block(blockSupplier: () -> Block) = this.also {
+    this.recipes += object : FairyRecipe {
         override fun getWikiString() = "夢：ブロック：${blockSupplier().name.string}"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onRegisterRecipes {
@@ -714,8 +702,8 @@ private fun FairyCard.FairyRecipes.block(blockSupplier: () -> Block) = this.also
     }
 }
 
-private fun FairyCard.FairyRecipes.entityType(entityTypeSupplier: () -> EntityType<*>) = this.also {
-    this.recipes += object : FairyCard.FairyRecipe {
+private fun FairyRecipes.entityType(entityTypeSupplier: () -> EntityType<*>) = this.also {
+    this.recipes += object : FairyRecipe {
         override fun getWikiString() = "夢：エンティティ：${entityTypeSupplier().name.string}"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onRegisterRecipes {
@@ -725,8 +713,8 @@ private fun FairyCard.FairyRecipes.entityType(entityTypeSupplier: () -> EntityTy
     }
 }
 
-private fun FairyCard.FairyRecipes.recipe(inputItemSupplier: () -> Item) = this.also {
-    this.recipes += object : FairyCard.FairyRecipe {
+private fun FairyRecipes.recipe(inputItemSupplier: () -> Item) = this.also {
+    this.recipes += object : FairyRecipe {
         override fun getWikiString() = "クラフト：${inputItemSupplier().name.string}"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onGenerateRecipes {
