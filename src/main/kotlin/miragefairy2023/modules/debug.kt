@@ -86,7 +86,7 @@ class ResetTelescopeMissionDebuggerItem(settings: Settings) : Item(settings) {
         user as ServerPlayerEntity
 
         user.lastTelescopeUseTimeProperty.set(null)
-        syncCustomData(user)
+        user.syncCustomData()
         user.sendMessage(text { "Reset telescope mission"() }, false)
 
         user.world.playSound(null, user.x, user.y, user.z, SoundEvents.BLOCK_BEACON_DEACTIVATE, SoundCategory.PLAYERS, 0.5F, 1.0F)
@@ -103,7 +103,7 @@ class ResetFairyDreamDebuggerItem(settings: Settings) : Item(settings) {
 
         val nbt = user.customData
         nbt.wrapper[MirageFairy2023.modId]["found_motifs"].set(null)
-        syncCustomData(user)
+        user.syncCustomData()
         user.sendMessage(text { "Reset fairy dreams"() }, false)
 
         user.world.playSound(null, user.x, user.y, user.z, SoundEvents.BLOCK_BEACON_DEACTIVATE, SoundCategory.PLAYERS, 0.5F, 1.0F)

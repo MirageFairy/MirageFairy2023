@@ -45,14 +45,14 @@ val customDataModule = module {
 
     // ログイン時自動同期
     ServerPlayConnectionEvents.JOIN.register { handler, _, _ ->
-        syncCustomData(handler.player)
+        handler.player.syncCustomData()
     }
 
 }
 
 // 送信
-fun syncCustomData(player: ServerPlayerEntity) {
-    ServerPlayNetworking.send(player, CUSTOM_DATA_PACKET_ID, PacketByteBufs.create().also {
-        it.writeNbt(player.customData)
+fun ServerPlayerEntity.syncCustomData() {
+    ServerPlayNetworking.send(this, CUSTOM_DATA_PACKET_ID, PacketByteBufs.create().also {
+        it.writeNbt(this.customData)
     })
 }

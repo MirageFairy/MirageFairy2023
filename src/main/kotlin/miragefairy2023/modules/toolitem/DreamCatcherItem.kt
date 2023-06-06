@@ -100,7 +100,7 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
 
         // 生産
         nbt.wrapper[MirageFairy2023.modId]["found_motifs"][fairy.motif.toString()].int.set(1)
-        syncCustomData(player)
+        player.syncCustomData()
 
         // エフェクト
         player.world.playSound(null, player.x, player.y, player.z, SoundEvents.BLOCK_BEACON_ACTIVATE, SoundCategory.PLAYERS, 0.5F, 1.0F)

@@ -20,7 +20,7 @@ val lastFoodModule = module {
         if (entity !is PlayerEntity) return@register
         if (!stack.isFood) return@register
         entity.lastFoodProperty.set(stack)
-        syncCustomData(entity as ServerPlayerEntity)
+        (entity as ServerPlayerEntity).syncCustomData()
     }
 }
 

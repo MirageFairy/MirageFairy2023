@@ -128,7 +128,7 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
         world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.5F, 1.0F)
 
         player.lastTelescopeUseTimeProperty.set(now.toEpochMilli())
-        syncCustomData(player)
+        player.syncCustomData()
 
         return ActionResult.CONSUME
     }
