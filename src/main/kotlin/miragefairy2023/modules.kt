@@ -39,16 +39,16 @@ val modules = module {
     trinketsSlotModule()
 
     // コンテンツ系
-    advancementModule()
     demonItemModule()
+    mirageFlowerModule()
+    mirageFlourModule()
+    toolItemModule()
     demonBlockModule()
     fairyCrystalGlassModule()
     telescopeModule()
     fairyHouseModule()
-    mirageFlourModule()
-    mirageFlowerModule()
     fairyModule()
+    advancementModule()
     debugModule()
-    toolItemModule()
 
 }
