@@ -11,7 +11,9 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.math.Quaternion
 import net.minecraft.util.math.Vec3f
 
-class RenderingProxyBlockEntityRenderer<T>(ctx: BlockEntityRendererFactory.Context) : BlockEntityRenderer<T> where T : BlockEntity, T : RenderingProxyBlockEntity {
+class RenderingProxyBlockEntityRenderer<T>(
+    @Suppress("UNUSED_PARAMETER") ctx: BlockEntityRendererFactory.Context,
+) : BlockEntityRenderer<T> where T : BlockEntity, T : RenderingProxyBlockEntity {
     override fun render(blockEntity: T, tickDelta: Float, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int) {
         val renderingProxy = object : RenderingProxy {
             override fun stack(block: () -> Unit) {

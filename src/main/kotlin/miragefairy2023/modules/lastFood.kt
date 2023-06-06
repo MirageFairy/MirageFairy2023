@@ -28,7 +28,7 @@ val lastFoodModule = module {
     }
 
     // プレイヤーが死ぬとリセット
-    ServerLivingEntityEvents.AFTER_DEATH.register { entity, damageSource ->
+    ServerLivingEntityEvents.AFTER_DEATH.register { entity, _ ->
         if (entity !is PlayerEntity) return@register
         if (entity.isSpectator) return@register
         if (entity.world.gameRules.getBoolean(GameRules.KEEP_INVENTORY)) return@register
