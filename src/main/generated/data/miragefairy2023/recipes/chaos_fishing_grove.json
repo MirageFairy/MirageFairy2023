@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "miragefairy2023:chaos_fishing_grove",
+  "key": {
+    "G": {
+      "item": "miragefairy2023:chaos_stone"
+    }
+  },
+  "pattern": [
+    " GG",
+    "GGG",
+    " GG"
+  ],
+  "result": {
+    "item": "miragefairy2023:chaos_fishing_grove"
+  }
+}

@@ -1,5 +1,7 @@
 package miragefairy2023.modules
 
+import dev.emi.trinkets.api.Trinket
+import dev.emi.trinkets.api.TrinketsApi
 import miragefairy2023.InitializationScope
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.PassiveSkill
@@ -76,6 +78,16 @@ enum class ToolItemCard(
             Description("Can dig like a shovel", "シャベルのように掘れる"),
         ),
         pickaxe(ToolMaterialCard.CHAOS_STONE, 1, -2.8F, BlockTags.PICKAXE_MINEABLE, BlockTags.SHOVEL_MINEABLE),
+    ),
+    CHAOS_FISHING_GROVE(
+        "chaos_fishing_grove", "Chaos Fishing Grove", "混沌のフィッシンググローブ",
+        listOf(
+            Poem("The impurity named automation", "古代、混沌は余裕と幸福をもたらした。"),
+            Description("Automatic fishing", "釣りを自動進行"),
+            Penalty("penalty1", "Consume more fishing rod durability", "釣り竿の耐久値消費増加"),
+            Penalty("penalty2", "Halves fishing enchantments", "釣りのエンチャント効果半減"),
+        ),
+        trinketAccessory(listOf(TrinketsSlotCard.HAND_GLOVE, TrinketsSlotCard.OFFHAND_GLOVE)) { FishingGroveItem(it) },
     ),
     ;
 
@@ -174,6 +186,19 @@ val toolItemModule = module {
             .criterion(DemonItemCard.CHAOS_STONE())
             .group(ToolItemCard.CHAOS_STONE_PICKAXE.item.feature)
             .offerTo(it, ToolItemCard.CHAOS_STONE_PICKAXE.item.feature.identifier)
+    }
+
+    // 混沌のフィッシンググローブ
+    onGenerateRecipes {
+        ShapedRecipeJsonBuilder
+            .create(ToolItemCard.CHAOS_FISHING_GROVE.item.feature)
+            .pattern(" GG")
+            .pattern("GGG")
+            .pattern(" GG")
+            .input('G', DemonItemCard.CHAOS_STONE())
+            .criterion(DemonItemCard.CHAOS_STONE())
+            .group(ToolItemCard.CHAOS_FISHING_GROVE.item.feature)
+            .offerTo(it, ToolItemCard.CHAOS_FISHING_GROVE.item.feature.identifier)
     }
 
     translation(DreamCatcherItem.knownKey)
