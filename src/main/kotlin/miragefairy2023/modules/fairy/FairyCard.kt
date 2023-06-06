@@ -74,17 +74,23 @@ enum class FairyCard(
     ),
     LIGHT(
         "light", 3, "Lightia", "光精リグチャ", 0xFFFFD8, 0xFFFFD8, 0xFFFFC5, 0xFFFF00,
-        listOf(PassiveSkill(listOf(MinimumLightLevelPassiveSkillCondition(12)), MovementSpeedPassiveSkillEffect(0.30))),
+        listOf(
+            PassiveSkill(listOf(MinimumLightLevelPassiveSkillCondition(12)), MovementSpeedPassiveSkillEffect(0.30)),
+        ),
         FairyRecipes().always(),
     ),
     FIRE(
         "fire", 2, "Firia", "火精フィーリャ", 0xFF6C01, 0xF9DFA4, 0xFF7324, 0xFF4000,
-        listOf(PassiveSkill(listOf(OnFirePassiveSkillCondition()), AttackDamagePassiveSkillEffect(4.0))),
+        listOf(
+            PassiveSkill(listOf(OnFirePassiveSkillCondition()), AttackDamagePassiveSkillEffect(4.0)),
+        ),
         FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.FIRE },
     ),
     WATER(
         "water", 1, "Wateria", "水精ワテーリャ", 0x5469F2, 0x5985FF, 0x172AD3, 0x2D40F4,
-        listOf(PassiveSkill(listOf(UnderwaterPassiveSkillCondition()), MaxHealthPassiveSkillEffect(12.0))),
+        listOf(
+            PassiveSkill(listOf(UnderwaterPassiveSkillCondition()), MaxHealthPassiveSkillEffect(12.0)),
+        ),
         FairyRecipes().overworld().block { Blocks.WATER }.recipe { Items.WATER_BUCKET },
     ),
     LAVA(
@@ -114,12 +120,16 @@ enum class FairyCard(
     ),
     RAIN(
         "rain", 2, "Rainia", "雨精ライニャ", 0xB4FFFF, 0x4D5670, 0x4D5670, 0x2D40F4,
-        listOf(PassiveSkill(listOf(InRainPassiveSkillCondition()), AttackDamagePassiveSkillEffect(4.0))),
+        listOf(
+            PassiveSkill(listOf(InRainPassiveSkillCondition()), AttackDamagePassiveSkillEffect(4.0)),
+        ),
         FairyRecipes().overworld(),
     ),
     DIRT(
         "dirt", 1, "Dirtia", "土精ディルチャ", 0xB87440, 0xB9855C, 0x593D29, 0x914A18,
-        listOf(PassiveSkill(listOf(OverworldPassiveSkillCondition()), MaxHealthPassiveSkillEffect(10.0))),
+        listOf(
+            PassiveSkill(listOf(OverworldPassiveSkillCondition()), MaxHealthPassiveSkillEffect(10.0)),
+        ),
         FairyRecipes().overworld().block { Blocks.DIRT }.recipe { Items.DIRT },
     ),
     MYCELIUM(
@@ -330,12 +340,16 @@ enum class FairyCard(
     ),
     PLAYER(
         "player", 5, "Playeria", "人精プライェーリャ", 0xB58D63, 0x00AAAA, 0x322976, 0x4B3422,
-        listOf(PassiveSkill(listOf(MaximumLevelPassiveSkillCondition(29)), ExperiencePassiveSkillEffect(0.05))),
+        listOf(
+            PassiveSkill(listOf(MaximumLevelPassiveSkillCondition(29)), ExperiencePassiveSkillEffect(0.05)),
+        ),
         FairyRecipes().always().entityType { EntityType.PLAYER },
     ),
     ENDERMAN(
         "enderman", 6, "Endermania", "終界人精エンデルマーニャ", 0x000000, 0x161616, 0x161616, 0xEF84FA,
-        listOf(PassiveSkill(listOf(), CollectionPassiveSkillEffect(1.0))),
+        listOf(
+            PassiveSkill(listOf(), CollectionPassiveSkillEffect(1.0)),
+        ),
         FairyRecipes().overworld().biome(ConventionalBiomeTags.IN_NETHER).biome(ConventionalBiomeTags.IN_THE_END).entityType { EntityType.ENDERMAN },
     ),
     WARDEN(
@@ -464,12 +478,16 @@ enum class FairyCard(
     ),
     CRAFTING_TABLE(
         "crafting_table", 3, "Craftinge Tablia", "作業台精ツラフティンゲターブリャ", 0xFFFFFF, 0xFFBB9A, 0xFFC980, 0x000000,
-        listOf(PassiveSkill(listOf(IndoorPassiveSkillCondition()), LuckPassiveSkillEffect(2.0))),
+        listOf(
+            PassiveSkill(listOf(IndoorPassiveSkillCondition()), LuckPassiveSkillEffect(2.0)),
+        ),
         FairyRecipes().block { Blocks.CRAFTING_TABLE }.recipe { Items.CRAFTING_TABLE },
     ),
     ANVIL(
         "anvil", 4, "Anvilia", "金床精アンヴィーリャ", 0xFFFFFF, 0xA9A9A9, 0x909090, 0xA86F18,
-        listOf(PassiveSkill(listOf(IndoorPassiveSkillCondition()), AttackDamagePassiveSkillEffect(2.0))),
+        listOf(
+            PassiveSkill(listOf(IndoorPassiveSkillCondition()), AttackDamagePassiveSkillEffect(2.0)),
+        ),
         FairyRecipes().block { Blocks.ANVIL }.recipe { Items.ANVIL },
     ),
     ENCHANTING_TABLE(
@@ -482,7 +500,9 @@ enum class FairyCard(
     ),
     HOPPER(
         "hopper", 3, "Hopperia", "漏斗精ホッペーリャ", 0xFFFFFF, 0x797979, 0x646464, 0x5A5A5A,
-        listOf(PassiveSkill(listOf(IndoorPassiveSkillCondition()), CollectionPassiveSkillEffect(1.5))),
+        listOf(
+            PassiveSkill(listOf(IndoorPassiveSkillCondition()), CollectionPassiveSkillEffect(1.5)),
+        ),
         FairyRecipes().block { Blocks.HOPPER }.recipe { Items.HOPPER },
     ),
     BEACON(
@@ -509,12 +529,16 @@ enum class FairyCard(
     ),
     PRISMARINE(
         "prismarine", 5, "Prismarinia", "海晶石精プリスマリーニャ", 0xA3D3C7, 0x769A91, 0x769A91, 0x69C4C0,
-        listOf(PassiveSkill(listOf(UnderwaterPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 1))),
+        listOf(
+            PassiveSkill(listOf(UnderwaterPassiveSkillCondition()), StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 1)),
+        ),
         FairyRecipes().biome(ConventionalBiomeTags.OCEAN).block { Blocks.PRISMARINE }.recipe { Items.PRISMARINE },
     ),
     IRON_BARS(
         "iron_bars", 4, "Irone Barsia", "鉄格子精イローネバルシャ", 0xFFFFFF, 0xA1A1A3, 0x404040, 0x404040,
-        listOf(PassiveSkill(listOf(), MaxHealthPassiveSkillEffect(5.0))),
+        listOf(
+            PassiveSkill(listOf(), MaxHealthPassiveSkillEffect(5.0)),
+        ),
         FairyRecipes().block { Blocks.IRON_BARS }.recipe { Items.IRON_BARS },
     ),
     PLAINS(
