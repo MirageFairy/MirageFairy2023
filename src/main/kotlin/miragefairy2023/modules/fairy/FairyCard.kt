@@ -41,6 +41,7 @@ import miragefairy2023.modules.passiveskill.ThunderingPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.ToolMaterialPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.UnderwaterPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.air
+import miragefairy2023.modules.passiveskill.always
 import miragefairy2023.modules.passiveskill.mana
 import miragefairy2023.modules.passiveskill.movementSpeed
 import miragefairy2023.modules.passiveskill.overworld
@@ -134,7 +135,7 @@ enum class FairyCard(
     MYCELIUM(
         "mycelium", 6, "Myceliumia", "菌糸精ミツェリウミャ", 0x8F7E86, 0x8B7071, 0x8B7071, 0x8B6264,
         PassiveSkills {
-            AttackDamagePassiveSkillEffect(1.0) on listOf()
+            AttackDamagePassiveSkillEffect(1.0) on always()
             AttackDamagePassiveSkillEffect(2.0) on BiomePassiveSkillCondition(ConventionalBiomeTags.MUSHROOM)
             MaxHealthPassiveSkillEffect(12.0) on BiomePassiveSkillCondition(ConventionalBiomeTags.MUSHROOM)
             StatusEffectPassiveSkillEffect(StatusEffects.REGENERATION, 0) on BiomePassiveSkillCondition(ConventionalBiomeTags.MUSHROOM) * MinimumManaPassiveSkillCondition(10.0)
@@ -176,7 +177,7 @@ enum class FairyCard(
     ANCIENT_DEBRIS(
         "ancient_debris", 8, "Anciente Debrisia", "古代残骸精アンツィエンテデブリーシャ", 0x8F645A, 0x8F645A, 0x885040, 0xD8C2B7,
         PassiveSkills {
-            AttackDamagePassiveSkillEffect(1.0) on listOf()
+            AttackDamagePassiveSkillEffect(1.0) on always()
             AttackDamagePassiveSkillEffect(1.0) on BiomePassiveSkillCondition(ConventionalBiomeTags.IN_NETHER)
             MaxHealthPassiveSkillEffect(2.0) on BiomePassiveSkillCondition(ConventionalBiomeTags.IN_NETHER)
             LuckPassiveSkillEffect(2.0) on BiomePassiveSkillCondition(ConventionalBiomeTags.IN_NETHER)
@@ -186,7 +187,7 @@ enum class FairyCard(
     PURPUR(
         "purpur", 7, "Purpuria", "紫珀精プルプーリャ", 0xCBA8CB, 0xC08AC0, 0xC08AC0, 0xBC68BB,
         PassiveSkills {
-            CollectionPassiveSkillEffect(0.5) on listOf()
+            CollectionPassiveSkillEffect(0.5) on always()
             AttackDamagePassiveSkillEffect(2.0) on BiomePassiveSkillCondition(ConventionalBiomeTags.IN_THE_END)
             MaxHealthPassiveSkillEffect(4.0) on BiomePassiveSkillCondition(ConventionalBiomeTags.IN_THE_END)
         },
@@ -195,7 +196,7 @@ enum class FairyCard(
     COPPER(
         "copper", 3, "Copperia", "銅精ツォッペーリャ", 0xF69D7F, 0xF77653, 0xF77653, 0x5DC09A,
         PassiveSkills {
-            LuckPassiveSkillEffect(0.2) on listOf()
+            LuckPassiveSkillEffect(0.2) on always()
             AttackDamagePassiveSkillEffect(2.5) on ThunderingPassiveSkillCondition()
         },
         FairyRecipes().overworld().block { Blocks.COPPER_BLOCK }.recipe { Items.COPPER_INGOT },
@@ -212,7 +213,7 @@ enum class FairyCard(
     GOLD(
         "gold", 6, "Goldia", "金精ゴルジャ", 0xEFE642, 0xF4CC17, 0xF4CC17, 0xFDB61E,
         PassiveSkills {
-            LuckPassiveSkillEffect(0.8) on listOf()
+            LuckPassiveSkillEffect(0.8) on always()
             AttackDamagePassiveSkillEffect(2.0) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.GOLD)
             StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 0) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.GOLD)
             StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 1) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.GOLD) * MinimumManaPassiveSkillCondition(10.0)
@@ -231,16 +232,16 @@ enum class FairyCard(
     MIRANAGITE(
         "miranagite", 5, "Miranagitia", "蒼天石精ミラナギーチャ", 0x4EC5F4, 0x4394D3, 0x004477, 0x0C4CEF,
         PassiveSkills {
-            LuckPassiveSkillEffect(0.5) on listOf()
+            LuckPassiveSkillEffect(0.5) on always()
             StatusEffectPassiveSkillEffect(StatusEffects.LUCK, 0) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.MIRANAGITE)
-            mana(0.5) on listOf()
+            mana(0.5) on always()
         },
         FairyRecipes().overworld().recipe { DemonItemCard.MIRANAGITE() },
     ),
     AMETHYST(
         "amethyst", 5, "Amethystia", "紫水晶精アメティスチャ", 0xCAA9FF, 0xA974FF, 0x9D60FF, 0xBC92FF,
         PassiveSkills {
-            LuckPassiveSkillEffect(0.5) on listOf()
+            LuckPassiveSkillEffect(0.5) on always()
             AttackDamagePassiveSkillEffect(0.5) on MaximumLightLevelPassiveSkillCondition(7)
             LuckPassiveSkillEffect(2.0) on MaximumLightLevelPassiveSkillCondition(7)
         },
@@ -249,7 +250,7 @@ enum class FairyCard(
     EMERALD(
         "emerald", 6, "Emeraldia", "翠玉精エメラルジャ", 0x9FF9B5, 0x81F99E, 0x17DD62, 0x008A25,
         PassiveSkills {
-            LuckPassiveSkillEffect(0.5) on listOf()
+            LuckPassiveSkillEffect(0.5) on always()
             LuckPassiveSkillEffect(1.5) on InVillagePassiveSkillCondition()
         },
         FairyRecipes().overworld().block { Blocks.EMERALD_BLOCK }.recipe { Items.EMERALD },
@@ -257,7 +258,7 @@ enum class FairyCard(
     DIAMOND(
         "diamond", 7, "Diamondia", "金剛石精ディアモンジャ", 0x97FFE3, 0xD1FAF3, 0x70FFD9, 0x30DBBD,
         PassiveSkills {
-            LuckPassiveSkillEffect(0.5) on listOf()
+            LuckPassiveSkillEffect(0.5) on always()
             AttackDamagePassiveSkillEffect(2.0) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.DIAMOND)
             StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 0) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.DIAMOND)
             StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 1) on ToolMaterialPassiveSkillCondition(ToolMaterialCard.DIAMOND) * MinimumManaPassiveSkillCondition(12.0)
@@ -267,15 +268,15 @@ enum class FairyCard(
     ADAMANTITE(
         "adamantite", 9, "Adamantitia", "精金精アダマンティーチャ", 0xE5B3CA, 0xDB7A9C, 0xDB7A9C, 0xFD2888,
         PassiveSkills {
-            LuckPassiveSkillEffect(0.5) on listOf()
-            AttackDamagePassiveSkillEffect(2.0) on listOf()
+            LuckPassiveSkillEffect(0.5) on always()
+            AttackDamagePassiveSkillEffect(2.0) on always()
         },
         FairyRecipes().always(), // TODO イベ限解除
     ),
     COAL(
         "coal", 2, "Coalia", "石炭精ツォアーリャ", 0x4C2510, 0x52504C, 0x39352E, 0x150B00,
         PassiveSkills {
-            MaxHealthPassiveSkillEffect(4.0) on listOf()
+            MaxHealthPassiveSkillEffect(4.0) on always()
             LuckPassiveSkillEffect(2.0) on OnFirePassiveSkillCondition()
         },
         FairyRecipes().overworld().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.COAL_BLOCK }.recipe { Items.COAL },
@@ -292,7 +293,7 @@ enum class FairyCard(
     LAPIS_LAZULI(
         "lapis_lazuli", 5, "Lapise Lazulia", "瑠璃石精ラピセラズーリャ", 0x77A2FF, 0x3064D3, 0x3064D3, 0x3976F9,
         PassiveSkills {
-            LuckPassiveSkillEffect(0.5) on listOf()
+            LuckPassiveSkillEffect(0.5) on always()
             LuckPassiveSkillEffect(1.5) on OverworldPassiveSkillCondition()
         },
         FairyRecipes().overworld().block { Blocks.LAPIS_BLOCK }.recipe { Items.LAPIS_LAZULI },
@@ -300,7 +301,7 @@ enum class FairyCard(
     GLOWSTONE(
         "glowstone", 6, "Glowstonia", "蛍光石精グロウストーニャ", 0xEFC298, 0xEAA463, 0xEAA463, 0xEADD52,
         PassiveSkills {
-            StatusEffectPassiveSkillEffect(StatusEffects.GLOWING, 0) on listOf()
+            StatusEffectPassiveSkillEffect(StatusEffects.GLOWING, 0) on always()
             AttackDamagePassiveSkillEffect(1.5) on BiomePassiveSkillCondition(ConventionalBiomeTags.IN_NETHER)
         },
         FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.GLOWSTONE }.recipe { Items.GLOWSTONE_DUST },
@@ -308,7 +309,7 @@ enum class FairyCard(
     OBSIDIAN(
         "obsidian", 5, "Obsidiania", "黒耀石精オブシディアーニャ", 0x775599, 0x6029B3, 0x2E095E, 0x0F0033,
         PassiveSkills {
-            StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0) on listOf()
+            StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0) on always()
             StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 1) on MinimumManaPassiveSkillCondition(9.0)
         },
         FairyRecipes().overworld().biome(ConventionalBiomeTags.IN_THE_END).block { Blocks.OBSIDIAN }.recipe { Items.OBSIDIAN },
@@ -347,7 +348,7 @@ enum class FairyCard(
     ENDERMAN(
         "enderman", 6, "Endermania", "終界人精エンデルマーニャ", 0x000000, 0x161616, 0x161616, 0xEF84FA,
         PassiveSkills {
-            CollectionPassiveSkillEffect(1.0) on listOf()
+            CollectionPassiveSkillEffect(1.0) on always()
         },
         FairyRecipes().overworld().biome(ConventionalBiomeTags.IN_NETHER).biome(ConventionalBiomeTags.IN_THE_END).entityType { EntityType.ENDERMAN },
     ),
@@ -536,7 +537,7 @@ enum class FairyCard(
     IRON_BARS(
         "iron_bars", 4, "Irone Barsia", "鉄格子精イローネバルシャ", 0xFFFFFF, 0xA1A1A3, 0x404040, 0x404040,
         PassiveSkills {
-            MaxHealthPassiveSkillEffect(5.0) on listOf()
+            MaxHealthPassiveSkillEffect(5.0) on always()
         },
         FairyRecipes().block { Blocks.IRON_BARS }.recipe { Items.IRON_BARS },
     ),
@@ -619,26 +620,26 @@ enum class FairyCard(
     TIME(
         "time", 12, "Timia", "時精ティーミャ", 0xCDFFBF, 0xD5DEBC, 0xD8DEA7, 0x8DD586,
         PassiveSkills {
-            StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 1) on listOf()
-            movementSpeed(0.20) on listOf()
-            StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 1) on listOf()
+            StatusEffectPassiveSkillEffect(StatusEffects.SPEED, 1) on always()
+            movementSpeed(0.20) on always()
+            StatusEffectPassiveSkillEffect(StatusEffects.HASTE, 1) on always()
         },
         FairyRecipes().always(),
     ),
     GRAVITY(
         "gravity", 12, "Gravitia", "重力精グラヴィーチャ", 0xC2A7F2, 0x3600FF, 0x2A00B1, 0x110047,
         PassiveSkills {
-            StatusEffectPassiveSkillEffect(StatusEffects.SLOW_FALLING, 0) on listOf()
-            AttackDamagePassiveSkillEffect(2.0) on listOf()
+            StatusEffectPassiveSkillEffect(StatusEffects.SLOW_FALLING, 0) on always()
+            AttackDamagePassiveSkillEffect(2.0) on always()
         },
         FairyRecipes().always(),
     ),
     DREAM(
         "dream", 10, "Dreamia", "夢幻精ドレアミャ", 0xBFC3FF, 0xD1BAD8, 0xDBBCD4, 0x848ACC,
         PassiveSkills {
-            LuckPassiveSkillEffect(1.0) on listOf()
-            RegenerationPassiveSkillEffect(0.1) on listOf()
-            mana(0.5) on listOf()
+            LuckPassiveSkillEffect(1.0) on always()
+            RegenerationPassiveSkillEffect(0.1) on always()
+            mana(0.5) on always()
             // TODO 夢のエフェクトが見えるようになる
         },
         FairyRecipes().always(),
