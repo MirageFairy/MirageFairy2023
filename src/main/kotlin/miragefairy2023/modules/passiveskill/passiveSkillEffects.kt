@@ -56,6 +56,9 @@ abstract class AttributePassiveSkillEffect : PassiveSkillEffect {
     }
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.movementSpeed(power: Double) = MovementSpeedPassiveSkillEffect(power)
+
 class MovementSpeedPassiveSkillEffect(override val power: Double) : AttributePassiveSkillEffect() {
     override fun getText(baseEfficiency: Double, efficiency: Double) = text { translate("attribute.name.generic.movement_speed") + ": "() + (power * efficiency * 100 formatAs "%+.1f%%")() }
     override val uuid: UUID = UUID.fromString("378C9369-6CC3-4B45-AADD-5B221DF26ED0")

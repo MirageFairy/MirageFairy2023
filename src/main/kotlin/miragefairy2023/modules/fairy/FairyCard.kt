@@ -6,7 +6,6 @@ import miragefairy2023.api.PassiveSkill
 import miragefairy2023.modules.DemonItemCard
 import miragefairy2023.modules.ToolMaterialCard
 import miragefairy2023.modules.invoke
-import miragefairy2023.modules.passiveskill.AirPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.AttackDamagePassiveSkillEffect
 import miragefairy2023.modules.passiveskill.BiomePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.CollectionPassiveSkillEffect
@@ -33,6 +32,7 @@ import miragefairy2023.modules.passiveskill.NightPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.OnFirePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.OutdoorPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.OverworldPassiveSkillCondition
+import miragefairy2023.modules.passiveskill.PassiveSkills
 import miragefairy2023.modules.passiveskill.RegenerationPassiveSkillEffect
 import miragefairy2023.modules.passiveskill.ShadePassiveSkillCondition
 import miragefairy2023.modules.passiveskill.StatusEffectPassiveSkillCondition
@@ -42,6 +42,9 @@ import miragefairy2023.modules.passiveskill.TelescopeMissionPassiveSkillConditio
 import miragefairy2023.modules.passiveskill.ThunderingPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.ToolMaterialPassiveSkillCondition
 import miragefairy2023.modules.passiveskill.UnderwaterPassiveSkillCondition
+import miragefairy2023.modules.passiveskill.air
+import miragefairy2023.modules.passiveskill.movementSpeed
+import miragefairy2023.modules.passiveskill.overworld
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags
 import net.minecraft.block.Blocks
 import net.minecraft.entity.EntityType
@@ -64,7 +67,9 @@ enum class FairyCard(
 ) {
     AIR(
         "air", 0, "Airia", "空気精アイリャ", 0xFFBE80, 0xDEFFFF, 0xDEFFFF, 0xB0FFFF,
-        listOf(PassiveSkill(listOf(OverworldPassiveSkillCondition(), AirPassiveSkillCondition()), MovementSpeedPassiveSkillEffect(0.30))),
+        PassiveSkills {
+            movementSpeed(0.30) on overworld() * air()
+        },
         FairyRecipes().always().block { Blocks.AIR },
     ),
     LIGHT(

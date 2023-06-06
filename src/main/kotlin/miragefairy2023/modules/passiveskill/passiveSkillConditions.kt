@@ -54,6 +54,9 @@ private fun isWorldNight(player: PlayerEntity) = !isWorldDaytime(player)
 private fun format(value: Double) = (value formatAs "%.4f").removeTrailingZeros()
 
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.overworld() = PassiveSkillConditions(OverworldPassiveSkillCondition())
+
 class OverworldPassiveSkillCondition : PassiveSkillCondition {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.overworld", "Overworld", "地上世界")
@@ -125,6 +128,9 @@ class IndoorPassiveSkillCondition : PassiveSkillCondition {
     override fun getText() = text { key() }
     override fun test(player: PlayerEntity, mana: Double) = isIndoor(player)
 }
+
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.air() = PassiveSkillConditions(AirPassiveSkillCondition())
 
 class AirPassiveSkillCondition : PassiveSkillCondition {
     companion object {
