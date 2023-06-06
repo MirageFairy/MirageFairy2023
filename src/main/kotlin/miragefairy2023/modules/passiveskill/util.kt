@@ -24,6 +24,7 @@ class PassiveSkillsBuilder {
     val passiveSkills = mutableListOf<PassiveSkill>()
     operator fun PassiveSkillConditions.times(other: PassiveSkillConditions) = PassiveSkillConditions(this.conditions + other.conditions)
     operator fun PassiveSkillConditions.times(other: PassiveSkillCondition) = PassiveSkillConditions(this.conditions + other)
+    operator fun PassiveSkillCondition.times(other: PassiveSkillConditions) = PassiveSkillConditions(listOf(this) + other.conditions)
     operator fun PassiveSkillCondition.times(other: PassiveSkillCondition) = PassiveSkillConditions(listOf(this, other))
     infix fun PassiveSkillEffect.on(conditions: PassiveSkillConditions) {
         passiveSkills += PassiveSkill(conditions.conditions, this)

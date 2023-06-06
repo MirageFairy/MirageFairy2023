@@ -66,6 +66,9 @@ class OverworldPassiveSkillCondition : PassiveSkillCondition {
     override fun test(player: PlayerEntity, mana: Double) = isInNaturalDimension(player)
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.daytime() = PassiveSkillConditions(DaytimePassiveSkillCondition())
+
 class DaytimePassiveSkillCondition : PassiveSkillCondition {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.daytime", "Daytime", "昼")
@@ -74,6 +77,9 @@ class DaytimePassiveSkillCondition : PassiveSkillCondition {
     override fun getText() = text { key() }
     override fun test(player: PlayerEntity, mana: Double) = isInNaturalDimension(player) && isWorldDaytime(player)
 }
+
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.night() = PassiveSkillConditions(NightPassiveSkillCondition())
 
 class NightPassiveSkillCondition : PassiveSkillCondition {
     companion object {
@@ -84,6 +90,9 @@ class NightPassiveSkillCondition : PassiveSkillCondition {
     override fun test(player: PlayerEntity, mana: Double) = isInNaturalDimension(player) && isWorldNight(player)
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.sunshine() = PassiveSkillConditions(SunshinePassiveSkillCondition())
+
 class SunshinePassiveSkillCondition : PassiveSkillCondition {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.sunshine", "Sunshine", "日光")
@@ -92,6 +101,9 @@ class SunshinePassiveSkillCondition : PassiveSkillCondition {
     override fun getText() = text { key() }
     override fun test(player: PlayerEntity, mana: Double) = isInNaturalDimension(player) && isWorldDaytime(player) && isSpaceVisible(player)
 }
+
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.moonlight() = PassiveSkillConditions(MoonlightPassiveSkillCondition())
 
 class MoonlightPassiveSkillCondition : PassiveSkillCondition {
     companion object {
@@ -102,6 +114,9 @@ class MoonlightPassiveSkillCondition : PassiveSkillCondition {
     override fun test(player: PlayerEntity, mana: Double) = isInNaturalDimension(player) && isWorldNight(player) && isSpaceVisible(player)
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.shade() = PassiveSkillConditions(ShadePassiveSkillCondition())
+
 class ShadePassiveSkillCondition : PassiveSkillCondition {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.shade", "Shade", "日陰")
@@ -111,6 +126,9 @@ class ShadePassiveSkillCondition : PassiveSkillCondition {
     override fun test(player: PlayerEntity, mana: Double) = !(isInNaturalDimension(player) && isWorldDaytime(player) && isSpaceVisible(player))
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.outdoor() = PassiveSkillConditions(OutdoorPassiveSkillCondition())
+
 class OutdoorPassiveSkillCondition : PassiveSkillCondition {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.outdoor", "Outdoor", "屋外")
@@ -119,6 +137,9 @@ class OutdoorPassiveSkillCondition : PassiveSkillCondition {
     override fun getText() = text { key() }
     override fun test(player: PlayerEntity, mana: Double) = isOutdoor(player)
 }
+
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.indoor() = PassiveSkillConditions(IndoorPassiveSkillCondition())
 
 class IndoorPassiveSkillCondition : PassiveSkillCondition {
     companion object {
@@ -144,6 +165,9 @@ class AirPassiveSkillCondition : PassiveSkillCondition {
     }
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.underwater() = PassiveSkillConditions(UnderwaterPassiveSkillCondition())
+
 class UnderwaterPassiveSkillCondition : PassiveSkillCondition {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.underwater", "Underwater", "水中")
@@ -156,6 +180,9 @@ class UnderwaterPassiveSkillCondition : PassiveSkillCondition {
     }
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.inRain() = PassiveSkillConditions(InRainPassiveSkillCondition())
+
 class InRainPassiveSkillCondition : PassiveSkillCondition {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.in_rain", "In Rain", "雨中")
@@ -164,6 +191,9 @@ class InRainPassiveSkillCondition : PassiveSkillCondition {
     override fun getText() = text { key() }
     override fun test(player: PlayerEntity, mana: Double) = isInRain(player)
 }
+
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.thundering() = PassiveSkillConditions(ThunderingPassiveSkillCondition())
 
 class ThunderingPassiveSkillCondition : PassiveSkillCondition {
     companion object {
@@ -198,6 +228,9 @@ class BiomePassiveSkillCondition(private val biomeTag: TagKey<Biome>) : PassiveS
     override fun test(player: PlayerEntity, mana: Double) = player.world.getBiome(player.blockPos).isIn(biomeTag)
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.inVillage() = PassiveSkillConditions(InVillagePassiveSkillCondition())
+
 class InVillagePassiveSkillCondition : PassiveSkillCondition {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.in_village", "Village", "村")
@@ -218,6 +251,9 @@ class MaximumLightLevelPassiveSkillCondition(private val lightLevel: Int) : Pass
     override fun getText() = text { "${Symbol.LIGHT}$lightLevel${Symbol.DOWN}"() }
     override fun test(player: PlayerEntity, mana: Double) = player.world.getLightLevel(player.eyeBlockPos) <= lightLevel
 }
+
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.hasHoe() = PassiveSkillConditions(HasHoePassiveSkillCondition())
 
 class HasHoePassiveSkillCondition : PassiveSkillCondition {
     companion object {
@@ -258,6 +294,9 @@ class MaximumFoodLevelPassiveSkillCondition(private val foodLevel: Int) : Passiv
     override fun test(player: PlayerEntity, mana: Double) = player.hungerManager.foodLevel <= foodLevel
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.onFire() = PassiveSkillConditions(OnFirePassiveSkillCondition())
+
 class OnFirePassiveSkillCondition : PassiveSkillCondition {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.condition.on_fire", "Fire", "炎上")
@@ -276,6 +315,9 @@ class MinimumManaPassiveSkillCondition(private val mana: Double) : PassiveSkillC
     override fun getText() = text { "${Symbol.STAR}$mana${Symbol.UP}"() }
     override fun test(player: PlayerEntity, mana: Double) = mana >= this.mana
 }
+
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.telescopeMission() = PassiveSkillConditions(TelescopeMissionPassiveSkillCondition())
 
 class TelescopeMissionPassiveSkillCondition : PassiveSkillCondition {
     companion object {
