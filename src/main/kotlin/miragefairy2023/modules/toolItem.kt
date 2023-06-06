@@ -33,6 +33,7 @@ import net.minecraft.item.Items
 import net.minecraft.item.PickaxeItem
 import net.minecraft.item.Vanishable
 import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.BlockTags
 import net.minecraft.tag.ItemTags
@@ -276,7 +277,7 @@ private fun accessory(trinketsSlotCard: TrinketsSlotCard, mana: Double, passiveS
                 return super.use(world, user, hand)
             }
 
-            override fun getEquipSound() = SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND
+            override fun getEquipSound(): SoundEvent = SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND
         }
         PassiveSkillAccessoryItem()
     }) {
