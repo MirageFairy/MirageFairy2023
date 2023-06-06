@@ -21,7 +21,7 @@ import net.minecraft.world.World
 class PassiveSkillAccessoryItem(private val mana: Double, private val passiveSkills: List<PassiveSkill>, settings: Settings) : Item(settings), PassiveSkillItem, Vanishable {
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         super.appendTooltip(stack, world, tooltip, context)
-        tooltip += getPassiveSkillTooltip(stack, mana, mana, passiveSkills)
+        tooltip += getPassiveSkillTooltip(stack, 0.0, passiveSkills)
     }
 
     override val passiveSkillProvider: PassiveSkillProvider
