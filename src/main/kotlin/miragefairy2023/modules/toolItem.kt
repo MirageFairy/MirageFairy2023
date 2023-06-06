@@ -205,7 +205,7 @@ private fun pickaxe(toolMaterialCard: ToolMaterialCard, attackDamage: Int, attac
 }
 
 private fun passiveSkillAccessory(trinketsSlotCards: List<TrinketsSlotCard>, mana: Double, passiveSkills: List<PassiveSkill>): InitializationScope.(ToolItemCard) -> Unit = { card ->
-    card.item = item(card.path, { PassiveSkillAccessoryItem(mana, passiveSkills, FabricItemSettings().group(commonItemGroup).maxCount(1)) }) {
+    card.item = item(card.path, { PassiveSkillAccessoryItem(mana, passiveSkills, FabricItemSettings().maxCount(1).group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Models.GENERATED) }
         enJaItem({ feature }, card.enName, card.jaName)
         generatePoemList(card.poemList)
