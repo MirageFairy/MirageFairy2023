@@ -397,8 +397,8 @@ enum class FairyCard(
         "wheat", 3, "Wheatia", "麦精ウェアーチャ", 0xD8BF7F, 0xDBBB65, 0xDBBB65, 0x896D20,
         PassiveSkills {
             RegenerationPassiveSkillEffect(0.1) on MinimumFoodLevelPassiveSkillCondition(12)
-            RegenerationPassiveSkillEffect(0.3) on listOf(FoodPassiveSkillCondition { Items.BREAD })
-            AttackDamagePassiveSkillEffect(0.5) on listOf(FoodPassiveSkillCondition { Items.BREAD })
+            RegenerationPassiveSkillEffect(0.3) on FoodPassiveSkillCondition { Items.BREAD }
+            AttackDamagePassiveSkillEffect(0.5) on FoodPassiveSkillCondition { Items.BREAD }
         },
         FairyRecipes().overworld().block { Blocks.HAY_BLOCK }.recipe { Items.WHEAT },
     ),
@@ -406,7 +406,7 @@ enum class FairyCard(
         "carrot", 4, "Carrotia", "人参精ツァッローチャ", 0xF98D10, 0xFD7F11, 0xE3710F, 0x248420,
         PassiveSkills {
             RegenerationPassiveSkillEffect(0.1) on MinimumFoodLevelPassiveSkillCondition(12)
-            StatusEffectPassiveSkillEffect(StatusEffects.NIGHT_VISION, 0, additionalSeconds = 10) on listOf(FoodPassiveSkillCondition { Items.CARROT })
+            StatusEffectPassiveSkillEffect(StatusEffects.NIGHT_VISION, 0, additionalSeconds = 10) on FoodPassiveSkillCondition { Items.CARROT }
         },
         FairyRecipes().overworld().block { Blocks.CARROTS }.recipe { Items.CARROT },
     ),
@@ -414,8 +414,8 @@ enum class FairyCard(
         "potato", 4, "Potatia", "芋精ポターチャ", 0xEAC278, 0xE7B456, 0xE7B456, 0x248420,
         PassiveSkills {
             RegenerationPassiveSkillEffect(0.1) on MinimumFoodLevelPassiveSkillCondition(12)
-            RegenerationPassiveSkillEffect(0.2) on listOf(FoodPassiveSkillCondition { Items.BAKED_POTATO })
-            AttackDamagePassiveSkillEffect(1.0) on listOf(FoodPassiveSkillCondition { Items.BAKED_POTATO })
+            RegenerationPassiveSkillEffect(0.2) on FoodPassiveSkillCondition { Items.BAKED_POTATO }
+            AttackDamagePassiveSkillEffect(1.0) on FoodPassiveSkillCondition { Items.BAKED_POTATO }
         },
         FairyRecipes().overworld().block { Blocks.POTATOES }.recipe { Items.POTATO },
     ),
@@ -423,7 +423,7 @@ enum class FairyCard(
         "poisonous_potato", 5, "Poisonouse Potatia", "悪芋精ポイソノウセポターチャ", 0xCFE661, 0xE7B456, 0xE7B456, 0x61B835,
         PassiveSkills {
             AttackDamagePassiveSkillEffect(1.0) on MinimumFoodLevelPassiveSkillCondition(12)
-            AttackDamagePassiveSkillEffect(2.0) on listOf(FoodPassiveSkillCondition { Items.POISONOUS_POTATO })
+            AttackDamagePassiveSkillEffect(2.0) on FoodPassiveSkillCondition { Items.POISONOUS_POTATO }
         },
         FairyRecipes().overworld().block { Blocks.POTATOES }.recipe { Items.POISONOUS_POTATO },
     ),
@@ -431,7 +431,7 @@ enum class FairyCard(
         "beetroot", 4, "Beetrootia", "火焔菜精ベートローチャ", 0xC1727C, 0xA74D55, 0x96383D, 0x01A900,
         PassiveSkills {
             RegenerationPassiveSkillEffect(0.1) on MinimumFoodLevelPassiveSkillCondition(12)
-            AttackDamagePassiveSkillEffect(2.0) on listOf(FoodPassiveSkillCondition { Items.BEETROOT })
+            AttackDamagePassiveSkillEffect(2.0) on FoodPassiveSkillCondition { Items.BEETROOT }
         },
         FairyRecipes().overworld().block { Blocks.BEETROOTS }.recipe { Items.BEETROOT },
     ),
@@ -439,7 +439,7 @@ enum class FairyCard(
         "melon", 4, "Melonia", "西瓜精メローニャ", 0xFF5440, 0xA6EE63, 0x195612, 0x01A900,
         PassiveSkills {
             RegenerationPassiveSkillEffect(0.1) on MinimumFoodLevelPassiveSkillCondition(12)
-            RegenerationPassiveSkillEffect(0.4) on listOf(FoodPassiveSkillCondition { Items.MELON_SLICE })
+            RegenerationPassiveSkillEffect(0.4) on FoodPassiveSkillCondition { Items.MELON_SLICE }
         },
         FairyRecipes().biome(ConventionalBiomeTags.JUNGLE).block { Blocks.MELON }.recipe { Items.MELON },
     ),
@@ -447,7 +447,7 @@ enum class FairyCard(
         "apple", 4, "Applia", "林檎精アップーリャ", 0xFF755D, 0xFF564E, 0xFF0000, 0x01A900,
         PassiveSkills {
             RegenerationPassiveSkillEffect(0.1) on MinimumFoodLevelPassiveSkillCondition(12)
-            StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0) on listOf(FoodPassiveSkillCondition { Items.APPLE })
+            StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0) on FoodPassiveSkillCondition { Items.APPLE }
         },
         FairyRecipes().overworld().recipe { Items.APPLE },
     ),
@@ -585,9 +585,9 @@ enum class FairyCard(
         "desert", 2, "Desertia", "砂漠精デセルチャ", 0xF9F0C8, 0xDDD6A5, 0xD6CE9D, 0x656054,
         PassiveSkills {
             StatusEffectPassiveSkillEffect(StatusEffects.RESISTANCE, 0) on BiomePassiveSkillCondition(ConventionalBiomeTags.DESERT) * SunshinePassiveSkillCondition()
-            StatusEffectPassiveSkillEffect(StatusEffects.FIRE_RESISTANCE, 0) on listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.DESERT), SunshinePassiveSkillCondition(), MinimumManaPassiveSkillCondition(7.0))
+            StatusEffectPassiveSkillEffect(StatusEffects.FIRE_RESISTANCE, 0) on BiomePassiveSkillCondition(ConventionalBiomeTags.DESERT) * SunshinePassiveSkillCondition() * MinimumManaPassiveSkillCondition(7.0)
             StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 0) on BiomePassiveSkillCondition(ConventionalBiomeTags.DESERT) * MoonlightPassiveSkillCondition()
-            StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 1) on listOf(BiomePassiveSkillCondition(ConventionalBiomeTags.DESERT), MoonlightPassiveSkillCondition(), MinimumManaPassiveSkillCondition(7.0))
+            StatusEffectPassiveSkillEffect(StatusEffects.STRENGTH, 1) on BiomePassiveSkillCondition(ConventionalBiomeTags.DESERT) * MoonlightPassiveSkillCondition() * MinimumManaPassiveSkillCondition(7.0)
         },
         FairyRecipes().biome(ConventionalBiomeTags.DESERT),
     ),
