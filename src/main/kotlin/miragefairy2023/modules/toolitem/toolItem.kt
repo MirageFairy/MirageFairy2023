@@ -15,9 +15,9 @@ import miragefairy2023.modules.TrinketsSlotCard
 import miragefairy2023.modules.commonItemGroup
 import miragefairy2023.modules.generatePoemList
 import miragefairy2023.modules.invoke
-import miragefairy2023.modules.passiveskill.passiveSkills
 import miragefairy2023.modules.passiveskill.always
 import miragefairy2023.modules.passiveskill.mana
+import miragefairy2023.modules.passiveskill.passiveSkills
 import miragefairy2023.modules.registerPoemList
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot

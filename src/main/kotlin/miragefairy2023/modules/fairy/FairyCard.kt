@@ -6,7 +6,6 @@ import miragefairy2023.api.PassiveSkill
 import miragefairy2023.modules.DemonItemCard
 import miragefairy2023.modules.ToolMaterialCard
 import miragefairy2023.modules.invoke
-import miragefairy2023.modules.passiveskill.passiveSkills
 import miragefairy2023.modules.passiveskill.air
 import miragefairy2023.modules.passiveskill.always
 import miragefairy2023.modules.passiveskill.attackDamage
@@ -35,6 +34,7 @@ import miragefairy2023.modules.passiveskill.night
 import miragefairy2023.modules.passiveskill.onFire
 import miragefairy2023.modules.passiveskill.outdoor
 import miragefairy2023.modules.passiveskill.overworld
+import miragefairy2023.modules.passiveskill.passiveSkills
 import miragefairy2023.modules.passiveskill.regeneration
 import miragefairy2023.modules.passiveskill.shade
 import miragefairy2023.modules.passiveskill.statusEffect
