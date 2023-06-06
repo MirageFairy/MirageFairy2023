@@ -4,6 +4,7 @@ import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.PassiveSkillCondition
 import miragefairy2023.modules.ToolMaterialCard
 import miragefairy2023.modules.getTelescopeActions
+import miragefairy2023.modules.lastFoodProperty
 import miragefairy2023.util.Symbol
 import miragefairy2023.util.eyeBlockPos
 import miragefairy2023.util.init.Translation
@@ -228,11 +229,7 @@ class ToolMaterialPassiveSkillCondition(private val toolMaterialCard: ToolMateri
 
 class FoodPassiveSkillCondition(private val foodItem: () -> Item) : PassiveSkillCondition {
     override fun getText() = text { foodItem().name }
-    override fun test(player: PlayerEntity, mana: Double): Boolean {
-        val itemStacks = listOf(player.inventory.mainHandStack) + player.inventory.offHand + player.inventory.main
-        val primaryFoodItemStack = itemStacks.firstOrNull { it.isFood }
-        return primaryFoodItemStack?.isOf(foodItem()) ?: false
-    }
+    override fun test(player: PlayerEntity, mana: Double) = player.lastFoodProperty.get()?.isOf(foodItem()) ?: false
 }
 
 class MaximumLevelPassiveSkillCondition(private val level: Int) : PassiveSkillCondition {
