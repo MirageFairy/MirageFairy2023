@@ -15,7 +15,9 @@ import miragefairy2023.modules.TrinketsSlotCard
 import miragefairy2023.modules.commonItemGroup
 import miragefairy2023.modules.generatePoemList
 import miragefairy2023.modules.invoke
-import miragefairy2023.modules.passiveskill.ManaPassiveSkillEffect
+import miragefairy2023.modules.passiveskill.PassiveSkills
+import miragefairy2023.modules.passiveskill.always
+import miragefairy2023.modules.passiveskill.mana
 import miragefairy2023.modules.registerPoemList
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
@@ -69,8 +71,8 @@ enum class ToolItemCard(
     ARTIFICIAL_FAIRY_CRYSTAL_PENDANT(
         "artificial_fairy_crystal_pendant", "Crystal Pendant", "クリスタルのペンダント",
         listOf(Poem("Object that makes Mirage fairies fairies", "『妖精』だったあのころ――")),
-        passiveSkillAccessory(listOf(TrinketsSlotCard.CHEST_NECKLACE), 5.0, buildList {
-            this += PassiveSkill(listOf(), ManaPassiveSkillEffect(0.4))
+        passiveSkillAccessory(listOf(TrinketsSlotCard.CHEST_NECKLACE), 5.0, PassiveSkills {
+            mana(0.4) on always()
         }),
     ),
     MIRANAGITE_PICKAXE(

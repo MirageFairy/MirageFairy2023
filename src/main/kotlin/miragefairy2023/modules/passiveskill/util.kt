@@ -39,6 +39,9 @@ fun PassiveSkills(block: PassiveSkillsBuilder.() -> Unit): List<PassiveSkill> {
     return scope.passiveSkills
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.always() = PassiveSkillConditions()
+
 
 object PassiveSkillKeys {
     val ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("${MirageFairy2023.modId}.passive_skill.enabled", "Passive skills are enabled", "パッシブスキル有効")

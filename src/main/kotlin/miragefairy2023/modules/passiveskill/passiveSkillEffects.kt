@@ -237,6 +237,9 @@ fun blockVisitor(maxDistance: Int, originalBlockPos: BlockPos, predicate: (fromB
 
 }
 
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.mana(mana: Double) = ManaPassiveSkillEffect(mana)
+
 class ManaPassiveSkillEffect(private val mana: Double) : PassiveSkillEffect {
     companion object {
         val key = Translation("${MirageFairy2023.modId}.passive_skill.effect.mana", "Mana: %s", "マナ: %s")
