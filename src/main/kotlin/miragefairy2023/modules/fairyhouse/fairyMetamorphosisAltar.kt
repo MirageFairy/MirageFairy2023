@@ -126,7 +126,7 @@ object FairyMetamorphosisAltarRecipe {
 
         if (remainingRate > 0.0) chanceTable = listOf(Chance(remainingRate, DEFAULT_OUTPUT)) + chanceTable
 
-        if (chanceTable.isEmpty()) return null
+        if (chanceTable.isEmpty()) return null // この素材は対応していない
 
         return chanceTable
     }
