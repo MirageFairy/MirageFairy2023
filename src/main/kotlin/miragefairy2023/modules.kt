@@ -34,12 +34,13 @@ val modules = module {
     luckBonusModule()
     toolMaterialModule()
 
-    // 共用コンテンツの生成
-    commonModule()
-    trinketsSlotModule()
-
     // コンテンツ系
     run {
+
+        // 共用コンテンツの生成
+        commonModule()
+        trinketsSlotModule()
+        advancementModule()
 
         // アイテム追加系
         demonItemModule()
@@ -53,9 +54,6 @@ val modules = module {
         telescopeModule()
         fairyHouseModule()
         fairyModule()
-
-        // その他のコンテンツ追加系
-        advancementModule()
 
         // クリエイティブ系
         debugModule()
