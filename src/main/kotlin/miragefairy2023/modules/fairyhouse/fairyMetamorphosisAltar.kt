@@ -105,9 +105,8 @@ object FairyMetamorphosisAltarRecipe {
      * @return nullでないとき、必ず1個以上の要素が含まれ、確率の合計は100%になります。
      */
     fun getChanceTable(input: Item, fortuneFactor: Double): List<Chance<ItemStack>>? {
-        if (input !in RECIPES) return null
 
-        val outputTable = RECIPES.getOrElse(input) { mapOf() }
+        val outputTable = RECIPES[input] ?: return null // この素材は対応していない
 
         var chanceTable = listOf<Chance<ItemStack>>()
         var remainingRate = 1.0
