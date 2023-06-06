@@ -39,16 +39,27 @@ val modules = module {
     trinketsSlotModule()
 
     // コンテンツ系
-    demonItemModule()
-    mirageFlowerModule()
-    mirageFlourModule()
-    toolItemModule()
-    demonBlockModule()
-    fairyCrystalGlassModule()
-    telescopeModule()
-    fairyHouseModule()
-    fairyModule()
-    advancementModule()
-    debugModule()
+    run {
+
+        // アイテム追加系
+        demonItemModule()
+        mirageFlowerModule()
+        mirageFlourModule()
+        toolItemModule()
+
+        // ブロック追加系
+        demonBlockModule()
+        fairyCrystalGlassModule()
+        telescopeModule()
+        fairyHouseModule()
+        fairyModule()
+
+        // その他のコンテンツ追加系
+        advancementModule()
+
+        // クリエイティブ系
+        debugModule()
+
+    }
 
 }
