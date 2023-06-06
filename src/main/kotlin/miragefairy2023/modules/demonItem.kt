@@ -119,8 +119,6 @@ enum class DemonItemCard(
     lateinit var item: FeatureSlot<Item>
 }
 
-operator fun DemonItemCard.invoke() = this.item.feature
-
 
 val demonItemModule = module {
 
@@ -135,37 +133,37 @@ val demonItemModule = module {
     }
 
     // 魔女→紅天石
-    registerMobDrop({ EntityType.WITCH }, { DemonItemCard.XARPITE() }, onlyKilledByPlayer = true, fortuneFactor = uniformLootNumberProvider(0.0F, 1.0F))
+    registerMobDrop({ EntityType.WITCH }, { DemonItemCard.XARPITE.item.feature }, onlyKilledByPlayer = true, fortuneFactor = uniformLootNumberProvider(0.0F, 1.0F))
 
     // ゾンビ→紅天石
-    registerMobDrop({ EntityType.ZOMBIE }, { DemonItemCard.XARPITE() }, onlyKilledByPlayer = true, dropRate = Pair(0.02F, 0.01F))
-    registerMobDrop({ EntityType.ZOMBIE_VILLAGER }, { DemonItemCard.XARPITE() }, onlyKilledByPlayer = true, dropRate = Pair(0.02F, 0.01F))
-    registerMobDrop({ EntityType.DROWNED }, { DemonItemCard.XARPITE() }, onlyKilledByPlayer = true, dropRate = Pair(0.02F, 0.01F))
-    registerMobDrop({ EntityType.HUSK }, { DemonItemCard.XARPITE() }, onlyKilledByPlayer = true, dropRate = Pair(0.02F, 0.01F))
+    registerMobDrop({ EntityType.ZOMBIE }, { DemonItemCard.XARPITE.item.feature }, onlyKilledByPlayer = true, dropRate = Pair(0.02F, 0.01F))
+    registerMobDrop({ EntityType.ZOMBIE_VILLAGER }, { DemonItemCard.XARPITE.item.feature }, onlyKilledByPlayer = true, dropRate = Pair(0.02F, 0.01F))
+    registerMobDrop({ EntityType.DROWNED }, { DemonItemCard.XARPITE.item.feature }, onlyKilledByPlayer = true, dropRate = Pair(0.02F, 0.01F))
+    registerMobDrop({ EntityType.HUSK }, { DemonItemCard.XARPITE.item.feature }, onlyKilledByPlayer = true, dropRate = Pair(0.02F, 0.01F))
 
     // 雑草→紅天石
-    registerGrassDrop({ DemonItemCard.XARPITE() }, 0.01)
+    registerGrassDrop({ DemonItemCard.XARPITE.item.feature }, 0.01)
 
     // エメラルド鉱石→蒼天石
-    registerBlockDrop({ Blocks.EMERALD_ORE }, { DemonItemCard.MIRANAGITE() }, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
-    registerBlockDrop({ Blocks.DEEPSLATE_EMERALD_ORE }, { DemonItemCard.MIRANAGITE() }, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
+    registerBlockDrop({ Blocks.EMERALD_ORE }, { DemonItemCard.MIRANAGITE.item.feature }, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
+    registerBlockDrop({ Blocks.DEEPSLATE_EMERALD_ORE }, { DemonItemCard.MIRANAGITE.item.feature }, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
 
     // 銅鉱石→蒼天石
-    registerBlockDrop({ Blocks.COPPER_ORE }, { DemonItemCard.MIRANAGITE() }, dropRate = 0.05F, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
-    registerBlockDrop({ Blocks.DEEPSLATE_COPPER_ORE }, { DemonItemCard.MIRANAGITE() }, dropRate = 0.05F, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
+    registerBlockDrop({ Blocks.COPPER_ORE }, { DemonItemCard.MIRANAGITE.item.feature }, dropRate = 0.05F, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
+    registerBlockDrop({ Blocks.DEEPSLATE_COPPER_ORE }, { DemonItemCard.MIRANAGITE.item.feature }, dropRate = 0.05F, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
 
     // レッドストーン鉱石→蒼天石
-    registerBlockDrop({ Blocks.REDSTONE_ORE }, { DemonItemCard.MIRANAGITE() }, dropRate = 0.05F, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
-    registerBlockDrop({ Blocks.DEEPSLATE_REDSTONE_ORE }, { DemonItemCard.MIRANAGITE() }, dropRate = 0.05F, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
+    registerBlockDrop({ Blocks.REDSTONE_ORE }, { DemonItemCard.MIRANAGITE.item.feature }, dropRate = 0.05F, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
+    registerBlockDrop({ Blocks.DEEPSLATE_REDSTONE_ORE }, { DemonItemCard.MIRANAGITE.item.feature }, dropRate = 0.05F, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
 
     // 雑草→蒼天石
-    registerGrassDrop({ DemonItemCard.MIRANAGITE() }, 0.01)
+    registerGrassDrop({ DemonItemCard.MIRANAGITE.item.feature }, 0.01)
 
     // 蒼天石＋2マグマクリーム→スライムボール
     onGenerateRecipes {
         ShapelessRecipeJsonBuilder
             .create(Items.SLIME_BALL)
-            .input(DemonItemCard.MIRANAGITE())
+            .input(DemonItemCard.MIRANAGITE.item.feature)
             .input(Items.MAGMA_CREAM)
             .input(Items.MAGMA_CREAM)
             .criterion(Items.MAGMA_CREAM)
@@ -177,7 +175,7 @@ val demonItemModule = module {
     onGenerateRecipes {
         ShapelessRecipeJsonBuilder
             .create(Items.BLAZE_POWDER)
-            .input(DemonItemCard.MIRANAGITE())
+            .input(DemonItemCard.MIRANAGITE.item.feature)
             .input(Items.MAGMA_CREAM)
             .input(Items.MAGMA_CREAM)
             .input(Items.MAGMA_CREAM)
@@ -193,8 +191,8 @@ val demonItemModule = module {
             .create(Items.STICK)
             .pattern("S")
             .pattern("S")
-            .input('S', DemonItemCard.MIRAGE_STEM())
-            .criterion(DemonItemCard.MIRAGE_STEM())
+            .input('S', DemonItemCard.MIRAGE_STEM.item.feature)
+            .criterion(DemonItemCard.MIRAGE_STEM.item.feature)
             .group("sticks")
             .offerTo(it, Identifier.of(modId, "stick_from_mirage_stem"))
     }
@@ -206,15 +204,15 @@ val demonItemModule = module {
             .pattern("W")
             .pattern("S")
             .input('W', ItemTags.WOOL)
-            .input('S', DemonItemCard.MIRAGE_STEM())
-            .criterion(DemonItemCard.MIRAGE_STEM())
+            .input('S', DemonItemCard.MIRAGE_STEM.item.feature)
+            .criterion(DemonItemCard.MIRAGE_STEM.item.feature)
             .group("strings")
             .offerTo(it, Identifier.of(modId, "string_from_mirage_stem"))
     }
 
     // ミラージュの茎＞コンポスター
     onRegisterRecipes {
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(DemonItemCard.MIRAGE_STEM(), 0.65F)
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(DemonItemCard.MIRAGE_STEM.item.feature, 0.65F)
     }
 
     // 3種名誉系フェアリークリスタル→ミーニャのフェアリークリスタル
@@ -228,18 +226,18 @@ val demonItemModule = module {
                 .offerTo(it, "selling_" concat input().identifier)
         }
         // TODO 成果物をシンプルに
-        generateExchangeRecipe({ DemonItemCard.HONORABLE_FAIRY_CRYSTAL() }, { DemonItemCard.FAIRY_CRYSTAL_50() }, 2)
-        generateExchangeRecipe({ DemonItemCard.GLORIOUS_FAIRY_CRYSTAL() }, { DemonItemCard.FAIRY_CRYSTAL_500() }, 2)
-        generateExchangeRecipe({ DemonItemCard.LEGENDARY_FAIRY_CRYSTAL() }, { DemonItemCard.FAIRY_CRYSTAL_500() }, 20)
+        generateExchangeRecipe({ DemonItemCard.HONORABLE_FAIRY_CRYSTAL.item.feature }, { DemonItemCard.FAIRY_CRYSTAL_50.item.feature }, 2)
+        generateExchangeRecipe({ DemonItemCard.GLORIOUS_FAIRY_CRYSTAL.item.feature }, { DemonItemCard.FAIRY_CRYSTAL_500.item.feature }, 2)
+        generateExchangeRecipe({ DemonItemCard.LEGENDARY_FAIRY_CRYSTAL.item.feature }, { DemonItemCard.FAIRY_CRYSTAL_500.item.feature }, 20)
     }
 
     // ミラージュフラワー→人工フェアリークリスタル
     onGenerateRecipes {
         CookingRecipeJsonBuilder
-            .create(Ingredient.ofItems(MirageFlourCard.MIRAGE_FLOUR()), DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL(), 0.4F, 200, RecipeSerializer.SMELTING)
-            .criterion(RecipeProvider.hasItem(MirageFlourCard.MIRAGE_FLOUR()), RecipeProvider.conditionsFromItem(MirageFlourCard.MIRAGE_FLOUR()))
-            .group(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
-            .offerTo(it, DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL().identifier)
+            .create(Ingredient.ofItems(MirageFlourCard.MIRAGE_FLOUR.item.feature), DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item.feature, 0.4F, 200, RecipeSerializer.SMELTING)
+            .criterion(RecipeProvider.hasItem(MirageFlourCard.MIRAGE_FLOUR.item.feature), RecipeProvider.conditionsFromItem(MirageFlourCard.MIRAGE_FLOUR.item.feature))
+            .group(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item.feature)
+            .offerTo(it, DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item.feature.identifier)
     }
 
     // 両替レシピ
@@ -265,8 +263,8 @@ val demonItemModule = module {
 
         }
 
-        generateExchangeRecipe({ DemonItemCard.FAIRY_CRYSTAL_50() }, { DemonItemCard.FAIRY_CRYSTAL_100() }, 2)
-        generateExchangeRecipe({ DemonItemCard.FAIRY_CRYSTAL_100() }, { DemonItemCard.FAIRY_CRYSTAL_500() }, 5)
+        generateExchangeRecipe({ DemonItemCard.FAIRY_CRYSTAL_50.item.feature }, { DemonItemCard.FAIRY_CRYSTAL_100.item.feature }, 2)
+        generateExchangeRecipe({ DemonItemCard.FAIRY_CRYSTAL_100.item.feature }, { DemonItemCard.FAIRY_CRYSTAL_500.item.feature }, 5)
 
     }
 
@@ -277,9 +275,9 @@ val demonItemModule = module {
             ShapelessRecipeJsonBuilder
                 .create(target(), outputCount + 1)
                 .input(target())
-                .input(DemonItemCard.FAIRY_CRYSTAL_500(), cost / 500)
-                .input(DemonItemCard.FAIRY_CRYSTAL_100(), cost % 500 / 100)
-                .input(DemonItemCard.FAIRY_CRYSTAL_50(), cost % 100 / 50)
+                .input(DemonItemCard.FAIRY_CRYSTAL_500.item.feature, cost / 500)
+                .input(DemonItemCard.FAIRY_CRYSTAL_100.item.feature, cost % 500 / 100)
+                .input(DemonItemCard.FAIRY_CRYSTAL_50.item.feature, cost % 100 / 50)
                 .criterion(target())
                 .group(target())
                 .offerTo(it, Identifier.of(modId, "buying/${target().identifier.path}"))
@@ -287,9 +285,9 @@ val demonItemModule = module {
 
         // MOD
         generateBuyingRecipe(50, { mirageSeedItem.feature }, 8)
-        generateBuyingRecipe(50, { MirageFlourCard.VERY_RARE_MIRAGE_FLOUR() }, 3)
-        generateBuyingRecipe(50, { DemonItemCard.XARPITE() }, 1)
-        generateBuyingRecipe(50, { DemonItemCard.MIRANAGITE() }, 1)
+        generateBuyingRecipe(50, { MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item.feature }, 3)
+        generateBuyingRecipe(50, { DemonItemCard.XARPITE.item.feature }, 1)
+        generateBuyingRecipe(50, { DemonItemCard.MIRANAGITE.item.feature }, 1)
 
         // 木材
         generateBuyingRecipe(50, { Items.OAK_LOG }, 32)

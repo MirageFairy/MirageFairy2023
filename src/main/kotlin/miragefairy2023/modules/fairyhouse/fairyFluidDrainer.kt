@@ -8,7 +8,6 @@ import miragefairy2023.modules.DemonParticleTypeCard
 import miragefairy2023.modules.Description
 import miragefairy2023.modules.Poem
 import miragefairy2023.modules.fairy.isLiquidFairy
-import miragefairy2023.modules.invoke
 import miragefairy2023.util.EMPTY_ITEM_STACK
 import miragefairy2023.util.Inventory
 import miragefairy2023.util.castOr
@@ -64,9 +63,9 @@ val fairyFluidDrainerModule = module {
             .pattern("III")
             .input('I', ConventionalItemTags.IRON_INGOTS)
             .input('F', Items.IRON_BARS)
-            .input('M', DemonItemCard.MIRANAGITE())
+            .input('M', DemonItemCard.MIRANAGITE.item.feature)
             .input('B', Items.BUCKET)
-            .criterion(DemonItemCard.MIRANAGITE())
+            .criterion(DemonItemCard.MIRANAGITE.item.feature)
             .group(fairyFluidDrainer.blockItem.feature)
             .offerTo(it, fairyFluidDrainer.blockItem.feature.identifier)
     }

@@ -14,7 +14,6 @@ import miragefairy2023.modules.ToolMaterialCard
 import miragefairy2023.modules.TrinketsSlotCard
 import miragefairy2023.modules.commonItemGroup
 import miragefairy2023.modules.generatePoemList
-import miragefairy2023.modules.invoke
 import miragefairy2023.modules.passiveskill.always
 import miragefairy2023.modules.passiveskill.mana
 import miragefairy2023.modules.passiveskill.passiveSkills
@@ -123,8 +122,8 @@ val toolItemModule = module {
             .pattern("RFF")
             .input('F', Items.FEATHER)
             .input('S', Items.STRING)
-            .input('R', DemonItemCard.MIRAGE_STEM())
-            .criterion(DemonItemCard.MIRAGE_STEM())
+            .input('R', DemonItemCard.MIRAGE_STEM.item.feature)
+            .criterion(DemonItemCard.MIRAGE_STEM.item.feature)
             .group(ToolItemCard.DREAM_CATCHER.item.feature)
             .offerTo(it, ToolItemCard.DREAM_CATCHER.item.feature.identifier)
     }
@@ -137,8 +136,8 @@ val toolItemModule = module {
             .pattern("G#I")
             .pattern("IGG")
             .input('#', ToolItemCard.DREAM_CATCHER.item.feature)
-            .input('G', DemonItemCard.MIRANAGITE())
-            .input('I', DemonItemCard.CHAOS_STONE())
+            .input('G', DemonItemCard.MIRANAGITE.item.feature)
+            .input('I', DemonItemCard.CHAOS_STONE.item.feature)
             .criterion(ToolItemCard.DREAM_CATCHER.item.feature)
             .group(ToolItemCard.BLUE_DREAM_CATCHER.item.feature)
             .offerTo(it, ToolItemCard.BLUE_DREAM_CATCHER.item.feature.identifier)
@@ -151,9 +150,9 @@ val toolItemModule = module {
             .pattern("GGG")
             .pattern(" S ")
             .pattern(" S ")
-            .input('G', DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
+            .input('G', DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item.feature)
             .input('S', Items.STICK)
-            .criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
+            .criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item.feature)
             .group(ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE.item.feature)
             .offerTo(it, ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE.item.feature.identifier)
     }
@@ -165,9 +164,9 @@ val toolItemModule = module {
             .pattern(" s ")
             .pattern("s s")
             .pattern(" G ")
-            .input('G', DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
+            .input('G', DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item.feature)
             .input('s', Items.STRING)
-            .criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
+            .criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item.feature)
             .group(ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PENDANT.item.feature)
             .offerTo(it, ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PENDANT.item.feature.identifier)
     }
@@ -179,9 +178,9 @@ val toolItemModule = module {
             .pattern("GGG")
             .pattern(" S ")
             .pattern(" S ")
-            .input('G', DemonItemCard.MIRANAGITE())
+            .input('G', DemonItemCard.MIRANAGITE.item.feature)
             .input('S', Items.STICK)
-            .criterion(DemonItemCard.MIRANAGITE())
+            .criterion(DemonItemCard.MIRANAGITE.item.feature)
             .group(ToolItemCard.MIRANAGITE_PICKAXE.item.feature)
             .offerTo(it, ToolItemCard.MIRANAGITE_PICKAXE.item.feature.identifier)
     }
@@ -193,9 +192,9 @@ val toolItemModule = module {
             .pattern("GGG")
             .pattern(" S ")
             .pattern(" S ")
-            .input('G', DemonItemCard.CHAOS_STONE())
+            .input('G', DemonItemCard.CHAOS_STONE.item.feature)
             .input('S', Items.STICK)
-            .criterion(DemonItemCard.CHAOS_STONE())
+            .criterion(DemonItemCard.CHAOS_STONE.item.feature)
             .group(ToolItemCard.CHAOS_STONE_PICKAXE.item.feature)
             .offerTo(it, ToolItemCard.CHAOS_STONE_PICKAXE.item.feature.identifier)
     }
@@ -207,8 +206,8 @@ val toolItemModule = module {
             .pattern(" GG")
             .pattern("GGG")
             .pattern(" GG")
-            .input('G', DemonItemCard.CHAOS_STONE())
-            .criterion(DemonItemCard.CHAOS_STONE())
+            .input('G', DemonItemCard.CHAOS_STONE.item.feature)
+            .criterion(DemonItemCard.CHAOS_STONE.item.feature)
             .group(ToolItemCard.CHAOS_FISHING_GROVE.item.feature)
             .offerTo(it, ToolItemCard.CHAOS_FISHING_GROVE.item.feature.identifier)
     }

@@ -5,7 +5,6 @@ import miragefairy2023.modules.CommonFairyEntry
 import miragefairy2023.modules.DemonItemCard
 import miragefairy2023.modules.MirageFlourCard
 import miragefairy2023.modules.MirageFlourItem
-import miragefairy2023.modules.invoke
 import miragefairy2023.modules.passiveskill.BiomePassiveSkillCondition
 import miragefairy2023.util.concat
 import miragefairy2023.util.init.criterion
@@ -101,18 +100,18 @@ fun FairyRecipes.recipe(inputItemSupplier: () -> Item) = this.also {
             initializationScope.onGenerateRecipes {
                 val inputItem = inputItemSupplier()
                 val mirageFlourItem = when (fairyCard.rare) {
-                    0 -> MirageFlourCard.TINY_MIRAGE_FLOUR()
-                    1, 2 -> MirageFlourCard.MIRAGE_FLOUR()
-                    3, 4 -> MirageFlourCard.RARE_MIRAGE_FLOUR()
-                    5, 6 -> MirageFlourCard.VERY_RARE_MIRAGE_FLOUR()
-                    7, 8 -> MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR()
-                    9, 10 -> MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR()
-                    11, 12 -> MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR()
+                    0 -> MirageFlourCard.TINY_MIRAGE_FLOUR.item.feature
+                    1, 2 -> MirageFlourCard.MIRAGE_FLOUR.item.feature
+                    3, 4 -> MirageFlourCard.RARE_MIRAGE_FLOUR.item.feature
+                    5, 6 -> MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item.feature
+                    7, 8 -> MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR.item.feature
+                    9, 10 -> MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR.item.feature
+                    11, 12 -> MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR.item.feature
                     else -> throw AssertionError()
                 }
                 ShapelessRecipeJsonBuilder
                     .create(fairyCard())
-                    .input(DemonItemCard.XARPITE())
+                    .input(DemonItemCard.XARPITE.item.feature)
                     .input(mirageFlourItem)
                     .input(inputItem)
                     .criterion(inputItem)

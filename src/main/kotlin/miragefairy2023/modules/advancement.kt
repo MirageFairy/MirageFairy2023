@@ -28,21 +28,21 @@ val advancementModule = module {
     onGenerateAdvancementRewardLootTables { consumer ->
         consumer.accept(tier1LootTableId, lootTable {
             pool(lootPool {
-                with(itemEntry(DemonItemCard.HONORABLE_FAIRY_CRYSTAL()))
+                with(itemEntry(DemonItemCard.HONORABLE_FAIRY_CRYSTAL.item.feature))
             })
         })
     }
     onGenerateAdvancementRewardLootTables { consumer ->
         consumer.accept(tier2LootTableId, lootTable {
             pool(lootPool {
-                with(itemEntry(DemonItemCard.GLORIOUS_FAIRY_CRYSTAL()))
+                with(itemEntry(DemonItemCard.GLORIOUS_FAIRY_CRYSTAL.item.feature))
             })
         })
     }
     onGenerateAdvancementRewardLootTables { consumer ->
         consumer.accept(tier3LootTableId, lootTable {
             pool(lootPool {
-                with(itemEntry(DemonItemCard.LEGENDARY_FAIRY_CRYSTAL()))
+                with(itemEntry(DemonItemCard.LEGENDARY_FAIRY_CRYSTAL.item.feature))
             })
         })
     }
@@ -58,69 +58,69 @@ val advancementModule = module {
             backgroundTexture = Identifier(modId, "textures/block/fairy_wood_log.png"),
         ) {
             criteriaMerger(CriterionMerger.OR)
-            criterion(MirageFlourCard.TINY_MIRAGE_FLOUR())
+            criterion(MirageFlourCard.TINY_MIRAGE_FLOUR.item.feature)
             criterion(mirageSeedItem.feature)
             reward(tier1LootTableId)
         }
 
         val mirageFlour = advancement(
-            "mirage_flour", { MirageFlourCard.MIRAGE_FLOUR() },
+            "mirage_flour", { MirageFlourCard.MIRAGE_FLOUR.item.feature },
             "Pile of Pollen", "ある程度の神秘",
             "Compact the pollen", "ミラージュの花粉をひとまとまりにする",
             parent = root,
         ) {
-            criterion(MirageFlourCard.MIRAGE_FLOUR())
+            criterion(MirageFlourCard.MIRAGE_FLOUR.item.feature)
             reward(tier1LootTableId)
         }
 
         val rareMirageFlour = advancement(
-            "rare_mirage_flour", { MirageFlourCard.RARE_MIRAGE_FLOUR() },
+            "rare_mirage_flour", { MirageFlourCard.RARE_MIRAGE_FLOUR.item.feature },
             "Fluorescent Structural Color", "ほたる色の誘惑",
             "Select high-quality pollen carefully", "良質な花粉を厳選する",
             parent = mirageFlour,
         ) {
-            criterion(MirageFlourCard.RARE_MIRAGE_FLOUR())
+            criterion(MirageFlourCard.RARE_MIRAGE_FLOUR.item.feature)
             reward(tier1LootTableId)
         }
 
         val veryRareMirageFlour = advancement(
-            "very_rare_mirage_flour", { MirageFlourCard.VERY_RARE_MIRAGE_FLOUR() },
+            "very_rare_mirage_flour", { MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item.feature },
             "A Fairy Who Thinks He Is Kind of Human", "失われた科学",
             "Remove impurities with static electricity", "更にふわふわな花粉を選別する",
             parent = rareMirageFlour,
         ) {
-            criterion(MirageFlourCard.VERY_RARE_MIRAGE_FLOUR())
+            criterion(MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item.feature)
             reward(tier1LootTableId)
         }
 
         val ultraRareMirageFlour = advancement(
-            "ultra_rare_mirage_flour", { MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR() },
+            "ultra_rare_mirage_flour", { MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR.item.feature },
             "Fairylands", "世界の其処彼処に在ると云われる御伽の国",
             "Precipitate aura crystals", "花粉に含まれるオーラ分を濃縮する",
             parent = veryRareMirageFlour,
         ) {
-            criterion(MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR())
+            criterion(MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR.item.feature)
             reward(tier2LootTableId)
         }
 
         val superRareMirageFlour = advancement(
-            "super_rare_mirage_flour", { MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR() },
+            "super_rare_mirage_flour", { MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR.item.feature },
             "Retrograde Wavelength", "天空に昇る神秘の波動",
             "Condense until astral radiation appears", "ふるいにかけることで宇宙エネルギーを刻み込む",
             parent = ultraRareMirageFlour,
         ) {
-            criterion(MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR())
+            criterion(MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR.item.feature)
             reward(tier2LootTableId)
         }
 
         val extremelyRareMirageFlour = advancement(
-            "extremely_rare_mirage_flour", { MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR() },
+            "extremely_rare_mirage_flour", { MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR.item.feature },
             "Miravitational Lens", "ゆがむ空間",
             "Excite ether field to 80% of local vacuum collapse", "神秘のパワーをミラージュが見えるまで濃縮する",
             parent = superRareMirageFlour,
             frame = AdvancementFrame.CHALLENGE,
         ) {
-            criterion(MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR())
+            criterion(MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR.item.feature)
             reward(tier3LootTableId)
         }
 
@@ -276,12 +276,12 @@ val advancementModule = module {
         }
 
         val artificialFairyCrystal = advancement(
-            "artificial_fairy_crystal", { DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL() },
+            "artificial_fairy_crystal", { DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item.feature },
             "Organic Amorphous Material", "水晶の飴",
             "Coagulate sugar contained in pollen", "花粉に含まれる糖分を凝固させる",
             parent = root,
         ) {
-            criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL())
+            criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item.feature)
             reward(tier1LootTableId)
         }
 
@@ -306,12 +306,12 @@ val advancementModule = module {
         }
 
         val chaosStone = advancement(
-            "chaos_stone", { DemonItemCard.CHAOS_STONE() },
+            "chaos_stone", { DemonItemCard.CHAOS_STONE.item.feature },
             "The World of Science", "知られざる科学の世界",
             "Cause a chemical reaction", "化学反応を起こす",
             parent = fairyMetamorphosisAltar,
         ) {
-            criterion(DemonItemCard.CHAOS_STONE())
+            criterion(DemonItemCard.CHAOS_STONE.item.feature)
             reward(tier2LootTableId)
         }
 

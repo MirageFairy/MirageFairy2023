@@ -108,8 +108,6 @@ enum class MirageFlourCard(
     lateinit var item: FeatureSlot<Item>
 }
 
-operator fun MirageFlourCard.invoke() = this.item.feature
-
 
 val mirageFlourModule = module {
 
@@ -147,12 +145,12 @@ val mirageFlourModule = module {
             .group(lowerItem)
             .offerTo(it, lowerItem.identifier concat "_from_${higherItem.identifier.path}")
     }
-    registerMirageFlourRecipe({ MirageFlourCard.TINY_MIRAGE_FLOUR() }, { MirageFlourCard.MIRAGE_FLOUR() })
-    registerMirageFlourRecipe({ MirageFlourCard.MIRAGE_FLOUR() }, { MirageFlourCard.RARE_MIRAGE_FLOUR() })
-    registerMirageFlourRecipe({ MirageFlourCard.RARE_MIRAGE_FLOUR() }, { MirageFlourCard.VERY_RARE_MIRAGE_FLOUR() })
-    registerMirageFlourRecipe({ MirageFlourCard.VERY_RARE_MIRAGE_FLOUR() }, { MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR() })
-    registerMirageFlourRecipe({ MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR() }, { MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR() })
-    registerMirageFlourRecipe({ MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR() }, { MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR() })
+    registerMirageFlourRecipe({ MirageFlourCard.TINY_MIRAGE_FLOUR.item.feature }, { MirageFlourCard.MIRAGE_FLOUR.item.feature })
+    registerMirageFlourRecipe({ MirageFlourCard.MIRAGE_FLOUR.item.feature }, { MirageFlourCard.RARE_MIRAGE_FLOUR.item.feature })
+    registerMirageFlourRecipe({ MirageFlourCard.RARE_MIRAGE_FLOUR.item.feature }, { MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item.feature })
+    registerMirageFlourRecipe({ MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item.feature }, { MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR.item.feature })
+    registerMirageFlourRecipe({ MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR.item.feature }, { MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR.item.feature })
+    registerMirageFlourRecipe({ MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR.item.feature }, { MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR.item.feature })
 
 }
 

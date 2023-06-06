@@ -10,7 +10,6 @@ import miragefairy2023.modules.DemonParticleTypeCard
 import miragefairy2023.modules.Description
 import miragefairy2023.modules.MirageFlourCard
 import miragefairy2023.modules.Poem
-import miragefairy2023.modules.invoke
 import miragefairy2023.modules.miranagiteBlockBlockItem
 import miragefairy2023.util.Chance
 import miragefairy2023.util.EMPTY_ITEM_STACK
@@ -75,10 +74,10 @@ val fairyMetamorphosisAltarModule = module {
             .pattern("GDG")
             .pattern("SSS")
             .input('B', miranagiteBlockBlockItem.feature)
-            .input('G', DemonItemCard.MIRANAGITE())
-            .input('D', MirageFlourCard.MIRAGE_FLOUR())
+            .input('G', DemonItemCard.MIRANAGITE.item.feature)
+            .input('D', MirageFlourCard.MIRAGE_FLOUR.item.feature)
             .input('S', Blocks.STONE)
-            .criterion(DemonItemCard.MIRANAGITE())
+            .criterion(DemonItemCard.MIRANAGITE.item.feature)
             .group(fairyMetamorphosisAltar.blockItem.feature)
             .offerTo(it, fairyMetamorphosisAltar.blockItem.feature.identifier)
     }
@@ -132,10 +131,10 @@ object FairyMetamorphosisAltarRecipe {
 
     init {
         fun registerMirageFlour(item: Item) {
-            register(item, Category.N, MirageFlourCard.VERY_RARE_MIRAGE_FLOUR().createItemStack())
-            register(item, Category.R, MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR().createItemStack())
-            register(item, Category.SR, MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR().createItemStack())
-            register(item, Category.SSR, MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR().createItemStack())
+            register(item, Category.N, MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item.feature.createItemStack())
+            register(item, Category.R, MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR.item.feature.createItemStack())
+            register(item, Category.SR, MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR.item.feature.createItemStack())
+            register(item, Category.SSR, MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR.item.feature.createItemStack())
         }
 
         fun registerInteractive(item1: Item, category1: Category, item2: Item) {
@@ -181,9 +180,9 @@ object FairyMetamorphosisAltarRecipe {
 
         registerInteractive(Items.FLINT, Category.SR, Items.AMETHYST_SHARD)
         registerInteractive(Items.FLINT, Category.SR, Items.GLOWSTONE_DUST)
-        registerInteractive(Items.FLINT, Category.SR, DemonItemCard.MIRANAGITE())
-        registerInteractive(Items.FLINT, Category.SR, DemonItemCard.XARPITE())
-        registerInteractive(Items.FLINT, Category.SR, DemonItemCard.CHAOS_STONE())
+        registerInteractive(Items.FLINT, Category.SR, DemonItemCard.MIRANAGITE.item.feature)
+        registerInteractive(Items.FLINT, Category.SR, DemonItemCard.XARPITE.item.feature)
+        registerInteractive(Items.FLINT, Category.SR, DemonItemCard.CHAOS_STONE.item.feature)
 
         registerInteractive(Items.FLINT, Category.SSR, Items.DIAMOND)
         registerInteractive(Items.FLINT, Category.SSR, Items.EMERALD)
@@ -207,7 +206,7 @@ object FairyMetamorphosisAltarRecipe {
         registerInteractive(Items.ROTTEN_FLESH, Category.SSR, Items.SHULKER_SHELL)
 
 
-        register(DemonItemCard.CHAOS_STONE(), Category.N, Items.DIAMOND.createItemStack()) // TODO remove
+        register(DemonItemCard.CHAOS_STONE.item.feature, Category.N, Items.DIAMOND.createItemStack()) // TODO remove
 
 
         //registerInteractive(Items.FLINT, Category.SSR, Items.TOTEM_OF_UNDYING)

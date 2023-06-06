@@ -23,10 +23,10 @@ enum class DemonToolMaterials(
     private val enchantability: Int,
     private val repairIngredient: () -> Ingredient,
 ) : ToolMaterial {
-    MIRAGE(48, 1.6F, 0.0F, MiningLevels.WOOD, 17, { DemonItemCard.MIRAGE_STEM().toIngredient() }),
-    ARTIFICIAL_FAIRY_CRYSTAL(235, 5.0F, 1.5F, MiningLevels.IRON, 7, { DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL().toIngredient() }),
-    MIRANAGITE(256, 6.5F, 2.0F, MiningLevels.IRON, 24, { DemonItemCard.MIRANAGITE().toIngredient() }),
-    CHAOS_STONE(666, 9.0F, 2.0F, MiningLevels.NETHERITE, 15, { DemonItemCard.CHAOS_STONE().toIngredient() }),
+    MIRAGE(48, 1.6F, 0.0F, MiningLevels.WOOD, 17, { DemonItemCard.MIRAGE_STEM.item.feature.toIngredient() }),
+    ARTIFICIAL_FAIRY_CRYSTAL(235, 5.0F, 1.5F, MiningLevels.IRON, 7, { DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item.feature.toIngredient() }),
+    MIRANAGITE(256, 6.5F, 2.0F, MiningLevels.IRON, 24, { DemonItemCard.MIRANAGITE.item.feature.toIngredient() }),
+    CHAOS_STONE(666, 9.0F, 2.0F, MiningLevels.NETHERITE, 15, { DemonItemCard.CHAOS_STONE.item.feature.toIngredient() }),
     ;
 
     override fun getDurability() = durability

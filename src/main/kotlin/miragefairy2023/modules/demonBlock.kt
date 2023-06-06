@@ -143,18 +143,18 @@ val demonBlockModule = module {
             .pattern("###")
             .pattern("###")
             .pattern("###")
-            .input('#', DemonItemCard.MIRANAGITE())
-            .criterion(DemonItemCard.MIRANAGITE())
+            .input('#', DemonItemCard.MIRANAGITE.item.feature)
+            .criterion(DemonItemCard.MIRANAGITE.item.feature)
             .group(miranagiteBlockBlockItem.feature)
             .offerTo(it, miranagiteBlockBlockItem.feature.identifier)
     }
     onGenerateRecipes {
         ShapelessRecipeJsonBuilder
-            .create(DemonItemCard.MIRANAGITE(), 9)
+            .create(DemonItemCard.MIRANAGITE.item.feature, 9)
             .input(miranagiteBlockBlockItem.feature)
             .criterion(miranagiteBlockBlockItem.feature)
-            .group(DemonItemCard.MIRANAGITE())
-            .offerTo(it, DemonItemCard.MIRANAGITE().identifier concat "_from_" concat miranagiteBlockBlockItem.feature.identifier.path)
+            .group(DemonItemCard.MIRANAGITE.item.feature)
+            .offerTo(it, DemonItemCard.MIRANAGITE.item.feature.identifier concat "_from_" concat miranagiteBlockBlockItem.feature.identifier.path)
     }
 
 }

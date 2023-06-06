@@ -5,7 +5,6 @@ import miragefairy2023.api.Fairy
 import miragefairy2023.api.PassiveSkill
 import miragefairy2023.modules.DemonItemCard
 import miragefairy2023.modules.ToolMaterialCard
-import miragefairy2023.modules.invoke
 import miragefairy2023.modules.passiveskill.air
 import miragefairy2023.modules.passiveskill.always
 import miragefairy2023.modules.passiveskill.attackDamage
@@ -234,7 +233,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.LUCK, 0) on toolMaterial(ToolMaterialCard.MIRANAGITE)
             mana(0.5) on always()
         },
-        FairyRecipes().overworld().recipe { DemonItemCard.MIRANAGITE() },
+        FairyRecipes().overworld().recipe { DemonItemCard.MIRANAGITE.item.feature },
     ),
     AMETHYST(
         "amethyst", 5, "Amethystia", "紫水晶精アメティスチャ", 0xCAA9FF, 0xA974FF, 0x9D60FF, 0xBC92FF,

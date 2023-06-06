@@ -51,22 +51,22 @@ enum class FairyCrystalGlassCard(
     val poemList: List<Poem>,
 ) {
     ARTIFICIAL_FAIRY_CRYSTAL_GLASS(
-        "artificial_fairy_crystal_glass", { DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL() },
+        "artificial_fairy_crystal_glass", { DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item.feature },
         "Artificial Fairy Crystal Glass", "人工フェアリークリスタルガラス",
         listOf(Poem("Fairies fear its distorted molecule", "窓を潤す、模造の美学。")),
     ),
     FAIRY_CRYSTAL_50_GLASS(
-        "fairy_crystal_50_glass", { DemonItemCard.FAIRY_CRYSTAL_50() },
+        "fairy_crystal_50_glass", { DemonItemCard.FAIRY_CRYSTAL_50.item.feature },
         "50 Minia Crystal Glass", "50ミーニャクリスタルガラス",
         listOf(Poem("Popular among artifact fairies", "家の外を映し出す鏡。")),
     ),
     //FAIRY_CRYSTAL_100_GLASS(
-    //    "fairy_crystal_100_glass", { DemonItemCard.FAIRY_CRYSTAL_100() },
+    //    "fairy_crystal_100_glass", { DemonItemCard.FAIRY_CRYSTAL_100.item.feature },
     //    "100 Minia Crystal Glass", "100ミーニャクリスタルガラス",
     //    "", "", // TODO
     //),
     //FAIRY_CRYSTAL_500_GLASS(
-    //    "fairy_crystal_500_glass", { DemonItemCard.FAIRY_CRYSTAL_500() },
+    //    "fairy_crystal_500_glass", { DemonItemCard.FAIRY_CRYSTAL_500.item.feature },
     //    "500 Minia Crystal Glass", "500ミーニャクリスタルガラス",
     //    "", "の壁に咲く、", // TODO
     //),
