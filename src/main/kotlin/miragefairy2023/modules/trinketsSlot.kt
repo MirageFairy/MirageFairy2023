@@ -26,7 +26,18 @@ val trinketsSlotModule = module {
     onGenerateJapaneseTranslations { it.add("trinkets.tooltip.attributes.all", "装備時:") }
     onGenerateJapaneseTranslations { it.add("trinkets.tooltip.attributes.single", "%dTrinketスロットに装備時:") }
     onGenerateJapaneseTranslations { it.add("trinkets.tooltip.attributes.slots", "%dスロット") }
+    onGenerateJapaneseTranslations { it.add("trinkets.slot.head.face", "顔") }
+    onGenerateJapaneseTranslations { it.add("trinkets.slot.head.hat", "帽子") }
     onGenerateJapaneseTranslations { it.add("trinkets.slot.chest.necklace", "ネックレス") }
+    onGenerateJapaneseTranslations { it.add("trinkets.slot.chest.back", "背中") }
+    onGenerateJapaneseTranslations { it.add("trinkets.slot.chest.cape", "マント") }
+    onGenerateJapaneseTranslations { it.add("trinkets.slot.feet.aglet", "靴紐") }
+    onGenerateJapaneseTranslations { it.add("trinkets.slot.feet.shoes", "靴") }
+    onGenerateJapaneseTranslations { it.add("trinkets.slot.legs.belt", "ベルト") }
+    onGenerateJapaneseTranslations { it.add("trinkets.slot.hand.glove", "グローブ") }
+    onGenerateJapaneseTranslations { it.add("trinkets.slot.hand.ring", "指輪") }
+    onGenerateJapaneseTranslations { it.add("trinkets.slot.offhand.glove", "グローブ") }
+    onGenerateJapaneseTranslations { it.add("trinkets.slot.offhand.ring", "指輪") }
 
     // 全体
     TrinketsSlotCard.values().forEach { card ->
