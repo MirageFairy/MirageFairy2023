@@ -17,7 +17,14 @@ import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 
-class DemonPickaxeItem(toolMaterial: ToolMaterial, attackDamage: Int, attackSpeed: Float, private val effectiveBlockTags: List<TagKey<Block>>, private val silkTouch: Boolean, settings: Settings) : PickaxeItem(toolMaterial, attackDamage, attackSpeed, settings) {
+class DemonPickaxeItem(
+    toolMaterial: ToolMaterial,
+    attackDamage: Int,
+    attackSpeed: Float,
+    private val effectiveBlockTags: List<TagKey<Block>>,
+    private val silkTouch: Boolean,
+    settings: Settings
+) : PickaxeItem(toolMaterial, attackDamage, attackSpeed, settings) {
     override fun getMiningSpeedMultiplier(stack: ItemStack, state: BlockState) = if (effectiveBlockTags.any { state.isIn(it) }) miningSpeed else 1.0F
 
     override fun isSuitableFor(state: BlockState): Boolean {
