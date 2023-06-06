@@ -4,7 +4,7 @@ import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.modules.fairy.FairyCard
 import miragefairy2023.modules.fairy.fairiesItemTag
-import miragefairy2023.modules.fairy.fairiesOfRareItemTag
+import miragefairy2023.modules.fairy.fairiesOfRareTags
 import miragefairy2023.modules.fairy.invoke
 import miragefairy2023.modules.fairyhouse.fairyMetamorphosisAltar
 import miragefairy2023.modules.toolitem.ToolItemCard
@@ -130,7 +130,7 @@ val advancementModule = module {
             "Get a fairy with Mirage flour", "ミラージュの花粉を使用し、妖精を得る",
             parent = root,
         ) {
-            criterion(fairiesItemTag().feature)
+            criterion(fairiesItemTag)
             reward(tier1LootTableId)
         }
 
@@ -140,7 +140,7 @@ val advancementModule = module {
             "Observe astral vortices from 'inside the mind'", "妖精を遣い、人間の心の中を探検する",
             parent = fairy,
         ) {
-            criterion(fairiesOfRareItemTag[1]!!.feature)
+            criterion(fairiesOfRareTags(1))
             reward(tier1LootTableId)
         }
 
@@ -150,7 +150,7 @@ val advancementModule = module {
             "Say hello when someone says hello", "妖精は何を感じ、何を思うのか？",
             parent = rare1Fairy,
         ) {
-            criterion(fairiesOfRareItemTag[2]!!.feature)
+            criterion(fairiesOfRareTags(2))
             reward(tier1LootTableId)
         }
 
@@ -160,7 +160,7 @@ val advancementModule = module {
             "Brainstorm the Mirage miracle", "世の中のくだらない奇跡について無限に思いを巡らせてみる",
             parent = rare2Fairy,
         ) {
-            criterion(fairiesOfRareItemTag[3]!!.feature)
+            criterion(fairiesOfRareTags(3))
             reward(tier1LootTableId)
         }
 
@@ -170,7 +170,7 @@ val advancementModule = module {
             "Meditate on familiar things", "身の回りのすこしばかりよいものを見つめてみる",
             parent = rare3Fairy,
         ) {
-            criterion(fairiesOfRareItemTag[4]!!.feature)
+            criterion(fairiesOfRareTags(4))
             reward(tier1LootTableId)
         }
 
@@ -180,7 +180,7 @@ val advancementModule = module {
             "Try to obtain particles in the world", "「ヒト」の妖精を見、「ヒト」の限界を知る",
             parent = rare4Fairy,
         ) {
-            criterion(fairiesOfRareItemTag[5]!!.feature)
+            criterion(fairiesOfRareTags(5))
             reward(tier1LootTableId)
         }
 
@@ -190,7 +190,7 @@ val advancementModule = module {
             "Run out of the home and see what you can see", "身近な自然に心を躍らせる",
             parent = rare5Fairy,
         ) {
-            criterion(fairiesOfRareItemTag[6]!!.feature)
+            criterion(fairiesOfRareTags(6))
             reward(tier1LootTableId)
         }
 
@@ -200,7 +200,7 @@ val advancementModule = module {
             "Step into abyss", "深淵を覗く",
             parent = rare6Fairy,
         ) {
-            criterion(fairiesOfRareItemTag[7]!!.feature)
+            criterion(fairiesOfRareTags(7))
             reward(tier2LootTableId)
         }
 
@@ -210,7 +210,7 @@ val advancementModule = module {
             "Step into eden", "楽園の夢を見る",
             parent = rare7Fairy,
         ) {
-            criterion(fairiesOfRareItemTag[8]!!.feature)
+            criterion(fairiesOfRareTags(8))
             reward(tier2LootTableId)
         }
 
@@ -220,7 +220,7 @@ val advancementModule = module {
             "Blown by cold wind and exposed to cosmic rays", "縁側でお団子を食べよう",
             parent = rare8Fairy,
         ) {
-            criterion(fairiesOfRareItemTag[9]!!.feature)
+            criterion(fairiesOfRareTags(9))
             reward(tier2LootTableId)
         }
 
@@ -230,7 +230,7 @@ val advancementModule = module {
             "Reflector attracts sky fairies", "天上の妖精の手を引き、地上を覗かせる",
             parent = rare9Fairy,
         ) {
-            criterion(fairiesOfRareItemTag[10]!!.feature)
+            criterion(fairiesOfRareTags(10))
             reward(tier2LootTableId)
         }
 
@@ -240,7 +240,7 @@ val advancementModule = module {
             "Feel the cosmic astral radiation", "天を超えた世界の事象を知る",
             parent = rare10Fairy,
         ) {
-            criterion(fairiesOfRareItemTag[11]!!.feature)
+            criterion(fairiesOfRareTags(11))
             reward(tier2LootTableId)
         }
 
@@ -251,7 +251,7 @@ val advancementModule = module {
             parent = rare11Fairy,
             frame = AdvancementFrame.CHALLENGE,
         ) {
-            criterion(fairiesOfRareItemTag[12]!!.feature)
+            criterion(fairiesOfRareTags(12))
             reward(tier3LootTableId)
         }
 

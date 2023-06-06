@@ -4,21 +4,16 @@ package miragefairy2023.modules.fairy
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.fairyRegistry
-import miragefairy2023.getOrPut
 import miragefairy2023.module
 import miragefairy2023.modules.TrinketsSlotCard
-import miragefairy2023.slotOf
 import miragefairy2023.util.EMPTY_ITEM_STACK
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.hasSameItemAndNbt
 import miragefairy2023.util.init.FeatureSlot
-import miragefairy2023.util.init.TagScope
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaItemGroup
 import miragefairy2023.util.init.item
-import miragefairy2023.util.init.itemTag
 import miragefairy2023.util.init.registerColorProvider
-import miragefairy2023.util.init.registerToTag
 import miragefairy2023.util.init.translation
 import miragefairy2023.util.isNotEmpty
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
@@ -33,6 +28,7 @@ import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.recipe.SpecialCraftingRecipe
 import net.minecraft.recipe.SpecialRecipeSerializer
+import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
@@ -43,8 +39,11 @@ private val randomFairyIcon by lazy { FairyCard.values().random()().createItemSt
 val fairyItemGroup: ItemGroup = FabricItemGroupBuilder.build(Identifier(MirageFairy2023.modId, "fairy")) { randomFairyIcon }
 
 // 妖精アイテムタグ
-val fairiesItemTag = slotOf<TagScope<Item>>()
-val fairiesOfRareItemTag = mutableMapOf<Int, TagScope<Item>>()
+val fairiesItemTag: TagKey<Item> = TagKey.of(Registry.ITEM_KEY, Identifier(MirageFairy2023.modId, "fairies"))
+val fairiesOfRareTags = object : (Int) -> TagKey<Item> {
+    private val map = mutableMapOf<Int, TagKey<Item>>()
+    override operator fun invoke(rare: Int) = map.getOrPut(rare) { TagKey.of(Registry.ITEM_KEY, Identifier(MirageFairy2023.modId, "rare${rare}_fairies")) }
+}
 
 // 妖精アイテム
 val MAX_FAIRY_RANK = 9
@@ -102,8 +101,8 @@ val fairyModule = module {
                 ) {
 
                     // タグに登録
-                    registerToTag { fairiesItemTag.getOrPut { itemTag("fairies") } }
-                    registerToTag { fairiesOfRareItemTag.getOrPut(feature.rare) { itemTag("rare${feature.rare}_fairies") } }
+                    onGenerateItemTags { it(fairiesItemTag).add(feature) }
+                    onGenerateItemTags { it(fairiesOfRareTags(feature.rare)).add(feature) }
                     onGenerateItemTags { it(TrinketsSlotCard.HEAD_FAIRY.tag).add(feature) }
 
                     // モデル系
