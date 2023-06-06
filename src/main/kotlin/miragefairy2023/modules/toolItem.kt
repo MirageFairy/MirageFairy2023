@@ -26,6 +26,7 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.item.PickaxeItem
+import net.minecraft.item.ToolMaterial
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.BlockTags
@@ -206,7 +207,7 @@ private fun dreamCatcher(toolMaterialCard: ToolMaterialCard, maxDamage: Int): In
 
 private fun pickaxe(toolMaterialCard: ToolMaterialCard, attackDamage: Int, attackSpeed: Float, vararg effectiveBlockTags: TagKey<Block>, silkTouch: Boolean = false): InitializationScope.(ToolItemCard) -> Unit = { card ->
     card.item = item(card.path, {
-        object : PickaxeItem(toolMaterialCard.toolMaterial, attackDamage, attackSpeed, FabricItemSettings().group(commonItemGroup)) {
+        class DemonPickaxeItem(toolMaterial: ToolMaterial, attackDamage: Int, attackSpeed: Float, private val effectiveBlockTags: List<TagKey<Block>>, private val silkTouch: Boolean, settings: Item.Settings) : PickaxeItem(toolMaterial, attackDamage, attackSpeed, settings) {
             override fun getMiningSpeedMultiplier(stack: ItemStack, state: BlockState) = if (effectiveBlockTags.any { state.isIn(it) }) miningSpeed else 1.0F
 
             override fun isSuitableFor(state: BlockState): Boolean {
@@ -235,6 +236,7 @@ private fun pickaxe(toolMaterialCard: ToolMaterialCard, attackDamage: Int, attac
                 return super.use(world, user, hand)
             }
         }
+        DemonPickaxeItem(toolMaterialCard.toolMaterial, attackDamage, attackSpeed, effectiveBlockTags.toList(), silkTouch, FabricItemSettings().group(commonItemGroup))
     }) {
         onGenerateItemModels { it.register(feature, Models.HANDHELD) }
         enJaItem({ feature }, card.enName, card.jaName)
