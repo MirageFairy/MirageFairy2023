@@ -32,8 +32,7 @@ class PassiveSkillConditions(val conditions: List<PassiveSkillCondition>) {
     constructor (vararg conditions: PassiveSkillCondition) : this(conditions.toList())
 }
 
-// TODO 受け手の変数の型の方をPassiveSkillsにしてしまい、この関数の型を関数名に合わせる
-fun PassiveSkills(block: PassiveSkillsBuilder.() -> Unit): List<PassiveSkill> {
+fun passiveSkills(block: PassiveSkillsBuilder.() -> Unit): List<PassiveSkill> {
     val scope = PassiveSkillsBuilder()
     block(scope)
     return scope.passiveSkills
