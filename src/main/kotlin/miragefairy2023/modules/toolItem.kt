@@ -1,14 +1,10 @@
 package miragefairy2023.modules
 
-import dev.emi.trinkets.api.TrinketItem
 import miragefairy2023.InitializationScope
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.PassiveSkill
-import miragefairy2023.api.PassiveSkillItem
-import miragefairy2023.api.PassiveSkillProvider
 import miragefairy2023.module
 import miragefairy2023.modules.passiveskill.ManaPassiveSkillEffect
-import miragefairy2023.modules.passiveskill.getPassiveSkillTooltip
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.criterion
@@ -21,7 +17,6 @@ import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
 import net.fabricmc.yarn.constants.MiningLevels
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
-import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.enchantment.EnchantmentHelper
@@ -31,14 +26,11 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.item.PickaxeItem
-import net.minecraft.item.Vanishable
 import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.BlockTags
 import net.minecraft.tag.ItemTags
 import net.minecraft.tag.TagKey
-import net.minecraft.text.Text
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
@@ -256,29 +248,6 @@ private fun pickaxe(toolMaterialCard: ToolMaterialCard, attackDamage: Int, attac
 
 private fun accessory(trinketsSlotCard: TrinketsSlotCard, mana: Double, passiveSkills: List<PassiveSkill>): InitializationScope.(ToolItemCard) -> Unit = { card ->
     card.item = item(card.path, {
-        class PassiveSkillAccessoryItem(private val mana: Double, private val passiveSkills: List<PassiveSkill>, settings: Settings) : Item(settings), PassiveSkillItem, Vanishable {
-            override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-                super.appendTooltip(stack, world, tooltip, context)
-                tooltip += getPassiveSkillTooltip(stack, mana, mana, passiveSkills)
-            }
-
-            override val passiveSkillProvider: PassiveSkillProvider
-                get() = object : PassiveSkillProvider {
-                    override val identifier get() = this@PassiveSkillAccessoryItem.identifier
-                    override val mana get() = this@PassiveSkillAccessoryItem.mana
-                    override fun getPassiveSkills(player: PlayerEntity, itemStack: ItemStack) = passiveSkills
-                }
-
-            override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
-                val itemStack = user.getStackInHand(hand)
-                if (TrinketItem.equipItem(user, itemStack)) {
-                    return TypedActionResult.success(itemStack, world.isClient)
-                }
-                return super.use(world, user, hand)
-            }
-
-            override fun getEquipSound(): SoundEvent = SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND
-        }
         PassiveSkillAccessoryItem(mana, passiveSkills, FabricItemSettings().group(commonItemGroup).maxCount(1))
     }) {
         onGenerateItemModels { it.register(feature, Models.GENERATED) }
