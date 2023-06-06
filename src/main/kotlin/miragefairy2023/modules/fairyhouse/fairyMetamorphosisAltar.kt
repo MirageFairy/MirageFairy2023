@@ -124,7 +124,7 @@ object FairyMetamorphosisAltarRecipe {
             }
         }
 
-        if (remainingRate > 0) chanceTable = listOf(Chance(remainingRate, DEFAULT_OUTPUT)) + chanceTable
+        if (remainingRate > 0.0) chanceTable = listOf(Chance(remainingRate, DEFAULT_OUTPUT)) + chanceTable
 
         if (chanceTable.isEmpty()) return null
 
