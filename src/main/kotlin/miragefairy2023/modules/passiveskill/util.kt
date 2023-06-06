@@ -3,6 +3,8 @@ package miragefairy2023.modules.passiveskill
 import dev.emi.trinkets.api.TrinketsApi
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.PassiveSkill
+import miragefairy2023.api.PassiveSkillCondition
+import miragefairy2023.api.PassiveSkillEffect
 import miragefairy2023.api.PassiveSkillItem
 import miragefairy2023.util.gold
 import miragefairy2023.util.gray
@@ -16,6 +18,27 @@ import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import kotlin.jvm.optionals.getOrNull
+
+
+class PassiveSkillsBuilder {
+    val passiveSkills = mutableListOf<PassiveSkill>()
+    operator fun PassiveSkillConditions.times(other: PassiveSkillConditions) = PassiveSkillConditions(this.conditions + other.conditions)
+    infix fun PassiveSkillEffect.on(conditions: PassiveSkillConditions) {
+        passiveSkills += PassiveSkill(conditions.conditions, this)
+    }
+}
+
+class PassiveSkillConditions(val conditions: List<PassiveSkillCondition>) {
+    constructor (vararg conditions: PassiveSkillCondition) : this(conditions.toList())
+}
+
+// TODO 受け手の変数の型の方をPassiveSkillsにしてしまい、この関数の型を関数名に合わせる
+fun PassiveSkills(block: PassiveSkillsBuilder.() -> Unit): List<PassiveSkill> {
+    val scope = PassiveSkillsBuilder()
+    block(scope)
+    return scope.passiveSkills
+}
+
 
 object PassiveSkillKeys {
     val ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY = Translation("${MirageFairy2023.modId}.passive_skill.enabled", "Passive skills are enabled", "パッシブスキル有効")
