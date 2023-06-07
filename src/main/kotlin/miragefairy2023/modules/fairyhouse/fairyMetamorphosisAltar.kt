@@ -27,7 +27,6 @@ import miragefairy2023.util.set
 import miragefairy2023.util.text
 import miragefairy2023.util.toList
 import miragefairy2023.util.totalWeight
-import mirrg.kotlin.hydrogen.atLeast
 import mirrg.kotlin.hydrogen.atMost
 import mirrg.kotlin.hydrogen.castOrNull
 import mirrg.kotlin.hydrogen.formatAs
@@ -85,19 +84,21 @@ val fairyMetamorphosisAltarModule = module {
 
 object FairyMetamorphosisAltarRecipe {
 
-    enum class Category(val rate: Double) {
-        N(1.0),
-        R(0.1),
-        SR(0.01),
-        SSR(0.001),
+    enum class Category(val priority: Int) {
+        N(0),
+        R(1),
+        SR(2),
+        SSR(3),
     }
 
-    val RECIPES = mutableMapOf<Item, MutableMap<Category, MutableList<ItemStack>>>()
+    val RECIPES = mutableMapOf<Item, MutableList<Entry>>()
+
+    class Entry(val category: Category, val rate: Double, val output: ItemStack)
 
     val DEFAULT_OUTPUT = Items.FLINT.createItemStack()
 
-    fun register(input: Item, category: Category, output: ItemStack) {
-        RECIPES.getOrPut(input) { mutableMapOf() }.getOrPut(category) { mutableListOf() } += output
+    fun register(input: Item, category: Category, rate: Double, output: ItemStack) {
+        RECIPES.getOrPut(input) { mutableListOf() } += Entry(category, rate, output)
     }
 
     /**
@@ -110,15 +111,27 @@ object FairyMetamorphosisAltarRecipe {
         var chanceTable = listOf<Chance<ItemStack>>()
         var remainingRate = 1.0
 
-        Category.values().sortedBy { it.rate }.forEach { category ->
-            val nextRemainingRate = 1.0 - category.rate * fortuneFactor atLeast 0.0
-            val availableRate = remainingRate - nextRemainingRate
-            if (availableRate > 0) {
-                val outputs = outputTable.getOrElse(category) { listOf() }
-                if (outputs.isNotEmpty()) {
-                    chanceTable = outputs.map { Chance(availableRate / outputs.size.toDouble(), it) } + chanceTable
-                    remainingRate = nextRemainingRate
+        run overflowed@{
+            val entriesList = outputTable.groupBy { it.category }.toList().sortedByDescending { it.first.priority }.map { it.second }
+            entriesList.forEach { entries ->
+
+                val localChanceTable = entries.map { Chance(it.rate * fortuneFactor, it.output) }
+                val localTotalWeight = localChanceTable.totalWeight
+
+                if (localTotalWeight <= remainingRate) { // あふれてない
+
+                    chanceTable = localChanceTable + chanceTable
+                    remainingRate -= localTotalWeight
+
+                } else { // あふれた
+                    val multiplier = remainingRate / localTotalWeight
+
+                    chanceTable = localChanceTable.map { Chance(it.weight * multiplier, it.item) } + chanceTable
+                    remainingRate = 0.0
+
+                    return@overflowed
                 }
+
             }
         }
 
@@ -130,89 +143,98 @@ object FairyMetamorphosisAltarRecipe {
     }
 
     init {
-        fun registerMirageFlour(item: Item) {
-            register(item, Category.N, MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item.feature.createItemStack())
-            register(item, Category.R, MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR.item.feature.createItemStack())
-            register(item, Category.SR, MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR.item.feature.createItemStack())
-            register(item, Category.SSR, MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR.item.feature.createItemStack())
+        fun register(input: Item, category: Category, rate: Double, output: Item) {
+            register(input, category, rate, output.createItemStack())
         }
 
-        fun registerInteractive(item1: Item, category1: Category, item2: Item) {
-            register(item1, category1, item2.createItemStack())
-            register(item2, Category.N, item1.createItemStack())
+        fun registerInteractive(input: Item, category: Category, rate: Double, output: Item) {
+            register(input, category, rate, output)
+            register(output, Category.N, 1.0, input)
         }
 
+        fun registerMirageFlour(input: Item) {
+            register(input, Category.N, 1.0, MirageFlourCard.MIRAGE_FLOUR.item.feature)
+            register(input, Category.N, 0.1, MirageFlourCard.RARE_MIRAGE_FLOUR.item.feature)
+            register(input, Category.R, 0.01, MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item.feature)
+            register(input, Category.SR, 0.001, MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR.item.feature)
+            register(input, Category.SSR, 0.0001, MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR.item.feature)
+        }
+
+
+        // 石系
+
+        registerMirageFlour(Items.STONE)
+
+        registerInteractive(Items.STONE, Category.N, 0.1, Items.DEEPSLATE)
+        registerInteractive(Items.STONE, Category.N, 0.08, Items.GRANITE)
+        registerInteractive(Items.STONE, Category.N, 0.08, Items.DIORITE)
+        registerInteractive(Items.STONE, Category.N, 0.08, Items.ANDESITE)
+        registerInteractive(Items.STONE, Category.N, 0.08, Items.TUFF)
+        registerInteractive(Items.STONE, Category.N, 0.08, Items.DRIPSTONE_BLOCK)
+        registerInteractive(Items.STONE, Category.N, 0.05, Items.SANDSTONE)
+
+        registerInteractive(Items.STONE, Category.R, 0.01, Items.MAGMA_BLOCK)
+        registerInteractive(Items.STONE, Category.R, 0.01, Items.OBSIDIAN)
+        registerInteractive(Items.STONE, Category.R, 0.01, DemonItemCard.CHAOS_STONE.item.feature)
+
+
+        // 土系
 
         registerMirageFlour(Items.GRAVEL)
 
-        registerInteractive(Items.GRAVEL, Category.N, Items.STONE)
-        registerInteractive(Items.GRAVEL, Category.N, Items.DIRT)
-        registerInteractive(Items.GRAVEL, Category.N, Items.GRASS_BLOCK)
-        registerInteractive(Items.GRAVEL, Category.N, Items.COARSE_DIRT)
-        registerInteractive(Items.GRAVEL, Category.N, Items.PODZOL)
-        registerInteractive(Items.GRAVEL, Category.N, Items.SAND)
-        registerInteractive(Items.GRAVEL, Category.N, Items.DEEPSLATE)
+        registerInteractive(Items.GRAVEL, Category.N, 0.1, Items.DIRT)
+        registerInteractive(Items.GRAVEL, Category.N, 0.1, Items.GRASS_BLOCK)
+        registerInteractive(Items.GRAVEL, Category.N, 0.1, Items.COARSE_DIRT)
+        registerInteractive(Items.GRAVEL, Category.N, 0.1, Items.PODZOL)
+        registerInteractive(Items.GRAVEL, Category.N, 0.1, Items.SAND)
+        registerInteractive(Items.GRAVEL, Category.N, 0.1, Items.RED_SAND)
+        registerInteractive(Items.GRAVEL, Category.N, 0.1, Items.COBBLESTONE)
 
-        registerInteractive(Items.GRAVEL, Category.R, Items.CLAY)
-        registerInteractive(Items.GRAVEL, Category.R, Items.SANDSTONE)
-        registerInteractive(Items.GRAVEL, Category.R, Items.GRANITE)
-        registerInteractive(Items.GRAVEL, Category.R, Items.DIORITE)
-        registerInteractive(Items.GRAVEL, Category.R, Items.ANDESITE)
-        registerInteractive(Items.GRAVEL, Category.R, Items.TUFF)
-        registerInteractive(Items.GRAVEL, Category.R, Items.CALCITE)
-        registerInteractive(Items.GRAVEL, Category.R, Items.BASALT)
-        registerInteractive(Items.GRAVEL, Category.R, Items.BLACKSTONE)
+        registerInteractive(Items.GRAVEL, Category.R, 0.02, Items.CLAY)
+        registerInteractive(Items.GRAVEL, Category.R, 0.01, DemonItemCard.CHAOS_STONE.item.feature)
 
-        registerInteractive(Items.GRAVEL, Category.SR, Items.OBSIDIAN)
-        registerInteractive(Items.GRAVEL, Category.SR, Items.MAGMA_BLOCK)
 
+        // 鉱石系
 
         registerMirageFlour(Items.FLINT)
 
-        registerInteractive(Items.FLINT, Category.N, Items.GLASS)
-        registerInteractive(Items.FLINT, Category.N, Items.CLAY_BALL)
+        registerInteractive(Items.FLINT, Category.N, 0.1, Items.CLAY_BALL)
 
-        registerInteractive(Items.FLINT, Category.R, Items.RAW_COPPER)
-        registerInteractive(Items.FLINT, Category.R, Items.RAW_IRON)
-        registerInteractive(Items.FLINT, Category.R, Items.RAW_GOLD)
-        registerInteractive(Items.FLINT, Category.R, Items.REDSTONE)
-        registerInteractive(Items.FLINT, Category.R, Items.LAPIS_LAZULI)
+        registerInteractive(Items.FLINT, Category.R, 0.05, Items.RAW_COPPER)
+        registerInteractive(Items.FLINT, Category.R, 0.03, Items.RAW_IRON)
+        registerInteractive(Items.FLINT, Category.R, 0.01, Items.RAW_GOLD)
+        registerInteractive(Items.FLINT, Category.R, 0.03, Items.REDSTONE)
+        registerInteractive(Items.FLINT, Category.R, 0.02, Items.LAPIS_LAZULI)
+        registerInteractive(Items.FLINT, Category.R, 0.01, DemonItemCard.MIRANAGITE.item.feature)
+        registerInteractive(Items.FLINT, Category.R, 0.01, DemonItemCard.XARPITE.item.feature)
+        registerInteractive(Items.FLINT, Category.R, 0.01, DemonItemCard.CHAOS_STONE.item.feature)
 
-        registerInteractive(Items.FLINT, Category.SR, Items.AMETHYST_SHARD)
-        registerInteractive(Items.FLINT, Category.SR, Items.GLOWSTONE_DUST)
-        registerInteractive(Items.FLINT, Category.SR, DemonItemCard.MIRANAGITE.item.feature)
-        registerInteractive(Items.FLINT, Category.SR, DemonItemCard.XARPITE.item.feature)
-        registerInteractive(Items.FLINT, Category.SR, DemonItemCard.CHAOS_STONE.item.feature)
+        registerInteractive(Items.FLINT, Category.SR, 0.001, Items.DIAMOND)
+        registerInteractive(Items.FLINT, Category.SR, 0.001, Items.EMERALD)
 
-        registerInteractive(Items.FLINT, Category.SSR, Items.DIAMOND)
-        registerInteractive(Items.FLINT, Category.SSR, Items.EMERALD)
+        register(DemonItemCard.CHAOS_STONE.item.feature, Category.R, 0.25, Items.DIAMOND) // TODO remove
 
+
+        // 動物系
 
         registerMirageFlour(Items.ROTTEN_FLESH)
 
-        registerInteractive(Items.ROTTEN_FLESH, Category.N, Items.FEATHER)
-        registerInteractive(Items.ROTTEN_FLESH, Category.N, Items.STRING)
-        registerInteractive(Items.ROTTEN_FLESH, Category.N, Items.BONE)
+        registerInteractive(Items.ROTTEN_FLESH, Category.N, 0.1, Items.FEATHER)
+        registerInteractive(Items.ROTTEN_FLESH, Category.N, 0.05, Items.BONE)
+        registerInteractive(Items.ROTTEN_FLESH, Category.N, 0.04, Items.STRING)
+        registerInteractive(Items.ROTTEN_FLESH, Category.N, 0.08, Items.BEEF)
+        registerInteractive(Items.ROTTEN_FLESH, Category.N, 0.08, Items.PORKCHOP)
+        registerInteractive(Items.ROTTEN_FLESH, Category.N, 0.08, Items.CHICKEN)
+        registerInteractive(Items.ROTTEN_FLESH, Category.N, 0.08, Items.MUTTON)
+        registerInteractive(Items.ROTTEN_FLESH, Category.N, 0.03, Items.LEATHER)
+        registerInteractive(Items.ROTTEN_FLESH, Category.N, 0.04, Items.GUNPOWDER)
 
-        registerInteractive(Items.ROTTEN_FLESH, Category.R, Items.LEATHER)
-        registerInteractive(Items.ROTTEN_FLESH, Category.R, Items.GUNPOWDER)
-        registerInteractive(Items.ROTTEN_FLESH, Category.R, Items.BEEF)
-        registerInteractive(Items.ROTTEN_FLESH, Category.R, Items.PORKCHOP)
-        registerInteractive(Items.ROTTEN_FLESH, Category.R, Items.CHICKEN)
-        registerInteractive(Items.ROTTEN_FLESH, Category.R, Items.MUTTON)
+        registerInteractive(Items.ROTTEN_FLESH, Category.R, 0.02, Items.SPIDER_EYE)
+        registerInteractive(Items.ROTTEN_FLESH, Category.R, 0.01, Items.ENDER_PEARL)
 
-        registerInteractive(Items.ROTTEN_FLESH, Category.SR, Items.SPIDER_EYE)
+        registerInteractive(Items.ROTTEN_FLESH, Category.SSR, 0.0002, Items.SHULKER_SHELL)
+        registerInteractive(Items.ROTTEN_FLESH, Category.SSR, 0.0001, Items.TOTEM_OF_UNDYING)
 
-        registerInteractive(Items.ROTTEN_FLESH, Category.SSR, Items.SHULKER_SHELL)
-
-
-        register(DemonItemCard.CHAOS_STONE.item.feature, Category.N, Items.DIAMOND.createItemStack()) // TODO remove
-
-
-        //registerInteractive(Items.FLINT, Category.SSR, Items.TOTEM_OF_UNDYING)
-        //registerInteractive(Items.FLINT, Category.SSR, Items.NETHER_STAR)
-        //registerInteractive(Items.FLINT, Category.SSR, Items.ENCHANTED_GOLDEN_APPLE)
-        //registerInteractive(Items.FLINT, Category.SSR, Items.HEART_OF_THE_SEA)
     }
 
 }
