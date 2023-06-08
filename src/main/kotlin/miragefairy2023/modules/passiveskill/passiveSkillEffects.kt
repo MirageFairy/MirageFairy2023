@@ -2,6 +2,7 @@ package miragefairy2023.modules.passiveskill
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.PassiveSkillEffect
+import miragefairy2023.modules.DemonPlayerAttributeCard
 import miragefairy2023.util.Symbol
 import miragefairy2023.util.eyeBlockPos
 import miragefairy2023.util.init.Translation
@@ -97,6 +98,17 @@ class LuckPassiveSkillEffect(override val power: Double) : AttributePassiveSkill
     override val uuid: UUID = UUID.fromString("A69D69CB-1658-4D58-BB45-B18445DD8757")
     override val identifier = Identifier(MirageFairy2023.modId, "luck")
     override val entityAttribute: EntityAttribute = EntityAttributes.GENERIC_LUCK
+    override val operation = EntityAttributeModifier.Operation.ADDITION
+}
+
+@Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.shootingDamage(power: Double) = ShootingDamageSkillEffect(power)
+
+class ShootingDamageSkillEffect(override val power: Double) : AttributePassiveSkillEffect() {
+    override fun getText(baseEfficiency: Double, efficiency: Double) = text { translate(DemonPlayerAttributeCard.SHOOTING_DAMAGE.translationKey) + ": "() + (power * efficiency formatAs "%+.2f")() }
+    override val uuid: UUID = UUID.fromString("B9E36634-FB66-49E6-849F-BAC417AE5064")
+    override val identifier = Identifier(MirageFairy2023.modId, DemonPlayerAttributeCard.SHOOTING_DAMAGE.path)
+    override val entityAttribute: EntityAttribute = DemonPlayerAttributeCard.SHOOTING_DAMAGE.entityAttribute
     override val operation = EntityAttributeModifier.Operation.ADDITION
 }
 
