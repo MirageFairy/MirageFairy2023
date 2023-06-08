@@ -36,6 +36,7 @@ import miragefairy2023.modules.passiveskill.overworld
 import miragefairy2023.modules.passiveskill.passiveSkills
 import miragefairy2023.modules.passiveskill.regeneration
 import miragefairy2023.modules.passiveskill.shade
+import miragefairy2023.modules.passiveskill.shootingDamage
 import miragefairy2023.modules.passiveskill.statusEffect
 import miragefairy2023.modules.passiveskill.sunshine
 import miragefairy2023.modules.passiveskill.telescopeMission
@@ -364,6 +365,14 @@ enum class FairyCard(
             attackDamage(1.0) on shade()
         },
         FairyRecipes().overworld().entityType { EntityType.ZOMBIE },
+    ),
+    SKELETON(
+        "skeleton", 2, "Skeletonia", "骸骨精スケレトーニャ", 0xCACACA, 0xCFCFCF, 0xCFCFCF, 0x494949,
+        passiveSkills {
+            shootingDamage(2.0) on maximumFoodLevel(6)
+            shootingDamage(1.0) on shade()
+        },
+        FairyRecipes().overworld().entityType { EntityType.SKELETON },
     ),
     SKELETON_HORSE(
         "skeleton_horse", 6, "Skeletone Horsia", "骸骨馬精スケレトーネホルシャ", 0xA1A1A1, 0xD4D4D4, 0x757575, 0xD5D5D5,
