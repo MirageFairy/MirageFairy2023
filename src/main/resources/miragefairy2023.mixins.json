@@ -6,6 +6,7 @@
   "mixins": [
     "FishingBobberEntityAccessor",
     "LivingEntityMixin",
+    "PersistentProjectileEntityMixin",
     "PlayerEntityMixin"
   ],
   "client": [],
