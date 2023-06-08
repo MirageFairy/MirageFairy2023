@@ -119,7 +119,7 @@ enum class FairyCard(
     RAIN(
         "rain", 2, "Rainia", "雨精ライニャ", 0xB4FFFF, 0x4D5670, 0x4D5670, 0x2D40F4,
         passiveSkills {
-            attackDamage(4.0) on inRain()
+            shootingDamage(4.0) on inRain()
         },
         FairyRecipes().overworld(),
     ),
@@ -160,7 +160,7 @@ enum class FairyCard(
     DRIPSTONE(
         "dripstone", 3, "Dripstonia", "鍾乳石精ドリプストーニャ", 0xB19C7E, 0xA97F6F, 0xA97F6F, 0xAD7069,
         passiveSkills {
-            attackDamage(1.5) on shade()
+            shootingDamage(1.5) on shade()
             maxHealth(6.0) on shade()
         },
         FairyRecipes().biome(BiomeKeys.DRIPSTONE_CAVES).block { Blocks.DRIPSTONE_BLOCK }.recipe { Items.DRIPSTONE_BLOCK },
@@ -186,7 +186,7 @@ enum class FairyCard(
         "purpur", 7, "Purpuria", "紫珀精プルプーリャ", 0xCBA8CB, 0xC08AC0, 0xC08AC0, 0xBC68BB,
         passiveSkills {
             collection(0.5) on always()
-            attackDamage(2.0) on biome(ConventionalBiomeTags.IN_THE_END)
+            shootingDamage(2.0) on biome(ConventionalBiomeTags.IN_THE_END)
             maxHealth(4.0) on biome(ConventionalBiomeTags.IN_THE_END)
         },
         FairyRecipes().biome(ConventionalBiomeTags.END_ISLANDS).block { Blocks.PURPUR_BLOCK }.recipe { Items.PURPUR_BLOCK },
@@ -195,7 +195,7 @@ enum class FairyCard(
         "copper", 3, "Copperia", "銅精ツォッペーリャ", 0xF69D7F, 0xF77653, 0xF77653, 0x5DC09A,
         passiveSkills {
             luck(0.2) on always()
-            attackDamage(2.5) on thundering()
+            shootingDamage(2.5) on thundering()
         },
         FairyRecipes().overworld().block { Blocks.COPPER_BLOCK }.recipe { Items.COPPER_INGOT },
     ),
@@ -283,7 +283,7 @@ enum class FairyCard(
         "redstone", 4, "Redstonia", "赤石精レドストーニャ", 0xFF5959, 0xFF0000, 0xCD0000, 0xBA0000,
         passiveSkills {
             luck(0.5) on indoor()
-            attackDamage(1.0) on indoor()
+            shootingDamage(1.0) on indoor()
             maxHealth(2.0) on indoor()
         },
         FairyRecipes().overworld().block { Blocks.REDSTONE_BLOCK }.recipe { Items.REDSTONE },
@@ -379,6 +379,7 @@ enum class FairyCard(
         passiveSkills {
             movementSpeed(0.30) on maximumFoodLevel(6)
             attackDamage(1.0) on inRain()
+            shootingDamage(1.0) on inRain()
         },
         FairyRecipes().overworld().entityType { EntityType.SKELETON_HORSE },
     ),
@@ -388,13 +389,14 @@ enum class FairyCard(
             statusEffect(StatusEffects.STRENGTH, 1) on maximumFoodLevel(6)
             statusEffect(StatusEffects.JUMP_BOOST, 1) on maximumFoodLevel(6)
             statusEffect(StatusEffects.HASTE, 0) on maximumFoodLevel(6)
+            shootingDamage(1.5) on maximumFoodLevel(6)
         },
         FairyRecipes().entityType { EntityType.WITHER },
     ),
     BLAZE(
         "blaze", 7, "Blazia", "烈炎精ブラージャ", 0xE7DA21, 0xCB6E06, 0xB44500, 0xFF8025,
         passiveSkills {
-            attackDamage(2.0) on onFire()
+            shootingDamage(2.0) on onFire()
             combustion() on statusEffect(StatusEffects.FIRE_RESISTANCE)
         },
         FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).entityType { EntityType.BLAZE },
@@ -437,7 +439,7 @@ enum class FairyCard(
         "beetroot", 4, "Beetrootia", "火焔菜精ベートローチャ", 0xC1727C, 0xA74D55, 0x96383D, 0x01A900,
         passiveSkills {
             regeneration(0.1) on minimumFoodLevel(12)
-            attackDamage(2.0) on food { Items.BEETROOT }
+            shootingDamage(2.0) on food { Items.BEETROOT }
         },
         FairyRecipes().overworld().block { Blocks.BEETROOTS }.recipe { Items.BEETROOT },
     ),
@@ -460,7 +462,7 @@ enum class FairyCard(
     WOOD(
         "wood", 1, "Woodia", "木精ウォージャ", 0xE7C697, 0xAD8232, 0xAD8232, 0x8B591C,
         passiveSkills {
-            attackDamage(2.0) on toolMaterial(ToolMaterialCard.WOOD)
+            shootingDamage(2.0) on toolMaterial(ToolMaterialCard.WOOD)
             statusEffect(StatusEffects.SPEED, 0) on toolMaterial(ToolMaterialCard.WOOD)
             statusEffect(StatusEffects.SPEED, 1) on toolMaterial(ToolMaterialCard.WOOD) * minimumMana(7.0)
         },
@@ -469,8 +471,8 @@ enum class FairyCard(
     SPRUCE(
         "spruce", 6, "Sprucia", "松精スプルーツァ", 0x795C36, 0x583E1F, 0x23160A, 0x4C784C,
         passiveSkills {
-            attackDamage(1.0) on biome(ConventionalBiomeTags.FOREST)
-            attackDamage(1.0) on biome(ConventionalBiomeTags.TAIGA)
+            shootingDamage(1.0) on biome(ConventionalBiomeTags.FOREST)
+            shootingDamage(1.0) on biome(ConventionalBiomeTags.TAIGA)
         },
         FairyRecipes().biome(ConventionalBiomeTags.TAIGA).block { Blocks.SPRUCE_SAPLING }.recipe { Items.SPRUCE_SAPLING },
     ),
@@ -501,6 +503,7 @@ enum class FairyCard(
         passiveSkills {
             experience(0.03) on indoor() * maximumLevel(19)
             experience(0.03) on indoor() * maximumLevel(29)
+            shootingDamage(0.5) on indoor()
         },
         FairyRecipes().block { Blocks.ENCHANTING_TABLE }.recipe { Items.ENCHANTING_TABLE },
     ),
@@ -636,7 +639,8 @@ enum class FairyCard(
         "gravity", 12, "Gravitia", "重力精グラヴィーチャ", 0xC2A7F2, 0x3600FF, 0x2A00B1, 0x110047,
         passiveSkills {
             statusEffect(StatusEffects.SLOW_FALLING, 0) on always()
-            attackDamage(2.0) on always()
+            attackDamage(1.5) on always()
+            shootingDamage(1.5) on always()
         },
         FairyRecipes().always(),
     ),
