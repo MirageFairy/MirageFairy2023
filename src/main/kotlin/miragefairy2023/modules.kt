@@ -15,6 +15,7 @@ import miragefairy2023.modules.mirageFlourModule
 import miragefairy2023.modules.mirageFlowerModule
 import miragefairy2023.modules.particleModule
 import miragefairy2023.modules.passiveskill.passiveSkillModule
+import miragefairy2023.modules.playerAttributeModule
 import miragefairy2023.modules.poemModule
 import miragefairy2023.modules.telescopeModule
 import miragefairy2023.modules.toolMaterialModule
@@ -33,6 +34,7 @@ val modules = module {
     particleModule()
     luckBonusModule()
     toolMaterialModule()
+    playerAttributeModule()
 
     // コンテンツ系
     run {
