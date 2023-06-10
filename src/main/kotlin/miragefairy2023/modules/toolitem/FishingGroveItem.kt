@@ -24,6 +24,10 @@ import net.minecraft.world.event.GameEvent
 
 class FishingGroveItem(settings: Settings) : Item(settings.maxDamageIfAbsent(ToolMaterialCard.CHAOS_STONE.toolMaterial.durability)), Trinket {
     override fun tick(stack: ItemStack, slot: SlotReference, entity: LivingEntity) {
+        tick(stack, entity)
+    }
+
+    private fun tick(stack: ItemStack, entity: LivingEntity) {
         val world = entity.world
         if (entity !is PlayerEntity) return // プレイヤーじゃない
         val fishHook = entity.fishHook ?: return // 釣り糸を垂らしていない
