@@ -80,4 +80,6 @@ class FishingGroveItem(settings: Settings) : Item(settings.maxDamageIfAbsent(Too
     }
 
     override fun getEquipSound(): SoundEvent = SoundEvents.ITEM_ARMOR_EQUIP_GENERIC
+
+    override fun canRepair(stack: ItemStack, ingredient: ItemStack) = ToolMaterialCard.CHAOS_STONE.toolMaterial.repairIngredient.test(ingredient) || super.canRepair(stack, ingredient)
 }
