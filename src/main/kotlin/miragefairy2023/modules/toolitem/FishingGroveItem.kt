@@ -7,6 +7,7 @@ import miragefairy2023.mixins.api.FishingBobberEntityHelper
 import miragefairy2023.modules.ToolMaterialCard
 import miragefairy2023.util.randomInt
 import net.minecraft.enchantment.EnchantmentHelper
+import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.FishingBobberEntity
@@ -23,13 +24,19 @@ import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 
 class FishingGroveItem(settings: Settings) : Item(settings.maxDamageIfAbsent(ToolMaterialCard.CHAOS_STONE.toolMaterial.durability)), Trinket {
-    override fun tick(stack: ItemStack, slot: SlotReference, entity: LivingEntity) {
+    override fun inventoryTick(stack: ItemStack, world: World, entity: Entity, slot: Int, selected: Boolean) {
+        if (entity !is PlayerEntity) return // プレイヤーじゃない
+        if (stack != entity.mainHandStack && stack != entity.offHandStack) return // メインハンドにもオフハンドにも持っていない
         tick(stack, entity)
     }
 
-    private fun tick(stack: ItemStack, entity: LivingEntity) {
-        val world = entity.world
+    override fun tick(stack: ItemStack, slot: SlotReference, entity: LivingEntity) {
         if (entity !is PlayerEntity) return // プレイヤーじゃない
+        tick(stack, entity)
+    }
+
+    private fun tick(stack: ItemStack, entity: PlayerEntity) {
+        val world = entity.world
         val fishHook = entity.fishHook ?: return // 釣り糸を垂らしていない
         val (hand, fishingRodItemStack) = when {
             entity.mainHandStack.isOf(Items.FISHING_ROD) -> Pair(Hand.MAIN_HAND, entity.mainHandStack)
