@@ -39,7 +39,9 @@ class FishingGroveItem(settings: Settings) : Item(settings.maxDamageIfAbsent(Too
 
         // 消費
         if (!world.isClient) {
-            stack.damage(1, world.random, entity as ServerPlayerEntity)
+            stack.damage(1, entity) {
+
+            }
         }
 
         // 引っ張る
