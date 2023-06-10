@@ -50,7 +50,7 @@ class FishingGroveItem(settings: Settings) : Item(settings.maxDamageIfAbsent(Too
         // 消費
         if (!world.isClient) {
             stack.damage(4, entity) {
-
+                world.playSound(null, entity.x, entity.y, entity.z, SoundEvents.ENTITY_ITEM_BREAK, SoundCategory.PLAYERS, 0.8F, 0.8F + world.random.nextFloat() * 0.4F)
             }
         }
 
