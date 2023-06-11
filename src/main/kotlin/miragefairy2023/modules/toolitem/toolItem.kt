@@ -65,7 +65,7 @@ enum class ToolItemCard(
     ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE(
         "artificial_fairy_crystal_pickaxe", "Crystal Pickaxe", "クリスタルのつるはし",
         listOf(Poem("Amorphous mental body of fairies", "妖精さえ怖れる、技術の結晶。")),
-        pickaxe(ToolMaterialCard.ARTIFICIAL_FAIRY_CRYSTAL, 1, -2.8F, BlockTags.PICKAXE_MINEABLE),
+        pickaxe(ToolMaterialCard.ARTIFICIAL_FAIRY_CRYSTAL, BlockTags.PICKAXE_MINEABLE),
     ),
     ARTIFICIAL_FAIRY_CRYSTAL_PENDANT(
         "artificial_fairy_crystal_pendant", "Crystal Pendant", "クリスタルのペンダント",
@@ -80,7 +80,7 @@ enum class ToolItemCard(
             Poem("Promotes ore recrystallization", "凝集する秩序、蒼穹彩煌が如く。"),
             Description("Enchant silk touch when using raw item", "生のアイテム使用時、シルクタッチ付与"),
         ),
-        pickaxe(ToolMaterialCard.MIRANAGITE, 1, -2.8F, BlockTags.PICKAXE_MINEABLE, silkTouch = true),
+        pickaxe(ToolMaterialCard.MIRANAGITE, BlockTags.PICKAXE_MINEABLE, silkTouch = true),
     ),
     CHAOS_STONE_PICKAXE(
         "chaos_stone_pickaxe", "Chaos Pickaxe", "混沌のつるはし",
@@ -88,7 +88,7 @@ enum class ToolItemCard(
             Poem("Is this made of metal? Or clay?", "時空結晶の交点に、古代の産業が芽吹く。"),
             Description("Can dig like a shovel", "シャベルのように掘れる"),
         ),
-        pickaxe(ToolMaterialCard.CHAOS_STONE, 1, -2.8F, BlockTags.PICKAXE_MINEABLE, BlockTags.SHOVEL_MINEABLE),
+        pickaxe(ToolMaterialCard.CHAOS_STONE, BlockTags.PICKAXE_MINEABLE, BlockTags.SHOVEL_MINEABLE),
     ),
     CHAOS_FISHING_GROVE(
         "chaos_fishing_grove", "Chaos Fishing Grove", "混沌のフィッシンググローブ",
@@ -228,8 +228,8 @@ private fun dreamCatcher(toolMaterialCard: ToolMaterialCard, maxDamage: Int): In
     }
 }
 
-private fun pickaxe(toolMaterialCard: ToolMaterialCard, attackDamage: Int, attackSpeed: Float, vararg effectiveBlockTags: TagKey<Block>, silkTouch: Boolean = false): InitializationScope.(ToolItemCard) -> Unit = { card ->
-    card.item = item(card.path, { DemonPickaxeItem(toolMaterialCard.toolMaterial, attackDamage, attackSpeed, effectiveBlockTags.toList(), silkTouch, FabricItemSettings().group(commonItemGroup)) }) {
+private fun pickaxe(toolMaterialCard: ToolMaterialCard, vararg effectiveBlockTags: TagKey<Block>, silkTouch: Boolean = false): InitializationScope.(ToolItemCard) -> Unit = { card ->
+    card.item = item(card.path, { DemonPickaxeItem(toolMaterialCard.toolMaterial, 1, -2.8F, effectiveBlockTags.toList(), silkTouch, FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Models.HANDHELD) }
         enJaItem({ feature }, card.enName, card.jaName)
         generatePoemList(card.poemList)
