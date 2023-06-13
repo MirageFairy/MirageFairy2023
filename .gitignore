@@ -28,6 +28,10 @@ bin/
 
 *.DS_Store
 
+# windows
+
+desktop.ini
+
 # fabric
 
 run/
