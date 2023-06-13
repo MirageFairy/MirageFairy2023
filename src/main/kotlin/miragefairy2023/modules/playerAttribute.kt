@@ -1,9 +1,10 @@
 package miragefairy2023.modules
 
 import miragefairy2023.MirageFairy2023
-import miragefairy2023.mixins.api.PlayerAttributeRegistry
+import miragefairy2023.mixins.api.DefaultAttributeRegistryHelper
 import miragefairy2023.module
 import miragefairy2023.util.init.enJa
+import net.minecraft.entity.EntityType
 import net.minecraft.entity.attribute.ClampedEntityAttribute
 import net.minecraft.entity.attribute.EntityAttribute
 import net.minecraft.util.Identifier
@@ -12,7 +13,7 @@ import net.minecraft.util.registry.Registry
 val playerAttributeModule = module {
     DemonPlayerAttributeCard.values().forEach { card ->
         enJa(card.translationKey, card.en, card.ja)
-        PlayerAttributeRegistry.register(card.entityAttribute)
+        DefaultAttributeRegistryHelper.addDefaultAttribute(EntityType.PLAYER, card.entityAttribute)
     }
 }
 

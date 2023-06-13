@@ -4,10 +4,11 @@
   "package": "miragefairy2023.mixins.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "DefaultAttributeContainerAccessor",
+    "DefaultAttributeRegistryAccessor",
     "FishingBobberEntityAccessor",
     "LivingEntityMixin",
-    "PersistentProjectileEntityMixin",
-    "PlayerEntityMixin"
+    "PersistentProjectileEntityMixin"
   ],
   "client": [],
   "server": [],
