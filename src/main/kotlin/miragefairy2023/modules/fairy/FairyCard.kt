@@ -566,7 +566,7 @@ enum class FairyCard(
         },
         FairyRecipes().biome(ConventionalBiomeTags.OCEAN),
     ),
-    TAIGA(
+    TAIGA( // TODO 射撃攻撃力上昇ポーション効果
         "taiga", 4, "Taigia", "針葉樹林精タイギャ", 0x5D985E, 0x476545, 0x223325, 0x5A3711,
         passiveSkills {
             statusEffect(StatusEffects.STRENGTH, 0) on biome(ConventionalBiomeTags.TAIGA)
