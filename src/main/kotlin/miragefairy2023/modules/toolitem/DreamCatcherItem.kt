@@ -10,6 +10,7 @@ import miragefairy2023.util.get
 import miragefairy2023.util.init.Translation
 import miragefairy2023.util.int
 import miragefairy2023.util.map
+import miragefairy2023.util.string
 import miragefairy2023.util.text
 import miragefairy2023.util.wrapper
 import mirrg.kotlin.hydrogen.castOrNull
@@ -99,7 +100,7 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
         // ----- 結果の成立 -----
 
         // 生産
-        nbt.wrapper[MirageFairy2023.modId]["found_motifs"][fairy.motif.toString()].int.set(1)
+        nbt.wrapper[MirageFairy2023.modId]["found_motifs"][fairy.motif.string].int.set(1)
         player.syncCustomData()
 
         // エフェクト

@@ -7,6 +7,7 @@ import miragefairy2023.InitializationScope
 import miragefairy2023.util.concat
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
+import miragefairy2023.util.string
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.minecraft.block.Block
 import net.minecraft.data.client.BlockStateSupplier
@@ -90,7 +91,7 @@ fun blockStatePropertyLootCondition(targetBlock: Block, block: (BlockStateProper
 fun exactMatchBlockStatePropertyLootCondition(block: Block, property: Property<Int>, value: Int) = LootCondition.Builder {
     BlockStatePropertyLootCondition.Serializer().fromJson(
         jsonObjectOf(
-            "block" to Registry.BLOCK.getId(block).toString().jsonPrimitive,
+            "block" to Registry.BLOCK.getId(block).string.jsonPrimitive,
             "condition" to "minecraft:block_state_property".jsonPrimitive,
             "properties" to jsonObjectOf(
                 property.name to value.jsonPrimitive,
@@ -102,7 +103,7 @@ fun exactMatchBlockStatePropertyLootCondition(block: Block, property: Property<I
 fun rangedMatchBlockStatePropertyLootCondition(block: Block, property: Property<Int>, min: Int, max: Int) = LootCondition.Builder {
     BlockStatePropertyLootCondition.Serializer().fromJson(
         jsonObjectOf(
-            "block" to Registry.BLOCK.getId(block).toString().jsonPrimitive,
+            "block" to Registry.BLOCK.getId(block).string.jsonPrimitive,
             "condition" to "minecraft:block_state_property".jsonPrimitive,
             "properties" to jsonObjectOf(
                 property.name to jsonObjectOf(

@@ -29,6 +29,7 @@ import miragefairy2023.util.obtain
 import miragefairy2023.util.orDefault
 import miragefairy2023.util.set
 import miragefairy2023.util.setValue
+import miragefairy2023.util.string
 import miragefairy2023.util.text
 import miragefairy2023.util.totalWeight
 import miragefairy2023.util.wrapper
@@ -303,7 +304,7 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
 
                 // 妖精召喚履歴に追加
                 val nbt = user.customData
-                var count by nbt.wrapper[MirageFairy2023.modId]["fairy_count"][fairy.motif.toString()].int.orDefault { 0 }
+                var count by nbt.wrapper[MirageFairy2023.modId]["fairy_count"][fairy.motif.string].int.orDefault { 0 }
                 count += 1
 
             }

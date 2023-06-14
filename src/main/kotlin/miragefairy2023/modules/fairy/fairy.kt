@@ -16,6 +16,7 @@ import miragefairy2023.util.init.item
 import miragefairy2023.util.init.registerColorProvider
 import miragefairy2023.util.init.translation
 import miragefairy2023.util.isNotEmpty
+import miragefairy2023.util.string
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.data.client.Model
@@ -140,7 +141,7 @@ val fairyModule = module {
     // 凝縮・展開レシピ
     fairyCondensationRecipeSerializer = Registry.register(Registry.RECIPE_SERIALIZER, "crafting_special_fairy_condensation", SpecialRecipeSerializer { FairyCondensationRecipe(it) })
     onGenerateRecipes {
-        ComplexRecipeJsonBuilder.create(fairyCondensationRecipeSerializer).offerTo(it, Identifier(modId, "fairy_condensation").toString())
+        ComplexRecipeJsonBuilder.create(fairyCondensationRecipeSerializer).offerTo(it, Identifier(modId, "fairy_condensation").string)
     }
 
 }

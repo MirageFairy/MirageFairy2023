@@ -8,6 +8,7 @@ import miragefairy2023.util.jsonArrayOf
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonObjectOfNotNull
 import miragefairy2023.util.jsonPrimitive
+import miragefairy2023.util.string
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider
@@ -173,7 +174,7 @@ class TrinketsSlotProvider(private val dataGenerator: FabricDataGenerator) : Dat
         slots.forEach { (name, entry) ->
             val path = pathResolver.resolveJson(Identifier("trinkets", name))
             val jsonElement = jsonObjectOfNotNull(
-                "icon" to entry.icon.toString().jsonPrimitive,
+                "icon" to entry.icon.string.jsonPrimitive,
                 entry.quickMovePredicates?.let { "quick_move_predicates" to entry.quickMovePredicates.map { it.jsonPrimitive }.jsonArray },
             )
             try {

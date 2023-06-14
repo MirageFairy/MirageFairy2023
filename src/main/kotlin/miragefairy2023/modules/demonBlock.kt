@@ -16,6 +16,7 @@ import miragefairy2023.util.init.item
 import miragefairy2023.util.jsonArrayOf
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
+import miragefairy2023.util.string
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
@@ -66,35 +67,35 @@ val demonBlockModule = module {
                 override fun upload(id: Identifier, textures: TextureMap, modelCollector: BiConsumer<Identifier, Supplier<JsonElement>>): Identifier {
                     modelCollector.accept(id) {
                         jsonObjectOf(
-                            "parent" to Identifier("minecraft", "block/block").toString().jsonPrimitive,
+                            "parent" to Identifier("minecraft", "block/block").string.jsonPrimitive,
                             "textures" to jsonObjectOf(
-                                TextureKey.PARTICLE.name to textures.getTexture(TextureKey.BACK).toString().jsonPrimitive,
-                                TextureKey.BACK.name to textures.getTexture(TextureKey.BACK).toString().jsonPrimitive,
-                                TextureKey.FRONT.name to textures.getTexture(TextureKey.FRONT).toString().jsonPrimitive,
+                                TextureKey.PARTICLE.name to textures.getTexture(TextureKey.BACK).string.jsonPrimitive,
+                                TextureKey.BACK.name to textures.getTexture(TextureKey.BACK).string.jsonPrimitive,
+                                TextureKey.FRONT.name to textures.getTexture(TextureKey.FRONT).string.jsonPrimitive,
                             ),
                             "elements" to jsonArrayOf(
                                 jsonObjectOf(
                                     "from" to jsonArrayOf(0.jsonPrimitive, 0.jsonPrimitive, 0.jsonPrimitive),
                                     "to" to jsonArrayOf(16.jsonPrimitive, 16.jsonPrimitive, 16.jsonPrimitive),
                                     "faces" to jsonObjectOf(
-                                        "down" to jsonObjectOf("texture" to TextureKey.BACK.toString().jsonPrimitive, "cullface" to "down".jsonPrimitive),
-                                        "up" to jsonObjectOf("texture" to TextureKey.BACK.toString().jsonPrimitive, "cullface" to "up".jsonPrimitive),
-                                        "north" to jsonObjectOf("texture" to TextureKey.BACK.toString().jsonPrimitive, "cullface" to "north".jsonPrimitive),
-                                        "south" to jsonObjectOf("texture" to TextureKey.BACK.toString().jsonPrimitive, "cullface" to "south".jsonPrimitive),
-                                        "west" to jsonObjectOf("texture" to TextureKey.BACK.toString().jsonPrimitive, "cullface" to "west".jsonPrimitive),
-                                        "east" to jsonObjectOf("texture" to TextureKey.BACK.toString().jsonPrimitive, "cullface" to "east".jsonPrimitive),
+                                        "down" to jsonObjectOf("texture" to TextureKey.BACK.string.jsonPrimitive, "cullface" to "down".jsonPrimitive),
+                                        "up" to jsonObjectOf("texture" to TextureKey.BACK.string.jsonPrimitive, "cullface" to "up".jsonPrimitive),
+                                        "north" to jsonObjectOf("texture" to TextureKey.BACK.string.jsonPrimitive, "cullface" to "north".jsonPrimitive),
+                                        "south" to jsonObjectOf("texture" to TextureKey.BACK.string.jsonPrimitive, "cullface" to "south".jsonPrimitive),
+                                        "west" to jsonObjectOf("texture" to TextureKey.BACK.string.jsonPrimitive, "cullface" to "west".jsonPrimitive),
+                                        "east" to jsonObjectOf("texture" to TextureKey.BACK.string.jsonPrimitive, "cullface" to "east".jsonPrimitive),
                                     ),
                                 ),
                                 jsonObjectOf(
                                     "from" to jsonArrayOf(0.jsonPrimitive, 0.jsonPrimitive, 0.jsonPrimitive),
                                     "to" to jsonArrayOf(16.jsonPrimitive, 16.jsonPrimitive, 16.jsonPrimitive),
                                     "faces" to jsonObjectOf(
-                                        "down" to jsonObjectOf("texture" to TextureKey.FRONT.toString().jsonPrimitive, "cullface" to "down".jsonPrimitive),
-                                        "up" to jsonObjectOf("texture" to TextureKey.FRONT.toString().jsonPrimitive, "cullface" to "up".jsonPrimitive),
-                                        "north" to jsonObjectOf("texture" to TextureKey.FRONT.toString().jsonPrimitive, "cullface" to "north".jsonPrimitive),
-                                        "south" to jsonObjectOf("texture" to TextureKey.FRONT.toString().jsonPrimitive, "cullface" to "south".jsonPrimitive),
-                                        "west" to jsonObjectOf("texture" to TextureKey.FRONT.toString().jsonPrimitive, "cullface" to "west".jsonPrimitive),
-                                        "east" to jsonObjectOf("texture" to TextureKey.FRONT.toString().jsonPrimitive, "cullface" to "east".jsonPrimitive),
+                                        "down" to jsonObjectOf("texture" to TextureKey.FRONT.string.jsonPrimitive, "cullface" to "down".jsonPrimitive),
+                                        "up" to jsonObjectOf("texture" to TextureKey.FRONT.string.jsonPrimitive, "cullface" to "up".jsonPrimitive),
+                                        "north" to jsonObjectOf("texture" to TextureKey.FRONT.string.jsonPrimitive, "cullface" to "north".jsonPrimitive),
+                                        "south" to jsonObjectOf("texture" to TextureKey.FRONT.string.jsonPrimitive, "cullface" to "south".jsonPrimitive),
+                                        "west" to jsonObjectOf("texture" to TextureKey.FRONT.string.jsonPrimitive, "cullface" to "west".jsonPrimitive),
+                                        "east" to jsonObjectOf("texture" to TextureKey.FRONT.string.jsonPrimitive, "cullface" to "east".jsonPrimitive),
                                     ),
                                 ),
                             ),

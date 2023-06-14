@@ -16,6 +16,7 @@ import miragefairy2023.util.init.item
 import miragefairy2023.util.jsonArrayOf
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
+import miragefairy2023.util.string
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.AbstractGlassBlock
@@ -218,20 +219,20 @@ private class FairyCrystalGlassFrameBlockModel : Model(Optional.empty(), Optiona
     override fun upload(id: Identifier, textures: TextureMap, modelCollector: BiConsumer<Identifier, Supplier<JsonElement>>): Identifier {
         modelCollector.accept(id) {
             jsonObjectOf(
-                "parent" to Identifier("minecraft", "block/block").toString().jsonPrimitive,
+                "parent" to Identifier("minecraft", "block/block").string.jsonPrimitive,
                 "textures" to jsonObjectOf(
-                    TextureKey.PARTICLE.name to textures.getTexture(TextureKey.TEXTURE).toString().jsonPrimitive,
-                    TextureKey.TEXTURE.name to textures.getTexture(TextureKey.TEXTURE).toString().jsonPrimitive,
+                    TextureKey.PARTICLE.name to textures.getTexture(TextureKey.TEXTURE).string.jsonPrimitive,
+                    TextureKey.TEXTURE.name to textures.getTexture(TextureKey.TEXTURE).string.jsonPrimitive,
                 ),
                 "elements" to jsonArrayOf(
                     jsonObjectOf(
                         "from" to jsonArrayOf(0.jsonPrimitive, 0.jsonPrimitive, 0.jsonPrimitive),
                         "to" to jsonArrayOf(16.jsonPrimitive, 16.jsonPrimitive, 16.jsonPrimitive),
                         "faces" to jsonObjectOf(
-                            "north" to jsonObjectOf("texture" to TextureKey.TEXTURE.toString().jsonPrimitive, "cullface" to "north".jsonPrimitive),
-                            "south" to jsonObjectOf("texture" to TextureKey.TEXTURE.toString().jsonPrimitive, "cullface" to "south".jsonPrimitive),
-                            "west" to jsonObjectOf("texture" to TextureKey.TEXTURE.toString().jsonPrimitive, "cullface" to "west".jsonPrimitive),
-                            "east" to jsonObjectOf("texture" to TextureKey.TEXTURE.toString().jsonPrimitive, "cullface" to "east".jsonPrimitive),
+                            "north" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "north".jsonPrimitive),
+                            "south" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "south".jsonPrimitive),
+                            "west" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "west".jsonPrimitive),
+                            "east" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "east".jsonPrimitive),
                         ),
                     ),
                 ),
@@ -248,19 +249,19 @@ class FairyCrystalGlassBlockModel : Model(Optional.empty(), Optional.empty()) {
                 "from" to jsonArrayOf(0.jsonPrimitive, 0.jsonPrimitive, 0.jsonPrimitive),
                 "to" to jsonArrayOf(16.jsonPrimitive, 16.jsonPrimitive, 16.jsonPrimitive),
                 "faces" to jsonObjectOf(
-                    "north" to jsonObjectOf("texture" to TextureKey.TEXTURE.toString().jsonPrimitive, "cullface" to "north".jsonPrimitive, "rotation" to roration.jsonPrimitive),
-                    "south" to jsonObjectOf("texture" to TextureKey.TEXTURE.toString().jsonPrimitive, "cullface" to "south".jsonPrimitive, "rotation" to roration.jsonPrimitive),
-                    "west" to jsonObjectOf("texture" to TextureKey.TEXTURE.toString().jsonPrimitive, "cullface" to "west".jsonPrimitive, "rotation" to roration.jsonPrimitive),
-                    "east" to jsonObjectOf("texture" to TextureKey.TEXTURE.toString().jsonPrimitive, "cullface" to "east".jsonPrimitive, "rotation" to roration.jsonPrimitive),
-                    "up" to jsonObjectOf("texture" to TextureKey.TEXTURE.toString().jsonPrimitive, "cullface" to "up".jsonPrimitive, "rotation" to roration.jsonPrimitive),
-                    "down" to jsonObjectOf("texture" to TextureKey.TEXTURE.toString().jsonPrimitive, "cullface" to "down".jsonPrimitive, "rotation" to roration.jsonPrimitive),
+                    "north" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "north".jsonPrimitive, "rotation" to roration.jsonPrimitive),
+                    "south" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "south".jsonPrimitive, "rotation" to roration.jsonPrimitive),
+                    "west" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "west".jsonPrimitive, "rotation" to roration.jsonPrimitive),
+                    "east" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "east".jsonPrimitive, "rotation" to roration.jsonPrimitive),
+                    "up" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "up".jsonPrimitive, "rotation" to roration.jsonPrimitive),
+                    "down" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "down".jsonPrimitive, "rotation" to roration.jsonPrimitive),
                 ),
             )
             jsonObjectOf(
-                "parent" to Identifier("minecraft", "block/block").toString().jsonPrimitive,
+                "parent" to Identifier("minecraft", "block/block").string.jsonPrimitive,
                 "textures" to jsonObjectOf(
-                    TextureKey.PARTICLE.name to textures.getTexture(TextureKey.TEXTURE).toString().jsonPrimitive,
-                    TextureKey.TEXTURE.name to textures.getTexture(TextureKey.TEXTURE).toString().jsonPrimitive,
+                    TextureKey.PARTICLE.name to textures.getTexture(TextureKey.TEXTURE).string.jsonPrimitive,
+                    TextureKey.TEXTURE.name to textures.getTexture(TextureKey.TEXTURE).string.jsonPrimitive,
                 ),
                 "elements" to jsonArrayOf(
                     createPart(0),
