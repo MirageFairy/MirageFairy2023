@@ -1,15 +1,16 @@
 package miragefairy2023.wave
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.awt.image.BufferedImage
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.IOException
 import javax.imageio.ImageIO
 import javax.sound.sampled.AudioFileFormat
 import javax.sound.sampled.AudioFormat
@@ -117,11 +118,19 @@ fun ByteArray.wavToOgg(): ByteArray {
                 output.write(this@wavToOgg)
             }
         }
-        withContext(Dispatchers.IO) {
+        val err = async(Dispatchers.IO) {
+            process.errorStream.use { input ->
+                input.readBytes()
+            }
+        }
+        val result = async(Dispatchers.IO) {
             process.inputStream.use { input ->
                 input.readBytes()
             }
         }
+        val returnCode = process.waitFor()
+        if (returnCode != 0) throw IOException("Process exit: $returnCode\n${err.await().toString(Charsets.UTF_8).replace("""\n+\Z""".toRegex(), "")}")
+        result.await()
     }
 }
 
