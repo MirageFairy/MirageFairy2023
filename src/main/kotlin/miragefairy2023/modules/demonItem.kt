@@ -114,6 +114,10 @@ enum class DemonItemCard(
         "chaos_stone", "Chaos Stone", "混沌の石",
         listOf(Poem("Chemical promoting catalyst", "魔力の暴走、加速する無秩序の流れ。")),
     ),
+    MIRANAGITE_ROD(
+        "miranagite_rod", "Miranagite Rod", "蒼天石の棒",
+        listOf(Poem("Mana flows well through the core", "蒼天に従える光条は、魔力の祝福を示す。")),
+    ),
     ;
 
     lateinit var item: FeatureSlot<Item>
@@ -238,6 +242,19 @@ val demonItemModule = module {
             .criterion(RecipeProvider.hasItem(MirageFlourCard.MIRAGE_FLOUR.item.feature), RecipeProvider.conditionsFromItem(MirageFlourCard.MIRAGE_FLOUR.item.feature))
             .group(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item.feature)
             .offerTo(it, DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item.feature.identifier)
+    }
+
+    // 蒼天石の棒
+    onGenerateRecipes {
+        ShapedRecipeJsonBuilder
+            .create(DemonItemCard.MIRANAGITE_ROD.item.feature)
+            .pattern("  G")
+            .pattern(" G ")
+            .pattern("G  ")
+            .input('G', DemonItemCard.MIRANAGITE.item.feature)
+            .criterion(DemonItemCard.MIRANAGITE_ROD.item.feature)
+            .group(DemonItemCard.MIRANAGITE_ROD.item.feature)
+            .offerTo(it, DemonItemCard.MIRANAGITE_ROD.item.feature.identifier)
     }
 
     // 両替レシピ
