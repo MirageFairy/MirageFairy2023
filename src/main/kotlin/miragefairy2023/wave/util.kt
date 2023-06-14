@@ -58,7 +58,7 @@ fun File.writeWaveform(waveform: DoubleArray) {
     val bytes = ByteArray(waveform.size * 2)
     repeat(waveform.size) { i ->
         val int = waveform[i].toInt().coerceIn(-32768 until 32768)
-        bytes[2 * i] = (int and 0xFF).toByte()
+        bytes[2 * i + 0] = (int shr 0 and 0xFF).toByte()
         bytes[2 * i + 1] = (int shr 8 and 0xFF).toByte()
     }
 
