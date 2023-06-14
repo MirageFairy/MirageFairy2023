@@ -3,27 +3,23 @@ package miragefairy2023.wave
 import java.io.File
 
 fun main() {
-    val dir = File("""./build/wave""")
-    val bits = 8
-    val m = 0.00025
+    val inputFile = File("""./src/main/resources/assets/miragefairy2023/sounds/random/magic1.png""")
+    when (inputFile.extension) {
+        "wav" -> {
+            inputFile
+                .readWaveform()
+                .getSpectrogram(8, 0.00025)
+                .writeTo(inputFile.resolveSibling("${inputFile.nameWithoutExtension}.png"))
+        }
 
-    val a = 1
-    @Suppress("KotlinConstantConditions")
-    when (a) {
-        1 -> dir.resolve("test001.wav")
-            .readWaveform()
-            .getSpectrogram(bits, m)
-            .writeTo(dir.resolve("test001.wav.png"))
-
-        2 -> dir.resolve("test001.wav.png")
-            .readImage()
-            .generatePhase()
-            .fromSpectrogram(bits, m)
-            .writeTo(dir.resolve("test001.wav.png.wav"))
-
-        3 -> dir.resolve("test001.wav.png.wav")
-            .readWaveform()
-            .getSpectrogram(bits, m)
-            .writeTo(dir.resolve("test001.wav.png.wav.png"))
+        "png" -> {
+            inputFile
+                .readImage()
+                .generatePhase()
+                .fromSpectrogram(8, 0.00025)
+                .toWav()
+                .wavToOgg()
+                .writeTo(inputFile.resolveSibling("${inputFile.nameWithoutExtension}.ogg"))
+        }
     }
 }
