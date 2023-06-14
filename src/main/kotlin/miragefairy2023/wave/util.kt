@@ -1,9 +1,14 @@
 package miragefairy2023.wave
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.awt.image.BufferedImage
 import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.io.File
 import javax.imageio.ImageIO
 import javax.sound.sampled.AudioFileFormat
@@ -75,6 +80,50 @@ fun File.writeWaveform(waveform: DoubleArray) {
 }
 
 fun DoubleArray.writeTo(file: File) = file.writeWaveform(this)
+
+fun ByteArray.writeTo(file: File) = file.writeBytes(this)
+
+fun DoubleArray.toWav(): ByteArray {
+
+    val bytes = ByteArray(this.size * 2)
+    repeat(this.size) { i ->
+        val int = this[i].toInt().coerceIn(-32768 until 32768)
+        bytes[2 * i + 0] = (int shr 0 and 0xFF).toByte()
+        bytes[2 * i + 1] = (int shr 8 and 0xFF).toByte()
+    }
+
+    val output = ByteArrayOutputStream()
+
+    val format = AudioFormat(
+        AudioFormat.Encoding.PCM_SIGNED,
+        48000.0F,
+        16,
+        1,
+        2,
+        48000.0F,
+        false,
+    )
+    AudioSystem.write(AudioInputStream(ByteArrayInputStream(bytes), format, this.size.toLong()), AudioFileFormat.Type.WAVE, output)
+
+    return output.toByteArray()
+}
+
+fun ByteArray.wavToOgg(): ByteArray {
+    val processBuilder = ProcessBuilder("bash", "-c", "ffmpeg -i - -f ogg -")
+    val process = processBuilder.start()
+    return runBlocking {
+        launch(Dispatchers.IO) {
+            process.outputStream.use { output ->
+                output.write(this@wavToOgg)
+            }
+        }
+        withContext(Dispatchers.IO) {
+            process.inputStream.use { input ->
+                input.readBytes()
+            }
+        }
+    }
+}
 
 
 fun Array<Complex>.fft(): Array<Complex> {
