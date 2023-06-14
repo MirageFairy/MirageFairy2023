@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "miragefairy2023:miranagite_staff",
+  "key": {
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "N": {
+      "item": "minecraft:iron_nugget"
+    },
+    "R": {
+      "item": "miragefairy2023:miranagite_rod"
+    }
+  },
+  "pattern": [
+    " ID",
+    " RI",
+    "N  "
+  ],
+  "result": {
+    "item": "miragefairy2023:miranagite_staff"
+  }
+}

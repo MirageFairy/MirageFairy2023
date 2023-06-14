@@ -82,6 +82,11 @@ enum class ToolItemCard(
         ),
         pickaxe(ToolMaterialCard.MIRANAGITE, BlockTags.PICKAXE_MINEABLE, silkTouch = true),
     ),
+    MIRANAGITE_STAFF(
+        "miranagite_staff", "Miranagi Staff", "みらなぎの杖",
+        listOf(Poem("Risk of vacuum decay due to anti-entropy", "創世の神光は混沌をも翻す。")),
+        staff(ToolMaterialCard.MIRANAGITE),
+    ),
     CHAOS_STONE_PICKAXE(
         "chaos_stone_pickaxe", "Chaos Pickaxe", "混沌のつるはし",
         listOf(
@@ -185,6 +190,22 @@ val toolItemModule = module {
             .offerTo(it, ToolItemCard.MIRANAGITE_PICKAXE.item.feature.identifier)
     }
 
+    // 蒼天のスタッフ
+    onGenerateRecipes {
+        ShapedRecipeJsonBuilder
+            .create(ToolItemCard.MIRANAGITE_STAFF.item.feature)
+            .pattern(" ID")
+            .pattern(" RI")
+            .pattern("N  ")
+            .input('R', DemonItemCard.MIRANAGITE_ROD.item.feature)
+            .input('D', Items.DIAMOND)
+            .input('I', Items.IRON_INGOT)
+            .input('N', Items.IRON_NUGGET)
+            .criterion(DemonItemCard.MIRANAGITE.item.feature)
+            .group(ToolItemCard.MIRANAGITE_STAFF.item.feature)
+            .offerTo(it, ToolItemCard.MIRANAGITE_STAFF.item.feature.identifier)
+    }
+
     // 混沌のつるはし
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
@@ -237,6 +258,16 @@ private fun pickaxe(toolMaterialCard: ToolMaterialCard, vararg effectiveBlockTag
         onGenerateItemTags { it(toolMaterialCard.tag).add(feature) }
         onGenerateItemTags { it(ItemTags.CLUSTER_MAX_HARVESTABLES).add(feature) }
         onGenerateItemTags { it(ConventionalItemTags.PICKAXES).add(feature) }
+    }
+}
+
+private fun staff(toolMaterialCard: ToolMaterialCard): InitializationScope.(ToolItemCard) -> Unit = { card ->
+    card.item = item(card.path, { StaffItem(toolMaterialCard.toolMaterial, FabricItemSettings().group(commonItemGroup)) }) {
+        onGenerateItemModels { it.register(feature, Models.HANDHELD) }
+        enJaItem({ feature }, card.enName, card.jaName)
+        generatePoemList(card.poemList)
+        onRegisterItems { registerPoemList(feature, card.poemList) }
+        onGenerateItemTags { it(toolMaterialCard.tag).add(feature) }
     }
 }
 
