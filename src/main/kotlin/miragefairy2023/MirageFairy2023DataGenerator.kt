@@ -3,8 +3,10 @@ package miragefairy2023
 import com.google.gson.JsonElement
 import com.mojang.logging.LogUtils
 import miragefairy2023.MirageFairy2023.initializationScope
+import miragefairy2023.MirageFairy2023.modId
 import miragefairy2023.util.jsonArray
 import miragefairy2023.util.jsonArrayOf
+import miragefairy2023.util.jsonObject
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonObjectOfNotNull
 import miragefairy2023.util.jsonPrimitive
@@ -104,6 +106,10 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
             initializationScope.onGenerateTrinketsSlot.fire { it(provider) }
         })
 
+        fabricDataGenerator.addProvider(SoundsProvider(fabricDataGenerator, modId).also { provider ->
+            initializationScope.onGenerateSounds.fire { it(provider) }
+        })
+
     }
 }
 
@@ -186,5 +192,34 @@ class TrinketsSlotProvider(private val dataGenerator: FabricDataGenerator) : Dat
     }
 
     override fun getName() = "Trinkets Entities"
+
+}
+
+class SoundsProvider(private val dataGenerator: FabricDataGenerator, private val modId: String) : DataProvider {
+
+    val map = mutableMapOf<String, SoundEntry>()
+
+    class SoundEntry(
+        val subtitle: String?,
+        val sounds: List<Identifier>,
+    )
+
+    override fun run(writer: DataWriter) {
+        if (map.isEmpty()) return
+        val path = dataGenerator.resolveRootDirectoryPath(DataGenerator.OutputType.RESOURCE_PACK).resolve("$modId/sounds.json")
+        val jsonElement = map.map { (name, entry) ->
+            name to jsonObjectOfNotNull(
+                entry.subtitle?.let { "subtitle" to it.jsonPrimitive },
+                "sounds" to entry.sounds.map { it.string.jsonPrimitive }.jsonArray,
+            )
+        }.jsonObject
+        try {
+            DataProvider.writeToPath(writer, jsonElement, path)
+        } catch (e: IOException) {
+            LogUtils.getLogger().error("Couldn't save data file {}", path, e)
+        }
+    }
+
+    override fun getName() = "Sounds"
 
 }
