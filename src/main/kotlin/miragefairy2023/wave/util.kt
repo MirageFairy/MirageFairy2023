@@ -256,6 +256,172 @@ fun BufferedImage.generatePhase(): BufferedImage {
     return image
 }
 
+fun BufferedImage.resizeHorizontal(imageHeight: Int): BufferedImage {
+    val image = BufferedImage(this.width, imageHeight, BufferedImage.TYPE_INT_RGB)
+    val rate = this.height / imageHeight.toDouble() // 3 / 4 = 0.75
+    repeat(this.width) { x ->
+        repeat(imageHeight) { imageY0 -> // 1
+
+            /*
+             *             thisY0      thisY1
+             * thisY0f         thisY1f
+             * 0               1               2               3  thisY
+             * |           ====|========       |               |  this    height=3
+             * |           |===========|           |           |  image   height=4
+             * 0          [1]          2           3           4  imageY
+             *             imageY0     imageY1
+             * 0           0.75        1.5         2.25        3  thisY
+             *
+             * thisY = imageY * 0.75 = imageY * (this.height / image.height) = imageY * rate
+             */
+            val imageY1 = imageY0 + 1 // 2
+            val thisY0 = imageY0 * rate // 0.75
+            val thisY1 = imageY1 * rate // 1.5
+            val thisY0f = thisY0.toInt() // 0
+            val thisY1f = thisY1.toInt() // 1
+
+            var count = 0.0
+            var sumR = 0.0
+            var sumG = 0.0
+            var sumB = 0.0
+
+            fun add(c: Double, thisY: Int) {
+                val inputRgb = this.getRGB(x, thisY)
+                count += c
+                sumR += (inputRgb shr 16 and 0xFF) * c
+                sumG += (inputRgb shr 8 and 0xFF) * c
+                sumB += (inputRgb shr 0 and 0xFF) * c
+            }
+
+            if (thisY0f == thisY1f) {
+                // 解像度が上がるためimage画素のすべての範囲が単一のthis画素にマッピングされる場合
+                /*
+                 *                         thisY0      thisY1
+                 *                     thisY0f
+                 *                     thisY1f
+                 * 0                   1                   2                   3  thisY
+                 * |                   |   =============   |                   |  this    height=3
+                 * |           |           |===========|           |           |  image   height=5
+                 * 0           1          [2]          3           4           5  imageY
+                 *                         imageY0     imageY1
+                 */
+                add(thisY1 - thisY0, thisY0f)
+            } else {
+                // 対応するthisの画素が始端・0ピクセル以上の中間・終端に分かれる場合
+                /*
+                 *                     thisY0              thisY1
+                 *             thisY0f                 thisY1f
+                 * 0           1           2           3           4           5  thisY
+                 * |           |       ====|===========|====       |           |  this    height=5
+                 * |                   |===================|                   |  image   height=3
+                 * 0                  [1]                  2                   3  imageY
+                 *                     imageY0             imageY1
+                 */
+                add((thisY0f + 1) - thisY0, thisY0f)
+                @Suppress("ReplaceRangeToWithUntil")
+                (thisY0f + 1..thisY1f - 1).forEach { thisYf ->
+                    add(1.0, thisYf)
+                }
+                if (thisY1f < height) add(thisY1 - thisY1f, thisY1f)
+            }
+
+            val r = sumR / count
+            val g = sumG / count
+            val b = sumB / count
+            val outputRgb = (r.toInt().coerceIn(0, 255) shl 16) or
+                (g.toInt().coerceIn(0, 255) shl 8) or
+                (b.toInt().coerceIn(0, 255) shl 0)
+
+            image.setRGB(x, imageY0, outputRgb)
+        }
+    }
+    return image
+}
+
+fun BufferedImage.resizeVertical(imageWidth: Int): BufferedImage {
+    val image = BufferedImage(imageWidth, this.height, BufferedImage.TYPE_INT_RGB)
+    val rate = this.width / imageWidth.toDouble() // 3 / 4 = 0.75
+    repeat(this.height) { y ->
+        repeat(imageWidth) { imageX0 -> // 1
+
+            /*
+             *             thisX0      thisX1
+             * thisX0f         thisX1f
+             * 0               1               2               3  thisX
+             * |           ====|========       |               |  this    height=3
+             * |           |===========|           |           |  image   height=4
+             * 0          [1]          2           3           4  imageX
+             *             imageX0     imageX1
+             * 0           0.75        1.5         2.25        3  thisX
+             *
+             * thisX = imageX * 0.75 = imageX * (this.height / image.height) = imageX * rate
+             */
+            val imageX1 = imageX0 + 1 // 2
+            val thisX0 = imageX0 * rate // 0.75
+            val thisX1 = imageX1 * rate // 1.5
+            val thisX0f = thisX0.toInt() // 0
+            val thisX1f = thisX1.toInt() // 1
+
+            var count = 0.0
+            var sumR = 0.0
+            var sumG = 0.0
+            var sumB = 0.0
+
+            fun add(c: Double, thisX: Int) {
+                val inputRgb = this.getRGB(thisX, y)
+                count += c
+                sumR += (inputRgb shr 16 and 0xFF) * c
+                sumG += (inputRgb shr 8 and 0xFF) * c
+                sumB += (inputRgb shr 0 and 0xFF) * c
+            }
+
+            if (thisX0f == thisX1f) {
+                // 解像度が上がるためimage画素のすべての範囲が単一のthis画素にマッピングされる場合
+                /*
+                 *                         thisX0      thisX1
+                 *                     thisX0f
+                 *                     thisX1f
+                 * 0                   1                   2                   3  thisX
+                 * |                   |   =============   |                   |  this    height=3
+                 * |           |           |===========|           |           |  image   height=5
+                 * 0           1          [2]          3           4           5  imageX
+                 *                         imageX0     imageX1
+                 */
+                add(thisX1 - thisX0, thisX0f)
+            } else {
+                // 対応するthisの画素が始端・0ピクセル以上の中間・終端に分かれる場合
+                /*
+                 *                     thisX0              thisX1
+                 *             thisX0f                 thisX1f
+                 * 0           1           2           3           4           5  thisX
+                 * |           |       ====|===========|====       |           |  this    height=5
+                 * |                   |===================|                   |  image   height=3
+                 * 0                  [1]                  2                   3  imageX
+                 *                     imageX0             imageX1
+                 */
+                add((thisX0f + 1) - thisX0, thisX0f)
+                @Suppress("ReplaceRangeToWithUntil")
+                (thisX0f + 1..thisX1f - 1).forEach { thisXf ->
+                    add(1.0, thisXf)
+                }
+                if (thisX1f < width) add(thisX1 - thisX1f, thisX1f)
+            }
+
+            val r = sumR / count
+            val g = sumG / count
+            val b = sumB / count
+            val outputRgb = (r.toInt().coerceIn(0, 255) shl 16) or
+                (g.toInt().coerceIn(0, 255) shl 8) or
+                (b.toInt().coerceIn(0, 255) shl 0)
+
+            image.setRGB(imageX0, y, outputRgb)
+        }
+    }
+    return image
+}
+
+fun BufferedImage.resize(imageWidth: Int, imageHeight: Int) = this.resizeHorizontal(imageHeight).resizeVertical(imageWidth)
+
 
 fun File.readImage(): BufferedImage = ImageIO.read(this)
 
