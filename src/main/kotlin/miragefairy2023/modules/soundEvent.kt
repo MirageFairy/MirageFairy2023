@@ -10,6 +10,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
 enum class DemonSoundEventCard(val path: String, en: String, ja: String, soundPaths: List<String>) {
+    MAGIC1("entity.magic1", "Magic fired", "魔法が発射される", listOf("random/magic1")),
     ;
 
     val identifier = Identifier(MirageFairy2023.modId, path);
