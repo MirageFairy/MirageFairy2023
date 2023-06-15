@@ -232,7 +232,7 @@ class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEff
                     if (processedCount > 0) {
 
                         // Effect
-                        world.playSound(null, player.x, player.y, player.z, DemonSoundEventCard.COLLECT.soundEvent, SoundCategory.PLAYERS, 0.15F, 1.0F)
+                        world.playSound(null, player.x, player.y, player.z, DemonSoundEventCard.COLLECT.soundEvent, SoundCategory.PLAYERS, 0.15F, 0.8F + (world.random.nextFloat() - 0.5F) * 0.5F)
 
                     }
 
