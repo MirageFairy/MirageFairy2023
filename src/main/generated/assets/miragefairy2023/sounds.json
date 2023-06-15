@@ -1,8 +1,26 @@
 {
+  "cancel": {
+    "sounds": [
+      "miragefairy2023:cancel"
+    ],
+    "subtitle": "subtitles.miragefairy2023.cancel"
+  },
+  "collect": {
+    "sounds": [
+      "miragefairy2023:collect"
+    ],
+    "subtitle": "subtitles.miragefairy2023.collect"
+  },
   "magic1": {
     "sounds": [
       "miragefairy2023:magic1"
     ],
     "subtitle": "subtitles.miragefairy2023.magic1"
+  },
+  "magic2": {
+    "sounds": [
+      "miragefairy2023:magic2"
+    ],
+    "subtitle": "subtitles.miragefairy2023.magic2"
   }
 }
