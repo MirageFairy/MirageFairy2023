@@ -40,7 +40,7 @@ class StaffItem(toolMaterial: ToolMaterial, settings: Settings) : ToolItem(toolM
         user.incrementStat(Stats.USED.getOrCreateStat(this))
 
         // エフェクト
-        world.playSound(null, user.x, user.y, user.z, DemonSoundEventCard.MAGIC1.soundEvent, SoundCategory.PLAYERS, 1.0F, 0.80F + (world.random.nextFloat() - 0.5F) * 0.3F)
+        world.playSound(null, user.x, user.y, user.z, DemonSoundEventCard.MAGIC2.soundEvent, SoundCategory.PLAYERS, 1.0F, 0.90F + (world.random.nextFloat() - 0.5F) * 0.3F)
 
         return TypedActionResult.success(itemStack, world.isClient)
     }
