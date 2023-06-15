@@ -1,8 +1,8 @@
 {
-  "entity.magic1": {
+  "magic1": {
     "sounds": [
-      "miragefairy2023:random/magic1"
+      "miragefairy2023:magic1"
     ],
-    "subtitle": "subtitles.miragefairy2023.entity.magic1"
+    "subtitle": "subtitles.miragefairy2023.magic1"
   }
 }
