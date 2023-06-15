@@ -19,6 +19,7 @@ import javax.sound.sampled.AudioSystem
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
+import kotlin.random.Random
 
 object WaveKt
 
@@ -228,7 +229,18 @@ fun BufferedImage.fromSpectrogram(bits: Int, m: Double): DoubleArray {
 }
 
 fun BufferedImage.generatePhase(): BufferedImage {
-    val basePhase = (0 until height).map { 2 * PI * Math.random() }
+    val windowSize = (height - 1) * 2 // 256
+
+    val random = Random(0)
+
+    // 位相の周期性によりウィンドウサイズを波長とするブザー音が発生するのを防ぐための位相の動的攪乱
+    val oldPhases = (0 until height).map { 2 * PI * random.nextDouble() }.toMutableList() // <0 ~ 2PI>[129]
+    val newPhases = (0 until height).map { 2 * PI * random.nextDouble() }.toMutableList() // <0 ~ 2PI>[129]
+
+    // 「位相の動的攪乱をリセットする」処理の走るタイミング
+    // 位相の攪乱のリセットは、ウィンドウサイズごとに行われる
+    val phaseGradientResetOffsets = (0 until height).map { random.nextInt(windowSize) } // <0 .. 255>[129]
+
     val image = BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
     repeat(width) { x ->
         repeat(height) { imageY -> // height = 129, imageY = 0 .. 128
@@ -239,16 +251,32 @@ fun BufferedImage.generatePhase(): BufferedImage {
             // y = 32 のとき、 w = 2PI / 8
             // y = 64 のとき、 w = 2PI / 4
             // y = 128 のとき、 w = 2PI / 2
-            val w = if (y != 0) 2.0 * PI / 256.0 * y else 0.0
+            // w = 2PI / 256 * y
+            val w = 2.0 * PI / windowSize * y
 
             val inputRgb = getRGB(x, imageY)
             val g = (inputRgb shr 8 and 0xFF).toDouble()
 
-            val r = g * cos(basePhase[y] + w * x)
-            val b = g * sin(basePhase[y] + w * x)
+            // 位相の動的攪乱の変化の度合い（サンプル位置）
+            val phaseGradientResetPhase = (x + phaseGradientResetOffsets[y]) % windowSize // 0 .. 255
+
+            // 位相の動的攪乱の変化の度合い（0～1）
+            val phaseGradient = phaseGradientResetPhase / windowSize.toDouble() // 0 ~ 1
+
+            // 位相
+            val phase = oldPhases[y] * (1 - phaseGradient) + newPhases[y] * phaseGradient // 0 ~ 2PI
+
+            val r = g * cos(phase + w * x)
+            val b = g * sin(phase + w * x)
             val outputRgb = (r.toInt().coerceIn(-128, 127) + 128 and 0xFF shl 16) or
                 (g.toInt().coerceIn(-128, 127) + 128 and 0xFF shl 8) or
                 (b.toInt().coerceIn(-128, 127) + 128 and 0xFF shl 0)
+
+            // 位相の動的攪乱のリセットのタイミングである場合、リセット
+            if (phaseGradientResetPhase == 0) {
+                oldPhases[y] = newPhases[y]
+                newPhases[y] = 2 * PI * random.nextDouble()
+            }
 
             image.setRGB(x, imageY, outputRgb)
         }
