@@ -16,10 +16,10 @@ enum class DemonSoundEventCard(val path: String, en: String, ja: String, soundPa
     COLLECT("collect", "Collect item", "アイテムを集める", listOf("collect")),
     ;
 
-    val identifier = Identifier(MirageFairy2023.modId, path);
+    val identifier = Identifier(MirageFairy2023.modId, path)
     val sounds = soundPaths.map { Identifier(MirageFairy2023.modId, it) }
     val translation = Translation(identifier.toTranslationKey("subtitles"), en, ja)
-    val soundEvent = SoundEvent(identifier);
+    val soundEvent = SoundEvent(identifier)
 }
 
 val soundEventModule = module {
