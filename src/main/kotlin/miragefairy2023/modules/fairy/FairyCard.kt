@@ -566,7 +566,6 @@ enum class FairyCard(
         },
         FairyRecipes().biome(ConventionalBiomeTags.OCEAN),
     ),
-    // TODO 射撃攻撃力上昇ポーション効果
     TAIGA(
         "taiga", 4, "Taigia", "針葉樹林精タイギャ", 0x5D985E, 0x476545, 0x223325, 0x5A3711,
         passiveSkills {
@@ -578,6 +577,7 @@ enum class FairyCard(
     MOUNTAIN(
         "mountain", 3, "Mountainia", "山精モウンタイニャ", 0x84BF80, 0xB1B0B1, 0x717173, 0xF0F0F0,
         passiveSkills {
+            // TODO 射撃攻撃力上昇ポーション効果
             statusEffect(StatusEffects.JUMP_BOOST, 0) on biome(ConventionalBiomeTags.MOUNTAIN)
             statusEffect(StatusEffects.JUMP_BOOST, 1) on biome(ConventionalBiomeTags.MOUNTAIN) * minimumMana(7.0)
         },
