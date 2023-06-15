@@ -3,6 +3,7 @@ package miragefairy2023.modules.passiveskill
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.PassiveSkillEffect
 import miragefairy2023.modules.DemonPlayerAttributeCard
+import miragefairy2023.modules.DemonSoundEventCard
 import miragefairy2023.util.Symbol
 import miragefairy2023.util.eyeBlockPos
 import miragefairy2023.util.init.Translation
@@ -20,6 +21,7 @@ import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
@@ -229,9 +231,8 @@ class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEff
 
                     if (processedCount > 0) {
 
-                        // TODO sound
                         // Effect
-                        //world.playSound(null, player.x, player.y, player.z, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 0.25F, 1.0F)
+                        world.playSound(null, player.x, player.y, player.z, DemonSoundEventCard.COLLECT.soundEvent, SoundCategory.PLAYERS, 0.15F, 1.0F)
 
                     }
 
