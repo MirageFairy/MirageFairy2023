@@ -28,6 +28,7 @@ import net.minecraft.data.DataWriter
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.ItemModelGenerator
 import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
 import net.minecraft.loot.LootTable
 import net.minecraft.loot.context.LootContextTypes
@@ -92,6 +93,11 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
         fabricDataGenerator.addProvider(object : FabricTagProvider<Block>(fabricDataGenerator, Registry.BLOCK) {
             override fun generateTags() {
                 initializationScope.onGenerateBlockTags.fire { it { id -> getOrCreateTagBuilder(id) } }
+            }
+        })
+        fabricDataGenerator.addProvider(object : FabricTagProvider<EntityType<*>>(fabricDataGenerator, Registry.ENTITY_TYPE) {
+            override fun generateTags() {
+                initializationScope.onGenerateEntityTypeTags.fire { it { id -> getOrCreateTagBuilder(id) } }
             }
         })
 

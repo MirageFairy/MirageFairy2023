@@ -8,6 +8,7 @@ import net.minecraft.block.Block
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.ItemModelGenerator
 import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
 import net.minecraft.loot.LootTable
 import net.minecraft.tag.TagKey
@@ -27,6 +28,7 @@ class InitializationScope(val modId: String) {
     val onGenerateAdvancements = EventBus<(Consumer<Advancement>) -> Unit>()
     val onGenerateItemTags = EventBus<((TagKey<Item>) -> FabricTagProvider<Item>.FabricTagBuilder<Item>) -> Unit>()
     val onGenerateBlockTags = EventBus<((TagKey<Block>) -> FabricTagProvider<Block>.FabricTagBuilder<Block>) -> Unit>()
+    val onGenerateEntityTypeTags = EventBus<((TagKey<EntityType<*>>) -> FabricTagProvider<EntityType<*>>.FabricTagBuilder<EntityType<*>>) -> Unit>()
     val onGenerateParticles = EventBus<(ParticleProvider) -> Unit>()
     val onGenerateTrinketsEntities = EventBus<(TrinketsEntitiesProvider) -> Unit>()
     val onGenerateTrinketsSlot = EventBus<(TrinketsSlotProvider) -> Unit>()
