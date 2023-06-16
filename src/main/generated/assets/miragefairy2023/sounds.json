@@ -22,5 +22,11 @@
       "miragefairy2023:magic2"
     ],
     "subtitle": "subtitles.miragefairy2023.magic2"
+  },
+  "magic_hit": {
+    "sounds": [
+      "miragefairy2023:magic_hit"
+    ],
+    "subtitle": "subtitles.miragefairy2023.magic_hit"
   }
 }
