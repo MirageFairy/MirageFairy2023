@@ -60,7 +60,4 @@ class StaffItem(toolMaterial: ToolMaterial, settings: Settings) : ToolItem(toolM
 
         return TypedActionResult.consume(itemStack)
     }
-
-    // TODO エンチャント関連
-    // TODO 修理
 }
