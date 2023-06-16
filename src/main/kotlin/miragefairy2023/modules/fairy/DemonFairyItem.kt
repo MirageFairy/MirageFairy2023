@@ -95,10 +95,10 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
         tooltip += getPassiveSkillTooltip(stack, passiveSkillMana, fairyCard.passiveSkills)
 
         // 凝縮レシピ
-        when (rank) {
-            1 -> tooltip += text { CONDENSATION_RECIPE_KEY().yellow }
-            MAX_FAIRY_RANK -> tooltip += text { DECONDENSATION_RECIPE_KEY().yellow }
-            else -> tooltip += text { BOTH_RECIPE_KEY().yellow }
+        tooltip += when (rank) {
+            1 -> text { CONDENSATION_RECIPE_KEY().yellow }
+            MAX_FAIRY_RANK -> text { DECONDENSATION_RECIPE_KEY().yellow }
+            else -> text { BOTH_RECIPE_KEY().yellow }
         }
 
         // motif
