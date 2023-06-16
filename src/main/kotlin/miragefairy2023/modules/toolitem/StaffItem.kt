@@ -50,6 +50,8 @@ class StaffItem(toolMaterial: ToolMaterial, settings: Settings) : ToolItem(toolM
         }
         if (!user.isCreative) user.addExperience(-1)
 
+        user.itemCooldownManager.set(this, 10) // TODO クールタイムの軽減エンチャント
+
         // 統計
         user.incrementStat(Stats.USED.getOrCreateStat(this))
 
