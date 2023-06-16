@@ -462,6 +462,24 @@ enum class FairyCard(
         },
         FairyRecipes().overworld().recipe { Items.APPLE },
     ),
+    SWEET_BERRY(
+        "sweet_berry", 4, "Sweete Berria", "甘液果精スウェーテベッリャ", 0xB81D37, 0x4A070A, 0x4A070A, 0x126341,
+        passiveSkills {
+            regeneration(0.1) on minimumFoodLevel(12)
+            regeneration(0.2) on food { Items.SWEET_BERRIES }
+            shootingDamage(2.0) on food { Items.SWEET_BERRIES }
+        },
+        FairyRecipes().overworld().block { Blocks.SWEET_BERRY_BUSH }.recipe { Items.SWEET_BERRIES },
+    ),
+    GLOW_BERRY(
+        "glow_berry", 4, "Glowe Berria", "蛍光液果精グローウェベッリャ", 0xFFB73A, 0x8F650C, 0x8F650C, 0x00841A,
+        passiveSkills {
+            regeneration(0.1) on minimumFoodLevel(12)
+            regeneration(0.2) on food { Items.GLOW_BERRIES }
+            magicDamage(2.0) on food { Items.GLOW_BERRIES }
+        },
+        FairyRecipes().overworld().block { Blocks.CAVE_VINES }.block { Blocks.CAVE_VINES_PLANT }.recipe { Items.GLOW_BERRIES },
+    ),
     WOOD(
         "wood", 1, "Woodia", "木精ウォージャ", 0xE7C697, 0xAD8232, 0xAD8232, 0x8B591C,
         passiveSkills {
