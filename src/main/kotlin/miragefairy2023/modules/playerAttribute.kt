@@ -19,6 +19,7 @@ val playerAttributeModule = module {
 
 enum class DemonPlayerAttributeCard(val path: String, val en: String, val ja: String, fallback: Double, min: Double, max: Double) {
     SHOOTING_DAMAGE("shooting_damage", "Shooting Damage", "射撃攻撃力", 0.0, 0.0, 2048.0),
+    MAGIC_DAMAGE("magic_damage", "Magic Damage", "魔法攻撃力", 0.0, 0.0, 2048.0),
     ;
 
     val identifier = Identifier(MirageFairy2023.modId, path)
