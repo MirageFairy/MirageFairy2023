@@ -2,6 +2,8 @@ package miragefairy2023.modules.toolitem
 
 import miragefairy2023.modules.DemonSoundEventCard
 import miragefairy2023.util.createItemStack
+import miragefairy2023.util.init.Translation
+import miragefairy2023.util.text
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.ArrowEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity
@@ -16,6 +18,10 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 
 class StaffItem(toolMaterial: ToolMaterial, settings: Settings) : ToolItem(toolMaterial, settings) {
+    companion object {
+        val notEnoughExperienceKey = Translation("item.miragefairy2023.magic.not_enough_experience", "Not enough experience", "経験値が足りません")
+    }
+
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val itemStack = user.getStackInHand(hand)
         if (world.isClient) return TypedActionResult.success(itemStack)
@@ -24,6 +30,13 @@ class StaffItem(toolMaterial: ToolMaterial, settings: Settings) : ToolItem(toolM
         // TODO 魔法弾のダメージ
         // TODO Luckによって魔法弾のダメージ丞相
         // TODO 魔法攻撃力Attribute
+        if (!user.isCreative) {
+            if (user.totalExperience < 1) {
+                user.sendMessage(text { notEnoughExperienceKey() }, true)
+                return TypedActionResult.consume(itemStack)
+            }
+        }
+
         // 生成
         val entity = ArrowEntity(world, user)
         entity.initFromStack(Items.ARROW.createItemStack())
@@ -35,6 +48,7 @@ class StaffItem(toolMaterial: ToolMaterial, settings: Settings) : ToolItem(toolM
         itemStack.damage(1, user) {
             it.sendToolBreakStatus(hand)
         }
+        if (!user.isCreative) user.addExperience(-1)
 
         // 統計
         user.incrementStat(Stats.USED.getOrCreateStat(this))

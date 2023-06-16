@@ -235,6 +235,7 @@ val toolItemModule = module {
 
     translation(DreamCatcherItem.knownKey)
     translation(DreamCatcherItem.successKey)
+    translation(StaffItem.notEnoughExperienceKey)
 
 }
 
