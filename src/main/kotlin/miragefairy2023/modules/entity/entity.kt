@@ -10,7 +10,7 @@ import net.minecraft.entity.SpawnGroup
 import net.minecraft.util.Identifier
 
 val entityModule = module {
-
+    antimatterBoltModule()
 }
 
 class DemonEntityTypeCard<E : Entity>(val path: String, spawnGroup: SpawnGroup, width: Float, height: Float, entityFactory: EntityType.EntityFactory<E>) {
