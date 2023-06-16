@@ -7,16 +7,23 @@ import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.minecraft.block.Block
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.color.item.ItemColorProvider
+import net.minecraft.client.model.ModelData
+import net.minecraft.client.model.ModelPartData
+import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.particle.EnchantGlyphParticle
 import net.minecraft.client.particle.EndRodParticle
 import net.minecraft.client.particle.SuspendParticle
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories
+import net.minecraft.client.render.entity.model.EntityModelLayer
+import net.minecraft.entity.EntityType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -71,9 +78,31 @@ object MirageFairy2023Client : ClientModInitializer {
                 }
             }
 
+            override fun registerEntityRendererFactory(entityType: EntityType<*>, type: String) {
+                when (type) {
+                    "antimatter_bolt" -> EntityRendererRegistry.register(entityType, ::AntimatterBoltEntityRenderer)
+                }
+            }
         }
 
         initializationScope.onInitializeClient.fire { it() }
 
+        EntityModelLayerRegistry.registerModelLayer(AntimatterBoltEntityRenderer.MAIN.entityModelLayer, AntimatterBoltEntityRenderer.MAIN.provider)
+
+    }
+}
+
+class EntityModelLayerCard(
+    path: String,
+    layerName: String,
+    private val textureWidth: Int,
+    private val textureHeight: Int,
+    private val configurator: (ModelPartData) -> Unit,
+) {
+    val entityModelLayer = EntityModelLayer(Identifier(MirageFairy2023.modId, path), layerName)
+    val provider = EntityModelLayerRegistry.TexturedModelDataProvider {
+        val modelData = ModelData()
+        configurator(modelData.root)
+        TexturedModelData.of(modelData, textureWidth, textureHeight)
     }
 }
