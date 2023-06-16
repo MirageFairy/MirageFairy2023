@@ -72,10 +72,10 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
             (1..fairyCard.rare).map { Symbol.STAR.uniformed to { text: Text -> text.formatted(getRareColor(fairyCard.rare)) } },
             (1..(rank - 1) * 2).map { Symbol.STAR.uniformed to { text: Text -> text.aqua } },
         ).flatten()
-        val stars2 = if (stars1.size > 15) {
+        val stars2 = if (stars1.size > 12) {
             listOf(
-                *stars1.take(15).toTypedArray(),
-                "..." to stars1[15].second,
+                *stars1.take(12).toTypedArray(),
+                "..." to stars1[12].second,
             )
         } else {
             stars1
