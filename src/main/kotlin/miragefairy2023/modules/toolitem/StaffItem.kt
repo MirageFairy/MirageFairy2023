@@ -1,14 +1,12 @@
 package miragefairy2023.modules.toolitem
 
+import miragefairy2023.modules.DemonPlayerAttributeCard
 import miragefairy2023.modules.DemonSoundEventCard
-import miragefairy2023.util.createItemStack
+import miragefairy2023.modules.entity.AntimatterBoltEntity
 import miragefairy2023.util.init.Translation
 import miragefairy2023.util.text
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.projectile.ArrowEntity
-import net.minecraft.entity.projectile.PersistentProjectileEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraft.item.ToolItem
 import net.minecraft.item.ToolMaterial
 import net.minecraft.sound.SoundCategory
@@ -26,10 +24,7 @@ class StaffItem(toolMaterial: ToolMaterial, settings: Settings) : ToolItem(toolM
         val itemStack = user.getStackInHand(hand)
         if (world.isClient) return TypedActionResult.success(itemStack)
 
-        // TODO 魔法弾を発射するようにする
-        // TODO 魔法弾のダメージ
         // TODO Luckによって魔法弾のダメージ丞相
-        // TODO 魔法攻撃力Attribute
         if (!user.isCreative) {
             if (user.totalExperience < 1) {
                 user.sendMessage(text { notEnoughExperienceKey() }, true)
@@ -38,10 +33,11 @@ class StaffItem(toolMaterial: ToolMaterial, settings: Settings) : ToolItem(toolM
         }
 
         // 生成
-        val entity = ArrowEntity(world, user)
-        entity.initFromStack(Items.ARROW.createItemStack())
-        entity.setVelocity(user, user.pitch, user.yaw, 0.0F, 5.0F, 1.0F)
-        entity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY
+        val damage = 5.0F + user.getAttributeValue(DemonPlayerAttributeCard.MAGIC_DAMAGE.entityAttribute).toFloat()
+        val entity = AntimatterBoltEntity(world, damage, 16.0) // TODO 射程増加エンチャント
+        entity.setPosition(user.x, user.eyeY - 0.3, user.z)
+        entity.setVelocity(user, user.pitch, user.yaw, 0.0F, 2.0F, 1.0F)
+        entity.owner = user
         world.spawnEntity(entity)
 
         // 消費
