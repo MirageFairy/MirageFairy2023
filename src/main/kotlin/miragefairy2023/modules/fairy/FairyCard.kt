@@ -18,6 +18,7 @@ import miragefairy2023.modules.passiveskill.inRain
 import miragefairy2023.modules.passiveskill.inVillage
 import miragefairy2023.modules.passiveskill.indoor
 import miragefairy2023.modules.passiveskill.luck
+import miragefairy2023.modules.passiveskill.magicDamage
 import miragefairy2023.modules.passiveskill.mana
 import miragefairy2023.modules.passiveskill.maxHealth
 import miragefairy2023.modules.passiveskill.maximumFoodLevel
@@ -133,8 +134,8 @@ enum class FairyCard(
     MYCELIUM(
         "mycelium", 6, "Myceliumia", "菌糸精ミツェリウミャ", 0x8F7E86, 0x8B7071, 0x8B7071, 0x8B6264,
         passiveSkills {
-            attackDamage(1.0) on always()
-            attackDamage(2.0) on biome(ConventionalBiomeTags.MUSHROOM)
+            magicDamage(1.0) on always()
+            magicDamage(2.0) on biome(ConventionalBiomeTags.MUSHROOM)
             maxHealth(12.0) on biome(ConventionalBiomeTags.MUSHROOM)
             statusEffect(StatusEffects.REGENERATION, 0) on biome(ConventionalBiomeTags.MUSHROOM) * minimumMana(10.0)
         },
@@ -186,7 +187,7 @@ enum class FairyCard(
         "purpur", 7, "Purpuria", "紫珀精プルプーリャ", 0xCBA8CB, 0xC08AC0, 0xC08AC0, 0xBC68BB,
         passiveSkills {
             collection(0.5) on always()
-            shootingDamage(2.0) on biome(ConventionalBiomeTags.IN_THE_END)
+            magicDamage(2.0) on biome(ConventionalBiomeTags.IN_THE_END)
             maxHealth(4.0) on biome(ConventionalBiomeTags.IN_THE_END)
         },
         FairyRecipes().biome(ConventionalBiomeTags.END_ISLANDS).block { Blocks.PURPUR_BLOCK }.recipe { Items.PURPUR_BLOCK },
@@ -212,7 +213,7 @@ enum class FairyCard(
         "gold", 6, "Goldia", "金精ゴルジャ", 0xEFE642, 0xF4CC17, 0xF4CC17, 0xFDB61E,
         passiveSkills {
             luck(0.8) on always()
-            attackDamage(2.0) on toolMaterial(ToolMaterialCard.GOLD)
+            magicDamage(2.0) on toolMaterial(ToolMaterialCard.GOLD)
             statusEffect(StatusEffects.LUCK, 0) on toolMaterial(ToolMaterialCard.GOLD)
             statusEffect(StatusEffects.LUCK, 1) on toolMaterial(ToolMaterialCard.GOLD) * minimumMana(10.0)
         },
@@ -293,6 +294,7 @@ enum class FairyCard(
         passiveSkills {
             luck(0.5) on always()
             luck(1.5) on overworld()
+            magicDamage(1.0) on overworld()
         },
         FairyRecipes().overworld().block { Blocks.LAPIS_BLOCK }.recipe { Items.LAPIS_LAZULI },
     ),
@@ -300,13 +302,14 @@ enum class FairyCard(
         "glowstone", 6, "Glowstonia", "蛍光石精グロウストーニャ", 0xEFC298, 0xEAA463, 0xEAA463, 0xEADD52,
         passiveSkills {
             statusEffect(StatusEffects.GLOWING, 0) on always()
-            attackDamage(1.5) on biome(ConventionalBiomeTags.IN_NETHER)
+            magicDamage(1.5) on biome(ConventionalBiomeTags.IN_NETHER)
         },
         FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.GLOWSTONE }.recipe { Items.GLOWSTONE_DUST },
     ),
     OBSIDIAN(
         "obsidian", 5, "Obsidiania", "黒耀石精オブシディアーニャ", 0x775599, 0x6029B3, 0x2E095E, 0x0F0033,
         passiveSkills {
+            magicDamage(0.5) on always()
             statusEffect(StatusEffects.RESISTANCE, 0) on always()
             statusEffect(StatusEffects.RESISTANCE, 1) on minimumMana(9.0)
         },
@@ -323,6 +326,7 @@ enum class FairyCard(
     CLOWNFISH(
         "clownfish", 7, "Clownfishia", "隈之実精ツロウンフィーシャ", 0xE46A22, 0xF46F20, 0xA94B1D, 0xFFDBC5,
         passiveSkills {
+            magicDamage(1.0) on underwater()
             statusEffect(StatusEffects.WATER_BREATHING, 0) on underwater() * minimumLightLevel(4)
             statusEffect(StatusEffects.WATER_BREATHING, 0) on underwater() * minimumMana(10.0)
         },
@@ -422,7 +426,6 @@ enum class FairyCard(
         "potato", 4, "Potatia", "芋精ポターチャ", 0xEAC278, 0xE7B456, 0xE7B456, 0x248420,
         passiveSkills {
             regeneration(0.1) on minimumFoodLevel(12)
-            regeneration(0.2) on food { Items.BAKED_POTATO }
             attackDamage(1.0) on food { Items.BAKED_POTATO }
         },
         FairyRecipes().overworld().block { Blocks.POTATOES }.recipe { Items.POTATO },
@@ -439,7 +442,7 @@ enum class FairyCard(
         "beetroot", 4, "Beetrootia", "火焔菜精ベートローチャ", 0xC1727C, 0xA74D55, 0x96383D, 0x01A900,
         passiveSkills {
             regeneration(0.1) on minimumFoodLevel(12)
-            shootingDamage(2.0) on food { Items.BEETROOT }
+            shootingDamage(3.0) on food { Items.BEETROOT }
         },
         FairyRecipes().overworld().block { Blocks.BEETROOTS }.recipe { Items.BEETROOT },
     ),
@@ -447,7 +450,7 @@ enum class FairyCard(
         "melon", 4, "Melonia", "西瓜精メローニャ", 0xFF5440, 0xA6EE63, 0x195612, 0x01A900,
         passiveSkills {
             regeneration(0.1) on minimumFoodLevel(12)
-            regeneration(0.4) on food { Items.MELON_SLICE }
+            regeneration(0.6) on food { Items.MELON_SLICE }
         },
         FairyRecipes().biome(ConventionalBiomeTags.JUNGLE).block { Blocks.MELON }.recipe { Items.MELON },
     ),
@@ -455,7 +458,7 @@ enum class FairyCard(
         "apple", 4, "Applia", "林檎精アップーリャ", 0xFF755D, 0xFF564E, 0xFF0000, 0x01A900,
         passiveSkills {
             regeneration(0.1) on minimumFoodLevel(12)
-            statusEffect(StatusEffects.RESISTANCE, 0) on food { Items.APPLE }
+            statusEffect(StatusEffects.RESISTANCE, 1) on food { Items.APPLE }
         },
         FairyRecipes().overworld().recipe { Items.APPLE },
     ),
@@ -503,7 +506,7 @@ enum class FairyCard(
         passiveSkills {
             experience(0.03) on indoor() * maximumLevel(19)
             experience(0.03) on indoor() * maximumLevel(29)
-            shootingDamage(0.5) on indoor()
+            magicDamage(2.0) on indoor()
         },
         FairyRecipes().block { Blocks.ENCHANTING_TABLE }.recipe { Items.ENCHANTING_TABLE },
     ),
@@ -642,6 +645,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.SLOW_FALLING, 0) on always()
             attackDamage(1.5) on always()
             shootingDamage(1.5) on always()
+            magicDamage(1.5) on always()
         },
         FairyRecipes().always(),
     ),
