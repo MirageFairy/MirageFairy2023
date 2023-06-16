@@ -22,6 +22,7 @@ enum class DemonParticleTypeCard(
     DESCENDING_MAGIC("descending_magic", "magic", DemonParticleBehaviour.END_ROD, false),
     MIRAGE_FLOUR("mirage_flour", "mirage_flour", DemonParticleBehaviour.HAPPY, false),
     ATTRACTING_MAGIC("attracting_magic", "mission", DemonParticleBehaviour.ATTRACTING, false),
+    AURA("aura", "mission", DemonParticleBehaviour.END_ROD, false),
     ;
 
     val particleType: DefaultParticleType = FabricParticleTypes.simple(alwaysSpawn)
