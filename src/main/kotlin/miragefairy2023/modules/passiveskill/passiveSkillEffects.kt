@@ -115,6 +115,17 @@ class ShootingDamageSkillEffect(override val power: Double) : AttributePassiveSk
 }
 
 @Suppress("UnusedReceiverParameter")
+fun PassiveSkillsBuilder.magicDamage(power: Double) = MagicDamageSkillEffect(power)
+
+class MagicDamageSkillEffect(override val power: Double) : AttributePassiveSkillEffect() {
+    override fun getText(baseEfficiency: Double, efficiency: Double) = text { translate(DemonPlayerAttributeCard.MAGIC_DAMAGE.translationKey) + ": "() + (power * efficiency formatAs "%+.2f")() }
+    override val uuid: UUID = UUID.fromString("92B4465E-18B2-4438-8FCD-2375B91AF9FC")
+    override val identifier = Identifier(MirageFairy2023.modId, DemonPlayerAttributeCard.MAGIC_DAMAGE.path)
+    override val entityAttribute: EntityAttribute = DemonPlayerAttributeCard.MAGIC_DAMAGE.entityAttribute
+    override val operation = EntityAttributeModifier.Operation.ADDITION
+}
+
+@Suppress("UnusedReceiverParameter")
 fun PassiveSkillsBuilder.statusEffect(
     statusEffect: StatusEffect,
     amplifier: Int,
