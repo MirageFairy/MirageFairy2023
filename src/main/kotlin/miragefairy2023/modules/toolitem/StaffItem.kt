@@ -24,7 +24,6 @@ class StaffItem(toolMaterial: ToolMaterial, settings: Settings) : ToolItem(toolM
         val itemStack = user.getStackInHand(hand)
         if (world.isClient) return TypedActionResult.success(itemStack)
 
-        // TODO Luckによって魔法弾のダメージ丞相
         if (!user.isCreative) {
             if (user.totalExperience < 1) {
                 user.sendMessage(text { notEnoughExperienceKey() }, true)
@@ -32,6 +31,7 @@ class StaffItem(toolMaterial: ToolMaterial, settings: Settings) : ToolItem(toolM
             }
         }
 
+        // TODO 属性
         // 生成
         val damage = 5.0F + user.getAttributeValue(DemonPlayerAttributeCard.MAGIC_DAMAGE.entityAttribute).toFloat()
         val entity = AntimatterBoltEntity(world, damage, 16.0) // TODO 射程増加エンチャント
