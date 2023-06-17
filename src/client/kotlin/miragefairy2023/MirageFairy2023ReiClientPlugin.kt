@@ -38,14 +38,14 @@ import net.minecraft.text.Text
 class MirageFairy2023ReiClientPlugin : REIClientPlugin {
     override fun registerCategories(registry: CategoryRegistry) {
         registry.add(FairyMetamorphosisAltarCategory())
-        registry.addWorkstations(Categories.FAIRY_METAMORPHOSIS_ALTAR, EntryStacks.of(fairyMetamorphosisAltar.blockItem.feature))
+        registry.addWorkstations(Categories.FAIRY_METAMORPHOSIS_ALTAR, fairyMetamorphosisAltar.blockItem.feature.toEntryStack())
     }
 
     override fun registerDisplays(registry: DisplayRegistry) {
         FairyMetamorphosisAltarRecipe.RECIPES.keys.forEach { input ->
             val chanceTable = FairyMetamorphosisAltarRecipe.getChanceTable(input, 1.0) ?: return@forEach
             chanceTable.forEach { (chance, output) ->
-                registry.add(FairyMetamorphosisAltarDisplay(EntryIngredient.of(EntryStacks.of(input)), chance, EntryIngredient.of(EntryStacks.of(output))))
+                registry.add(FairyMetamorphosisAltarDisplay(EntryIngredient.of(input.toEntryStack()), chance, EntryIngredient.of(output.toEntryStack())))
             }
         }
     }
@@ -53,7 +53,7 @@ class MirageFairy2023ReiClientPlugin : REIClientPlugin {
 
 class FairyMetamorphosisAltarCategory : DisplayCategory<FairyMetamorphosisAltarDisplay> {
     override fun getCategoryIdentifier() = Categories.FAIRY_METAMORPHOSIS_ALTAR
-    override fun getIcon(): Renderer = EntryStacks.of(fairyMetamorphosisAltar.blockItem.feature)
+    override fun getIcon(): Renderer = fairyMetamorphosisAltar.blockItem.feature.toEntryStack()
     override fun getTitle(): Text = fairyMetamorphosisAltar.block.feature.name
     override fun setupDisplay(display: FairyMetamorphosisAltarDisplay, bounds: Rectangle): List<Widget> {
         val p = Point(bounds.centerX - 41, bounds.centerY - 13)
