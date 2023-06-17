@@ -36,6 +36,7 @@ import net.minecraft.tag.BlockTags
 import net.minecraft.tag.ItemTags
 import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
+import net.minecraft.util.registry.Registry
 
 enum class ToolItemCard(
     val path: String,
@@ -240,6 +241,8 @@ val toolItemModule = module {
 }
 
 
+val DREAM_CATCHERS: TagKey<Item> = TagKey.of(Registry.ITEM_KEY, Identifier(MirageFairy2023.modId, "dream_catchers"))
+
 private fun dreamCatcher(toolMaterialCard: ToolMaterialCard, maxDamage: Int): InitializationScope.(ToolItemCard) -> Unit = { card ->
     card.item = item(card.path, { DreamCatcherItem(toolMaterialCard.toolMaterial, maxDamage, FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Models.HANDHELD) }
@@ -247,6 +250,7 @@ private fun dreamCatcher(toolMaterialCard: ToolMaterialCard, maxDamage: Int): In
         generatePoemList(card.poemList)
         onRegisterItems { registerPoemList(feature, card.poemList) }
         onGenerateItemTags { it(toolMaterialCard.tag).add(feature) }
+        onGenerateItemTags { it(DREAM_CATCHERS).add(feature) }
     }
 }
 
