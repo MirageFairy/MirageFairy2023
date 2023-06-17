@@ -9,14 +9,15 @@ import miragefairy2023.util.double
 import miragefairy2023.util.get
 import miragefairy2023.util.wrapper
 
-object Categories {
-    val FAIRY_METAMORPHOSIS_ALTAR: CategoryIdentifier<FairyMetamorphosisAltarDisplay> = CategoryIdentifier.of(MirageFairy2023.modId, "plugins/fairy_metamorphosis_altar")
-}
-
 class MirageFairy2023ReiServerPlugin : REIServerPlugin {
     override fun registerDisplaySerializer(registry: DisplaySerializerRegistry) {
         registry.register(Categories.FAIRY_METAMORPHOSIS_ALTAR, FairyMetamorphosisAltarDisplay.serializer())
     }
+}
+
+
+object Categories {
+    val FAIRY_METAMORPHOSIS_ALTAR: CategoryIdentifier<FairyMetamorphosisAltarDisplay> = CategoryIdentifier.of(MirageFairy2023.modId, "plugins/fairy_metamorphosis_altar")
 }
 
 class FairyMetamorphosisAltarDisplay(
