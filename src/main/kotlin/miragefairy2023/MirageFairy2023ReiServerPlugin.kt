@@ -26,15 +26,10 @@ class FairyMetamorphosisAltarDisplay(
     output: EntryIngredient,
 ) : BasicDisplay(listOf(input), listOf(output)) {
     companion object {
-        fun serializer(): Serializer<FairyMetamorphosisAltarDisplay> = Serializer.of({ inputs, outputs, _, tag ->
-            FairyMetamorphosisAltarDisplay(
-                inputs[0],
-                tag.wrapper["rate"].double.get() ?: 0.0,
-                outputs[0],
-            )
-        }, { display, tag ->
-            tag.wrapper["rate"].double.set(display.rate)
-        })
+        fun serializer(): Serializer<FairyMetamorphosisAltarDisplay> = Serializer.of(
+            { inputs, outputs, _, tag -> FairyMetamorphosisAltarDisplay(inputs[0], tag.wrapper["rate"].double.get() ?: 0.0, outputs[0]) },
+            { display, tag -> tag.wrapper["rate"].double.set(display.rate) },
+        )
     }
 
     override fun getCategoryIdentifier() = Categories.FAIRY_METAMORPHOSIS_ALTAR
