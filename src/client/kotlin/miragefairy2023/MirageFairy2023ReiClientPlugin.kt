@@ -42,6 +42,16 @@ class MirageFairy2023ReiClientPlugin : REIClientPlugin {
         registry.add(FairyMetamorphosisAltarCategory())
         registry.addWorkstations(Categories.FAIRY_METAMORPHOSIS_ALTAR, fairyMetamorphosisAltar.blockItem.feature.toEntryStack())
 
+        registry.add(BlockFairyRelationCategory())
+        Registry.ITEM.getEntryList(DREAM_CATCHERS).orElse(null)?.forEach {
+            registry.addWorkstations(Categories.BLOCK_FAIRY_RELATION, it.value().toEntryStack())
+        }
+
+        registry.add(EntityTypeFairyRelationCategory())
+        Registry.ITEM.getEntryList(DREAM_CATCHERS).orElse(null)?.forEach {
+            registry.addWorkstations(Categories.ENTITY_TYPE_FAIRY_RELATION, it.value().toEntryStack())
+        }
+
     }
 
     override fun registerDisplays(registry: DisplayRegistry) {
@@ -51,6 +61,14 @@ class MirageFairy2023ReiClientPlugin : REIClientPlugin {
             chanceTable.forEach { (chance, output) ->
                 registry.add(FairyMetamorphosisAltarDisplay(EntryIngredient.of(input.toEntryStack()), chance, EntryIngredient.of(output.toEntryStack())))
             }
+        }
+
+        BLOCK_FAIRY_RELATION_LIST.forEach { relation ->
+            registry.add(BlockFairyRelationDisplay(EntryIngredient.of(relation.block.toEntryStack()), EntryIngredient.of(relation.fairy.toEntryStack()), relation.fairy.motif))
+        }
+
+        ENTITY_TYPE_FAIRY_RELATION_LIST.forEach { relation ->
+            registry.add(EntityTypeFairyRelationDisplay(EntryIngredient.of(relation.entityType.toEntryStack()), EntryIngredient.of(relation.fairy.toEntryStack()), relation.fairy.motif))
         }
 
     }
@@ -77,6 +95,57 @@ class FairyMetamorphosisAltarCategory : DisplayCategory<FairyMetamorphosisAltarD
     override fun getDisplayWidth(display: FairyMetamorphosisAltarDisplay) = 150
     override fun getDisplayHeight() = 36
 }
+
+class BlockFairyRelationCategory : DisplayCategory<BlockFairyRelationDisplay> {
+    override fun getCategoryIdentifier() = Categories.BLOCK_FAIRY_RELATION
+    override fun getIcon(): Renderer = Items.IRON_BLOCK.toEntryStack()
+    override fun getTitle() = text { BLOCK_FAIRY_RELATION_KEY() }
+    override fun setupDisplay(display: BlockFairyRelationDisplay, bounds: Rectangle): List<Widget> {
+        val p = Point(bounds.centerX - 21 - 20, bounds.centerY - 13)
+        val collectedLabel = if (MinecraftClient.getInstance()?.player?.foundFairies?.get(display.motif) == true) {
+            Widgets.createLabel(p + Point(88, 9), text { COLLECTED_KEY() }).color(0xFF404040.toInt(), 0xFFBBBBBB.toInt()).noShadow()
+        } else {
+            Widgets.createLabel(p + Point(88, 9), text { UNCOLLECTED_KEY() }).color(0xFFFF0000.toInt(), 0xFFFF0000.toInt()).noShadow()
+        }
+        return listOf(
+            Widgets.createRecipeBase(bounds),
+            Widgets.createArrow(p + Point(7, 4)),
+            Widgets.createResultSlotBackground(p + Point(41, 5)),
+            Widgets.createSlot(p + Point(-16, 5)).entries(display.inputEntries[0]).markInput(),
+            Widgets.createSlot(p + Point(41, 5)).entries(display.outputEntries[0]).disableBackground().markOutput(),
+            collectedLabel,
+        )
+    }
+
+    override fun getDisplayWidth(display: BlockFairyRelationDisplay) = 150
+    override fun getDisplayHeight() = 36
+}
+
+class EntityTypeFairyRelationCategory : DisplayCategory<EntityTypeFairyRelationDisplay> {
+    override fun getCategoryIdentifier() = Categories.ENTITY_TYPE_FAIRY_RELATION
+    override fun getIcon(): Renderer = Items.BONE.toEntryStack()
+    override fun getTitle() = text { ENTITY_TYPE_FAIRY_RELATION_KEY() }
+    override fun setupDisplay(display: EntityTypeFairyRelationDisplay, bounds: Rectangle): List<Widget> {
+        val p = Point(bounds.centerX - 21 - 20, bounds.centerY - 13)
+        val collectedLabel = if (MinecraftClient.getInstance()?.player?.foundFairies?.get(display.motif) == true) {
+            Widgets.createLabel(p + Point(88, 9), text { COLLECTED_KEY() }).color(0xFF404040.toInt(), 0xFFBBBBBB.toInt()).noShadow()
+        } else {
+            Widgets.createLabel(p + Point(88, 9), text { UNCOLLECTED_KEY() }).color(0xFFFF0000.toInt(), 0xFFFF0000.toInt()).noShadow()
+        }
+        return listOf(
+            Widgets.createRecipeBase(bounds),
+            Widgets.createArrow(p + Point(7, 4)),
+            Widgets.createResultSlotBackground(p + Point(41, 5)),
+            Widgets.createSlot(p + Point(-16, 5)).entries(display.inputEntries[0]).markInput(),
+            Widgets.createSlot(p + Point(41, 5)).entries(display.outputEntries[0]).disableBackground().markOutput(),
+            collectedLabel,
+        )
+    }
+
+    override fun getDisplayWidth(display: EntityTypeFairyRelationDisplay) = 150
+    override fun getDisplayHeight() = 36
+}
+
 
 operator fun Point.plus(other: Point) = Point(this.x + other.x, this.y + other.y)
 

@@ -10,6 +10,9 @@ val COLLECTED_KEY = Translation("gui.collected", "Collected", "収集済み")
 val UNCOLLECTED_KEY = Translation("gui.uncollected", "Uncollected", "未収集")
 
 val reiModule = module {
+    translation(BLOCK_FAIRY_RELATION_KEY)
+    translation(ENTITY_TYPE_FAIRY_RELATION_KEY)
+
     translation(COLLECTED_KEY)
     translation(UNCOLLECTED_KEY)
 }

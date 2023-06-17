@@ -76,6 +76,8 @@
   "block.miragefairy2023.telescope": "ミーニャの望遠鏡",
   "block.miragefairy2023.telescope.description": "1日1回使用時にミーニャクリスタルを獲得",
   "block.miragefairy2023.telescope.poem": "きみは妖精には見えないものが見えるんだね。",
+  "category.miragefairy2023.block_fairy_relation": "ブロック妖精連携",
+  "category.miragefairy2023.entity_type_fairy_relation": "エンティティタイプ妖精連携",
   "gui.collected": "収集済み",
   "gui.uncollected": "未収集",
   "item.miragefairy2023.adamantite_fairy": "精金精アダマンティーチャ",
