@@ -35,21 +35,27 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.text.Text
 
+
 class MirageFairy2023ReiClientPlugin : REIClientPlugin {
     override fun registerCategories(registry: CategoryRegistry) {
+
         registry.add(FairyMetamorphosisAltarCategory())
         registry.addWorkstations(Categories.FAIRY_METAMORPHOSIS_ALTAR, fairyMetamorphosisAltar.blockItem.feature.toEntryStack())
+
     }
 
     override fun registerDisplays(registry: DisplayRegistry) {
+
         FairyMetamorphosisAltarRecipe.RECIPES.keys.forEach { input ->
             val chanceTable = FairyMetamorphosisAltarRecipe.getChanceTable(input, 1.0) ?: return@forEach
             chanceTable.forEach { (chance, output) ->
                 registry.add(FairyMetamorphosisAltarDisplay(EntryIngredient.of(input.toEntryStack()), chance, EntryIngredient.of(output.toEntryStack())))
             }
         }
+
     }
 }
+
 
 class FairyMetamorphosisAltarCategory : DisplayCategory<FairyMetamorphosisAltarDisplay> {
     override fun getCategoryIdentifier() = Categories.FAIRY_METAMORPHOSIS_ALTAR
