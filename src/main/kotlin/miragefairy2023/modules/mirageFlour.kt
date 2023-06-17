@@ -5,6 +5,7 @@ import miragefairy2023.api.Fairy
 import miragefairy2023.api.fairyRegistry
 import miragefairy2023.module
 import miragefairy2023.modules.fairy.FairyCard
+import miragefairy2023.modules.toolitem.foundFairies
 import miragefairy2023.util.Chance
 import miragefairy2023.util.EMPTY_ITEM_STACK
 import miragefairy2023.util.blue
@@ -24,7 +25,6 @@ import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.translation
 import miragefairy2023.util.int
-import miragefairy2023.util.map
 import miragefairy2023.util.obtain
 import miragefairy2023.util.orDefault
 import miragefairy2023.util.set
@@ -34,9 +34,7 @@ import miragefairy2023.util.text
 import miragefairy2023.util.totalWeight
 import miragefairy2023.util.wrapper
 import miragefairy2023.util.yellow
-import mirrg.kotlin.hydrogen.castOrNull
 import mirrg.kotlin.hydrogen.formatAs
-import mirrg.kotlin.hydrogen.or
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
@@ -45,13 +43,11 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.AbstractNbtNumber
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.UseAction
 import net.minecraft.world.World
@@ -192,11 +188,7 @@ class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val
         val commonFairyList = COMMON_FAIRY_LIST.filter { it.predicate(player) }.map { it.fairy }
 
         // 夢枠
-        val nbt = player.customData
-        val found = nbt.wrapper[MirageFairy2023.modId]["found_motifs"].map.get().or { mapOf() }.entries
-            .filter { it.value.castOrNull<AbstractNbtNumber>()?.intValue() != 0 }
-            .map { Identifier(it.key) }
-        val memoryFairyList = found.mapNotNull { fairyRegistry[it] }
+        val memoryFairyList = player.foundFairies.getList().mapNotNull { fairyRegistry[it] }
 
         // 妖精リスト
         val actualFairyList = (commonFairyList + memoryFairyList).distinctBy { it.motif }

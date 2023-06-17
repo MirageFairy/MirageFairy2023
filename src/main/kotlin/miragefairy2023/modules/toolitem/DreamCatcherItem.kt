@@ -38,6 +38,20 @@ import net.minecraft.util.math.Box
 import net.minecraft.world.World
 import kotlin.math.roundToInt
 
+
+val PlayerEntity.foundFairies get() = FoundFairies(this)
+
+class FoundFairies(private val player: PlayerEntity) {
+    fun reset() = player.customData.wrapper[MirageFairy2023.modId]["found_motifs"].set(null)
+    fun add(motif: Identifier) = player.customData.wrapper[MirageFairy2023.modId]["found_motifs"][motif.string].int.set(1)
+    operator fun get(motif: Identifier): Boolean = (player.customData.wrapper[MirageFairy2023.modId]["found_motifs"][motif.string].int.get() ?: 0) != 0
+    fun getList() = player.customData.wrapper[MirageFairy2023.modId]["found_motifs"].map.get().or { mapOf() }.entries
+        .filter { it.value.castOrNull<AbstractNbtNumber>()?.intValue() != 0 }
+        .map { Identifier(it.key) }
+        .toSet()
+}
+
+
 class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Settings) : ToolItem(material, settings.maxDamage(maxDamage)) {
     companion object {
         val knownKey = Translation("item.${MirageFairy2023.modId}.dream_catcher.known_message", "Already have memory of %s", "%s の記憶は既に持っている")
@@ -76,14 +90,8 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
             it.sendToolBreakStatus(hand)
         }
 
-        // ストレージ
-        val nbt = player.customData
-
         // 入手済み妖精計算
-        val foundFairies = nbt.wrapper[MirageFairy2023.modId]["found_motifs"].map.get().or { mapOf() }.entries
-            .filter { it.value.castOrNull<AbstractNbtNumber>()?.intValue() != 0 }
-            .map { Identifier(it.key) }
-            .toSet()
+        val foundFairies = player.foundFairies.getList()
 
         // 妖精判定
         val fairy = run found@{
@@ -100,7 +108,7 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
         // ----- 結果の成立 -----
 
         // 生産
-        nbt.wrapper[MirageFairy2023.modId]["found_motifs"][fairy.motif.string].int.set(1)
+        player.foundFairies.add(fairy.motif)
         player.syncCustomData()
 
         // エフェクト
@@ -148,11 +156,7 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
         }
 
         // 入手済み妖精計算
-        val nbt = entity.customData
-        val foundFairies = nbt.wrapper[MirageFairy2023.modId]["found_motifs"].map.get().or { mapOf() }.entries
-            .filter { it.value.castOrNull<AbstractNbtNumber>()?.intValue() != 0 }
-            .map { Identifier(it.key) }
-            .toSet()
+        val foundFairies = entity.foundFairies.getList()
 
         // ブロック判定
         run {

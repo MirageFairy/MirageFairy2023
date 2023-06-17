@@ -1,17 +1,15 @@
 package miragefairy2023.modules
 
-import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.modules.fairy.FairyCard
 import miragefairy2023.modules.fairy.invoke
+import miragefairy2023.modules.toolitem.foundFairies
 import miragefairy2023.util.Symbol
-import miragefairy2023.util.get
 import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.registerColorProvider
 import miragefairy2023.util.join
 import miragefairy2023.util.text
-import miragefairy2023.util.wrapper
 import mirrg.kotlin.hydrogen.join
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.data.client.Model
@@ -101,8 +99,7 @@ class ResetFairyDreamDebuggerItem(settings: Settings) : Item(settings) {
         if (world.isClient) return TypedActionResult.success(itemStack)
         user as ServerPlayerEntity
 
-        val nbt = user.customData
-        nbt.wrapper[MirageFairy2023.modId]["found_motifs"].set(null)
+        user.foundFairies.reset()
         user.syncCustomData()
         user.sendMessage(text { "Reset fairy dreams"() }, false)
 
