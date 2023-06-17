@@ -19,8 +19,14 @@ import me.shedaniel.rei.api.common.entry.EntryIngredient
 import me.shedaniel.rei.api.common.entry.EntryStack
 import me.shedaniel.rei.api.common.util.EntryStacks
 import miragefairy2023.api.Fairy
+import miragefairy2023.modules.COLLECTED_KEY
+import miragefairy2023.modules.UNCOLLECTED_KEY
+import miragefairy2023.modules.fairy.BLOCK_FAIRY_RELATION_LIST
+import miragefairy2023.modules.fairy.ENTITY_TYPE_FAIRY_RELATION_LIST
 import miragefairy2023.modules.fairyhouse.FairyMetamorphosisAltarRecipe
 import miragefairy2023.modules.fairyhouse.fairyMetamorphosisAltar
+import miragefairy2023.modules.toolitem.DREAM_CATCHERS
+import miragefairy2023.modules.toolitem.foundFairies
 import miragefairy2023.util.removeTrailingZeros
 import miragefairy2023.util.text
 import mirrg.kotlin.hydrogen.formatAs
@@ -34,6 +40,7 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.text.Text
+import net.minecraft.util.registry.Registry
 
 
 class MirageFairy2023ReiClientPlugin : REIClientPlugin {
