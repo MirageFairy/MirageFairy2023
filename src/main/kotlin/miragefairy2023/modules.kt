@@ -18,6 +18,7 @@ import miragefairy2023.modules.particleModule
 import miragefairy2023.modules.passiveskill.passiveSkillModule
 import miragefairy2023.modules.playerAttributeModule
 import miragefairy2023.modules.poemModule
+import miragefairy2023.modules.reiModule
 import miragefairy2023.modules.soundEventModule
 import miragefairy2023.modules.telescopeModule
 import miragefairy2023.modules.toolMaterialModule
@@ -38,6 +39,7 @@ val modules = module {
     toolMaterialModule()
     playerAttributeModule()
     soundEventModule()
+    reiModule()
 
     // コンテンツ系
     run {
