@@ -20,6 +20,7 @@ import miragefairy2023.modules.passiveskill.passiveSkills
 import miragefairy2023.modules.registerPoemList
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
+import miragefairy2023.util.init.Translation
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.group
@@ -236,11 +237,12 @@ val toolItemModule = module {
 
     translation(DreamCatcherItem.knownKey)
     translation(DreamCatcherItem.successKey)
-    translation(StaffItem.notEnoughExperienceKey)
+    translation(NOT_ENOUGH_EXPERIENCE_KEY)
 
 }
 
 
+val NOT_ENOUGH_EXPERIENCE_KEY = Translation("item.miragefairy2023.magic.not_enough_experience", "Not enough experience", "経験値が足りません")
 val DREAM_CATCHERS: TagKey<Item> = TagKey.of(Registry.ITEM_KEY, Identifier(MirageFairy2023.modId, "dream_catchers"))
 
 private fun dreamCatcher(toolMaterialCard: ToolMaterialCard, maxDamage: Int): InitializationScope.(ToolItemCard) -> Unit = { card ->

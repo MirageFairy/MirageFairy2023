@@ -3,7 +3,6 @@ package miragefairy2023.modules.toolitem
 import miragefairy2023.modules.DemonPlayerAttributeCard
 import miragefairy2023.modules.DemonSoundEventCard
 import miragefairy2023.modules.entity.AntimatterBoltEntity
-import miragefairy2023.util.init.Translation
 import miragefairy2023.util.text
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -16,17 +15,13 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 
 class StaffItem(toolMaterial: ToolMaterial, settings: Settings) : ToolItem(toolMaterial, settings) {
-    companion object {
-        val notEnoughExperienceKey = Translation("item.miragefairy2023.magic.not_enough_experience", "Not enough experience", "経験値が足りません")
-    }
-
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val itemStack = user.getStackInHand(hand)
         if (world.isClient) return TypedActionResult.success(itemStack)
 
         if (!user.isCreative) {
             if (user.totalExperience < 1) {
-                user.sendMessage(text { notEnoughExperienceKey() }, true)
+                user.sendMessage(text { NOT_ENOUGH_EXPERIENCE_KEY() }, true)
                 return TypedActionResult.consume(itemStack)
             }
         }
