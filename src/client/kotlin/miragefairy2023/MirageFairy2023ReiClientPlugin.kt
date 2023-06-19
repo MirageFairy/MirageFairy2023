@@ -39,6 +39,7 @@ import net.minecraft.fluid.Fluid
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.item.SpawnEggItem
 import net.minecraft.text.Text
 import net.minecraft.util.registry.Registry
 
@@ -186,7 +187,11 @@ fun Fluid.toEntryStack(): EntryStack<FluidStack> = EntryStacks.of(this)
 
 fun FluidStack.toEntryStack(): EntryStack<FluidStack> = EntryStacks.of(this)
 
-fun EntityType<*>.toEntryStack() = this.name.toEntryStack()
+fun EntityType<*>.toEntryStack(): EntryStack<*> {
+    val item = SpawnEggItem.forEntity(this)
+    if (item != null) return item.toEntryStack()
+    return this.name.toEntryStack()
+}
 
 fun Fairy.toEntryStack() = this.item.toEntryStack()
 
