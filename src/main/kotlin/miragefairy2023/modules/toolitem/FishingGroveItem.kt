@@ -6,6 +6,7 @@ import dev.emi.trinkets.api.TrinketItem
 import miragefairy2023.mixins.api.FishingBobberEntityHelper
 import miragefairy2023.modules.ToolMaterialCard
 import miragefairy2023.util.randomInt
+import miragefairy2023.util.text
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
@@ -43,11 +44,24 @@ class FishingGroveItem(settings: Settings) : Item(settings.maxDamageIfAbsent(Too
             entity.offHandStack.isOf(Items.FISHING_ROD) -> Pair(Hand.OFF_HAND, entity.offHandStack)
             else -> return // 釣り竿が見つからない
         }
-        if (FishingBobberEntityHelper.getHookCountdown(fishHook) <= 0) return // 発動タイミングじゃない
+
+        if (FishingBobberEntityHelper.getHookCountdown(fishHook) != 1) return // 発動タイミングじゃない
+
+        // リソースチェック
+        if (!entity.isCreative) {
+            // 釣りの経験値は期待値3.5
+            if (entity.totalExperience < 4) {
+                entity.sendMessage(text { NOT_ENOUGH_EXPERIENCE_KEY() }, true)
+                return // 経験値が足りない
+            }
+        }
 
         // 成立
 
-        // 消費
+        // リソース消費
+        if (!entity.isCreative) {
+            if (!world.isClient) entity.addExperience(-4)
+        }
         if (!world.isClient) {
             stack.damage(4, entity) {
                 world.playSound(null, entity.x, entity.y, entity.z, SoundEvents.ENTITY_ITEM_BREAK, SoundCategory.PLAYERS, 0.8F, 0.8F + world.random.nextFloat() * 0.4F)
@@ -69,8 +83,8 @@ class FishingGroveItem(settings: Settings) : Item(settings.maxDamageIfAbsent(Too
         // 再び投げる
         world.playSound(null, entity.x, entity.y, entity.z, SoundEvents.ENTITY_FISHING_BOBBER_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F))
         if (!world.isClient) {
-            val lure = EnchantmentHelper.getLure(fishingRodItemStack) / 2.0 // 自動釣りによるペナルティ
-            val luckOfTheSea = EnchantmentHelper.getLuckOfTheSea(fishingRodItemStack) / 2.0 // 自動釣りによるペナルティ
+            val lure = EnchantmentHelper.getLure(fishingRodItemStack) / 3.0 // 自動釣りによるペナルティ
+            val luckOfTheSea = EnchantmentHelper.getLuckOfTheSea(fishingRodItemStack) / 3.0 // 自動釣りによるペナルティ
             world.spawnEntity(FishingBobberEntity(entity, world, world.random.randomInt(luckOfTheSea), world.random.randomInt(lure)))
         }
         entity.incrementStat(Stats.USED.getOrCreateStat(fishingRodItemStack.item))
