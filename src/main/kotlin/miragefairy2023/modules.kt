@@ -6,6 +6,7 @@ import miragefairy2023.modules.customDataModule
 import miragefairy2023.modules.debugModule
 import miragefairy2023.modules.demonBlockModule
 import miragefairy2023.modules.demonItemModule
+import miragefairy2023.modules.enchantmentModule
 import miragefairy2023.modules.entity.entityModule
 import miragefairy2023.modules.fairy.fairyModule
 import miragefairy2023.modules.fairyCrystalGlassModule
@@ -40,6 +41,7 @@ val modules = module {
     playerAttributeModule()
     soundEventModule()
     reiModule()
+    enchantmentModule()
 
     // コンテンツ系
     run {
