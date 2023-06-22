@@ -1,8 +1,11 @@
 package miragefairy2023.modules.toolitem
 
+import miragefairy2023.modules.DemonEnchantmentCard
 import miragefairy2023.modules.DemonPlayerAttributeCard
 import miragefairy2023.modules.DemonSoundEventCard
 import miragefairy2023.modules.entity.AntimatterBoltEntity
+import miragefairy2023.util.getRate
+import miragefairy2023.util.randomInt
 import miragefairy2023.util.text
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -26,12 +29,21 @@ class StaffItem(toolMaterial: ToolMaterial, settings: Settings) : ToolItem(toolM
             }
         }
 
+        val damage = 5.0F +
+            10.0F * DemonEnchantmentCard.MAGIC_DAMAGE.enchantment.getRate(itemStack).toFloat() +
+            user.getAttributeValue(DemonPlayerAttributeCard.MAGIC_DAMAGE.entityAttribute).toFloat()
+        val limitDistance = 16.0 +
+            16.0 * DemonEnchantmentCard.MAGIC_REACH.enchantment.getRate(itemStack)
+        val speed = 2.0F +
+            2.0F * DemonEnchantmentCard.MAGIC_REACH.enchantment.getRate(itemStack).toFloat()
+        val frequency = 1.0 +
+            2.0 * DemonEnchantmentCard.MAGIC_FREQUENCY.enchantment.getRate(itemStack)
+
         // TODO 属性
         // 生成
-        val damage = 5.0F + user.getAttributeValue(DemonPlayerAttributeCard.MAGIC_DAMAGE.entityAttribute).toFloat()
-        val entity = AntimatterBoltEntity(world, damage, 16.0) // TODO 射程増加エンチャント
+        val entity = AntimatterBoltEntity(world, damage, limitDistance)
         entity.setPosition(user.x, user.eyeY - 0.3, user.z)
-        entity.setVelocity(user, user.pitch, user.yaw, 0.0F, 2.0F, 1.0F)
+        entity.setVelocity(user, user.pitch, user.yaw, 0.0F, speed, 1.0F)
         entity.owner = user
         world.spawnEntity(entity)
 
@@ -41,7 +53,7 @@ class StaffItem(toolMaterial: ToolMaterial, settings: Settings) : ToolItem(toolM
         }
         if (!user.isCreative) user.addExperience(-1)
 
-        user.itemCooldownManager.set(this, 10) // TODO クールタイムの軽減エンチャント
+        user.itemCooldownManager.set(this, world.random.randomInt(10.0 / frequency))
 
         // 統計
         user.incrementStat(Stats.USED.getOrCreateStat(this))
