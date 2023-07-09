@@ -23,8 +23,11 @@ import miragefairy2023.util.init.registerGrassDrop
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
 import miragefairy2023.util.randomInt
+import miragefairy2023.util.with
 import mirrg.kotlin.hydrogen.atLeast
 import mirrg.kotlin.hydrogen.atMost
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
@@ -70,9 +73,22 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.random.Random
+import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.Registry
+import net.minecraft.util.registry.RegistryEntry
+import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
+import net.minecraft.world.gen.GenerationStep
+import net.minecraft.world.gen.feature.Feature
+import net.minecraft.world.gen.feature.PlacedFeature
+import net.minecraft.world.gen.feature.PlacedFeatures
+import net.minecraft.world.gen.feature.RandomPatchFeatureConfig
+import net.minecraft.world.gen.feature.SimpleBlockFeatureConfig
+import net.minecraft.world.gen.placementmodifier.BiomePlacementModifier
+import net.minecraft.world.gen.placementmodifier.RarityFilterPlacementModifier
+import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier
+import net.minecraft.world.gen.stateprovider.BlockStateProvider
 
 
 lateinit var mirageFlowerBlock: FeatureSlot<MirageFlowerBlock>
@@ -161,6 +177,44 @@ val mirageFlowerModule = module {
             override fun fromJson(json: JsonObject, context: JsonDeserializationContext) = PickedUpLootCondition()
         }
         pickedUpLootConditionType = Registry.register(Registry.LOOT_CONDITION_TYPE, Identifier(modId, "picked_up"), LootConditionType(serializer))
+    }
+
+    // ミラージュの小さな塊
+    onRegisterRecipes {
+        val blockStateProvider = BlockStateProvider.of(mirageFlowerBlock.feature.withAge(MirageFlowerBlock.MAX_AGE))
+        val identifier = Identifier(modId, "mirage_flower_cluster")
+        val configuredFeature = Feature.FLOWER with RandomPatchFeatureConfig(6, 6, 2, PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK, SimpleBlockFeatureConfig(blockStateProvider)))
+        val placedFeature = PlacedFeature(
+            RegistryEntry.of(configuredFeature), listOf(
+                RarityFilterPlacementModifier.of(16),
+                SquarePlacementModifier.of(),
+                PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP,
+                BiomePlacementModifier.of(),
+            )
+        )
+
+        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, identifier, configuredFeature)
+        Registry.register(BuiltinRegistries.PLACED_FEATURE, identifier, placedFeature)
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.PLACED_FEATURE_KEY, identifier))
+    }
+
+    // ミラージュの大きな塊
+    onRegisterRecipes {
+        val blockStateProvider = BlockStateProvider.of(mirageFlowerBlock.feature.withAge(MirageFlowerBlock.MAX_AGE))
+        val identifier = Identifier(modId, "large_mirage_flower_cluster")
+        val configuredFeature = Feature.FLOWER with RandomPatchFeatureConfig(100, 8, 3, PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK, SimpleBlockFeatureConfig(blockStateProvider)))
+        val placedFeature = PlacedFeature(
+            RegistryEntry.of(configuredFeature), listOf(
+                RarityFilterPlacementModifier.of(600),
+                SquarePlacementModifier.of(),
+                PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP,
+                BiomePlacementModifier.of(),
+            )
+        )
+
+        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, identifier, configuredFeature)
+        Registry.register(BuiltinRegistries.PLACED_FEATURE, identifier, placedFeature)
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.PLACED_FEATURE_KEY, identifier))
     }
 
 }
