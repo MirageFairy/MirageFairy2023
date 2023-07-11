@@ -137,12 +137,12 @@ fun InitializationScope.registerMobDrop(
 }
 
 /** @param ticks coal is `200 * 8 = 1600` */
-fun InitializationScope.registerFuel(item: () -> ItemConvertible, ticks: Int) {
+fun InitializationScope.registerFuel(item: Item, ticks: Int) {
     onRegisterRecipes {
-        FuelRegistry.INSTANCE.add(item(), ticks)
+        FuelRegistry.INSTANCE.add(item, ticks)
     }
 }
 
-fun CraftingRecipeJsonBuilder.criterion(item: ItemConvertible): CraftingRecipeJsonBuilder = this.criterion("has_${item.identifier.path}", RecipeProvider.conditionsFromItem(item))
+fun CraftingRecipeJsonBuilder.criterion(item: Item): CraftingRecipeJsonBuilder = this.criterion("has_${item.identifier.path}", RecipeProvider.conditionsFromItem(item))
 fun CraftingRecipeJsonBuilder.criterion(tagKey: TagKey<Item>): CraftingRecipeJsonBuilder = this.criterion("has_${tagKey.id.path}", RecipeProvider.conditionsFromTag(tagKey))
-fun CraftingRecipeJsonBuilder.group(item: ItemConvertible): CraftingRecipeJsonBuilder = this.group("${item.identifier}")
+fun CraftingRecipeJsonBuilder.group(item: Item): CraftingRecipeJsonBuilder = this.group("${item.identifier}")
