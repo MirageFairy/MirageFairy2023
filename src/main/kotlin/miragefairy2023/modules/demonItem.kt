@@ -2,6 +2,7 @@ package miragefairy2023.modules
 
 import miragefairy2023.module
 import miragefairy2023.util.concat
+import miragefairy2023.util.datagen.UniformLootNumberProvider
 import miragefairy2023.util.datagen.enJaItem
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
@@ -11,7 +12,6 @@ import miragefairy2023.util.init.item
 import miragefairy2023.util.init.registerBlockDrop
 import miragefairy2023.util.init.registerGrassDrop
 import miragefairy2023.util.init.registerMobDrop
-import miragefairy2023.util.datagen.UniformLootNumberProvider
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.Blocks
 import net.minecraft.block.ComposterBlock
