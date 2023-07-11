@@ -48,7 +48,7 @@ lateinit var miranagiteBlockBlockItem: FeatureSlot<BlockItem>
 val demonBlockModule = module {
 
     creativeAuraStoneBlock = block("creative_aura_stone", { Block(FabricBlockSettings.of(Material.STONE).strength(-1.0F, 3600000.0F).dropsNothing().allowsSpawning { _, _, _, _ -> false }) }) {
-        generateSimpleCubeAllBlockState()
+        generateSimpleCubeAllBlockState { feature }
         enJaBlock({ feature }, "Neutronium Block", "アカーシャの霊氣石")
         onGenerateBlockTags { it(BlockTags.DRAGON_IMMUNE).add(feature) }
         onGenerateBlockTags { it(BlockTags.WITHER_IMMUNE).add(feature) }
@@ -127,7 +127,7 @@ val demonBlockModule = module {
     }
 
     miranagiteBlockBlock = block("miranagite_block", { Block(FabricBlockSettings.of(Material.METAL, MapColor.LIGHT_BLUE).strength(3.0f, 3.0f).requiresTool()) }) {
-        generateSimpleCubeAllBlockState()
+        generateSimpleCubeAllBlockState { feature }
         enJaBlock({ feature }, "Miranagite Block", "蒼天石ブロック")
         onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
         onGenerateBlockTags { it(BlockTags.NEEDS_STONE_TOOL).add(feature) }

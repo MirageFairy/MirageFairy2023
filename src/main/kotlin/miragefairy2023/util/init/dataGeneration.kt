@@ -91,9 +91,10 @@ fun InitializationScope.generateSimpleCubeAllBlockState(block: Block) {
     }
 }
 
-fun <T : Block> FeatureSlot<T>.generateSimpleCubeAllBlockState() {
-    initializationScope.onGenerateBlockStateModels { blockStateModelGenerator ->
-        blockStateModelGenerator.registerSimpleCubeAll(feature)
+@Deprecated("Removing") // TODO remove
+fun InitializationScope.generateSimpleCubeAllBlockState(blockGetter: () -> Block) {
+    onGenerateBlockStateModels { blockStateModelGenerator ->
+        blockStateModelGenerator.registerSimpleCubeAll(blockGetter())
     }
 }
 
