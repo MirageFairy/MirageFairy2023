@@ -3,9 +3,12 @@
 package miragefairy2023.util.datagen
 
 import miragefairy2023.util.init.configure
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
+import net.minecraft.item.ItemConvertible
 import net.minecraft.loot.LootPool
 import net.minecraft.loot.LootTable
 import net.minecraft.loot.entry.LootPoolEntry
+import net.minecraft.loot.function.LootFunctionConsumingBuilder
 
 @Suppress("FunctionName")
 fun LootTable(vararg pools: LootPool.Builder, initializer: LootTable.Builder.() -> Unit = {}): LootTable.Builder = configure(LootTable.builder()) {
@@ -22,4 +25,9 @@ fun LootPool(vararg entries: LootPoolEntry.Builder<*>, initializer: LootPool.Bui
         this.with(it)
     }
     initializer.invoke(this)
+}
+
+
+fun LootFunctionConsumingBuilder<*>.applyExplosionDecay(drop: ItemConvertible) {
+    FabricBlockLootTableProvider.applyExplosionDecay(drop, this)
 }

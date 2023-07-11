@@ -5,12 +5,9 @@ package miragefairy2023.util.init
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
 import miragefairy2023.util.string
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.minecraft.block.Block
-import net.minecraft.item.ItemConvertible
 import net.minecraft.loot.condition.BlockStatePropertyLootCondition
 import net.minecraft.loot.condition.LootCondition
-import net.minecraft.loot.function.LootFunctionConsumingBuilder
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider
 import net.minecraft.loot.provider.number.UniformLootNumberProvider
 import net.minecraft.predicate.StatePredicate
@@ -19,10 +16,6 @@ import net.minecraft.util.registry.Registry
 
 inline fun <T> configure(receiver: T, initializer: T.() -> Unit) = receiver.apply(initializer)
 
-
-fun <T : LootFunctionConsumingBuilder<T>> T.applyExplosionDecay(drop: ItemConvertible): T {
-    return FabricBlockLootTableProvider.applyExplosionDecay(drop, this)!!
-}
 
 fun blockStatePropertyLootCondition(targetBlock: Block, initializer: BlockStatePropertyLootCondition.Builder.() -> Unit = {}): BlockStatePropertyLootCondition.Builder {
     return configure(BlockStatePropertyLootCondition.builder(targetBlock)!!) { initializer.invoke(this) }
