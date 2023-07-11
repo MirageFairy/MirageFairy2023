@@ -7,7 +7,7 @@ import miragefairy2023.util.datagen.LootTable
 import miragefairy2023.util.datagen.enJaBlock
 import miragefairy2023.util.datagen.generateBlockLootTable
 import miragefairy2023.util.datagen.generateBlockState
-import miragefairy2023.util.datagen.itemLootPoolEntry
+import miragefairy2023.util.datagen.ItemLootPoolEntry
 import miragefairy2023.util.init.applyExplosionDecay
 import miragefairy2023.util.init.lootPool
 import miragefairy2023.util.jsonObjectOf
@@ -184,15 +184,15 @@ val luminariaModule = module {
                 LootTable(
                     lootPool {
                         conditionally(withSilkTouchCondition)
-                        with(itemLootPoolEntry(card.block)) // その植物自体
+                        with(ItemLootPoolEntry(card.block)) // その植物自体
                     },
                     lootPool {
                         conditionally(withoutSilkTouchCondition)
-                        with(itemLootPoolEntry(LuminariaCard.LUMINARIA.item)) // 原種の植物
+                        with(ItemLootPoolEntry(LuminariaCard.LUMINARIA.item)) // 原種の植物
                     },
                     lootPool {
                         conditionally(withoutSilkTouchCondition)
-                        with(itemLootPoolEntry(card.drop.first) { // 収穫物
+                        with(ItemLootPoolEntry(card.drop.first) { // 収穫物
                             apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(card.drop.second.toFloat())))
                             apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 0.5F * card.drop.second.toFloat(), 0))
                             apply { ApplyLuckBonusLootFunction(0.2 * card.drop.second) }
@@ -204,7 +204,7 @@ val luminariaModule = module {
             } else { // 常にそれ自体をドロップする
                 LootTable(
                     lootPool {
-                        with(itemLootPoolEntry(card.block)) // その植物自体
+                        with(ItemLootPoolEntry(card.block)) // その植物自体
                     },
                 ) {
                     applyExplosionDecay(card.block)

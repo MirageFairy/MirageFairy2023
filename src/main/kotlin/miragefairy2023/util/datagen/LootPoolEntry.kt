@@ -11,18 +11,22 @@ import net.minecraft.loot.entry.LeafEntry
 import net.minecraft.loot.entry.LootPoolEntry
 import net.minecraft.loot.entry.SequenceEntry
 
-fun itemLootPoolEntry(item: ItemConvertible, initializer: LeafEntry.Builder<*>.() -> Unit = {}): LeafEntry.Builder<*> {
-    return configure(ItemEntry.builder(item)!!) { initializer.invoke(this) }
+@Suppress("FunctionName")
+fun ItemLootPoolEntry(item: ItemConvertible, initializer: LeafEntry.Builder<*>.() -> Unit = {}): LeafEntry.Builder<*> = configure(ItemEntry.builder(item)!!) {
+    initializer.invoke(this)
 }
 
-fun alternativeLootPoolEntry(vararg children: LootPoolEntry.Builder<*>, initializer: AlternativeEntry.Builder.() -> Unit = {}): AlternativeEntry.Builder {
-    return configure(AlternativeEntry.builder(*children)!!) { initializer.invoke(this) }
+@Suppress("FunctionName")
+fun AlternativeLootPoolEntry(vararg children: LootPoolEntry.Builder<*>, initializer: AlternativeEntry.Builder.() -> Unit = {}): AlternativeEntry.Builder = configure(AlternativeEntry.builder(*children)!!) {
+    initializer.invoke(this)
 }
 
-fun groupLootPoolEntry(vararg children: LootPoolEntry.Builder<*>, initializer: GroupEntry.Builder.() -> Unit = {}): GroupEntry.Builder {
-    return configure(GroupEntry.create(*children)!!) { initializer.invoke(this) }
+@Suppress("FunctionName")
+fun GroupLootPoolEntry(vararg children: LootPoolEntry.Builder<*>, initializer: GroupEntry.Builder.() -> Unit = {}): GroupEntry.Builder = configure(GroupEntry.create(*children)!!) {
+    initializer.invoke(this)
 }
 
-fun sequenceLootPoolEntry(vararg children: LootPoolEntry.Builder<*>, initializer: SequenceEntry.Builder.() -> Unit = {}): SequenceEntry.Builder {
-    return configure(SequenceEntry.create(*children)!!) { initializer.invoke(this) }
+@Suppress("FunctionName")
+fun SequenceLootPoolEntry(vararg children: LootPoolEntry.Builder<*>, initializer: SequenceEntry.Builder.() -> Unit = {}): SequenceEntry.Builder = configure(SequenceEntry.create(*children)!!) {
+    initializer.invoke(this)
 }

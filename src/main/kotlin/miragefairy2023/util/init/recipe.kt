@@ -4,8 +4,8 @@ package miragefairy2023.util.init
 
 import miragefairy2023.InitializationScope
 import miragefairy2023.modules.ApplyLuckBonusLootFunction
-import miragefairy2023.util.datagen.alternativeLootPoolEntry
-import miragefairy2023.util.datagen.itemLootPoolEntry
+import miragefairy2023.util.datagen.AlternativeLootPoolEntry
+import miragefairy2023.util.datagen.ItemLootPoolEntry
 import miragefairy2023.util.identifier
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.fabricmc.fabric.api.registry.FuelRegistry
@@ -49,11 +49,11 @@ fun InitializationScope.registerGrassDrop(
                 if (id == lootTableId) {
                     configure(tableBuilder!!) {
                         pool(lootPool {
-                            with(alternativeLootPoolEntry {
-                                alternatively(itemLootPoolEntry(Items.AIR) {
+                            with(AlternativeLootPoolEntry {
+                                alternatively(ItemLootPoolEntry(Items.AIR) {
                                     conditionally(MatchToolLootCondition.builder(ItemPredicate.Builder.create().items(Items.SHEARS)))
                                 })
-                                alternatively(itemLootPoolEntry(item()) {
+                                alternatively(ItemLootPoolEntry(item()) {
                                     conditionally(RandomChanceLootCondition.builder((0.125 * amount).toFloat()))
                                     if (biome != null) conditionally(LocationCheckLootCondition.builder(LocationPredicate.Builder.create().biome(biome())))
                                     apply(ApplyBonusLootFunction.uniformBonusCount(Enchantments.FORTUNE, 2))
@@ -84,7 +84,7 @@ fun InitializationScope.registerBlockDrop(
                 if (id == lootTableId) {
                     configure(tableBuilder!!) {
                         pool(lootPool {
-                            val itemEntry = itemLootPoolEntry(item()) {
+                            val itemEntry = ItemLootPoolEntry(item()) {
                                 if (dropRate != null) conditionally(RandomChanceLootCondition.builder(dropRate))
                                 if (amount != null) apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(amount.toFloat())))
                                 if (fortuneOreDrops) apply(ApplyBonusLootFunction.oreDrops(Enchantments.FORTUNE))
@@ -92,8 +92,8 @@ fun InitializationScope.registerBlockDrop(
                                 apply(ExplosionDecayLootFunction.builder())
                             }
                             if (suppressIfSilkTouch) {
-                                with(alternativeLootPoolEntry {
-                                    alternatively(itemLootPoolEntry(Items.AIR) {
+                                with(AlternativeLootPoolEntry {
+                                    alternatively(ItemLootPoolEntry(Items.AIR) {
                                         conditionally(MatchToolLootCondition.builder(ItemPredicate.Builder.create().enchantment(EnchantmentPredicate(Enchantments.SILK_TOUCH, NumberRange.IntRange.atLeast(1)))))
                                     })
                                     alternatively(itemEntry)
@@ -126,7 +126,7 @@ fun InitializationScope.registerMobDrop(
                         pool(lootPool {
                             if (onlyKilledByPlayer) conditionally(KilledByPlayerLootCondition.builder())
                             if (dropRate != null) conditionally(RandomChanceWithLootingLootCondition.builder(dropRate.first, dropRate.second))
-                            with(itemLootPoolEntry(item()) {
+                            with(ItemLootPoolEntry(item()) {
                                 if (amount != null) apply(SetCountLootFunction.builder(amount, false))
                                 if (fortuneFactor != null) apply(LootingEnchantLootFunction.builder(fortuneFactor))
                             })
