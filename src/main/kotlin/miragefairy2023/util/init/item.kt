@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
+@Deprecated("Removing") // TODO remove
 fun <T : Item> InitializationScope.item(name: String, itemCreator: () -> T, initializer: FeatureSlot<T>.() -> Unit = {}): FeatureSlot<T> {
     val id = Identifier(modId, name)
     lateinit var feature: T

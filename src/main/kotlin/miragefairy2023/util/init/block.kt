@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.registry.Registry
 
+@Deprecated("Removing") // TODO remove
 fun <T : Block> InitializationScope.block(name: String, blockCreator: () -> T, initializer: FeatureSlot<T>.() -> Unit = {}): FeatureSlot<T> {
     val id = Identifier(modId, name)
     lateinit var feature: T
@@ -27,6 +28,7 @@ fun <T : Block> InitializationScope.block(name: String, blockCreator: () -> T, i
     return scope
 }
 
+@Deprecated("Removing") // TODO remove
 fun <T : BlockEntity> InitializationScope.blockEntity(
     name: String,
     blockEntityCreator: (BlockPos, BlockState) -> T,
