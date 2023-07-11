@@ -4,7 +4,6 @@ package miragefairy2023.util.init
 
 import miragefairy2023.InitializationScope
 import miragefairy2023.util.Translation
-import miragefairy2023.util.datagen.enJa
 import miragefairy2023.util.identifier
 import miragefairy2023.util.text
 import net.minecraft.advancement.Advancement

@@ -13,11 +13,11 @@ import miragefairy2023.util.datagen.LootPool
 import miragefairy2023.util.datagen.LootTable
 import miragefairy2023.util.datagen.RangedMatchBlockStatePropertyLootCondition
 import miragefairy2023.util.datagen.applyExplosionDecay
-import miragefairy2023.util.datagen.enJaItem
-import miragefairy2023.util.datagen.generateBlockLootTable
-import miragefairy2023.util.datagen.generateBlockState
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.block
+import miragefairy2023.util.init.enJaItem
+import miragefairy2023.util.init.generateBlockLootTable
+import miragefairy2023.util.init.generateBlockState
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.registerGrassDrop
 import miragefairy2023.util.jsonObjectOf

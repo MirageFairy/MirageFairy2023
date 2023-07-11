@@ -3,7 +3,7 @@ package miragefairy2023.modules
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.Translation
-import miragefairy2023.util.datagen.enJa
+import miragefairy2023.util.init.enJa
 import miragefairy2023.util.toIngredient
 import net.fabricmc.yarn.constants.MiningLevels
 import net.minecraft.item.Item

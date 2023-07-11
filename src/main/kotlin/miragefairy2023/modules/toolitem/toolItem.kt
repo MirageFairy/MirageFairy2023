@@ -19,11 +19,11 @@ import miragefairy2023.modules.passiveskill.mana
 import miragefairy2023.modules.passiveskill.passiveSkills
 import miragefairy2023.modules.registerPoemList
 import miragefairy2023.util.Translation
-import miragefairy2023.util.datagen.enJa
-import miragefairy2023.util.datagen.enJaItem
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.criterion
+import miragefairy2023.util.init.enJa
+import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings

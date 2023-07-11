@@ -7,9 +7,9 @@ import miragefairy2023.util.datagen.ItemLootPoolEntry
 import miragefairy2023.util.datagen.LootPool
 import miragefairy2023.util.datagen.LootTable
 import miragefairy2023.util.datagen.applyExplosionDecay
-import miragefairy2023.util.datagen.enJaBlock
-import miragefairy2023.util.datagen.generateBlockLootTable
-import miragefairy2023.util.datagen.generateBlockState
+import miragefairy2023.util.init.enJaBlock
+import miragefairy2023.util.init.generateBlockLootTable
+import miragefairy2023.util.init.generateBlockState
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
 import miragefairy2023.util.randomInt

@@ -12,8 +12,6 @@ import miragefairy2023.util.Translation
 import miragefairy2023.util.blue
 import miragefairy2023.util.concat
 import miragefairy2023.util.createItemStack
-import miragefairy2023.util.datagen.enJa
-import miragefairy2023.util.datagen.enJaItem
 import miragefairy2023.util.distinct
 import miragefairy2023.util.draw
 import miragefairy2023.util.get
@@ -22,6 +20,8 @@ import miragefairy2023.util.hasSameItemAndNbt
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.criterion
+import miragefairy2023.util.init.enJa
+import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
 import miragefairy2023.util.int

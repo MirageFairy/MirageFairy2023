@@ -1,6 +1,6 @@
 @file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
-package miragefairy2023.util.datagen
+package miragefairy2023.util.init
 
 import miragefairy2023.InitializationScope
 import miragefairy2023.util.Translation

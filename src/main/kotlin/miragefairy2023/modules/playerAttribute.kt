@@ -3,7 +3,7 @@ package miragefairy2023.modules
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.mixins.api.DefaultAttributeRegistryHelper
 import miragefairy2023.module
-import miragefairy2023.util.datagen.enJa
+import miragefairy2023.util.init.enJa
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.attribute.ClampedEntityAttribute
 import net.minecraft.entity.attribute.EntityAttribute

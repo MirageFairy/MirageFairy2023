@@ -1,6 +1,6 @@
 @file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
-package miragefairy2023.util.datagen
+package miragefairy2023.util.init
 
 import com.google.gson.JsonElement
 import miragefairy2023.InitializationScope

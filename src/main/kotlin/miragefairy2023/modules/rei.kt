@@ -4,7 +4,7 @@ import miragefairy2023.BLOCK_FAIRY_RELATION_KEY
 import miragefairy2023.ENTITY_TYPE_FAIRY_RELATION_KEY
 import miragefairy2023.module
 import miragefairy2023.util.Translation
-import miragefairy2023.util.datagen.enJa
+import miragefairy2023.util.init.enJa
 
 val COLLECTED_KEY = Translation("gui.collected", "Collected", "収集済み")
 val UNCOLLECTED_KEY = Translation("gui.uncollected", "Uncollected", "未収集")

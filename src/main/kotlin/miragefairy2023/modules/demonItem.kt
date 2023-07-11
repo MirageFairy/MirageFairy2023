@@ -3,10 +3,10 @@ package miragefairy2023.modules
 import miragefairy2023.module
 import miragefairy2023.util.concat
 import miragefairy2023.util.datagen.UniformLootNumberProvider
-import miragefairy2023.util.datagen.enJaItem
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.criterion
+import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.registerBlockDrop
