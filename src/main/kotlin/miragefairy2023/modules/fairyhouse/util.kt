@@ -101,7 +101,7 @@ fun <BE> InitializationScope.registerFairyHouse(card: FairyHouseCard<BE>) where 
         onInitializeClient { MirageFairy2023.clientProxy!!.registerRenderingProxyBlockEntityRendererFactory(feature) }
     }
     card.blockItem = item(card.path, { BlockItem(card.block.feature, FabricItemSettings().group(commonItemGroup)) }) {
-        generatePoemList(card.poemList)
+        generatePoemList({ feature }, card.poemList)
         onRegisterItems { registerPoemList(feature, card.poemList) }
     }
 }

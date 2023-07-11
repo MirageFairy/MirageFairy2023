@@ -76,7 +76,7 @@ val telescopeModule = module {
             Poem("Tell me more about the human world!", "きみは妖精には見えないものが見えるんだね。"),
             Description("Use once a day to obtain Minia Crystals", "1日1回使用時にミーニャクリスタルを獲得"),
         )
-        generatePoemList(poemList)
+        generatePoemList({ feature }, poemList)
         onRegisterItems { registerPoemList(feature, poemList) }
     }
 

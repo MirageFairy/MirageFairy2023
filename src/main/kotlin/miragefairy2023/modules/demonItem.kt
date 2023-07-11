@@ -131,7 +131,7 @@ val demonItemModule = module {
         card.item = item(card.itemId, { Item(FabricItemSettings().group(commonItemGroup)) }) {
             onGenerateItemModels { it.register(feature, Models.GENERATED) }
             enJaItem({ feature }, card.enName, card.jaName)
-            generatePoemList(card.poemList)
+            generatePoemList({ feature }, card.poemList)
             onRegisterItems { registerPoemList(feature, card.poemList) }
         }
     }

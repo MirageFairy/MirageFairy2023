@@ -57,7 +57,7 @@ val demonBlockModule = module {
     }
     creativeAuraStoneBlockItem = item("creative_aura_stone", { BlockItem(creativeAuraStoneBlock.feature, FabricItemSettings().group(commonItemGroup)) }) {
         val poemList = listOf(Poem("Hypothetical substance with ideal hardness", "終末と創造の波紋。"))
-        generatePoemList(poemList)
+        generatePoemList({ feature }, poemList)
         onRegisterItems { registerPoemList(feature, poemList) }
     }
 
@@ -122,7 +122,7 @@ val demonBlockModule = module {
     }
     localVacuumDecayBlockItem = item("local_vacuum_decay", { BlockItem(localVacuumDecayBlock.feature, FabricItemSettings().group(commonItemGroup)) }) {
         val poemList = listOf(Poem("Stable instability caused by anti-entropy", "これが秩序の究極の形だというのか？"))
-        generatePoemList(poemList)
+        generatePoemList({ feature }, poemList)
         onRegisterItems { registerPoemList(feature, poemList) }
     }
 
@@ -135,7 +135,7 @@ val demonBlockModule = module {
     }
     miranagiteBlockBlockItem = item("miranagite_block", { BlockItem(miranagiteBlockBlock.feature, FabricItemSettings().group(commonItemGroup)) }) {
         val poemList = listOf(Poem("Passivation confines discontinuous space", "虚空に導かれし、霊界との接合点。"))
-        generatePoemList(poemList)
+        generatePoemList({ feature }, poemList)
         onRegisterItems { registerPoemList(feature, poemList) }
     }
     onGenerateRecipes {

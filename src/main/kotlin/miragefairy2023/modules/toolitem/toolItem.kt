@@ -249,7 +249,7 @@ private fun dreamCatcher(toolMaterialCard: ToolMaterialCard, maxDamage: Int): In
     card.item = item(card.path, { DreamCatcherItem(toolMaterialCard.toolMaterial, maxDamage, FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Models.HANDHELD) }
         enJaItem({ feature }, card.enName, card.jaName)
-        generatePoemList(card.poemList)
+        generatePoemList({ feature }, card.poemList)
         onRegisterItems { registerPoemList(feature, card.poemList) }
         onGenerateItemTags { it(toolMaterialCard.tag).add(feature) }
         onGenerateItemTags { it(DREAM_CATCHERS).add(feature) }
@@ -260,7 +260,7 @@ private fun pickaxe(toolMaterialCard: ToolMaterialCard, vararg effectiveBlockTag
     card.item = item(card.path, { DemonPickaxeItem(toolMaterialCard.toolMaterial, 1, -2.8F, effectiveBlockTags.toList(), silkTouch, FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Models.HANDHELD) }
         enJaItem({ feature }, card.enName, card.jaName)
-        generatePoemList(card.poemList)
+        generatePoemList({ feature }, card.poemList)
         onRegisterItems { registerPoemList(feature, card.poemList) }
         onGenerateItemTags { it(toolMaterialCard.tag).add(feature) }
         onGenerateItemTags { it(ItemTags.CLUSTER_MAX_HARVESTABLES).add(feature) }
@@ -272,7 +272,7 @@ private fun staff(toolMaterialCard: ToolMaterialCard): InitializationScope.(Tool
     card.item = item(card.path, { StaffItem(toolMaterialCard.toolMaterial, FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Models.HANDHELD) }
         enJaItem({ feature }, card.enName, card.jaName)
-        generatePoemList(card.poemList)
+        generatePoemList({ feature }, card.poemList)
         onRegisterItems { registerPoemList(feature, card.poemList) }
         onGenerateItemTags { it(toolMaterialCard.tag).add(feature) }
     }
@@ -282,7 +282,7 @@ private fun passiveSkillAccessory(trinketsSlotCards: List<TrinketsSlotCard>, man
     card.item = item(card.path, { PassiveSkillAccessoryItem(mana, passiveSkills, FabricItemSettings().maxCount(1).group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Models.GENERATED) }
         enJaItem({ feature }, card.enName, card.jaName)
-        generatePoemList(card.poemList)
+        generatePoemList({ feature }, card.poemList)
         onRegisterItems { registerPoemList(feature, card.poemList) }
         trinketsSlotCards.forEach { trinketsSlotCard ->
             onGenerateItemTags { it(trinketsSlotCard.tag).add(feature) }
@@ -294,7 +294,7 @@ private fun <I> trinketAccessory(trinketsSlotCards: List<TrinketsSlotCard>, item
     card.item = item(card.path, { itemCreator(FabricItemSettings().maxCount(1).group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Models.GENERATED) }
         enJaItem({ feature }, card.enName, card.jaName)
-        generatePoemList(card.poemList)
+        generatePoemList({ feature }, card.poemList)
         onRegisterItems { registerPoemList(feature, card.poemList) }
         trinketsSlotCards.forEach { trinketsSlotCard ->
             onGenerateItemTags { it(trinketsSlotCard.tag).add(feature) }

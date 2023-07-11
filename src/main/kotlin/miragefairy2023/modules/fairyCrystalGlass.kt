@@ -153,7 +153,7 @@ val fairyCrystalGlassModule = module {
         card.item = item(card.path, { BlockItem(card.block.feature, FabricItemSettings().group(commonItemGroup)) }) {
 
             // ポエム
-            generatePoemList(card.poemList)
+            generatePoemList({ feature }, card.poemList)
             onRegisterItems { registerPoemList(feature, card.poemList) }
 
         }

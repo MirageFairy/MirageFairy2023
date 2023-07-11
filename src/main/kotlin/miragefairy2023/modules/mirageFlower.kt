@@ -163,7 +163,7 @@ val mirageFlowerModule = module {
         onGenerateItemModels { it.register(feature, Models.GENERATED) }
         enJaItem({ feature }, "Mirage Seed", "ミラージュの球根")
         val poemList = listOf(Poem("Scientific name: miragiume haimekunofa", "学名：ミラギウメ・ハイメクノファ"))
-        generatePoemList(poemList)
+        generatePoemList({ feature }, poemList)
         onRegisterItems { registerPoemList(feature, poemList) }
         registerGrassDrop({ feature }, 0.1)
         onRegisterRecipes {
