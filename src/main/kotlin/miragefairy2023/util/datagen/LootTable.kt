@@ -25,6 +25,9 @@ import net.minecraft.loot.provider.number.UniformLootNumberProvider
 import net.minecraft.state.property.Property
 import net.minecraft.util.registry.Registry
 
+
+// LootTable
+
 @Suppress("FunctionName")
 fun LootTable(vararg pools: LootPool.Builder, initializer: LootTable.Builder.() -> Unit = {}): LootTable.Builder = configure(LootTable.builder()) {
     pools.forEach {
@@ -34,6 +37,8 @@ fun LootTable(vararg pools: LootPool.Builder, initializer: LootTable.Builder.() 
 }
 
 
+// LootPool
+
 @Suppress("FunctionName")
 fun LootPool(vararg entries: LootPoolEntry.Builder<*>, initializer: LootPool.Builder.() -> Unit = {}): LootPool.Builder = configure(LootPool.builder()) {
     entries.forEach {
@@ -42,6 +47,8 @@ fun LootPool(vararg entries: LootPoolEntry.Builder<*>, initializer: LootPool.Bui
     initializer.invoke(this)
 }
 
+
+// LootPoolEntry
 
 @Suppress("FunctionName")
 fun ItemLootPoolEntry(item: ItemConvertible, initializer: LeafEntry.Builder<*>.() -> Unit = {}): LeafEntry.Builder<*> = configure(ItemEntry.builder(item)) {
@@ -64,10 +71,14 @@ fun SequenceLootPoolEntry(vararg children: LootPoolEntry.Builder<*>, initializer
 }
 
 
+// LootNumberProvider
+
 fun ConstantLootNumberProvider(value: Float): ConstantLootNumberProvider = ConstantLootNumberProvider.create(value)
 
 fun UniformLootNumberProvider(min: Float, max: Float): UniformLootNumberProvider = UniformLootNumberProvider.create(min, max)
 
+
+// LootCondition
 
 @Suppress("FunctionName")
 fun ExactMatchBlockStatePropertyLootCondition(block: Block, property: Property<Int>, value: Int) = LootCondition.Builder {
