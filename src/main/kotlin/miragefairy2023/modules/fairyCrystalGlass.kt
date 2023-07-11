@@ -4,12 +4,12 @@ import com.google.gson.JsonElement
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.concat
+import miragefairy2023.util.datagen.generateBlockState
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.block
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJaBlock
-import miragefairy2023.util.init.generateBlockState
 import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item

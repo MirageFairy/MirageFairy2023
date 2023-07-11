@@ -3,10 +3,10 @@ package miragefairy2023.modules
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.concat
+import miragefairy2023.util.datagen.generateBlockState
 import miragefairy2023.util.init.applyExplosionDecay
 import miragefairy2023.util.init.enJaBlock
 import miragefairy2023.util.init.generateBlockLootTable
-import miragefairy2023.util.init.generateBlockState
 import miragefairy2023.util.init.itemLootPoolEntry
 import miragefairy2023.util.init.lootPool
 import miragefairy2023.util.init.lootTable
