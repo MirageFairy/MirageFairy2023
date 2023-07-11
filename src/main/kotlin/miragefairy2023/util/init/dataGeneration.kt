@@ -32,7 +32,7 @@ import net.minecraft.predicate.StatePredicate
 import net.minecraft.state.property.Property
 import net.minecraft.util.registry.Registry
 
-fun <T : Block> InitializationScope.generateBlockState(block: T, jsonElementSupplier: () -> JsonElement) {
+fun InitializationScope.generateBlockState(block: Block, jsonElementSupplier: () -> JsonElement) {
     onGenerateBlockStateModels { blockStateModelGenerator ->
         blockStateModelGenerator.blockStateCollector.accept(object : BlockStateSupplier {
             override fun getBlock() = block
@@ -41,16 +41,17 @@ fun <T : Block> InitializationScope.generateBlockState(block: T, jsonElementSupp
     }
 }
 
-fun <T : Block> FeatureSlot<T>.generateBlockState(jsonElementSupplier: () -> JsonElement) {
-    initializationScope.onGenerateBlockStateModels { blockStateModelGenerator ->
+@Deprecated("Removing") // TODO remove
+fun InitializationScope.generateBlockState(blockGetter: () -> Block, jsonElementSupplier: () -> JsonElement) {
+    onGenerateBlockStateModels { blockStateModelGenerator ->
         blockStateModelGenerator.blockStateCollector.accept(object : BlockStateSupplier {
-            override fun getBlock() = feature
+            override fun getBlock() = blockGetter()
             override fun get() = jsonElementSupplier()
         })
     }
 }
 
-fun <T : Block> FeatureSlot<T>.generateHorizontalFacingBlockState() = generateBlockState {
+fun <T : Block> FeatureSlot<T>.generateHorizontalFacingBlockState() = initializationScope.generateBlockState({ feature }) {
     jsonObjectOf(
         "variants" to jsonObjectOf(listOf(
             "north" to 0,

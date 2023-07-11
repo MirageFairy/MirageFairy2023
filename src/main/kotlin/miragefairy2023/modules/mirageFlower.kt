@@ -98,7 +98,7 @@ lateinit var mirageSeedItem: FeatureSlot<AliasedBlockItem>
 val mirageFlowerModule = module {
 
     mirageFlowerBlock = block("mirage_flower", { MirageFlowerBlock(FabricBlockSettings.of(Material.PLANT).nonOpaque().noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GLASS)) }) {
-        generateBlockState {
+        generateBlockState({ feature }) {
             jsonObjectOf(
                 "variants" to jsonObjectOf((0..MirageFlowerBlock.MAX_AGE).map { age ->
                     "age=$age" to jsonObjectOf(

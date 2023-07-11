@@ -99,7 +99,7 @@ val fairyCrystalGlassModule = module {
         }) {
 
             // BlockStateファイル
-            generateBlockState {
+            generateBlockState({ feature }) {
                 fun createPart(direction: String, x: Int, y: Int) = jsonObjectOf(
                     "when" to jsonObjectOf(
                         direction to "false".jsonPrimitive,
