@@ -16,9 +16,9 @@ import miragefairy2023.util.datagen.generateBlockLootTable
 import miragefairy2023.util.datagen.generateBlockState
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.block
-import miragefairy2023.util.init.exactMatchBlockStatePropertyLootCondition
+import miragefairy2023.util.datagen.ExactMatchBlockStatePropertyLootCondition
 import miragefairy2023.util.init.item
-import miragefairy2023.util.init.rangedMatchBlockStatePropertyLootCondition
+import miragefairy2023.util.datagen.RangedMatchBlockStatePropertyLootCondition
 import miragefairy2023.util.init.registerGrassDrop
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
@@ -116,8 +116,8 @@ val mirageFlowerModule = module {
         onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(feature) }
         // onGenerateBlockTags { it(BlockTags.SMALL_FLOWERS).add(feature) } // これをやるとエンダーマンが勝手に引っこ抜いていく
         generateBlockLootTable({ feature }) {
-            val age2Condition = rangedMatchBlockStatePropertyLootCondition(feature, MirageFlowerBlock.AGE, 2, 3)
-            val age3Condition = exactMatchBlockStatePropertyLootCondition(feature, MirageFlowerBlock.AGE, 3)
+            val age2Condition = RangedMatchBlockStatePropertyLootCondition(feature, MirageFlowerBlock.AGE, 2, 3)
+            val age3Condition = ExactMatchBlockStatePropertyLootCondition(feature, MirageFlowerBlock.AGE, 3)
             LootTable(
                 LootPool(ItemLootPoolEntry(mirageSeedItem.feature)) { // ベース種ドロップ
                     conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
