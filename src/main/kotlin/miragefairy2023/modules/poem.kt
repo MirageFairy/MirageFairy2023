@@ -1,5 +1,6 @@
 package miragefairy2023.modules
 
+import miragefairy2023.InitializationScope
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.formatted
@@ -37,6 +38,12 @@ fun Penalty(en: String, ja: String) = Poem("penalty", Formatting.RED, en, ja)
 
 @Suppress("FunctionName")
 fun Penalty(key: String, en: String, ja: String) = Poem(key, Formatting.RED, en, ja)
+
+fun InitializationScope.generatePoemList(item: Item, poemList: List<Poem>) {
+    poemList.forEach {
+        enJa({ "${item.translationKey}.${it.key}" }, it.en, it.ja)
+    }
+}
 
 fun FeatureSlot<Item>.generatePoemList(poemList: List<Poem>) {
     poemList.forEach {
