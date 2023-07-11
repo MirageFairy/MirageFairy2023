@@ -14,6 +14,8 @@ import net.minecraft.loot.entry.LeafEntry
 import net.minecraft.loot.entry.LootPoolEntry
 import net.minecraft.loot.entry.SequenceEntry
 import net.minecraft.loot.function.LootFunctionConsumingBuilder
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider
+import net.minecraft.loot.provider.number.UniformLootNumberProvider
 
 @Suppress("FunctionName")
 fun LootTable(vararg pools: LootPool.Builder, initializer: LootTable.Builder.() -> Unit = {}): LootTable.Builder = configure(LootTable.builder()) {
@@ -52,6 +54,11 @@ fun GroupLootPoolEntry(vararg children: LootPoolEntry.Builder<*>, initializer: G
 fun SequenceLootPoolEntry(vararg children: LootPoolEntry.Builder<*>, initializer: SequenceEntry.Builder.() -> Unit = {}): SequenceEntry.Builder = configure(SequenceEntry.create(*children)) {
     initializer.invoke(this)
 }
+
+
+fun ConstantLootNumberProvider(value: Float): ConstantLootNumberProvider = ConstantLootNumberProvider.create(value)
+
+fun UniformLootNumberProvider(min: Float, max: Float): UniformLootNumberProvider = UniformLootNumberProvider.create(min, max)
 
 
 fun LootFunctionConsumingBuilder<*>.applyExplosionDecay(drop: ItemConvertible) {

@@ -8,8 +8,6 @@ import miragefairy2023.util.string
 import net.minecraft.block.Block
 import net.minecraft.loot.condition.BlockStatePropertyLootCondition
 import net.minecraft.loot.condition.LootCondition
-import net.minecraft.loot.provider.number.ConstantLootNumberProvider
-import net.minecraft.loot.provider.number.UniformLootNumberProvider
 import net.minecraft.state.property.Property
 import net.minecraft.util.registry.Registry
 
@@ -42,7 +40,3 @@ fun rangedMatchBlockStatePropertyLootCondition(block: Block, property: Property<
         ), null
     )
 }
-
-
-fun constantLootNumberProvider(value: Float): ConstantLootNumberProvider = ConstantLootNumberProvider.create(value)
-fun uniformLootNumberProvider(min: Float, max: Float): UniformLootNumberProvider = UniformLootNumberProvider.create(min, max)

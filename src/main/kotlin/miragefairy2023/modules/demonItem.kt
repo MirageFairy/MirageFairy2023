@@ -11,7 +11,7 @@ import miragefairy2023.util.init.item
 import miragefairy2023.util.init.registerBlockDrop
 import miragefairy2023.util.init.registerGrassDrop
 import miragefairy2023.util.init.registerMobDrop
-import miragefairy2023.util.init.uniformLootNumberProvider
+import miragefairy2023.util.datagen.UniformLootNumberProvider
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.Blocks
 import net.minecraft.block.ComposterBlock
@@ -137,7 +137,7 @@ val demonItemModule = module {
     }
 
     // 魔女→紅天石
-    registerMobDrop({ EntityType.WITCH }, { DemonItemCard.XARPITE.item.feature }, onlyKilledByPlayer = true, fortuneFactor = uniformLootNumberProvider(0.0F, 1.0F))
+    registerMobDrop({ EntityType.WITCH }, { DemonItemCard.XARPITE.item.feature }, onlyKilledByPlayer = true, fortuneFactor = UniformLootNumberProvider(0.0F, 1.0F))
 
     // ゾンビ→紅天石
     registerMobDrop({ EntityType.ZOMBIE }, { DemonItemCard.XARPITE.item.feature }, onlyKilledByPlayer = true, dropRate = Pair(0.02F, 0.01F))
