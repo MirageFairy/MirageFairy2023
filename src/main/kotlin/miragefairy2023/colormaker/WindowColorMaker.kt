@@ -224,11 +224,11 @@ class WindowColorMaker(
         border = TitledBorder(title)
     }
 
-    private fun createPanel(vararg components: Component, block: (JPanel.() -> Unit) = {}) = JPanel().also { panel ->
+    private fun createPanel(vararg components: Component, initializer: JPanel.() -> Unit = {}) = JPanel().also { panel ->
         components.forEach { component ->
             panel.add(component)
         }
-        block(panel)
+        initializer(panel)
     }
 
     private fun createSplitPaneHorizontal(vararg components: Component) = createSplitPaneHorizontal(components.toList())

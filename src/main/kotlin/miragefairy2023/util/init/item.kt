@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
-fun <T : Item> InitializationScope.item(name: String, itemCreator: () -> T, block: FeatureSlot<T>.() -> Unit = {}): FeatureSlot<T> {
+fun <T : Item> InitializationScope.item(name: String, itemCreator: () -> T, initializer: FeatureSlot<T>.() -> Unit = {}): FeatureSlot<T> {
     val id = Identifier(modId, name)
     lateinit var feature: T
     val scope = object : FeatureSlot<T> {
@@ -21,7 +21,7 @@ fun <T : Item> InitializationScope.item(name: String, itemCreator: () -> T, bloc
         feature = itemCreator()
         Registry.register(Registry.ITEM, id, feature)
     }
-    block(scope)
+    initializer(scope)
     return scope
 }
 

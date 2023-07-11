@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.registry.Registry
 
-fun <T : Block> InitializationScope.block(name: String, blockCreator: () -> T, block: FeatureSlot<T>.() -> Unit = {}): FeatureSlot<T> {
+fun <T : Block> InitializationScope.block(name: String, blockCreator: () -> T, initializer: FeatureSlot<T>.() -> Unit = {}): FeatureSlot<T> {
     val id = Identifier(modId, name)
     lateinit var feature: T
     val scope = object : FeatureSlot<T> {
@@ -23,7 +23,7 @@ fun <T : Block> InitializationScope.block(name: String, blockCreator: () -> T, b
         feature = blockCreator()
         Registry.register(Registry.BLOCK, id, feature)
     }
-    block(scope)
+    initializer(scope)
     return scope
 }
 
@@ -31,7 +31,7 @@ fun <T : BlockEntity> InitializationScope.blockEntity(
     name: String,
     blockEntityCreator: (BlockPos, BlockState) -> T,
     blockGetter: () -> Block,
-    block: FeatureSlot<BlockEntityType<T>>.() -> Unit = {},
+    initializer: FeatureSlot<BlockEntityType<T>>.() -> Unit = {},
 ): FeatureSlot<BlockEntityType<T>> {
     val id = Identifier(modId, name)
     lateinit var feature: BlockEntityType<T>
@@ -44,6 +44,6 @@ fun <T : BlockEntity> InitializationScope.blockEntity(
         feature = BlockEntityType(blockEntityCreator, setOf(blockGetter()), null)
         Registry.register(Registry.BLOCK_ENTITY_TYPE, id, feature)
     }
-    block(scope)
+    initializer(scope)
     return scope
 }

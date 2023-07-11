@@ -32,9 +32,9 @@ class PassiveSkillConditions(val conditions: List<PassiveSkillCondition>) {
     constructor (vararg conditions: PassiveSkillCondition) : this(conditions.toList())
 }
 
-fun passiveSkills(block: PassiveSkillsBuilder.() -> Unit): List<PassiveSkill> {
+fun passiveSkills(initializer: PassiveSkillsBuilder.() -> Unit): List<PassiveSkill> {
     val scope = PassiveSkillsBuilder()
-    block(scope)
+    initializer(scope)
     return scope.passiveSkills
 }
 

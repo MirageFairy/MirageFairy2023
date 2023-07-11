@@ -18,19 +18,19 @@ import net.minecraft.predicate.StatePredicate
 import net.minecraft.state.property.Property
 import net.minecraft.util.registry.Registry
 
-inline fun <T> configure(receiver: T, block: T.() -> Unit) = receiver.apply(block)
+inline fun <T> configure(receiver: T, initializer: T.() -> Unit) = receiver.apply(initializer)
 
 
 fun <T : LootFunctionConsumingBuilder<T>> T.applyExplosionDecay(drop: ItemConvertible): T {
     return FabricBlockLootTableProvider.applyExplosionDecay(drop, this)!!
 }
 
-fun lootPool(block: (LootPool.Builder.() -> Unit)? = null): LootPool.Builder {
-    return configure(LootPool.builder()!!) { block?.invoke(this) }
+fun lootPool(initializer: LootPool.Builder.() -> Unit = {}): LootPool.Builder {
+    return configure(LootPool.builder()!!) { initializer.invoke(this) }
 }
 
-fun blockStatePropertyLootCondition(targetBlock: Block, block: (BlockStatePropertyLootCondition.Builder.() -> Unit)? = null): BlockStatePropertyLootCondition.Builder {
-    return configure(BlockStatePropertyLootCondition.builder(targetBlock)!!) { block?.invoke(this) }
+fun blockStatePropertyLootCondition(targetBlock: Block, initializer: BlockStatePropertyLootCondition.Builder.() -> Unit = {}): BlockStatePropertyLootCondition.Builder {
+    return configure(BlockStatePropertyLootCondition.builder(targetBlock)!!) { initializer.invoke(this) }
 }
 
 fun exactMatchBlockStatePropertyLootCondition(block: Block, property: Property<Int>, value: Int) = LootCondition.Builder {
@@ -60,8 +60,8 @@ fun rangedMatchBlockStatePropertyLootCondition(block: Block, property: Property<
     )
 }
 
-fun statePredicate(block: (StatePredicate.Builder.() -> Unit)? = null): StatePredicate.Builder {
-    return configure(StatePredicate.Builder.create()!!) { block?.invoke(this) }
+fun statePredicate(initializer: StatePredicate.Builder.() -> Unit = {}): StatePredicate.Builder {
+    return configure(StatePredicate.Builder.create()!!) { initializer.invoke(this) }
 }
 
 

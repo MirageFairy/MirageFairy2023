@@ -32,7 +32,7 @@ fun InitializationScope.advancement(
     backgroundTexture: Identifier? = null,
     frame: AdvancementFrame = AdvancementFrame.TASK,
 
-    block: (Advancement.Builder.() -> Unit)? = null,
+    initializer: Advancement.Builder.() -> Unit = {},
 ): () -> Advancement {
     lateinit var advancement: Advancement
 
@@ -45,7 +45,7 @@ fun InitializationScope.advancement(
         advancement = Advancement.Builder.create().apply {
             if (parent != null) parent(parent())
             display(displayItem(), text { title() }, text { description() }, backgroundTexture, frame, true, true, false)
-            if (block != null) block(this)
+            initializer(this)
         }.build(consumer, "$modId/$name")
     }
 
