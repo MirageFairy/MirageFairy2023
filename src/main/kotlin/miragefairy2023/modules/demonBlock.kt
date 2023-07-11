@@ -131,7 +131,7 @@ val demonBlockModule = module {
         enJaBlock({ feature }, "Miranagite Block", "蒼天石ブロック")
         onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
         onGenerateBlockTags { it(BlockTags.NEEDS_STONE_TOOL).add(feature) }
-        generateDefaultBlockLootTable()
+        generateDefaultBlockLootTable { feature }
     }
     miranagiteBlockBlockItem = item("miranagite_block", { BlockItem(miranagiteBlockBlock.feature, FabricItemSettings().group(commonItemGroup)) }) {
         val poemList = listOf(Poem("Passivation confines discontinuous space", "虚空に導かれし、霊界との接合点。"))

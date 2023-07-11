@@ -68,7 +68,7 @@ val telescopeModule = module {
 
         // レシピ
         onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
-        generateDefaultBlockLootTable()
+        generateDefaultBlockLootTable { feature }
 
     }
     telescopeBlockItem = item("telescope", { BlockItem(telescopeBlock.feature, FabricItemSettings().group(commonItemGroup)) }) {

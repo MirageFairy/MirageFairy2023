@@ -94,7 +94,7 @@ fun <BE> InitializationScope.registerFairyHouse(card: FairyHouseCard<BE>) where 
         // レシピ
         onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
         if (card.needsToolTag != null) onGenerateBlockTags { it(card.needsToolTag).add(feature) }
-        generateDefaultBlockLootTable()
+        generateDefaultBlockLootTable { feature }
 
     }
     card.blockEntityType = blockEntity(card.path, card.blockEntityCreator, { card.block.feature }) {

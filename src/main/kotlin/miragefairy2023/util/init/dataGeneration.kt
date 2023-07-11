@@ -23,19 +23,21 @@ import net.minecraft.util.registry.Registry
 
 inline fun <T> configure(receiver: T, block: T.() -> Unit) = receiver.apply(block)
 
-fun <T : Block> InitializationScope.generateDefaultBlockLootTable(block: T) = generateBlockLootTable(block) { BlockLootTableGenerator.drops(block) }
+fun InitializationScope.generateDefaultBlockLootTable(block: Block) = generateBlockLootTable(block) { BlockLootTableGenerator.drops(block) }
 
-fun <T : Block> FeatureSlot<T>.generateDefaultBlockLootTable() = generateBlockLootTable { BlockLootTableGenerator.drops(feature) }
+@Deprecated("Removing") // TODO remove
+fun InitializationScope.generateDefaultBlockLootTable(blockGetter: () -> Block) = generateBlockLootTable({ blockGetter() }) { BlockLootTableGenerator.drops(blockGetter()) }
 
-fun <T : Block> InitializationScope.generateBlockLootTable(block: T, block2: () -> LootTable.Builder) {
+fun InitializationScope.generateBlockLootTable(block: Block, initializer: () -> LootTable.Builder) {
     onGenerateBlockLootTables {
-        addDrop(block, block2())
+        addDrop(block, initializer())
     }
 }
 
-fun <T : Block> FeatureSlot<T>.generateBlockLootTable(block: () -> LootTable.Builder) {
-    initializationScope.onGenerateBlockLootTables {
-        addDrop(feature, block())
+@Deprecated("Removing") // TODO remove
+fun InitializationScope.generateBlockLootTable(blockGetter: () -> Block, initializer: () -> LootTable.Builder) {
+    onGenerateBlockLootTables {
+        addDrop(blockGetter(), initializer())
     }
 }
 

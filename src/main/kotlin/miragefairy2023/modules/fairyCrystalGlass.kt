@@ -145,7 +145,7 @@ val fairyCrystalGlassModule = module {
             // レシピ
             onGenerateBlockTags { it(BlockTags.IMPERMEABLE).add(feature) }
             onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
-            generateDefaultBlockLootTable()
+            generateDefaultBlockLootTable { feature }
 
         }
 
