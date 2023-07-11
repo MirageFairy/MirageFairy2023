@@ -71,34 +71,34 @@ fun FairyRecipes.biome(biome: RegistryKey<Biome>) = this.also {
     }
 }
 
-fun FairyRecipes.block(blockSupplier: () -> Block) = this.also {
+fun FairyRecipes.block(blockGetter: () -> Block) = this.also {
     this.recipes += object : FairyRecipe {
-        override fun getWikiString() = "夢：ブロック：${blockSupplier().name.string}"
+        override fun getWikiString() = "夢：ブロック：${blockGetter().name.string}"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onRegisterRecipes {
-                BLOCK_FAIRY_RELATION_LIST += BlockFairyRelation(blockSupplier(), fairyCard.fairy)
+                BLOCK_FAIRY_RELATION_LIST += BlockFairyRelation(blockGetter(), fairyCard.fairy)
             }
         }
     }
 }
 
-fun FairyRecipes.entityType(entityTypeSupplier: () -> EntityType<*>) = this.also {
+fun FairyRecipes.entityType(entityTypeGetter: () -> EntityType<*>) = this.also {
     this.recipes += object : FairyRecipe {
-        override fun getWikiString() = "夢：エンティティ：${entityTypeSupplier().name.string}"
+        override fun getWikiString() = "夢：エンティティ：${entityTypeGetter().name.string}"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onRegisterRecipes {
-                ENTITY_TYPE_FAIRY_RELATION_LIST += EntityTypeFairyRelation(entityTypeSupplier(), fairyCard.fairy)
+                ENTITY_TYPE_FAIRY_RELATION_LIST += EntityTypeFairyRelation(entityTypeGetter(), fairyCard.fairy)
             }
         }
     }
 }
 
-fun FairyRecipes.recipe(inputItemSupplier: () -> Item) = this.also {
+fun FairyRecipes.recipe(inputItemGetter: () -> Item) = this.also {
     this.recipes += object : FairyRecipe {
-        override fun getWikiString() = "クラフト：${inputItemSupplier().name.string}"
+        override fun getWikiString() = "クラフト：${inputItemGetter().name.string}"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onGenerateRecipes {
-                val inputItem = inputItemSupplier()
+                val inputItem = inputItemGetter()
                 val mirageFlourItem = when (fairyCard.rare) {
                     0 -> MirageFlourCard.TINY_MIRAGE_FLOUR.item.feature
                     1, 2 -> MirageFlourCard.MIRAGE_FLOUR.item.feature

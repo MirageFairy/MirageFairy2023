@@ -11,21 +11,21 @@ import net.minecraft.block.Block
 import net.minecraft.data.client.BlockStateSupplier
 import net.minecraft.util.Identifier
 
-fun InitializationScope.generateBlockState(block: Block, jsonElementSupplier: () -> JsonElement) {
+fun InitializationScope.generateBlockState(block: Block, jsonElementGetter: () -> JsonElement) {
     onGenerateBlockStateModels { blockStateModelGenerator ->
         blockStateModelGenerator.blockStateCollector.accept(object : BlockStateSupplier {
             override fun getBlock() = block
-            override fun get() = jsonElementSupplier()
+            override fun get() = jsonElementGetter()
         })
     }
 }
 
 @Deprecated("Removing") // TODO remove
-fun InitializationScope.generateBlockState(blockGetter: () -> Block, jsonElementSupplier: () -> JsonElement) {
+fun InitializationScope.generateBlockState(blockGetter: () -> Block, jsonElementGetter: () -> JsonElement) {
     onGenerateBlockStateModels { blockStateModelGenerator ->
         blockStateModelGenerator.blockStateCollector.accept(object : BlockStateSupplier {
             override fun getBlock() = blockGetter()
-            override fun get() = jsonElementSupplier()
+            override fun get() = jsonElementGetter()
         })
     }
 }

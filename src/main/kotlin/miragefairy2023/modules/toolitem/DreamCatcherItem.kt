@@ -83,7 +83,7 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
         return ActionResult.CONSUME
     }
 
-    private fun swing(player: ServerPlayerEntity, itemStack: ItemStack, hand: Hand, fairyListSupplier: () -> List<Fairy>) {
+    private fun swing(player: ServerPlayerEntity, itemStack: ItemStack, hand: Hand, fairyListGetter: () -> List<Fairy>) {
 
         // 消費
         itemStack.damage(1, player) {
@@ -95,7 +95,7 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
 
         // 妖精判定
         val fairy = run found@{
-            fairyListSupplier().forEach { fairy ->
+            fairyListGetter().forEach { fairy ->
                 if (fairy.motif in foundFairies) {
                     player.sendMessage(text { knownKey(fairy.item.name) }, true)
                 } else {
