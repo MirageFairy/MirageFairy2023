@@ -2,13 +2,11 @@
 
 package miragefairy2023.util.init
 
-import miragefairy2023.InitializationScope
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
 import miragefairy2023.util.string
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.minecraft.block.Block
-import net.minecraft.data.server.BlockLootTableGenerator
 import net.minecraft.item.ItemConvertible
 import net.minecraft.loot.LootPool
 import net.minecraft.loot.LootTable
@@ -23,23 +21,6 @@ import net.minecraft.util.registry.Registry
 
 inline fun <T> configure(receiver: T, block: T.() -> Unit) = receiver.apply(block)
 
-fun InitializationScope.generateBlockLootTable(block: Block, initializer: () -> LootTable.Builder) {
-    onGenerateBlockLootTables {
-        addDrop(block, initializer())
-    }
-}
-
-@Deprecated("Removing") // TODO remove
-fun InitializationScope.generateBlockLootTable(blockGetter: () -> Block, initializer: () -> LootTable.Builder) {
-    onGenerateBlockLootTables {
-        addDrop(blockGetter(), initializer())
-    }
-}
-
-fun InitializationScope.generateDefaultBlockLootTable(block: Block) = generateBlockLootTable(block) { BlockLootTableGenerator.drops(block) }
-
-@Deprecated("Removing") // TODO remove
-fun InitializationScope.generateDefaultBlockLootTable(blockGetter: () -> Block) = generateBlockLootTable({ blockGetter() }) { BlockLootTableGenerator.drops(blockGetter()) }
 
 fun <T : LootFunctionConsumingBuilder<T>> T.applyExplosionDecay(drop: ItemConvertible): T {
     return FabricBlockLootTableProvider.applyExplosionDecay(drop, this)!!

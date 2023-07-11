@@ -4,13 +4,13 @@ import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.datagen.enJaBlock
+import miragefairy2023.util.datagen.generateDefaultBlockLootTable
 import miragefairy2023.util.datagen.generateHorizontalFacingBlockState
 import miragefairy2023.util.get
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.block
 import miragefairy2023.util.init.criterion
-import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.group
 import miragefairy2023.util.init.item
 import miragefairy2023.util.lib.InstrumentBlock
