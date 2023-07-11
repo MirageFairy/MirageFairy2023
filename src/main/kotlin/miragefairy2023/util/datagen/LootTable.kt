@@ -2,6 +2,7 @@
 
 package miragefairy2023.util.datagen
 
+import miragefairy2023.util.identifier
 import miragefairy2023.util.init.configure
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
@@ -23,7 +24,6 @@ import net.minecraft.loot.function.LootFunctionConsumingBuilder
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider
 import net.minecraft.loot.provider.number.UniformLootNumberProvider
 import net.minecraft.state.property.Property
-import net.minecraft.util.registry.Registry
 
 
 // LootTable
@@ -84,7 +84,7 @@ fun UniformLootNumberProvider(min: Float, max: Float): UniformLootNumberProvider
 fun ExactMatchBlockStatePropertyLootCondition(block: Block, property: Property<Int>, value: Int) = LootCondition.Builder {
     BlockStatePropertyLootCondition.Serializer().fromJson( // Rangedの方に合わせるためにjsonを使用
         jsonObjectOf(
-            "block" to Registry.BLOCK.getId(block).string.jsonPrimitive,
+            "block" to block.identifier.string.jsonPrimitive,
             "condition" to "minecraft:block_state_property".jsonPrimitive,
             "properties" to jsonObjectOf(
                 property.name to value.jsonPrimitive,
@@ -97,7 +97,7 @@ fun ExactMatchBlockStatePropertyLootCondition(block: Block, property: Property<I
 fun RangedMatchBlockStatePropertyLootCondition(block: Block, property: Property<Int>, min: Int, max: Int) = LootCondition.Builder {
     BlockStatePropertyLootCondition.Serializer().fromJson(
         jsonObjectOf(
-            "block" to Registry.BLOCK.getId(block).string.jsonPrimitive,
+            "block" to block.identifier.string.jsonPrimitive,
             "condition" to "minecraft:block_state_property".jsonPrimitive,
             "properties" to jsonObjectOf(
                 property.name to jsonObjectOf(

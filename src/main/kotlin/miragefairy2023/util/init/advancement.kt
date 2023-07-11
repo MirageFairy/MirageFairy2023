@@ -5,6 +5,7 @@ package miragefairy2023.util.init
 import miragefairy2023.InitializationScope
 import miragefairy2023.util.Translation
 import miragefairy2023.util.datagen.enJa
+import miragefairy2023.util.identifier
 import miragefairy2023.util.text
 import net.minecraft.advancement.Advancement
 import net.minecraft.advancement.AdvancementFrame
@@ -15,7 +16,6 @@ import net.minecraft.item.ItemConvertible
 import net.minecraft.predicate.item.ItemPredicate
 import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
 
 fun InitializationScope.advancement(
     name: String,
@@ -53,7 +53,7 @@ fun InitializationScope.advancement(
 }
 
 fun Advancement.Builder.criterion(item: Item) {
-    this.criterion("got_${Registry.ITEM.getId(item).path}", InventoryChangedCriterion.Conditions.items(item))
+    this.criterion("got_${item.identifier.path}", InventoryChangedCriterion.Conditions.items(item))
 }
 
 fun Advancement.Builder.criterion(tagKey: TagKey<Item>) {

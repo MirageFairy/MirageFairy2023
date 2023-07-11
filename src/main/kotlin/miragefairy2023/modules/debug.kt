@@ -6,6 +6,7 @@ import miragefairy2023.modules.fairy.invoke
 import miragefairy2023.modules.toolitem.foundFairies
 import miragefairy2023.util.Symbol
 import miragefairy2023.util.datagen.enJaItem
+import miragefairy2023.util.identifier
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.registerColorProvider
 import miragefairy2023.util.join
@@ -22,7 +23,6 @@ import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
-import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 import java.io.File
 import java.io.IOException
@@ -71,7 +71,7 @@ class FairyListDebuggerItem(settings: Settings) : Item(settings) {
 
             "|${fairyCard.jaName}|${fairyCard.rare}|${passiveSkillTexts.join("&br;")}|${recipeTexts.join("&br;")}|"
         }
-        writeAction(user, "${Registry.ITEM.getId(this).path}.txt", lines.map { "$it\n" }.join(""))
+        writeAction(user, "${identifier.path}.txt", lines.map { "$it\n" }.join(""))
 
         return TypedActionResult.success(itemStack)
     }

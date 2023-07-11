@@ -3,6 +3,7 @@
 package miragefairy2023.util
 
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
@@ -12,7 +13,7 @@ import net.minecraft.util.registry.Registry
 
 fun ItemConvertible.toIngredient(): Ingredient = Ingredient.ofItems(this)
 fun ItemConvertible.createItemStack(count: Int = 1) = ItemStack(this, count)
-val ItemConvertible.identifier get(): Identifier = Registry.ITEM.getId(this.asItem())
+val Item.identifier get(): Identifier = Registry.ITEM.getId(this)
 
 
 val EMPTY_ITEM_STACK: ItemStack get() = ItemStack.EMPTY
