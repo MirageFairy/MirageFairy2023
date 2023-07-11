@@ -1,6 +1,9 @@
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+
 package miragefairy2023.util.datagen
 
 import miragefairy2023.InitializationScope
+import miragefairy2023.util.Translation
 import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
@@ -33,3 +36,5 @@ fun InitializationScope.enJaItemGroup(itemGroup: () -> ItemGroup, en: String, ja
     onGenerateEnglishTranslations { it.add(itemGroup(), en) }
     onGenerateJapaneseTranslations { it.add(itemGroup(), ja) }
 }
+
+fun InitializationScope.translation(translation: Translation) = enJa(translation.key, translation.en, translation.ja)

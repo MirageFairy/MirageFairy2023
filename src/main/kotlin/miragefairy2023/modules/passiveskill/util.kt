@@ -6,9 +6,9 @@ import miragefairy2023.api.PassiveSkill
 import miragefairy2023.api.PassiveSkillCondition
 import miragefairy2023.api.PassiveSkillEffect
 import miragefairy2023.api.PassiveSkillItem
+import miragefairy2023.util.Translation
 import miragefairy2023.util.gold
 import miragefairy2023.util.gray
-import miragefairy2023.util.init.Translation
 import miragefairy2023.util.join
 import miragefairy2023.util.red
 import miragefairy2023.util.text

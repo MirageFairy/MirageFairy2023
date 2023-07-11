@@ -2,8 +2,8 @@ package miragefairy2023.modules.passiveskill
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
-import miragefairy2023.util.init.Translation
-import miragefairy2023.util.init.translation
+import miragefairy2023.util.Translation
+import miragefairy2023.util.datagen.translation
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.minecraft.util.Identifier

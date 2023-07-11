@@ -5,8 +5,8 @@ import miragefairy2023.api.PassiveSkillEffect
 import miragefairy2023.modules.DemonPlayerAttributeCard
 import miragefairy2023.modules.DemonSoundEventCard
 import miragefairy2023.util.Symbol
+import miragefairy2023.util.Translation
 import miragefairy2023.util.eyeBlockPos
-import miragefairy2023.util.init.Translation
 import miragefairy2023.util.randomInt
 import miragefairy2023.util.removeTrailingZeros
 import miragefairy2023.util.text

@@ -8,10 +8,10 @@ import miragefairy2023.modules.passiveskill.PassiveSkillAvailability
 import miragefairy2023.modules.passiveskill.getPassiveSkillEntries
 import miragefairy2023.modules.passiveskill.getPassiveSkillTooltip
 import miragefairy2023.util.Symbol
+import miragefairy2023.util.Translation
 import miragefairy2023.util.aqua
 import miragefairy2023.util.darkGray
 import miragefairy2023.util.formatted
-import miragefairy2023.util.init.Translation
 import miragefairy2023.util.join
 import miragefairy2023.util.removeTrailingZeros
 import miragefairy2023.util.text

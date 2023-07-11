@@ -6,8 +6,8 @@ import miragefairy2023.modules.customData
 import miragefairy2023.modules.fairy.BLOCK_FAIRY_RELATION_LIST
 import miragefairy2023.modules.fairy.ENTITY_TYPE_FAIRY_RELATION_LIST
 import miragefairy2023.modules.syncCustomData
+import miragefairy2023.util.Translation
 import miragefairy2023.util.get
-import miragefairy2023.util.init.Translation
 import miragefairy2023.util.int
 import miragefairy2023.util.map
 import miragefairy2023.util.string

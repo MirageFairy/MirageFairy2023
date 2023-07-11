@@ -3,8 +3,8 @@ package miragefairy2023.modules
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.SoundsProvider
 import miragefairy2023.module
-import miragefairy2023.util.init.Translation
-import miragefairy2023.util.init.translation
+import miragefairy2023.util.Translation
+import miragefairy2023.util.datagen.translation
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry

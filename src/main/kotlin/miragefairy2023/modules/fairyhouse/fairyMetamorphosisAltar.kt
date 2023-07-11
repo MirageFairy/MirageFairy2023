@@ -14,14 +14,14 @@ import miragefairy2023.modules.miranagiteBlockBlockItem
 import miragefairy2023.util.Chance
 import miragefairy2023.util.EMPTY_ITEM_STACK
 import miragefairy2023.util.Inventory
+import miragefairy2023.util.Translation
 import miragefairy2023.util.createItemStack
+import miragefairy2023.util.datagen.translation
 import miragefairy2023.util.draw
 import miragefairy2023.util.get
 import miragefairy2023.util.identifier
-import miragefairy2023.util.init.Translation
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.group
-import miragefairy2023.util.init.translation
 import miragefairy2023.util.isNotEmpty
 import miragefairy2023.util.set
 import miragefairy2023.util.text

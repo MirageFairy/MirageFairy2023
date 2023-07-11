@@ -6,8 +6,8 @@ import miragefairy2023.modules.ToolMaterialCard
 import miragefairy2023.modules.getTelescopeActions
 import miragefairy2023.modules.lastFoodProperty
 import miragefairy2023.util.Symbol
+import miragefairy2023.util.Translation
 import miragefairy2023.util.eyeBlockPos
-import miragefairy2023.util.init.Translation
 import miragefairy2023.util.removeTrailingZeros
 import miragefairy2023.util.text
 import mirrg.kotlin.hydrogen.formatAs
