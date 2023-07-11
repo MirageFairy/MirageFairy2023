@@ -111,7 +111,7 @@ fun FairyRecipes.recipe(inputItemGetter: () -> Item) = this.also {
                 }
                 ShapelessRecipeJsonBuilder
                     .create(fairyCard())
-                    .input(DemonItemCard.XARPITE.item.feature)
+                    .input(DemonItemCard.XARPITE.item)
                     .input(mirageFlourItem)
                     .input(inputItem)
                     .criterion(inputItem)

@@ -88,9 +88,9 @@ val telescopeModule = module {
             .pattern(" S ")
             .pattern("S S")
             .input('I', ConventionalItemTags.COPPER_INGOTS)
-            .input('G', DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item.feature)
+            .input('G', DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item)
             .input('S', Items.STICK)
-            .criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item.feature)
+            .criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item)
             .group(telescopeBlockItem.feature)
             .offerTo(it, telescopeBlockItem.feature.identifier)
     }
@@ -175,19 +175,19 @@ fun getTelescopeActions(now: Instant, player: PlayerEntity): List<() -> Unit> {
 
         val now2 = now.toLocalDateTime(TelescopeModule.ZONE_OFFSET)
         if (now2 >= nextMonthlyLimit) {
-            actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500.item.feature.createItemStack(5)) }
+            actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500.item.createItemStack(5)) }
         }
         if (now2 >= nextWeeklyLimit) {
-            actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500.item.feature.createItemStack(1)) }
-            actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50.item.feature.createItemStack(5)) }
+            actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500.item.createItemStack(1)) }
+            actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50.item.createItemStack(5)) }
         }
         if (now2 >= nextDailyLimit) {
-            actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50.item.feature.createItemStack(3)) }
+            actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_50.item.createItemStack(3)) }
         }
 
     } else {
 
-        actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500.item.feature.createItemStack(1)) }
+        actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500.item.createItemStack(1)) }
 
     }
 

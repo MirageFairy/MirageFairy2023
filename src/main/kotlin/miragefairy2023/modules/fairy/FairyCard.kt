@@ -235,7 +235,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.LUCK, 0) on toolMaterial(ToolMaterialCard.MIRANAGITE)
             mana(0.5) on always()
         },
-        FairyRecipes().overworld().recipe { DemonItemCard.MIRANAGITE.item.feature },
+        FairyRecipes().overworld().recipe { DemonItemCard.MIRANAGITE.item },
     ),
     AMETHYST(
         "amethyst", 5, "Amethystia", "紫水晶精アメティスチャ", 0xCAA9FF, 0xA974FF, 0x9D60FF, 0xBC92FF,

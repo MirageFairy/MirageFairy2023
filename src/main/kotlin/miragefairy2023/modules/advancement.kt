@@ -26,13 +26,13 @@ val advancementModule = module {
 
     // 進捗報酬ルートテーブル
     onGenerateAdvancementRewardLootTables { consumer ->
-        consumer.accept(tier1LootTableId, LootTable(LootPool(ItemLootPoolEntry(DemonItemCard.HONORABLE_FAIRY_CRYSTAL.item.feature))))
+        consumer.accept(tier1LootTableId, LootTable(LootPool(ItemLootPoolEntry(DemonItemCard.HONORABLE_FAIRY_CRYSTAL.item))))
     }
     onGenerateAdvancementRewardLootTables { consumer ->
-        consumer.accept(tier2LootTableId, LootTable(LootPool(ItemLootPoolEntry(DemonItemCard.GLORIOUS_FAIRY_CRYSTAL.item.feature))))
+        consumer.accept(tier2LootTableId, LootTable(LootPool(ItemLootPoolEntry(DemonItemCard.GLORIOUS_FAIRY_CRYSTAL.item))))
     }
     onGenerateAdvancementRewardLootTables { consumer ->
-        consumer.accept(tier3LootTableId, LootTable(LootPool(ItemLootPoolEntry(DemonItemCard.LEGENDARY_FAIRY_CRYSTAL.item.feature))))
+        consumer.accept(tier3LootTableId, LootTable(LootPool(ItemLootPoolEntry(DemonItemCard.LEGENDARY_FAIRY_CRYSTAL.item))))
     }
 
     // 進捗
@@ -264,12 +264,12 @@ val advancementModule = module {
         }
 
         val artificialFairyCrystal = advancement(
-            "artificial_fairy_crystal", { DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item.feature },
+            "artificial_fairy_crystal", { DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item },
             "Organic Amorphous Material", "水晶の飴",
             "Coagulate sugar contained in pollen", "花粉に含まれる糖分を凝固させる",
             parent = root,
         ) {
-            criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item.feature)
+            criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item)
             reward(tier1LootTableId)
         }
 
@@ -294,12 +294,12 @@ val advancementModule = module {
         }
 
         val chaosStone = advancement(
-            "chaos_stone", { DemonItemCard.CHAOS_STONE.item.feature },
+            "chaos_stone", { DemonItemCard.CHAOS_STONE.item },
             "The World of Science", "知られざる科学の世界",
             "Cause a chemical reaction", "化学反応を起こす",
             parent = fairyMetamorphosisAltar,
         ) {
-            criterion(DemonItemCard.CHAOS_STONE.item.feature)
+            criterion(DemonItemCard.CHAOS_STONE.item)
             reward(tier2LootTableId)
         }
 

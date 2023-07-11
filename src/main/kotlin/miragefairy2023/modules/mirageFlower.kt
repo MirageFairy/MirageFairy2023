@@ -129,7 +129,7 @@ val mirageFlowerModule = module {
                     conditionally(age3Condition)
                     conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
                 },
-                LootPool(ItemLootPoolEntry(DemonItemCard.MIRAGE_STEM.item.feature)) { // 茎ドロップ
+                LootPool(ItemLootPoolEntry(DemonItemCard.MIRAGE_STEM.item)) { // 茎ドロップ
                     conditionally(age2Condition)
                     conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
                 },

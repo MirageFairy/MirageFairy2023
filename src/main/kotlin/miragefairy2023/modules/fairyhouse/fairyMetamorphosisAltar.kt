@@ -73,10 +73,10 @@ val fairyMetamorphosisAltarModule = module {
             .pattern("GDG")
             .pattern("SSS")
             .input('B', miranagiteBlockBlockItem.feature)
-            .input('G', DemonItemCard.MIRANAGITE.item.feature)
+            .input('G', DemonItemCard.MIRANAGITE.item)
             .input('D', MirageFlourCard.MIRAGE_FLOUR.item.feature)
             .input('S', Blocks.STONE)
-            .criterion(DemonItemCard.MIRANAGITE.item.feature)
+            .criterion(DemonItemCard.MIRANAGITE.item)
             .group(fairyMetamorphosisAltar.blockItem.feature)
             .offerTo(it, fairyMetamorphosisAltar.blockItem.feature.identifier)
     }
@@ -175,7 +175,7 @@ object FairyMetamorphosisAltarRecipe {
 
         registerInteractive(Items.STONE, Category.R, 0.01, Items.MAGMA_BLOCK)
         registerInteractive(Items.STONE, Category.R, 0.01, Items.OBSIDIAN)
-        registerInteractive(Items.STONE, Category.R, 0.01, DemonItemCard.CHAOS_STONE.item.feature)
+        registerInteractive(Items.STONE, Category.R, 0.01, DemonItemCard.CHAOS_STONE.item)
 
 
         // 土系
@@ -191,7 +191,7 @@ object FairyMetamorphosisAltarRecipe {
         registerInteractive(Items.GRAVEL, Category.N, 0.1, Items.COBBLESTONE)
 
         registerInteractive(Items.GRAVEL, Category.R, 0.02, Items.CLAY)
-        registerInteractive(Items.GRAVEL, Category.R, 0.01, DemonItemCard.CHAOS_STONE.item.feature)
+        registerInteractive(Items.GRAVEL, Category.R, 0.01, DemonItemCard.CHAOS_STONE.item)
 
 
         // 鉱石系
@@ -205,14 +205,14 @@ object FairyMetamorphosisAltarRecipe {
         registerInteractive(Items.FLINT, Category.R, 0.01, Items.RAW_GOLD)
         registerInteractive(Items.FLINT, Category.R, 0.03, Items.REDSTONE)
         registerInteractive(Items.FLINT, Category.R, 0.02, Items.LAPIS_LAZULI)
-        registerInteractive(Items.FLINT, Category.R, 0.01, DemonItemCard.MIRANAGITE.item.feature)
-        registerInteractive(Items.FLINT, Category.R, 0.01, DemonItemCard.XARPITE.item.feature)
-        registerInteractive(Items.FLINT, Category.R, 0.01, DemonItemCard.CHAOS_STONE.item.feature)
+        registerInteractive(Items.FLINT, Category.R, 0.01, DemonItemCard.MIRANAGITE.item)
+        registerInteractive(Items.FLINT, Category.R, 0.01, DemonItemCard.XARPITE.item)
+        registerInteractive(Items.FLINT, Category.R, 0.01, DemonItemCard.CHAOS_STONE.item)
 
         registerInteractive(Items.FLINT, Category.SR, 0.001, Items.DIAMOND)
         registerInteractive(Items.FLINT, Category.SR, 0.001, Items.EMERALD)
 
-        register(DemonItemCard.CHAOS_STONE.item.feature, Category.R, 0.25, Items.DIAMOND) // TODO remove
+        register(DemonItemCard.CHAOS_STONE.item, Category.R, 0.25, Items.DIAMOND) // TODO remove
 
 
         // 動物系

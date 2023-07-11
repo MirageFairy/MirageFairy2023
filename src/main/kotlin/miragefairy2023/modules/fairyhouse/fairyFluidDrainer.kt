@@ -63,9 +63,9 @@ val fairyFluidDrainerModule = module {
             .pattern("III")
             .input('I', ConventionalItemTags.IRON_INGOTS)
             .input('F', Items.IRON_BARS)
-            .input('M', DemonItemCard.MIRANAGITE.item.feature)
+            .input('M', DemonItemCard.MIRANAGITE.item)
             .input('B', Items.BUCKET)
-            .criterion(DemonItemCard.MIRANAGITE.item.feature)
+            .criterion(DemonItemCard.MIRANAGITE.item)
             .group(fairyFluidDrainer.blockItem.feature)
             .offerTo(it, fairyFluidDrainer.blockItem.feature.identifier)
     }
