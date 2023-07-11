@@ -11,12 +11,12 @@ import miragefairy2023.modules.commonItemGroup
 import miragefairy2023.modules.generatePoemList
 import miragefairy2023.modules.registerPoemList
 import miragefairy2023.util.castOr
+import miragefairy2023.util.datagen.enJaBlock
 import miragefairy2023.util.datagen.generateHorizontalFacingBlockState
 import miragefairy2023.util.get
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.block
 import miragefairy2023.util.init.blockEntity
-import miragefairy2023.util.init.enJaBlock
 import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.item
 import miragefairy2023.util.isNotEmpty

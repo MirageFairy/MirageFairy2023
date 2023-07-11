@@ -3,8 +3,8 @@ package miragefairy2023.modules
 import miragefairy2023.InitializationScope
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
+import miragefairy2023.util.datagen.enJa
 import miragefairy2023.util.formatted
-import miragefairy2023.util.init.enJa
 import miragefairy2023.util.text
 import net.minecraft.item.Item
 import net.minecraft.util.Formatting

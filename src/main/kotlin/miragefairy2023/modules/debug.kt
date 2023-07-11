@@ -5,7 +5,7 @@ import miragefairy2023.modules.fairy.FairyCard
 import miragefairy2023.modules.fairy.invoke
 import miragefairy2023.modules.toolitem.foundFairies
 import miragefairy2023.util.Symbol
-import miragefairy2023.util.init.enJaItem
+import miragefairy2023.util.datagen.enJaItem
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.registerColorProvider
 import miragefairy2023.util.join

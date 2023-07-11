@@ -9,9 +9,7 @@ import miragefairy2023.util.string
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.minecraft.block.Block
 import net.minecraft.data.server.BlockLootTableGenerator
-import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
-import net.minecraft.item.ItemGroup
 import net.minecraft.loot.LootPool
 import net.minecraft.loot.LootTable
 import net.minecraft.loot.condition.BlockStatePropertyLootCondition
@@ -112,29 +110,3 @@ fun sequenceLootPoolEntry(vararg children: LootPoolEntry.Builder<*>, block: (Seq
 
 fun constantLootNumberProvider(value: Float) = ConstantLootNumberProvider.create(value)!!
 fun uniformLootNumberProvider(min: Float, max: Float) = UniformLootNumberProvider.create(min, max)!!
-
-
-fun InitializationScope.enJa(translationKey: String, en: String, ja: String) {
-    onGenerateEnglishTranslations { it.add(translationKey, en) }
-    onGenerateJapaneseTranslations { it.add(translationKey, ja) }
-}
-
-fun InitializationScope.enJa(translationKey: () -> String, en: String, ja: String) {
-    onGenerateEnglishTranslations { it.add(translationKey(), en) }
-    onGenerateJapaneseTranslations { it.add(translationKey(), ja) }
-}
-
-fun InitializationScope.enJaItem(item: () -> Item, en: String, ja: String) {
-    onGenerateEnglishTranslations { it.add(item(), en) }
-    onGenerateJapaneseTranslations { it.add(item(), ja) }
-}
-
-fun InitializationScope.enJaBlock(block: () -> Block, en: String, ja: String) {
-    onGenerateEnglishTranslations { it.add(block(), en) }
-    onGenerateJapaneseTranslations { it.add(block(), ja) }
-}
-
-fun InitializationScope.enJaItemGroup(itemGroup: () -> ItemGroup, en: String, ja: String) {
-    onGenerateEnglishTranslations { it.add(itemGroup(), en) }
-    onGenerateJapaneseTranslations { it.add(itemGroup(), ja) }
-}

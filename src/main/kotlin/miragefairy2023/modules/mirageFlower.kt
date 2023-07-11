@@ -7,11 +7,11 @@ import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.concat
 import miragefairy2023.util.createItemStack
+import miragefairy2023.util.datagen.enJaItem
 import miragefairy2023.util.datagen.generateBlockState
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.applyExplosionDecay
 import miragefairy2023.util.init.block
-import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.exactMatchBlockStatePropertyLootCondition
 import miragefairy2023.util.init.generateBlockLootTable
 import miragefairy2023.util.init.item

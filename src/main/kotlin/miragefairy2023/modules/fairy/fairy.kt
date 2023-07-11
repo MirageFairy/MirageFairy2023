@@ -8,10 +8,10 @@ import miragefairy2023.module
 import miragefairy2023.modules.TrinketsSlotCard
 import miragefairy2023.util.EMPTY_ITEM_STACK
 import miragefairy2023.util.createItemStack
+import miragefairy2023.util.datagen.enJa
+import miragefairy2023.util.datagen.enJaItemGroup
 import miragefairy2023.util.hasSameItemAndNbt
 import miragefairy2023.util.init.FeatureSlot
-import miragefairy2023.util.init.enJa
-import miragefairy2023.util.init.enJaItemGroup
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.registerColorProvider
 import miragefairy2023.util.init.translation
