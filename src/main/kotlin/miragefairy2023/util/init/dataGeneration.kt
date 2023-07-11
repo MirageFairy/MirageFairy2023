@@ -20,15 +20,26 @@ import net.minecraft.loot.LootTable
 import net.minecraft.loot.condition.BlockStatePropertyLootCondition
 import net.minecraft.loot.condition.LootCondition
 import net.minecraft.loot.entry.AlternativeEntry
+import net.minecraft.loot.entry.GroupEntry
 import net.minecraft.loot.entry.ItemEntry
 import net.minecraft.loot.entry.LeafEntry
 import net.minecraft.loot.entry.LootPoolEntry
+import net.minecraft.loot.entry.SequenceEntry
 import net.minecraft.loot.function.LootFunctionConsumingBuilder
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider
 import net.minecraft.loot.provider.number.UniformLootNumberProvider
 import net.minecraft.predicate.StatePredicate
 import net.minecraft.state.property.Property
 import net.minecraft.util.registry.Registry
+
+fun <T : Block> InitializationScope.generateBlockState(block: T, jsonElementSupplier: () -> JsonElement) {
+    onGenerateBlockStateModels { blockStateModelGenerator ->
+        blockStateModelGenerator.blockStateCollector.accept(object : BlockStateSupplier {
+            override fun getBlock() = block
+            override fun get() = jsonElementSupplier()
+        })
+    }
+}
 
 fun <T : Block> FeatureSlot<T>.generateBlockState(jsonElementSupplier: () -> JsonElement) {
     initializationScope.onGenerateBlockStateModels { blockStateModelGenerator ->
@@ -55,6 +66,12 @@ fun <T : Block> FeatureSlot<T>.generateHorizontalFacingBlockState() = generateBl
     )
 }
 
+fun <T : Block> InitializationScope.generateSimpleCubeAllBlockState(block: Block) {
+    onGenerateBlockStateModels { blockStateModelGenerator ->
+        blockStateModelGenerator.registerSimpleCubeAll(block)
+    }
+}
+
 fun <T : Block> FeatureSlot<T>.generateSimpleCubeAllBlockState() {
     initializationScope.onGenerateBlockStateModels { blockStateModelGenerator ->
         blockStateModelGenerator.registerSimpleCubeAll(feature)
@@ -64,7 +81,15 @@ fun <T : Block> FeatureSlot<T>.generateSimpleCubeAllBlockState() {
 
 inline fun <T> configure(receiver: T, block: T.() -> Unit) = receiver.apply(block)
 
+fun <T : Block> InitializationScope.generateDefaultBlockLootTable(block: T) = generateBlockLootTable(block) { BlockLootTableGenerator.drops(block) }
+
 fun <T : Block> FeatureSlot<T>.generateDefaultBlockLootTable() = generateBlockLootTable { BlockLootTableGenerator.drops(feature) }
+
+fun <T : Block> InitializationScope.generateBlockLootTable(block: T, block2: () -> LootTable.Builder) {
+    onGenerateBlockLootTables {
+        addDrop(block, block2())
+    }
+}
 
 fun <T : Block> FeatureSlot<T>.generateBlockLootTable(block: () -> LootTable.Builder) {
     initializationScope.onGenerateBlockLootTables {
@@ -125,6 +150,14 @@ fun itemEntry(item: ItemConvertible, block: (LeafEntry.Builder<*>.() -> Unit)? =
 
 fun alternativeEntry(vararg children: LootPoolEntry.Builder<*>, block: (AlternativeEntry.Builder.() -> Unit)? = null): AlternativeEntry.Builder {
     return configure(AlternativeEntry.builder(*children)!!) { block?.invoke(this) }
+}
+
+fun groupLootPoolEntry(vararg children: LootPoolEntry.Builder<*>, block: (GroupEntry.Builder.() -> Unit)? = null): GroupEntry.Builder {
+    return configure(GroupEntry.create(*children)!!) { block?.invoke(this) }
+}
+
+fun sequenceLootPoolEntry(vararg children: LootPoolEntry.Builder<*>, block: (SequenceEntry.Builder.() -> Unit)? = null): SequenceEntry.Builder {
+    return configure(SequenceEntry.create(*children)!!) { block?.invoke(this) }
 }
 
 fun constantLootNumberProvider(value: Float) = ConstantLootNumberProvider.create(value)!!
