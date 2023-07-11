@@ -23,11 +23,6 @@ import net.minecraft.util.registry.Registry
 
 inline fun <T> configure(receiver: T, block: T.() -> Unit) = receiver.apply(block)
 
-fun InitializationScope.generateDefaultBlockLootTable(block: Block) = generateBlockLootTable(block) { BlockLootTableGenerator.drops(block) }
-
-@Deprecated("Removing") // TODO remove
-fun InitializationScope.generateDefaultBlockLootTable(blockGetter: () -> Block) = generateBlockLootTable({ blockGetter() }) { BlockLootTableGenerator.drops(blockGetter()) }
-
 fun InitializationScope.generateBlockLootTable(block: Block, initializer: () -> LootTable.Builder) {
     onGenerateBlockLootTables {
         addDrop(block, initializer())
@@ -40,6 +35,11 @@ fun InitializationScope.generateBlockLootTable(blockGetter: () -> Block, initial
         addDrop(blockGetter(), initializer())
     }
 }
+
+fun InitializationScope.generateDefaultBlockLootTable(block: Block) = generateBlockLootTable(block) { BlockLootTableGenerator.drops(block) }
+
+@Deprecated("Removing") // TODO remove
+fun InitializationScope.generateDefaultBlockLootTable(blockGetter: () -> Block) = generateBlockLootTable({ blockGetter() }) { BlockLootTableGenerator.drops(blockGetter()) }
 
 fun <T : LootFunctionConsumingBuilder<T>> T.applyExplosionDecay(drop: ItemConvertible): T {
     return FabricBlockLootTableProvider.applyExplosionDecay(drop, this)!!
