@@ -77,6 +77,7 @@ import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.Registry
 import net.minecraft.util.registry.RegistryEntry
 import net.minecraft.util.registry.RegistryKey
+import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.gen.GenerationStep
@@ -221,11 +222,11 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
     companion object {
         val AGE = Properties.AGE_3!!
         val MAX_AGE = 3
-        private val AGE_TO_SHAPE = arrayOf(
-            createCuboidShape(5.0, 0.0, 5.0, 11.0, 5.0, 11.0)!!,
-            createCuboidShape(2.0, 0.0, 2.0, 14.0, 12.0, 14.0)!!,
-            createCuboidShape(2.0, 0.0, 2.0, 14.0, 15.0, 14.0)!!,
-            createCuboidShape(2.0, 0.0, 2.0, 14.0, 16.0, 14.0)!!,
+        private val AGE_TO_SHAPE: Array<VoxelShape> = arrayOf(
+            createCuboidShape(5.0, 0.0, 5.0, 11.0, 5.0, 11.0),
+            createCuboidShape(2.0, 0.0, 2.0, 14.0, 12.0, 14.0),
+            createCuboidShape(2.0, 0.0, 2.0, 14.0, 15.0, 14.0),
+            createCuboidShape(2.0, 0.0, 2.0, 14.0, 16.0, 14.0),
         )
     }
 
@@ -242,7 +243,7 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
 
     fun getAge(state: BlockState) = state[AGE]!!
     fun isMaxAge(state: BlockState) = getAge(state) >= MAX_AGE
-    fun withAge(age: Int) = defaultState.with(AGE, age atLeast 0 atMost MAX_AGE)!!
+    fun withAge(age: Int): BlockState = defaultState.with(AGE, age atLeast 0 atMost MAX_AGE)
 
 
     // 挙動

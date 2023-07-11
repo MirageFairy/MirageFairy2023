@@ -18,7 +18,7 @@ inline fun <T> configure(receiver: T, initializer: T.() -> Unit) = receiver.appl
 
 
 fun blockStatePropertyLootCondition(targetBlock: Block, initializer: BlockStatePropertyLootCondition.Builder.() -> Unit = {}): BlockStatePropertyLootCondition.Builder {
-    return configure(BlockStatePropertyLootCondition.builder(targetBlock)!!) { initializer.invoke(this) }
+    return configure(BlockStatePropertyLootCondition.builder(targetBlock)) { initializer.invoke(this) }
 }
 
 fun exactMatchBlockStatePropertyLootCondition(block: Block, property: Property<Int>, value: Int) = LootCondition.Builder {
@@ -53,5 +53,5 @@ fun statePredicate(initializer: StatePredicate.Builder.() -> Unit = {}): StatePr
 }
 
 
-fun constantLootNumberProvider(value: Float) = ConstantLootNumberProvider.create(value)!!
-fun uniformLootNumberProvider(min: Float, max: Float) = UniformLootNumberProvider.create(min, max)!!
+fun constantLootNumberProvider(value: Float): ConstantLootNumberProvider = ConstantLootNumberProvider.create(value)
+fun uniformLootNumberProvider(min: Float, max: Float): UniformLootNumberProvider = UniformLootNumberProvider.create(min, max)
