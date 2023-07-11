@@ -5,9 +5,11 @@
       <w>cullface</w>
       <w>decondensation</w>
       <w>enchantability</w>
+      <w>lapis</w>
       <w>miragefairy</w>
       <w>netherite</w>
       <w>overworld</w>
+      <w>redstone</w>
     </words>
   </dictionary>
 </component>
