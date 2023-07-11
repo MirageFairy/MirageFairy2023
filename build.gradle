@@ -107,6 +107,8 @@ dependencies {
 
 processResources {
     inputs.property "version", project.version
+    exclude "**/*.pdn"
+    exclude "**/*.scr.png"
 
     filesMatching("fabric.mod.json") {
         expand "version": project.version
