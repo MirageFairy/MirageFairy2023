@@ -31,10 +31,9 @@ fun InitializationScope.enJaBlock(block: () -> Block, en: String, ja: String) {
     onGenerateJapaneseTranslations { it.add(block(), ja) }
 }
 
-@Deprecated("Removing") // TODO remove
-fun InitializationScope.enJaItemGroup(itemGroup: () -> ItemGroup, en: String, ja: String) {
-    onGenerateEnglishTranslations { it.add(itemGroup(), en) }
-    onGenerateJapaneseTranslations { it.add(itemGroup(), ja) }
+fun InitializationScope.enJa(itemGroup: ItemGroup, en: String, ja: String) {
+    onGenerateEnglishTranslations { it.add(itemGroup, en) }
+    onGenerateJapaneseTranslations { it.add(itemGroup, ja) }
 }
 
 fun InitializationScope.enJa(translation: Translation) = enJa(translation.key, translation.en, translation.ja)

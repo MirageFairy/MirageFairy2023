@@ -11,7 +11,6 @@ import miragefairy2023.util.createItemStack
 import miragefairy2023.util.hasSameItemAndNbt
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.enJa
-import miragefairy2023.util.init.enJaItemGroup
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.registerColorProvider
 import miragefairy2023.util.isNotEmpty
@@ -56,7 +55,7 @@ lateinit var fairyCondensationRecipeSerializer: SpecialRecipeSerializer<FairyCon
 val fairyModule = module {
 
     // アイテムグループ
-    enJaItemGroup({ fairyItemGroup }, "MirageFairy2023: Fairy", "MirageFairy2023: 妖精")
+    enJa(fairyItemGroup, "MirageFairy2023: Fairy", "MirageFairy2023: 妖精")
 
     // 妖精の共通アイテムモデル
     onGenerateItemModels {
