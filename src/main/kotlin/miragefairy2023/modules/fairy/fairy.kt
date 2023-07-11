@@ -108,7 +108,7 @@ val fairyModule = module {
 
                     // モデル系
                     onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier(modId, "item/fairy")), Optional.empty())) }
-                    registerColorProvider { _, tintIndex ->
+                    registerColorProvider({ feature }) { _, tintIndex ->
                         when (tintIndex) {
                             0 -> fairyCard.skinColor
                             1 -> fairyCard.backColor

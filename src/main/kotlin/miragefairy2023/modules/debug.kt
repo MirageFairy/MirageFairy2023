@@ -31,17 +31,17 @@ import java.util.Optional
 val debugModule = module {
     item("fairy_list_debugger", { FairyListDebuggerItem(FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier("minecraft", "item/book")), Optional.empty())) }
-        registerColorProvider { _, _ -> 0xAA0000 }
+        registerColorProvider({ feature }) { _, _ -> 0xAA0000 }
         enJaItem({ feature }, "Fairy List Debugger", "妖精一覧デバッガー")
     }
     item("reset_telescope_mission_debugger", { ResetTelescopeMissionDebuggerItem(FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier("minecraft", "item/book")), Optional.empty())) }
-        registerColorProvider { _, _ -> 0xFFC700 }
+        registerColorProvider({ feature }) { _, _ -> 0xFFC700 }
         enJaItem({ feature }, "Reset Telescope Mission Debugger", "望遠鏡ミッションリセットデバッガー")
     }
     item("reset_fairy_dream_debugger", { ResetFairyDreamDebuggerItem(FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier("minecraft", "item/book")), Optional.empty())) }
-        registerColorProvider { _, _ -> 0x00FFC3 }
+        registerColorProvider({ feature }) { _, _ -> 0x00FFC3 }
         enJaItem({ feature }, "Reset Fairy Dream Debugger", "妖精の夢リセットデバッガー")
     }
 }

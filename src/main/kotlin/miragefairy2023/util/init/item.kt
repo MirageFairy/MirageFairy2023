@@ -25,6 +25,11 @@ fun <T : Item> InitializationScope.item(name: String, itemCreator: () -> T, bloc
     return scope
 }
 
-fun <T : Item> FeatureSlot<T>.registerColorProvider(colorFunction: (ItemStack, Int) -> Int) = initializationScope.onInitializeClient {
-    MirageFairy2023.clientProxy!!.registerItemColorProvider(feature, colorFunction)
+@Deprecated("Removing") // TODO remove
+fun InitializationScope.registerColorProvider(itemGetter: () -> Item, colorFunction: (ItemStack, Int) -> Int) = onInitializeClient {
+    MirageFairy2023.clientProxy!!.registerItemColorProvider(itemGetter(), colorFunction)
+}
+
+fun InitializationScope.registerColorProvider(item: Item, colorFunction: (ItemStack, Int) -> Int) = onInitializeClient {
+    MirageFairy2023.clientProxy!!.registerItemColorProvider(item, colorFunction)
 }
