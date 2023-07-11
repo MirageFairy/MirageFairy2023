@@ -3,7 +3,6 @@
 package miragefairy2023.util.datagen
 
 import miragefairy2023.util.identifier
-import miragefairy2023.util.init.configure
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
 import miragefairy2023.util.string
@@ -26,10 +25,13 @@ import net.minecraft.loot.provider.number.UniformLootNumberProvider
 import net.minecraft.state.property.Property
 
 
+inline fun <T> T.configure(block: T.() -> Unit) = this.apply(block)
+
+
 // LootTable
 
 @Suppress("FunctionName")
-fun LootTable(vararg pools: LootPool.Builder, initializer: LootTable.Builder.() -> Unit = {}): LootTable.Builder = configure(LootTable.builder()) {
+fun LootTable(vararg pools: LootPool.Builder, initializer: LootTable.Builder.() -> Unit = {}): LootTable.Builder = LootTable.builder().configure {
     pools.forEach {
         this.pool(it)
     }
@@ -40,7 +42,7 @@ fun LootTable(vararg pools: LootPool.Builder, initializer: LootTable.Builder.() 
 // LootPool
 
 @Suppress("FunctionName")
-fun LootPool(vararg entries: LootPoolEntry.Builder<*>, initializer: LootPool.Builder.() -> Unit = {}): LootPool.Builder = configure(LootPool.builder()) {
+fun LootPool(vararg entries: LootPoolEntry.Builder<*>, initializer: LootPool.Builder.() -> Unit = {}): LootPool.Builder = LootPool.builder().configure {
     entries.forEach {
         this.with(it)
     }
@@ -51,22 +53,22 @@ fun LootPool(vararg entries: LootPoolEntry.Builder<*>, initializer: LootPool.Bui
 // LootPoolEntry
 
 @Suppress("FunctionName")
-fun ItemLootPoolEntry(item: ItemConvertible, initializer: LeafEntry.Builder<*>.() -> Unit = {}): LeafEntry.Builder<*> = configure(ItemEntry.builder(item)) {
+fun ItemLootPoolEntry(item: ItemConvertible, initializer: LeafEntry.Builder<*>.() -> Unit = {}): LeafEntry.Builder<*> = ItemEntry.builder(item).configure {
     initializer.invoke(this)
 }
 
 @Suppress("FunctionName")
-fun AlternativeLootPoolEntry(vararg children: LootPoolEntry.Builder<*>, initializer: AlternativeEntry.Builder.() -> Unit = {}): AlternativeEntry.Builder = configure(AlternativeEntry.builder(*children)) {
+fun AlternativeLootPoolEntry(vararg children: LootPoolEntry.Builder<*>, initializer: AlternativeEntry.Builder.() -> Unit = {}): AlternativeEntry.Builder = AlternativeEntry.builder(*children).configure {
     initializer.invoke(this)
 }
 
 @Suppress("FunctionName")
-fun GroupLootPoolEntry(vararg children: LootPoolEntry.Builder<*>, initializer: GroupEntry.Builder.() -> Unit = {}): GroupEntry.Builder = configure(GroupEntry.create(*children)) {
+fun GroupLootPoolEntry(vararg children: LootPoolEntry.Builder<*>, initializer: GroupEntry.Builder.() -> Unit = {}): GroupEntry.Builder = GroupEntry.create(*children).configure {
     initializer.invoke(this)
 }
 
 @Suppress("FunctionName")
-fun SequenceLootPoolEntry(vararg children: LootPoolEntry.Builder<*>, initializer: SequenceEntry.Builder.() -> Unit = {}): SequenceEntry.Builder = configure(SequenceEntry.create(*children)) {
+fun SequenceLootPoolEntry(vararg children: LootPoolEntry.Builder<*>, initializer: SequenceEntry.Builder.() -> Unit = {}): SequenceEntry.Builder = SequenceEntry.create(*children).configure {
     initializer.invoke(this)
 }
 
