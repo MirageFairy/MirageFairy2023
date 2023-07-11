@@ -7,7 +7,7 @@ import miragefairy2023.util.datagen.ItemLootPoolEntry
 import miragefairy2023.util.datagen.LootPool
 import miragefairy2023.util.datagen.LootTable
 import miragefairy2023.util.datagen.applyExplosionDecay
-import miragefairy2023.util.init.enJaBlock
+import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.generateBlockLootTable
 import miragefairy2023.util.init.generateBlockState
 import miragefairy2023.util.jsonObjectOf
@@ -143,7 +143,7 @@ val luminariaModule = module {
         onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(card.block) }
 
         // 翻訳
-        enJaBlock({ card.block }, card.en, card.ja)
+        enJa(card.block, card.en, card.ja)
         generatePoemList(card.item, card.poemList)
         onRegisterItems { registerPoemList(card.item, card.poemList) }
 
