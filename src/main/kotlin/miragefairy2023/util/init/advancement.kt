@@ -4,7 +4,7 @@ package miragefairy2023.util.init
 
 import miragefairy2023.InitializationScope
 import miragefairy2023.util.Translation
-import miragefairy2023.util.datagen.translation
+import miragefairy2023.util.datagen.enJa
 import miragefairy2023.util.text
 import net.minecraft.advancement.Advancement
 import net.minecraft.advancement.AdvancementFrame
@@ -38,8 +38,8 @@ fun InitializationScope.advancement(
 
     val title = Translation("advancements.$modId.$name.title", enTitle, jaTitle)
     val description = Translation("advancements.$modId.$name.description", enDescription, jaDescription)
-    translation(title)
-    translation(description)
+    enJa(title)
+    enJa(description)
 
     onGenerateAdvancements { consumer ->
         advancement = Advancement.Builder.create().apply {

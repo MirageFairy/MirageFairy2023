@@ -37,4 +37,4 @@ fun InitializationScope.enJaItemGroup(itemGroup: () -> ItemGroup, en: String, ja
     onGenerateJapaneseTranslations { it.add(itemGroup(), ja) }
 }
 
-fun InitializationScope.translation(translation: Translation) = enJa(translation.key, translation.en, translation.ja)
+fun InitializationScope.enJa(translation: Translation) = enJa(translation.key, translation.en, translation.ja)

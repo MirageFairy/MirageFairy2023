@@ -10,7 +10,6 @@ import miragefairy2023.util.EMPTY_ITEM_STACK
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.datagen.enJa
 import miragefairy2023.util.datagen.enJaItemGroup
-import miragefairy2023.util.datagen.translation
 import miragefairy2023.util.hasSameItemAndNbt
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.item
@@ -77,10 +76,10 @@ val fairyModule = module {
     }
 
     // 翻訳登録
-    translation(DemonFairyItem.RARE_KEY)
-    translation(DemonFairyItem.CONDENSATION_RECIPE_KEY)
-    translation(DemonFairyItem.DECONDENSATION_RECIPE_KEY)
-    translation(DemonFairyItem.BOTH_RECIPE_KEY)
+    enJa(DemonFairyItem.RARE_KEY)
+    enJa(DemonFairyItem.CONDENSATION_RECIPE_KEY)
+    enJa(DemonFairyItem.DECONDENSATION_RECIPE_KEY)
+    enJa(DemonFairyItem.BOTH_RECIPE_KEY)
 
     // 妖精アイテム
     run {

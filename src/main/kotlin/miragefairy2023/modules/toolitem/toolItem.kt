@@ -19,8 +19,8 @@ import miragefairy2023.modules.passiveskill.mana
 import miragefairy2023.modules.passiveskill.passiveSkills
 import miragefairy2023.modules.registerPoemList
 import miragefairy2023.util.Translation
+import miragefairy2023.util.datagen.enJa
 import miragefairy2023.util.datagen.enJaItem
-import miragefairy2023.util.datagen.translation
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.criterion
@@ -235,9 +235,9 @@ val toolItemModule = module {
             .offerTo(it, ToolItemCard.CHAOS_FISHING_GROVE.item.feature.identifier)
     }
 
-    translation(DreamCatcherItem.knownKey)
-    translation(DreamCatcherItem.successKey)
-    translation(NOT_ENOUGH_EXPERIENCE_KEY)
+    enJa(DreamCatcherItem.knownKey)
+    enJa(DreamCatcherItem.successKey)
+    enJa(NOT_ENOUGH_EXPERIENCE_KEY)
 
 }
 

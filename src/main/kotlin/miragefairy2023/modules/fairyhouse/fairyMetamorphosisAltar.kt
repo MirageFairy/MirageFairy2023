@@ -16,7 +16,7 @@ import miragefairy2023.util.EMPTY_ITEM_STACK
 import miragefairy2023.util.Inventory
 import miragefairy2023.util.Translation
 import miragefairy2023.util.createItemStack
-import miragefairy2023.util.datagen.translation
+import miragefairy2023.util.datagen.enJa
 import miragefairy2023.util.draw
 import miragefairy2023.util.get
 import miragefairy2023.util.identifier
@@ -63,9 +63,9 @@ val fairyMetamorphosisAltar = FairyHouseCard(
 
 val fairyMetamorphosisAltarModule = module {
     registerFairyHouse(fairyMetamorphosisAltar)
-    translation(FairyMetamorphosisAltarBlockEntity.INVALID_KEY)
-    translation(FairyMetamorphosisAltarBlockEntity.PROCESSING_SPEED_KEY)
-    translation(FairyMetamorphosisAltarBlockEntity.FORTUNE_FACTOR_KEY)
+    enJa(FairyMetamorphosisAltarBlockEntity.INVALID_KEY)
+    enJa(FairyMetamorphosisAltarBlockEntity.PROCESSING_SPEED_KEY)
+    enJa(FairyMetamorphosisAltarBlockEntity.FORTUNE_FACTOR_KEY)
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
             .create(fairyMetamorphosisAltar.blockItem.feature)

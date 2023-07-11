@@ -3,7 +3,7 @@ package miragefairy2023.modules.passiveskill
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.Translation
-import miragefairy2023.util.datagen.translation
+import miragefairy2023.util.datagen.enJa
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.minecraft.util.Identifier
@@ -76,37 +76,37 @@ val passiveSkillModule = module {
     }
 
 
-    translation(PassiveSkillKeys.ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
-    translation(PassiveSkillKeys.OVERFLOWED_PASSIVE_SKILL_DESCRIPTION_KEY)
-    translation(PassiveSkillKeys.HIDDEN_PASSIVE_SKILL_DESCRIPTION_KEY)
-    translation(PassiveSkillKeys.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
+    enJa(PassiveSkillKeys.ENABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
+    enJa(PassiveSkillKeys.OVERFLOWED_PASSIVE_SKILL_DESCRIPTION_KEY)
+    enJa(PassiveSkillKeys.HIDDEN_PASSIVE_SKILL_DESCRIPTION_KEY)
+    enJa(PassiveSkillKeys.DISABLED_PASSIVE_SKILL_DESCRIPTION_KEY)
 
-    translation(attributeKey)
+    enJa(attributeKey)
 
-    translation(OverworldPassiveSkillCondition.key)
-    translation(AirPassiveSkillCondition.key)
-    translation(UnderwaterPassiveSkillCondition.key)
-    translation(DaytimePassiveSkillCondition.key)
-    translation(NightPassiveSkillCondition.key)
-    translation(SunshinePassiveSkillCondition.key)
-    translation(MoonlightPassiveSkillCondition.key)
-    translation(OutdoorPassiveSkillCondition.key)
-    translation(IndoorPassiveSkillCondition.key)
-    translation(ShadePassiveSkillCondition.key)
+    enJa(OverworldPassiveSkillCondition.key)
+    enJa(AirPassiveSkillCondition.key)
+    enJa(UnderwaterPassiveSkillCondition.key)
+    enJa(DaytimePassiveSkillCondition.key)
+    enJa(NightPassiveSkillCondition.key)
+    enJa(SunshinePassiveSkillCondition.key)
+    enJa(MoonlightPassiveSkillCondition.key)
+    enJa(OutdoorPassiveSkillCondition.key)
+    enJa(IndoorPassiveSkillCondition.key)
+    enJa(ShadePassiveSkillCondition.key)
     BiomePassiveSkillCondition.Key.values().forEach {
-        translation(it.translation)
+        enJa(it.translation)
     }
-    translation(InVillagePassiveSkillCondition.key)
-    translation(InRainPassiveSkillCondition.key)
-    translation(ThunderingPassiveSkillCondition.key)
-    translation(HasHoePassiveSkillCondition.key)
-    translation(OnFirePassiveSkillCondition.key)
-    translation(TelescopeMissionPassiveSkillCondition.key)
+    enJa(InVillagePassiveSkillCondition.key)
+    enJa(InRainPassiveSkillCondition.key)
+    enJa(ThunderingPassiveSkillCondition.key)
+    enJa(HasHoePassiveSkillCondition.key)
+    enJa(OnFirePassiveSkillCondition.key)
+    enJa(TelescopeMissionPassiveSkillCondition.key)
 
-    translation(CombustionPassiveSkillEffect.key)
-    translation(ExperiencePassiveSkillEffect.key)
-    translation(RegenerationPassiveSkillEffect.key)
-    translation(CollectionPassiveSkillEffect.key)
-    translation(ManaPassiveSkillEffect.key)
+    enJa(CombustionPassiveSkillEffect.key)
+    enJa(ExperiencePassiveSkillEffect.key)
+    enJa(RegenerationPassiveSkillEffect.key)
+    enJa(CollectionPassiveSkillEffect.key)
+    enJa(ManaPassiveSkillEffect.key)
 
 }

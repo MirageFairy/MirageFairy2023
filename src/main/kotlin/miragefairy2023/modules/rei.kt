@@ -4,15 +4,15 @@ import miragefairy2023.BLOCK_FAIRY_RELATION_KEY
 import miragefairy2023.ENTITY_TYPE_FAIRY_RELATION_KEY
 import miragefairy2023.module
 import miragefairy2023.util.Translation
-import miragefairy2023.util.datagen.translation
+import miragefairy2023.util.datagen.enJa
 
 val COLLECTED_KEY = Translation("gui.collected", "Collected", "収集済み")
 val UNCOLLECTED_KEY = Translation("gui.uncollected", "Uncollected", "未収集")
 
 val reiModule = module {
-    translation(BLOCK_FAIRY_RELATION_KEY)
-    translation(ENTITY_TYPE_FAIRY_RELATION_KEY)
+    enJa(BLOCK_FAIRY_RELATION_KEY)
+    enJa(ENTITY_TYPE_FAIRY_RELATION_KEY)
 
-    translation(COLLECTED_KEY)
-    translation(UNCOLLECTED_KEY)
+    enJa(COLLECTED_KEY)
+    enJa(UNCOLLECTED_KEY)
 }

@@ -12,8 +12,8 @@ import miragefairy2023.util.Translation
 import miragefairy2023.util.blue
 import miragefairy2023.util.concat
 import miragefairy2023.util.createItemStack
+import miragefairy2023.util.datagen.enJa
 import miragefairy2023.util.datagen.enJaItem
-import miragefairy2023.util.datagen.translation
 import miragefairy2023.util.distinct
 import miragefairy2023.util.draw
 import miragefairy2023.util.get
@@ -119,11 +119,11 @@ val mirageFlourModule = module {
     }
 
     // アイテムツールチップの翻訳
-    translation(MirageFlourItem.MIN_RARE_KEY)
-    translation(MirageFlourItem.MAX_RARE_KEY)
-    translation(MirageFlourItem.DROP_RATE_FACTOR_KEY)
-    translation(MirageFlourItem.RIGHT_CLICK_KEY)
-    translation(MirageFlourItem.SHIFT_RIGHT_CLICK_KEY)
+    enJa(MirageFlourItem.MIN_RARE_KEY)
+    enJa(MirageFlourItem.MAX_RARE_KEY)
+    enJa(MirageFlourItem.DROP_RATE_FACTOR_KEY)
+    enJa(MirageFlourItem.RIGHT_CLICK_KEY)
+    enJa(MirageFlourItem.SHIFT_RIGHT_CLICK_KEY)
 
     // ミラージュフラワー相互変換
     fun registerMirageFlourRecipe(lowerItemGetter: () -> Item, higherItemGetter: () -> Item) = onGenerateRecipes {
