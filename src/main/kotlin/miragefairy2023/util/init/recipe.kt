@@ -4,6 +4,8 @@ package miragefairy2023.util.init
 
 import miragefairy2023.InitializationScope
 import miragefairy2023.modules.ApplyLuckBonusLootFunction
+import miragefairy2023.util.datagen.alternativeLootPoolEntry
+import miragefairy2023.util.datagen.itemLootPoolEntry
 import miragefairy2023.util.identifier
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.fabricmc.fabric.api.registry.FuelRegistry

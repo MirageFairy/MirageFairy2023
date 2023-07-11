@@ -8,9 +8,9 @@ import miragefairy2023.modules.fairy.fairiesOfRareTags
 import miragefairy2023.modules.fairy.invoke
 import miragefairy2023.modules.fairyhouse.fairyMetamorphosisAltar
 import miragefairy2023.modules.toolitem.ToolItemCard
+import miragefairy2023.util.datagen.itemLootPoolEntry
 import miragefairy2023.util.init.advancement
 import miragefairy2023.util.init.criterion
-import miragefairy2023.util.init.itemLootPoolEntry
 import miragefairy2023.util.init.lootPool
 import miragefairy2023.util.init.lootTable
 import miragefairy2023.util.init.reward
