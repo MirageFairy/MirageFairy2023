@@ -85,7 +85,7 @@ fun <BE> InitializationScope.registerFairyHouse(card: FairyHouseCard<BE>) where 
     card.block = block(card.path, { FairyHouseBlock(card, FabricBlockSettings.of(card.material).sounds(card.soundGroup).requiresTool().strength(2.0F).nonOpaque()) }) {
 
         // レンダリング
-        generateHorizontalFacingBlockState()
+        generateHorizontalFacingBlockState({ feature }, id)
         onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(feature) }
 
         // 翻訳

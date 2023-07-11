@@ -30,6 +30,7 @@ import net.minecraft.loot.provider.number.ConstantLootNumberProvider
 import net.minecraft.loot.provider.number.UniformLootNumberProvider
 import net.minecraft.predicate.StatePredicate
 import net.minecraft.state.property.Property
+import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
 fun InitializationScope.generateBlockState(block: Block, jsonElementSupplier: () -> JsonElement) {
@@ -51,7 +52,7 @@ fun InitializationScope.generateBlockState(blockGetter: () -> Block, jsonElement
     }
 }
 
-fun <T : Block> FeatureSlot<T>.generateHorizontalFacingBlockState() = initializationScope.generateBlockState({ feature }) {
+fun InitializationScope.generateHorizontalFacingBlockState(block: Block, identifier: Identifier) = generateBlockState(block) {
     jsonObjectOf(
         "variants" to jsonObjectOf(listOf(
             "north" to 0,
@@ -60,14 +61,31 @@ fun <T : Block> FeatureSlot<T>.generateHorizontalFacingBlockState() = initializa
             "east" to 90,
         ).map { (facing, y) ->
             "facing=$facing" to jsonObjectOf(
-                "model" to "${"block/" concat id}".jsonPrimitive,
+                "model" to "${"block/" concat identifier}".jsonPrimitive,
                 "y" to y.jsonPrimitive,
             )
         }),
     )
 }
 
-fun <T : Block> InitializationScope.generateSimpleCubeAllBlockState(block: Block) {
+@Deprecated("Removing") // TODO remove
+fun InitializationScope.generateHorizontalFacingBlockState(blockGetter: () -> Block, identifier: Identifier) = generateBlockState({ blockGetter() }) {
+    jsonObjectOf(
+        "variants" to jsonObjectOf(listOf(
+            "north" to 0,
+            "south" to 180,
+            "west" to 270,
+            "east" to 90,
+        ).map { (facing, y) ->
+            "facing=$facing" to jsonObjectOf(
+                "model" to "${"block/" concat identifier}".jsonPrimitive,
+                "y" to y.jsonPrimitive,
+            )
+        }),
+    )
+}
+
+fun InitializationScope.generateSimpleCubeAllBlockState(block: Block) {
     onGenerateBlockStateModels { blockStateModelGenerator ->
         blockStateModelGenerator.registerSimpleCubeAll(block)
     }

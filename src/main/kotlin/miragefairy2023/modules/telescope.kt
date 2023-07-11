@@ -60,7 +60,7 @@ val telescopeModule = module {
     telescopeBlock = block("telescope", { TelescopeBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.COPPER).strength(0.5F).nonOpaque()) }) {
 
         // レンダリング
-        generateHorizontalFacingBlockState()
+        generateHorizontalFacingBlockState({ feature }, id)
         onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(feature) }
 
         // 翻訳
