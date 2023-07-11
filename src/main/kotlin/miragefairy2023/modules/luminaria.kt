@@ -138,7 +138,7 @@ val luminariaModule = module {
         }
         onGenerateBlockStateModels { blockStateModelGenerator ->
             blockStateModelGenerator.registerItemModel(card.block)
-            blockStateModelGenerator.createSubModel(card.block, "", Models.CROSS) { TextureMap.of(TextureKey.CROSS, it) }
+            Models.CROSS.upload(card.block, TextureMap.of(TextureKey.CROSS, "block/" concat card.identifier), blockStateModelGenerator.modelCollector)
         }
         onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(card.block) }
 
