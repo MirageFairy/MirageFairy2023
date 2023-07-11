@@ -10,16 +10,11 @@ import net.minecraft.loot.condition.BlockStatePropertyLootCondition
 import net.minecraft.loot.condition.LootCondition
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider
 import net.minecraft.loot.provider.number.UniformLootNumberProvider
-import net.minecraft.predicate.StatePredicate
 import net.minecraft.state.property.Property
 import net.minecraft.util.registry.Registry
 
 inline fun <T> configure(receiver: T, initializer: T.() -> Unit) = receiver.apply(initializer)
 
-
-fun blockStatePropertyLootCondition(targetBlock: Block, initializer: BlockStatePropertyLootCondition.Builder.() -> Unit = {}): BlockStatePropertyLootCondition.Builder {
-    return configure(BlockStatePropertyLootCondition.builder(targetBlock)) { initializer.invoke(this) }
-}
 
 fun exactMatchBlockStatePropertyLootCondition(block: Block, property: Property<Int>, value: Int) = LootCondition.Builder {
     BlockStatePropertyLootCondition.Serializer().fromJson(
@@ -46,10 +41,6 @@ fun rangedMatchBlockStatePropertyLootCondition(block: Block, property: Property<
             )
         ), null
     )
-}
-
-fun statePredicate(initializer: StatePredicate.Builder.() -> Unit = {}): StatePredicate.Builder {
-    return configure(StatePredicate.Builder.create()!!) { initializer.invoke(this) }
 }
 
 
