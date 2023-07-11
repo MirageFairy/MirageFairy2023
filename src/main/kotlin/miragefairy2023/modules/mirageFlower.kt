@@ -15,7 +15,7 @@ import miragefairy2023.util.init.exactMatchBlockStatePropertyLootCondition
 import miragefairy2023.util.init.generateBlockLootTable
 import miragefairy2023.util.init.generateBlockState
 import miragefairy2023.util.init.item
-import miragefairy2023.util.init.itemEntry
+import miragefairy2023.util.init.itemLootPoolEntry
 import miragefairy2023.util.init.lootPool
 import miragefairy2023.util.init.lootTable
 import miragefairy2023.util.init.rangedMatchBlockStatePropertyLootCondition
@@ -125,14 +125,14 @@ val mirageFlowerModule = module {
                 // ベース種ドロップ
                 pool(lootPool {
                     conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
-                    with(itemEntry(mirageSeedItem.feature))
+                    with(itemLootPoolEntry(mirageSeedItem.feature))
                 })
 
                 // 追加種ドロップ
                 pool(lootPool {
                     conditionally(age3Condition)
                     conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
-                    with(itemEntry(mirageSeedItem.feature) {
+                    with(itemLootPoolEntry(mirageSeedItem.feature) {
                         apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(0.0F)))
                         apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 0.2F, 1))
                     })
@@ -142,13 +142,13 @@ val mirageFlowerModule = module {
                 pool(lootPool {
                     conditionally(age2Condition)
                     conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
-                    with(itemEntry(DemonItemCard.MIRAGE_STEM.item.feature))
+                    with(itemLootPoolEntry(DemonItemCard.MIRAGE_STEM.item.feature))
                 })
 
                 // 花粉ドロップ
                 pool(lootPool {
                     conditionally(age3Condition)
-                    with(itemEntry(MirageFlourCard.TINY_MIRAGE_FLOUR.item.feature) {
+                    with(itemLootPoolEntry(MirageFlourCard.TINY_MIRAGE_FLOUR.item.feature) {
                         apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(2.0F, 6.0F)))
                         apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 1.0F, 0))
                         apply { ApplyLuckBonusLootFunction(0.2) }

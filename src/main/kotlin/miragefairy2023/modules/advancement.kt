@@ -10,7 +10,7 @@ import miragefairy2023.modules.fairyhouse.fairyMetamorphosisAltar
 import miragefairy2023.modules.toolitem.ToolItemCard
 import miragefairy2023.util.init.advancement
 import miragefairy2023.util.init.criterion
-import miragefairy2023.util.init.itemEntry
+import miragefairy2023.util.init.itemLootPoolEntry
 import miragefairy2023.util.init.lootPool
 import miragefairy2023.util.init.lootTable
 import miragefairy2023.util.init.reward
@@ -28,21 +28,21 @@ val advancementModule = module {
     onGenerateAdvancementRewardLootTables { consumer ->
         consumer.accept(tier1LootTableId, lootTable {
             pool(lootPool {
-                with(itemEntry(DemonItemCard.HONORABLE_FAIRY_CRYSTAL.item.feature))
+                with(itemLootPoolEntry(DemonItemCard.HONORABLE_FAIRY_CRYSTAL.item.feature))
             })
         })
     }
     onGenerateAdvancementRewardLootTables { consumer ->
         consumer.accept(tier2LootTableId, lootTable {
             pool(lootPool {
-                with(itemEntry(DemonItemCard.GLORIOUS_FAIRY_CRYSTAL.item.feature))
+                with(itemLootPoolEntry(DemonItemCard.GLORIOUS_FAIRY_CRYSTAL.item.feature))
             })
         })
     }
     onGenerateAdvancementRewardLootTables { consumer ->
         consumer.accept(tier3LootTableId, lootTable {
             pool(lootPool {
-                with(itemEntry(DemonItemCard.LEGENDARY_FAIRY_CRYSTAL.item.feature))
+                with(itemLootPoolEntry(DemonItemCard.LEGENDARY_FAIRY_CRYSTAL.item.feature))
             })
         })
     }

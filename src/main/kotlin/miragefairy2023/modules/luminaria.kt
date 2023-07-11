@@ -7,7 +7,7 @@ import miragefairy2023.util.init.applyExplosionDecay
 import miragefairy2023.util.init.enJaBlock
 import miragefairy2023.util.init.generateBlockLootTable
 import miragefairy2023.util.init.generateBlockState
-import miragefairy2023.util.init.itemEntry
+import miragefairy2023.util.init.itemLootPoolEntry
 import miragefairy2023.util.init.lootPool
 import miragefairy2023.util.init.lootTable
 import miragefairy2023.util.jsonObjectOf
@@ -184,19 +184,19 @@ val luminariaModule = module {
                     val withoutSilkTouchCondition = withSilkTouchCondition.invert()
                     pool(lootPool {
                         conditionally(withSilkTouchCondition)
-                        with(itemEntry(card.block) { // その植物自体
+                        with(itemLootPoolEntry(card.block) { // その植物自体
                             applyExplosionDecay(card.block)
                         })
                     })
                     pool(lootPool {
                         conditionally(withoutSilkTouchCondition)
-                        with(itemEntry(LuminariaCard.LUMINARIA.item) { // 原種の植物
+                        with(itemLootPoolEntry(LuminariaCard.LUMINARIA.item) { // 原種の植物
                             applyExplosionDecay(card.block)
                         })
                     })
                     pool(lootPool {
                         conditionally(withoutSilkTouchCondition)
-                        with(itemEntry(card.drop.first) { // 収穫物
+                        with(itemLootPoolEntry(card.drop.first) { // 収穫物
                             applyExplosionDecay(card.block)
                             apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(card.drop.second.toFloat())))
                             apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 0.5F * card.drop.second.toFloat(), 0))
@@ -205,7 +205,7 @@ val luminariaModule = module {
                     })
                 } else { // 常にそれ自体をドロップする
                     pool(lootPool {
-                        with(itemEntry(card.block) { // その植物自体
+                        with(itemLootPoolEntry(card.block) { // その植物自体
                             applyExplosionDecay(card.block)
                         })
                     })

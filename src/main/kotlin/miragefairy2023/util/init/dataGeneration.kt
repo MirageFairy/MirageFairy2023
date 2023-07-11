@@ -144,11 +144,11 @@ fun statePredicate(block: (StatePredicate.Builder.() -> Unit)? = null): StatePre
     return configure(StatePredicate.Builder.create()!!) { block?.invoke(this) }
 }
 
-fun itemEntry(item: ItemConvertible, block: (LeafEntry.Builder<*>.() -> Unit)? = null): LeafEntry.Builder<*> {
+fun itemLootPoolEntry(item: ItemConvertible, block: (LeafEntry.Builder<*>.() -> Unit)? = null): LeafEntry.Builder<*> {
     return configure(ItemEntry.builder(item)!!) { block?.invoke(this) }
 }
 
-fun alternativeEntry(vararg children: LootPoolEntry.Builder<*>, block: (AlternativeEntry.Builder.() -> Unit)? = null): AlternativeEntry.Builder {
+fun alternativeLootPoolEntry(vararg children: LootPoolEntry.Builder<*>, block: (AlternativeEntry.Builder.() -> Unit)? = null): AlternativeEntry.Builder {
     return configure(AlternativeEntry.builder(*children)!!) { block?.invoke(this) }
 }
 

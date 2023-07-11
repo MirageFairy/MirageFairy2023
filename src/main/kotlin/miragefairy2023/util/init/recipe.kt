@@ -47,11 +47,11 @@ fun InitializationScope.registerGrassDrop(
                 if (id == lootTableId) {
                     configure(tableBuilder!!) {
                         pool(lootPool {
-                            with(alternativeEntry {
-                                alternatively(itemEntry(Items.AIR) {
+                            with(alternativeLootPoolEntry {
+                                alternatively(itemLootPoolEntry(Items.AIR) {
                                     conditionally(MatchToolLootCondition.builder(ItemPredicate.Builder.create().items(Items.SHEARS)))
                                 })
-                                alternatively(itemEntry(item()) {
+                                alternatively(itemLootPoolEntry(item()) {
                                     conditionally(RandomChanceLootCondition.builder((0.125 * amount).toFloat()))
                                     if (biome != null) conditionally(LocationCheckLootCondition.builder(LocationPredicate.Builder.create().biome(biome())))
                                     apply(ApplyBonusLootFunction.uniformBonusCount(Enchantments.FORTUNE, 2))
@@ -82,7 +82,7 @@ fun InitializationScope.registerBlockDrop(
                 if (id == lootTableId) {
                     configure(tableBuilder!!) {
                         pool(lootPool {
-                            val itemEntry = itemEntry(item()) {
+                            val itemEntry = itemLootPoolEntry(item()) {
                                 if (dropRate != null) conditionally(RandomChanceLootCondition.builder(dropRate))
                                 if (amount != null) apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(amount.toFloat())))
                                 if (fortuneOreDrops) apply(ApplyBonusLootFunction.oreDrops(Enchantments.FORTUNE))
@@ -90,8 +90,8 @@ fun InitializationScope.registerBlockDrop(
                                 apply(ExplosionDecayLootFunction.builder())
                             }
                             if (suppressIfSilkTouch) {
-                                with(alternativeEntry {
-                                    alternatively(itemEntry(Items.AIR) {
+                                with(alternativeLootPoolEntry {
+                                    alternatively(itemLootPoolEntry(Items.AIR) {
                                         conditionally(MatchToolLootCondition.builder(ItemPredicate.Builder.create().enchantment(EnchantmentPredicate(Enchantments.SILK_TOUCH, NumberRange.IntRange.atLeast(1)))))
                                     })
                                     alternatively(itemEntry)
@@ -124,7 +124,7 @@ fun InitializationScope.registerMobDrop(
                         pool(lootPool {
                             if (onlyKilledByPlayer) conditionally(KilledByPlayerLootCondition.builder())
                             if (dropRate != null) conditionally(RandomChanceWithLootingLootCondition.builder(dropRate.first, dropRate.second))
-                            with(itemEntry(item()) {
+                            with(itemLootPoolEntry(item()) {
                                 if (amount != null) apply(SetCountLootFunction.builder(amount, false))
                                 if (fortuneFactor != null) apply(LootingEnchantLootFunction.builder(fortuneFactor))
                             })
