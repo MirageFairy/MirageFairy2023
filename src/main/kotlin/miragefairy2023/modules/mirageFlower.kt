@@ -7,6 +7,7 @@ import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.concat
 import miragefairy2023.util.createItemStack
+import miragefairy2023.util.datagen.LootTable
 import miragefairy2023.util.datagen.enJaItem
 import miragefairy2023.util.datagen.generateBlockLootTable
 import miragefairy2023.util.datagen.generateBlockState
@@ -17,7 +18,6 @@ import miragefairy2023.util.init.block
 import miragefairy2023.util.init.exactMatchBlockStatePropertyLootCondition
 import miragefairy2023.util.init.item
 import miragefairy2023.util.init.lootPool
-import miragefairy2023.util.init.lootTable
 import miragefairy2023.util.init.rangedMatchBlockStatePropertyLootCondition
 import miragefairy2023.util.init.registerGrassDrop
 import miragefairy2023.util.jsonObjectOf
@@ -117,44 +117,34 @@ val mirageFlowerModule = module {
         generateBlockLootTable({ feature }) {
             val age2Condition = rangedMatchBlockStatePropertyLootCondition(feature, MirageFlowerBlock.AGE, 2, 3)
             val age3Condition = exactMatchBlockStatePropertyLootCondition(feature, MirageFlowerBlock.AGE, 3)
-            lootTable {
-
-                // 爆発時割合ロスト
-                applyExplosionDecay(mirageSeedItem.feature)
-
-                // ベース種ドロップ
-                pool(lootPool {
+            LootTable(
+                lootPool { // ベース種ドロップ
                     conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
                     with(itemLootPoolEntry(mirageSeedItem.feature))
-                })
-
-                // 追加種ドロップ
-                pool(lootPool {
+                },
+                lootPool { // 追加種ドロップ
                     conditionally(age3Condition)
                     conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
                     with(itemLootPoolEntry(mirageSeedItem.feature) {
                         apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(0.0F)))
                         apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 0.2F, 1))
                     })
-                })
-
-                // 茎ドロップ
-                pool(lootPool {
+                },
+                lootPool { // 茎ドロップ
                     conditionally(age2Condition)
                     conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
                     with(itemLootPoolEntry(DemonItemCard.MIRAGE_STEM.item.feature))
-                })
-
-                // 花粉ドロップ
-                pool(lootPool {
+                },
+                lootPool { // 花粉ドロップ
                     conditionally(age3Condition)
                     with(itemLootPoolEntry(MirageFlourCard.TINY_MIRAGE_FLOUR.item.feature) {
                         apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(2.0F, 6.0F)))
                         apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 1.0F, 0))
                         apply { ApplyLuckBonusLootFunction(0.2) }
                     })
-                })
-
+                },
+            ) {
+                applyExplosionDecay(mirageSeedItem.feature) // 爆発時割合ロスト
             }
         }
     }

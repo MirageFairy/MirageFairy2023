@@ -1,5 +1,10 @@
 {
   "type": "minecraft:block",
+  "functions": [
+    {
+      "function": "minecraft:explosion_decay"
+    }
+  ],
   "pools": [
     {
       "bonus_rolls": 0.0,
@@ -22,11 +27,6 @@
         {
           "type": "minecraft:item",
           "name": "miragefairy2023:lapis_lazuli_luminaria"
-        }
-      ],
-      "functions": [
-        {
-          "function": "minecraft:explosion_decay"
         }
       ],
       "rolls": 1.0
@@ -55,11 +55,6 @@
         {
           "type": "minecraft:item",
           "name": "miragefairy2023:luminaria"
-        }
-      ],
-      "functions": [
-        {
-          "function": "minecraft:explosion_decay"
         }
       ],
       "rolls": 1.0
@@ -108,11 +103,6 @@
             }
           ],
           "name": "minecraft:lapis_lazuli"
-        }
-      ],
-      "functions": [
-        {
-          "function": "minecraft:explosion_decay"
         }
       ],
       "rolls": 1.0

@@ -3,13 +3,13 @@ package miragefairy2023.modules
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.concat
+import miragefairy2023.util.datagen.LootTable
 import miragefairy2023.util.datagen.enJaBlock
 import miragefairy2023.util.datagen.generateBlockLootTable
 import miragefairy2023.util.datagen.generateBlockState
 import miragefairy2023.util.datagen.itemLootPoolEntry
 import miragefairy2023.util.init.applyExplosionDecay
 import miragefairy2023.util.init.lootPool
-import miragefairy2023.util.init.lootTable
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
 import miragefairy2023.util.randomInt
@@ -178,37 +178,36 @@ val luminariaModule = module {
 
         // ドロップ
         generateBlockLootTable(card.block) {
-            lootTable {
-                if (card.drop != null) { // 原種の植物と収穫物をドロップする
-                    val withSilkTouchCondition = MatchToolLootCondition.builder(ItemPredicate.Builder.create().enchantment(EnchantmentPredicate(Enchantments.SILK_TOUCH, NumberRange.IntRange.atLeast(1))))
-                    val withoutSilkTouchCondition = withSilkTouchCondition.invert()
-                    pool(lootPool {
+            if (card.drop != null) { // 原種の植物と収穫物をドロップする
+                val withSilkTouchCondition = MatchToolLootCondition.builder(ItemPredicate.Builder.create().enchantment(EnchantmentPredicate(Enchantments.SILK_TOUCH, NumberRange.IntRange.atLeast(1))))
+                val withoutSilkTouchCondition = withSilkTouchCondition.invert()
+                LootTable(
+                    lootPool {
                         conditionally(withSilkTouchCondition)
-                        with(itemLootPoolEntry(card.block) { // その植物自体
-                            applyExplosionDecay(card.block)
-                        })
-                    })
-                    pool(lootPool {
+                        with(itemLootPoolEntry(card.block)) // その植物自体
+                    },
+                    lootPool {
                         conditionally(withoutSilkTouchCondition)
-                        with(itemLootPoolEntry(LuminariaCard.LUMINARIA.item) { // 原種の植物
-                            applyExplosionDecay(card.block)
-                        })
-                    })
-                    pool(lootPool {
+                        with(itemLootPoolEntry(LuminariaCard.LUMINARIA.item)) // 原種の植物
+                    },
+                    lootPool {
                         conditionally(withoutSilkTouchCondition)
                         with(itemLootPoolEntry(card.drop.first) { // 収穫物
-                            applyExplosionDecay(card.block)
                             apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(card.drop.second.toFloat())))
                             apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 0.5F * card.drop.second.toFloat(), 0))
                             apply { ApplyLuckBonusLootFunction(0.2 * card.drop.second) }
                         })
-                    })
-                } else { // 常にそれ自体をドロップする
-                    pool(lootPool {
-                        with(itemLootPoolEntry(card.block) { // その植物自体
-                            applyExplosionDecay(card.block)
-                        })
-                    })
+                    },
+                ) {
+                    applyExplosionDecay(card.block)
+                }
+            } else { // 常にそれ自体をドロップする
+                LootTable(
+                    lootPool {
+                        with(itemLootPoolEntry(card.block)) // その植物自体
+                    },
+                ) {
+                    applyExplosionDecay(card.block)
                 }
             }
         }

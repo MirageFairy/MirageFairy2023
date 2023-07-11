@@ -9,7 +9,6 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.minecraft.block.Block
 import net.minecraft.item.ItemConvertible
 import net.minecraft.loot.LootPool
-import net.minecraft.loot.LootTable
 import net.minecraft.loot.condition.BlockStatePropertyLootCondition
 import net.minecraft.loot.condition.LootCondition
 import net.minecraft.loot.function.LootFunctionConsumingBuilder
@@ -24,10 +23,6 @@ inline fun <T> configure(receiver: T, block: T.() -> Unit) = receiver.apply(bloc
 
 fun <T : LootFunctionConsumingBuilder<T>> T.applyExplosionDecay(drop: ItemConvertible): T {
     return FabricBlockLootTableProvider.applyExplosionDecay(drop, this)!!
-}
-
-fun lootTable(block: (LootTable.Builder.() -> Unit)? = null): LootTable.Builder {
-    return configure(LootTable.builder()!!) { block?.invoke(this) }
 }
 
 fun lootPool(block: (LootPool.Builder.() -> Unit)? = null): LootPool.Builder {
