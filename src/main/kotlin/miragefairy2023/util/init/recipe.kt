@@ -6,6 +6,7 @@ import miragefairy2023.InitializationScope
 import miragefairy2023.modules.ApplyLuckBonusLootFunction
 import miragefairy2023.util.datagen.AlternativeLootPoolEntry
 import miragefairy2023.util.datagen.ItemLootPoolEntry
+import miragefairy2023.util.datagen.LootPool
 import miragefairy2023.util.identifier
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.fabricmc.fabric.api.registry.FuelRegistry
@@ -48,19 +49,17 @@ fun InitializationScope.registerGrassDrop(
             if (source.isBuiltin) {
                 if (id == lootTableId) {
                     configure(tableBuilder!!) {
-                        pool(lootPool {
-                            with(AlternativeLootPoolEntry {
-                                alternatively(ItemLootPoolEntry(Items.AIR) {
-                                    conditionally(MatchToolLootCondition.builder(ItemPredicate.Builder.create().items(Items.SHEARS)))
-                                })
-                                alternatively(ItemLootPoolEntry(item()) {
-                                    conditionally(RandomChanceLootCondition.builder((0.125 * amount).toFloat()))
-                                    if (biome != null) conditionally(LocationCheckLootCondition.builder(LocationPredicate.Builder.create().biome(biome())))
-                                    apply(ApplyBonusLootFunction.uniformBonusCount(Enchantments.FORTUNE, 2))
-                                    apply(ExplosionDecayLootFunction.builder())
-                                })
+                        pool(LootPool(AlternativeLootPoolEntry {
+                            alternatively(ItemLootPoolEntry(Items.AIR) {
+                                conditionally(MatchToolLootCondition.builder(ItemPredicate.Builder.create().items(Items.SHEARS)))
                             })
-                        })
+                            alternatively(ItemLootPoolEntry(item()) {
+                                conditionally(RandomChanceLootCondition.builder((0.125 * amount).toFloat()))
+                                if (biome != null) conditionally(LocationCheckLootCondition.builder(LocationPredicate.Builder.create().biome(biome())))
+                                apply(ApplyBonusLootFunction.uniformBonusCount(Enchantments.FORTUNE, 2))
+                                apply(ExplosionDecayLootFunction.builder())
+                            })
+                        }))
                     }
                 }
             }
@@ -83,7 +82,7 @@ fun InitializationScope.registerBlockDrop(
             if (source.isBuiltin) {
                 if (id == lootTableId) {
                     configure(tableBuilder!!) {
-                        pool(lootPool {
+                        pool(LootPool {
                             val itemEntry = ItemLootPoolEntry(item()) {
                                 if (dropRate != null) conditionally(RandomChanceLootCondition.builder(dropRate))
                                 if (amount != null) apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(amount.toFloat())))
@@ -123,13 +122,12 @@ fun InitializationScope.registerMobDrop(
             if (source.isBuiltin) {
                 if (id == lootTableId) {
                     configure(tableBuilder!!) {
-                        pool(lootPool {
+                        pool(LootPool(ItemLootPoolEntry(item()) {
+                            if (amount != null) apply(SetCountLootFunction.builder(amount, false))
+                            if (fortuneFactor != null) apply(LootingEnchantLootFunction.builder(fortuneFactor))
+                        }) {
                             if (onlyKilledByPlayer) conditionally(KilledByPlayerLootCondition.builder())
                             if (dropRate != null) conditionally(RandomChanceWithLootingLootCondition.builder(dropRate.first, dropRate.second))
-                            with(ItemLootPoolEntry(item()) {
-                                if (amount != null) apply(SetCountLootFunction.builder(amount, false))
-                                if (fortuneFactor != null) apply(LootingEnchantLootFunction.builder(fortuneFactor))
-                            })
                         })
                     }
                 }
