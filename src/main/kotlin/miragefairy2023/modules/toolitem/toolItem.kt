@@ -39,92 +39,99 @@ import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
-enum class ToolItemCard(
+class ToolItemCard(
     val path: String,
     val enName: String,
     val jaName: String,
     val poemList: List<Poem>,
     val initializer: ToolMaterialCardInitializer<*>,
 ) {
-    DREAM_CATCHER(
-        "dream_catcher", "Dream Catcher", "ドリームキャッチャー",
-        listOf(
-            Poem("Tool to capture the free astral vortices", "未知なる記憶が、ほらそこに。"),
-            Description("description1", "Show fairy dreams when in inventory", "インベントリ内に所持時、妖精の夢を表示"),
-            Description("description2", "Acquire the fairy dream when used", "使用時、妖精の夢を獲得"),
-        ),
-        dreamCatcher(ToolMaterialCard.MIRAGE, 20),
-    ),
-    BLUE_DREAM_CATCHER(
-        "blue_dream_catcher", "Blue Dream Catcher", "蒼天のドリームキャッチャー",
-        listOf(
-            Poem("What are good memories for you?", "信愛、悲哀、混沌の果て。"),
-            Description("description1", "Show fairy dreams when in inventory", "インベントリ内に所持時、妖精の夢を表示"),
-            Description("description2", "Acquire the fairy dream when used", "使用時、妖精の夢を獲得"),
-        ),
-        dreamCatcher(ToolMaterialCard.CHAOS_STONE, 400),
-    ),
-    ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE(
-        "artificial_fairy_crystal_pickaxe", "Crystal Pickaxe", "クリスタルのつるはし",
-        listOf(Poem("Amorphous mental body of fairies", "妖精さえ怖れる、技術の結晶。")),
-        pickaxe(ToolMaterialCard.ARTIFICIAL_FAIRY_CRYSTAL, BlockTags.PICKAXE_MINEABLE),
-    ),
-    ARTIFICIAL_FAIRY_CRYSTAL_PENDANT(
-        "artificial_fairy_crystal_pendant", "Crystal Pendant", "クリスタルのペンダント",
-        listOf(Poem("Object that makes Mirage fairies fairies", "『妖精』だったあのころ――")),
-        passiveSkillAccessory(listOf(TrinketsSlotCard.CHEST_NECKLACE), 5.0, passiveSkills {
-            mana(0.4) on always()
-        }),
-    ),
-    MIRANAGITE_KNIFE(
-        "miranagite_knife", "Miranagi Knife", "蒼天のナイフ",
-        listOf(
-            Poem("Gardener's tool invented by Miranagi", "大自然を駆ける探究者のナイフ。"),
-            Description("Enchant silk touch when using raw item", "生のアイテム使用時、シルクタッチ付与"),
-        ),
-        knife(ToolMaterialCard.MIRANAGITE, silkTouch = true),
-    ),
-    MIRANAGITE_PICKAXE(
-        "miranagite_pickaxe", "Miranagi Pickaxe", "蒼天のつるはし",
-        listOf(
-            Poem("Promotes ore recrystallization", "凝集する秩序、蒼穹彩煌が如く。"),
-            Description("Enchant silk touch when using raw item", "生のアイテム使用時、シルクタッチ付与"),
-        ),
-        pickaxe(ToolMaterialCard.MIRANAGITE, BlockTags.PICKAXE_MINEABLE, silkTouch = true),
-    ),
-    MIRANAGITE_STAFF(
-        "miranagite_staff", "Miranagi Staff", "みらなぎの杖",
-        listOf(Poem("Risk of vacuum decay due to anti-entropy", "創世の神光は混沌をも翻す。")),
-        staff(ToolMaterialCard.MIRANAGITE),
-    ),
-    CHAOS_STONE_PICKAXE(
-        "chaos_stone_pickaxe", "Chaos Pickaxe", "混沌のつるはし",
-        listOf(
-            Poem("Is this made of metal? Or clay?", "時空結晶の交点に、古代の産業が芽吹く。"),
-            Description("Can dig like a shovel", "シャベルのように掘れる"),
-        ),
-        pickaxe(ToolMaterialCard.CHAOS_STONE, BlockTags.PICKAXE_MINEABLE, BlockTags.SHOVEL_MINEABLE),
-    ),
-    CHAOS_FISHING_GROVE(
-        "chaos_fishing_grove", "Chaos Fishing Grove", "混沌のフィッシンググローブ",
-        listOf(
-            Poem("The impurity named automation", "古代、混沌は余裕と幸福をもたらした。"),
-            Description("Automatic fishing", "釣りを自動進行"),
-            Penalty("penalty1", "Consume more fishing rod durability", "釣り竿の耐久値消費増加"),
-            Penalty("penalty2", "Halves fishing enchantments", "釣りのエンチャント効果半減"),
-        ),
-        trinketAccessory(listOf(TrinketsSlotCard.HAND_GLOVE, TrinketsSlotCard.OFFHAND_GLOVE)) { FishingGroveItem(it) },
-    ),
-    ;
+    init {
+        values += this
+    }
 
     val identifier = Identifier(MirageFairy2023.modId, path)
     lateinit var item: FeatureSlot<Item>
+
+    companion object {
+        val values = mutableListOf<ToolItemCard>()
+
+        val DREAM_CATCHER = ToolItemCard(
+            "dream_catcher", "Dream Catcher", "ドリームキャッチャー",
+            listOf(
+                Poem("Tool to capture the free astral vortices", "未知なる記憶が、ほらそこに。"),
+                Description("description1", "Show fairy dreams when in inventory", "インベントリ内に所持時、妖精の夢を表示"),
+                Description("description2", "Acquire the fairy dream when used", "使用時、妖精の夢を獲得"),
+            ),
+            dreamCatcher(ToolMaterialCard.MIRAGE, 20),
+        )
+        val BLUE_DREAM_CATCHER = ToolItemCard(
+            "blue_dream_catcher", "Blue Dream Catcher", "蒼天のドリームキャッチャー",
+            listOf(
+                Poem("What are good memories for you?", "信愛、悲哀、混沌の果て。"),
+                Description("description1", "Show fairy dreams when in inventory", "インベントリ内に所持時、妖精の夢を表示"),
+                Description("description2", "Acquire the fairy dream when used", "使用時、妖精の夢を獲得"),
+            ),
+            dreamCatcher(ToolMaterialCard.CHAOS_STONE, 400),
+        )
+        val ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE = ToolItemCard(
+            "artificial_fairy_crystal_pickaxe", "Crystal Pickaxe", "クリスタルのつるはし",
+            listOf(Poem("Amorphous mental body of fairies", "妖精さえ怖れる、技術の結晶。")),
+            pickaxe(ToolMaterialCard.ARTIFICIAL_FAIRY_CRYSTAL, BlockTags.PICKAXE_MINEABLE),
+        )
+        val ARTIFICIAL_FAIRY_CRYSTAL_PENDANT = ToolItemCard(
+            "artificial_fairy_crystal_pendant", "Crystal Pendant", "クリスタルのペンダント",
+            listOf(Poem("Object that makes Mirage fairies fairies", "『妖精』だったあのころ――")),
+            passiveSkillAccessory(listOf(TrinketsSlotCard.CHEST_NECKLACE), 5.0, passiveSkills {
+                mana(0.4) on always()
+            }),
+        )
+        val MIRANAGITE_KNIFE = ToolItemCard(
+            "miranagite_knife", "Miranagi Knife", "蒼天のナイフ",
+            listOf(
+                Poem("Gardener's tool invented by Miranagi", "大自然を駆ける探究者のナイフ。"),
+                Description("Enchant silk touch when using raw item", "生のアイテム使用時、シルクタッチ付与"),
+            ),
+            knife(ToolMaterialCard.MIRANAGITE, silkTouch = true),
+        )
+        val MIRANAGITE_PICKAXE = ToolItemCard(
+            "miranagite_pickaxe", "Miranagi Pickaxe", "蒼天のつるはし",
+            listOf(
+                Poem("Promotes ore recrystallization", "凝集する秩序、蒼穹彩煌が如く。"),
+                Description("Enchant silk touch when using raw item", "生のアイテム使用時、シルクタッチ付与"),
+            ),
+            pickaxe(ToolMaterialCard.MIRANAGITE, BlockTags.PICKAXE_MINEABLE, silkTouch = true),
+        )
+        val MIRANAGITE_STAFF = ToolItemCard(
+            "miranagite_staff", "Miranagi Staff", "みらなぎの杖",
+            listOf(Poem("Risk of vacuum decay due to anti-entropy", "創世の神光は混沌をも翻す。")),
+            staff(ToolMaterialCard.MIRANAGITE),
+        )
+        val CHAOS_STONE_PICKAXE = ToolItemCard(
+            "chaos_stone_pickaxe", "Chaos Pickaxe", "混沌のつるはし",
+            listOf(
+                Poem("Is this made of metal? Or clay?", "時空結晶の交点に、古代の産業が芽吹く。"),
+                Description("Can dig like a shovel", "シャベルのように掘れる"),
+            ),
+            pickaxe(ToolMaterialCard.CHAOS_STONE, BlockTags.PICKAXE_MINEABLE, BlockTags.SHOVEL_MINEABLE),
+        )
+        val CHAOS_FISHING_GROVE = ToolItemCard(
+            "chaos_fishing_grove", "Chaos Fishing Grove", "混沌のフィッシンググローブ",
+            listOf(
+                Poem("The impurity named automation", "古代、混沌は余裕と幸福をもたらした。"),
+                Description("Automatic fishing", "釣りを自動進行"),
+                Penalty("penalty1", "Consume more fishing rod durability", "釣り竿の耐久値消費増加"),
+                Penalty("penalty2", "Halves fishing enchantments", "釣りのエンチャント効果半減"),
+            ),
+            trinketAccessory(listOf(TrinketsSlotCard.HAND_GLOVE, TrinketsSlotCard.OFFHAND_GLOVE)) { FishingGroveItem(it) },
+        )
+    }
 }
 
 val toolItemModule = module {
 
     // 全体
-    ToolItemCard.values().forEach { card ->
+    ToolItemCard.values.forEach { card ->
         card.initializer.run { this@module.init(card) }
     }
 
