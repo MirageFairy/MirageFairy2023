@@ -136,7 +136,7 @@ val toolItemModule = module {
         generatePoemList(card.item, card.poemList)
         onRegisterItems { registerPoemList(card.item, card.poemList) }
         fun <T : Item> init(card: ToolItemCard<T>) {
-            card.initializer.run { this@module.init(card) }
+            card.initializer.init(this, card)
         }
         init(card)
     }
@@ -282,12 +282,12 @@ val DREAM_CATCHERS: TagKey<Item> = TagKey.of(Registry.ITEM_KEY, Identifier(Mirag
 
 abstract class ToolItemCardInitializer<T : Item>(val model: Model) {
     abstract fun createItem(): T
-    abstract fun InitializationScope.init(card: ToolItemCard<T>)
+    abstract fun init(scope: InitializationScope, card: ToolItemCard<T>)
 }
 
 class DreamCatcherInitializer(private val toolMaterialCard: ToolMaterialCard, private val maxDamage: Int) : ToolItemCardInitializer<DreamCatcherItem>(Models.HANDHELD) {
     override fun createItem() = DreamCatcherItem(toolMaterialCard.toolMaterial, maxDamage, FabricItemSettings().group(commonItemGroup))
-    override fun InitializationScope.init(card: ToolItemCard<DreamCatcherItem>) {
+    override fun init(scope: InitializationScope, card: ToolItemCard<DreamCatcherItem>) = scope.run {
         onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
         onGenerateItemTags { it(DREAM_CATCHERS).add(card.item) }
     }
@@ -295,14 +295,14 @@ class DreamCatcherInitializer(private val toolMaterialCard: ToolMaterialCard, pr
 
 class KnifeInitializer(private val toolMaterialCard: ToolMaterialCard, private val silkTouch: Boolean = false) : ToolItemCardInitializer<DemonKnifeItem>(Models.HANDHELD) {
     override fun createItem() = DemonKnifeItem(toolMaterialCard.toolMaterial, silkTouch, FabricItemSettings().group(commonItemGroup))
-    override fun InitializationScope.init(card: ToolItemCard<DemonKnifeItem>) {
+    override fun init(scope: InitializationScope, card: ToolItemCard<DemonKnifeItem>) = scope.run {
         onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
     }
 }
 
 class PickaxeInitializer(private val toolMaterialCard: ToolMaterialCard, private vararg val effectiveBlockTags: TagKey<Block>, private val silkTouch: Boolean = false) : ToolItemCardInitializer<DemonPickaxeItem>(Models.HANDHELD) {
     override fun createItem() = DemonPickaxeItem(toolMaterialCard.toolMaterial, 1, -2.8F, effectiveBlockTags.toList(), silkTouch, FabricItemSettings().group(commonItemGroup))
-    override fun InitializationScope.init(card: ToolItemCard<DemonPickaxeItem>) {
+    override fun init(scope: InitializationScope, card: ToolItemCard<DemonPickaxeItem>) = scope.run {
         onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
         onGenerateItemTags { it(ItemTags.CLUSTER_MAX_HARVESTABLES).add(card.item) }
         onGenerateItemTags { it(ConventionalItemTags.PICKAXES).add(card.item) }
@@ -311,14 +311,14 @@ class PickaxeInitializer(private val toolMaterialCard: ToolMaterialCard, private
 
 class StaffInitializer(private val toolMaterialCard: ToolMaterialCard) : ToolItemCardInitializer<StaffItem>(Models.HANDHELD) {
     override fun createItem() = StaffItem(toolMaterialCard.toolMaterial, FabricItemSettings().group(commonItemGroup))
-    override fun InitializationScope.init(card: ToolItemCard<StaffItem>) {
+    override fun init(scope: InitializationScope, card: ToolItemCard<StaffItem>) = scope.run {
         onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
     }
 }
 
 class PassiveSkillAccessoryInitializer(private val trinketsSlotCards: List<TrinketsSlotCard>, private val mana: Double, private val passiveSkills: List<PassiveSkill>) : ToolItemCardInitializer<PassiveSkillAccessoryItem>(Models.GENERATED) {
     override fun createItem() = PassiveSkillAccessoryItem(mana, passiveSkills, FabricItemSettings().maxCount(1).group(commonItemGroup))
-    override fun InitializationScope.init(card: ToolItemCard<PassiveSkillAccessoryItem>) {
+    override fun init(scope: InitializationScope, card: ToolItemCard<PassiveSkillAccessoryItem>) = scope.run {
         trinketsSlotCards.forEach { trinketsSlotCard ->
             onGenerateItemTags { it(trinketsSlotCard.tag).add(card.item) }
         }
@@ -327,7 +327,7 @@ class PassiveSkillAccessoryInitializer(private val trinketsSlotCards: List<Trink
 
 class TrinketAccessoryInitializer<I>(private val trinketsSlotCards: List<TrinketsSlotCard>, private val itemCreator: (Item.Settings) -> I) : ToolItemCardInitializer<I>(Models.GENERATED) where I : Item, I : Trinket {
     override fun createItem() = itemCreator(FabricItemSettings().maxCount(1).group(commonItemGroup))
-    override fun InitializationScope.init(card: ToolItemCard<I>) {
+    override fun init(scope: InitializationScope, card: ToolItemCard<I>) = scope.run {
         trinketsSlotCards.forEach { trinketsSlotCard ->
             onGenerateItemTags { it(trinketsSlotCard.tag).add(card.item) }
         }
