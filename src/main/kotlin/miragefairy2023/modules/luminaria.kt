@@ -86,27 +86,27 @@ enum class LuminariaCard(
     DIAMOND_LUMINARIA(
         "diamond_luminaria", "Diamond Luminaria", "ダイヤモンドルミナリア",
         listOf(Poem("Fruits the crystallized carbon", "表土を飾る、凍てつく星。")),
-        { it.hasTag(ConventionalBiomeTags.CLIMATE_COLD) || it.hasTag(ConventionalBiomeTags.AQUATIC_ICY) }, Pair({ Items.DIAMOND }, 1.0), true,
+        { it.temperature == Temperature.COLD }, Pair({ Items.DIAMOND }, 1.0), true,
     ),
     EMERALD_LUMINARIA(
         "emerald_luminaria", "Emerald Luminaria", "エメラルドルミナリア",
         listOf(Poem("Makes Berryllium by unknown means", "幸福もたらす、栄光の樹。")),
-        { !(it.hasTag(ConventionalBiomeTags.CLIMATE_COLD) || it.hasTag(ConventionalBiomeTags.AQUATIC_ICY)) }, Pair({ Items.EMERALD }, 1.0), true,
+        { it.temperature == Temperature.NOT_COLD }, Pair({ Items.EMERALD }, 1.0), true,
     ),
     LAPIS_LAZULI_LUMINARIA(
         "lapis_lazuli_luminaria", "Lapis Lazuli Luminaria", "ラピスラズリルミナリア",
         listOf(Poem("Contrary to tales, it's just a rock", "虚空を貫く、魔の残光。")),
-        { it.hasTag(ConventionalBiomeTags.CLIMATE_WET) }, Pair({ Items.LAPIS_LAZULI }, 4.0), true,
+        { it.humidity == Humidity.WET }, Pair({ Items.LAPIS_LAZULI }, 4.0), true,
     ),
     AMETHYST_LUMINARIA(
         "amethyst_luminaria", "Amethyst Luminaria", "アメジストルミナリア",
         listOf(Poem("Chemically indistinguishable", "深淵に射す、好奇の瞳。")),
-        { !it.hasTag(ConventionalBiomeTags.CLIMATE_WET) && !it.hasTag(ConventionalBiomeTags.CLIMATE_DRY) }, Pair({ Items.AMETHYST_SHARD }, 2.0), true,
+        { it.humidity == Humidity.MEDIUM }, Pair({ Items.AMETHYST_SHARD }, 2.0), true,
     ),
     REDSTONE_LUMINARIA(
         "redstone_luminaria", "Redstone Luminaria", "レッドストーンルミナリア",
         listOf(Poem("This plant may have \"consciousness\"", "荒野を照らす、知の波動。")),
-        { it.hasTag(ConventionalBiomeTags.CLIMATE_DRY) }, Pair({ Items.REDSTONE }, 4.0), true,
+        { it.humidity == Humidity.DRY }, Pair({ Items.REDSTONE }, 4.0), true,
     ),
     ;
 
@@ -252,3 +252,28 @@ class LuminariaBlock(private val card: LuminariaCard, setting: Settings) : Plant
     }
 
 }
+
+enum class Temperature {
+    NOT_COLD,
+    COLD,
+}
+
+val BiomeSelectionContext.temperature
+    get() = when {
+        this.hasTag(ConventionalBiomeTags.CLIMATE_COLD) -> Temperature.COLD
+        this.hasTag(ConventionalBiomeTags.AQUATIC_ICY) -> Temperature.COLD
+        else -> Temperature.NOT_COLD
+    }
+
+enum class Humidity {
+    WET,
+    MEDIUM,
+    DRY,
+}
+
+val BiomeSelectionContext.humidity
+    get() = when {
+        this.hasTag(ConventionalBiomeTags.CLIMATE_WET) -> Humidity.WET
+        this.hasTag(ConventionalBiomeTags.CLIMATE_DRY) -> Humidity.DRY
+        else -> Humidity.MEDIUM
+    }
