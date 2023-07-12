@@ -285,14 +285,12 @@ private fun dreamCatcher(toolMaterialCard: ToolMaterialCard, maxDamage: Int): To
     override fun createItem() = DreamCatcherItem(toolMaterialCard.toolMaterial, maxDamage, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<DreamCatcherItem>) {
         val feature = card.item
-        run {
-            onGenerateItemModels { it.register(feature, Models.HANDHELD) }
-            enJaItem({ feature }, card.enName, card.jaName)
-            generatePoemList({ feature }, card.poemList)
-            onRegisterItems { registerPoemList(feature, card.poemList) }
-            onGenerateItemTags { it(toolMaterialCard.tag).add(feature) }
-            onGenerateItemTags { it(DREAM_CATCHERS).add(feature) }
-        }
+        onGenerateItemModels { it.register(feature, Models.HANDHELD) }
+        enJaItem({ feature }, card.enName, card.jaName)
+        generatePoemList({ feature }, card.poemList)
+        onRegisterItems { registerPoemList(feature, card.poemList) }
+        onGenerateItemTags { it(toolMaterialCard.tag).add(feature) }
+        onGenerateItemTags { it(DREAM_CATCHERS).add(feature) }
     }
 }
 
@@ -300,13 +298,11 @@ private fun knife(toolMaterialCard: ToolMaterialCard, silkTouch: Boolean = false
     override fun createItem() = DemonKnifeItem(toolMaterialCard.toolMaterial, silkTouch, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<DemonKnifeItem>) {
         val feature = card.item
-        run {
-            onGenerateItemModels { it.register(feature, Models.HANDHELD) }
-            enJaItem({ feature }, card.enName, card.jaName)
-            generatePoemList({ feature }, card.poemList)
-            onRegisterItems { registerPoemList(feature, card.poemList) }
-            onGenerateItemTags { it(toolMaterialCard.tag).add(feature) }
-        }
+        onGenerateItemModels { it.register(feature, Models.HANDHELD) }
+        enJaItem({ feature }, card.enName, card.jaName)
+        generatePoemList({ feature }, card.poemList)
+        onRegisterItems { registerPoemList(feature, card.poemList) }
+        onGenerateItemTags { it(toolMaterialCard.tag).add(feature) }
     }
 }
 
@@ -314,15 +310,13 @@ private fun pickaxe(toolMaterialCard: ToolMaterialCard, vararg effectiveBlockTag
     override fun createItem() = DemonPickaxeItem(toolMaterialCard.toolMaterial, 1, -2.8F, effectiveBlockTags.toList(), silkTouch, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<DemonPickaxeItem>) {
         val feature = card.item
-        run {
-            onGenerateItemModels { it.register(feature, Models.HANDHELD) }
-            enJaItem({ feature }, card.enName, card.jaName)
-            generatePoemList({ feature }, card.poemList)
-            onRegisterItems { registerPoemList(feature, card.poemList) }
-            onGenerateItemTags { it(toolMaterialCard.tag).add(feature) }
-            onGenerateItemTags { it(ItemTags.CLUSTER_MAX_HARVESTABLES).add(feature) }
-            onGenerateItemTags { it(ConventionalItemTags.PICKAXES).add(feature) }
-        }
+        onGenerateItemModels { it.register(feature, Models.HANDHELD) }
+        enJaItem({ feature }, card.enName, card.jaName)
+        generatePoemList({ feature }, card.poemList)
+        onRegisterItems { registerPoemList(feature, card.poemList) }
+        onGenerateItemTags { it(toolMaterialCard.tag).add(feature) }
+        onGenerateItemTags { it(ItemTags.CLUSTER_MAX_HARVESTABLES).add(feature) }
+        onGenerateItemTags { it(ConventionalItemTags.PICKAXES).add(feature) }
     }
 }
 
@@ -330,13 +324,11 @@ private fun staff(toolMaterialCard: ToolMaterialCard): ToolMaterialCardInitializ
     override fun createItem() = StaffItem(toolMaterialCard.toolMaterial, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<StaffItem>) {
         val feature = card.item
-        run {
-            onGenerateItemModels { it.register(feature, Models.HANDHELD) }
-            enJaItem({ feature }, card.enName, card.jaName)
-            generatePoemList({ feature }, card.poemList)
-            onRegisterItems { registerPoemList(feature, card.poemList) }
-            onGenerateItemTags { it(toolMaterialCard.tag).add(feature) }
-        }
+        onGenerateItemModels { it.register(feature, Models.HANDHELD) }
+        enJaItem({ feature }, card.enName, card.jaName)
+        generatePoemList({ feature }, card.poemList)
+        onRegisterItems { registerPoemList(feature, card.poemList) }
+        onGenerateItemTags { it(toolMaterialCard.tag).add(feature) }
     }
 }
 
@@ -344,14 +336,12 @@ private fun passiveSkillAccessory(trinketsSlotCards: List<TrinketsSlotCard>, man
     override fun createItem() = PassiveSkillAccessoryItem(mana, passiveSkills, FabricItemSettings().maxCount(1).group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<PassiveSkillAccessoryItem>) {
         val feature = card.item
-        run {
-            onGenerateItemModels { it.register(feature, Models.GENERATED) }
-            enJaItem({ feature }, card.enName, card.jaName)
-            generatePoemList({ feature }, card.poemList)
-            onRegisterItems { registerPoemList(feature, card.poemList) }
-            trinketsSlotCards.forEach { trinketsSlotCard ->
-                onGenerateItemTags { it(trinketsSlotCard.tag).add(feature) }
-            }
+        onGenerateItemModels { it.register(feature, Models.GENERATED) }
+        enJaItem({ feature }, card.enName, card.jaName)
+        generatePoemList({ feature }, card.poemList)
+        onRegisterItems { registerPoemList(feature, card.poemList) }
+        trinketsSlotCards.forEach { trinketsSlotCard ->
+            onGenerateItemTags { it(trinketsSlotCard.tag).add(feature) }
         }
     }
 }
@@ -360,15 +350,13 @@ private fun <I> trinketAccessory(trinketsSlotCards: List<TrinketsSlotCard>, item
     override fun createItem() = itemCreator(FabricItemSettings().maxCount(1).group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<I>) {
         val feature = card.item
-        run {
-            onGenerateItemModels { it.register(feature, Models.GENERATED) }
-            enJaItem({ feature }, card.enName, card.jaName)
-            generatePoemList({ feature }, card.poemList)
-            onRegisterItems { registerPoemList(feature, card.poemList) }
-            trinketsSlotCards.forEach { trinketsSlotCard ->
-                onGenerateItemTags { it(trinketsSlotCard.tag).add(feature) }
-            }
-            onRegisterItems { TrinketsApi.registerTrinket(feature, feature) }
+        onGenerateItemModels { it.register(feature, Models.GENERATED) }
+        enJaItem({ feature }, card.enName, card.jaName)
+        generatePoemList({ feature }, card.poemList)
+        onRegisterItems { registerPoemList(feature, card.poemList) }
+        trinketsSlotCards.forEach { trinketsSlotCard ->
+            onGenerateItemTags { it(trinketsSlotCard.tag).add(feature) }
         }
+        onRegisterItems { TrinketsApi.registerTrinket(feature, feature) }
     }
 }
