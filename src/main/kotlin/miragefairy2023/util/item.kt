@@ -13,6 +13,8 @@ import net.minecraft.util.registry.Registry
 
 fun ItemConvertible.toIngredient(): Ingredient = Ingredient.ofItems(this)
 fun ItemConvertible.createItemStack(count: Int = 1) = ItemStack(this, count)
+
+/** 初期化コンテキストで呼び出すことはできません。 */
 val Item.identifier get(): Identifier = Registry.ITEM.getId(this)
 
 

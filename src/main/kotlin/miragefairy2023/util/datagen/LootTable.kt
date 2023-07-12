@@ -2,7 +2,6 @@
 
 package miragefairy2023.util.datagen
 
-import miragefairy2023.util.identifier
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
 import miragefairy2023.util.string
@@ -23,6 +22,7 @@ import net.minecraft.loot.function.LootFunctionConsumingBuilder
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider
 import net.minecraft.loot.provider.number.UniformLootNumberProvider
 import net.minecraft.state.property.Property
+import net.minecraft.util.Identifier
 
 
 inline fun <T> T.configure(block: T.() -> Unit) = this.apply(block)
@@ -83,10 +83,10 @@ fun UniformLootNumberProvider(min: Float, max: Float): UniformLootNumberProvider
 // LootCondition
 
 @Suppress("FunctionName")
-fun ExactMatchBlockStatePropertyLootCondition(block: Block, property: Property<Int>, value: Int) = LootCondition.Builder {
+fun ExactMatchBlockStatePropertyLootCondition(block: Block, identifier: Identifier, property: Property<Int>, value: Int) = LootCondition.Builder {
     BlockStatePropertyLootCondition.Serializer().fromJson( // Rangedの方に合わせるためにjsonを使用
         jsonObjectOf(
-            "block" to block.identifier.string.jsonPrimitive,
+            "block" to identifier.string.jsonPrimitive,
             "condition" to "minecraft:block_state_property".jsonPrimitive,
             "properties" to jsonObjectOf(
                 property.name to value.jsonPrimitive,
@@ -96,10 +96,10 @@ fun ExactMatchBlockStatePropertyLootCondition(block: Block, property: Property<I
 }
 
 @Suppress("FunctionName")
-fun RangedMatchBlockStatePropertyLootCondition(block: Block, property: Property<Int>, min: Int, max: Int) = LootCondition.Builder {
+fun RangedMatchBlockStatePropertyLootCondition(block: Block, identifier: Identifier, property: Property<Int>, min: Int, max: Int) = LootCondition.Builder {
     BlockStatePropertyLootCondition.Serializer().fromJson(
         jsonObjectOf(
-            "block" to block.identifier.string.jsonPrimitive,
+            "block" to identifier.string.jsonPrimitive,
             "condition" to "minecraft:block_state_property".jsonPrimitive,
             "properties" to jsonObjectOf(
                 property.name to jsonObjectOf(

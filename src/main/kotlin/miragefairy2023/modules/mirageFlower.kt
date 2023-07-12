@@ -116,8 +116,8 @@ val mirageFlowerModule = module {
         onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(feature) }
         // onGenerateBlockTags { it(BlockTags.SMALL_FLOWERS).add(feature) } // これをやるとエンダーマンが勝手に引っこ抜いていく
         generateBlockLootTable({ feature }) {
-            val age2Condition = RangedMatchBlockStatePropertyLootCondition(feature, MirageFlowerBlock.AGE, 2, 3)
-            val age3Condition = ExactMatchBlockStatePropertyLootCondition(feature, MirageFlowerBlock.AGE, 3)
+            val age2Condition = RangedMatchBlockStatePropertyLootCondition(feature, id, MirageFlowerBlock.AGE, 2, 3)
+            val age3Condition = ExactMatchBlockStatePropertyLootCondition(feature, id, MirageFlowerBlock.AGE, 3)
             LootTable(
                 LootPool(ItemLootPoolEntry(mirageSeedItem.feature)) { // ベース種ドロップ
                     conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
