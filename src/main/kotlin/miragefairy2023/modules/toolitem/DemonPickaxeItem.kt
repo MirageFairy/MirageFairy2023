@@ -23,7 +23,7 @@ class DemonPickaxeItem(
     attackSpeed: Float,
     private val effectiveBlockTags: List<TagKey<Block>>,
     private val silkTouch: Boolean,
-    settings: Settings
+    settings: Settings,
 ) : PickaxeItem(toolMaterial, attackDamage, attackSpeed, settings) {
     override fun getMiningSpeedMultiplier(stack: ItemStack, state: BlockState) = if (effectiveBlockTags.any { state.isIn(it) }) miningSpeed else 1.0F
 
