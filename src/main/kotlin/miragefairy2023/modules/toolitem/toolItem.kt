@@ -20,12 +20,10 @@ import miragefairy2023.modules.passiveskill.passiveSkills
 import miragefairy2023.modules.registerPoemList
 import miragefairy2023.util.Translation
 import miragefairy2023.util.identifier
-import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.group
-import miragefairy2023.util.init.item
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
 import net.minecraft.block.Block
@@ -51,7 +49,7 @@ class ToolItemCard<T : Item>(
     }
 
     val identifier = Identifier(MirageFairy2023.modId, path)
-    lateinit var item: FeatureSlot<Item>
+    val item = initializer.createItem()
 
     companion object {
         val values = mutableListOf<ToolItemCard<*>>()
@@ -135,13 +133,14 @@ val toolItemModule = module {
         card.initializer.run { this@module.init(card) }
     }
     ToolItemCard.values.forEach { card ->
+        Registry.register(Registry.ITEM, card.identifier, card.item)
         init(card)
     }
 
     // ドリームキャッチャー
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
-            .create(ToolItemCard.DREAM_CATCHER.item.feature)
+            .create(ToolItemCard.DREAM_CATCHER.item)
             .pattern("FSS")
             .pattern("FSS")
             .pattern("RFF")
@@ -149,84 +148,84 @@ val toolItemModule = module {
             .input('S', Items.STRING)
             .input('R', DemonItemCard.MIRAGE_STEM.item)
             .criterion(DemonItemCard.MIRAGE_STEM.item)
-            .group(ToolItemCard.DREAM_CATCHER.item.feature)
-            .offerTo(it, ToolItemCard.DREAM_CATCHER.item.feature.identifier)
+            .group(ToolItemCard.DREAM_CATCHER.item)
+            .offerTo(it, ToolItemCard.DREAM_CATCHER.item.identifier)
     }
 
     // 蒼天のドリームキャッチャー
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
-            .create(ToolItemCard.BLUE_DREAM_CATCHER.item.feature)
+            .create(ToolItemCard.BLUE_DREAM_CATCHER.item)
             .pattern("GII")
             .pattern("G#I")
             .pattern("IGG")
-            .input('#', ToolItemCard.DREAM_CATCHER.item.feature)
+            .input('#', ToolItemCard.DREAM_CATCHER.item)
             .input('G', DemonItemCard.MIRANAGITE.item)
             .input('I', DemonItemCard.CHAOS_STONE.item)
-            .criterion(ToolItemCard.DREAM_CATCHER.item.feature)
-            .group(ToolItemCard.BLUE_DREAM_CATCHER.item.feature)
-            .offerTo(it, ToolItemCard.BLUE_DREAM_CATCHER.item.feature.identifier)
+            .criterion(ToolItemCard.DREAM_CATCHER.item)
+            .group(ToolItemCard.BLUE_DREAM_CATCHER.item)
+            .offerTo(it, ToolItemCard.BLUE_DREAM_CATCHER.item.identifier)
     }
 
     // クリスタルのつるはし
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
-            .create(ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE.item.feature)
+            .create(ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE.item)
             .pattern("GGG")
             .pattern(" S ")
             .pattern(" S ")
             .input('G', DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item)
             .input('S', Items.STICK)
             .criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item)
-            .group(ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE.item.feature)
-            .offerTo(it, ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE.item.feature.identifier)
+            .group(ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE.item)
+            .offerTo(it, ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE.item.identifier)
     }
 
     // クリスタルのペンダント
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
-            .create(ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PENDANT.item.feature)
+            .create(ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PENDANT.item)
             .pattern(" s ")
             .pattern("s s")
             .pattern(" G ")
             .input('G', DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item)
             .input('s', Items.STRING)
             .criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item)
-            .group(ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PENDANT.item.feature)
-            .offerTo(it, ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PENDANT.item.feature.identifier)
+            .group(ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PENDANT.item)
+            .offerTo(it, ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PENDANT.item.identifier)
     }
 
     // 蒼天のナイフ
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
-            .create(ToolItemCard.MIRANAGITE_KNIFE.item.feature)
+            .create(ToolItemCard.MIRANAGITE_KNIFE.item)
             .pattern("G")
             .pattern("S")
             .input('G', DemonItemCard.MIRANAGITE.item)
             .input('S', Items.STICK)
             .criterion(DemonItemCard.MIRANAGITE.item)
-            .group(ToolItemCard.MIRANAGITE_KNIFE.item.feature)
-            .offerTo(it, ToolItemCard.MIRANAGITE_KNIFE.item.feature.identifier)
+            .group(ToolItemCard.MIRANAGITE_KNIFE.item)
+            .offerTo(it, ToolItemCard.MIRANAGITE_KNIFE.item.identifier)
     }
 
     // 蒼天のつるはし
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
-            .create(ToolItemCard.MIRANAGITE_PICKAXE.item.feature)
+            .create(ToolItemCard.MIRANAGITE_PICKAXE.item)
             .pattern("GGG")
             .pattern(" S ")
             .pattern(" S ")
             .input('G', DemonItemCard.MIRANAGITE.item)
             .input('S', Items.STICK)
             .criterion(DemonItemCard.MIRANAGITE.item)
-            .group(ToolItemCard.MIRANAGITE_PICKAXE.item.feature)
-            .offerTo(it, ToolItemCard.MIRANAGITE_PICKAXE.item.feature.identifier)
+            .group(ToolItemCard.MIRANAGITE_PICKAXE.item)
+            .offerTo(it, ToolItemCard.MIRANAGITE_PICKAXE.item.identifier)
     }
 
     // 蒼天のスタッフ
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
-            .create(ToolItemCard.MIRANAGITE_STAFF.item.feature)
+            .create(ToolItemCard.MIRANAGITE_STAFF.item)
             .pattern(" ID")
             .pattern(" RI")
             .pattern("N  ")
@@ -235,35 +234,35 @@ val toolItemModule = module {
             .input('I', Items.IRON_INGOT)
             .input('N', Items.IRON_NUGGET)
             .criterion(DemonItemCard.MIRANAGITE.item)
-            .group(ToolItemCard.MIRANAGITE_STAFF.item.feature)
-            .offerTo(it, ToolItemCard.MIRANAGITE_STAFF.item.feature.identifier)
+            .group(ToolItemCard.MIRANAGITE_STAFF.item)
+            .offerTo(it, ToolItemCard.MIRANAGITE_STAFF.item.identifier)
     }
 
     // 混沌のつるはし
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
-            .create(ToolItemCard.CHAOS_STONE_PICKAXE.item.feature)
+            .create(ToolItemCard.CHAOS_STONE_PICKAXE.item)
             .pattern("GGG")
             .pattern(" S ")
             .pattern(" S ")
             .input('G', DemonItemCard.CHAOS_STONE.item)
             .input('S', Items.STICK)
             .criterion(DemonItemCard.CHAOS_STONE.item)
-            .group(ToolItemCard.CHAOS_STONE_PICKAXE.item.feature)
-            .offerTo(it, ToolItemCard.CHAOS_STONE_PICKAXE.item.feature.identifier)
+            .group(ToolItemCard.CHAOS_STONE_PICKAXE.item)
+            .offerTo(it, ToolItemCard.CHAOS_STONE_PICKAXE.item.identifier)
     }
 
     // 混沌のフィッシンググローブ
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
-            .create(ToolItemCard.CHAOS_FISHING_GROVE.item.feature)
+            .create(ToolItemCard.CHAOS_FISHING_GROVE.item)
             .pattern(" GG")
             .pattern("GGG")
             .pattern(" GG")
             .input('G', DemonItemCard.CHAOS_STONE.item)
             .criterion(DemonItemCard.CHAOS_STONE.item)
-            .group(ToolItemCard.CHAOS_FISHING_GROVE.item.feature)
-            .offerTo(it, ToolItemCard.CHAOS_FISHING_GROVE.item.feature.identifier)
+            .group(ToolItemCard.CHAOS_FISHING_GROVE.item)
+            .offerTo(it, ToolItemCard.CHAOS_FISHING_GROVE.item.identifier)
     }
 
     enJa(DreamCatcherItem.knownKey)
@@ -285,7 +284,8 @@ interface ToolMaterialCardInitializer<T : Item> {
 private fun dreamCatcher(toolMaterialCard: ToolMaterialCard, maxDamage: Int): ToolMaterialCardInitializer<DreamCatcherItem> = object : ToolMaterialCardInitializer<DreamCatcherItem> {
     override fun createItem() = DreamCatcherItem(toolMaterialCard.toolMaterial, maxDamage, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<DreamCatcherItem>) {
-        card.item = item(card.path, { createItem() }) {
+        val feature = card.item
+        run {
             onGenerateItemModels { it.register(feature, Models.HANDHELD) }
             enJaItem({ feature }, card.enName, card.jaName)
             generatePoemList({ feature }, card.poemList)
@@ -299,7 +299,8 @@ private fun dreamCatcher(toolMaterialCard: ToolMaterialCard, maxDamage: Int): To
 private fun knife(toolMaterialCard: ToolMaterialCard, silkTouch: Boolean = false): ToolMaterialCardInitializer<DemonKnifeItem> = object : ToolMaterialCardInitializer<DemonKnifeItem> {
     override fun createItem() = DemonKnifeItem(toolMaterialCard.toolMaterial, silkTouch, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<DemonKnifeItem>) {
-        card.item = item(card.path, { createItem() }) {
+        val feature = card.item
+        run {
             onGenerateItemModels { it.register(feature, Models.HANDHELD) }
             enJaItem({ feature }, card.enName, card.jaName)
             generatePoemList({ feature }, card.poemList)
@@ -312,7 +313,8 @@ private fun knife(toolMaterialCard: ToolMaterialCard, silkTouch: Boolean = false
 private fun pickaxe(toolMaterialCard: ToolMaterialCard, vararg effectiveBlockTags: TagKey<Block>, silkTouch: Boolean = false): ToolMaterialCardInitializer<DemonPickaxeItem> = object : ToolMaterialCardInitializer<DemonPickaxeItem> {
     override fun createItem() = DemonPickaxeItem(toolMaterialCard.toolMaterial, 1, -2.8F, effectiveBlockTags.toList(), silkTouch, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<DemonPickaxeItem>) {
-        card.item = item(card.path, { createItem() }) {
+        val feature = card.item
+        run {
             onGenerateItemModels { it.register(feature, Models.HANDHELD) }
             enJaItem({ feature }, card.enName, card.jaName)
             generatePoemList({ feature }, card.poemList)
@@ -327,7 +329,8 @@ private fun pickaxe(toolMaterialCard: ToolMaterialCard, vararg effectiveBlockTag
 private fun staff(toolMaterialCard: ToolMaterialCard): ToolMaterialCardInitializer<StaffItem> = object : ToolMaterialCardInitializer<StaffItem> {
     override fun createItem() = StaffItem(toolMaterialCard.toolMaterial, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<StaffItem>) {
-        card.item = item(card.path, { createItem() }) {
+        val feature = card.item
+        run {
             onGenerateItemModels { it.register(feature, Models.HANDHELD) }
             enJaItem({ feature }, card.enName, card.jaName)
             generatePoemList({ feature }, card.poemList)
@@ -340,7 +343,8 @@ private fun staff(toolMaterialCard: ToolMaterialCard): ToolMaterialCardInitializ
 private fun passiveSkillAccessory(trinketsSlotCards: List<TrinketsSlotCard>, mana: Double, passiveSkills: List<PassiveSkill>): ToolMaterialCardInitializer<PassiveSkillAccessoryItem> = object : ToolMaterialCardInitializer<PassiveSkillAccessoryItem> {
     override fun createItem() = PassiveSkillAccessoryItem(mana, passiveSkills, FabricItemSettings().maxCount(1).group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<PassiveSkillAccessoryItem>) {
-        card.item = item(card.path, { createItem() }) {
+        val feature = card.item
+        run {
             onGenerateItemModels { it.register(feature, Models.GENERATED) }
             enJaItem({ feature }, card.enName, card.jaName)
             generatePoemList({ feature }, card.poemList)
@@ -355,7 +359,8 @@ private fun passiveSkillAccessory(trinketsSlotCards: List<TrinketsSlotCard>, man
 private fun <I> trinketAccessory(trinketsSlotCards: List<TrinketsSlotCard>, itemCreator: (Item.Settings) -> I): ToolMaterialCardInitializer<I> where I : Item, I : Trinket = object : ToolMaterialCardInitializer<I> {
     override fun createItem() = itemCreator(FabricItemSettings().maxCount(1).group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<I>) {
-        card.item = item(card.path, { createItem() }) {
+        val feature = card.item
+        run {
             onGenerateItemModels { it.register(feature, Models.GENERATED) }
             enJaItem({ feature }, card.enName, card.jaName)
             generatePoemList({ feature }, card.poemList)
