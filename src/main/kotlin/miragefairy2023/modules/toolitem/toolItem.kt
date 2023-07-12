@@ -280,7 +280,7 @@ interface ToolMaterialCardInitializer<T : Item> {
     fun InitializationScope.init(card: ToolItemCard<T>)
 }
 
-private fun dreamCatcher(toolMaterialCard: ToolMaterialCard, maxDamage: Int): ToolMaterialCardInitializer<DreamCatcherItem> = object : ToolMaterialCardInitializer<DreamCatcherItem> {
+class dreamCatcher(private val toolMaterialCard: ToolMaterialCard, private val maxDamage: Int) : ToolMaterialCardInitializer<DreamCatcherItem> {
     override fun createItem() = DreamCatcherItem(toolMaterialCard.toolMaterial, maxDamage, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<DreamCatcherItem>) {
         onGenerateItemModels { it.register(card.item, Models.HANDHELD) }
@@ -292,7 +292,7 @@ private fun dreamCatcher(toolMaterialCard: ToolMaterialCard, maxDamage: Int): To
     }
 }
 
-private fun knife(toolMaterialCard: ToolMaterialCard, silkTouch: Boolean = false): ToolMaterialCardInitializer<DemonKnifeItem> = object : ToolMaterialCardInitializer<DemonKnifeItem> {
+class knife(private val toolMaterialCard: ToolMaterialCard, private val silkTouch: Boolean = false) : ToolMaterialCardInitializer<DemonKnifeItem> {
     override fun createItem() = DemonKnifeItem(toolMaterialCard.toolMaterial, silkTouch, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<DemonKnifeItem>) {
         onGenerateItemModels { it.register(card.item, Models.HANDHELD) }
@@ -303,7 +303,7 @@ private fun knife(toolMaterialCard: ToolMaterialCard, silkTouch: Boolean = false
     }
 }
 
-private fun pickaxe(toolMaterialCard: ToolMaterialCard, vararg effectiveBlockTags: TagKey<Block>, silkTouch: Boolean = false): ToolMaterialCardInitializer<DemonPickaxeItem> = object : ToolMaterialCardInitializer<DemonPickaxeItem> {
+class pickaxe(private val toolMaterialCard: ToolMaterialCard, private vararg val effectiveBlockTags: TagKey<Block>, private val silkTouch: Boolean = false) : ToolMaterialCardInitializer<DemonPickaxeItem> {
     override fun createItem() = DemonPickaxeItem(toolMaterialCard.toolMaterial, 1, -2.8F, effectiveBlockTags.toList(), silkTouch, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<DemonPickaxeItem>) {
         onGenerateItemModels { it.register(card.item, Models.HANDHELD) }
@@ -316,7 +316,7 @@ private fun pickaxe(toolMaterialCard: ToolMaterialCard, vararg effectiveBlockTag
     }
 }
 
-private fun staff(toolMaterialCard: ToolMaterialCard): ToolMaterialCardInitializer<StaffItem> = object : ToolMaterialCardInitializer<StaffItem> {
+class staff(private val toolMaterialCard: ToolMaterialCard) : ToolMaterialCardInitializer<StaffItem> {
     override fun createItem() = StaffItem(toolMaterialCard.toolMaterial, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<StaffItem>) {
         onGenerateItemModels { it.register(card.item, Models.HANDHELD) }
@@ -327,7 +327,7 @@ private fun staff(toolMaterialCard: ToolMaterialCard): ToolMaterialCardInitializ
     }
 }
 
-private fun passiveSkillAccessory(trinketsSlotCards: List<TrinketsSlotCard>, mana: Double, passiveSkills: List<PassiveSkill>): ToolMaterialCardInitializer<PassiveSkillAccessoryItem> = object : ToolMaterialCardInitializer<PassiveSkillAccessoryItem> {
+class passiveSkillAccessory(private val trinketsSlotCards: List<TrinketsSlotCard>, private val mana: Double, private val passiveSkills: List<PassiveSkill>) : ToolMaterialCardInitializer<PassiveSkillAccessoryItem> {
     override fun createItem() = PassiveSkillAccessoryItem(mana, passiveSkills, FabricItemSettings().maxCount(1).group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<PassiveSkillAccessoryItem>) {
         onGenerateItemModels { it.register(card.item, Models.GENERATED) }
@@ -340,7 +340,7 @@ private fun passiveSkillAccessory(trinketsSlotCards: List<TrinketsSlotCard>, man
     }
 }
 
-private fun <I> trinketAccessory(trinketsSlotCards: List<TrinketsSlotCard>, itemCreator: (Item.Settings) -> I): ToolMaterialCardInitializer<I> where I : Item, I : Trinket = object : ToolMaterialCardInitializer<I> {
+class trinketAccessory<I>(private val trinketsSlotCards: List<TrinketsSlotCard>, private val itemCreator: (Item.Settings) -> I) : ToolMaterialCardInitializer<I> where I : Item, I : Trinket {
     override fun createItem() = itemCreator(FabricItemSettings().maxCount(1).group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<I>) {
         onGenerateItemModels { it.register(card.item, Models.GENERATED) }
