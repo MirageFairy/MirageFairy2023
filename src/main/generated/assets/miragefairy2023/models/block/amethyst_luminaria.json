@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "miragefairy2023:block/amethyst_luminaria"
+  }
+}

@@ -98,10 +98,15 @@ enum class LuminariaCard(
         listOf(Poem("Contrary to tales, it's just a rock", "虚空を貫く、魔の残光。")),
         { it.hasTag(ConventionalBiomeTags.CLIMATE_WET) }, Pair({ Items.LAPIS_LAZULI }, 4.0), true,
     ),
+    AMETHYST_LUMINARIA(
+        "amethyst_luminaria", "Amethyst Luminaria", "アメジストルミナリア",
+        listOf(Poem("Chemically indistinguishable", "深淵に射す、好奇の瞳。")),
+        { !it.hasTag(ConventionalBiomeTags.CLIMATE_WET) && !it.hasTag(ConventionalBiomeTags.CLIMATE_DRY) }, Pair({ Items.AMETHYST_SHARD }, 2.0), true,
+    ),
     REDSTONE_LUMINARIA(
         "redstone_luminaria", "Redstone Luminaria", "レッドストーンルミナリア",
         listOf(Poem("This plant may have \"consciousness\"", "荒野を照らす、知の波動。")),
-        { !it.hasTag(ConventionalBiomeTags.CLIMATE_WET) }, Pair({ Items.REDSTONE }, 4.0), true,
+        { it.hasTag(ConventionalBiomeTags.CLIMATE_DRY) }, Pair({ Items.REDSTONE }, 4.0), true,
     ),
     ;
 
