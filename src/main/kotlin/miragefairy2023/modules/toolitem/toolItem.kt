@@ -277,6 +277,8 @@ val NOT_ENOUGH_EXPERIENCE_KEY = Translation("item.miragefairy2023.magic.not_enou
 val DREAM_CATCHERS: TagKey<Item> = TagKey.of(Registry.ITEM_KEY, Identifier(MirageFairy2023.modId, "dream_catchers"))
 
 
+// Initializer
+
 abstract class ToolItemCardInitializer<T : Item>(val model: Model) {
     abstract fun createItem(): T
     abstract fun init(scope: InitializationScope, card: ToolItemCard<T>)
