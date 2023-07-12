@@ -44,7 +44,7 @@ enum class ToolItemCard(
     val enName: String,
     val jaName: String,
     val poemList: List<Poem>,
-    val initializer: ToolMaterialCardInitializer,
+    val initializer: ToolMaterialCardInitializer<*>,
 ) {
     DREAM_CATCHER(
         "dream_catcher", "Dream Catcher", "ドリームキャッチャー",
@@ -267,11 +267,11 @@ val NOT_ENOUGH_EXPERIENCE_KEY = Translation("item.miragefairy2023.magic.not_enou
 val DREAM_CATCHERS: TagKey<Item> = TagKey.of(Registry.ITEM_KEY, Identifier(MirageFairy2023.modId, "dream_catchers"))
 
 
-fun interface ToolMaterialCardInitializer {
+interface ToolMaterialCardInitializer<T : Item> {
     fun InitializationScope.init(card: ToolItemCard)
 }
 
-private fun dreamCatcher(toolMaterialCard: ToolMaterialCard, maxDamage: Int): ToolMaterialCardInitializer = object : ToolMaterialCardInitializer {
+private fun dreamCatcher(toolMaterialCard: ToolMaterialCard, maxDamage: Int): ToolMaterialCardInitializer<DreamCatcherItem> = object : ToolMaterialCardInitializer<DreamCatcherItem> {
     override fun InitializationScope.init(card: ToolItemCard) {
         card.item = item(card.path, { DreamCatcherItem(toolMaterialCard.toolMaterial, maxDamage, FabricItemSettings().group(commonItemGroup)) }) {
             onGenerateItemModels { it.register(feature, Models.HANDHELD) }
@@ -284,7 +284,7 @@ private fun dreamCatcher(toolMaterialCard: ToolMaterialCard, maxDamage: Int): To
     }
 }
 
-private fun knife(toolMaterialCard: ToolMaterialCard, silkTouch: Boolean = false): ToolMaterialCardInitializer = object : ToolMaterialCardInitializer {
+private fun knife(toolMaterialCard: ToolMaterialCard, silkTouch: Boolean = false): ToolMaterialCardInitializer<DemonKnifeItem> = object : ToolMaterialCardInitializer<DemonKnifeItem> {
     override fun InitializationScope.init(card: ToolItemCard) {
         card.item = item(card.path, { DemonKnifeItem(toolMaterialCard.toolMaterial, silkTouch, FabricItemSettings().group(commonItemGroup)) }) {
             onGenerateItemModels { it.register(feature, Models.HANDHELD) }
@@ -296,7 +296,7 @@ private fun knife(toolMaterialCard: ToolMaterialCard, silkTouch: Boolean = false
     }
 }
 
-private fun pickaxe(toolMaterialCard: ToolMaterialCard, vararg effectiveBlockTags: TagKey<Block>, silkTouch: Boolean = false): ToolMaterialCardInitializer = object : ToolMaterialCardInitializer {
+private fun pickaxe(toolMaterialCard: ToolMaterialCard, vararg effectiveBlockTags: TagKey<Block>, silkTouch: Boolean = false): ToolMaterialCardInitializer<DemonPickaxeItem> = object : ToolMaterialCardInitializer<DemonPickaxeItem> {
     override fun InitializationScope.init(card: ToolItemCard) {
         card.item = item(card.path, { DemonPickaxeItem(toolMaterialCard.toolMaterial, 1, -2.8F, effectiveBlockTags.toList(), silkTouch, FabricItemSettings().group(commonItemGroup)) }) {
             onGenerateItemModels { it.register(feature, Models.HANDHELD) }
@@ -310,7 +310,7 @@ private fun pickaxe(toolMaterialCard: ToolMaterialCard, vararg effectiveBlockTag
     }
 }
 
-private fun staff(toolMaterialCard: ToolMaterialCard): ToolMaterialCardInitializer = object : ToolMaterialCardInitializer {
+private fun staff(toolMaterialCard: ToolMaterialCard): ToolMaterialCardInitializer<StaffItem> = object : ToolMaterialCardInitializer<StaffItem> {
     override fun InitializationScope.init(card: ToolItemCard) {
         card.item = item(card.path, { StaffItem(toolMaterialCard.toolMaterial, FabricItemSettings().group(commonItemGroup)) }) {
             onGenerateItemModels { it.register(feature, Models.HANDHELD) }
@@ -322,7 +322,7 @@ private fun staff(toolMaterialCard: ToolMaterialCard): ToolMaterialCardInitializ
     }
 }
 
-private fun passiveSkillAccessory(trinketsSlotCards: List<TrinketsSlotCard>, mana: Double, passiveSkills: List<PassiveSkill>): ToolMaterialCardInitializer = object : ToolMaterialCardInitializer {
+private fun passiveSkillAccessory(trinketsSlotCards: List<TrinketsSlotCard>, mana: Double, passiveSkills: List<PassiveSkill>): ToolMaterialCardInitializer<PassiveSkillAccessoryItem> = object : ToolMaterialCardInitializer<PassiveSkillAccessoryItem> {
     override fun InitializationScope.init(card: ToolItemCard) {
         card.item = item(card.path, { PassiveSkillAccessoryItem(mana, passiveSkills, FabricItemSettings().maxCount(1).group(commonItemGroup)) }) {
             onGenerateItemModels { it.register(feature, Models.GENERATED) }
@@ -336,7 +336,7 @@ private fun passiveSkillAccessory(trinketsSlotCards: List<TrinketsSlotCard>, man
     }
 }
 
-private fun <I> trinketAccessory(trinketsSlotCards: List<TrinketsSlotCard>, itemCreator: (Item.Settings) -> I): ToolMaterialCardInitializer where I : Item, I : Trinket = object : ToolMaterialCardInitializer {
+private fun <I> trinketAccessory(trinketsSlotCards: List<TrinketsSlotCard>, itemCreator: (Item.Settings) -> I): ToolMaterialCardInitializer<I> where I : Item, I : Trinket = object : ToolMaterialCardInitializer<I> {
     override fun InitializationScope.init(card: ToolItemCard) {
         card.item = item(card.path, { itemCreator(FabricItemSettings().maxCount(1).group(commonItemGroup)) }) {
             onGenerateItemModels { it.register(feature, Models.GENERATED) }
