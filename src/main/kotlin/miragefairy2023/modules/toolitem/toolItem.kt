@@ -60,7 +60,7 @@ class ToolItemCard<T : Item>(
                 Description("description1", "Show fairy dreams when in inventory", "インベントリ内に所持時、妖精の夢を表示"),
                 Description("description2", "Acquire the fairy dream when used", "使用時、妖精の夢を獲得"),
             ),
-            dreamCatcher(ToolMaterialCard.MIRAGE, 20),
+            DreamCatcherInitializer(ToolMaterialCard.MIRAGE, 20),
         )
         val BLUE_DREAM_CATCHER = ToolItemCard(
             "blue_dream_catcher", "Blue Dream Catcher", "蒼天のドリームキャッチャー",
@@ -69,17 +69,17 @@ class ToolItemCard<T : Item>(
                 Description("description1", "Show fairy dreams when in inventory", "インベントリ内に所持時、妖精の夢を表示"),
                 Description("description2", "Acquire the fairy dream when used", "使用時、妖精の夢を獲得"),
             ),
-            dreamCatcher(ToolMaterialCard.CHAOS_STONE, 400),
+            DreamCatcherInitializer(ToolMaterialCard.CHAOS_STONE, 400),
         )
         val ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE = ToolItemCard(
             "artificial_fairy_crystal_pickaxe", "Crystal Pickaxe", "クリスタルのつるはし",
             listOf(Poem("Amorphous mental body of fairies", "妖精さえ怖れる、技術の結晶。")),
-            pickaxe(ToolMaterialCard.ARTIFICIAL_FAIRY_CRYSTAL, BlockTags.PICKAXE_MINEABLE),
+            PickaxeInitializer(ToolMaterialCard.ARTIFICIAL_FAIRY_CRYSTAL, BlockTags.PICKAXE_MINEABLE),
         )
         val ARTIFICIAL_FAIRY_CRYSTAL_PENDANT = ToolItemCard(
             "artificial_fairy_crystal_pendant", "Crystal Pendant", "クリスタルのペンダント",
             listOf(Poem("Object that makes Mirage fairies fairies", "『妖精』だったあのころ――")),
-            passiveSkillAccessory(listOf(TrinketsSlotCard.CHEST_NECKLACE), 5.0, passiveSkills {
+            PassiveSkillAccessoryInitializer(listOf(TrinketsSlotCard.CHEST_NECKLACE), 5.0, passiveSkills {
                 mana(0.4) on always()
             }),
         )
@@ -89,7 +89,7 @@ class ToolItemCard<T : Item>(
                 Poem("Gardener's tool invented by Miranagi", "大自然を駆ける探究者のナイフ。"),
                 Description("Enchant silk touch when using raw item", "生のアイテム使用時、シルクタッチ付与"),
             ),
-            knife(ToolMaterialCard.MIRANAGITE, silkTouch = true),
+            KnifeInitializer(ToolMaterialCard.MIRANAGITE, silkTouch = true),
         )
         val MIRANAGITE_PICKAXE = ToolItemCard(
             "miranagite_pickaxe", "Miranagi Pickaxe", "蒼天のつるはし",
@@ -97,12 +97,12 @@ class ToolItemCard<T : Item>(
                 Poem("Promotes ore recrystallization", "凝集する秩序、蒼穹彩煌が如く。"),
                 Description("Enchant silk touch when using raw item", "生のアイテム使用時、シルクタッチ付与"),
             ),
-            pickaxe(ToolMaterialCard.MIRANAGITE, BlockTags.PICKAXE_MINEABLE, silkTouch = true),
+            PickaxeInitializer(ToolMaterialCard.MIRANAGITE, BlockTags.PICKAXE_MINEABLE, silkTouch = true),
         )
         val MIRANAGITE_STAFF = ToolItemCard(
             "miranagite_staff", "Miranagi Staff", "みらなぎの杖",
             listOf(Poem("Risk of vacuum decay due to anti-entropy", "創世の神光は混沌をも翻す。")),
-            staff(ToolMaterialCard.MIRANAGITE),
+            StaffInitializer(ToolMaterialCard.MIRANAGITE),
         )
         val CHAOS_STONE_PICKAXE = ToolItemCard(
             "chaos_stone_pickaxe", "Chaos Pickaxe", "混沌のつるはし",
@@ -110,7 +110,7 @@ class ToolItemCard<T : Item>(
                 Poem("Is this made of metal? Or clay?", "時空結晶の交点に、古代の産業が芽吹く。"),
                 Description("Can dig like a shovel", "シャベルのように掘れる"),
             ),
-            pickaxe(ToolMaterialCard.CHAOS_STONE, BlockTags.PICKAXE_MINEABLE, BlockTags.SHOVEL_MINEABLE),
+            PickaxeInitializer(ToolMaterialCard.CHAOS_STONE, BlockTags.PICKAXE_MINEABLE, BlockTags.SHOVEL_MINEABLE),
         )
         val CHAOS_FISHING_GROVE = ToolItemCard(
             "chaos_fishing_grove", "Chaos Fishing Grove", "混沌のフィッシンググローブ",
@@ -120,7 +120,7 @@ class ToolItemCard<T : Item>(
                 Penalty("penalty1", "Consume more fishing rod durability", "釣り竿の耐久値消費増加"),
                 Penalty("penalty2", "Halves fishing enchantments", "釣りのエンチャント効果半減"),
             ),
-            trinketAccessory(listOf(TrinketsSlotCard.HAND_GLOVE, TrinketsSlotCard.OFFHAND_GLOVE)) { FishingGroveItem(it) },
+            TrinketAccessoryInitializer(listOf(TrinketsSlotCard.HAND_GLOVE, TrinketsSlotCard.OFFHAND_GLOVE)) { FishingGroveItem(it) },
         )
     }
 }
@@ -280,7 +280,7 @@ interface ToolMaterialCardInitializer<T : Item> {
     fun InitializationScope.init(card: ToolItemCard<T>)
 }
 
-class dreamCatcher(private val toolMaterialCard: ToolMaterialCard, private val maxDamage: Int) : ToolMaterialCardInitializer<DreamCatcherItem> {
+class DreamCatcherInitializer(private val toolMaterialCard: ToolMaterialCard, private val maxDamage: Int) : ToolMaterialCardInitializer<DreamCatcherItem> {
     override fun createItem() = DreamCatcherItem(toolMaterialCard.toolMaterial, maxDamage, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<DreamCatcherItem>) {
         onGenerateItemModels { it.register(card.item, Models.HANDHELD) }
@@ -292,7 +292,7 @@ class dreamCatcher(private val toolMaterialCard: ToolMaterialCard, private val m
     }
 }
 
-class knife(private val toolMaterialCard: ToolMaterialCard, private val silkTouch: Boolean = false) : ToolMaterialCardInitializer<DemonKnifeItem> {
+class KnifeInitializer(private val toolMaterialCard: ToolMaterialCard, private val silkTouch: Boolean = false) : ToolMaterialCardInitializer<DemonKnifeItem> {
     override fun createItem() = DemonKnifeItem(toolMaterialCard.toolMaterial, silkTouch, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<DemonKnifeItem>) {
         onGenerateItemModels { it.register(card.item, Models.HANDHELD) }
@@ -303,7 +303,7 @@ class knife(private val toolMaterialCard: ToolMaterialCard, private val silkTouc
     }
 }
 
-class pickaxe(private val toolMaterialCard: ToolMaterialCard, private vararg val effectiveBlockTags: TagKey<Block>, private val silkTouch: Boolean = false) : ToolMaterialCardInitializer<DemonPickaxeItem> {
+class PickaxeInitializer(private val toolMaterialCard: ToolMaterialCard, private vararg val effectiveBlockTags: TagKey<Block>, private val silkTouch: Boolean = false) : ToolMaterialCardInitializer<DemonPickaxeItem> {
     override fun createItem() = DemonPickaxeItem(toolMaterialCard.toolMaterial, 1, -2.8F, effectiveBlockTags.toList(), silkTouch, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<DemonPickaxeItem>) {
         onGenerateItemModels { it.register(card.item, Models.HANDHELD) }
@@ -316,7 +316,7 @@ class pickaxe(private val toolMaterialCard: ToolMaterialCard, private vararg val
     }
 }
 
-class staff(private val toolMaterialCard: ToolMaterialCard) : ToolMaterialCardInitializer<StaffItem> {
+class StaffInitializer(private val toolMaterialCard: ToolMaterialCard) : ToolMaterialCardInitializer<StaffItem> {
     override fun createItem() = StaffItem(toolMaterialCard.toolMaterial, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<StaffItem>) {
         onGenerateItemModels { it.register(card.item, Models.HANDHELD) }
@@ -327,7 +327,7 @@ class staff(private val toolMaterialCard: ToolMaterialCard) : ToolMaterialCardIn
     }
 }
 
-class passiveSkillAccessory(private val trinketsSlotCards: List<TrinketsSlotCard>, private val mana: Double, private val passiveSkills: List<PassiveSkill>) : ToolMaterialCardInitializer<PassiveSkillAccessoryItem> {
+class PassiveSkillAccessoryInitializer(private val trinketsSlotCards: List<TrinketsSlotCard>, private val mana: Double, private val passiveSkills: List<PassiveSkill>) : ToolMaterialCardInitializer<PassiveSkillAccessoryItem> {
     override fun createItem() = PassiveSkillAccessoryItem(mana, passiveSkills, FabricItemSettings().maxCount(1).group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<PassiveSkillAccessoryItem>) {
         onGenerateItemModels { it.register(card.item, Models.GENERATED) }
@@ -340,7 +340,7 @@ class passiveSkillAccessory(private val trinketsSlotCards: List<TrinketsSlotCard
     }
 }
 
-class trinketAccessory<I>(private val trinketsSlotCards: List<TrinketsSlotCard>, private val itemCreator: (Item.Settings) -> I) : ToolMaterialCardInitializer<I> where I : Item, I : Trinket {
+class TrinketAccessoryInitializer<I>(private val trinketsSlotCards: List<TrinketsSlotCard>, private val itemCreator: (Item.Settings) -> I) : ToolMaterialCardInitializer<I> where I : Item, I : Trinket {
     override fun createItem() = itemCreator(FabricItemSettings().maxCount(1).group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<I>) {
         onGenerateItemModels { it.register(card.item, Models.GENERATED) }
