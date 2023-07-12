@@ -16,7 +16,6 @@ fun <T : Block> InitializationScope.block(name: String, blockCreator: () -> T, i
     val id = Identifier(modId, name)
     lateinit var feature: T
     val scope = object : FeatureSlot<T> {
-        override val initializationScope get() = this@block
         override val id get() = id
         override val feature get() = feature
     }
@@ -38,7 +37,6 @@ fun <T : BlockEntity> InitializationScope.blockEntity(
     val id = Identifier(modId, name)
     lateinit var feature: BlockEntityType<T>
     val scope = object : FeatureSlot<BlockEntityType<T>> {
-        override val initializationScope get() = this@blockEntity
         override val id get() = id
         override val feature get() = feature
     }

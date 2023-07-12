@@ -14,7 +14,6 @@ fun <T : Item> InitializationScope.item(name: String, itemCreator: () -> T, init
     val id = Identifier(modId, name)
     lateinit var feature: T
     val scope = object : FeatureSlot<T> {
-        override val initializationScope get() = this@item
         override val id get() = id
         override val feature get() = feature
     }
