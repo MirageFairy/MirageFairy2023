@@ -84,31 +84,29 @@ fun UniformLootNumberProvider(min: Float, max: Float): UniformLootNumberProvider
 
 @Suppress("FunctionName")
 fun ExactMatchBlockStatePropertyLootCondition(block: Block, identifier: Identifier, property: Property<Int>, value: Int) = LootCondition.Builder {
-    BlockStatePropertyLootCondition.Serializer().fromJson( // Rangedの方に合わせるためにjsonを使用
-        jsonObjectOf(
-            "block" to identifier.string.jsonPrimitive,
-            "condition" to "minecraft:block_state_property".jsonPrimitive,
-            "properties" to jsonObjectOf(
-                property.name to value.jsonPrimitive,
-            )
-        ), null
+    val jsonElement = jsonObjectOf(
+        "block" to identifier.string.jsonPrimitive,
+        "condition" to "minecraft:block_state_property".jsonPrimitive,
+        "properties" to jsonObjectOf(
+            property.name to value.jsonPrimitive,
+        ),
     )
+    BlockStatePropertyLootCondition.Serializer().fromJson(jsonElement, null) // Rangedの方に合わせるためにjsonを使用
 }
 
 @Suppress("FunctionName")
 fun RangedMatchBlockStatePropertyLootCondition(block: Block, identifier: Identifier, property: Property<Int>, min: Int, max: Int) = LootCondition.Builder {
-    BlockStatePropertyLootCondition.Serializer().fromJson(
-        jsonObjectOf(
-            "block" to identifier.string.jsonPrimitive,
-            "condition" to "minecraft:block_state_property".jsonPrimitive,
-            "properties" to jsonObjectOf(
-                property.name to jsonObjectOf(
-                    "min" to min.jsonPrimitive, // Builderを使うとexactMatchしか利用できない
-                    "max" to max.jsonPrimitive,
-                ),
-            )
-        ), null
+    val jsonElement = jsonObjectOf(
+        "block" to identifier.string.jsonPrimitive,
+        "condition" to "minecraft:block_state_property".jsonPrimitive,
+        "properties" to jsonObjectOf(
+            property.name to jsonObjectOf(
+                "min" to min.jsonPrimitive, // Builderを使うとexactMatchしか利用できない
+                "max" to max.jsonPrimitive,
+            ),
+        ),
     )
+    BlockStatePropertyLootCondition.Serializer().fromJson(jsonElement, null)
 }
 
 
