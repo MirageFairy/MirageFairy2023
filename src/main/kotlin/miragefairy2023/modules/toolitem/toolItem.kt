@@ -129,15 +129,15 @@ class ToolItemCard<T : Item>(
 val toolItemModule = module {
 
     // 全体
-    fun <T : Item> init(card: ToolItemCard<T>) {
-        card.initializer.run { this@module.init(card) }
-    }
     ToolItemCard.values.forEach { card ->
         Registry.register(Registry.ITEM, card.identifier, card.item)
         onGenerateItemModels { it.register(card.item, card.initializer.model) }
         enJa(card.item, card.enName, card.jaName)
         generatePoemList(card.item, card.poemList)
         onRegisterItems { registerPoemList(card.item, card.poemList) }
+        fun <T : Item> init(card: ToolItemCard<T>) {
+            card.initializer.run { this@module.init(card) }
+        }
         init(card)
     }
 
