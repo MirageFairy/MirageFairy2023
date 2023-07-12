@@ -149,7 +149,7 @@ val mirageFlowerModule = module {
     mirageSeedItem = item("mirage_seed", { AliasedBlockItem(mirageFlowerBlock.feature, FabricItemSettings().group(commonItemGroup)) }) {
         onGenerateItemModels { it.register(feature, Models.GENERATED) }
         enJaItem({ feature }, "Mirage Seed", "ミラージュの球根")
-        val poemList = listOf(Poem("Scientific name: miragiume haimekunofa", "学名：ミラギウメ・ハイメクノファ"))
+        val poemList = listOf(Poem("Order Miragales, family Miragaceae", "妖花目ミラージュ科"))
         generatePoemList({ feature }, poemList)
         onRegisterItems { registerPoemList(feature, poemList) }
         registerGrassDrop({ feature }, 0.1)
