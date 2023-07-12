@@ -1,9 +1,10 @@
 package miragefairy2023.modules
 
-import com.google.gson.JsonElement
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.concat
+import miragefairy2023.util.datagen.Model
+import miragefairy2023.util.datagen.TextureMap
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJa
@@ -20,19 +21,14 @@ import net.minecraft.block.Block
 import net.minecraft.block.MapColor
 import net.minecraft.block.Material
 import net.minecraft.data.client.BlockStateModelGenerator
-import net.minecraft.data.client.Model
 import net.minecraft.data.client.TextureKey
 import net.minecraft.data.client.TextureMap
-import net.minecraft.data.client.TexturedModel
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
 import net.minecraft.item.BlockItem
 import net.minecraft.tag.BlockTags
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
-import java.util.Optional
-import java.util.function.BiConsumer
-import java.util.function.Supplier
 
 enum class DemonBlockCard(
     val path: String,
@@ -85,54 +81,47 @@ val demonBlockModule = module {
     // 局所真空崩壊
     DemonBlockCard.LOCAL_VACUUM_DECAY.let { card ->
         onGenerateBlockStateModels { blockStateModelGenerator ->
-            val model = object : Model(Optional.empty(), Optional.empty()) {
-                override fun upload(id: Identifier, textures: TextureMap, modelCollector: BiConsumer<Identifier, Supplier<JsonElement>>): Identifier {
-                    modelCollector.accept(id) {
+            val model = Model { textures ->
+                jsonObjectOf(
+                    "parent" to Identifier("minecraft", "block/block").string.jsonPrimitive,
+                    "textures" to jsonObjectOf(
+                        TextureKey.PARTICLE.name to textures.getTexture(TextureKey.BACK).string.jsonPrimitive,
+                        TextureKey.BACK.name to textures.getTexture(TextureKey.BACK).string.jsonPrimitive,
+                        TextureKey.FRONT.name to textures.getTexture(TextureKey.FRONT).string.jsonPrimitive,
+                    ),
+                    "elements" to jsonArrayOf(
                         jsonObjectOf(
-                            "parent" to Identifier("minecraft", "block/block").string.jsonPrimitive,
-                            "textures" to jsonObjectOf(
-                                TextureKey.PARTICLE.name to textures.getTexture(TextureKey.BACK).string.jsonPrimitive,
-                                TextureKey.BACK.name to textures.getTexture(TextureKey.BACK).string.jsonPrimitive,
-                                TextureKey.FRONT.name to textures.getTexture(TextureKey.FRONT).string.jsonPrimitive,
+                            "from" to jsonArrayOf(0.jsonPrimitive, 0.jsonPrimitive, 0.jsonPrimitive),
+                            "to" to jsonArrayOf(16.jsonPrimitive, 16.jsonPrimitive, 16.jsonPrimitive),
+                            "faces" to jsonObjectOf(
+                                "down" to jsonObjectOf("texture" to TextureKey.BACK.string.jsonPrimitive, "cullface" to "down".jsonPrimitive),
+                                "up" to jsonObjectOf("texture" to TextureKey.BACK.string.jsonPrimitive, "cullface" to "up".jsonPrimitive),
+                                "north" to jsonObjectOf("texture" to TextureKey.BACK.string.jsonPrimitive, "cullface" to "north".jsonPrimitive),
+                                "south" to jsonObjectOf("texture" to TextureKey.BACK.string.jsonPrimitive, "cullface" to "south".jsonPrimitive),
+                                "west" to jsonObjectOf("texture" to TextureKey.BACK.string.jsonPrimitive, "cullface" to "west".jsonPrimitive),
+                                "east" to jsonObjectOf("texture" to TextureKey.BACK.string.jsonPrimitive, "cullface" to "east".jsonPrimitive),
                             ),
-                            "elements" to jsonArrayOf(
-                                jsonObjectOf(
-                                    "from" to jsonArrayOf(0.jsonPrimitive, 0.jsonPrimitive, 0.jsonPrimitive),
-                                    "to" to jsonArrayOf(16.jsonPrimitive, 16.jsonPrimitive, 16.jsonPrimitive),
-                                    "faces" to jsonObjectOf(
-                                        "down" to jsonObjectOf("texture" to TextureKey.BACK.string.jsonPrimitive, "cullface" to "down".jsonPrimitive),
-                                        "up" to jsonObjectOf("texture" to TextureKey.BACK.string.jsonPrimitive, "cullface" to "up".jsonPrimitive),
-                                        "north" to jsonObjectOf("texture" to TextureKey.BACK.string.jsonPrimitive, "cullface" to "north".jsonPrimitive),
-                                        "south" to jsonObjectOf("texture" to TextureKey.BACK.string.jsonPrimitive, "cullface" to "south".jsonPrimitive),
-                                        "west" to jsonObjectOf("texture" to TextureKey.BACK.string.jsonPrimitive, "cullface" to "west".jsonPrimitive),
-                                        "east" to jsonObjectOf("texture" to TextureKey.BACK.string.jsonPrimitive, "cullface" to "east".jsonPrimitive),
-                                    ),
-                                ),
-                                jsonObjectOf(
-                                    "from" to jsonArrayOf(0.jsonPrimitive, 0.jsonPrimitive, 0.jsonPrimitive),
-                                    "to" to jsonArrayOf(16.jsonPrimitive, 16.jsonPrimitive, 16.jsonPrimitive),
-                                    "faces" to jsonObjectOf(
-                                        "down" to jsonObjectOf("texture" to TextureKey.FRONT.string.jsonPrimitive, "cullface" to "down".jsonPrimitive),
-                                        "up" to jsonObjectOf("texture" to TextureKey.FRONT.string.jsonPrimitive, "cullface" to "up".jsonPrimitive),
-                                        "north" to jsonObjectOf("texture" to TextureKey.FRONT.string.jsonPrimitive, "cullface" to "north".jsonPrimitive),
-                                        "south" to jsonObjectOf("texture" to TextureKey.FRONT.string.jsonPrimitive, "cullface" to "south".jsonPrimitive),
-                                        "west" to jsonObjectOf("texture" to TextureKey.FRONT.string.jsonPrimitive, "cullface" to "west".jsonPrimitive),
-                                        "east" to jsonObjectOf("texture" to TextureKey.FRONT.string.jsonPrimitive, "cullface" to "east".jsonPrimitive),
-                                    ),
-                                ),
+                        ),
+                        jsonObjectOf(
+                            "from" to jsonArrayOf(0.jsonPrimitive, 0.jsonPrimitive, 0.jsonPrimitive),
+                            "to" to jsonArrayOf(16.jsonPrimitive, 16.jsonPrimitive, 16.jsonPrimitive),
+                            "faces" to jsonObjectOf(
+                                "down" to jsonObjectOf("texture" to TextureKey.FRONT.string.jsonPrimitive, "cullface" to "down".jsonPrimitive),
+                                "up" to jsonObjectOf("texture" to TextureKey.FRONT.string.jsonPrimitive, "cullface" to "up".jsonPrimitive),
+                                "north" to jsonObjectOf("texture" to TextureKey.FRONT.string.jsonPrimitive, "cullface" to "north".jsonPrimitive),
+                                "south" to jsonObjectOf("texture" to TextureKey.FRONT.string.jsonPrimitive, "cullface" to "south".jsonPrimitive),
+                                "west" to jsonObjectOf("texture" to TextureKey.FRONT.string.jsonPrimitive, "cullface" to "west".jsonPrimitive),
+                                "east" to jsonObjectOf("texture" to TextureKey.FRONT.string.jsonPrimitive, "cullface" to "east".jsonPrimitive),
                             ),
-                        )
-                    }
-                    return id
-                }
+                        ),
+                    ),
+                )
             }
-            val modelFactory = TexturedModel.makeFactory({ block ->
-                TextureMap().apply {
-                    put(TextureKey.BACK, TextureMap.getSubId(block, "_base"))
-                    put(TextureKey.FRONT, TextureMap.getSubId(block, "_spark"))
-                }
-            }, model)
-            val modelId = modelFactory.upload(card.block, blockStateModelGenerator.modelCollector)
+            val textureMap = TextureMap(
+                TextureKey.BACK to TextureMap.getSubId(card.block, "_base"),
+                TextureKey.FRONT to TextureMap.getSubId(card.block, "_spark"),
+            )
+            val modelId = model.upload(card.block, textureMap, blockStateModelGenerator.modelCollector)
             blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(card.block, modelId))
         }
         onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(card.block) }

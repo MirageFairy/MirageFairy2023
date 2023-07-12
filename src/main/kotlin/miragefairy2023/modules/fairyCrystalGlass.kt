@@ -1,9 +1,10 @@
 package miragefairy2023.modules
 
-import com.google.gson.JsonElement
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.concat
+import miragefairy2023.util.datagen.Model
+import miragefairy2023.util.datagen.TextureMap
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.block
@@ -24,7 +25,6 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ConnectingBlock
 import net.minecraft.block.Material
-import net.minecraft.data.client.Model
 import net.minecraft.data.client.TextureKey
 import net.minecraft.data.client.TextureMap
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
@@ -39,9 +39,6 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.WorldAccess
-import java.util.Optional
-import java.util.function.BiConsumer
-import java.util.function.Supplier
 
 
 enum class FairyCrystalGlassCard(
@@ -124,16 +121,18 @@ val fairyCrystalGlassModule = module {
 
             // インベントリ内のモデル
             onGenerateBlockStateModels { blockStateModelGenerator ->
-                FairyCrystalGlassBlockModel().upload(feature, TextureMap().apply {
-                    put(TextureKey.TEXTURE, TextureMap.getSubId(feature, "_frame"))
-                }, blockStateModelGenerator.modelCollector)
+                val textureMap = TextureMap(
+                    TextureKey.TEXTURE to TextureMap.getSubId(feature, "_frame"),
+                )
+                fairyCrystalGlassBlockModel.upload(feature, textureMap, blockStateModelGenerator.modelCollector)
             }
 
             // 枠パーツモデル
             onGenerateBlockStateModels { blockStateModelGenerator ->
-                FairyCrystalGlassFrameBlockModel().upload(feature, "_frame", TextureMap().apply {
-                    put(TextureKey.TEXTURE, TextureMap.getSubId(feature, "_frame"))
-                }, blockStateModelGenerator.modelCollector)
+                val textureMap = TextureMap(
+                    TextureKey.TEXTURE to TextureMap.getSubId(feature, "_frame"),
+                )
+                fairyCrystalGlassFrameBlockModel.upload(feature, "_frame", textureMap, blockStateModelGenerator.modelCollector)
             }
 
             // レンダリング関連
@@ -215,62 +214,52 @@ private class FairyCrystalGlassBlock(settings: Settings) : AbstractGlassBlock(se
     }
 }
 
-private class FairyCrystalGlassFrameBlockModel : Model(Optional.empty(), Optional.empty()) {
-    override fun upload(id: Identifier, textures: TextureMap, modelCollector: BiConsumer<Identifier, Supplier<JsonElement>>): Identifier {
-        modelCollector.accept(id) {
+val fairyCrystalGlassFrameBlockModel = Model { textures ->
+    jsonObjectOf(
+        "parent" to Identifier("minecraft", "block/block").string.jsonPrimitive,
+        "textures" to jsonObjectOf(
+            TextureKey.PARTICLE.name to textures.getTexture(TextureKey.TEXTURE).string.jsonPrimitive,
+            TextureKey.TEXTURE.name to textures.getTexture(TextureKey.TEXTURE).string.jsonPrimitive,
+        ),
+        "elements" to jsonArrayOf(
             jsonObjectOf(
-                "parent" to Identifier("minecraft", "block/block").string.jsonPrimitive,
-                "textures" to jsonObjectOf(
-                    TextureKey.PARTICLE.name to textures.getTexture(TextureKey.TEXTURE).string.jsonPrimitive,
-                    TextureKey.TEXTURE.name to textures.getTexture(TextureKey.TEXTURE).string.jsonPrimitive,
-                ),
-                "elements" to jsonArrayOf(
-                    jsonObjectOf(
-                        "from" to jsonArrayOf(0.jsonPrimitive, 0.jsonPrimitive, 0.jsonPrimitive),
-                        "to" to jsonArrayOf(16.jsonPrimitive, 16.jsonPrimitive, 16.jsonPrimitive),
-                        "faces" to jsonObjectOf(
-                            "north" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "north".jsonPrimitive),
-                            "south" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "south".jsonPrimitive),
-                            "west" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "west".jsonPrimitive),
-                            "east" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "east".jsonPrimitive),
-                        ),
-                    ),
-                ),
-            )
-        }
-        return id
-    }
-}
-
-class FairyCrystalGlassBlockModel : Model(Optional.empty(), Optional.empty()) {
-    override fun upload(id: Identifier, textures: TextureMap, modelCollector: BiConsumer<Identifier, Supplier<JsonElement>>): Identifier {
-        modelCollector.accept(id) {
-            fun createPart(roration: Int) = jsonObjectOf(
                 "from" to jsonArrayOf(0.jsonPrimitive, 0.jsonPrimitive, 0.jsonPrimitive),
                 "to" to jsonArrayOf(16.jsonPrimitive, 16.jsonPrimitive, 16.jsonPrimitive),
                 "faces" to jsonObjectOf(
-                    "north" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "north".jsonPrimitive, "rotation" to roration.jsonPrimitive),
-                    "south" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "south".jsonPrimitive, "rotation" to roration.jsonPrimitive),
-                    "west" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "west".jsonPrimitive, "rotation" to roration.jsonPrimitive),
-                    "east" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "east".jsonPrimitive, "rotation" to roration.jsonPrimitive),
-                    "up" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "up".jsonPrimitive, "rotation" to roration.jsonPrimitive),
-                    "down" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "down".jsonPrimitive, "rotation" to roration.jsonPrimitive),
+                    "north" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "north".jsonPrimitive),
+                    "south" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "south".jsonPrimitive),
+                    "west" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "west".jsonPrimitive),
+                    "east" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "east".jsonPrimitive),
                 ),
-            )
-            jsonObjectOf(
-                "parent" to Identifier("minecraft", "block/block").string.jsonPrimitive,
-                "textures" to jsonObjectOf(
-                    TextureKey.PARTICLE.name to textures.getTexture(TextureKey.TEXTURE).string.jsonPrimitive,
-                    TextureKey.TEXTURE.name to textures.getTexture(TextureKey.TEXTURE).string.jsonPrimitive,
-                ),
-                "elements" to jsonArrayOf(
-                    createPart(0),
-                    createPart(90),
-                    createPart(180),
-                    createPart(270),
-                ),
-            )
-        }
-        return id
-    }
+            ),
+        ),
+    )
+}
+
+val fairyCrystalGlassBlockModel = Model { textures ->
+    fun createPart(roration: Int) = jsonObjectOf(
+        "from" to jsonArrayOf(0.jsonPrimitive, 0.jsonPrimitive, 0.jsonPrimitive),
+        "to" to jsonArrayOf(16.jsonPrimitive, 16.jsonPrimitive, 16.jsonPrimitive),
+        "faces" to jsonObjectOf(
+            "north" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "north".jsonPrimitive, "rotation" to roration.jsonPrimitive),
+            "south" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "south".jsonPrimitive, "rotation" to roration.jsonPrimitive),
+            "west" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "west".jsonPrimitive, "rotation" to roration.jsonPrimitive),
+            "east" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "east".jsonPrimitive, "rotation" to roration.jsonPrimitive),
+            "up" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "up".jsonPrimitive, "rotation" to roration.jsonPrimitive),
+            "down" to jsonObjectOf("texture" to TextureKey.TEXTURE.string.jsonPrimitive, "cullface" to "down".jsonPrimitive, "rotation" to roration.jsonPrimitive),
+        ),
+    )
+    jsonObjectOf(
+        "parent" to Identifier("minecraft", "block/block").string.jsonPrimitive,
+        "textures" to jsonObjectOf(
+            TextureKey.PARTICLE.name to textures.getTexture(TextureKey.TEXTURE).string.jsonPrimitive,
+            TextureKey.TEXTURE.name to textures.getTexture(TextureKey.TEXTURE).string.jsonPrimitive,
+        ),
+        "elements" to jsonArrayOf(
+            createPart(0),
+            createPart(90),
+            createPart(180),
+            createPart(270),
+        ),
+    )
 }
