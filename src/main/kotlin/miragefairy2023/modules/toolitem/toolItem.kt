@@ -26,6 +26,7 @@ import miragefairy2023.util.init.group
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
 import net.minecraft.block.Block
+import net.minecraft.data.client.Model
 import net.minecraft.data.client.Models
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.item.Item
@@ -133,6 +134,7 @@ val toolItemModule = module {
     }
     ToolItemCard.values.forEach { card ->
         Registry.register(Registry.ITEM, card.identifier, card.item)
+        onGenerateItemModels { it.register(card.item, card.initializer.model) }
         enJa(card.item, card.enName, card.jaName)
         generatePoemList(card.item, card.poemList)
         onRegisterItems { registerPoemList(card.item, card.poemList) }
@@ -278,60 +280,54 @@ val NOT_ENOUGH_EXPERIENCE_KEY = Translation("item.miragefairy2023.magic.not_enou
 val DREAM_CATCHERS: TagKey<Item> = TagKey.of(Registry.ITEM_KEY, Identifier(MirageFairy2023.modId, "dream_catchers"))
 
 
-interface ToolMaterialCardInitializer<T : Item> {
-    fun createItem(): T
-    fun InitializationScope.init(card: ToolItemCard<T>)
+abstract class ToolMaterialCardInitializer<T : Item>(val model: Model) {
+    abstract fun createItem(): T
+    abstract fun InitializationScope.init(card: ToolItemCard<T>)
 }
 
-class DreamCatcherInitializer(private val toolMaterialCard: ToolMaterialCard, private val maxDamage: Int) : ToolMaterialCardInitializer<DreamCatcherItem> {
+class DreamCatcherInitializer(private val toolMaterialCard: ToolMaterialCard, private val maxDamage: Int) : ToolMaterialCardInitializer<DreamCatcherItem>(Models.HANDHELD) {
     override fun createItem() = DreamCatcherItem(toolMaterialCard.toolMaterial, maxDamage, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<DreamCatcherItem>) {
-        onGenerateItemModels { it.register(card.item, Models.HANDHELD) }
         onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
         onGenerateItemTags { it(DREAM_CATCHERS).add(card.item) }
     }
 }
 
-class KnifeInitializer(private val toolMaterialCard: ToolMaterialCard, private val silkTouch: Boolean = false) : ToolMaterialCardInitializer<DemonKnifeItem> {
+class KnifeInitializer(private val toolMaterialCard: ToolMaterialCard, private val silkTouch: Boolean = false) : ToolMaterialCardInitializer<DemonKnifeItem>(Models.HANDHELD) {
     override fun createItem() = DemonKnifeItem(toolMaterialCard.toolMaterial, silkTouch, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<DemonKnifeItem>) {
-        onGenerateItemModels { it.register(card.item, Models.HANDHELD) }
         onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
     }
 }
 
-class PickaxeInitializer(private val toolMaterialCard: ToolMaterialCard, private vararg val effectiveBlockTags: TagKey<Block>, private val silkTouch: Boolean = false) : ToolMaterialCardInitializer<DemonPickaxeItem> {
+class PickaxeInitializer(private val toolMaterialCard: ToolMaterialCard, private vararg val effectiveBlockTags: TagKey<Block>, private val silkTouch: Boolean = false) : ToolMaterialCardInitializer<DemonPickaxeItem>(Models.HANDHELD) {
     override fun createItem() = DemonPickaxeItem(toolMaterialCard.toolMaterial, 1, -2.8F, effectiveBlockTags.toList(), silkTouch, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<DemonPickaxeItem>) {
-        onGenerateItemModels { it.register(card.item, Models.HANDHELD) }
         onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
         onGenerateItemTags { it(ItemTags.CLUSTER_MAX_HARVESTABLES).add(card.item) }
         onGenerateItemTags { it(ConventionalItemTags.PICKAXES).add(card.item) }
     }
 }
 
-class StaffInitializer(private val toolMaterialCard: ToolMaterialCard) : ToolMaterialCardInitializer<StaffItem> {
+class StaffInitializer(private val toolMaterialCard: ToolMaterialCard) : ToolMaterialCardInitializer<StaffItem>(Models.HANDHELD) {
     override fun createItem() = StaffItem(toolMaterialCard.toolMaterial, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<StaffItem>) {
-        onGenerateItemModels { it.register(card.item, Models.HANDHELD) }
         onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
     }
 }
 
-class PassiveSkillAccessoryInitializer(private val trinketsSlotCards: List<TrinketsSlotCard>, private val mana: Double, private val passiveSkills: List<PassiveSkill>) : ToolMaterialCardInitializer<PassiveSkillAccessoryItem> {
+class PassiveSkillAccessoryInitializer(private val trinketsSlotCards: List<TrinketsSlotCard>, private val mana: Double, private val passiveSkills: List<PassiveSkill>) : ToolMaterialCardInitializer<PassiveSkillAccessoryItem>(Models.GENERATED) {
     override fun createItem() = PassiveSkillAccessoryItem(mana, passiveSkills, FabricItemSettings().maxCount(1).group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<PassiveSkillAccessoryItem>) {
-        onGenerateItemModels { it.register(card.item, Models.GENERATED) }
         trinketsSlotCards.forEach { trinketsSlotCard ->
             onGenerateItemTags { it(trinketsSlotCard.tag).add(card.item) }
         }
     }
 }
 
-class TrinketAccessoryInitializer<I>(private val trinketsSlotCards: List<TrinketsSlotCard>, private val itemCreator: (Item.Settings) -> I) : ToolMaterialCardInitializer<I> where I : Item, I : Trinket {
+class TrinketAccessoryInitializer<I>(private val trinketsSlotCards: List<TrinketsSlotCard>, private val itemCreator: (Item.Settings) -> I) : ToolMaterialCardInitializer<I>(Models.GENERATED) where I : Item, I : Trinket {
     override fun createItem() = itemCreator(FabricItemSettings().maxCount(1).group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<I>) {
-        onGenerateItemModels { it.register(card.item, Models.GENERATED) }
         trinketsSlotCards.forEach { trinketsSlotCard ->
             onGenerateItemTags { it(trinketsSlotCard.tag).add(card.item) }
         }
