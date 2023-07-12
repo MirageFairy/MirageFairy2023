@@ -86,12 +86,12 @@ enum class LuminariaCard(
     DIAMOND_LUMINARIA(
         "diamond_luminaria", "Diamond Luminaria", "ダイヤモンドルミナリア",
         listOf(Poem("Fruits the crystallized carbon", "表土を飾る、凍てつく星。")),
-        { it.hasTag(ConventionalBiomeTags.CLIMATE_COLD) }, Pair({ Items.DIAMOND }, 1.0), true,
+        { it.hasTag(ConventionalBiomeTags.CLIMATE_COLD) || it.hasTag(ConventionalBiomeTags.AQUATIC_ICY) }, Pair({ Items.DIAMOND }, 1.0), true,
     ),
     EMERALD_LUMINARIA(
         "emerald_luminaria", "Emerald Luminaria", "エメラルドルミナリア",
         listOf(Poem("Makes Berryllium by unknown means", "幸福もたらす、栄光の樹。")),
-        { !it.hasTag(ConventionalBiomeTags.CLIMATE_COLD) }, Pair({ Items.EMERALD }, 1.0), true,
+        { !(it.hasTag(ConventionalBiomeTags.CLIMATE_COLD) || it.hasTag(ConventionalBiomeTags.AQUATIC_ICY)) }, Pair({ Items.EMERALD }, 1.0), true,
     ),
     LAPIS_LAZULI_LUMINARIA(
         "lapis_lazuli_luminaria", "Lapis Lazuli Luminaria", "ラピスラズリルミナリア",
