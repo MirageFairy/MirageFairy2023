@@ -139,6 +139,7 @@ val demonBlockModule = module {
         generateDefaultBlockLootTable(card.block)
     }
 
+
     // 蒼天石⇔蒼天石ブロック
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
