@@ -135,10 +135,7 @@ val toolItemModule = module {
         enJa(card.item, card.enName, card.jaName)
         generatePoemList(card.item, card.poemList)
         onRegisterItems { registerPoemList(card.item, card.poemList) }
-        fun <T : Item> init(card: ToolItemCard<T>) {
-            card.initializer.init(this, card)
-        }
-        init(card)
+        card.init(this)
     }
 
     // ドリームキャッチャー
@@ -284,6 +281,8 @@ abstract class ToolItemCardInitializer<T : Item>(val model: Model) {
     abstract fun createItem(): T
     abstract fun init(scope: InitializationScope, card: ToolItemCard<T>)
 }
+
+private fun <T : Item> ToolItemCard<T>.init(scope: InitializationScope) = initializer.init(scope, this)
 
 private class DreamCatcherInitializer(private val toolMaterialCard: ToolMaterialCard, private val maxDamage: Int) : ToolItemCardInitializer<DreamCatcherItem>(Models.HANDHELD) {
     override fun createItem() = DreamCatcherItem(toolMaterialCard.toolMaterial, maxDamage, FabricItemSettings().group(commonItemGroup))
