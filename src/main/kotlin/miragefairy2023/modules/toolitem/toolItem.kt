@@ -22,7 +22,6 @@ import miragefairy2023.util.Translation
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJa
-import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.group
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
@@ -285,8 +284,8 @@ private fun dreamCatcher(toolMaterialCard: ToolMaterialCard, maxDamage: Int): To
     override fun createItem() = DreamCatcherItem(toolMaterialCard.toolMaterial, maxDamage, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<DreamCatcherItem>) {
         onGenerateItemModels { it.register(card.item, Models.HANDHELD) }
-        enJaItem({ card.item }, card.enName, card.jaName)
-        generatePoemList({ card.item }, card.poemList)
+        enJa(card.item, card.enName, card.jaName)
+        generatePoemList(card.item, card.poemList)
         onRegisterItems { registerPoemList(card.item, card.poemList) }
         onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
         onGenerateItemTags { it(DREAM_CATCHERS).add(card.item) }
@@ -297,8 +296,8 @@ private fun knife(toolMaterialCard: ToolMaterialCard, silkTouch: Boolean = false
     override fun createItem() = DemonKnifeItem(toolMaterialCard.toolMaterial, silkTouch, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<DemonKnifeItem>) {
         onGenerateItemModels { it.register(card.item, Models.HANDHELD) }
-        enJaItem({ card.item }, card.enName, card.jaName)
-        generatePoemList({ card.item }, card.poemList)
+        enJa(card.item, card.enName, card.jaName)
+        generatePoemList(card.item, card.poemList)
         onRegisterItems { registerPoemList(card.item, card.poemList) }
         onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
     }
@@ -308,8 +307,8 @@ private fun pickaxe(toolMaterialCard: ToolMaterialCard, vararg effectiveBlockTag
     override fun createItem() = DemonPickaxeItem(toolMaterialCard.toolMaterial, 1, -2.8F, effectiveBlockTags.toList(), silkTouch, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<DemonPickaxeItem>) {
         onGenerateItemModels { it.register(card.item, Models.HANDHELD) }
-        enJaItem({ card.item }, card.enName, card.jaName)
-        generatePoemList({ card.item }, card.poemList)
+        enJa(card.item, card.enName, card.jaName)
+        generatePoemList(card.item, card.poemList)
         onRegisterItems { registerPoemList(card.item, card.poemList) }
         onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
         onGenerateItemTags { it(ItemTags.CLUSTER_MAX_HARVESTABLES).add(card.item) }
@@ -321,8 +320,8 @@ private fun staff(toolMaterialCard: ToolMaterialCard): ToolMaterialCardInitializ
     override fun createItem() = StaffItem(toolMaterialCard.toolMaterial, FabricItemSettings().group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<StaffItem>) {
         onGenerateItemModels { it.register(card.item, Models.HANDHELD) }
-        enJaItem({ card.item }, card.enName, card.jaName)
-        generatePoemList({ card.item }, card.poemList)
+        enJa(card.item, card.enName, card.jaName)
+        generatePoemList(card.item, card.poemList)
         onRegisterItems { registerPoemList(card.item, card.poemList) }
         onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
     }
@@ -332,8 +331,8 @@ private fun passiveSkillAccessory(trinketsSlotCards: List<TrinketsSlotCard>, man
     override fun createItem() = PassiveSkillAccessoryItem(mana, passiveSkills, FabricItemSettings().maxCount(1).group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<PassiveSkillAccessoryItem>) {
         onGenerateItemModels { it.register(card.item, Models.GENERATED) }
-        enJaItem({ card.item }, card.enName, card.jaName)
-        generatePoemList({ card.item }, card.poemList)
+        enJa(card.item, card.enName, card.jaName)
+        generatePoemList(card.item, card.poemList)
         onRegisterItems { registerPoemList(card.item, card.poemList) }
         trinketsSlotCards.forEach { trinketsSlotCard ->
             onGenerateItemTags { it(trinketsSlotCard.tag).add(card.item) }
@@ -345,8 +344,8 @@ private fun <I> trinketAccessory(trinketsSlotCards: List<TrinketsSlotCard>, item
     override fun createItem() = itemCreator(FabricItemSettings().maxCount(1).group(commonItemGroup))
     override fun InitializationScope.init(card: ToolItemCard<I>) {
         onGenerateItemModels { it.register(card.item, Models.GENERATED) }
-        enJaItem({ card.item }, card.enName, card.jaName)
-        generatePoemList({ card.item }, card.poemList)
+        enJa(card.item, card.enName, card.jaName)
+        generatePoemList(card.item, card.poemList)
         onRegisterItems { registerPoemList(card.item, card.poemList) }
         trinketsSlotCards.forEach { trinketsSlotCard ->
             onGenerateItemTags { it(trinketsSlotCard.tag).add(card.item) }
