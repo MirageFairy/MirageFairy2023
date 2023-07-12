@@ -5,14 +5,11 @@ import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.concat
 import miragefairy2023.util.identifier
-import miragefairy2023.util.init.FeatureSlot
-import miragefairy2023.util.init.block
 import miragefairy2023.util.init.criterion
-import miragefairy2023.util.init.enJaBlock
+import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.generateSimpleCubeAllBlockState
 import miragefairy2023.util.init.group
-import miragefairy2023.util.init.item
 import miragefairy2023.util.jsonArrayOf
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
@@ -32,37 +29,62 @@ import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
 import net.minecraft.item.BlockItem
 import net.minecraft.tag.BlockTags
 import net.minecraft.util.Identifier
+import net.minecraft.util.registry.Registry
 import java.util.Optional
 import java.util.function.BiConsumer
 import java.util.function.Supplier
 
-lateinit var creativeAuraStoneBlock: FeatureSlot<Block>
-lateinit var creativeAuraStoneBlockItem: FeatureSlot<BlockItem>
+enum class DemonBlockCard(
+    val path: String,
+    val en: String,
+    val ja: String,
+    val poemList: List<Poem>,
+    val block: Block,
+) {
+    CREATIVE_AURA_STONE(
+        "creative_aura_stone", "Neutronium Block", "アカーシャの霊氣石",
+        listOf(Poem("Hypothetical substance with ideal hardness", "終末と創造の波紋。")),
+        Block(FabricBlockSettings.of(Material.STONE).strength(-1.0F, 3600000.0F).dropsNothing().allowsSpawning { _, _, _, _ -> false }),
+    ),
+    LOCAL_VACUUM_DECAY(
+        "local_vacuum_decay", "Local Vacuum Decay", "局所真空崩壊",
+        listOf(Poem("Stable instability caused by anti-entropy", "これが秩序の究極の形だというのか？")),
+        Block(FabricBlockSettings.of(Material.STONE).strength(-1.0F, 3600000.0F).dropsNothing().allowsSpawning { _, _, _, _ -> false })
+    ),
+    MIRANAGITE_BLOCK(
+        "miranagite_block", "Miranagite Block", "蒼天石ブロック",
+        listOf(Poem("Passivation confines discontinuous space", "虚空に導かれし、霊界との接合点。")),
+        Block(FabricBlockSettings.of(Material.METAL, MapColor.LIGHT_BLUE).strength(3.0f, 3.0f).requiresTool())
+    ),
+    ;
 
-lateinit var localVacuumDecayBlock: FeatureSlot<Block>
-lateinit var localVacuumDecayBlockItem: FeatureSlot<BlockItem>
-
-lateinit var miranagiteBlockBlock: FeatureSlot<Block>
-lateinit var miranagiteBlockBlockItem: FeatureSlot<BlockItem>
+    val identifier = Identifier(MirageFairy2023.modId, path)
+    val item = BlockItem(block, FabricItemSettings().group(commonItemGroup))
+}
 
 val demonBlockModule = module {
 
-    creativeAuraStoneBlock = block("creative_aura_stone", { Block(FabricBlockSettings.of(Material.STONE).strength(-1.0F, 3600000.0F).dropsNothing().allowsSpawning { _, _, _, _ -> false }) }) {
-        generateSimpleCubeAllBlockState { feature }
-        enJaBlock({ feature }, "Neutronium Block", "アカーシャの霊氣石")
-        onGenerateBlockTags { it(BlockTags.DRAGON_IMMUNE).add(feature) }
-        onGenerateBlockTags { it(BlockTags.WITHER_IMMUNE).add(feature) }
-        onGenerateBlockTags { it(BlockTags.FEATURES_CANNOT_REPLACE).add(feature) }
-        onGenerateBlockTags { it(BlockTags.GEODE_INVALID_BLOCKS).add(feature) }
-    }
-    creativeAuraStoneBlockItem = item("creative_aura_stone", { BlockItem(creativeAuraStoneBlock.feature, FabricItemSettings().group(commonItemGroup)) }) {
-        val poemList = listOf(Poem("Hypothetical substance with ideal hardness", "終末と創造の波紋。"))
-        generatePoemList({ feature }, poemList)
-        onRegisterItems { registerPoemList(feature, poemList) }
+    // 全体
+    DemonBlockCard.values().forEach { card ->
+        Registry.register(Registry.BLOCK, card.identifier, card.block)
+        Registry.register(Registry.ITEM, card.identifier, card.item)
+        enJa(card.block, card.en, card.ja)
+        generatePoemList(card.item, card.poemList)
+        onRegisterItems { registerPoemList(card.item, card.poemList) }
     }
 
-    localVacuumDecayBlock = block("local_vacuum_decay", { Block(FabricBlockSettings.of(Material.STONE).strength(-1.0F, 3600000.0F).dropsNothing().allowsSpawning { _, _, _, _ -> false }) }) {
-        initializationScope.onGenerateBlockStateModels { blockStateModelGenerator ->
+    // アカーシャの霊氣石
+    DemonBlockCard.CREATIVE_AURA_STONE.let { card ->
+        generateSimpleCubeAllBlockState(card.block)
+        onGenerateBlockTags { it(BlockTags.DRAGON_IMMUNE).add(card.block) }
+        onGenerateBlockTags { it(BlockTags.WITHER_IMMUNE).add(card.block) }
+        onGenerateBlockTags { it(BlockTags.FEATURES_CANNOT_REPLACE).add(card.block) }
+        onGenerateBlockTags { it(BlockTags.GEODE_INVALID_BLOCKS).add(card.block) }
+    }
+
+    // 局所真空崩壊
+    DemonBlockCard.LOCAL_VACUUM_DECAY.let { card ->
+        onGenerateBlockStateModels { blockStateModelGenerator ->
             val model = object : Model(Optional.empty(), Optional.empty()) {
                 override fun upload(id: Identifier, textures: TextureMap, modelCollector: BiConsumer<Identifier, Supplier<JsonElement>>): Identifier {
                     modelCollector.accept(id) {
@@ -110,52 +132,43 @@ val demonBlockModule = module {
                     put(TextureKey.FRONT, TextureMap.getSubId(block, "_spark"))
                 }
             }, model)
-            val modelId = modelFactory.upload(feature, blockStateModelGenerator.modelCollector)
-            blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(feature, modelId))
+            val modelId = modelFactory.upload(card.block, blockStateModelGenerator.modelCollector)
+            blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(card.block, modelId))
         }
-        onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(feature) }
-        enJaBlock({ feature }, "Local Vacuum Decay", "局所真空崩壊")
-        onGenerateBlockTags { it(BlockTags.DRAGON_IMMUNE).add(feature) }
-        onGenerateBlockTags { it(BlockTags.WITHER_IMMUNE).add(feature) }
-        onGenerateBlockTags { it(BlockTags.FEATURES_CANNOT_REPLACE).add(feature) }
-        onGenerateBlockTags { it(BlockTags.GEODE_INVALID_BLOCKS).add(feature) }
-    }
-    localVacuumDecayBlockItem = item("local_vacuum_decay", { BlockItem(localVacuumDecayBlock.feature, FabricItemSettings().group(commonItemGroup)) }) {
-        val poemList = listOf(Poem("Stable instability caused by anti-entropy", "これが秩序の究極の形だというのか？"))
-        generatePoemList({ feature }, poemList)
-        onRegisterItems { registerPoemList(feature, poemList) }
+        onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(card.block) }
+        onGenerateBlockTags { it(BlockTags.DRAGON_IMMUNE).add(card.block) }
+        onGenerateBlockTags { it(BlockTags.WITHER_IMMUNE).add(card.block) }
+        onGenerateBlockTags { it(BlockTags.FEATURES_CANNOT_REPLACE).add(card.block) }
+        onGenerateBlockTags { it(BlockTags.GEODE_INVALID_BLOCKS).add(card.block) }
     }
 
-    miranagiteBlockBlock = block("miranagite_block", { Block(FabricBlockSettings.of(Material.METAL, MapColor.LIGHT_BLUE).strength(3.0f, 3.0f).requiresTool()) }) {
-        generateSimpleCubeAllBlockState { feature }
-        enJaBlock({ feature }, "Miranagite Block", "蒼天石ブロック")
-        onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
-        onGenerateBlockTags { it(BlockTags.NEEDS_STONE_TOOL).add(feature) }
-        generateDefaultBlockLootTable { feature }
+    // 蒼天石ブロック
+    DemonBlockCard.MIRANAGITE_BLOCK.let { card ->
+        generateSimpleCubeAllBlockState(card.block)
+        onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(card.block) }
+        onGenerateBlockTags { it(BlockTags.NEEDS_STONE_TOOL).add(card.block) }
+        generateDefaultBlockLootTable(card.block)
     }
-    miranagiteBlockBlockItem = item("miranagite_block", { BlockItem(miranagiteBlockBlock.feature, FabricItemSettings().group(commonItemGroup)) }) {
-        val poemList = listOf(Poem("Passivation confines discontinuous space", "虚空に導かれし、霊界との接合点。"))
-        generatePoemList({ feature }, poemList)
-        onRegisterItems { registerPoemList(feature, poemList) }
-    }
+
+    // 蒼天石⇔蒼天石ブロック
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
-            .create(miranagiteBlockBlockItem.feature)
+            .create(DemonBlockCard.MIRANAGITE_BLOCK.item)
             .pattern("###")
             .pattern("###")
             .pattern("###")
             .input('#', DemonItemCard.MIRANAGITE.item)
             .criterion(DemonItemCard.MIRANAGITE.item)
-            .group(miranagiteBlockBlockItem.feature)
-            .offerTo(it, miranagiteBlockBlockItem.feature.identifier)
+            .group(DemonBlockCard.MIRANAGITE_BLOCK.item)
+            .offerTo(it, DemonBlockCard.MIRANAGITE_BLOCK.item.identifier)
     }
     onGenerateRecipes {
         ShapelessRecipeJsonBuilder
             .create(DemonItemCard.MIRANAGITE.item, 9)
-            .input(miranagiteBlockBlockItem.feature)
-            .criterion(miranagiteBlockBlockItem.feature)
+            .input(DemonBlockCard.MIRANAGITE_BLOCK.item)
+            .criterion(DemonBlockCard.MIRANAGITE_BLOCK.item)
             .group(DemonItemCard.MIRANAGITE.item)
-            .offerTo(it, DemonItemCard.MIRANAGITE.item.identifier concat "_from_" concat miranagiteBlockBlockItem.feature.identifier.path)
+            .offerTo(it, DemonItemCard.MIRANAGITE.item.identifier concat "_from_" concat DemonBlockCard.MIRANAGITE_BLOCK.item.identifier.path)
     }
 
 }

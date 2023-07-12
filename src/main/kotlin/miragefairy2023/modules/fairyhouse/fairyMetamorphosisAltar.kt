@@ -5,12 +5,12 @@ import miragefairy2023.RenderingProxy
 import miragefairy2023.api.FairyItem
 import miragefairy2023.api.PassiveSkillItem
 import miragefairy2023.module
+import miragefairy2023.modules.DemonBlockCard
 import miragefairy2023.modules.DemonItemCard
 import miragefairy2023.modules.DemonParticleTypeCard
 import miragefairy2023.modules.Description
 import miragefairy2023.modules.MirageFlourCard
 import miragefairy2023.modules.Poem
-import miragefairy2023.modules.miranagiteBlockBlockItem
 import miragefairy2023.util.Chance
 import miragefairy2023.util.EMPTY_ITEM_STACK
 import miragefairy2023.util.Inventory
@@ -72,7 +72,7 @@ val fairyMetamorphosisAltarModule = module {
             .pattern(" B ")
             .pattern("GDG")
             .pattern("SSS")
-            .input('B', miranagiteBlockBlockItem.feature)
+            .input('B', DemonBlockCard.MIRANAGITE_BLOCK.item)
             .input('G', DemonItemCard.MIRANAGITE.item)
             .input('D', MirageFlourCard.MIRAGE_FLOUR.item.feature)
             .input('S', Blocks.STONE)
