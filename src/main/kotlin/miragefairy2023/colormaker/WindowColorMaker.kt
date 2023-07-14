@@ -44,9 +44,9 @@ private class ExclusiveController {
 }
 
 
-class LayeredImageSetting(val layerSettings: List<LayerSetting>)
+class LayeredImageSetting(val zoom: Int, val layerSettings: List<LayerSetting>)
 
-fun layeredImageSettingOf(vararg layerSettings: LayerSetting) = LayeredImageSetting(layerSettings.toList())
+fun layeredImageSettingOf(zoom: Int, vararg layerSettings: LayerSetting) = LayeredImageSetting(zoom, layerSettings.toList())
 
 class LayerSetting(val imagePath: String, val colorExpression: ColorExpression)
 
@@ -133,9 +133,9 @@ class WindowColorMaker(
                     }
                 }
                 repeat(layeredImageSettings.size) { i ->
-                    leftPane.add(LayeredImage().also { labelImage ->
+                    leftPane.add(LayeredImage(layeredImageSettings[i].zoom).also { labelImage ->
                         labelImages += labelImage
-                        labelImage.preferredSize = Dimension(64, 64)
+                        labelImage.preferredSize = Dimension(16 * layeredImageSettings[i].zoom, 16 * layeredImageSettings[i].zoom)
                         labelImage.colorEvaluator = colorEvaluator
                     }, GridBagConstraints().also {
                         it.insets = Insets(0, 0, 5, 0)

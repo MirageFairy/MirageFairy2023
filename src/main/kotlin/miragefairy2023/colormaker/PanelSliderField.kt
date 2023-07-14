@@ -6,7 +6,7 @@ import java.awt.Insets
 import javax.swing.JPanel
 import javax.swing.JSlider
 
-class PanelSliderField : JPanel() {
+class PanelSliderField(private val min: Int, private val max: Int) : JPanel() {
     val listeners = mutableListOf<SetValueEvent.() -> Unit>()
 
     class SetValueEvent(val value: Int, val source: Any?)
@@ -45,9 +45,6 @@ class PanelSliderField : JPanel() {
             it.columnWeights = doubleArrayOf(0.0, 0.0)
             it.rowWeights = doubleArrayOf(0.0)
         }
-
-        val min = 0
-        val max = 255
 
         // スライダーを追加
         JSlider().also { c ->

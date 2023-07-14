@@ -7,7 +7,7 @@ import javax.swing.JLabel
 
 class Layer(val image: BufferedImage, val colorExpression: ColorExpression)
 
-class LayeredImage : JLabel() {
+class LayeredImage(private val zoom: Int) : JLabel() {
     var colorEvaluator = ColorEvaluator()
     var backgroundColor: Color = Color.black
 
@@ -16,9 +16,9 @@ class LayeredImage : JLabel() {
     }
 
     private fun createImage(layers: List<Layer>): BufferedImage {
-        val image = BufferedImage(64, 64, BufferedImage.TYPE_INT_RGB)
-        repeat(64) { x ->
-            repeat(64) { y ->
+        val image = BufferedImage(16 * zoom, 16 * zoom, BufferedImage.TYPE_INT_RGB)
+        repeat(16 * zoom) { x ->
+            repeat(16 * zoom) { y ->
 
                 // ラベルの背景色で初期化
                 var r1 = backgroundColor.red
@@ -31,7 +31,7 @@ class LayeredImage : JLabel() {
                     val colorMul = colorEvaluator.evaluate(layer.colorExpression)
 
                     // 画像の色
-                    val argbOver = layer.image.getRGB(x / 4, y / 4)
+                    val argbOver = layer.image.getRGB(x / zoom, y / zoom)
                     val a2 = (argbOver shr 24) and 0xff
                     var r2 = (argbOver shr 16) and 0xff
                     var g2 = (argbOver shr 8) and 0xff
