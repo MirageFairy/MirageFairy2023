@@ -65,6 +65,11 @@ loom {
 // 生成されたリソースを main ソースセットに追加する
 sourceSets {
     main {
+        java {
+            srcDirs += [
+                    'src/main/lib'
+            ]
+        }
         resources {
             srcDirs += [
                     'src/main/generated'
