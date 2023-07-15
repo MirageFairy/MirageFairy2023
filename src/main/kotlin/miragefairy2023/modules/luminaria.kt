@@ -19,6 +19,7 @@ import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.Material
@@ -44,6 +45,7 @@ import net.minecraft.predicate.item.ItemPredicate
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.tag.BlockTags
+import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -121,6 +123,9 @@ enum class LuminariaCard(
     val item = BlockItem(block, FabricItemSettings().group(commonItemGroup))
 }
 
+val LUMINARIAS_BLOCK_TAG: TagKey<Block> = TagKey.of(Registry.BLOCK_KEY, Identifier(MirageFairy2023.modId, "luminarias"))
+val LUMINARIAS_ITEM_TAG: TagKey<Item> = TagKey.of(Registry.ITEM_KEY, Identifier(MirageFairy2023.modId, "luminarias"))
+
 val luminariaModule = module {
     LuminariaCard.values().forEach { card ->
 
@@ -154,6 +159,8 @@ val luminariaModule = module {
 
 
         // 性質
+        onGenerateBlockTags { it(LUMINARIAS_BLOCK_TAG).add(card.block) }
+        onGenerateItemTags { it(LUMINARIAS_ITEM_TAG).add(card.item) }
         onGenerateBlockTags { it(BlockTags.AXE_MINEABLE).add(card.block) }
         // onGenerateBlockTags { it(BlockTags.SMALL_FLOWERS).add(card.block) } // これをやるとエンダーマンが勝手に引っこ抜いていく
 
