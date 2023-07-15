@@ -216,6 +216,7 @@ class BiomePassiveSkillCondition(private val biomeTag: TagKey<Biome>) : PassiveS
         FOREST(Translation(ConventionalBiomeTags.FOREST.id.toTranslationKey(keyPrefix), "Forest", "森林")),
         TAIGA(Translation(ConventionalBiomeTags.TAIGA.id.toTranslationKey(keyPrefix), "Taiga", "タイガ")),
         DESERT(Translation(ConventionalBiomeTags.DESERT.id.toTranslationKey(keyPrefix), "Desert", "砂漠")),
+        ICY(Translation(ConventionalBiomeTags.ICY.id.toTranslationKey(keyPrefix), "Icy", "氷の地域")),
         MUSHROOM(Translation(ConventionalBiomeTags.MUSHROOM.id.toTranslationKey(keyPrefix), "Mushroom Island", "キノコ島")),
         FLORAL(Translation(ConventionalBiomeTags.FLORAL.id.toTranslationKey(keyPrefix), "Floral", "花畑")),
         IN_NETHER(Translation(ConventionalBiomeTags.IN_NETHER.id.toTranslationKey(keyPrefix), "Nether", "ネザー")),
@@ -224,7 +225,14 @@ class BiomePassiveSkillCondition(private val biomeTag: TagKey<Biome>) : PassiveS
         OCEAN(Translation(ConventionalBiomeTags.OCEAN.id.toTranslationKey(keyPrefix), "Ocean", "海洋")),
         MOUNTAIN(Translation(ConventionalBiomeTags.MOUNTAIN.id.toTranslationKey(keyPrefix), "Mountain", "山岳")),
         JUNGLE(Translation(ConventionalBiomeTags.JUNGLE.id.toTranslationKey(keyPrefix), "Jungle", "ジャングル")),
+        SWAMP(Translation(ConventionalBiomeTags.SWAMP.id.toTranslationKey(keyPrefix), "Swamp", "沼地")),
+        SNOWY(Translation(ConventionalBiomeTags.SNOWY.id.toTranslationKey(keyPrefix), "Snowy", "雪の地域")),
+        BADLANDS(Translation(ConventionalBiomeTags.BADLANDS.id.toTranslationKey(keyPrefix), "Badlands", "荒地")),
         END_ISLANDS(Translation(ConventionalBiomeTags.END_ISLANDS.id.toTranslationKey(keyPrefix), "End Islands", "エンドの島々")),
+        CLIMATE_HOT(Translation(ConventionalBiomeTags.CLIMATE_HOT.id.toTranslationKey(keyPrefix), "Hot", "高温")),
+        CLIMATE_COLD(Translation(ConventionalBiomeTags.CLIMATE_COLD.id.toTranslationKey(keyPrefix), "Cold", "寒冷")),
+        CLIMATE_WET(Translation(ConventionalBiomeTags.CLIMATE_WET.id.toTranslationKey(keyPrefix), "Wet", "多湿")),
+        CLIMATE_DRY(Translation(ConventionalBiomeTags.CLIMATE_DRY.id.toTranslationKey(keyPrefix), "Dry", "乾燥")),
     }
 
     override fun getText() = text { translate(biomeTag.id.toTranslationKey(keyPrefix)) }
