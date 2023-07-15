@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "miragefairy2023:lily_of_the_valley_fairy",
+  "ingredients": [
+    {
+      "item": "miragefairy2023:xarpite"
+    },
+    {
+      "item": "miragefairy2023:rare_mirage_flour"
+    },
+    {
+      "item": "minecraft:lily_of_the_valley"
+    }
+  ],
+  "result": {
+    "item": "miragefairy2023:lily_of_the_valley_fairy"
+  }
+}

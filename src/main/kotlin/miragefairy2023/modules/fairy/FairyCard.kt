@@ -4,7 +4,10 @@ import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.Fairy
 import miragefairy2023.api.PassiveSkill
 import miragefairy2023.modules.DemonItemCard
+import miragefairy2023.modules.LuminariaCard
 import miragefairy2023.modules.ToolMaterialCard
+import miragefairy2023.modules.mirageFlowerBlock
+import miragefairy2023.modules.mirageSeedItem
 import miragefairy2023.modules.passiveskill.air
 import miragefairy2023.modules.passiveskill.always
 import miragefairy2023.modules.passiveskill.attackDamage
@@ -192,6 +195,23 @@ enum class FairyCard(
         },
         FairyRecipes().biome(ConventionalBiomeTags.END_ISLANDS).block { Blocks.PURPUR_BLOCK }.recipe { Items.PURPUR_BLOCK },
     ),
+    PACKED_ICE(
+        "packed_ice", 6, "Packede Icia", "氷塊精パッケーデイーツァ", 0xC9DDFF, 0x90B7FB, 0x90B7FB, 0x87B3FF,
+        passiveSkills {
+            maxHealth(4.0) on always()
+            magicDamage(0.5) on always()
+            magicDamage(1.0) on biome(ConventionalBiomeTags.CLIMATE_COLD)
+        },
+        FairyRecipes().biome(BiomeKeys.ICE_SPIKES).biome(BiomeKeys.FROZEN_OCEAN).block { Blocks.PACKED_ICE }.recipe { Items.PACKED_ICE },
+    ),
+    SNOW(
+        "snow", 2, "Snowia", "雪精スノーウャ", 0xEEFFFF, 0xE3FFFF, 0xE3FFFF, 0xF2FFFF,
+        passiveSkills {
+            regeneration(0.1) on biome(ConventionalBiomeTags.CLIMATE_COLD)
+            magicDamage(0.5) on always()
+        },
+        FairyRecipes().biome(ConventionalBiomeTags.SNOWY).block { Blocks.SNOW_BLOCK }.recipe { Items.SNOW_BLOCK },
+    ),
     COPPER(
         "copper", 3, "Copperia", "銅精ツォッペーリャ", 0xF69D7F, 0xF77653, 0xF77653, 0x5DC09A,
         passiveSkills {
@@ -315,6 +335,23 @@ enum class FairyCard(
         },
         FairyRecipes().overworld().biome(ConventionalBiomeTags.IN_THE_END).block { Blocks.OBSIDIAN }.recipe { Items.OBSIDIAN },
     ),
+    WOLF(
+        "wolf", 4, "Wolfia", "狼精ウォルフャ", 0x827165, 0xBFBDBE, 0x9E9A96, 0x3F3E3A,
+        passiveSkills {
+            movementSpeed(0.20) on minimumFoodLevel(7)
+            attackDamage(1.0) on minimumFoodLevel(7)
+            attackDamage(1.0) on biome(ConventionalBiomeTags.FOREST)
+        },
+        FairyRecipes().biome(ConventionalBiomeTags.FOREST).entityType { EntityType.WOLF },
+    ),
+    PARROT(
+        "parrot", 7, "Parrotia", "鸚鵡精パッローチャ", 0xEA4E4E, 0x2A76F9, 0xFFE606, 0x8B0303,
+        passiveSkills {
+            statusEffect(StatusEffects.JUMP_BOOST, 1) on biome(ConventionalBiomeTags.JUNGLE)
+            statusEffect(StatusEffects.SLOW_FALLING, 0) on biome(ConventionalBiomeTags.JUNGLE)
+        },
+        FairyRecipes().biome(ConventionalBiomeTags.JUNGLE).entityType { EntityType.PARROT },
+    ),
     FISH(
         "fish", 2, "Fishia", "魚精フィーシャ", 0x6B9F93, 0x5A867C, 0x43655D, 0xADBEDB,
         passiveSkills {
@@ -331,6 +368,15 @@ enum class FairyCard(
             statusEffect(StatusEffects.WATER_BREATHING, 0) on underwater() * minimumMana(10.0)
         },
         FairyRecipes().overworld().recipe { Items.TROPICAL_FISH }.entityType { EntityType.TROPICAL_FISH },
+    ),
+    FIRE_CORAL(
+        "fire_coral", 6, "Fire Coralia", "火珊瑚精フィーレツォラーリャ", 0xCE4545, 0xE33047, 0xE33047, 0xCE3B38,
+        passiveSkills {
+            attackDamage(1.5) on underwater()
+            shootingDamage(1.5) on underwater()
+            statusEffect(StatusEffects.FIRE_RESISTANCE, 0) on biome(ConventionalBiomeTags.OCEAN)
+        },
+        FairyRecipes().biome(BiomeKeys.WARM_OCEAN).block { Blocks.FIRE_CORAL }.block { Blocks.FIRE_CORAL_BLOCK }.block { Blocks.FIRE_CORAL_FAN }.recipe { Items.FIRE_CORAL },
     ),
     SPONGE(
         "sponge", 4, "Spongia", "海綿精スポンギャ", 0xEADF67, 0xB1A947, 0xB1A947, 0xDBCD5A,
@@ -404,6 +450,50 @@ enum class FairyCard(
             combustion() on statusEffect(StatusEffects.FIRE_RESISTANCE)
         },
         FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).entityType { EntityType.BLAZE },
+    ),
+    LILY_PAD(
+        "lily_pad", 4, "Lile Padia", "水蓮精リーレパージャ", 0x518C42, 0x467838, 0x467838, 0x2B4A23,
+        passiveSkills {
+            magicDamage(1.0) on overworld()
+            magicDamage(1.0) on sunshine()
+            magicDamage(1.0) on biome(ConventionalBiomeTags.CLIMATE_WET)
+        },
+        FairyRecipes().biome(ConventionalBiomeTags.SWAMP).block { Blocks.LILY_PAD }.recipe { Items.LILY_PAD },
+    ),
+    DEAD_BUSH(
+        "dead_bush", 3, "Deade Bushia", "枯木精デアデブーシャ", 0xB38247, 0xA17743, 0xA17743, 0x6E583F,
+        passiveSkills {
+            shootingDamage(1.0) on always()
+            shootingDamage(1.0) on biome(ConventionalBiomeTags.CLIMATE_HOT)
+            shootingDamage(1.0) on biome(ConventionalBiomeTags.CLIMATE_DRY)
+        },
+        FairyRecipes().biome(ConventionalBiomeTags.DESERT).biome(ConventionalBiomeTags.BADLANDS).block { Blocks.DEAD_BUSH }.recipe { Items.DEAD_BUSH },
+    ),
+    MIRAGE(
+        "mirage", 5, "Miragia", "妖精ミラージャ", 0x6DE3BE, 0x43FAFA, 0x43FAFA, 0x00F5F5,
+        passiveSkills {
+            mana(0.5) on always()
+            mana(0.5) on overworld()
+        },
+        FairyRecipes().overworld().block { mirageFlowerBlock.feature }.recipe { mirageSeedItem.feature },
+    ),
+    LUMINARIA(
+        "luminaria", 6, "Luminaria", "輝草精ルミナーリャ", 0xB4DBD3, 0xBBEFF2, 0xBBEFF2, 0x8CE6FF,
+        passiveSkills {
+            luck(1.0) on overworld()
+            magicDamage(1.0) on sunshine()
+            magicDamage(1.0) on overworld()
+        },
+        FairyRecipes().overworld().block { LuminariaCard.LUMINARIA.block }.recipe { LuminariaCard.LUMINARIA.item },
+    ),
+    LILY_OF_THE_VALLEY(
+        "lily_of_the_valley", 4, "Lile Ofe The Vallia", "鈴蘭精リーレオーフェテヴァッリャ", 0x3D8C15, 0x74CC39, 0x74CC39, 0xF0F0F0,
+        passiveSkills {
+            collection(1.0) on overworld()
+            magicDamage(1.0) on sunshine()
+            magicDamage(1.0) on overworld()
+        },
+        FairyRecipes().overworld().block { Blocks.LILY_OF_THE_VALLEY }.recipe { Items.LILY_OF_THE_VALLEY },
     ),
     WHEAT(
         "wheat", 3, "Wheatia", "麦精ウェアーチャ", 0xD8BF7F, 0xDBBB65, 0xDBBB65, 0x896D20,
@@ -496,6 +586,15 @@ enum class FairyCard(
             shootingDamage(1.0) on biome(ConventionalBiomeTags.TAIGA)
         },
         FairyRecipes().biome(ConventionalBiomeTags.TAIGA).block { Blocks.SPRUCE_SAPLING }.recipe { Items.SPRUCE_SAPLING },
+    ),
+    BAMBOO(
+        "bamboo", 5, "Bambia", "竹精バンビャ", 0x669627, 0x578800, 0x578800, 0x9BC452,
+        passiveSkills {
+            shootingDamage(1.0) on always()
+            shootingDamage(1.0) on overworld()
+            shootingDamage(1.0) on biome(ConventionalBiomeTags.CLIMATE_WET)
+        },
+        FairyRecipes().biome(BiomeKeys.BAMBOO_JUNGLE).block { Blocks.BAMBOO }.recipe { Items.BAMBOO },
     ),
     HOE(
         "hoe", 3, "Hia", "鍬精ヒャ", 0xFFFFFF, 0xFFC48E, 0x47FF00, 0xFFFFFF,
