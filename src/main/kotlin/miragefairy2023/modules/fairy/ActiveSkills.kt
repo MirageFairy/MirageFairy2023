@@ -1,5 +1,7 @@
 package miragefairy2023.modules.fairy
 
-interface ActiveSkill {
+import net.minecraft.text.Text
 
+interface ActiveSkill {
+    fun getTooltip(): List<Text>
 }

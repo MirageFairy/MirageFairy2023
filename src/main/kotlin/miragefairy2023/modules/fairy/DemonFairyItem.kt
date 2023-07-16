@@ -94,6 +94,9 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
         // パッシブスキル
         tooltip += getPassiveSkillTooltip(stack, passiveSkillMana, fairyCard.passiveSkills)
 
+        // アクティブスキル
+        if (fairyCard.activeSkill != null) tooltip += fairyCard.activeSkill.getTooltip()
+
         // 凝縮レシピ
         tooltip += when (rank) {
             1 -> text { CONDENSATION_RECIPE_KEY().yellow }
