@@ -13,28 +13,6 @@ base.archivesName.set(project.property("archives_base_name") as String)
 version = project.property("mod_version") as String
 group = project.property("maven_group") as String
 
-repositories {
-    mavenCentral()
-
-    // ここからアーティファクトを取得するリポジトリを追加します。
-    // Loom は Minecraft とライブラリを自動的にダウンロードするために必要な Maven リポジトリを追加するため、
-    // 他の mod に依存する場合にのみ使用してください。
-    // リポジトリの詳細については、
-    // https://docs.gradle.org/current/userguide/declaring_repositories.html を参照してください。
-
-    // cloth-config-fabric
-    //// me.shedaniel:RoughlyEnoughItems-*
-    maven("https://maven.shedaniel.me/")
-
-    // FauxCustomEntityData-fabric-1.19.2
-    maven("https://maven.blamejared.com")
-
-    // dev.emi:trinkets
-    maven("https://maven.terraformersmc.com/")
-    maven("https://maven.ladysnake.org/releases")
-
-}
-
 loom {
     splitEnvironmentSourceSets()
 
@@ -76,6 +54,28 @@ sourceSets {
     }
 }
 
+repositories {
+    mavenCentral()
+
+    // ここからアーティファクトを取得するリポジトリを追加します。
+    // Loom は Minecraft とライブラリを自動的にダウンロードするために必要な Maven リポジトリを追加するため、
+    // 他の mod に依存する場合にのみ使用してください。
+    // リポジトリの詳細については、
+    // https://docs.gradle.org/current/userguide/declaring_repositories.html を参照してください。
+
+    // cloth-config-fabric
+    //// me.shedaniel:RoughlyEnoughItems-*
+    maven("https://maven.shedaniel.me/")
+
+    // FauxCustomEntityData-fabric-1.19.2
+    maven("https://maven.blamejared.com")
+
+    // dev.emi:trinkets
+    maven("https://maven.terraformersmc.com/")
+    maven("https://maven.ladysnake.org/releases")
+
+}
+
 dependencies {
 
     // バージョンを変更するには、gradle.properties ファイルを参照してください
@@ -109,36 +109,40 @@ dependencies {
 
 }
 
-tasks.named<Copy>("processResources") {
-    inputs.property("version", project.version)
-    exclude("**/*.pdn")
-    exclude("**/*.scr.png")
+tasks {
 
-    filesMatching("fabric.mod.json") {
-        expand(mapOf("version" to project.version))
+    named<Copy>("processResources") {
+        inputs.property("version", project.version)
+        exclude("**/*.pdn")
+        exclude("**/*.scr.png")
+
+        filesMatching("fabric.mod.json") {
+            expand(mapOf("version" to project.version))
+        }
     }
-}
 
-tasks.withType<JavaCompile>().configureEach {
-    options.release.set(17)
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
-    kotlinOptions {
-        jvmTarget = "17"
+    withType<JavaCompile>().configureEach {
+        options.release.set(17)
     }
+
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
+        kotlinOptions {
+            jvmTarget = "17"
+        }
+    }
+
+    named<Jar>("jar") {
+        from("LICENSE") {
+            rename { "${it}_${project.base.archivesName}" }
+        }
+    }
+
 }
 
 java {
     // Loom は自動的に sourcesJar を RemapSourcesJar タスクにアタッチし、存在する場合は「build」タスクにアタッチします。
     // この行を削除すると、ソースは生成されません。
     withSourcesJar()
-}
-
-tasks.named<Jar>("jar") {
-    from("LICENSE") {
-        rename { "${it}_${project.base.archivesName}" }
-    }
 }
 
 // maven パブリケーションを構成する
