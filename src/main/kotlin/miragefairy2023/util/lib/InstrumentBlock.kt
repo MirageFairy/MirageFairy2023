@@ -13,6 +13,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.BlockView
 
+/** 4方向の向きを持ち、キューブ状でない固体の設置物を表すブロックです。 */
 open class InstrumentBlock(settings: Settings) : Block(settings) {
     companion object {
         val FACING: DirectionProperty = Properties.HORIZONTAL_FACING
