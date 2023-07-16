@@ -13,8 +13,6 @@ base.archivesName.set(project.property("archives_base_name") as String)
 version = project.property("mod_version") as String
 group = project.property("maven_group") as String
 
-val rei_version = "9.1.591"
-
 repositories {
     mavenCentral()
 
@@ -98,9 +96,10 @@ dependencies {
         exclude(group = "net.fabricmc.fabric-api")
     }
 
+    val reiVersion = "9.1.591"
     //modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:$rei_version"
-    "modCompileOnly"("me.shedaniel:RoughlyEnoughItems-api-fabric:$rei_version")
-    "modCompileOnly"("me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:$rei_version")
+    "modCompileOnly"("me.shedaniel:RoughlyEnoughItems-api-fabric:$reiVersion")
+    "modCompileOnly"("me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:$reiVersion")
 
     "modApi"("com.faux.fauxcustomentitydata:FauxCustomEntityData-fabric-1.19.2:2.0.2")
 
