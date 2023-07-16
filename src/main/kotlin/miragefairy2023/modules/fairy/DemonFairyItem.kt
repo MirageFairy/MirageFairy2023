@@ -19,10 +19,14 @@ import miragefairy2023.util.toRoman
 import miragefairy2023.util.yellow
 import mirrg.kotlin.hydrogen.formatAs
 import net.minecraft.client.item.TooltipContext
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
+import net.minecraft.util.Hand
+import net.minecraft.util.TypedActionResult
+import net.minecraft.util.UseAction
 import net.minecraft.world.World
 
 /** @param rank 1から始まります。 */
@@ -112,4 +116,26 @@ class DemonFairyItem(val fairyCard: FairyCard, val rank: Int, settings: Settings
     override fun getTranslationKey(): String = if (rank == 1) super.getTranslationKey() else fairyCard.fairy.item.translationKey
     override fun getName() = text { super.getName() + (if (rank == 1) "" else " ${rank.toRoman()}")() }
     override fun getName(stack: ItemStack) = text { super.getName(stack) + (if (rank == 1) "" else " ${rank.toRoman()}")() }
+
+
+    override fun onStoppedUsing(stack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
+        if (fairyCard.activeSkill != null) {
+            val useTicks = getMaxUseTime(stack) - remainingUseTicks
+            fairyCard.activeSkill.action(stack, world, user, useTicks)
+        } else {
+            super.onStoppedUsing(stack, world, user, remainingUseTicks)
+        }
+    }
+
+    override fun getMaxUseTime(stack: ItemStack) = if (fairyCard.activeSkill != null) 72000 else super.getMaxUseTime(stack)
+
+    override fun getUseAction(stack: ItemStack): UseAction = if (fairyCard.activeSkill != null) UseAction.BOW else super.getUseAction(stack)
+
+    override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> = if (fairyCard.activeSkill != null) {
+        user.setCurrentHand(hand)
+        TypedActionResult.consume(user.getStackInHand(hand))
+    } else {
+        super.use(world, user, hand)
+    }
+
 }
