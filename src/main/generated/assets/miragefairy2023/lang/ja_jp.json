@@ -269,6 +269,8 @@
   "item.miragefairy2023.zombie_fairy": "硬屍精ゾンビャ",
   "itemGroup.miragefairy2023.common": "MirageFairy2023",
   "itemGroup.miragefairy2023.fairy": "MirageFairy2023: 妖精",
+  "miragefairy2023.item_transportation.count": "転送中のアイテム: %s / 最大 %s",
+  "miragefairy2023.item_transportation.overflowed": "転送の上限に達しました！",
   "miragefairy2023.passive_skill.attribute": "妖精ボーナス",
   "miragefairy2023.passive_skill.condition.air": "空気",
   "miragefairy2023.passive_skill.condition.biome.c.badlands": "荒地",
