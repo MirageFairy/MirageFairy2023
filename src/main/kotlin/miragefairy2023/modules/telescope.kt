@@ -2,6 +2,7 @@ package miragefairy2023.modules
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
+import miragefairy2023.util.addAvailableParticle
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.get
 import miragefairy2023.util.identifier
@@ -141,19 +142,7 @@ class TelescopeBlock(settings: Settings) : InstrumentBlock(settings) {
         val actions = getTelescopeActions(now, player)
         if (actions.isEmpty()) return
 
-        if (random.nextInt(1) == 0) {
-            val x = pos.x.toDouble() + 0.0 + random.nextDouble() * 1.0
-            val y = pos.y.toDouble() + 0.0 + random.nextDouble() * 0.5
-            val z = pos.z.toDouble() + 0.0 + random.nextDouble() * 1.0
-            world.addParticle(
-                DemonParticleTypeCard.MISSION.particleType,
-                x, y, z,
-                random.nextGaussian() * 0.00,
-                random.nextGaussian() * 0.00 + 0.4,
-                random.nextGaussian() * 0.00,
-            )
-        }
-
+        addAvailableParticle(world, pos)
     }
 
 }
