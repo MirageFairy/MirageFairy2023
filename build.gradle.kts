@@ -4,14 +4,7 @@ plugins {
     kotlin("jvm") version "1.8.0"
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-}
-
-base.archivesName.set(project.property("archives_base_name") as String)
 version = project.property("mod_version") as String
-group = project.property("maven_group") as String
 
 loom {
     splitEnvironmentSourceSets()
@@ -40,6 +33,11 @@ loom {
             runDir = "run_server" // ファイルロックを回避しクライアントと同時に起動可能にする
         }
     }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 // 生成されたリソースを main ソースセットに追加する
@@ -135,6 +133,7 @@ tasks {
         from("LICENSE") {
             rename { "${it}_${project.base.archivesName}" }
         }
+        archiveBaseName.set(project.property("archive_base_name") as String)
     }
 
 }
@@ -150,6 +149,8 @@ publishing {
     publications {
         register<MavenPublication>("mavenJava") {
             from(components["java"])
+            artifactId = project.property("maven_artifact_id") as String
+            groupId = project.property("maven_group_id") as String
         }
     }
 
