@@ -73,7 +73,7 @@ enum class FairyCard(
         passiveSkills {
             movementSpeed(0.30) on overworld() * air()
         },
-        null,
+        itemTransportation(),
         FairyRecipes().always().block { Blocks.AIR },
     ),
     LIGHT(
@@ -384,7 +384,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.JUMP_BOOST, 1) on biome(ConventionalBiomeTags.JUNGLE)
             statusEffect(StatusEffects.SLOW_FALLING, 0) on biome(ConventionalBiomeTags.JUNGLE)
         },
-        null,
+        itemTransportation(),
         FairyRecipes().biome(ConventionalBiomeTags.JUNGLE).entityType { EntityType.PARROT },
     ),
     FISH(
@@ -544,7 +544,7 @@ enum class FairyCard(
             magicDamage(1.0) on sunshine()
             magicDamage(1.0) on overworld()
         },
-        null,
+        itemTransportation(),
         FairyRecipes().overworld().block { Blocks.LILY_OF_THE_VALLEY }.recipe { Items.LILY_OF_THE_VALLEY },
     ),
     WHEAT(
@@ -675,7 +675,7 @@ enum class FairyCard(
             collection(0.6) on always()
             collection(0.6) on indoor()
         },
-        null,
+        itemTransportation(),
         FairyRecipes().block { Blocks.CHEST }.recipe { Items.CHEST },
     ),
     CRAFTING_TABLE(

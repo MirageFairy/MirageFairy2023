@@ -79,6 +79,7 @@ val fairyModule = module {
     enJa(DemonFairyItem.CONDENSATION_RECIPE_KEY)
     enJa(DemonFairyItem.DECONDENSATION_RECIPE_KEY)
     enJa(DemonFairyItem.BOTH_RECIPE_KEY)
+    enJa(ITEM_TRANSPORTATION_DESCRIPTION_KEY)
 
     // 妖精アイテム
     run {
