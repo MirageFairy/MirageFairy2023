@@ -65,6 +65,7 @@ enum class FairyCard(
     val backColor: Int,
     val hairColor: Int,
     val passiveSkills: List<PassiveSkill>,
+    val activeSkill: ActiveSkill?,
     val fairyRecipes: FairyRecipes,
 ) {
     AIR(
@@ -72,6 +73,7 @@ enum class FairyCard(
         passiveSkills {
             movementSpeed(0.30) on overworld() * air()
         },
+        null,
         FairyRecipes().always().block { Blocks.AIR },
     ),
     LIGHT(
@@ -79,6 +81,7 @@ enum class FairyCard(
         passiveSkills {
             movementSpeed(0.30) on minimumLightLevel(12)
         },
+        null,
         FairyRecipes().always(),
     ),
     FIRE(
@@ -86,6 +89,7 @@ enum class FairyCard(
         passiveSkills {
             attackDamage(4.0) on onFire()
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.FIRE },
     ),
     WATER(
@@ -93,6 +97,7 @@ enum class FairyCard(
         passiveSkills {
             maxHealth(12.0) on underwater()
         },
+        null,
         FairyRecipes().overworld().block { Blocks.WATER }.recipe { Items.WATER_BUCKET },
     ),
     LAVA(
@@ -102,6 +107,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.STRENGTH, 0) on onFire()
             statusEffect(StatusEffects.RESISTANCE, 0) on onFire()
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.LAVA }.recipe { Items.LAVA_BUCKET },
     ),
     MOON(
@@ -110,6 +116,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.NIGHT_VISION, 0, additionalSeconds = 10) on moonlight()
             statusEffect(StatusEffects.REGENERATION, 0) on moonlight()
         },
+        null,
         FairyRecipes().overworld(),
     ),
     SUN(
@@ -118,6 +125,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.STRENGTH, 1) on sunshine()
             statusEffect(StatusEffects.REGENERATION, 0) on sunshine()
         },
+        null,
         FairyRecipes().overworld(),
     ),
     RAIN(
@@ -125,6 +133,7 @@ enum class FairyCard(
         passiveSkills {
             shootingDamage(4.0) on inRain()
         },
+        null,
         FairyRecipes().overworld(),
     ),
     DIRT(
@@ -132,6 +141,7 @@ enum class FairyCard(
         passiveSkills {
             maxHealth(10.0) on overworld()
         },
+        null,
         FairyRecipes().overworld().block { Blocks.DIRT }.recipe { Items.DIRT },
     ),
     MYCELIUM(
@@ -142,6 +152,7 @@ enum class FairyCard(
             maxHealth(12.0) on biome(ConventionalBiomeTags.MUSHROOM)
             statusEffect(StatusEffects.REGENERATION, 0) on biome(ConventionalBiomeTags.MUSHROOM) * minimumMana(10.0)
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.MUSHROOM).block { Blocks.MYCELIUM }.recipe { Items.MYCELIUM },
     ),
     SCULK(
@@ -150,6 +161,7 @@ enum class FairyCard(
             maxHealth(8.0) on maximumLightLevel(0)
             attackDamage(3.0) on maximumLightLevel(0)
         },
+        null,
         FairyRecipes().biome(BiomeKeys.DEEP_DARK).block { Blocks.SCULK }.recipe { Items.SCULK },
     ),
     STONE(
@@ -159,6 +171,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.RESISTANCE, 0) on toolMaterial(ToolMaterialCard.STONE)
             statusEffect(StatusEffects.RESISTANCE, 1) on toolMaterial(ToolMaterialCard.STONE) * minimumMana(7.0)
         },
+        null,
         FairyRecipes().overworld().block { Blocks.STONE }.recipe { Items.STONE },
     ),
     DRIPSTONE(
@@ -167,6 +180,7 @@ enum class FairyCard(
             shootingDamage(1.5) on shade()
             maxHealth(6.0) on shade()
         },
+        null,
         FairyRecipes().biome(BiomeKeys.DRIPSTONE_CAVES).block { Blocks.DRIPSTONE_BLOCK }.recipe { Items.DRIPSTONE_BLOCK },
     ),
     REINFORCED_DEEPSLATE(
@@ -174,6 +188,7 @@ enum class FairyCard(
         passiveSkills {
             maxHealth(10.0) on shade()
         },
+        null,
         FairyRecipes().block { Blocks.REINFORCED_DEEPSLATE }.recipe { Items.REINFORCED_DEEPSLATE },
     ),
     ANCIENT_DEBRIS(
@@ -184,6 +199,7 @@ enum class FairyCard(
             maxHealth(2.0) on biome(ConventionalBiomeTags.IN_NETHER)
             luck(2.0) on biome(ConventionalBiomeTags.IN_NETHER)
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.ANCIENT_DEBRIS }.recipe { Items.ANCIENT_DEBRIS },
     ),
     PURPUR(
@@ -193,6 +209,7 @@ enum class FairyCard(
             magicDamage(2.0) on biome(ConventionalBiomeTags.IN_THE_END)
             maxHealth(4.0) on biome(ConventionalBiomeTags.IN_THE_END)
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.END_ISLANDS).block { Blocks.PURPUR_BLOCK }.recipe { Items.PURPUR_BLOCK },
     ),
     PACKED_ICE(
@@ -202,6 +219,7 @@ enum class FairyCard(
             magicDamage(0.5) on always()
             magicDamage(1.0) on biome(ConventionalBiomeTags.CLIMATE_COLD)
         },
+        null,
         FairyRecipes().biome(BiomeKeys.ICE_SPIKES).biome(BiomeKeys.FROZEN_OCEAN).block { Blocks.PACKED_ICE }.recipe { Items.PACKED_ICE },
     ),
     SNOW(
@@ -210,6 +228,7 @@ enum class FairyCard(
             regeneration(0.1) on biome(ConventionalBiomeTags.CLIMATE_COLD)
             magicDamage(0.5) on always()
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.SNOWY).block { Blocks.SNOW_BLOCK }.recipe { Items.SNOW_BLOCK },
     ),
     COPPER(
@@ -218,6 +237,7 @@ enum class FairyCard(
             luck(0.2) on always()
             shootingDamage(2.5) on thundering()
         },
+        null,
         FairyRecipes().overworld().block { Blocks.COPPER_BLOCK }.recipe { Items.COPPER_INGOT },
     ),
     IRON(
@@ -227,6 +247,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.STRENGTH, 0) on toolMaterial(ToolMaterialCard.IRON)
             statusEffect(StatusEffects.STRENGTH, 1) on toolMaterial(ToolMaterialCard.IRON) * minimumMana(8.0)
         },
+        null,
         FairyRecipes().overworld().block { Blocks.IRON_BLOCK }.recipe { Items.IRON_INGOT },
     ),
     GOLD(
@@ -237,6 +258,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.LUCK, 0) on toolMaterial(ToolMaterialCard.GOLD)
             statusEffect(StatusEffects.LUCK, 1) on toolMaterial(ToolMaterialCard.GOLD) * minimumMana(10.0)
         },
+        null,
         FairyRecipes().overworld().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.GOLD_BLOCK }.recipe { Items.GOLD_INGOT },
     ),
     NETHERITE(
@@ -246,6 +268,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.FIRE_RESISTANCE, 0) on toolMaterial(ToolMaterialCard.NETHERITE)
             statusEffect(StatusEffects.HASTE, 1) on toolMaterial(ToolMaterialCard.NETHERITE) * minimumMana(12.0)
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.NETHERITE_BLOCK }.recipe { Items.NETHERITE_INGOT },
     ),
     MIRANAGITE(
@@ -255,6 +278,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.LUCK, 0) on toolMaterial(ToolMaterialCard.MIRANAGITE)
             mana(0.5) on always()
         },
+        null,
         FairyRecipes().overworld().recipe { DemonItemCard.MIRANAGITE.item },
     ),
     AMETHYST(
@@ -264,6 +288,7 @@ enum class FairyCard(
             attackDamage(0.5) on maximumLightLevel(7)
             luck(2.0) on maximumLightLevel(7)
         },
+        null,
         FairyRecipes().overworld().block { Blocks.AMETHYST_BLOCK }.recipe { Items.AMETHYST_SHARD },
     ),
     EMERALD(
@@ -272,6 +297,7 @@ enum class FairyCard(
             luck(0.5) on always()
             luck(1.5) on inVillage()
         },
+        null,
         FairyRecipes().overworld().block { Blocks.EMERALD_BLOCK }.recipe { Items.EMERALD },
     ),
     DIAMOND(
@@ -282,6 +308,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.HASTE, 0) on toolMaterial(ToolMaterialCard.DIAMOND)
             statusEffect(StatusEffects.HASTE, 1) on toolMaterial(ToolMaterialCard.DIAMOND) * minimumMana(12.0)
         },
+        null,
         FairyRecipes().overworld().block { Blocks.DIAMOND_BLOCK }.recipe { Items.DIAMOND },
     ),
     ADAMANTITE(
@@ -290,6 +317,7 @@ enum class FairyCard(
             luck(0.5) on always()
             attackDamage(2.0) on always()
         },
+        null,
         FairyRecipes().always(), // TODO イベ限解除
     ),
     COAL(
@@ -298,6 +326,7 @@ enum class FairyCard(
             maxHealth(4.0) on always()
             luck(2.0) on onFire()
         },
+        null,
         FairyRecipes().overworld().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.COAL_BLOCK }.recipe { Items.COAL },
     ),
     REDSTONE(
@@ -307,6 +336,7 @@ enum class FairyCard(
             shootingDamage(1.0) on indoor()
             maxHealth(2.0) on indoor()
         },
+        null,
         FairyRecipes().overworld().block { Blocks.REDSTONE_BLOCK }.recipe { Items.REDSTONE },
     ),
     LAPIS_LAZULI(
@@ -316,6 +346,7 @@ enum class FairyCard(
             luck(1.5) on overworld()
             magicDamage(1.0) on overworld()
         },
+        null,
         FairyRecipes().overworld().block { Blocks.LAPIS_BLOCK }.recipe { Items.LAPIS_LAZULI },
     ),
     GLOWSTONE(
@@ -324,6 +355,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.GLOWING, 0) on always()
             magicDamage(1.5) on biome(ConventionalBiomeTags.IN_NETHER)
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.GLOWSTONE }.recipe { Items.GLOWSTONE_DUST },
     ),
     OBSIDIAN(
@@ -333,6 +365,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.RESISTANCE, 0) on always()
             statusEffect(StatusEffects.RESISTANCE, 1) on minimumMana(9.0)
         },
+        null,
         FairyRecipes().overworld().biome(ConventionalBiomeTags.IN_THE_END).block { Blocks.OBSIDIAN }.recipe { Items.OBSIDIAN },
     ),
     WOLF(
@@ -342,6 +375,7 @@ enum class FairyCard(
             attackDamage(1.0) on minimumFoodLevel(7)
             attackDamage(1.0) on biome(ConventionalBiomeTags.FOREST)
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.FOREST).entityType { EntityType.WOLF },
     ),
     PARROT(
@@ -350,6 +384,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.JUMP_BOOST, 1) on biome(ConventionalBiomeTags.JUNGLE)
             statusEffect(StatusEffects.SLOW_FALLING, 0) on biome(ConventionalBiomeTags.JUNGLE)
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.JUNGLE).entityType { EntityType.PARROT },
     ),
     FISH(
@@ -358,6 +393,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.NIGHT_VISION, 0, additionalSeconds = 10) on underwater()
             statusEffect(StatusEffects.WATER_BREATHING, 0) on underwater() * minimumMana(10.0)
         },
+        null,
         FairyRecipes().overworld().recipe { Items.COD }.entityType { EntityType.COD }, // TODO 魚精は希釈で得る
     ),
     CLOWNFISH(
@@ -367,6 +403,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.WATER_BREATHING, 0) on underwater() * minimumLightLevel(4)
             statusEffect(StatusEffects.WATER_BREATHING, 0) on underwater() * minimumMana(10.0)
         },
+        null,
         FairyRecipes().overworld().recipe { Items.TROPICAL_FISH }.entityType { EntityType.TROPICAL_FISH },
     ),
     FIRE_CORAL(
@@ -376,6 +413,7 @@ enum class FairyCard(
             shootingDamage(1.5) on underwater()
             statusEffect(StatusEffects.FIRE_RESISTANCE, 0) on biome(ConventionalBiomeTags.OCEAN)
         },
+        null,
         FairyRecipes().biome(BiomeKeys.WARM_OCEAN).block { Blocks.FIRE_CORAL }.block { Blocks.FIRE_CORAL_BLOCK }.block { Blocks.FIRE_CORAL_FAN }.recipe { Items.FIRE_CORAL },
     ),
     SPONGE(
@@ -384,6 +422,7 @@ enum class FairyCard(
             attackDamage(2.0) on underwater()
             statusEffect(StatusEffects.REGENERATION, 0) on underwater() * minimumMana(10.0)
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.OCEAN).block { Blocks.SPONGE }.recipe { Items.SPONGE },
     ),
     PLAYER(
@@ -391,6 +430,7 @@ enum class FairyCard(
         passiveSkills {
             experience(0.05) on maximumLevel(29)
         },
+        null,
         FairyRecipes().always().entityType { EntityType.PLAYER },
     ),
     ENDERMAN(
@@ -398,6 +438,7 @@ enum class FairyCard(
         passiveSkills {
             collection(1.0) on always()
         },
+        null,
         FairyRecipes().overworld().biome(ConventionalBiomeTags.IN_NETHER).biome(ConventionalBiomeTags.IN_THE_END).entityType { EntityType.ENDERMAN },
     ),
     WARDEN(
@@ -406,6 +447,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.STRENGTH, 1) on maximumLightLevel(0)
             attackDamage(2.0) on maximumLightLevel(0)
         },
+        null,
         FairyRecipes().biome(BiomeKeys.DEEP_DARK).entityType { EntityType.WARDEN },
     ),
     ZOMBIE(
@@ -414,6 +456,7 @@ enum class FairyCard(
             attackDamage(2.0) on maximumFoodLevel(6)
             attackDamage(1.0) on shade()
         },
+        null,
         FairyRecipes().overworld().entityType { EntityType.ZOMBIE },
     ),
     SKELETON(
@@ -422,6 +465,7 @@ enum class FairyCard(
             shootingDamage(2.0) on maximumFoodLevel(6)
             shootingDamage(1.0) on shade()
         },
+        null,
         FairyRecipes().overworld().entityType { EntityType.SKELETON },
     ),
     SKELETON_HORSE(
@@ -431,6 +475,7 @@ enum class FairyCard(
             attackDamage(1.0) on inRain()
             shootingDamage(1.0) on inRain()
         },
+        null,
         FairyRecipes().overworld().entityType { EntityType.SKELETON_HORSE },
     ),
     WITHER(
@@ -441,6 +486,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.HASTE, 0) on maximumFoodLevel(6)
             shootingDamage(1.5) on maximumFoodLevel(6)
         },
+        null,
         FairyRecipes().entityType { EntityType.WITHER },
     ),
     BLAZE(
@@ -449,6 +495,7 @@ enum class FairyCard(
             shootingDamage(2.0) on onFire()
             combustion() on statusEffect(StatusEffects.FIRE_RESISTANCE)
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).entityType { EntityType.BLAZE },
     ),
     LILY_PAD(
@@ -458,6 +505,7 @@ enum class FairyCard(
             magicDamage(1.0) on sunshine()
             magicDamage(1.0) on biome(ConventionalBiomeTags.CLIMATE_WET)
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.SWAMP).block { Blocks.LILY_PAD }.recipe { Items.LILY_PAD },
     ),
     DEAD_BUSH(
@@ -467,6 +515,7 @@ enum class FairyCard(
             shootingDamage(1.0) on biome(ConventionalBiomeTags.CLIMATE_HOT)
             shootingDamage(1.0) on biome(ConventionalBiomeTags.CLIMATE_DRY)
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.DESERT).biome(ConventionalBiomeTags.BADLANDS).block { Blocks.DEAD_BUSH }.recipe { Items.DEAD_BUSH },
     ),
     MIRAGE(
@@ -475,6 +524,7 @@ enum class FairyCard(
             mana(0.5) on always()
             mana(0.5) on overworld()
         },
+        null,
         FairyRecipes().overworld().block { mirageFlowerBlock.feature }.recipe { mirageSeedItem.feature },
     ),
     LUMINARIA(
@@ -484,6 +534,7 @@ enum class FairyCard(
             magicDamage(1.0) on sunshine()
             magicDamage(1.0) on overworld()
         },
+        null,
         FairyRecipes().overworld().block { LuminariaCard.LUMINARIA.block }.recipe { LuminariaCard.LUMINARIA.item },
     ),
     LILY_OF_THE_VALLEY(
@@ -493,6 +544,7 @@ enum class FairyCard(
             magicDamage(1.0) on sunshine()
             magicDamage(1.0) on overworld()
         },
+        null,
         FairyRecipes().overworld().block { Blocks.LILY_OF_THE_VALLEY }.recipe { Items.LILY_OF_THE_VALLEY },
     ),
     WHEAT(
@@ -502,6 +554,7 @@ enum class FairyCard(
             regeneration(0.3) on food { Items.BREAD }
             attackDamage(0.5) on food { Items.BREAD }
         },
+        null,
         FairyRecipes().overworld().block { Blocks.HAY_BLOCK }.recipe { Items.WHEAT },
     ),
     CARROT(
@@ -510,6 +563,7 @@ enum class FairyCard(
             regeneration(0.1) on minimumFoodLevel(12)
             statusEffect(StatusEffects.NIGHT_VISION, 0, additionalSeconds = 10) on food { Items.CARROT }
         },
+        null,
         FairyRecipes().overworld().block { Blocks.CARROTS }.recipe { Items.CARROT },
     ),
     POTATO(
@@ -518,6 +572,7 @@ enum class FairyCard(
             regeneration(0.1) on minimumFoodLevel(12)
             attackDamage(1.0) on food { Items.BAKED_POTATO }
         },
+        null,
         FairyRecipes().overworld().block { Blocks.POTATOES }.recipe { Items.POTATO },
     ),
     POISONOUS_POTATO(
@@ -526,6 +581,7 @@ enum class FairyCard(
             attackDamage(1.0) on minimumFoodLevel(12)
             attackDamage(2.0) on food { Items.POISONOUS_POTATO }
         },
+        null,
         FairyRecipes().overworld().block { Blocks.POTATOES }.recipe { Items.POISONOUS_POTATO },
     ),
     BEETROOT(
@@ -534,6 +590,7 @@ enum class FairyCard(
             regeneration(0.1) on minimumFoodLevel(12)
             shootingDamage(3.0) on food { Items.BEETROOT }
         },
+        null,
         FairyRecipes().overworld().block { Blocks.BEETROOTS }.recipe { Items.BEETROOT },
     ),
     MELON(
@@ -542,6 +599,7 @@ enum class FairyCard(
             regeneration(0.1) on minimumFoodLevel(12)
             regeneration(0.6) on food { Items.MELON_SLICE }
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.JUNGLE).block { Blocks.MELON }.recipe { Items.MELON },
     ),
     APPLE(
@@ -550,6 +608,7 @@ enum class FairyCard(
             regeneration(0.1) on minimumFoodLevel(12)
             statusEffect(StatusEffects.RESISTANCE, 1) on food { Items.APPLE }
         },
+        null,
         FairyRecipes().overworld().recipe { Items.APPLE },
     ),
     SWEET_BERRY(
@@ -559,6 +618,7 @@ enum class FairyCard(
             regeneration(0.2) on food { Items.SWEET_BERRIES }
             shootingDamage(2.0) on food { Items.SWEET_BERRIES }
         },
+        null,
         FairyRecipes().overworld().block { Blocks.SWEET_BERRY_BUSH }.recipe { Items.SWEET_BERRIES },
     ),
     GLOW_BERRY(
@@ -568,6 +628,7 @@ enum class FairyCard(
             regeneration(0.2) on food { Items.GLOW_BERRIES }
             magicDamage(2.0) on food { Items.GLOW_BERRIES }
         },
+        null,
         FairyRecipes().overworld().block { Blocks.CAVE_VINES }.block { Blocks.CAVE_VINES_PLANT }.recipe { Items.GLOW_BERRIES },
     ),
     WOOD(
@@ -577,6 +638,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.SPEED, 0) on toolMaterial(ToolMaterialCard.WOOD)
             statusEffect(StatusEffects.SPEED, 1) on toolMaterial(ToolMaterialCard.WOOD) * minimumMana(7.0)
         },
+        null,
         FairyRecipes().overworld().block { Blocks.OAK_PLANKS }.recipe { Items.OAK_PLANKS },
     ),
     SPRUCE(
@@ -585,6 +647,7 @@ enum class FairyCard(
             shootingDamage(1.0) on biome(ConventionalBiomeTags.FOREST)
             shootingDamage(1.0) on biome(ConventionalBiomeTags.TAIGA)
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.TAIGA).block { Blocks.SPRUCE_SAPLING }.recipe { Items.SPRUCE_SAPLING },
     ),
     BAMBOO(
@@ -594,6 +657,7 @@ enum class FairyCard(
             shootingDamage(1.0) on overworld()
             shootingDamage(1.0) on biome(ConventionalBiomeTags.CLIMATE_WET)
         },
+        null,
         FairyRecipes().biome(BiomeKeys.BAMBOO_JUNGLE).block { Blocks.BAMBOO }.recipe { Items.BAMBOO },
     ),
     HOE(
@@ -602,6 +666,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.HASTE, 0) on hasHoe()
             luck(3.0) on hasHoe()
         },
+        null,
         FairyRecipes().recipe { Items.STONE_HOE },
     ),
     CHEST(
@@ -610,6 +675,7 @@ enum class FairyCard(
             collection(0.6) on always()
             collection(0.6) on indoor()
         },
+        null,
         FairyRecipes().block { Blocks.CHEST }.recipe { Items.CHEST },
     ),
     CRAFTING_TABLE(
@@ -617,6 +683,7 @@ enum class FairyCard(
         passiveSkills {
             luck(2.0) on indoor()
         },
+        null,
         FairyRecipes().block { Blocks.CRAFTING_TABLE }.recipe { Items.CRAFTING_TABLE },
     ),
     ANVIL(
@@ -624,6 +691,7 @@ enum class FairyCard(
         passiveSkills {
             attackDamage(2.0) on indoor()
         },
+        null,
         FairyRecipes().block { Blocks.ANVIL }.recipe { Items.ANVIL },
     ),
     ENCHANTING_TABLE(
@@ -633,6 +701,7 @@ enum class FairyCard(
             experience(0.03) on indoor() * maximumLevel(29)
             magicDamage(2.0) on indoor()
         },
+        null,
         FairyRecipes().block { Blocks.ENCHANTING_TABLE }.recipe { Items.ENCHANTING_TABLE },
     ),
     HOPPER(
@@ -640,6 +709,7 @@ enum class FairyCard(
         passiveSkills {
             collection(1.5) on indoor()
         },
+        null,
         FairyRecipes().block { Blocks.HOPPER }.recipe { Items.HOPPER },
     ),
     BEACON(
@@ -652,6 +722,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.STRENGTH, 0) on outdoor()
             statusEffect(StatusEffects.REGENERATION, 0) on outdoor()
         },
+        null,
         FairyRecipes().block { Blocks.BEACON }.recipe { Items.BEACON },
     ),
     GLASS(
@@ -662,6 +733,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.GLOWING, 0) on maximumHealth(1)
             statusEffect(StatusEffects.GLOWING, 0) on minimumMana(11.0)
         },
+        null,
         FairyRecipes().block { Blocks.GLASS }.recipe { Items.GLASS },
     ),
     PRISMARINE(
@@ -669,6 +741,7 @@ enum class FairyCard(
         passiveSkills {
             statusEffect(StatusEffects.RESISTANCE, 1) on underwater()
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.OCEAN).block { Blocks.PRISMARINE }.recipe { Items.PRISMARINE },
     ),
     IRON_BARS(
@@ -676,6 +749,7 @@ enum class FairyCard(
         passiveSkills {
             maxHealth(5.0) on always()
         },
+        null,
         FairyRecipes().block { Blocks.IRON_BARS }.recipe { Items.IRON_BARS },
     ),
     PLAINS(
@@ -684,6 +758,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.SPEED, 0) on biome(ConventionalBiomeTags.PLAINS)
             statusEffect(StatusEffects.SPEED, 1) on biome(ConventionalBiomeTags.PLAINS) * minimumMana(7.0)
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.PLAINS),
     ),
     OCEAN(
@@ -692,6 +767,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.LUCK, 0) on biome(ConventionalBiomeTags.OCEAN)
             statusEffect(StatusEffects.LUCK, 1) on biome(ConventionalBiomeTags.OCEAN) * minimumMana(7.0)
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.OCEAN),
     ),
     TAIGA(
@@ -700,6 +776,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.STRENGTH, 0) on biome(ConventionalBiomeTags.TAIGA)
             statusEffect(StatusEffects.STRENGTH, 1) on biome(ConventionalBiomeTags.TAIGA) * minimumMana(7.0)
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.TAIGA),
     ),
     MOUNTAIN(
@@ -709,6 +786,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.JUMP_BOOST, 0) on biome(ConventionalBiomeTags.MOUNTAIN)
             statusEffect(StatusEffects.JUMP_BOOST, 1) on biome(ConventionalBiomeTags.MOUNTAIN) * minimumMana(7.0)
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.MOUNTAIN),
     ),
     FOREST(
@@ -717,6 +795,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.RESISTANCE, 0) on biome(ConventionalBiomeTags.FOREST)
             statusEffect(StatusEffects.RESISTANCE, 1) on biome(ConventionalBiomeTags.FOREST) * minimumMana(7.0)
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.FOREST),
     ),
     DESERT(
@@ -727,6 +806,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.STRENGTH, 0) on biome(ConventionalBiomeTags.DESERT) * moonlight()
             statusEffect(StatusEffects.STRENGTH, 1) on biome(ConventionalBiomeTags.DESERT) * moonlight() * minimumMana(7.0)
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.DESERT),
     ),
     AVALON(
@@ -737,6 +817,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.REGENERATION, 1) on biome(ConventionalBiomeTags.MUSHROOM)
             statusEffect(StatusEffects.REGENERATION, 1) on biome(ConventionalBiomeTags.FLORAL)
         },
+        null,
         FairyRecipes().always(), // TODO イベント終了時コモン枠除去
     ),
     VOID(
@@ -746,6 +827,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.REGENERATION, 0) on biome(ConventionalBiomeTags.IN_THE_END)
             statusEffect(StatusEffects.SPEED, 2) on biome(ConventionalBiomeTags.IN_THE_END)
         },
+        null,
         FairyRecipes().biome(ConventionalBiomeTags.IN_THE_END),
     ),
     NIGHT(
@@ -753,6 +835,7 @@ enum class FairyCard(
         passiveSkills {
             statusEffect(StatusEffects.SPEED, 0) on night()
         },
+        null,
         FairyRecipes().overworld(),
     ),
     TIME(
@@ -762,6 +845,7 @@ enum class FairyCard(
             movementSpeed(0.20) on always()
             statusEffect(StatusEffects.HASTE, 1) on always()
         },
+        null,
         FairyRecipes().always(),
     ),
     GRAVITY(
@@ -772,6 +856,7 @@ enum class FairyCard(
             shootingDamage(1.5) on always()
             magicDamage(1.5) on always()
         },
+        null,
         FairyRecipes().always(),
     ),
     DREAM(
@@ -782,6 +867,7 @@ enum class FairyCard(
             mana(0.5) on always()
             // TODO 夢のエフェクトが見えるようになる
         },
+        null,
         FairyRecipes().always(),
     ),
     MINA(
@@ -789,6 +875,7 @@ enum class FairyCard(
         passiveSkills {
             mana(1.0) on telescopeMission()
         },
+        null,
         FairyRecipes().always(),
     ),
     ;
