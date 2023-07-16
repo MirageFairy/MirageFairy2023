@@ -10,6 +10,7 @@ import miragefairy2023.modules.enchantmentModule
 import miragefairy2023.modules.entity.entityModule
 import miragefairy2023.modules.fairy.fairyModule
 import miragefairy2023.modules.fairyCrystalGlassModule
+import miragefairy2023.modules.fairyMailboxModule
 import miragefairy2023.modules.fairyhouse.fairyHouseModule
 import miragefairy2023.modules.itemTransportationModule
 import miragefairy2023.modules.lastFoodModule
@@ -66,6 +67,7 @@ val modules = module {
         demonBlockModule()
         fairyCrystalGlassModule()
         telescopeModule()
+        fairyMailboxModule()
         fairyHouseModule()
         fairyModule()
 

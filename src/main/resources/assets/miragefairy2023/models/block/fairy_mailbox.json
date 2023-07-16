@@ -1,0 +1,72 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"textures": {
+		"0": "miragefairy2023:block/fairy_wood_planks",
+		"2": "miragefairy2023:block/fairy_wood_roof",
+		"3": "miragefairy2023:block/fairy_mailbox",
+		"particle": "miragefairy2023:block/fairy_wood_roof"
+	},
+	"elements": [
+		{
+			"name": "e",
+			"from": [6.5, 13, 2.01],
+			"to": [16.5, 14, 14.01],
+			"rotation": {"angle": -45, "axis": "z", "origin": [8, 13.5, 8]},
+			"faces": {
+				"north": {"uv": [1, 3, 2, 13], "rotation": 90, "texture": "#0"},
+				"east": {"uv": [2, 1, 14, 2], "texture": "#0"},
+				"south": {"uv": [9, 3, 10, 13], "rotation": 90, "texture": "#0"},
+				"west": {"uv": [2.02, 5, 14.02, 6], "texture": "#0"},
+				"up": {"uv": [2, 2, 14, 12], "rotation": 90, "texture": "#2"},
+				"down": {"uv": [2, 2, 14, 12], "rotation": 90, "texture": "#2"}
+			}
+		},
+		{
+			"name": "w",
+			"from": [-0.5, 13, 2],
+			"to": [9.5, 14, 14],
+			"rotation": {"angle": 45, "axis": "z", "origin": [8, 13.5, 8]},
+			"faces": {
+				"north": {"uv": [1, 3, 2, 13], "rotation": 90, "texture": "#0"},
+				"east": {"uv": [2.01, 1, 14.01, 2], "texture": "#0"},
+				"south": {"uv": [9, 3, 10, 13], "rotation": 90, "texture": "#0"},
+				"west": {"uv": [2.01, 5, 14.01, 6], "texture": "#0"},
+				"up": {"uv": [2, 2, 14, 12], "rotation": 90, "texture": "#2"},
+				"down": {"uv": [2, 2, 14, 12], "rotation": 90, "texture": "#2"}
+			}
+		},
+		{
+			"name": "small_roof",
+			"from": [5, 5, 2],
+			"to": [11, 5, 4],
+			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 5, 4]},
+			"faces": {
+				"up": {"uv": [8, 8, 2, 6], "texture": "#2"},
+				"down": {"uv": [14, 6, 8, 8], "texture": "#0"}
+			}
+		},
+		{
+			"name": "body",
+			"from": [4, 0, 4],
+			"to": [12, 13, 12],
+			"faces": {
+				"north": {"uv": [0, 1.5, 4, 8], "texture": "#3"},
+				"east": {"uv": [4, 1.5, 8, 8], "texture": "#3"},
+				"south": {"uv": [8, 1.5, 12, 8], "texture": "#3"},
+				"west": {"uv": [12, 1.5, 16, 8], "texture": "#3"},
+				"down": {"uv": [0, 8, 4, 12], "texture": "#3"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "roof",
+			"origin": [12, 10, 8],
+			"color": 0,
+			"children": [0, 1]
+		},
+		2,
+		3
+	]
+}

@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "miragefairy2023:fairy_mailbox"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_tiny_mirage_flour": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "miragefairy2023:tiny_mirage_flour"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_tiny_mirage_flour",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "miragefairy2023:fairy_mailbox"
+    ]
+  }
+}

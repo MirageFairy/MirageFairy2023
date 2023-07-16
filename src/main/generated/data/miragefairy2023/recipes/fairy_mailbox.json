@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "miragefairy2023:fairy_mailbox",
+  "key": {
+    "C": {
+      "item": "minecraft:chest"
+    },
+    "D": {
+      "item": "miragefairy2023:tiny_mirage_flour"
+    },
+    "W": {
+      "tag": "minecraft:logs"
+    }
+  },
+  "pattern": [
+    " W ",
+    "WDW",
+    " C "
+  ],
+  "result": {
+    "item": "miragefairy2023:fairy_mailbox"
+  }
+}
