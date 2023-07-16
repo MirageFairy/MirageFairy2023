@@ -73,7 +73,7 @@ enum class FairyCard(
         passiveSkills {
             movementSpeed(0.30) on overworld() * air()
         },
-        itemTransportation(),
+        itemTransportation(), // TODO -> null: 自然湧き妖精が出たら用済み
         FairyRecipes().always().block { Blocks.AIR },
     ),
     LIGHT(
