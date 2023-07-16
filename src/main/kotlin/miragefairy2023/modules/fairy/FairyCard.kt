@@ -604,6 +604,14 @@ enum class FairyCard(
         },
         FairyRecipes().recipe { Items.STONE_HOE },
     ),
+    CHEST(
+        "chest", 2, "Chestia", "箱精ケスチャ", 0xD6982D, 0xB3822E, 0xB3822E, 0x42392C,
+        passiveSkills {
+            collection(0.6) on always()
+            collection(0.6) on indoor()
+        },
+        FairyRecipes().block { Blocks.CHEST }.recipe { Items.CHEST },
+    ),
     CRAFTING_TABLE(
         "crafting_table", 3, "Craftinge Tablia", "作業台精ツラフティンゲターブリャ", 0xFFFFFF, 0xFFBB9A, 0xFFC980, 0x000000,
         passiveSkills {

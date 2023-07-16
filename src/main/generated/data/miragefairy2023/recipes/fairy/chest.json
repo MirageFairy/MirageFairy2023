@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "miragefairy2023:chest_fairy",
+  "ingredients": [
+    {
+      "item": "miragefairy2023:xarpite"
+    },
+    {
+      "item": "miragefairy2023:mirage_flour"
+    },
+    {
+      "item": "minecraft:chest"
+    }
+  ],
+  "result": {
+    "item": "miragefairy2023:chest_fairy"
+  }
+}
