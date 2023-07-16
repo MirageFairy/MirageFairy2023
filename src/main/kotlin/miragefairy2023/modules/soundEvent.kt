@@ -12,6 +12,7 @@ import net.minecraft.util.registry.Registry
 enum class DemonSoundEventCard(val path: String, en: String, ja: String, soundPaths: List<String>) {
     MAGIC1("magic1", "Magic fired", "魔法が発射される", listOf("magic1")),
     MAGIC2("magic2", "Magic fired", "魔法が発射される", listOf("magic2")),
+    MAGIC3("magic3", "Magic fired", "魔法が発射される", listOf("magic3")),
     MAGIC_HIT("magic_hit", "Magic hits", "魔法が当たる", listOf("magic_hit")),
     CANCEL("cancel", "TODO", "TODO", listOf("cancel")), // TODO
     COLLECT("collect", "Collect item", "アイテムを集める", listOf("collect")),

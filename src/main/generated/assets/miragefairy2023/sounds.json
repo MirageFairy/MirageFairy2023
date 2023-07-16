@@ -23,6 +23,12 @@
     ],
     "subtitle": "subtitles.miragefairy2023.magic2"
   },
+  "magic3": {
+    "sounds": [
+      "miragefairy2023:magic3"
+    ],
+    "subtitle": "subtitles.miragefairy2023.magic3"
+  },
   "magic_hit": {
     "sounds": [
       "miragefairy2023:magic_hit"
