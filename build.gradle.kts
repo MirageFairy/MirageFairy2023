@@ -134,7 +134,7 @@ tasks {
 
     named<Jar>("jar") {
         from("LICENSE") {
-            rename { "${it}_${project.base.archivesName}" }
+            rename { "${it}_${project.property("archive_base_name") as String}" }
         }
         archiveBaseName.set(project.property("archive_base_name") as String)
     }
