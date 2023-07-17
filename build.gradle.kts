@@ -55,6 +55,9 @@ sourceSets {
 repositories {
     mavenCentral()
 
+    // FauxCustomEntityData-fabric-1.19.2
+    maven(File("lib/maven"))
+
     // ここからアーティファクトを取得するリポジトリを追加します。
     // Loom は Minecraft とライブラリを自動的にダウンロードするために必要な Maven リポジトリを追加するため、
     // 他の mod に依存する場合にのみ使用してください。
@@ -66,7 +69,7 @@ repositories {
     maven("https://maven.shedaniel.me/")
 
     // FauxCustomEntityData-fabric-1.19.2
-    maven("https://maven.blamejared.com")
+    //maven("https://maven.blamejared.com") // 不安定なので lib/maven に格納
 
     // dev.emi:trinkets
     maven("https://maven.terraformersmc.com/")
