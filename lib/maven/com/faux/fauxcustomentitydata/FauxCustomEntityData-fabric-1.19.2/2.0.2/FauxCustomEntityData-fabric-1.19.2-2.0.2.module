@@ -1,0 +1,116 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.faux.fauxcustomentitydata",
+    "module": "FauxCustomEntityData-fabric-1.19.2",
+    "version": "2.0.2",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.4.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "FauxCustomEntityData-fabric-1.19.2-2.0.2.jar",
+          "url": "FauxCustomEntityData-fabric-1.19.2-2.0.2.jar",
+          "size": 16190,
+          "sha512": "9aa15ff5b1eed99e3aa57e7587b3429291841ee1f546e4936f50440f500e5998867e9242f3d869739e4117187969cd8085bf470c57ef3037b9c4abead3d9d62d",
+          "sha256": "77908cd975ddf66f61e66bee875defb6a92f3f6b5ec3ed0cd85170e4d97daf01",
+          "sha1": "6ec3776d1b082a66ca4e97e0599d7ecd1e2d88a6",
+          "md5": "9281eec590d544a03accc004b7a2c242"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "net.fabricmc",
+          "module": "fabric-loader",
+          "version": {
+            "requires": "0.14.9"
+          }
+        },
+        {
+          "group": "net.fabricmc.fabric-api",
+          "module": "fabric-api",
+          "version": {
+            "requires": "0.62.0+1.19.2"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "FauxCustomEntityData-fabric-1.19.2-2.0.2.jar",
+          "url": "FauxCustomEntityData-fabric-1.19.2-2.0.2.jar",
+          "size": 16190,
+          "sha512": "9aa15ff5b1eed99e3aa57e7587b3429291841ee1f546e4936f50440f500e5998867e9242f3d869739e4117187969cd8085bf470c57ef3037b9c4abead3d9d62d",
+          "sha256": "77908cd975ddf66f61e66bee875defb6a92f3f6b5ec3ed0cd85170e4d97daf01",
+          "sha1": "6ec3776d1b082a66ca4e97e0599d7ecd1e2d88a6",
+          "md5": "9281eec590d544a03accc004b7a2c242"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "FauxCustomEntityData-fabric-1.19.2-2.0.2-sources.jar",
+          "url": "FauxCustomEntityData-fabric-1.19.2-2.0.2-sources.jar",
+          "size": 11949,
+          "sha512": "31634eb351d155aef48c7d466ea8b5e617e304d57d8c0418d9f4c8cfb11010aeb1649a7571494dbc604ed85c265cd4e3f39579ca925eea9f14f96fa6d8d1c341",
+          "sha256": "cd17a4c99c5d7bea854ce6461a54d1aefa69522a78a887f10359574271eac8b5",
+          "sha1": "d9dc1832766378622a65a4bb7d3ee3732c2f2b5e",
+          "md5": "ef575b85424a19ca4eca611242dc7647"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "FauxCustomEntityData-fabric-1.19.2-2.0.2-javadoc.jar",
+          "url": "FauxCustomEntityData-fabric-1.19.2-2.0.2-javadoc.jar",
+          "size": 158312,
+          "sha512": "cfcf1514465187df105952adace57881e5af8fb81c508398ea2d0dda1febfee404ad1008c70803e0773dbc9f9db1d3c57203cc1ed447d8717b4e652751abf9e8",
+          "sha256": "a289df29571ee1eb3a2d4745e0e9519541d6282c641e848ef8267f261aa9fab8",
+          "sha1": "daef705e89ac2ba32164f5755d88de207e82d36a",
+          "md5": "22aa839232536f8c7ac9df64f403b60e"
+        }
+      ]
+    }
+  ]
+}
