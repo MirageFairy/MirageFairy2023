@@ -1,12 +1,12 @@
 package miragefairy2023.modules
 
+import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.modules.fairy.FairyCard
 import miragefairy2023.modules.toolitem.foundFairies
 import miragefairy2023.util.Symbol
 import miragefairy2023.util.identifier
-import miragefairy2023.util.init.enJaItem
-import miragefairy2023.util.init.item
+import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.registerColorProvider
 import miragefairy2023.util.join
 import miragefairy2023.util.text
@@ -22,26 +22,50 @@ import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 import java.io.File
 import java.io.IOException
 import java.util.Optional
 
+enum class DebuggerItemCard(
+    val path: String,
+    val en: String,
+    val ja: String,
+    itemCreator: (Item.Settings) -> Item,
+    val color: Int,
+) {
+    FAIRY_LIST_DEBUGGER(
+        "fairy_list_debugger", "Fairy List Debugger", "妖精一覧デバッガー",
+        { FairyListDebuggerItem(it) }, 0xAA0000,
+    ),
+    RESET_TELESCOPE_MISSION_DEBUGGER(
+        "reset_telescope_mission_debugger", "Reset Telescope Mission Debugger", "望遠鏡ミッションリセットデバッガー",
+        { ResetTelescopeMissionDebuggerItem(it) }, 0xFFC700,
+    ),
+    RESET_FAIRY_DREAM_DEBUGGER(
+        "reset_fairy_dream_debugger", "Reset Fairy Dream Debugger", "妖精の夢リセットデバッガー",
+        { ResetFairyDreamDebuggerItem(it) }, 0x00FFC3,
+    ),
+    ;
+
+    val identifier = Identifier(MirageFairy2023.modId, path)
+    val item = itemCreator(FabricItemSettings().group(commonItemGroup))
+}
+
 val debugModule = module {
-    item("fairy_list_debugger", { FairyListDebuggerItem(FabricItemSettings().group(commonItemGroup)) }) {
-        onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier("minecraft", "item/book")), Optional.empty())) }
-        registerColorProvider({ feature }) { _, _ -> 0xAA0000 }
-        enJaItem({ feature }, "Fairy List Debugger", "妖精一覧デバッガー")
-    }
-    item("reset_telescope_mission_debugger", { ResetTelescopeMissionDebuggerItem(FabricItemSettings().group(commonItemGroup)) }) {
-        onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier("minecraft", "item/book")), Optional.empty())) }
-        registerColorProvider({ feature }) { _, _ -> 0xFFC700 }
-        enJaItem({ feature }, "Reset Telescope Mission Debugger", "望遠鏡ミッションリセットデバッガー")
-    }
-    item("reset_fairy_dream_debugger", { ResetFairyDreamDebuggerItem(FabricItemSettings().group(commonItemGroup)) }) {
-        onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier("minecraft", "item/book")), Optional.empty())) }
-        registerColorProvider({ feature }) { _, _ -> 0x00FFC3 }
-        enJaItem({ feature }, "Reset Fairy Dream Debugger", "妖精の夢リセットデバッガー")
+    DebuggerItemCard.values().forEach { card ->
+
+        // 登録
+        Registry.register(Registry.ITEM, card.identifier, card.item)
+
+        // モデル
+        onGenerateItemModels { it.register(card.item, Model(Optional.of(Identifier("minecraft", "item/book")), Optional.empty())) }
+        registerColorProvider(card.item) { _, _ -> card.color }
+
+        // 翻訳
+        enJa(card.item, card.en, card.ja)
+
     }
 }
 
