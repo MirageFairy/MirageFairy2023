@@ -6,14 +6,11 @@ import miragefairy2023.util.addAvailableParticle
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.get
 import miragefairy2023.util.identifier
-import miragefairy2023.util.init.FeatureSlot
-import miragefairy2023.util.init.block
 import miragefairy2023.util.init.criterion
-import miragefairy2023.util.init.enJaBlock
+import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.generateHorizontalFacingBlockState
 import miragefairy2023.util.init.group
-import miragefairy2023.util.init.item
 import miragefairy2023.util.lib.InstrumentBlock
 import miragefairy2023.util.long
 import miragefairy2023.util.obtain
@@ -37,10 +34,12 @@ import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.BlockTags
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
+import net.minecraft.util.Identifier
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
+import net.minecraft.util.registry.Registry
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
@@ -49,42 +48,55 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
-object TelescopeModule {
-    val ZONE_OFFSET = ZoneOffset.ofHours(0)
+object Telescope {
+    val ZONE_OFFSET: ZoneOffset = ZoneOffset.ofHours(0)
     val DAY_OF_WEEK_ORIGIN = DayOfWeek.SUNDAY
-}
 
-lateinit var telescopeBlock: FeatureSlot<TelescopeBlock>
-lateinit var telescopeBlockItem: FeatureSlot<BlockItem>
+    val identifier = Identifier(MirageFairy2023.modId, "telescope")
+    val block = TelescopeBlock(
+        FabricBlockSettings.of(Material.METAL)
+            .sounds(BlockSoundGroup.COPPER)
+            .strength(0.5F)
+            .nonOpaque()
+    )
+    val item = BlockItem(block, FabricItemSettings().group(commonItemGroup))
+}
 
 val telescopeModule = module {
 
-    telescopeBlock = block("telescope", { TelescopeBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.COPPER).strength(0.5F).nonOpaque()) }) {
+    // 登録
+    Registry.register(Registry.BLOCK, Telescope.identifier, Telescope.block)
+    Registry.register(Registry.ITEM, Telescope.identifier, Telescope.item)
 
-        // レンダリング
-        generateHorizontalFacingBlockState({ feature }, id)
-        onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(feature) }
 
-        // 翻訳
-        enJaBlock({ feature }, "Minia's Telescope", "ミーニャの望遠鏡")
+    // モデル
+    generateHorizontalFacingBlockState(Telescope.block, Telescope.identifier)
+    onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(Telescope.block) }
 
-        // レシピ
-        onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
-        generateDefaultBlockLootTable { feature }
 
-    }
-    telescopeBlockItem = item("telescope", { BlockItem(telescopeBlock.feature, FabricItemSettings().group(commonItemGroup)) }) {
-        val poemList = listOf(
-            Poem("Tell me more about the human world!", "きみは妖精には見えないものが見えるんだね。"),
-            Description("Use once a day to obtain Minia Crystals", "1日1回使用時にミーニャクリスタルを獲得"),
-        )
-        generatePoemList({ feature }, poemList)
-        onRegisterItems { registerPoemList(feature, poemList) }
-    }
+    // 翻訳
+    enJa(Telescope.block, "Minia's Telescope", "ミーニャの望遠鏡")
+    val poemList = listOf(
+        Poem("Tell me more about the human world!", "きみは妖精には見えないものが見えるんだね。"),
+        Description("Use once a day to obtain Minia Crystals", "1日1回使用時にミーニャクリスタルを獲得"),
+    )
+    generatePoemList(Telescope.item, poemList)
+    onRegisterItems { registerPoemList(Telescope.item, poemList) }
 
+
+    // 性質
+    onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(Telescope.block) }
+
+
+    // レシピ
+
+    // ドロップ
+    generateDefaultBlockLootTable(Telescope.block)
+
+    // クラフト
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
-            .create(telescopeBlockItem.feature)
+            .create(Telescope.item)
             .pattern("IIG")
             .pattern(" S ")
             .pattern("S S")
@@ -92,8 +104,8 @@ val telescopeModule = module {
             .input('G', DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item)
             .input('S', Items.STICK)
             .criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item)
-            .group(telescopeBlockItem.feature)
-            .offerTo(it, telescopeBlockItem.feature.identifier)
+            .group(Telescope.item)
+            .offerTo(it, Telescope.item.identifier)
     }
 
 }
@@ -153,16 +165,16 @@ fun getTelescopeActions(now: Instant, player: PlayerEntity): List<() -> Unit> {
     val lastTelescopeUseTime = player.lastTelescopeUseTimeProperty.get()
     if (lastTelescopeUseTime != null) {
 
-        val time = Instant.ofEpochMilli(lastTelescopeUseTime).toLocalDateTime(TelescopeModule.ZONE_OFFSET)
+        val time = Instant.ofEpochMilli(lastTelescopeUseTime).toLocalDateTime(Telescope.ZONE_OFFSET)
         val lastMonthlyLimit: LocalDateTime = time.toLocalDate().withDayOfMonth(1).atStartOfDay()
 
-        val lastWeeklyLimit: LocalDateTime = time.toLocalDate().minusDays((time.dayOfWeek.value - TelescopeModule.DAY_OF_WEEK_ORIGIN.value floorMod 7).toLong()).atStartOfDay()
+        val lastWeeklyLimit: LocalDateTime = time.toLocalDate().minusDays((time.dayOfWeek.value - Telescope.DAY_OF_WEEK_ORIGIN.value floorMod 7).toLong()).atStartOfDay()
         val lastDailyLimit: LocalDateTime = time.toLocalDate().atStartOfDay()
         val nextMonthlyLimit = lastMonthlyLimit.plusMonths(1)
         val nextWeeklyLimit = lastWeeklyLimit.plusDays(7)
         val nextDailyLimit = lastDailyLimit.plusDays(1)
 
-        val now2 = now.toLocalDateTime(TelescopeModule.ZONE_OFFSET)
+        val now2 = now.toLocalDateTime(Telescope.ZONE_OFFSET)
         if (now2 >= nextMonthlyLimit) {
             actions += { player.obtain(DemonItemCard.FAIRY_CRYSTAL_500.item.createItemStack(5)) }
         }
