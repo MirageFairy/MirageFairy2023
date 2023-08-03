@@ -6,14 +6,11 @@ import miragefairy2023.util.concat
 import miragefairy2023.util.datagen.Model
 import miragefairy2023.util.datagen.TextureMap
 import miragefairy2023.util.identifier
-import miragefairy2023.util.init.FeatureSlot
-import miragefairy2023.util.init.block
 import miragefairy2023.util.init.criterion
-import miragefairy2023.util.init.enJaBlock
+import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.generateBlockState
 import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.group
-import miragefairy2023.util.init.item
 import miragefairy2023.util.jsonArrayOf
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
@@ -38,6 +35,7 @@ import net.minecraft.tag.BlockTags
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.WorldAccess
 
 
@@ -72,118 +70,110 @@ enum class FairyCrystalGlassCard(
     // TODO 名誉系ガラス
     ;
 
-    lateinit var block: FeatureSlot<Block>
-    lateinit var item: FeatureSlot<BlockItem>
+    val identifier = Identifier(MirageFairy2023.modId, path)
+    val block = FairyCrystalGlassBlock(FabricBlockSettings.of(Material.GLASS)
+        .strength(1.5F)
+        .sounds(BlockSoundGroup.GLASS)
+        .nonOpaque()
+        .allowsSpawning { _, _, _, _ -> false }
+        .solidBlock { _, _, _ -> false }
+        .suffocates { _, _, _ -> false }
+        .blockVision { _, _, _ -> false })
+    val item = BlockItem(block, FabricItemSettings().group(commonItemGroup))
 }
 
 
 val fairyCrystalGlassModule = module {
-
-    // 各ガラス初期化
     FairyCrystalGlassCard.values().forEach { card ->
 
-        // ブロック
-        card.block = block(card.path, {
-            FairyCrystalGlassBlock(
-                FabricBlockSettings.of(Material.GLASS)
-                    .strength(1.5F)
-                    .sounds(BlockSoundGroup.GLASS)
-                    .nonOpaque()
-                    .allowsSpawning { _, _, _, _ -> false }
-                    .solidBlock { _, _, _ -> false }
-                    .suffocates { _, _, _ -> false }
-                    .blockVision { _, _, _ -> false })
-        }) {
+        // 登録
+        Registry.register(Registry.BLOCK, card.identifier, card.block)
+        Registry.register(Registry.ITEM, card.identifier, card.item)
 
-            // BlockStateファイル
-            generateBlockState({ feature }) {
-                fun createPart(direction: String, x: Int, y: Int) = jsonObjectOf(
-                    "when" to jsonObjectOf(
-                        direction to "false".jsonPrimitive,
-                    ),
-                    "apply" to jsonObjectOf(
-                        "model" to "${"block/" concat id concat "_frame"}".jsonPrimitive,
-                        "x" to x.jsonPrimitive,
-                        "y" to y.jsonPrimitive,
-                    ),
-                )
-                jsonObjectOf(
-                    "multipart" to jsonArrayOf(
-                        createPart("north", 90, 0),
-                        createPart("east", 90, 90),
-                        createPart("south", -90, 0),
-                        createPart("west", 90, -90),
-                        createPart("up", 0, 0),
-                        createPart("down", 180, 0),
-                    ),
-                )
-            }
 
-            // インベントリ内のモデル
-            onGenerateBlockStateModels { blockStateModelGenerator ->
-                val textureMap = TextureMap(
-                    TextureKey.TEXTURE to TextureMap.getSubId(feature, "_frame"),
-                )
-                fairyCrystalGlassBlockModel.upload(feature, textureMap, blockStateModelGenerator.modelCollector)
-            }
+        // 見た目
 
-            // 枠パーツモデル
-            onGenerateBlockStateModels { blockStateModelGenerator ->
-                val textureMap = TextureMap(
-                    TextureKey.TEXTURE to TextureMap.getSubId(feature, "_frame"),
-                )
-                fairyCrystalGlassFrameBlockModel.upload(feature, "_frame", textureMap, blockStateModelGenerator.modelCollector)
-            }
-
-            // レンダリング関連
-            onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(feature) }
-
-            // 翻訳
-            enJaBlock({ feature }, card.enName, card.jaName)
-
-            // レシピ
-            onGenerateBlockTags { it(BlockTags.IMPERMEABLE).add(feature) }
-            onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
-            generateDefaultBlockLootTable { feature }
-
+        // blockState
+        generateBlockState(card.block) {
+            fun createPart(direction: String, x: Int, y: Int) = jsonObjectOf(
+                "when" to jsonObjectOf(
+                    direction to "false".jsonPrimitive,
+                ),
+                "apply" to jsonObjectOf(
+                    "model" to "${"block/" concat card.identifier concat "_frame"}".jsonPrimitive,
+                    "x" to x.jsonPrimitive,
+                    "y" to y.jsonPrimitive,
+                ),
+            )
+            jsonObjectOf(
+                "multipart" to jsonArrayOf(
+                    createPart("north", 90, 0),
+                    createPart("east", 90, 90),
+                    createPart("south", -90, 0),
+                    createPart("west", 90, -90),
+                    createPart("up", 0, 0),
+                    createPart("down", 180, 0),
+                ),
+            )
         }
 
-        // アイテム
-        card.item = item(card.path, { BlockItem(card.block.feature, FabricItemSettings().group(commonItemGroup)) }) {
-
-            // ポエム
-            generatePoemList({ feature }, card.poemList)
-            onRegisterItems { registerPoemList(feature, card.poemList) }
-
+        // インベントリ内のモデル
+        onGenerateBlockStateModels { blockStateModelGenerator ->
+            val textureMap = TextureMap(TextureKey.TEXTURE to TextureMap.getSubId(card.block, "_frame"))
+            fairyCrystalGlassBlockModel.upload(card.block, textureMap, blockStateModelGenerator.modelCollector)
         }
 
-        // 変換レシピ
+        // 枠パーツモデル
+        onGenerateBlockStateModels { blockStateModelGenerator ->
+            val textureMap = TextureMap(TextureKey.TEXTURE to TextureMap.getSubId(card.block, "_frame"))
+            fairyCrystalGlassFrameBlockModel.upload(card.block, "_frame", textureMap, blockStateModelGenerator.modelCollector)
+        }
+
+        // レンダリング関連
+        onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(card.block) }
+
+
+        // 翻訳
+        enJa(card.block, card.enName, card.jaName)
+        generatePoemList(card.item, card.poemList)
+        onRegisterItems { registerPoemList(card.item, card.poemList) }
+
+
+        // 性質
+        onGenerateBlockTags { it(BlockTags.IMPERMEABLE).add(card.block) }
+        onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(card.block) }
+
+
+        // レシピ
+
+        // ドロップ
+        generateDefaultBlockLootTable(card.block)
+
+        // 圧縮
         onGenerateRecipes {
-
-            // 圧縮
             ShapelessRecipeJsonBuilder
-                .create(card.item.feature, 1)
+                .create(card.item, 1)
                 .input(card.gemItemGetter(), 9)
                 .criterion(card.gemItemGetter())
-                .group(card.item.feature)
-                .offerTo(it, card.item.feature.identifier)
+                .group(card.item)
+                .offerTo(it, card.item.identifier)
+        }
 
-            // 分解
+        // 分解
+        onGenerateRecipes {
             ShapelessRecipeJsonBuilder
                 .create(card.gemItemGetter(), 9)
-                .input(card.item.feature, 1)
-                .criterion(card.item.feature)
+                .input(card.item, 1)
+                .criterion(card.item)
                 .group(card.gemItemGetter())
-                .offerTo(it, card.gemItemGetter().identifier concat "_from_${card.item.feature.identifier.path}")
-
+                .offerTo(it, card.gemItemGetter().identifier concat "_from_${card.item.identifier.path}")
         }
 
     }
-
 }
 
 
-private class FairyCrystalGlassBlock(settings: Settings) : AbstractGlassBlock(settings) {
+class FairyCrystalGlassBlock(settings: Settings) : AbstractGlassBlock(settings) {
     init {
         defaultState = defaultState
             .with(Properties.NORTH, false)
