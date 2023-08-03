@@ -73,7 +73,7 @@ enum class FairyCard(
             movementSpeed(0.30) on overworld() * air()
         },
         itemTransportation(), // TODO -> null: 自然湧き妖精が出たら用済み
-        FairyRecipes().always().block { Blocks.AIR },
+        FairyRecipes().always().block(Blocks.AIR),
     ),
     LIGHT(
         "light", 3, "Lightia", "光精リグチャ", 0xFFFFD8, 0xFFFFD8, 0xFFFFC5, 0xFFFF00,
@@ -89,7 +89,7 @@ enum class FairyCard(
             attackDamage(4.0) on onFire()
         },
         null,
-        FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.FIRE },
+        FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).block(Blocks.FIRE),
     ),
     WATER(
         "water", 1, "Wateria", "水精ワテーリャ", 0x5469F2, 0x5985FF, 0x172AD3, 0x2D40F4,
@@ -97,7 +97,7 @@ enum class FairyCard(
             maxHealth(12.0) on underwater()
         },
         null,
-        FairyRecipes().overworld().block { Blocks.WATER }.recipe(Items.WATER_BUCKET),
+        FairyRecipes().overworld().block(Blocks.WATER).recipe(Items.WATER_BUCKET),
     ),
     LAVA(
         "lava", 4, "Lavia", "溶岩精ラーヴャ", 0xCD4208, 0xEDB54A, 0xCC4108, 0x4C1500,
@@ -107,7 +107,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.RESISTANCE, 0) on onFire()
         },
         null,
-        FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.LAVA }.recipe(Items.LAVA_BUCKET),
+        FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).block(Blocks.LAVA).recipe(Items.LAVA_BUCKET),
     ),
     MOON(
         "moon", 9, "Moonia", "月精モーニャ", 0xD9E4FF, 0x747D93, 0x0C121F, 0x2D4272,
@@ -141,7 +141,7 @@ enum class FairyCard(
             maxHealth(10.0) on overworld()
         },
         null,
-        FairyRecipes().overworld().block { Blocks.DIRT }.recipe(Items.DIRT),
+        FairyRecipes().overworld().block(Blocks.DIRT).recipe(Items.DIRT),
     ),
     MYCELIUM(
         "mycelium", 6, "Myceliumia", "菌糸精ミツェリウミャ", 0x8F7E86, 0x8B7071, 0x8B7071, 0x8B6264,
@@ -152,7 +152,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.REGENERATION, 0) on biome(ConventionalBiomeTags.MUSHROOM) * minimumMana(10.0)
         },
         null,
-        FairyRecipes().biome(ConventionalBiomeTags.MUSHROOM).block { Blocks.MYCELIUM }.recipe(Items.MYCELIUM),
+        FairyRecipes().biome(ConventionalBiomeTags.MUSHROOM).block(Blocks.MYCELIUM).recipe(Items.MYCELIUM),
     ),
     SCULK(
         "sculk", 6, "Sculkia", "幽匿塊精スツルキャ", 0x19222C, 0x023F3D, 0x023F3D, 0x19C0C0,
@@ -161,7 +161,7 @@ enum class FairyCard(
             attackDamage(3.0) on maximumLightLevel(0)
         },
         null,
-        FairyRecipes().biome(BiomeKeys.DEEP_DARK).block { Blocks.SCULK }.recipe(Items.SCULK),
+        FairyRecipes().biome(BiomeKeys.DEEP_DARK).block(Blocks.SCULK).recipe(Items.SCULK),
     ),
     STONE(
         "stone", 1, "Stonia", "石精ストーニャ", 0x333333, 0x8F8F8F, 0x686868, 0x747474,
@@ -171,7 +171,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.RESISTANCE, 1) on toolMaterial(ToolMaterialCard.STONE) * minimumMana(7.0)
         },
         null,
-        FairyRecipes().overworld().block { Blocks.STONE }.recipe(Items.STONE),
+        FairyRecipes().overworld().block(Blocks.STONE).recipe(Items.STONE),
     ),
     DRIPSTONE(
         "dripstone", 3, "Dripstonia", "鍾乳石精ドリプストーニャ", 0xB19C7E, 0xA97F6F, 0xA97F6F, 0xAD7069,
@@ -180,7 +180,7 @@ enum class FairyCard(
             maxHealth(6.0) on shade()
         },
         null,
-        FairyRecipes().biome(BiomeKeys.DRIPSTONE_CAVES).block { Blocks.DRIPSTONE_BLOCK }.recipe(Items.DRIPSTONE_BLOCK),
+        FairyRecipes().biome(BiomeKeys.DRIPSTONE_CAVES).block(Blocks.DRIPSTONE_BLOCK).recipe(Items.DRIPSTONE_BLOCK),
     ),
     REINFORCED_DEEPSLATE(
         "reinforced_deepslate", 9, "Reinforcede Deepslatia", "強化深層岩精レインフォルツェーデデープスラーチャ", 0x6C7180, 0x5C606C, 0x5C606C, 0xACCF9D,
@@ -188,7 +188,7 @@ enum class FairyCard(
             maxHealth(10.0) on shade()
         },
         null,
-        FairyRecipes().block { Blocks.REINFORCED_DEEPSLATE }.recipe(Items.REINFORCED_DEEPSLATE),
+        FairyRecipes().block(Blocks.REINFORCED_DEEPSLATE).recipe(Items.REINFORCED_DEEPSLATE),
     ),
     ANCIENT_DEBRIS(
         "ancient_debris", 8, "Anciente Debrisia", "古代残骸精アンツィエンテデブリーシャ", 0x8F645A, 0x8F645A, 0x885040, 0xD8C2B7,
@@ -199,7 +199,7 @@ enum class FairyCard(
             luck(2.0) on biome(ConventionalBiomeTags.IN_NETHER)
         },
         null,
-        FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.ANCIENT_DEBRIS }.recipe(Items.ANCIENT_DEBRIS),
+        FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).block(Blocks.ANCIENT_DEBRIS).recipe(Items.ANCIENT_DEBRIS),
     ),
     PURPUR(
         "purpur", 7, "Purpuria", "紫珀精プルプーリャ", 0xCBA8CB, 0xC08AC0, 0xC08AC0, 0xBC68BB,
@@ -209,7 +209,7 @@ enum class FairyCard(
             maxHealth(4.0) on biome(ConventionalBiomeTags.IN_THE_END)
         },
         null,
-        FairyRecipes().biome(ConventionalBiomeTags.END_ISLANDS).block { Blocks.PURPUR_BLOCK }.recipe(Items.PURPUR_BLOCK),
+        FairyRecipes().biome(ConventionalBiomeTags.END_ISLANDS).block(Blocks.PURPUR_BLOCK).recipe(Items.PURPUR_BLOCK),
     ),
     PACKED_ICE(
         "packed_ice", 6, "Packede Icia", "氷塊精パッケーデイーツァ", 0xC9DDFF, 0x90B7FB, 0x90B7FB, 0x87B3FF,
@@ -219,7 +219,7 @@ enum class FairyCard(
             magicDamage(1.0) on biome(ConventionalBiomeTags.CLIMATE_COLD)
         },
         null,
-        FairyRecipes().biome(BiomeKeys.ICE_SPIKES).biome(BiomeKeys.FROZEN_OCEAN).block { Blocks.PACKED_ICE }.recipe(Items.PACKED_ICE),
+        FairyRecipes().biome(BiomeKeys.ICE_SPIKES).biome(BiomeKeys.FROZEN_OCEAN).block(Blocks.PACKED_ICE).recipe(Items.PACKED_ICE),
     ),
     SNOW(
         "snow", 2, "Snowia", "雪精スノーウャ", 0xEEFFFF, 0xE3FFFF, 0xE3FFFF, 0xF2FFFF,
@@ -228,7 +228,7 @@ enum class FairyCard(
             magicDamage(0.5) on always()
         },
         null,
-        FairyRecipes().biome(ConventionalBiomeTags.SNOWY).block { Blocks.SNOW_BLOCK }.recipe(Items.SNOW_BLOCK),
+        FairyRecipes().biome(ConventionalBiomeTags.SNOWY).block(Blocks.SNOW_BLOCK).recipe(Items.SNOW_BLOCK),
     ),
     COPPER(
         "copper", 3, "Copperia", "銅精ツォッペーリャ", 0xF69D7F, 0xF77653, 0xF77653, 0x5DC09A,
@@ -237,7 +237,7 @@ enum class FairyCard(
             shootingDamage(2.5) on thundering()
         },
         null,
-        FairyRecipes().overworld().block { Blocks.COPPER_BLOCK }.recipe(Items.COPPER_INGOT),
+        FairyRecipes().overworld().block(Blocks.COPPER_BLOCK).recipe(Items.COPPER_INGOT),
     ),
     IRON(
         "iron", 4, "Ironia", "鉄精イローニャ", 0xA0A0A0, 0xD8D8D8, 0x727272, 0xD8AF93,
@@ -247,7 +247,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.STRENGTH, 1) on toolMaterial(ToolMaterialCard.IRON) * minimumMana(8.0)
         },
         null,
-        FairyRecipes().overworld().block { Blocks.IRON_BLOCK }.recipe(Items.IRON_INGOT),
+        FairyRecipes().overworld().block(Blocks.IRON_BLOCK).recipe(Items.IRON_INGOT),
     ),
     GOLD(
         "gold", 6, "Goldia", "金精ゴルジャ", 0xEFE642, 0xF4CC17, 0xF4CC17, 0xFDB61E,
@@ -258,7 +258,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.LUCK, 1) on toolMaterial(ToolMaterialCard.GOLD) * minimumMana(10.0)
         },
         null,
-        FairyRecipes().overworld().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.GOLD_BLOCK }.recipe(Items.GOLD_INGOT),
+        FairyRecipes().overworld().biome(ConventionalBiomeTags.IN_NETHER).block(Blocks.GOLD_BLOCK).recipe(Items.GOLD_INGOT),
     ),
     NETHERITE(
         "netherite", 8, "Netheritia", "地獄合金精ネテリーチャ", 0x8F788F, 0x74585B, 0x705558, 0x77302D,
@@ -268,7 +268,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.HASTE, 1) on toolMaterial(ToolMaterialCard.NETHERITE) * minimumMana(12.0)
         },
         null,
-        FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.NETHERITE_BLOCK }.recipe(Items.NETHERITE_INGOT),
+        FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).block(Blocks.NETHERITE_BLOCK).recipe(Items.NETHERITE_INGOT),
     ),
     MIRANAGITE(
         "miranagite", 5, "Miranagitia", "蒼天石精ミラナギーチャ", 0x4EC5F4, 0x4394D3, 0x004477, 0x0C4CEF,
@@ -288,7 +288,7 @@ enum class FairyCard(
             luck(2.0) on maximumLightLevel(7)
         },
         null,
-        FairyRecipes().overworld().block { Blocks.AMETHYST_BLOCK }.recipe(Items.AMETHYST_SHARD),
+        FairyRecipes().overworld().block(Blocks.AMETHYST_BLOCK).recipe(Items.AMETHYST_SHARD),
     ),
     EMERALD(
         "emerald", 6, "Emeraldia", "翠玉精エメラルジャ", 0x9FF9B5, 0x81F99E, 0x17DD62, 0x008A25,
@@ -297,7 +297,7 @@ enum class FairyCard(
             luck(1.5) on inVillage()
         },
         null,
-        FairyRecipes().overworld().block { Blocks.EMERALD_BLOCK }.recipe(Items.EMERALD),
+        FairyRecipes().overworld().block(Blocks.EMERALD_BLOCK).recipe(Items.EMERALD),
     ),
     DIAMOND(
         "diamond", 7, "Diamondia", "金剛石精ディアモンジャ", 0x97FFE3, 0xD1FAF3, 0x70FFD9, 0x30DBBD,
@@ -308,7 +308,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.HASTE, 1) on toolMaterial(ToolMaterialCard.DIAMOND) * minimumMana(12.0)
         },
         null,
-        FairyRecipes().overworld().block { Blocks.DIAMOND_BLOCK }.recipe(Items.DIAMOND),
+        FairyRecipes().overworld().block(Blocks.DIAMOND_BLOCK).recipe(Items.DIAMOND),
     ),
     ADAMANTITE(
         "adamantite", 9, "Adamantitia", "精金精アダマンティーチャ", 0xE5B3CA, 0xDB7A9C, 0xDB7A9C, 0xFD2888,
@@ -326,7 +326,7 @@ enum class FairyCard(
             luck(2.0) on onFire()
         },
         null,
-        FairyRecipes().overworld().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.COAL_BLOCK }.recipe(Items.COAL),
+        FairyRecipes().overworld().biome(ConventionalBiomeTags.IN_NETHER).block(Blocks.COAL_BLOCK).recipe(Items.COAL),
     ),
     REDSTONE(
         "redstone", 4, "Redstonia", "赤石精レドストーニャ", 0xFF5959, 0xFF0000, 0xCD0000, 0xBA0000,
@@ -336,7 +336,7 @@ enum class FairyCard(
             maxHealth(2.0) on indoor()
         },
         null,
-        FairyRecipes().overworld().block { Blocks.REDSTONE_BLOCK }.recipe(Items.REDSTONE),
+        FairyRecipes().overworld().block(Blocks.REDSTONE_BLOCK).recipe(Items.REDSTONE),
     ),
     LAPIS_LAZULI(
         "lapis_lazuli", 5, "Lapise Lazulia", "瑠璃石精ラピセラズーリャ", 0x77A2FF, 0x3064D3, 0x3064D3, 0x3976F9,
@@ -346,7 +346,7 @@ enum class FairyCard(
             magicDamage(1.0) on overworld()
         },
         null,
-        FairyRecipes().overworld().block { Blocks.LAPIS_BLOCK }.recipe(Items.LAPIS_LAZULI),
+        FairyRecipes().overworld().block(Blocks.LAPIS_BLOCK).recipe(Items.LAPIS_LAZULI),
     ),
     GLOWSTONE(
         "glowstone", 6, "Glowstonia", "蛍光石精グロウストーニャ", 0xEFC298, 0xEAA463, 0xEAA463, 0xEADD52,
@@ -355,7 +355,7 @@ enum class FairyCard(
             magicDamage(1.5) on biome(ConventionalBiomeTags.IN_NETHER)
         },
         null,
-        FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).block { Blocks.GLOWSTONE }.recipe(Items.GLOWSTONE_DUST),
+        FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).block(Blocks.GLOWSTONE).recipe(Items.GLOWSTONE_DUST),
     ),
     OBSIDIAN(
         "obsidian", 5, "Obsidiania", "黒耀石精オブシディアーニャ", 0x775599, 0x6029B3, 0x2E095E, 0x0F0033,
@@ -365,7 +365,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.RESISTANCE, 1) on minimumMana(9.0)
         },
         null,
-        FairyRecipes().overworld().biome(ConventionalBiomeTags.IN_THE_END).block { Blocks.OBSIDIAN }.recipe(Items.OBSIDIAN),
+        FairyRecipes().overworld().biome(ConventionalBiomeTags.IN_THE_END).block(Blocks.OBSIDIAN).recipe(Items.OBSIDIAN),
     ),
     WOLF(
         "wolf", 4, "Wolfia", "狼精ウォルフャ", 0x827165, 0xBFBDBE, 0x9E9A96, 0x3F3E3A,
@@ -413,7 +413,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.FIRE_RESISTANCE, 0) on biome(ConventionalBiomeTags.OCEAN)
         },
         null,
-        FairyRecipes().biome(BiomeKeys.WARM_OCEAN).block { Blocks.FIRE_CORAL }.block { Blocks.FIRE_CORAL_BLOCK }.block { Blocks.FIRE_CORAL_FAN }.recipe(Items.FIRE_CORAL),
+        FairyRecipes().biome(BiomeKeys.WARM_OCEAN).block(Blocks.FIRE_CORAL).block(Blocks.FIRE_CORAL_BLOCK).block(Blocks.FIRE_CORAL_FAN).recipe(Items.FIRE_CORAL),
     ),
     SPONGE(
         "sponge", 4, "Spongia", "海綿精スポンギャ", 0xEADF67, 0xB1A947, 0xB1A947, 0xDBCD5A,
@@ -422,7 +422,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.REGENERATION, 0) on underwater() * minimumMana(10.0)
         },
         null,
-        FairyRecipes().biome(ConventionalBiomeTags.OCEAN).block { Blocks.SPONGE }.recipe(Items.SPONGE),
+        FairyRecipes().biome(ConventionalBiomeTags.OCEAN).block(Blocks.SPONGE).recipe(Items.SPONGE),
     ),
     PLAYER(
         "player", 5, "Playeria", "人精プライェーリャ", 0xB58D63, 0x00AAAA, 0x322976, 0x4B3422,
@@ -505,7 +505,7 @@ enum class FairyCard(
             magicDamage(1.0) on biome(ConventionalBiomeTags.CLIMATE_WET)
         },
         null,
-        FairyRecipes().biome(ConventionalBiomeTags.SWAMP).block { Blocks.LILY_PAD }.recipe(Items.LILY_PAD),
+        FairyRecipes().biome(ConventionalBiomeTags.SWAMP).block(Blocks.LILY_PAD).recipe(Items.LILY_PAD),
     ),
     DEAD_BUSH(
         "dead_bush", 3, "Deade Bushia", "枯木精デアデブーシャ", 0xB38247, 0xA17743, 0xA17743, 0x6E583F,
@@ -515,7 +515,7 @@ enum class FairyCard(
             shootingDamage(1.0) on biome(ConventionalBiomeTags.CLIMATE_DRY)
         },
         null,
-        FairyRecipes().biome(ConventionalBiomeTags.DESERT).biome(ConventionalBiomeTags.BADLANDS).block { Blocks.DEAD_BUSH }.recipe(Items.DEAD_BUSH),
+        FairyRecipes().biome(ConventionalBiomeTags.DESERT).biome(ConventionalBiomeTags.BADLANDS).block(Blocks.DEAD_BUSH).recipe(Items.DEAD_BUSH),
     ),
     MIRAGE(
         "mirage", 5, "Miragia", "妖精ミラージャ", 0x6DE3BE, 0x43FAFA, 0x43FAFA, 0x00F5F5,
@@ -524,7 +524,7 @@ enum class FairyCard(
             mana(0.5) on overworld()
         },
         null,
-        FairyRecipes().overworld().block { MirageFlower.block }.recipe(MirageFlower.seedItem),
+        FairyRecipes().overworld().block(MirageFlower.block).recipe(MirageFlower.seedItem),
     ),
     LUMINARIA(
         "luminaria", 6, "Luminaria", "輝草精ルミナーリャ", 0xB4DBD3, 0xBBEFF2, 0xBBEFF2, 0x8CE6FF,
@@ -534,7 +534,7 @@ enum class FairyCard(
             magicDamage(1.0) on overworld()
         },
         null,
-        FairyRecipes().overworld().block { LuminariaCard.LUMINARIA.block }.recipe(LuminariaCard.LUMINARIA.item),
+        FairyRecipes().overworld().block(LuminariaCard.LUMINARIA.block).recipe(LuminariaCard.LUMINARIA.item),
     ),
     LILY_OF_THE_VALLEY(
         "lily_of_the_valley", 4, "Lile Ofe The Vallia", "鈴蘭精リーレオーフェテヴァッリャ", 0x3D8C15, 0x74CC39, 0x74CC39, 0xF0F0F0,
@@ -544,7 +544,7 @@ enum class FairyCard(
             magicDamage(1.0) on overworld()
         },
         itemTransportation(),
-        FairyRecipes().overworld().block { Blocks.LILY_OF_THE_VALLEY }.recipe(Items.LILY_OF_THE_VALLEY),
+        FairyRecipes().overworld().block(Blocks.LILY_OF_THE_VALLEY).recipe(Items.LILY_OF_THE_VALLEY),
     ),
     WHEAT(
         "wheat", 3, "Wheatia", "麦精ウェアーチャ", 0xD8BF7F, 0xDBBB65, 0xDBBB65, 0x896D20,
@@ -554,7 +554,7 @@ enum class FairyCard(
             attackDamage(0.5) on food(Items.BREAD)
         },
         null,
-        FairyRecipes().overworld().block { Blocks.HAY_BLOCK }.recipe(Items.WHEAT),
+        FairyRecipes().overworld().block(Blocks.HAY_BLOCK).recipe(Items.WHEAT),
     ),
     CARROT(
         "carrot", 4, "Carrotia", "人参精ツァッローチャ", 0xF98D10, 0xFD7F11, 0xE3710F, 0x248420,
@@ -563,7 +563,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.NIGHT_VISION, 0, additionalSeconds = 10) on food(Items.CARROT)
         },
         null,
-        FairyRecipes().overworld().block { Blocks.CARROTS }.recipe(Items.CARROT),
+        FairyRecipes().overworld().block(Blocks.CARROTS).recipe(Items.CARROT),
     ),
     POTATO(
         "potato", 4, "Potatia", "芋精ポターチャ", 0xEAC278, 0xE7B456, 0xE7B456, 0x248420,
@@ -572,7 +572,7 @@ enum class FairyCard(
             attackDamage(1.0) on food(Items.BAKED_POTATO)
         },
         null,
-        FairyRecipes().overworld().block { Blocks.POTATOES }.recipe(Items.POTATO),
+        FairyRecipes().overworld().block(Blocks.POTATOES).recipe(Items.POTATO),
     ),
     POISONOUS_POTATO(
         "poisonous_potato", 5, "Poisonouse Potatia", "悪芋精ポイソノウセポターチャ", 0xCFE661, 0xE7B456, 0xE7B456, 0x61B835,
@@ -581,7 +581,7 @@ enum class FairyCard(
             attackDamage(2.0) on food(Items.POISONOUS_POTATO)
         },
         null,
-        FairyRecipes().overworld().block { Blocks.POTATOES }.recipe(Items.POISONOUS_POTATO),
+        FairyRecipes().overworld().block(Blocks.POTATOES).recipe(Items.POISONOUS_POTATO),
     ),
     BEETROOT(
         "beetroot", 4, "Beetrootia", "火焔菜精ベートローチャ", 0xC1727C, 0xA74D55, 0x96383D, 0x01A900,
@@ -590,7 +590,7 @@ enum class FairyCard(
             shootingDamage(3.0) on food(Items.BEETROOT)
         },
         null,
-        FairyRecipes().overworld().block { Blocks.BEETROOTS }.recipe(Items.BEETROOT),
+        FairyRecipes().overworld().block(Blocks.BEETROOTS).recipe(Items.BEETROOT),
     ),
     MELON(
         "melon", 4, "Melonia", "西瓜精メローニャ", 0xFF5440, 0xA6EE63, 0x195612, 0x01A900,
@@ -599,7 +599,7 @@ enum class FairyCard(
             regeneration(0.6) on food(Items.MELON_SLICE)
         },
         null,
-        FairyRecipes().biome(ConventionalBiomeTags.JUNGLE).block { Blocks.MELON }.recipe(Items.MELON),
+        FairyRecipes().biome(ConventionalBiomeTags.JUNGLE).block(Blocks.MELON).recipe(Items.MELON),
     ),
     APPLE(
         "apple", 4, "Applia", "林檎精アップーリャ", 0xFF755D, 0xFF564E, 0xFF0000, 0x01A900,
@@ -618,7 +618,7 @@ enum class FairyCard(
             shootingDamage(2.0) on food(Items.SWEET_BERRIES)
         },
         null,
-        FairyRecipes().overworld().block { Blocks.SWEET_BERRY_BUSH }.recipe(Items.SWEET_BERRIES),
+        FairyRecipes().overworld().block(Blocks.SWEET_BERRY_BUSH).recipe(Items.SWEET_BERRIES),
     ),
     GLOW_BERRY(
         "glow_berry", 4, "Glowe Berria", "蛍光液果精グローウェベッリャ", 0xFFB73A, 0x8F650C, 0x8F650C, 0x00841A,
@@ -628,7 +628,7 @@ enum class FairyCard(
             magicDamage(2.0) on food(Items.GLOW_BERRIES)
         },
         null,
-        FairyRecipes().overworld().block { Blocks.CAVE_VINES }.block { Blocks.CAVE_VINES_PLANT }.recipe(Items.GLOW_BERRIES),
+        FairyRecipes().overworld().block(Blocks.CAVE_VINES).block(Blocks.CAVE_VINES_PLANT).recipe(Items.GLOW_BERRIES),
     ),
     WOOD(
         "wood", 1, "Woodia", "木精ウォージャ", 0xE7C697, 0xAD8232, 0xAD8232, 0x8B591C,
@@ -638,7 +638,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.SPEED, 1) on toolMaterial(ToolMaterialCard.WOOD) * minimumMana(7.0)
         },
         null,
-        FairyRecipes().overworld().block { Blocks.OAK_PLANKS }.recipe(Items.OAK_PLANKS),
+        FairyRecipes().overworld().block(Blocks.OAK_PLANKS).recipe(Items.OAK_PLANKS),
     ),
     SPRUCE(
         "spruce", 6, "Sprucia", "松精スプルーツァ", 0x795C36, 0x583E1F, 0x23160A, 0x4C784C,
@@ -647,7 +647,7 @@ enum class FairyCard(
             shootingDamage(1.0) on biome(ConventionalBiomeTags.TAIGA)
         },
         null,
-        FairyRecipes().biome(ConventionalBiomeTags.TAIGA).block { Blocks.SPRUCE_SAPLING }.recipe(Items.SPRUCE_SAPLING),
+        FairyRecipes().biome(ConventionalBiomeTags.TAIGA).block(Blocks.SPRUCE_SAPLING).recipe(Items.SPRUCE_SAPLING),
     ),
     BAMBOO(
         "bamboo", 5, "Bambia", "竹精バンビャ", 0x669627, 0x578800, 0x578800, 0x9BC452,
@@ -657,7 +657,7 @@ enum class FairyCard(
             shootingDamage(1.0) on biome(ConventionalBiomeTags.CLIMATE_WET)
         },
         null,
-        FairyRecipes().biome(BiomeKeys.BAMBOO_JUNGLE).block { Blocks.BAMBOO }.recipe(Items.BAMBOO),
+        FairyRecipes().biome(BiomeKeys.BAMBOO_JUNGLE).block(Blocks.BAMBOO).recipe(Items.BAMBOO),
     ),
     HOE(
         "hoe", 3, "Hia", "鍬精ヒャ", 0xFFFFFF, 0xFFC48E, 0x47FF00, 0xFFFFFF,
@@ -675,7 +675,7 @@ enum class FairyCard(
             collection(0.6) on indoor()
         },
         itemTransportation(),
-        FairyRecipes().block { Blocks.CHEST }.recipe(Items.CHEST),
+        FairyRecipes().block(Blocks.CHEST).recipe(Items.CHEST),
     ),
     CRAFTING_TABLE(
         "crafting_table", 3, "Craftinge Tablia", "作業台精ツラフティンゲターブリャ", 0xFFFFFF, 0xFFBB9A, 0xFFC980, 0x000000,
@@ -683,7 +683,7 @@ enum class FairyCard(
             luck(2.0) on indoor()
         },
         null,
-        FairyRecipes().block { Blocks.CRAFTING_TABLE }.recipe(Items.CRAFTING_TABLE),
+        FairyRecipes().block(Blocks.CRAFTING_TABLE).recipe(Items.CRAFTING_TABLE),
     ),
     ANVIL(
         "anvil", 4, "Anvilia", "金床精アンヴィーリャ", 0xFFFFFF, 0xA9A9A9, 0x909090, 0xA86F18,
@@ -691,7 +691,7 @@ enum class FairyCard(
             attackDamage(2.0) on indoor()
         },
         null,
-        FairyRecipes().block { Blocks.ANVIL }.recipe(Items.ANVIL),
+        FairyRecipes().block(Blocks.ANVIL).recipe(Items.ANVIL),
     ),
     ENCHANTING_TABLE(
         "enchanting_table", 6, "Enchantinge Tablia", "付魔台精エンキャンティンゲターブリャ", 0x472F65, 0xCE2828, 0xCE2828, 0x7BFFDD,
@@ -701,7 +701,7 @@ enum class FairyCard(
             magicDamage(2.0) on indoor()
         },
         null,
-        FairyRecipes().block { Blocks.ENCHANTING_TABLE }.recipe(Items.ENCHANTING_TABLE),
+        FairyRecipes().block(Blocks.ENCHANTING_TABLE).recipe(Items.ENCHANTING_TABLE),
     ),
     HOPPER(
         "hopper", 3, "Hopperia", "漏斗精ホッペーリャ", 0xFFFFFF, 0x797979, 0x646464, 0x5A5A5A,
@@ -709,7 +709,7 @@ enum class FairyCard(
             collection(1.5) on indoor()
         },
         null,
-        FairyRecipes().block { Blocks.HOPPER }.recipe(Items.HOPPER),
+        FairyRecipes().block(Blocks.HOPPER).recipe(Items.HOPPER),
     ),
     BEACON(
         "beacon", 11, "Beaconia", "信標精ベアツォーニャ", 0x97FFE3, 0x6029B3, 0x2E095E, 0xD4EAE6,
@@ -722,7 +722,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.REGENERATION, 0) on outdoor()
         },
         null,
-        FairyRecipes().block { Blocks.BEACON }.recipe(Items.BEACON),
+        FairyRecipes().block(Blocks.BEACON).recipe(Items.BEACON),
     ),
     GLASS(
         "glass", 4, "Glassia", "硝子精グラッシャ", 0xFFFFFF, 0xEFF5FF, 0xE8EDF5, 0xADE0E9,
@@ -733,7 +733,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.GLOWING, 0) on minimumMana(11.0)
         },
         null,
-        FairyRecipes().block { Blocks.GLASS }.recipe(Items.GLASS),
+        FairyRecipes().block(Blocks.GLASS).recipe(Items.GLASS),
     ),
     PRISMARINE(
         "prismarine", 5, "Prismarinia", "海晶石精プリスマリーニャ", 0xA3D3C7, 0x769A91, 0x769A91, 0x69C4C0,
@@ -741,7 +741,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.RESISTANCE, 1) on underwater()
         },
         null,
-        FairyRecipes().biome(ConventionalBiomeTags.OCEAN).block { Blocks.PRISMARINE }.recipe(Items.PRISMARINE),
+        FairyRecipes().biome(ConventionalBiomeTags.OCEAN).block(Blocks.PRISMARINE).recipe(Items.PRISMARINE),
     ),
     IRON_BARS(
         "iron_bars", 4, "Irone Barsia", "鉄格子精イローネバルシャ", 0xFFFFFF, 0xA1A1A3, 0x404040, 0x404040,
@@ -749,7 +749,7 @@ enum class FairyCard(
             maxHealth(5.0) on always()
         },
         null,
-        FairyRecipes().block { Blocks.IRON_BARS }.recipe(Items.IRON_BARS),
+        FairyRecipes().block(Blocks.IRON_BARS).recipe(Items.IRON_BARS),
     ),
     PLAINS(
         "plains", 2, "Plainsia", "平原精プラインシャ", 0xB0DF83, 0xD4FF82, 0x86C91C, 0x489F25,

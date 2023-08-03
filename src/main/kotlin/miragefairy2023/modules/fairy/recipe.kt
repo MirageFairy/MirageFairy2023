@@ -71,12 +71,12 @@ fun FairyRecipes.biome(biome: RegistryKey<Biome>) = this.also {
     }
 }
 
-fun FairyRecipes.block(blockGetter: () -> Block) = this.also {
+fun FairyRecipes.block(block: Block) = this.also {
     this.recipes += object : FairyRecipe {
-        override fun getWikiString() = "夢：ブロック：${blockGetter().name.string}"
+        override fun getWikiString() = "夢：ブロック：${block.name.string}"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onRegisterRecipes {
-                BLOCK_FAIRY_RELATION_LIST += BlockFairyRelation(blockGetter(), fairyCard.fairy)
+                BLOCK_FAIRY_RELATION_LIST += BlockFairyRelation(block, fairyCard.fairy)
             }
         }
     }
