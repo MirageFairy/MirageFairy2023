@@ -93,12 +93,11 @@ fun FairyRecipes.entityType(entityTypeGetter: () -> EntityType<*>) = this.also {
     }
 }
 
-fun FairyRecipes.recipe(inputItemGetter: () -> Item) = this.also {
+fun FairyRecipes.recipe(inputItem: Item) = this.also {
     this.recipes += object : FairyRecipe {
-        override fun getWikiString() = "クラフト：${inputItemGetter().name.string}"
+        override fun getWikiString() = "クラフト：${inputItem.name.string}"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onGenerateRecipes {
-                val inputItem = inputItemGetter()
                 val mirageFlourItem = when (fairyCard.rare) {
                     0 -> MirageFlourCard.TINY_MIRAGE_FLOUR.item
                     1, 2 -> MirageFlourCard.MIRAGE_FLOUR.item
