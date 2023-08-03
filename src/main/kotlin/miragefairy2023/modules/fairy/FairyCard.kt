@@ -375,7 +375,7 @@ enum class FairyCard(
             attackDamage(1.0) on biome(ConventionalBiomeTags.FOREST)
         },
         null,
-        FairyRecipes().biome(ConventionalBiomeTags.FOREST).entityType { EntityType.WOLF },
+        FairyRecipes().biome(ConventionalBiomeTags.FOREST).entityType(EntityType.WOLF),
     ),
     PARROT(
         "parrot", 7, "Parrotia", "鸚鵡精パッローチャ", 0xEA4E4E, 0x2A76F9, 0xFFE606, 0x8B0303,
@@ -384,7 +384,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.SLOW_FALLING, 0) on biome(ConventionalBiomeTags.JUNGLE)
         },
         itemTransportation(),
-        FairyRecipes().biome(ConventionalBiomeTags.JUNGLE).entityType { EntityType.PARROT },
+        FairyRecipes().biome(ConventionalBiomeTags.JUNGLE).entityType(EntityType.PARROT),
     ),
     FISH(
         "fish", 2, "Fishia", "魚精フィーシャ", 0x6B9F93, 0x5A867C, 0x43655D, 0xADBEDB,
@@ -393,7 +393,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.WATER_BREATHING, 0) on underwater() * minimumMana(10.0)
         },
         null,
-        FairyRecipes().overworld().recipe(Items.COD).entityType { EntityType.COD }, // TODO 魚精は希釈で得る
+        FairyRecipes().overworld().recipe(Items.COD).entityType(EntityType.COD), // TODO 魚精は希釈で得る
     ),
     CLOWNFISH(
         "clownfish", 7, "Clownfishia", "隈之実精ツロウンフィーシャ", 0xE46A22, 0xF46F20, 0xA94B1D, 0xFFDBC5,
@@ -403,7 +403,7 @@ enum class FairyCard(
             statusEffect(StatusEffects.WATER_BREATHING, 0) on underwater() * minimumMana(10.0)
         },
         null,
-        FairyRecipes().overworld().recipe(Items.TROPICAL_FISH).entityType { EntityType.TROPICAL_FISH },
+        FairyRecipes().overworld().recipe(Items.TROPICAL_FISH).entityType(EntityType.TROPICAL_FISH),
     ),
     FIRE_CORAL(
         "fire_coral", 6, "Fire Coralia", "火珊瑚精フィーレツォラーリャ", 0xCE4545, 0xE33047, 0xE33047, 0xCE3B38,
@@ -430,7 +430,7 @@ enum class FairyCard(
             experience(0.05) on maximumLevel(29)
         },
         null,
-        FairyRecipes().always().entityType { EntityType.PLAYER },
+        FairyRecipes().always().entityType(EntityType.PLAYER),
     ),
     ENDERMAN(
         "enderman", 6, "Endermania", "終界人精エンデルマーニャ", 0x000000, 0x161616, 0x161616, 0xEF84FA,
@@ -438,7 +438,7 @@ enum class FairyCard(
             collection(1.0) on always()
         },
         null,
-        FairyRecipes().overworld().biome(ConventionalBiomeTags.IN_NETHER).biome(ConventionalBiomeTags.IN_THE_END).entityType { EntityType.ENDERMAN },
+        FairyRecipes().overworld().biome(ConventionalBiomeTags.IN_NETHER).biome(ConventionalBiomeTags.IN_THE_END).entityType(EntityType.ENDERMAN),
     ),
     WARDEN(
         "warden", 7, "Wardenia", "監守者精ワルデーニャ", 0x0A3135, 0xCFCFA4, 0xA0AA7A, 0x2CD0CA,
@@ -447,7 +447,7 @@ enum class FairyCard(
             attackDamage(2.0) on maximumLightLevel(0)
         },
         null,
-        FairyRecipes().biome(BiomeKeys.DEEP_DARK).entityType { EntityType.WARDEN },
+        FairyRecipes().biome(BiomeKeys.DEEP_DARK).entityType(EntityType.WARDEN),
     ),
     ZOMBIE(
         "zombie", 2, "Zombia", "硬屍精ゾンビャ", 0x2B4219, 0x00AAAA, 0x322976, 0x2B4219,
@@ -456,7 +456,7 @@ enum class FairyCard(
             attackDamage(1.0) on shade()
         },
         null,
-        FairyRecipes().overworld().entityType { EntityType.ZOMBIE },
+        FairyRecipes().overworld().entityType(EntityType.ZOMBIE),
     ),
     SKELETON(
         "skeleton", 2, "Skeletonia", "骸骨精スケレトーニャ", 0xCACACA, 0xCFCFCF, 0xCFCFCF, 0x494949,
@@ -465,7 +465,7 @@ enum class FairyCard(
             shootingDamage(1.0) on shade()
         },
         null,
-        FairyRecipes().overworld().entityType { EntityType.SKELETON },
+        FairyRecipes().overworld().entityType(EntityType.SKELETON),
     ),
     SKELETON_HORSE(
         "skeleton_horse", 6, "Skeletone Horsia", "骸骨馬精スケレトーネホルシャ", 0xA1A1A1, 0xD4D4D4, 0x757575, 0xD5D5D5,
@@ -475,7 +475,7 @@ enum class FairyCard(
             shootingDamage(1.0) on inRain()
         },
         null,
-        FairyRecipes().overworld().entityType { EntityType.SKELETON_HORSE },
+        FairyRecipes().overworld().entityType(EntityType.SKELETON_HORSE),
     ),
     WITHER(
         "wither", 8, "Witheria", "枯精ウィテーリャ", 0x181818, 0x3C3C3C, 0x141414, 0x557272,
@@ -486,7 +486,7 @@ enum class FairyCard(
             shootingDamage(1.5) on maximumFoodLevel(6)
         },
         null,
-        FairyRecipes().entityType { EntityType.WITHER },
+        FairyRecipes().entityType(EntityType.WITHER),
     ),
     BLAZE(
         "blaze", 7, "Blazia", "烈炎精ブラージャ", 0xE7DA21, 0xCB6E06, 0xB44500, 0xFF8025,
@@ -495,7 +495,7 @@ enum class FairyCard(
             combustion() on statusEffect(StatusEffects.FIRE_RESISTANCE)
         },
         null,
-        FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).entityType { EntityType.BLAZE },
+        FairyRecipes().biome(ConventionalBiomeTags.IN_NETHER).entityType(EntityType.BLAZE),
     ),
     LILY_PAD(
         "lily_pad", 4, "Lile Padia", "水蓮精リーレパージャ", 0x518C42, 0x467838, 0x467838, 0x2B4A23,

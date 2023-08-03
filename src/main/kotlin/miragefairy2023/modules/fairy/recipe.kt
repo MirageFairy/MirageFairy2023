@@ -82,12 +82,12 @@ fun FairyRecipes.block(block: Block) = this.also {
     }
 }
 
-fun FairyRecipes.entityType(entityTypeGetter: () -> EntityType<*>) = this.also {
+fun FairyRecipes.entityType(entityType: EntityType<*>) = this.also {
     this.recipes += object : FairyRecipe {
-        override fun getWikiString() = "夢：エンティティ：${entityTypeGetter().name.string}"
+        override fun getWikiString() = "夢：エンティティ：${entityType.name.string}"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onRegisterRecipes {
-                ENTITY_TYPE_FAIRY_RELATION_LIST += EntityTypeFairyRelation(entityTypeGetter(), fairyCard.fairy)
+                ENTITY_TYPE_FAIRY_RELATION_LIST += EntityTypeFairyRelation(entityType, fairyCard.fairy)
             }
         }
     }
