@@ -110,20 +110,20 @@ fun InitializationScope.registerBlockDrop(
 }
 
 fun InitializationScope.registerMobDrop(
-    entityType: () -> EntityType<*>,
-    item: () -> ItemConvertible,
+    entityType: EntityType<*>,
+    item: Item,
     onlyKilledByPlayer: Boolean = false,
     dropRate: Pair<Float, Float>? = null,
     amount: (LootNumberProvider)? = null,
     fortuneFactor: (LootNumberProvider)? = null,
 ) {
     onRegisterRecipes {
-        val lootTableId = entityType().lootTableId
+        val lootTableId = entityType.lootTableId
         LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
             if (source.isBuiltin) {
                 if (id == lootTableId) {
                     tableBuilder.configure {
-                        pool(LootPool(ItemLootPoolEntry(item()) {
+                        pool(LootPool(ItemLootPoolEntry(item) {
                             if (amount != null) apply(SetCountLootFunction.builder(amount, false))
                             if (fortuneFactor != null) apply(LootingEnchantLootFunction.builder(fortuneFactor))
                         }) {

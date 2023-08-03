@@ -137,13 +137,13 @@ val demonItemModule = module {
     }
 
     // 魔女→紅天石
-    registerMobDrop({ EntityType.WITCH }, { DemonItemCard.XARPITE.item }, onlyKilledByPlayer = true, fortuneFactor = UniformLootNumberProvider(0.0F, 1.0F))
+    registerMobDrop(EntityType.WITCH, DemonItemCard.XARPITE.item, onlyKilledByPlayer = true, fortuneFactor = UniformLootNumberProvider(0.0F, 1.0F))
 
     // ゾンビ→紅天石
-    registerMobDrop({ EntityType.ZOMBIE }, { DemonItemCard.XARPITE.item }, onlyKilledByPlayer = true, dropRate = Pair(0.02F, 0.01F))
-    registerMobDrop({ EntityType.ZOMBIE_VILLAGER }, { DemonItemCard.XARPITE.item }, onlyKilledByPlayer = true, dropRate = Pair(0.02F, 0.01F))
-    registerMobDrop({ EntityType.DROWNED }, { DemonItemCard.XARPITE.item }, onlyKilledByPlayer = true, dropRate = Pair(0.02F, 0.01F))
-    registerMobDrop({ EntityType.HUSK }, { DemonItemCard.XARPITE.item }, onlyKilledByPlayer = true, dropRate = Pair(0.02F, 0.01F))
+    registerMobDrop(EntityType.ZOMBIE, DemonItemCard.XARPITE.item, onlyKilledByPlayer = true, dropRate = Pair(0.02F, 0.01F))
+    registerMobDrop(EntityType.ZOMBIE_VILLAGER, DemonItemCard.XARPITE.item, onlyKilledByPlayer = true, dropRate = Pair(0.02F, 0.01F))
+    registerMobDrop(EntityType.DROWNED, DemonItemCard.XARPITE.item, onlyKilledByPlayer = true, dropRate = Pair(0.02F, 0.01F))
+    registerMobDrop(EntityType.HUSK, DemonItemCard.XARPITE.item, onlyKilledByPlayer = true, dropRate = Pair(0.02F, 0.01F))
 
     // 雑草→紅天石
     registerGrassDrop(DemonItemCard.XARPITE.item, 0.01)
