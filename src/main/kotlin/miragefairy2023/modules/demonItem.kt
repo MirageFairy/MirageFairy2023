@@ -146,7 +146,7 @@ val demonItemModule = module {
     registerMobDrop({ EntityType.HUSK }, { DemonItemCard.XARPITE.item }, onlyKilledByPlayer = true, dropRate = Pair(0.02F, 0.01F))
 
     // 雑草→紅天石
-    registerGrassDrop({ DemonItemCard.XARPITE.item }, 0.01)
+    registerGrassDrop(DemonItemCard.XARPITE.item, 0.01)
 
     // エメラルド鉱石→蒼天石
     registerBlockDrop({ Blocks.EMERALD_ORE }, { DemonItemCard.MIRANAGITE.item }, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
@@ -161,7 +161,7 @@ val demonItemModule = module {
     registerBlockDrop({ Blocks.DEEPSLATE_REDSTONE_ORE }, { DemonItemCard.MIRANAGITE.item }, dropRate = 0.05F, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
 
     // 雑草→蒼天石
-    registerGrassDrop({ DemonItemCard.MIRANAGITE.item }, 0.01)
+    registerGrassDrop(DemonItemCard.MIRANAGITE.item, 0.01)
 
     // 蒼天石＋2マグマクリーム→スライムボール
     onGenerateRecipes {

@@ -184,7 +184,7 @@ val mirageFlowerModule = module {
     }
 
     // 種は雑草から得られる
-    registerGrassDrop({ MirageFlower.seedItem }, 0.1)
+    registerGrassDrop(MirageFlower.seedItem, 0.1)
 
     // 種はコンポスターに投入可能
     onRegisterRecipes { ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(MirageFlower.seedItem, 0.3F) }

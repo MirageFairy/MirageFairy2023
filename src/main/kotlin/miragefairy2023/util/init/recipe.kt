@@ -40,7 +40,7 @@ import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.biome.Biome
 
 fun InitializationScope.registerGrassDrop(
-    item: () -> ItemConvertible,
+    item: Item,
     amount: Double = 1.0,
     biome: (() -> RegistryKey<Biome>)? = null,
 ) {
@@ -54,7 +54,7 @@ fun InitializationScope.registerGrassDrop(
                             alternatively(ItemLootPoolEntry(Items.AIR) {
                                 conditionally(MatchToolLootCondition.builder(ItemPredicate.Builder.create().items(Items.SHEARS)))
                             })
-                            alternatively(ItemLootPoolEntry(item()) {
+                            alternatively(ItemLootPoolEntry(item) {
                                 conditionally(RandomChanceLootCondition.builder((0.125 * amount).toFloat()))
                                 if (biome != null) conditionally(LocationCheckLootCondition.builder(LocationPredicate.Builder.create().biome(biome())))
                                 apply(ApplyBonusLootFunction.uniformBonusCount(Enchantments.FORTUNE, 2))
