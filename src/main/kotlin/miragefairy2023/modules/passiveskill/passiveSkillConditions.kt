@@ -290,11 +290,11 @@ class ToolMaterialPassiveSkillCondition(private val toolMaterialCard: ToolMateri
 }
 
 @Suppress("UnusedReceiverParameter")
-fun PassiveSkillsBuilder.food(foodItem: () -> Item) = PassiveSkillConditions(FoodPassiveSkillCondition(foodItem))
+fun PassiveSkillsBuilder.food(foodItem: Item) = PassiveSkillConditions(FoodPassiveSkillCondition(foodItem))
 
-class FoodPassiveSkillCondition(private val foodItem: () -> Item) : PassiveSkillCondition {
-    override fun getText() = text { foodItem().name }
-    override fun test(player: PlayerEntity, mana: Double) = player.lastFoodProperty.get()?.isOf(foodItem()) ?: false
+class FoodPassiveSkillCondition(private val foodItem: Item) : PassiveSkillCondition {
+    override fun getText() = text { foodItem.name }
+    override fun test(player: PlayerEntity, mana: Double) = player.lastFoodProperty.get()?.isOf(foodItem) ?: false
 }
 
 @Suppress("UnusedReceiverParameter")

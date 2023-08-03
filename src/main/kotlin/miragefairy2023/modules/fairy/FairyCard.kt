@@ -550,8 +550,8 @@ enum class FairyCard(
         "wheat", 3, "Wheatia", "麦精ウェアーチャ", 0xD8BF7F, 0xDBBB65, 0xDBBB65, 0x896D20,
         passiveSkills {
             regeneration(0.1) on minimumFoodLevel(12)
-            regeneration(0.3) on food { Items.BREAD }
-            attackDamage(0.5) on food { Items.BREAD }
+            regeneration(0.3) on food(Items.BREAD)
+            attackDamage(0.5) on food(Items.BREAD)
         },
         null,
         FairyRecipes().overworld().block { Blocks.HAY_BLOCK }.recipe { Items.WHEAT },
@@ -560,7 +560,7 @@ enum class FairyCard(
         "carrot", 4, "Carrotia", "人参精ツァッローチャ", 0xF98D10, 0xFD7F11, 0xE3710F, 0x248420,
         passiveSkills {
             regeneration(0.1) on minimumFoodLevel(12)
-            statusEffect(StatusEffects.NIGHT_VISION, 0, additionalSeconds = 10) on food { Items.CARROT }
+            statusEffect(StatusEffects.NIGHT_VISION, 0, additionalSeconds = 10) on food(Items.CARROT)
         },
         null,
         FairyRecipes().overworld().block { Blocks.CARROTS }.recipe { Items.CARROT },
@@ -569,7 +569,7 @@ enum class FairyCard(
         "potato", 4, "Potatia", "芋精ポターチャ", 0xEAC278, 0xE7B456, 0xE7B456, 0x248420,
         passiveSkills {
             regeneration(0.1) on minimumFoodLevel(12)
-            attackDamage(1.0) on food { Items.BAKED_POTATO }
+            attackDamage(1.0) on food(Items.BAKED_POTATO)
         },
         null,
         FairyRecipes().overworld().block { Blocks.POTATOES }.recipe { Items.POTATO },
@@ -578,7 +578,7 @@ enum class FairyCard(
         "poisonous_potato", 5, "Poisonouse Potatia", "悪芋精ポイソノウセポターチャ", 0xCFE661, 0xE7B456, 0xE7B456, 0x61B835,
         passiveSkills {
             attackDamage(1.0) on minimumFoodLevel(12)
-            attackDamage(2.0) on food { Items.POISONOUS_POTATO }
+            attackDamage(2.0) on food(Items.POISONOUS_POTATO)
         },
         null,
         FairyRecipes().overworld().block { Blocks.POTATOES }.recipe { Items.POISONOUS_POTATO },
@@ -587,7 +587,7 @@ enum class FairyCard(
         "beetroot", 4, "Beetrootia", "火焔菜精ベートローチャ", 0xC1727C, 0xA74D55, 0x96383D, 0x01A900,
         passiveSkills {
             regeneration(0.1) on minimumFoodLevel(12)
-            shootingDamage(3.0) on food { Items.BEETROOT }
+            shootingDamage(3.0) on food(Items.BEETROOT)
         },
         null,
         FairyRecipes().overworld().block { Blocks.BEETROOTS }.recipe { Items.BEETROOT },
@@ -596,7 +596,7 @@ enum class FairyCard(
         "melon", 4, "Melonia", "西瓜精メローニャ", 0xFF5440, 0xA6EE63, 0x195612, 0x01A900,
         passiveSkills {
             regeneration(0.1) on minimumFoodLevel(12)
-            regeneration(0.6) on food { Items.MELON_SLICE }
+            regeneration(0.6) on food(Items.MELON_SLICE)
         },
         null,
         FairyRecipes().biome(ConventionalBiomeTags.JUNGLE).block { Blocks.MELON }.recipe { Items.MELON },
@@ -605,7 +605,7 @@ enum class FairyCard(
         "apple", 4, "Applia", "林檎精アップーリャ", 0xFF755D, 0xFF564E, 0xFF0000, 0x01A900,
         passiveSkills {
             regeneration(0.1) on minimumFoodLevel(12)
-            statusEffect(StatusEffects.RESISTANCE, 1) on food { Items.APPLE }
+            statusEffect(StatusEffects.RESISTANCE, 1) on food(Items.APPLE)
         },
         null,
         FairyRecipes().overworld().recipe { Items.APPLE },
@@ -614,8 +614,8 @@ enum class FairyCard(
         "sweet_berry", 4, "Sweete Berria", "甘液果精スウェーテベッリャ", 0xB81D37, 0x4A070A, 0x4A070A, 0x126341,
         passiveSkills {
             regeneration(0.1) on minimumFoodLevel(12)
-            regeneration(0.2) on food { Items.SWEET_BERRIES }
-            shootingDamage(2.0) on food { Items.SWEET_BERRIES }
+            regeneration(0.2) on food(Items.SWEET_BERRIES)
+            shootingDamage(2.0) on food(Items.SWEET_BERRIES)
         },
         null,
         FairyRecipes().overworld().block { Blocks.SWEET_BERRY_BUSH }.recipe { Items.SWEET_BERRIES },
@@ -624,8 +624,8 @@ enum class FairyCard(
         "glow_berry", 4, "Glowe Berria", "蛍光液果精グローウェベッリャ", 0xFFB73A, 0x8F650C, 0x8F650C, 0x00841A,
         passiveSkills {
             regeneration(0.1) on minimumFoodLevel(12)
-            regeneration(0.2) on food { Items.GLOW_BERRIES }
-            magicDamage(2.0) on food { Items.GLOW_BERRIES }
+            regeneration(0.2) on food(Items.GLOW_BERRIES)
+            magicDamage(2.0) on food(Items.GLOW_BERRIES)
         },
         null,
         FairyRecipes().overworld().block { Blocks.CAVE_VINES }.block { Blocks.CAVE_VINES_PLANT }.recipe { Items.GLOW_BERRIES },
