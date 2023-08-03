@@ -41,28 +41,28 @@ import net.minecraft.world.WorldAccess
 
 enum class FairyCrystalGlassCard(
     val path: String,
-    val gemItemGetter: () -> Item,
+    val gemItem: Item,
     val enName: String,
     val jaName: String,
     val poemList: List<Poem>,
 ) {
     ARTIFICIAL_FAIRY_CRYSTAL_GLASS(
-        "artificial_fairy_crystal_glass", { DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item },
+        "artificial_fairy_crystal_glass", DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item,
         "Artificial Fairy Crystal Glass", "人工フェアリークリスタルガラス",
         listOf(Poem("Fairies fear its distorted molecule", "窓を潤す、模造の美学。")),
     ),
     FAIRY_CRYSTAL_50_GLASS(
-        "fairy_crystal_50_glass", { DemonItemCard.FAIRY_CRYSTAL_50.item },
+        "fairy_crystal_50_glass", DemonItemCard.FAIRY_CRYSTAL_50.item,
         "50 Minia Crystal Glass", "50ミーニャクリスタルガラス",
         listOf(Poem("Popular among artifact fairies", "家の外を映し出す鏡。")),
     ),
     //FAIRY_CRYSTAL_100_GLASS(
-    //    "fairy_crystal_100_glass", { DemonItemCard.FAIRY_CRYSTAL_100.item },
+    //    "fairy_crystal_100_glass", DemonItemCard.FAIRY_CRYSTAL_100.item,
     //    "100 Minia Crystal Glass", "100ミーニャクリスタルガラス",
     //    "", "", // TODO
     //),
     //FAIRY_CRYSTAL_500_GLASS(
-    //    "fairy_crystal_500_glass", { DemonItemCard.FAIRY_CRYSTAL_500.item },
+    //    "fairy_crystal_500_glass", DemonItemCard.FAIRY_CRYSTAL_500.item,
     //    "500 Minia Crystal Glass", "500ミーニャクリスタルガラス",
     //    "", "の壁に咲く、", // TODO
     //),
@@ -153,8 +153,8 @@ val fairyCrystalGlassModule = module {
         onGenerateRecipes {
             ShapelessRecipeJsonBuilder
                 .create(card.item, 1)
-                .input(card.gemItemGetter(), 9)
-                .criterion(card.gemItemGetter())
+                .input(card.gemItem, 9)
+                .criterion(card.gemItem)
                 .group(card.item)
                 .offerTo(it, card.item.identifier)
         }
@@ -162,11 +162,11 @@ val fairyCrystalGlassModule = module {
         // 分解
         onGenerateRecipes {
             ShapelessRecipeJsonBuilder
-                .create(card.gemItemGetter(), 9)
+                .create(card.gemItem, 9)
                 .input(card.item, 1)
                 .criterion(card.item)
-                .group(card.gemItemGetter())
-                .offerTo(it, card.gemItemGetter().identifier concat "_from_${card.item.identifier.path}")
+                .group(card.gemItem)
+                .offerTo(it, card.gemItem.identifier concat "_from_${card.item.identifier.path}")
         }
 
     }
