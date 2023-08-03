@@ -109,12 +109,12 @@ fun FairyRecipes.recipe(inputItem: Item) = this.also {
                     else -> throw AssertionError()
                 }
                 ShapelessRecipeJsonBuilder
-                    .create(fairyCard())
+                    .create(fairyCard[1].item)
                     .input(DemonItemCard.XARPITE.item)
                     .input(mirageFlourItem)
                     .input(inputItem)
                     .criterion(inputItem)
-                    .group(fairyCard())
+                    .group(fairyCard[1].item)
                     .offerTo(it, "fairy/" concat fairyCard.motif)
             }
         }

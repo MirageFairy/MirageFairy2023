@@ -46,7 +46,6 @@ import miragefairy2023.modules.passiveskill.telescopeMission
 import miragefairy2023.modules.passiveskill.thundering
 import miragefairy2023.modules.passiveskill.toolMaterial
 import miragefairy2023.modules.passiveskill.underwater
-import miragefairy2023.util.init.FeatureSlot
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags
 import net.minecraft.block.Blocks
@@ -886,7 +885,7 @@ enum class FairyCard(
     val motif = Identifier(MirageFairy2023.modId, motifPath)
     val fairy: Fairy = object : Fairy {
         override val motif get() = this@FairyCard.motif
-        override val item get() = this@FairyCard()
+        override val item get() = this@FairyCard[1].item
         override val rare get() = this@FairyCard.rare
     }
 

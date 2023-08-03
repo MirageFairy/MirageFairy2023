@@ -31,7 +31,7 @@ import net.minecraft.world.World
 import java.util.Optional
 
 // 妖精アイテムグループ
-private val randomFairyIcon by lazy { FairyCard.values().random()().createItemStack() }
+private val randomFairyIcon by lazy { FairyCard.values().random()[1].item.createItemStack() }
 val fairyItemGroup: ItemGroup = FabricItemGroupBuilder.build(Identifier(MirageFairy2023.modId, "fairy")) { randomFairyIcon }
 
 // 妖精アイテムタグ
@@ -40,10 +40,6 @@ val fairiesOfRareTags: (rare: Int) -> TagKey<Item> = run {
     val map = mutableMapOf<Int, TagKey<Item>>()
     ({ rare -> map.getOrPut(rare) { TagKey.of(Registry.ITEM_KEY, Identifier(MirageFairy2023.modId, "rare${rare}_fairies")) } })
 }
-
-// TODO inline
-// 妖精アイテム
-operator fun FairyCard.invoke(rank: Int = 1) = this[rank].item
 
 // 凝縮レシピ
 lateinit var fairyCondensationRecipeSerializer: SpecialRecipeSerializer<FairyCondensationRecipe>
@@ -156,10 +152,10 @@ class FairyCondensationRecipe(identifier: Identifier) : SpecialCraftingRecipe(id
         // クラフト
         return if (isCondensation) {
             if (item.rank >= MAX_FAIRY_RANK) return null
-            item.fairyCard(item.rank + 1).createItemStack()
+            item.fairyCard[item.rank + 1].item.createItemStack()
         } else {
             if (item.rank <= 1) return null
-            item.fairyCard(item.rank - 1).createItemStack(8)
+            item.fairyCard[item.rank - 1].item.createItemStack(8)
         }
     }
 

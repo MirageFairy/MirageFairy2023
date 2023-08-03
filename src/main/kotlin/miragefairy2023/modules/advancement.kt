@@ -5,7 +5,6 @@ import miragefairy2023.module
 import miragefairy2023.modules.fairy.FairyCard
 import miragefairy2023.modules.fairy.fairiesItemTag
 import miragefairy2023.modules.fairy.fairiesOfRareTags
-import miragefairy2023.modules.fairy.invoke
 import miragefairy2023.modules.fairyhouse.fairyMetamorphosisAltar
 import miragefairy2023.modules.toolitem.ToolItemCard
 import miragefairy2023.util.datagen.ItemLootPoolEntry
@@ -113,7 +112,7 @@ val advancementModule = module {
         }
 
         val fairy = advancement(
-            "fairy", { FairyCard.AIR() },
+            "fairy", { FairyCard.AIR[1].item },
             "Pollen Mimicking the Fairy", "自我を持つ植物",
             "Get a fairy with Mirage flour", "ミラージュの花粉を使用し、妖精を得る",
             parent = root,
@@ -123,7 +122,7 @@ val advancementModule = module {
         }
 
         val rare1Fairy = advancement(
-            "rare1_fairy", { FairyCard.DIRT() }, // TODO 変更
+            "rare1_fairy", { FairyCard.DIRT[1].item }, // TODO 変更
             "The Phantasmal Law", "幻想を司るもの",
             "Observe astral vortices from 'inside the mind'", "妖精を遣い、人間の心の中を探検する",
             parent = fairy,
@@ -133,7 +132,7 @@ val advancementModule = module {
         }
 
         val rare2Fairy = advancement(
-            "rare2_fairy", { FairyCard.PLAINS() }, // TODO 変更
+            "rare2_fairy", { FairyCard.PLAINS[1].item }, // TODO 変更
             "Dreamy Flower", "植物の見る夢",
             "Say hello when someone says hello", "妖精は何を感じ、何を思うのか？",
             parent = rare1Fairy,
@@ -143,7 +142,7 @@ val advancementModule = module {
         }
 
         val rare3Fairy = advancement(
-            "rare3_fairy", { FairyCard.FOREST() }, // TODO 変更
+            "rare3_fairy", { FairyCard.FOREST[1].item }, // TODO 変更
             "Real Elephants and Imaginary Elephants", "人間が想像できることは人間が実現する",
             "Brainstorm the Mirage miracle", "世の中のくだらない奇跡について無限に思いを巡らせてみる",
             parent = rare2Fairy,
@@ -153,7 +152,7 @@ val advancementModule = module {
         }
 
         val rare4Fairy = advancement(
-            "rare4_fairy", { FairyCard.IRON() },
+            "rare4_fairy", { FairyCard.IRON[1].item },
             "Fairy Diary", "八百万の妖精",
             "Meditate on familiar things", "身の回りのすこしばかりよいものを見つめてみる",
             parent = rare3Fairy,
@@ -163,7 +162,7 @@ val advancementModule = module {
         }
 
         val rare5Fairy = advancement(
-            "rare5_fairy", { FairyCard.PLAYER() },
+            "rare5_fairy", { FairyCard.PLAYER[1].item },
             "The Infinite Potential Tower", "バベルの水道橋",
             "Try to obtain particles in the world", "「ヒト」の妖精を見、「ヒト」の限界を知る",
             parent = rare4Fairy,
@@ -173,7 +172,7 @@ val advancementModule = module {
         }
 
         val rare6Fairy = advancement(
-            "rare6_fairy", { FairyCard.SPRUCE() }, // TODO 変更
+            "rare6_fairy", { FairyCard.SPRUCE[1].item }, // TODO 変更
             "Nature Nation", "花鳥風月",
             "Run out of the home and see what you can see", "身近な自然に心を躍らせる",
             parent = rare5Fairy,
@@ -183,7 +182,7 @@ val advancementModule = module {
         }
 
         val rare7Fairy = advancement(
-            "rare7_fairy", { FairyCard.WARDEN() },
+            "rare7_fairy", { FairyCard.WARDEN[1].item },
             "Subterranean Silence", "不気味の谷を往く",
             "Step into abyss", "深淵を覗く",
             parent = rare6Fairy,
@@ -193,7 +192,7 @@ val advancementModule = module {
         }
 
         val rare8Fairy = advancement(
-            "rare8_fairy", { FairyCard.AVALON() },
+            "rare8_fairy", { FairyCard.AVALON[1].item },
             "Garden of Avalon", "須弥山の頂",
             "Step into eden", "楽園の夢を見る",
             parent = rare7Fairy,
@@ -203,7 +202,7 @@ val advancementModule = module {
         }
 
         val rare9Fairy = advancement(
-            "rare9_fairy", { FairyCard.MOON() },
+            "rare9_fairy", { FairyCard.MOON[1].item },
             "Lunatic Time", "朧月の夜",
             "Blown by cold wind and exposed to cosmic rays", "縁側でお団子を食べよう",
             parent = rare8Fairy,
@@ -213,7 +212,7 @@ val advancementModule = module {
         }
 
         val rare10Fairy = advancement(
-            "rare10_fairy", { FairyCard.SUN() },
+            "rare10_fairy", { FairyCard.SUN[1].item },
             "More Precious Than the Sun", "サンフラワーロック",
             "Reflector attracts sky fairies", "天上の妖精の手を引き、地上を覗かせる",
             parent = rare9Fairy,
@@ -223,7 +222,7 @@ val advancementModule = module {
         }
 
         val rare11Fairy = advancement(
-            "rare11_fairy", { FairyCard.VOID() }, // TODO 変更
+            "rare11_fairy", { FairyCard.VOID[1].item }, // TODO 変更
             "What Is It Like to Be a Fairy?", "妖精であるとはどのようなことか",
             "Feel the cosmic astral radiation", "天を超えた世界の事象を知る",
             parent = rare10Fairy,
@@ -233,7 +232,7 @@ val advancementModule = module {
         }
 
         val rare12Fairy = advancement(
-            "rare12_fairy", { FairyCard.TIME() },
+            "rare12_fairy", { FairyCard.TIME[1].item },
             "The Physical Law", "空間を司るもの",
             "Observe astral vortices from 'outside the universe'", "妖精を遣い、神の心の中を探検する",
             parent = rare11Fairy,

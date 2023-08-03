@@ -2,7 +2,6 @@ package miragefairy2023.modules
 
 import miragefairy2023.module
 import miragefairy2023.modules.fairy.FairyCard
-import miragefairy2023.modules.fairy.invoke
 import miragefairy2023.modules.toolitem.foundFairies
 import miragefairy2023.util.Symbol
 import miragefairy2023.util.identifier
@@ -53,7 +52,7 @@ class FairyListDebuggerItem(settings: Settings) : Item(settings) {
 
         val lines = FairyCard.values().map { fairyCard ->
 
-            val item = fairyCard()
+            val item = fairyCard[1].item
             val passiveSkillTexts = item.fairyCard.passiveSkills.map { passiveSkill ->
                 val string: String = text {
                     val effectText = passiveSkill.effect.getText(item.passiveSkillProvider.mana / 10.0, item.passiveSkillProvider.mana / 10.0)
