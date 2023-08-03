@@ -11,15 +11,13 @@ import net.minecraft.advancement.AdvancementFrame
 import net.minecraft.advancement.AdvancementRewards
 import net.minecraft.advancement.criterion.InventoryChangedCriterion
 import net.minecraft.item.Item
-import net.minecraft.item.ItemConvertible
 import net.minecraft.predicate.item.ItemPredicate
 import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 
-@Deprecated("TODO")
 fun InitializationScope.advancement(
     name: String,
-    displayItem: () -> ItemConvertible, // TODO -> Item
+    displayItem: Item,
     enTitle: String,
     jaTitle: String,
     enDescription: String,
@@ -44,7 +42,7 @@ fun InitializationScope.advancement(
     onGenerateAdvancements { consumer ->
         advancement = Advancement.Builder.create().apply {
             if (parent != null) parent(parent())
-            display(displayItem(), text { title() }, text { description() }, backgroundTexture, frame, true, true, false)
+            display(displayItem, text { title() }, text { description() }, backgroundTexture, frame, true, true, false)
             initializer(this)
         }.build(consumer, "$modId/$name")
     }
