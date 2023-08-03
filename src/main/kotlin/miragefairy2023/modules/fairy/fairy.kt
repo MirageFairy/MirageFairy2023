@@ -8,6 +8,7 @@ import miragefairy2023.module
 import miragefairy2023.modules.TrinketsSlotCard
 import miragefairy2023.util.EMPTY_ITEM_STACK
 import miragefairy2023.util.createItemStack
+import miragefairy2023.util.datagen.TextureMap
 import miragefairy2023.util.hasSameItemAndNbt
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.enJa
@@ -19,7 +20,6 @@ import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.data.client.Model
 import net.minecraft.data.client.TextureKey
-import net.minecraft.data.client.TextureMap
 import net.minecraft.data.server.recipe.ComplexRecipeJsonBuilder
 import net.minecraft.inventory.CraftingInventory
 import net.minecraft.item.Item
@@ -65,13 +65,14 @@ val fairyModule = module {
         val layer3 = TextureKey.of("layer3")
         val layer4 = TextureKey.of("layer4")
         val model = Model(Optional.of(Identifier("minecraft", "item/generated")), Optional.empty(), layer0, layer1, layer2, layer3, layer4)
-        model.upload(Identifier(modId, "item/fairy"), TextureMap().apply {
-            put(layer0, Identifier(modId, "item/fairy_skin"))
-            put(layer1, Identifier(modId, "item/fairy_back"))
-            put(layer2, Identifier(modId, "item/fairy_front"))
-            put(layer3, Identifier(modId, "item/fairy_hair"))
-            put(layer4, Identifier(modId, "item/fairy_dress"))
-        }, it.writer)
+        val textureMap = TextureMap(
+            layer0 to Identifier(modId, "item/fairy_skin"),
+            layer1 to Identifier(modId, "item/fairy_back"),
+            layer2 to Identifier(modId, "item/fairy_front"),
+            layer3 to Identifier(modId, "item/fairy_hair"),
+            layer4 to Identifier(modId, "item/fairy_dress"),
+        )
+        model.upload(Identifier(modId, "item/fairy"), textureMap, it.writer)
     }
 
     // 翻訳登録

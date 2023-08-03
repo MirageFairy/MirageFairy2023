@@ -6,6 +6,7 @@ import miragefairy2023.util.concat
 import miragefairy2023.util.datagen.ItemLootPoolEntry
 import miragefairy2023.util.datagen.LootPool
 import miragefairy2023.util.datagen.LootTable
+import miragefairy2023.util.datagen.TextureMap
 import miragefairy2023.util.datagen.applyExplosionDecay
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.generateBlockLootTable
@@ -28,7 +29,6 @@ import net.minecraft.block.ShapeContext
 import net.minecraft.block.SideShapeType
 import net.minecraft.data.client.Models
 import net.minecraft.data.client.TextureKey
-import net.minecraft.data.client.TextureMap
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.item.BlockItem
@@ -148,7 +148,7 @@ val luminariaModule = module {
         }
         onGenerateBlockStateModels { blockStateModelGenerator ->
             blockStateModelGenerator.registerItemModel(card.block)
-            Models.CROSS.upload(card.block, TextureMap.of(TextureKey.CROSS, "block/" concat card.identifier), blockStateModelGenerator.modelCollector)
+            Models.CROSS.upload(card.block, TextureMap(TextureKey.CROSS to ("block/" concat card.identifier)), blockStateModelGenerator.modelCollector)
         }
         onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(card.block) }
 

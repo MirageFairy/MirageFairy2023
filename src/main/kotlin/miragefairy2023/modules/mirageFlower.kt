@@ -12,6 +12,7 @@ import miragefairy2023.util.datagen.ItemLootPoolEntry
 import miragefairy2023.util.datagen.LootPool
 import miragefairy2023.util.datagen.LootTable
 import miragefairy2023.util.datagen.RangedMatchBlockStatePropertyLootCondition
+import miragefairy2023.util.datagen.TextureMap
 import miragefairy2023.util.datagen.applyExplosionDecay
 import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.block
@@ -44,7 +45,6 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.data.client.Models
 import net.minecraft.data.client.TextureKey
-import net.minecraft.data.client.TextureMap
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.AliasedBlockItem
@@ -110,7 +110,7 @@ val mirageFlowerModule = module {
         }
         onGenerateBlockStateModels { blockStateModelGenerator ->
             (0..MirageFlowerBlock.MAX_AGE).forEach { age ->
-                blockStateModelGenerator.createSubModel(feature, "_age$age", Models.CROSS) { TextureMap.of(TextureKey.CROSS, it) }
+                blockStateModelGenerator.createSubModel(feature, "_age$age", Models.CROSS) { TextureMap(TextureKey.CROSS to it) }
             }
         }
         onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(feature) }
