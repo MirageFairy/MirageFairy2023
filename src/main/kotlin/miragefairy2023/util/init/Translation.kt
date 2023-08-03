@@ -13,7 +13,6 @@ fun InitializationScope.enJa(translationKey: String, en: String, ja: String) {
     onGenerateJapaneseTranslations { it.add(translationKey, ja) }
 }
 
-@Deprecated("Removing") // TODO remove
 fun InitializationScope.enJa(translationKey: () -> String, en: String, ja: String) {
     onGenerateEnglishTranslations { it.add(translationKey(), en) }
     onGenerateJapaneseTranslations { it.add(translationKey(), ja) }
