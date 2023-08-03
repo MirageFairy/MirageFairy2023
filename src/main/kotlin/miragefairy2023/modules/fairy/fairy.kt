@@ -10,14 +10,11 @@ import miragefairy2023.util.EMPTY_ITEM_STACK
 import miragefairy2023.util.createItemStack
 import miragefairy2023.util.datagen.TextureMap
 import miragefairy2023.util.hasSameItemAndNbt
-import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.enJa
-import miragefairy2023.util.init.item
 import miragefairy2023.util.init.registerColorProvider
 import miragefairy2023.util.isNotEmpty
 import miragefairy2023.util.string
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.data.client.Model
 import net.minecraft.data.client.TextureKey
 import net.minecraft.data.server.recipe.ComplexRecipeJsonBuilder
@@ -44,10 +41,9 @@ val fairiesOfRareTags = object : (Int) -> TagKey<Item> {
     override operator fun invoke(rare: Int) = map.getOrPut(rare) { TagKey.of(Registry.ITEM_KEY, Identifier(MirageFairy2023.modId, "rare${rare}_fairies")) }
 }
 
+// TODO inline
 // 妖精アイテム
-val MAX_FAIRY_RANK = 9
-private lateinit var fairyItems: Map<FairyCard, Map<Int, FeatureSlot<DemonFairyItem>>>
-operator fun FairyCard.invoke(rank: Int = 1) = fairyItems[this]!![rank]!!.feature
+operator fun FairyCard.invoke(rank: Int = 1) = this[rank].item
 
 // 凝縮レシピ
 lateinit var fairyCondensationRecipeSerializer: SpecialRecipeSerializer<FairyCondensationRecipe>
@@ -85,40 +81,31 @@ val fairyModule = module {
     // 妖精アイテム
     run {
 
-        // スロット初期化
-        val mutableFairyItems = mutableMapOf<FairyCard, MutableMap<Int, FeatureSlot<DemonFairyItem>>>()
-        fairyItems = mutableFairyItems
-
         // モチーフごと
         FairyCard.values().forEach { fairyCard ->
 
             // ラングごと
             (1..MAX_FAIRY_RANK).forEach { rank ->
 
-                // 妖精アイテム登録
-                mutableFairyItems.getOrPut(fairyCard) { mutableMapOf() }[rank] = item(
-                    "${fairyCard.motifPath}_fairy${if (rank == 1) "" else "_$rank"}",
-                    { DemonFairyItem(fairyCard, rank, FabricItemSettings().group(fairyItemGroup)) },
-                ) {
+                // 登録
+                Registry.register(Registry.ITEM, fairyCard[rank].identifier, fairyCard[rank].item)
 
-                    // タグに登録
-                    onGenerateItemTags { it(fairiesItemTag).add(feature) }
-                    onGenerateItemTags { it(fairiesOfRareTags(feature.rare)).add(feature) }
-                    onGenerateItemTags { it(TrinketsSlotCard.HEAD_FAIRY.tag).add(feature) }
+                // タグに登録
+                onGenerateItemTags { it(fairiesItemTag).add(fairyCard[rank].item) }
+                onGenerateItemTags { it(fairiesOfRareTags(fairyCard[rank].item.rare)).add(fairyCard[rank].item) }
+                onGenerateItemTags { it(TrinketsSlotCard.HEAD_FAIRY.tag).add(fairyCard[rank].item) }
 
-                    // モデル系
-                    onGenerateItemModels { it.register(feature, Model(Optional.of(Identifier(modId, "item/fairy")), Optional.empty())) }
-                    registerColorProvider({ feature }) { _, tintIndex ->
-                        when (tintIndex) {
-                            0 -> fairyCard.skinColor
-                            1 -> fairyCard.backColor
-                            2 -> fairyCard.frontColor
-                            3 -> fairyCard.hairColor
-                            4 -> getRankRgb(rank)
-                            else -> 0xFFFFFF
-                        }
+                // モデル系
+                onGenerateItemModels { it.register(fairyCard[rank].item, Model(Optional.of(Identifier(modId, "item/fairy")), Optional.empty())) }
+                registerColorProvider(fairyCard[rank].item) { _, tintIndex ->
+                    when (tintIndex) {
+                        0 -> fairyCard.skinColor
+                        1 -> fairyCard.backColor
+                        2 -> fairyCard.frontColor
+                        3 -> fairyCard.hairColor
+                        4 -> getRankRgb(rank)
+                        else -> 0xFFFFFF
                     }
-
                 }
 
             }

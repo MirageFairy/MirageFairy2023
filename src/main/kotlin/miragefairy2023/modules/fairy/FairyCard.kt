@@ -46,6 +46,8 @@ import miragefairy2023.modules.passiveskill.telescopeMission
 import miragefairy2023.modules.passiveskill.thundering
 import miragefairy2023.modules.passiveskill.toolMaterial
 import miragefairy2023.modules.passiveskill.underwater
+import miragefairy2023.util.init.FeatureSlot
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags
 import net.minecraft.block.Blocks
 import net.minecraft.entity.EntityType
@@ -53,6 +55,8 @@ import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.item.Items
 import net.minecraft.util.Identifier
 import net.minecraft.world.biome.BiomeKeys
+
+val MAX_FAIRY_RANK = 9
 
 enum class FairyCard(
     val motifPath: String,
@@ -886,4 +890,15 @@ enum class FairyCard(
         override val rare get() = this@FairyCard.rare
     }
 
+    private val fairyItems = (1..MAX_FAIRY_RANK).map { rank -> RankedFairyCard(this, rank) }
+    operator fun get(rank: Int) = fairyItems[rank - 1]
+
+}
+
+class RankedFairyCard(
+    fairyCard: FairyCard,
+    rank: Int,
+) {
+    val identifier = Identifier(MirageFairy2023.modId, "${fairyCard.motifPath}_fairy${if (rank == 1) "" else "_$rank"}")
+    val item = DemonFairyItem(fairyCard, rank, FabricItemSettings().group(fairyItemGroup))
 }
