@@ -68,7 +68,7 @@ val fairyMetamorphosisAltarModule = module {
     enJa(FairyMetamorphosisAltarBlockEntity.FORTUNE_FACTOR_KEY)
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
-            .create(fairyMetamorphosisAltar.blockItem.feature)
+            .create(fairyMetamorphosisAltar.item)
             .pattern(" B ")
             .pattern("GDG")
             .pattern("SSS")
@@ -77,8 +77,8 @@ val fairyMetamorphosisAltarModule = module {
             .input('D', MirageFlourCard.MIRAGE_FLOUR.item)
             .input('S', Blocks.STONE)
             .criterion(DemonItemCard.MIRANAGITE.item)
-            .group(fairyMetamorphosisAltar.blockItem.feature)
-            .offerTo(it, fairyMetamorphosisAltar.blockItem.feature.identifier)
+            .group(fairyMetamorphosisAltar.item)
+            .offerTo(it, fairyMetamorphosisAltar.item.identifier)
     }
 }
 
@@ -239,7 +239,7 @@ object FairyMetamorphosisAltarRecipe {
 
 }
 
-class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : FairyHouseBlockEntity(fairyMetamorphosisAltar.blockEntityType.feature, pos, state) {
+class FairyMetamorphosisAltarBlockEntity(pos: BlockPos, state: BlockState) : FairyHouseBlockEntity(fairyMetamorphosisAltar.blockEntityType, pos, state) {
     companion object {
         val INVALID_KEY = Translation("block.${MirageFairy2023.modId}.fairy_metamorphosis_altar.message.invalid", "Cannot be processed!", "加工ができません！")
         val PROCESSING_SPEED_KEY = Translation("block.${MirageFairy2023.modId}.fairy_metamorphosis_altar.message.processing_speed", "Processing Speed", "加工速度")

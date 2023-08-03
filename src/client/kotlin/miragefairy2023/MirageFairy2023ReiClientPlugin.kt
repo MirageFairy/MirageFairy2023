@@ -48,7 +48,7 @@ class MirageFairy2023ReiClientPlugin : REIClientPlugin {
     override fun registerCategories(registry: CategoryRegistry) {
 
         registry.add(FairyMetamorphosisAltarCategory())
-        registry.addWorkstations(Categories.FAIRY_METAMORPHOSIS_ALTAR, fairyMetamorphosisAltar.blockItem.feature.toEntryStack())
+        registry.addWorkstations(Categories.FAIRY_METAMORPHOSIS_ALTAR, fairyMetamorphosisAltar.item.toEntryStack())
 
         registry.add(BlockFairyRelationCategory())
         Registry.ITEM.getEntryList(DREAM_CATCHERS).orElse(null)?.forEach {
@@ -85,8 +85,8 @@ class MirageFairy2023ReiClientPlugin : REIClientPlugin {
 
 class FairyMetamorphosisAltarCategory : DisplayCategory<FairyMetamorphosisAltarDisplay> {
     override fun getCategoryIdentifier() = Categories.FAIRY_METAMORPHOSIS_ALTAR
-    override fun getIcon(): Renderer = fairyMetamorphosisAltar.blockItem.feature.toEntryStack()
-    override fun getTitle(): Text = fairyMetamorphosisAltar.block.feature.name
+    override fun getIcon(): Renderer = fairyMetamorphosisAltar.item.toEntryStack()
+    override fun getTitle(): Text = fairyMetamorphosisAltar.block.name
     override fun setupDisplay(display: FairyMetamorphosisAltarDisplay, bounds: Rectangle): List<Widget> {
         val p = Point(bounds.centerX - 41, bounds.centerY - 13)
         val rateText = (display.rate * 100 formatAs "%.3f").removeTrailingZeros() + "%"

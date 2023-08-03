@@ -284,12 +284,12 @@ val advancementModule = module {
         }
 
         val fairyMetamorphosisAltar = advancement(
-            "fairy_metamorphosis_altar", { fairyMetamorphosisAltar.blockItem.feature },
+            "fairy_metamorphosis_altar", { fairyMetamorphosisAltar.item },
             "The Unknown World of Thaumaturgy", "魔術の世界",
             "Cause a arcane reaction", "神秘反応を起こす",
             parent = root,
         ) {
-            criterion(fairyMetamorphosisAltar.blockItem.feature)
+            criterion(fairyMetamorphosisAltar.item)
             reward(tier1LootTableId)
         }
 

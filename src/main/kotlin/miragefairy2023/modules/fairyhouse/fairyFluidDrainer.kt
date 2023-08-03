@@ -58,7 +58,7 @@ val fairyFluidDrainerModule = module {
     registerFairyHouse(fairyFluidDrainer)
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
-            .create(fairyFluidDrainer.blockItem.feature)
+            .create(fairyFluidDrainer.item)
             .pattern("FMB")
             .pattern("III")
             .input('I', ConventionalItemTags.IRON_INGOTS)
@@ -66,8 +66,8 @@ val fairyFluidDrainerModule = module {
             .input('M', DemonItemCard.MIRANAGITE.item)
             .input('B', Items.BUCKET)
             .criterion(DemonItemCard.MIRANAGITE.item)
-            .group(fairyFluidDrainer.blockItem.feature)
-            .offerTo(it, fairyFluidDrainer.blockItem.feature.identifier)
+            .group(fairyFluidDrainer.item)
+            .offerTo(it, fairyFluidDrainer.item.identifier)
     }
 }
 
@@ -133,7 +133,7 @@ interface FairyFluidDrainerRecipe {
     fun match(world: World, fluidBlockPos: BlockPos, fluidBlockState: BlockState): Result?
 }
 
-class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHouseBlockEntity(fairyFluidDrainer.blockEntityType.feature, pos, state) {
+class FairyFluidDrainerBlockEntity(pos: BlockPos, state: BlockState) : FairyHouseBlockEntity(fairyFluidDrainer.blockEntityType, pos, state) {
 
     private val fairyInventory = Inventory(1, maxCountPerStack = 1) { it.item.castOr<FairyItem> { return@Inventory false }.fairy.isLiquidFairy }.also { addInventory("FairyInventory", it) }
     private val craftingInventory = Inventory(1, maxCountPerStack = 1) { it.isOf(Items.BUCKET) && resultInventory[0].isEmpty }.also { addInventory("BucketInventory", it) }

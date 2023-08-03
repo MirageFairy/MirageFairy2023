@@ -12,13 +12,9 @@ import miragefairy2023.modules.generatePoemList
 import miragefairy2023.modules.registerPoemList
 import miragefairy2023.util.castOr
 import miragefairy2023.util.get
-import miragefairy2023.util.init.FeatureSlot
-import miragefairy2023.util.init.block
-import miragefairy2023.util.init.blockEntity
-import miragefairy2023.util.init.enJaBlock
+import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.generateHorizontalFacingBlockState
-import miragefairy2023.util.init.item
 import miragefairy2023.util.isNotEmpty
 import miragefairy2023.util.lib.InstrumentBlock
 import miragefairy2023.util.list
@@ -54,12 +50,14 @@ import net.minecraft.tag.TagKey
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Clearable
 import net.minecraft.util.Hand
+import net.minecraft.util.Identifier
 import net.minecraft.util.ItemScatterer
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.random.Random
+import net.minecraft.util.registry.Registry
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
@@ -76,34 +74,50 @@ class FairyHouseCard<BE>(
     val needsToolTag: TagKey<Block>?,
     val voxelShape: VoxelShape,
 ) where BE : BlockEntity, BE : RenderingProxyBlockEntity {
-    lateinit var block: FeatureSlot<FairyHouseBlock>
-    lateinit var blockEntityType: FeatureSlot<BlockEntityType<BE>>
-    lateinit var blockItem: FeatureSlot<BlockItem>
+    val identifier = Identifier(MirageFairy2023.modId, path)
+    val block = FairyHouseBlock(
+        this, FabricBlockSettings.of(material)
+            .sounds(soundGroup)
+            .requiresTool()
+            .strength(2.0F)
+            .nonOpaque()
+    )
+    val blockEntityType = BlockEntityType(blockEntityCreator, setOf(block), null)
+    val item = BlockItem(block, FabricItemSettings().group(commonItemGroup))
 }
 
 fun <BE> InitializationScope.registerFairyHouse(card: FairyHouseCard<BE>) where BE : BlockEntity, BE : RenderingProxyBlockEntity {
-    card.block = block(card.path, { FairyHouseBlock(card, FabricBlockSettings.of(card.material).sounds(card.soundGroup).requiresTool().strength(2.0F).nonOpaque()) }) {
 
-        // レンダリング
-        generateHorizontalFacingBlockState({ feature }, id)
-        onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(feature) }
+    // 登録
+    Registry.register(Registry.BLOCK, card.identifier, card.block)
+    Registry.register(Registry.BLOCK_ENTITY_TYPE, card.identifier, card.blockEntityType)
+    Registry.register(Registry.ITEM, card.identifier, card.item)
 
-        // 翻訳
-        enJaBlock({ feature }, card.enName, card.jaName)
 
-        // レシピ
-        onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(feature) }
-        if (card.needsToolTag != null) onGenerateBlockTags { it(card.needsToolTag).add(feature) }
-        generateDefaultBlockLootTable { feature }
+    // モデル
 
-    }
-    card.blockEntityType = blockEntity(card.path, card.blockEntityCreator, { card.block.feature }) {
-        onInitializeClient { MirageFairy2023.clientProxy!!.registerRenderingProxyBlockEntityRendererFactory(feature) }
-    }
-    card.blockItem = item(card.path, { BlockItem(card.block.feature, FabricItemSettings().group(commonItemGroup)) }) {
-        generatePoemList({ feature }, card.poemList)
-        onRegisterItems { registerPoemList(feature, card.poemList) }
-    }
+    // BlockEntity
+    generateHorizontalFacingBlockState(card.block, card.identifier)
+
+    // レンダリング
+    onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(card.block) }
+    onInitializeClient { MirageFairy2023.clientProxy!!.registerRenderingProxyBlockEntityRendererFactory(card.blockEntityType) }
+
+
+    // 翻訳
+    enJa(card.block, card.enName, card.jaName)
+    generatePoemList(card.item, card.poemList)
+    onRegisterItems { registerPoemList(card.item, card.poemList) }
+
+
+    // 性質
+    onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(card.block) }
+    if (card.needsToolTag != null) onGenerateBlockTags { it(card.needsToolTag).add(card.block) }
+
+
+    // レシピ
+    generateDefaultBlockLootTable(card.block)
+
 }
 
 class FairyHouseBlock(val card: FairyHouseCard<*>, settings: Settings) : InstrumentBlock(settings), BlockEntityProvider {
