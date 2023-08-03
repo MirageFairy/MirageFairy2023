@@ -16,9 +16,10 @@ import net.minecraft.predicate.item.ItemPredicate
 import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 
+@Deprecated("TODO")
 fun InitializationScope.advancement(
     name: String,
-    displayItem: () -> ItemConvertible,
+    displayItem: () -> ItemConvertible, // TODO -> Item
     enTitle: String,
     jaTitle: String,
     enDescription: String,
