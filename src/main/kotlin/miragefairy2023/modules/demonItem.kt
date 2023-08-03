@@ -260,106 +260,106 @@ val demonItemModule = module {
     // 両替レシピ
     run {
 
-        fun generateExchangeRecipe(lower: () -> Item, higher: () -> Item, multiplier: Int) = onGenerateRecipes {
+        fun generateExchangeRecipe(lower: DemonItemCard, higher: DemonItemCard, multiplier: Int) = onGenerateRecipes {
 
             // 圧縮
             ShapelessRecipeJsonBuilder
-                .create(higher(), 1)
-                .input(lower(), multiplier)
-                .criterion(lower())
-                .group(higher())
-                .offerTo(it, higher().identifier concat "_from_${lower().identifier.path}")
+                .create(higher.item, 1)
+                .input(lower.item, multiplier)
+                .criterion(lower.item)
+                .group(higher.item)
+                .offerTo(it, higher.identifier concat "_from_${lower.identifier.path}")
 
             // 分解
             ShapelessRecipeJsonBuilder
-                .create(lower(), multiplier)
-                .input(higher(), 1)
-                .criterion(higher())
-                .group(lower())
-                .offerTo(it, lower().identifier concat "_from_${higher().identifier.path}")
+                .create(lower.item, multiplier)
+                .input(higher.item, 1)
+                .criterion(higher.item)
+                .group(lower.item)
+                .offerTo(it, lower.identifier concat "_from_${higher.identifier.path}")
 
         }
 
-        generateExchangeRecipe({ DemonItemCard.FAIRY_CRYSTAL_50.item }, { DemonItemCard.FAIRY_CRYSTAL_100.item }, 2)
-        generateExchangeRecipe({ DemonItemCard.FAIRY_CRYSTAL_100.item }, { DemonItemCard.FAIRY_CRYSTAL_500.item }, 5)
+        generateExchangeRecipe(DemonItemCard.FAIRY_CRYSTAL_50, DemonItemCard.FAIRY_CRYSTAL_100, 2)
+        generateExchangeRecipe(DemonItemCard.FAIRY_CRYSTAL_100, DemonItemCard.FAIRY_CRYSTAL_500, 5)
 
     }
 
     // 購入レシピ
     onGenerateRecipes {
-        fun generateBuyingRecipe(cost: Int, target: () -> Item, outputCount: Int) {
+        fun generateBuyingRecipe(cost: Int, target: Item, outputCount: Int) {
             require(cost % 50 == 0)
             ShapelessRecipeJsonBuilder
-                .create(target(), outputCount + 1)
-                .input(target())
+                .create(target, outputCount + 1)
+                .input(target)
                 .input(DemonItemCard.FAIRY_CRYSTAL_500.item, cost / 500)
                 .input(DemonItemCard.FAIRY_CRYSTAL_100.item, cost % 500 / 100)
                 .input(DemonItemCard.FAIRY_CRYSTAL_50.item, cost % 100 / 50)
-                .criterion(target())
-                .group(target())
-                .offerTo(it, Identifier.of(modId, "buying/${target().identifier.path}"))
+                .criterion(target)
+                .group(target)
+                .offerTo(it, Identifier.of(modId, "buying/${target.identifier.path}"))
         }
 
         // MOD
-        generateBuyingRecipe(50, { MirageFlower.seedItem }, 8)
-        generateBuyingRecipe(50, { MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item }, 3)
-        generateBuyingRecipe(50, { DemonItemCard.XARPITE.item }, 1)
-        generateBuyingRecipe(50, { DemonItemCard.MIRANAGITE.item }, 1)
+        generateBuyingRecipe(50, MirageFlower.seedItem, 8)
+        generateBuyingRecipe(50, MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item, 3)
+        generateBuyingRecipe(50, DemonItemCard.XARPITE.item, 1)
+        generateBuyingRecipe(50, DemonItemCard.MIRANAGITE.item, 1)
 
         // 木材
-        generateBuyingRecipe(50, { Items.OAK_LOG }, 32)
-        generateBuyingRecipe(50, { Items.SPRUCE_LOG }, 32)
-        generateBuyingRecipe(50, { Items.BIRCH_LOG }, 32)
+        generateBuyingRecipe(50, Items.OAK_LOG, 32)
+        generateBuyingRecipe(50, Items.SPRUCE_LOG, 32)
+        generateBuyingRecipe(50, Items.BIRCH_LOG, 32)
 
         // 植物
-        generateBuyingRecipe(50, { Items.SUGAR_CANE }, 16)
-        generateBuyingRecipe(50, { Items.OAK_LEAVES }, 16)
-        generateBuyingRecipe(50, { Items.VINE }, 16)
-        generateBuyingRecipe(50, { Items.GRASS }, 16)
-        generateBuyingRecipe(50, { Items.POTATO }, 12)
-        generateBuyingRecipe(50, { Items.CARROT }, 12)
-        generateBuyingRecipe(50, { Items.BEETROOT }, 12)
-        generateBuyingRecipe(50, { Items.WHEAT }, 8)
-        generateBuyingRecipe(50, { Items.CACTUS }, 8)
-        generateBuyingRecipe(50, { Items.PUMPKIN }, 8)
-        generateBuyingRecipe(50, { Items.APPLE }, 4)
-        generateBuyingRecipe(50, { Items.LILY_PAD }, 2)
+        generateBuyingRecipe(50, Items.SUGAR_CANE, 16)
+        generateBuyingRecipe(50, Items.OAK_LEAVES, 16)
+        generateBuyingRecipe(50, Items.VINE, 16)
+        generateBuyingRecipe(50, Items.GRASS, 16)
+        generateBuyingRecipe(50, Items.POTATO, 12)
+        generateBuyingRecipe(50, Items.CARROT, 12)
+        generateBuyingRecipe(50, Items.BEETROOT, 12)
+        generateBuyingRecipe(50, Items.WHEAT, 8)
+        generateBuyingRecipe(50, Items.CACTUS, 8)
+        generateBuyingRecipe(50, Items.PUMPKIN, 8)
+        generateBuyingRecipe(50, Items.APPLE, 4)
+        generateBuyingRecipe(50, Items.LILY_PAD, 2)
 
         // 動物
-        generateBuyingRecipe(50, { Items.FEATHER }, 8)
-        generateBuyingRecipe(50, { Items.LEATHER }, 4)
-        generateBuyingRecipe(1000, { Items.WITHER_SKELETON_SKULL }, 1)
-        generateBuyingRecipe(4000, { Items.NETHER_STAR }, 1)
+        generateBuyingRecipe(50, Items.FEATHER, 8)
+        generateBuyingRecipe(50, Items.LEATHER, 4)
+        generateBuyingRecipe(1000, Items.WITHER_SKELETON_SKULL, 1)
+        generateBuyingRecipe(4000, Items.NETHER_STAR, 1)
 
         // 敵
-        generateBuyingRecipe(50, { Items.ROTTEN_FLESH }, 8)
-        generateBuyingRecipe(50, { Items.STRING }, 4)
-        generateBuyingRecipe(50, { Items.GUNPOWDER }, 4)
-        generateBuyingRecipe(50, { Items.BONE }, 4)
-        generateBuyingRecipe(50, { Items.SLIME_BALL }, 2)
+        generateBuyingRecipe(50, Items.ROTTEN_FLESH, 8)
+        generateBuyingRecipe(50, Items.STRING, 4)
+        generateBuyingRecipe(50, Items.GUNPOWDER, 4)
+        generateBuyingRecipe(50, Items.BONE, 4)
+        generateBuyingRecipe(50, Items.SLIME_BALL, 2)
 
         // 鉱石
-        generateBuyingRecipe(50, { Items.COAL_ORE }, 16)
-        generateBuyingRecipe(50, { Items.COPPER_ORE }, 12)
-        generateBuyingRecipe(50, { Items.NETHER_QUARTZ_ORE }, 12)
-        generateBuyingRecipe(50, { Items.IRON_ORE }, 8)
-        generateBuyingRecipe(50, { Items.REDSTONE_ORE }, 4)
-        generateBuyingRecipe(50, { Items.GOLD_ORE }, 2)
-        generateBuyingRecipe(50, { Items.LAPIS_ORE }, 1)
-        generateBuyingRecipe(100, { Items.DIAMOND_ORE }, 1)
-        generateBuyingRecipe(100, { Items.EMERALD_ORE }, 1)
-        generateBuyingRecipe(500, { Items.ANCIENT_DEBRIS }, 2)
+        generateBuyingRecipe(50, Items.COAL_ORE, 16)
+        generateBuyingRecipe(50, Items.COPPER_ORE, 12)
+        generateBuyingRecipe(50, Items.NETHER_QUARTZ_ORE, 12)
+        generateBuyingRecipe(50, Items.IRON_ORE, 8)
+        generateBuyingRecipe(50, Items.REDSTONE_ORE, 4)
+        generateBuyingRecipe(50, Items.GOLD_ORE, 2)
+        generateBuyingRecipe(50, Items.LAPIS_ORE, 1)
+        generateBuyingRecipe(100, Items.DIAMOND_ORE, 1)
+        generateBuyingRecipe(100, Items.EMERALD_ORE, 1)
+        generateBuyingRecipe(500, Items.ANCIENT_DEBRIS, 2)
 
         // 岩石
-        generateBuyingRecipe(50, { Items.STONE }, 32)
-        generateBuyingRecipe(50, { Items.NETHERRACK }, 32)
-        generateBuyingRecipe(50, { Items.DIRT }, 16)
-        generateBuyingRecipe(50, { Items.SAND }, 16)
-        generateBuyingRecipe(50, { Items.GRAVEL }, 16)
-        generateBuyingRecipe(50, { Items.ICE }, 16)
-        generateBuyingRecipe(50, { Items.DEEPSLATE }, 16)
-        generateBuyingRecipe(50, { Items.SOUL_SAND }, 8)
-        generateBuyingRecipe(50, { Items.MAGMA_BLOCK }, 4)
+        generateBuyingRecipe(50, Items.STONE, 32)
+        generateBuyingRecipe(50, Items.NETHERRACK, 32)
+        generateBuyingRecipe(50, Items.DIRT, 16)
+        generateBuyingRecipe(50, Items.SAND, 16)
+        generateBuyingRecipe(50, Items.GRAVEL, 16)
+        generateBuyingRecipe(50, Items.ICE, 16)
+        generateBuyingRecipe(50, Items.DEEPSLATE, 16)
+        generateBuyingRecipe(50, Items.SOUL_SAND, 8)
+        generateBuyingRecipe(50, Items.MAGMA_BLOCK, 4)
     }
 
 }
