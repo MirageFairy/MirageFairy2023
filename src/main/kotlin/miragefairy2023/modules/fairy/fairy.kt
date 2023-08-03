@@ -36,9 +36,9 @@ val fairyItemGroup: ItemGroup = FabricItemGroupBuilder.build(Identifier(MirageFa
 
 // 妖精アイテムタグ
 val fairiesItemTag: TagKey<Item> = TagKey.of(Registry.ITEM_KEY, Identifier(MirageFairy2023.modId, "fairies"))
-val fairiesOfRareTags = object : (Int) -> TagKey<Item> {
-    private val map = mutableMapOf<Int, TagKey<Item>>()
-    override operator fun invoke(rare: Int) = map.getOrPut(rare) { TagKey.of(Registry.ITEM_KEY, Identifier(MirageFairy2023.modId, "rare${rare}_fairies")) }
+val fairiesOfRareTags: (rare: Int) -> TagKey<Item> = run {
+    val map = mutableMapOf<Int, TagKey<Item>>()
+    ({ rare -> map.getOrPut(rare) { TagKey.of(Registry.ITEM_KEY, Identifier(MirageFairy2023.modId, "rare${rare}_fairies")) } })
 }
 
 // TODO inline
