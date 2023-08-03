@@ -222,17 +222,17 @@ val demonItemModule = module {
     // 3種名誉系フェアリークリスタル→ミーニャのフェアリークリスタル
     run {
         // TODO いい感じの加工機械
-        fun generateExchangeRecipe(input: () -> Item, output: () -> Item, outputCount: Int) = onGenerateRecipes {
+        fun generateExchangeRecipe(input: DemonItemCard, output: DemonItemCard, outputCount: Int) = onGenerateRecipes {
             SingleItemRecipeJsonBuilder
-                .createStonecutting(Ingredient.ofItems(input()), output(), outputCount)
-                .criterion(input())
-                .group(output())
-                .offerTo(it, "selling_" concat input().identifier)
+                .createStonecutting(Ingredient.ofItems(input.item), output.item, outputCount)
+                .criterion(input.item)
+                .group(output.item)
+                .offerTo(it, "selling_" concat input.item.identifier)
         }
         // TODO 成果物をシンプルに
-        generateExchangeRecipe({ DemonItemCard.HONORABLE_FAIRY_CRYSTAL.item }, { DemonItemCard.FAIRY_CRYSTAL_50.item }, 2)
-        generateExchangeRecipe({ DemonItemCard.GLORIOUS_FAIRY_CRYSTAL.item }, { DemonItemCard.FAIRY_CRYSTAL_500.item }, 2)
-        generateExchangeRecipe({ DemonItemCard.LEGENDARY_FAIRY_CRYSTAL.item }, { DemonItemCard.FAIRY_CRYSTAL_500.item }, 20)
+        generateExchangeRecipe(DemonItemCard.HONORABLE_FAIRY_CRYSTAL, DemonItemCard.FAIRY_CRYSTAL_50, 2)
+        generateExchangeRecipe(DemonItemCard.GLORIOUS_FAIRY_CRYSTAL, DemonItemCard.FAIRY_CRYSTAL_500, 2)
+        generateExchangeRecipe(DemonItemCard.LEGENDARY_FAIRY_CRYSTAL, DemonItemCard.FAIRY_CRYSTAL_500, 20)
     }
 
     // ミラージュフラワー→人工フェアリークリスタル
