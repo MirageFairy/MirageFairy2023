@@ -18,7 +18,6 @@ import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
-import net.minecraft.item.ItemConvertible
 import net.minecraft.item.Items
 import net.minecraft.loot.condition.KilledByPlayerLootCondition
 import net.minecraft.loot.condition.LocationCheckLootCondition
@@ -69,8 +68,8 @@ fun InitializationScope.registerGrassDrop(
 }
 
 fun InitializationScope.registerBlockDrop(
-    block: () -> Block,
-    item: () -> ItemConvertible,
+    block: Block,
+    item: Item,
     dropRate: Float? = null,
     amount: Int? = null,
     fortuneOreDrops: Boolean = false,
@@ -78,13 +77,13 @@ fun InitializationScope.registerBlockDrop(
     luckBonus: Double? = null,
 ) {
     onRegisterRecipes {
-        val lootTableId = block().lootTableId
+        val lootTableId = block.lootTableId
         LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
             if (source.isBuiltin) {
                 if (id == lootTableId) {
                     tableBuilder.configure {
                         pool(LootPool {
-                            val itemEntry = ItemLootPoolEntry(item()) {
+                            val itemEntry = ItemLootPoolEntry(item) {
                                 if (dropRate != null) conditionally(RandomChanceLootCondition.builder(dropRate))
                                 if (amount != null) apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(amount.toFloat())))
                                 if (fortuneOreDrops) apply(ApplyBonusLootFunction.oreDrops(Enchantments.FORTUNE))

@@ -149,16 +149,16 @@ val demonItemModule = module {
     registerGrassDrop(DemonItemCard.XARPITE.item, 0.01)
 
     // エメラルド鉱石→蒼天石
-    registerBlockDrop({ Blocks.EMERALD_ORE }, { DemonItemCard.MIRANAGITE.item }, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
-    registerBlockDrop({ Blocks.DEEPSLATE_EMERALD_ORE }, { DemonItemCard.MIRANAGITE.item }, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
+    registerBlockDrop(Blocks.EMERALD_ORE, DemonItemCard.MIRANAGITE.item, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
+    registerBlockDrop(Blocks.DEEPSLATE_EMERALD_ORE, DemonItemCard.MIRANAGITE.item, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
 
     // 銅鉱石→蒼天石
-    registerBlockDrop({ Blocks.COPPER_ORE }, { DemonItemCard.MIRANAGITE.item }, dropRate = 0.05F, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
-    registerBlockDrop({ Blocks.DEEPSLATE_COPPER_ORE }, { DemonItemCard.MIRANAGITE.item }, dropRate = 0.05F, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
+    registerBlockDrop(Blocks.COPPER_ORE, DemonItemCard.MIRANAGITE.item, dropRate = 0.05F, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
+    registerBlockDrop(Blocks.DEEPSLATE_COPPER_ORE, DemonItemCard.MIRANAGITE.item, dropRate = 0.05F, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
 
     // レッドストーン鉱石→蒼天石
-    registerBlockDrop({ Blocks.REDSTONE_ORE }, { DemonItemCard.MIRANAGITE.item }, dropRate = 0.05F, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
-    registerBlockDrop({ Blocks.DEEPSLATE_REDSTONE_ORE }, { DemonItemCard.MIRANAGITE.item }, dropRate = 0.05F, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
+    registerBlockDrop(Blocks.REDSTONE_ORE, DemonItemCard.MIRANAGITE.item, dropRate = 0.05F, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
+    registerBlockDrop(Blocks.DEEPSLATE_REDSTONE_ORE, DemonItemCard.MIRANAGITE.item, dropRate = 0.05F, fortuneOreDrops = true, suppressIfSilkTouch = true, luckBonus = 0.2)
 
     // 雑草→蒼天石
     registerGrassDrop(DemonItemCard.MIRANAGITE.item, 0.01)
