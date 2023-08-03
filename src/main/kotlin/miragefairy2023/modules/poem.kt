@@ -44,13 +44,6 @@ fun InitializationScope.generatePoemList(item: Item, poemList: List<Poem>) {
     }
 }
 
-@Deprecated("Removing") // TODO remove
-fun InitializationScope.generatePoemList(itemGetter: () -> Item, poemList: List<Poem>) {
-    poemList.forEach {
-        enJa({ "${itemGetter().translationKey}.${it.key}" }, it.en, it.ja)
-    }
-}
-
 private val poemListRegistry = mutableMapOf<Item, List<Poem>>()
 
 fun registerPoemList(item: Item, poemList: List<Poem>) {

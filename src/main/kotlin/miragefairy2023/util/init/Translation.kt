@@ -24,21 +24,9 @@ fun InitializationScope.enJa(item: Item, en: String, ja: String) {
     onGenerateJapaneseTranslations { it.add(item, ja) }
 }
 
-@Deprecated("Removing") // TODO remove
-fun InitializationScope.enJaItem(item: () -> Item, en: String, ja: String) {
-    onGenerateEnglishTranslations { it.add(item(), en) }
-    onGenerateJapaneseTranslations { it.add(item(), ja) }
-}
-
 fun InitializationScope.enJa(block: Block, en: String, ja: String) {
     onGenerateEnglishTranslations { it.add(block, en) }
     onGenerateJapaneseTranslations { it.add(block, ja) }
-}
-
-@Deprecated("Removing") // TODO remove
-fun InitializationScope.enJaBlock(block: () -> Block, en: String, ja: String) {
-    onGenerateEnglishTranslations { it.add(block(), en) }
-    onGenerateJapaneseTranslations { it.add(block(), ja) }
 }
 
 fun InitializationScope.enJa(itemGroup: ItemGroup, en: String, ja: String) {
