@@ -80,9 +80,9 @@ val fairyMailboxModule = module {
             .pattern("WDW")
             .pattern(" C ")
             .input('W', ItemTags.LOGS)
-            .input('D', MirageFlourCard.TINY_MIRAGE_FLOUR.item.feature)
+            .input('D', MirageFlourCard.TINY_MIRAGE_FLOUR.item)
             .input('C', Items.CHEST)
-            .criterion(MirageFlourCard.TINY_MIRAGE_FLOUR.item.feature)
+            .criterion(MirageFlourCard.TINY_MIRAGE_FLOUR.item)
             .group(FairyMailbox.item)
             .offerTo(it, FairyMailbox.item.identifier)
     }

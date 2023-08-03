@@ -100,13 +100,13 @@ fun FairyRecipes.recipe(inputItemGetter: () -> Item) = this.also {
             initializationScope.onGenerateRecipes {
                 val inputItem = inputItemGetter()
                 val mirageFlourItem = when (fairyCard.rare) {
-                    0 -> MirageFlourCard.TINY_MIRAGE_FLOUR.item.feature
-                    1, 2 -> MirageFlourCard.MIRAGE_FLOUR.item.feature
-                    3, 4 -> MirageFlourCard.RARE_MIRAGE_FLOUR.item.feature
-                    5, 6 -> MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item.feature
-                    7, 8 -> MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR.item.feature
-                    9, 10 -> MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR.item.feature
-                    11, 12 -> MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR.item.feature
+                    0 -> MirageFlourCard.TINY_MIRAGE_FLOUR.item
+                    1, 2 -> MirageFlourCard.MIRAGE_FLOUR.item
+                    3, 4 -> MirageFlourCard.RARE_MIRAGE_FLOUR.item
+                    5, 6 -> MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item
+                    7, 8 -> MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR.item
+                    9, 10 -> MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR.item
+                    11, 12 -> MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR.item
                     else -> throw AssertionError()
                 }
                 ShapelessRecipeJsonBuilder

@@ -74,7 +74,7 @@ val fairyMetamorphosisAltarModule = module {
             .pattern("SSS")
             .input('B', DemonBlockCard.MIRANAGITE_BLOCK.item)
             .input('G', DemonItemCard.MIRANAGITE.item)
-            .input('D', MirageFlourCard.MIRAGE_FLOUR.item.feature)
+            .input('D', MirageFlourCard.MIRAGE_FLOUR.item)
             .input('S', Blocks.STONE)
             .criterion(DemonItemCard.MIRANAGITE.item)
             .group(fairyMetamorphosisAltar.blockItem.feature)
@@ -153,11 +153,11 @@ object FairyMetamorphosisAltarRecipe {
         }
 
         fun registerMirageFlour(input: Item) {
-            register(input, Category.N, 1.0, MirageFlourCard.MIRAGE_FLOUR.item.feature)
-            register(input, Category.N, 0.1, MirageFlourCard.RARE_MIRAGE_FLOUR.item.feature)
-            register(input, Category.R, 0.01, MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item.feature)
-            register(input, Category.SR, 0.001, MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR.item.feature)
-            register(input, Category.SSR, 0.0001, MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR.item.feature)
+            register(input, Category.N, 1.0, MirageFlourCard.MIRAGE_FLOUR.item)
+            register(input, Category.N, 0.1, MirageFlourCard.RARE_MIRAGE_FLOUR.item)
+            register(input, Category.R, 0.01, MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item)
+            register(input, Category.SR, 0.001, MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR.item)
+            register(input, Category.SSR, 0.0001, MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR.item)
         }
 
 

@@ -133,7 +133,7 @@ val mirageFlowerModule = module {
                     conditionally(age2Condition)
                     conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
                 },
-                LootPool(ItemLootPoolEntry(MirageFlourCard.TINY_MIRAGE_FLOUR.item.feature) {
+                LootPool(ItemLootPoolEntry(MirageFlourCard.TINY_MIRAGE_FLOUR.item) {
                     apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(2.0F, 6.0F)))
                     apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 1.0F, 0))
                     apply { ApplyLuckBonusLootFunction(0.2) }

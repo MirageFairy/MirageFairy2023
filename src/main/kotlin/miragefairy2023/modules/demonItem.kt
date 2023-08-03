@@ -238,8 +238,8 @@ val demonItemModule = module {
     // ミラージュフラワー→人工フェアリークリスタル
     onGenerateRecipes {
         CookingRecipeJsonBuilder
-            .create(Ingredient.ofItems(MirageFlourCard.MIRAGE_FLOUR.item.feature), DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item, 0.4F, 200, RecipeSerializer.SMELTING)
-            .criterion(RecipeProvider.hasItem(MirageFlourCard.MIRAGE_FLOUR.item.feature), RecipeProvider.conditionsFromItem(MirageFlourCard.MIRAGE_FLOUR.item.feature))
+            .create(Ingredient.ofItems(MirageFlourCard.MIRAGE_FLOUR.item), DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item, 0.4F, 200, RecipeSerializer.SMELTING)
+            .criterion(RecipeProvider.hasItem(MirageFlourCard.MIRAGE_FLOUR.item), RecipeProvider.conditionsFromItem(MirageFlourCard.MIRAGE_FLOUR.item))
             .group(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item)
             .offerTo(it, DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item.identifier)
     }
@@ -302,7 +302,7 @@ val demonItemModule = module {
 
         // MOD
         generateBuyingRecipe(50, { mirageSeedItem.feature }, 8)
-        generateBuyingRecipe(50, { MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item.feature }, 3)
+        generateBuyingRecipe(50, { MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item }, 3)
         generateBuyingRecipe(50, { DemonItemCard.XARPITE.item }, 1)
         generateBuyingRecipe(50, { DemonItemCard.MIRANAGITE.item }, 1)
 

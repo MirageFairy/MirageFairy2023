@@ -17,13 +17,9 @@ import miragefairy2023.util.draw
 import miragefairy2023.util.get
 import miragefairy2023.util.getValue
 import miragefairy2023.util.hasSameItemAndNbt
-import miragefairy2023.util.identifier
-import miragefairy2023.util.init.FeatureSlot
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJa
-import miragefairy2023.util.init.enJaItem
 import miragefairy2023.util.init.group
-import miragefairy2023.util.init.item
 import miragefairy2023.util.int
 import miragefairy2023.util.obtain
 import miragefairy2023.util.orDefault
@@ -48,16 +44,18 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.text.Text
 import net.minecraft.util.Hand
+import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.UseAction
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
 
 enum class MirageFlourCard(
-    val creator: MirageFlourCard.(Item.Settings) -> Item,
-    val itemId: String,
+    creator: MirageFlourCard.(Item.Settings) -> Item,
+    itemId: String,
     val enName: String,
     val jaName: String,
     val poemList: List<Poem>,
@@ -102,7 +100,8 @@ enum class MirageFlourCard(
     ),
     ;
 
-    lateinit var item: FeatureSlot<Item>
+    val identifier = Identifier(MirageFairy2023.modId, itemId)
+    val item = creator(this, FabricItemSettings().group(commonItemGroup))
 }
 
 
@@ -110,12 +109,18 @@ val mirageFlourModule = module {
 
     // 全体
     MirageFlourCard.values().forEach { card ->
-        card.item = item(card.itemId, { card.creator(card, FabricItemSettings().group(commonItemGroup)) }) {
-            onGenerateItemModels { it.register(feature, Models.GENERATED) }
-            enJaItem({ feature }, card.enName, card.jaName)
-            generatePoemList({ feature }, card.poemList)
-            onRegisterItems { registerPoemList(feature, card.poemList) }
-        }
+
+        // 登録
+        Registry.register(Registry.ITEM, card.identifier, card.item)
+
+        // モデル
+        onGenerateItemModels { it.register(card.item, Models.GENERATED) }
+
+        // 翻訳
+        enJa(card.item, card.enName, card.jaName)
+        generatePoemList(card.item, card.poemList)
+        onRegisterItems { registerPoemList(card.item, card.poemList) }
+
     }
 
     // アイテムツールチップの翻訳
@@ -126,28 +131,26 @@ val mirageFlourModule = module {
     enJa(MirageFlourItem.SHIFT_RIGHT_CLICK_KEY)
 
     // ミラージュフラワー相互変換
-    fun registerMirageFlourRecipe(lowerItemGetter: () -> Item, higherItemGetter: () -> Item) = onGenerateRecipes {
-        val lowerItem = lowerItemGetter()
-        val higherItem = higherItemGetter()
+    fun registerMirageFlourRecipe(lower: MirageFlourCard, higher: MirageFlourCard) = onGenerateRecipes {
         ShapelessRecipeJsonBuilder
-            .create(higherItem, 1)
-            .input(lowerItem, 8)
-            .criterion(lowerItem)
-            .group(higherItem)
-            .offerTo(it, higherItem.identifier)
+            .create(higher.item, 1)
+            .input(lower.item, 8)
+            .criterion(lower.item)
+            .group(higher.item)
+            .offerTo(it, higher.identifier)
         ShapelessRecipeJsonBuilder
-            .create(lowerItem, 8)
-            .input(higherItem, 1)
-            .criterion(higherItem)
-            .group(lowerItem)
-            .offerTo(it, lowerItem.identifier concat "_from_${higherItem.identifier.path}")
+            .create(lower.item, 8)
+            .input(higher.item, 1)
+            .criterion(higher.item)
+            .group(lower.item)
+            .offerTo(it, lower.identifier concat "_from_${higher.identifier.path}")
     }
-    registerMirageFlourRecipe({ MirageFlourCard.TINY_MIRAGE_FLOUR.item.feature }, { MirageFlourCard.MIRAGE_FLOUR.item.feature })
-    registerMirageFlourRecipe({ MirageFlourCard.MIRAGE_FLOUR.item.feature }, { MirageFlourCard.RARE_MIRAGE_FLOUR.item.feature })
-    registerMirageFlourRecipe({ MirageFlourCard.RARE_MIRAGE_FLOUR.item.feature }, { MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item.feature })
-    registerMirageFlourRecipe({ MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item.feature }, { MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR.item.feature })
-    registerMirageFlourRecipe({ MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR.item.feature }, { MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR.item.feature })
-    registerMirageFlourRecipe({ MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR.item.feature }, { MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR.item.feature })
+    registerMirageFlourRecipe(MirageFlourCard.TINY_MIRAGE_FLOUR, MirageFlourCard.MIRAGE_FLOUR)
+    registerMirageFlourRecipe(MirageFlourCard.MIRAGE_FLOUR, MirageFlourCard.RARE_MIRAGE_FLOUR)
+    registerMirageFlourRecipe(MirageFlourCard.RARE_MIRAGE_FLOUR, MirageFlourCard.VERY_RARE_MIRAGE_FLOUR)
+    registerMirageFlourRecipe(MirageFlourCard.VERY_RARE_MIRAGE_FLOUR, MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR)
+    registerMirageFlourRecipe(MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR, MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR)
+    registerMirageFlourRecipe(MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR, MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR)
 
 }
 
