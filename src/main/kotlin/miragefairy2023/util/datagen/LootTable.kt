@@ -6,7 +6,6 @@ import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
 import miragefairy2023.util.string
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
-import net.minecraft.block.Block
 import net.minecraft.item.ItemConvertible
 import net.minecraft.loot.LootPool
 import net.minecraft.loot.LootTable
@@ -83,7 +82,7 @@ fun UniformLootNumberProvider(min: Float, max: Float): UniformLootNumberProvider
 // LootCondition
 
 @Suppress("FunctionName")
-fun ExactMatchBlockStatePropertyLootCondition(block: Block, identifier: Identifier, property: Property<Int>, value: Int) = LootCondition.Builder {
+fun ExactMatchBlockStatePropertyLootCondition(identifier: Identifier, property: Property<Int>, value: Int) = LootCondition.Builder {
     val jsonElement = jsonObjectOf(
         "block" to identifier.string.jsonPrimitive,
         "condition" to "minecraft:block_state_property".jsonPrimitive,
@@ -95,7 +94,7 @@ fun ExactMatchBlockStatePropertyLootCondition(block: Block, identifier: Identifi
 }
 
 @Suppress("FunctionName")
-fun RangedMatchBlockStatePropertyLootCondition(block: Block, identifier: Identifier, property: Property<Int>, min: Int, max: Int) = LootCondition.Builder {
+fun RangedMatchBlockStatePropertyLootCondition(identifier: Identifier, property: Property<Int>, min: Int, max: Int) = LootCondition.Builder {
     val jsonElement = jsonObjectOf(
         "block" to identifier.string.jsonPrimitive,
         "condition" to "minecraft:block_state_property".jsonPrimitive,

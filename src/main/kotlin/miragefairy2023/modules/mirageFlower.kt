@@ -154,8 +154,8 @@ val mirageFlowerModule = module {
 
     // ドロップ
     generateBlockLootTable(MirageFlower.block) {
-        val age2Condition = RangedMatchBlockStatePropertyLootCondition(MirageFlower.block, MirageFlower.identifier, MirageFlowerBlock.AGE, 2, 3)
-        val age3Condition = ExactMatchBlockStatePropertyLootCondition(MirageFlower.block, MirageFlower.identifier, MirageFlowerBlock.AGE, 3)
+        val age2Condition = RangedMatchBlockStatePropertyLootCondition(MirageFlower.identifier, MirageFlowerBlock.AGE, 2, 3)
+        val age3Condition = ExactMatchBlockStatePropertyLootCondition(MirageFlower.identifier, MirageFlowerBlock.AGE, 3)
         LootTable(
             LootPool(ItemLootPoolEntry(MirageFlower.seedItem)) { // ベース種ドロップ
                 conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
