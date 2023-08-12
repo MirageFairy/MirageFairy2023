@@ -16,7 +16,7 @@ import net.minecraft.nbt.NbtList
 import net.minecraft.server.network.ServerPlayerEntity
 import org.slf4j.LoggerFactory
 
-val ITEM_TRANSPORTATION_LIMIT = 1000
+val ITEM_TRANSPORTATION_LIMIT = 2000
 
 val ITEM_TRANSPORTATION_COUNT_KEY = Translation("${MirageFairy2023.modId}.item_transportation.count", "Items in transport: %s / Max %s", "転送中のアイテム: %s / 最大 %s")
 val ITEM_TRANSPORTATION_OVERFLOWED_KEY = Translation("${MirageFairy2023.modId}.item_transportation.overflowed", "Transport limit reached!", "転送の上限に達しました！")
