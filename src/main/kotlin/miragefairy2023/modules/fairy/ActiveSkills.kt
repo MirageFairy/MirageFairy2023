@@ -33,7 +33,7 @@ fun itemTransportation(): ActiveSkill = object : ActiveSkill {
     override fun action(itemStack: ItemStack, world: World, user: LivingEntity, useTicks: Int) {
         if (world.isClient) return
         if (useTicks >= 20) {
-            if (user !is ServerPlayerEntity) return // プライヤーのみが実行可能
+            if (user !is ServerPlayerEntity) return // プレイヤーのみが実行可能
 
             if (user.itemTransportation.size() >= ITEM_TRANSPORTATION_LIMIT) {
                 user.sendMessage(text { ITEM_TRANSPORTATION_OVERFLOWED_KEY() }, true)
@@ -50,9 +50,11 @@ fun itemTransportation(): ActiveSkill = object : ActiveSkill {
 
             // 成立
 
-            // アイテムを減らす
+            // 消費
             val removedFairyItemStack = itemStack.split(1)
             if (itemStack.isEmpty) user.setStackInHand(fairyHand, EMPTY_ITEM_STACK)
+
+            // アイテムを減らす
             user.setStackInHand(targetHand, EMPTY_ITEM_STACK)
 
             // 格納
