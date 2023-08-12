@@ -525,6 +525,7 @@ enum class FairyCard(
         passiveSkills {
             mana(0.5) on always()
             mana(0.5) on overworld()
+            regeneration(0.1) on toolMaterial(ToolMaterialCard.MIRAGE)
         },
         null,
         FairyRecipes().overworld().block(MirageFlower.block).recipe(MirageFlower.seedItem),
