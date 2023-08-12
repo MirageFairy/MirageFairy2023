@@ -72,6 +72,14 @@ class ToolItemCard<T : Item>(
             ),
             DreamCatcherType(ToolMaterialCard.CHAOS_STONE, 400),
         )
+        val POCKET_LILY_WAND = ToolItemCard(
+            "pocket_lily_wand", "Pocket Lily Wand", "ポケットリリーワンド",
+            listOf(
+                Poem("A spatial flower that shrinks matter", "つつみの中に飛び込んで！"),
+                Description("Use to transfer the offhand item", "使用時、オフハンドのアイテムを転送"),
+            ),
+            PocketLilyWandType(ToolMaterialCard.MIRAGE),
+        )
         val ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE = ToolItemCard(
             "artificial_fairy_crystal_pickaxe", "Crystal Pickaxe", "クリスタルのつるはし",
             listOf(Poem("Amorphous mental body of fairies", "妖精さえ怖れる、技術の結晶。")),
@@ -166,6 +174,20 @@ val toolItemModule = module {
             .criterion(ToolItemCard.DREAM_CATCHER.item)
             .group(ToolItemCard.BLUE_DREAM_CATCHER.item)
             .offerTo(it, ToolItemCard.BLUE_DREAM_CATCHER.item.identifier)
+    }
+
+    // ポケットリリーワンド
+    onGenerateRecipes {
+        ShapedRecipeJsonBuilder
+            .create(ToolItemCard.POCKET_LILY_WAND.item)
+            .pattern("FL")
+            .pattern("RF")
+            .input('R', DemonItemCard.MIRAGE_STEM.item)
+            .input('L', Items.LILY_OF_THE_VALLEY)
+            .input('F', ItemTags.SMALL_FLOWERS)
+            .criterion(Items.LILY_OF_THE_VALLEY)
+            .group(ToolItemCard.POCKET_LILY_WAND.item)
+            .offerTo(it, ToolItemCard.POCKET_LILY_WAND.item.identifier)
     }
 
     // クリスタルのつるはし
@@ -333,5 +355,12 @@ private class TrinketAccessoryType<I>(private val trinketsSlotCards: List<Trinke
             onGenerateItemTags { it(trinketsSlotCard.tag).add(card.item) }
         }
         onRegisterItems { TrinketsApi.registerTrinket(card.item, card.item) }
+    }
+}
+
+private class PocketLilyWandType(private val toolMaterialCard: ToolMaterialCard) : ToolItemCardType<PocketLilyWandItem>(Models.HANDHELD) {
+    override fun createItem() = PocketLilyWandItem(toolMaterialCard.toolMaterial, FabricItemSettings().group(commonItemGroup))
+    override fun init(scope: InitializationScope, card: ToolItemCard<PocketLilyWandItem>) = scope.run {
+        onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
     }
 }

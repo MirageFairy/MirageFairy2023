@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "miragefairy2023:pocket_lily_wand",
+  "key": {
+    "F": {
+      "tag": "minecraft:small_flowers"
+    },
+    "L": {
+      "item": "minecraft:lily_of_the_valley"
+    },
+    "R": {
+      "item": "miragefairy2023:mirage_stem"
+    }
+  },
+  "pattern": [
+    "FL",
+    "RF"
+  ],
+  "result": {
+    "item": "miragefairy2023:pocket_lily_wand"
+  }
+}
