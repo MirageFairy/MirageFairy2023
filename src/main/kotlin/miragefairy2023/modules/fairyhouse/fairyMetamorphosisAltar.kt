@@ -9,7 +9,6 @@ import miragefairy2023.modules.DemonBlockCard
 import miragefairy2023.modules.DemonItemCard
 import miragefairy2023.modules.DemonParticleTypeCard
 import miragefairy2023.modules.Description
-import miragefairy2023.modules.MirageFlourCard
 import miragefairy2023.modules.Poem
 import miragefairy2023.util.Chance
 import miragefairy2023.util.EMPTY_ITEM_STACK
@@ -74,7 +73,7 @@ val fairyMetamorphosisAltarModule = module {
             .pattern("SSS")
             .input('B', DemonBlockCard.MIRANAGITE_BLOCK.item)
             .input('G', DemonItemCard.MIRANAGITE.item)
-            .input('D', MirageFlourCard.MIRAGE_FLOUR.item)
+            .input('D', DemonItemCard.MIRAGE_FLOUR.item)
             .input('S', Blocks.STONE)
             .criterion(DemonItemCard.MIRANAGITE.item)
             .group(fairyMetamorphosisAltar.item)
@@ -153,11 +152,11 @@ object FairyMetamorphosisAltarRecipe {
         }
 
         fun registerMirageFlour(input: Item) {
-            register(input, Category.N, 1.0, MirageFlourCard.MIRAGE_FLOUR.item)
-            register(input, Category.N, 0.1, MirageFlourCard.RARE_MIRAGE_FLOUR.item)
-            register(input, Category.R, 0.01, MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item)
-            register(input, Category.SR, 0.001, MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR.item)
-            register(input, Category.SSR, 0.0001, MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR.item)
+            register(input, Category.N, 1.0, DemonItemCard.MIRAGE_FLOUR.item)
+            register(input, Category.N, 0.1, DemonItemCard.RARE_MIRAGE_FLOUR.item)
+            register(input, Category.R, 0.01, DemonItemCard.VERY_RARE_MIRAGE_FLOUR.item)
+            register(input, Category.SR, 0.001, DemonItemCard.ULTRA_RARE_MIRAGE_FLOUR.item)
+            register(input, Category.SSR, 0.0001, DemonItemCard.SUPER_RARE_MIRAGE_FLOUR.item)
         }
 
 

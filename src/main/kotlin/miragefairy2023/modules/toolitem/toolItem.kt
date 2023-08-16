@@ -8,7 +8,6 @@ import miragefairy2023.api.PassiveSkill
 import miragefairy2023.module
 import miragefairy2023.modules.DemonItemCard
 import miragefairy2023.modules.Description
-import miragefairy2023.modules.MirageFlourCard
 import miragefairy2023.modules.Penalty
 import miragefairy2023.modules.Poem
 import miragefairy2023.modules.ToolMaterialCard
@@ -206,7 +205,7 @@ val toolItemModule = module {
             .pattern(" R")
             .pattern("D ")
             .input('R', DemonItemCard.MIRAGE_STEM.item)
-            .input('D', MirageFlourCard.MIRAGE_FLOUR.item)
+            .input('D', DemonItemCard.MIRAGE_FLOUR.item)
             .criterion(DemonItemCard.MIRAGE_STEM.item)
             .group(ToolItemCard.MIRAGE_PENDANT.item)
             .offerTo(it, ToolItemCard.MIRAGE_PENDANT.item.identifier)

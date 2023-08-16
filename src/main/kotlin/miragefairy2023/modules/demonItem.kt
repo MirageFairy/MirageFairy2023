@@ -176,19 +176,7 @@ enum class DemonItemCard(
         "miranagite_rod", "Miranagite Rod", "蒼天石の棒",
         listOf(Poem("Mana flows well through the core", "蒼天に従える光条は、魔力の祝福を示す。")),
     ),
-    ;
 
-    val identifier = Identifier(MirageFairy2023.modId, path)
-    val item = creator(this, FabricItemSettings().group(commonItemGroup))
-}
-
-enum class MirageFlourCard(
-    creator: MirageFlourCard.(Item.Settings) -> Item,
-    val path: String,
-    val enName: String,
-    val jaName: String,
-    val poemList: List<Poem>,
-) {
     TINY_MIRAGE_FLOUR(
         { MirageFlourItem(this, it, null, 2, 1.0, 1) },
         "tiny_mirage_flour", "Tiny Pile of Mirage Flour", "ミラージュの花粉",
@@ -227,6 +215,7 @@ enum class MirageFlourCard(
             Poem("poem2", "capture ether beyond observable universe", "讃えよ、アーカーシャに眠る自由の頂きを。"),
         ),
     ),
+
     ;
 
     val identifier = Identifier(MirageFairy2023.modId, path)
@@ -238,22 +227,6 @@ val demonItemModule = module {
 
     // 全体
     DemonItemCard.values().forEach { card ->
-
-        // 登録
-        Registry.register(Registry.ITEM, card.identifier, card.item)
-
-        // モデル
-        onGenerateItemModels { it.register(card.item, Models.GENERATED) }
-
-        // 翻訳
-        enJa(card.item, card.enName, card.jaName)
-        generatePoemList(card.item, card.poemList)
-        onRegisterItems { registerPoemList(card.item, card.poemList) }
-
-    }
-
-    // 全体
-    MirageFlourCard.values().forEach { card ->
 
         // 登録
         Registry.register(Registry.ITEM, card.identifier, card.item)
@@ -383,8 +356,8 @@ val demonItemModule = module {
     // ミラージュフラワー→人工フェアリークリスタル
     onGenerateRecipes {
         CookingRecipeJsonBuilder
-            .create(Ingredient.ofItems(MirageFlourCard.MIRAGE_FLOUR.item), DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item, 0.4F, 200, RecipeSerializer.SMELTING)
-            .criterion(RecipeProvider.hasItem(MirageFlourCard.MIRAGE_FLOUR.item), RecipeProvider.conditionsFromItem(MirageFlourCard.MIRAGE_FLOUR.item))
+            .create(Ingredient.ofItems(DemonItemCard.MIRAGE_FLOUR.item), DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item, 0.4F, 200, RecipeSerializer.SMELTING)
+            .criterion(RecipeProvider.hasItem(DemonItemCard.MIRAGE_FLOUR.item), RecipeProvider.conditionsFromItem(DemonItemCard.MIRAGE_FLOUR.item))
             .group(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item)
             .offerTo(it, DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item.identifier)
     }
@@ -451,7 +424,7 @@ val demonItemModule = module {
 
         // MOD
         generateBuyingRecipe(50, MirageFlower.seedItem, 8)
-        generateBuyingRecipe(50, MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item, 3)
+        generateBuyingRecipe(50, DemonItemCard.VERY_RARE_MIRAGE_FLOUR.item, 3)
         generateBuyingRecipe(50, DemonItemCard.XARPITE.item, 1)
         generateBuyingRecipe(50, DemonItemCard.MIRANAGITE.item, 1)
 
@@ -513,7 +486,7 @@ val demonItemModule = module {
 
     // ミラージュフラワー相互変換
     run {
-        fun registerMirageFlourRecipe(lower: MirageFlourCard, higher: MirageFlourCard) = onGenerateRecipes {
+        fun registerMirageFlourRecipe(lower: DemonItemCard, higher: DemonItemCard) = onGenerateRecipes {
             ShapelessRecipeJsonBuilder
                 .create(higher.item, 1)
                 .input(lower.item, 8)
@@ -527,12 +500,12 @@ val demonItemModule = module {
                 .group(lower.item)
                 .offerTo(it, lower.identifier concat "_from_${higher.identifier.path}")
         }
-        registerMirageFlourRecipe(MirageFlourCard.TINY_MIRAGE_FLOUR, MirageFlourCard.MIRAGE_FLOUR)
-        registerMirageFlourRecipe(MirageFlourCard.MIRAGE_FLOUR, MirageFlourCard.RARE_MIRAGE_FLOUR)
-        registerMirageFlourRecipe(MirageFlourCard.RARE_MIRAGE_FLOUR, MirageFlourCard.VERY_RARE_MIRAGE_FLOUR)
-        registerMirageFlourRecipe(MirageFlourCard.VERY_RARE_MIRAGE_FLOUR, MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR)
-        registerMirageFlourRecipe(MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR, MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR)
-        registerMirageFlourRecipe(MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR, MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR)
+        registerMirageFlourRecipe(DemonItemCard.TINY_MIRAGE_FLOUR, DemonItemCard.MIRAGE_FLOUR)
+        registerMirageFlourRecipe(DemonItemCard.MIRAGE_FLOUR, DemonItemCard.RARE_MIRAGE_FLOUR)
+        registerMirageFlourRecipe(DemonItemCard.RARE_MIRAGE_FLOUR, DemonItemCard.VERY_RARE_MIRAGE_FLOUR)
+        registerMirageFlourRecipe(DemonItemCard.VERY_RARE_MIRAGE_FLOUR, DemonItemCard.ULTRA_RARE_MIRAGE_FLOUR)
+        registerMirageFlourRecipe(DemonItemCard.ULTRA_RARE_MIRAGE_FLOUR, DemonItemCard.SUPER_RARE_MIRAGE_FLOUR)
+        registerMirageFlourRecipe(DemonItemCard.SUPER_RARE_MIRAGE_FLOUR, DemonItemCard.EXTREMELY_RARE_MIRAGE_FLOUR)
     }
 
 }
@@ -540,7 +513,7 @@ val demonItemModule = module {
 
 class CommonFairyEntry(val fairy: Fairy, val predicate: (PlayerEntity) -> Boolean)
 
-class MirageFlourItem(val card: MirageFlourCard, settings: Settings, private val minRare: Int?, private val maxRare: Int?, private val factor: Double, private val times: Int) : Item(settings) {
+class MirageFlourItem(val card: DemonItemCard, settings: Settings, private val minRare: Int?, private val maxRare: Int?, private val factor: Double, private val times: Int) : Item(settings) {
     companion object {
         private val prefix = "item.${MirageFairy2023.modId}.mirage_flour"
         val MIN_RARE_KEY = Translation("$prefix.min_rare_key", "Minimum Rare: %s", "最低レア度: %s")

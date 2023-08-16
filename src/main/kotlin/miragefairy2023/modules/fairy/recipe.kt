@@ -3,7 +3,6 @@ package miragefairy2023.modules.fairy
 import miragefairy2023.InitializationScope
 import miragefairy2023.modules.CommonFairyEntry
 import miragefairy2023.modules.DemonItemCard
-import miragefairy2023.modules.MirageFlourCard
 import miragefairy2023.modules.MirageFlourItem
 import miragefairy2023.modules.passiveskill.BiomePassiveSkillCondition
 import miragefairy2023.util.concat
@@ -99,13 +98,13 @@ fun FairyRecipes.recipe(inputItem: Item) = this.also {
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
             initializationScope.onGenerateRecipes {
                 val mirageFlourItem = when (fairyCard.rare) {
-                    0 -> MirageFlourCard.TINY_MIRAGE_FLOUR.item
-                    1, 2 -> MirageFlourCard.MIRAGE_FLOUR.item
-                    3, 4 -> MirageFlourCard.RARE_MIRAGE_FLOUR.item
-                    5, 6 -> MirageFlourCard.VERY_RARE_MIRAGE_FLOUR.item
-                    7, 8 -> MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR.item
-                    9, 10 -> MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR.item
-                    11, 12 -> MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR.item
+                    0 -> DemonItemCard.TINY_MIRAGE_FLOUR.item
+                    1, 2 -> DemonItemCard.MIRAGE_FLOUR.item
+                    3, 4 -> DemonItemCard.RARE_MIRAGE_FLOUR.item
+                    5, 6 -> DemonItemCard.VERY_RARE_MIRAGE_FLOUR.item
+                    7, 8 -> DemonItemCard.ULTRA_RARE_MIRAGE_FLOUR.item
+                    9, 10 -> DemonItemCard.SUPER_RARE_MIRAGE_FLOUR.item
+                    11, 12 -> DemonItemCard.EXTREMELY_RARE_MIRAGE_FLOUR.item
                     else -> throw AssertionError()
                 }
                 ShapelessRecipeJsonBuilder
