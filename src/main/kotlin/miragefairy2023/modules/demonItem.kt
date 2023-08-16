@@ -482,26 +482,28 @@ val demonItemModule = module {
     }
 
     // ミラージュフラワー相互変換
-    fun registerMirageFlourRecipe(lower: MirageFlourCard, higher: MirageFlourCard) = onGenerateRecipes {
-        ShapelessRecipeJsonBuilder
-            .create(higher.item, 1)
-            .input(lower.item, 8)
-            .criterion(lower.item)
-            .group(higher.item)
-            .offerTo(it, higher.identifier)
-        ShapelessRecipeJsonBuilder
-            .create(lower.item, 8)
-            .input(higher.item, 1)
-            .criterion(higher.item)
-            .group(lower.item)
-            .offerTo(it, lower.identifier concat "_from_${higher.identifier.path}")
+    run {
+        fun registerMirageFlourRecipe(lower: MirageFlourCard, higher: MirageFlourCard) = onGenerateRecipes {
+            ShapelessRecipeJsonBuilder
+                .create(higher.item, 1)
+                .input(lower.item, 8)
+                .criterion(lower.item)
+                .group(higher.item)
+                .offerTo(it, higher.identifier)
+            ShapelessRecipeJsonBuilder
+                .create(lower.item, 8)
+                .input(higher.item, 1)
+                .criterion(higher.item)
+                .group(lower.item)
+                .offerTo(it, lower.identifier concat "_from_${higher.identifier.path}")
+        }
+        registerMirageFlourRecipe(MirageFlourCard.TINY_MIRAGE_FLOUR, MirageFlourCard.MIRAGE_FLOUR)
+        registerMirageFlourRecipe(MirageFlourCard.MIRAGE_FLOUR, MirageFlourCard.RARE_MIRAGE_FLOUR)
+        registerMirageFlourRecipe(MirageFlourCard.RARE_MIRAGE_FLOUR, MirageFlourCard.VERY_RARE_MIRAGE_FLOUR)
+        registerMirageFlourRecipe(MirageFlourCard.VERY_RARE_MIRAGE_FLOUR, MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR)
+        registerMirageFlourRecipe(MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR, MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR)
+        registerMirageFlourRecipe(MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR, MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR)
     }
-    registerMirageFlourRecipe(MirageFlourCard.TINY_MIRAGE_FLOUR, MirageFlourCard.MIRAGE_FLOUR)
-    registerMirageFlourRecipe(MirageFlourCard.MIRAGE_FLOUR, MirageFlourCard.RARE_MIRAGE_FLOUR)
-    registerMirageFlourRecipe(MirageFlourCard.RARE_MIRAGE_FLOUR, MirageFlourCard.VERY_RARE_MIRAGE_FLOUR)
-    registerMirageFlourRecipe(MirageFlourCard.VERY_RARE_MIRAGE_FLOUR, MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR)
-    registerMirageFlourRecipe(MirageFlourCard.ULTRA_RARE_MIRAGE_FLOUR, MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR)
-    registerMirageFlourRecipe(MirageFlourCard.SUPER_RARE_MIRAGE_FLOUR, MirageFlourCard.EXTREMELY_RARE_MIRAGE_FLOUR)
 
 }
 
