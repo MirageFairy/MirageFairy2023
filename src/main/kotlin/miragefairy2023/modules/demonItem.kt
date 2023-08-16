@@ -226,6 +226,35 @@ val demonItemModule = module {
         onRegisterItems { registerPoemList(card.item, card.poemList) }
     }
 
+    // 全体
+    MirageFlourCard.values().forEach { card ->
+
+        // 登録
+        Registry.register(Registry.ITEM, card.identifier, card.item)
+
+        // モデル
+        onGenerateItemModels { it.register(card.item, Models.GENERATED) }
+
+        // 翻訳
+        enJa(card.item, card.enName, card.jaName)
+        generatePoemList(card.item, card.poemList)
+        onRegisterItems { registerPoemList(card.item, card.poemList) }
+
+    }
+
+
+    // 翻訳
+
+    // ミラージュフラワー
+    enJa(MirageFlourItem.MIN_RARE_KEY)
+    enJa(MirageFlourItem.MAX_RARE_KEY)
+    enJa(MirageFlourItem.DROP_RATE_FACTOR_KEY)
+    enJa(MirageFlourItem.RIGHT_CLICK_KEY)
+    enJa(MirageFlourItem.SHIFT_RIGHT_CLICK_KEY)
+
+
+    // レシピ
+
     // 魔女→紅天石
     registerMobDrop(EntityType.WITCH, DemonItemCard.XARPITE.item, onlyKilledByPlayer = true, fortuneFactor = UniformLootNumberProvider(0.0F, 1.0F))
 
@@ -451,30 +480,6 @@ val demonItemModule = module {
         generateBuyingRecipe(50, Items.SOUL_SAND, 8)
         generateBuyingRecipe(50, Items.MAGMA_BLOCK, 4)
     }
-
-
-    // 全体
-    MirageFlourCard.values().forEach { card ->
-
-        // 登録
-        Registry.register(Registry.ITEM, card.identifier, card.item)
-
-        // モデル
-        onGenerateItemModels { it.register(card.item, Models.GENERATED) }
-
-        // 翻訳
-        enJa(card.item, card.enName, card.jaName)
-        generatePoemList(card.item, card.poemList)
-        onRegisterItems { registerPoemList(card.item, card.poemList) }
-
-    }
-
-    // アイテムツールチップの翻訳
-    enJa(MirageFlourItem.MIN_RARE_KEY)
-    enJa(MirageFlourItem.MAX_RARE_KEY)
-    enJa(MirageFlourItem.DROP_RATE_FACTOR_KEY)
-    enJa(MirageFlourItem.RIGHT_CLICK_KEY)
-    enJa(MirageFlourItem.SHIFT_RIGHT_CLICK_KEY)
 
     // ミラージュフラワー相互変換
     fun registerMirageFlourRecipe(lower: MirageFlourCard, higher: MirageFlourCard) = onGenerateRecipes {
