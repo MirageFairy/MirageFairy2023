@@ -378,30 +378,32 @@ val demonItemModule = module {
 
     // 両替レシピ
     run {
-
-        fun generateExchangeRecipe(lower: DemonItemCard, higher: DemonItemCard, multiplier: Int) = onGenerateRecipes {
+        fun generateExchangeRecipe(lower: DemonItemCard, higher: DemonItemCard, multiplier: Int) {
 
             // 圧縮
-            ShapelessRecipeJsonBuilder
-                .create(higher.item, 1)
-                .input(lower.item, multiplier)
-                .criterion(lower.item)
-                .group(higher.item)
-                .offerTo(it, higher.identifier concat "_from_${lower.identifier.path}")
+            onGenerateRecipes {
+                ShapelessRecipeJsonBuilder
+                    .create(higher.item, 1)
+                    .input(lower.item, multiplier)
+                    .criterion(lower.item)
+                    .group(higher.item)
+                    .offerTo(it, higher.identifier concat "_from_${lower.identifier.path}")
+
+            }
 
             // 分解
-            ShapelessRecipeJsonBuilder
-                .create(lower.item, multiplier)
-                .input(higher.item, 1)
-                .criterion(higher.item)
-                .group(lower.item)
-                .offerTo(it, lower.identifier concat "_from_${higher.identifier.path}")
+            onGenerateRecipes {
+                ShapelessRecipeJsonBuilder
+                    .create(lower.item, multiplier)
+                    .input(higher.item, 1)
+                    .criterion(higher.item)
+                    .group(lower.item)
+                    .offerTo(it, lower.identifier concat "_from_${higher.identifier.path}")
+            }
 
         }
-
         generateExchangeRecipe(DemonItemCard.FAIRY_CRYSTAL_50, DemonItemCard.FAIRY_CRYSTAL_100, 2)
         generateExchangeRecipe(DemonItemCard.FAIRY_CRYSTAL_100, DemonItemCard.FAIRY_CRYSTAL_500, 5)
-
     }
 
     // 購入レシピ
