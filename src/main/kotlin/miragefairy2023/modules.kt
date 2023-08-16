@@ -16,7 +16,6 @@ import miragefairy2023.modules.itemTransportationModule
 import miragefairy2023.modules.lastFoodModule
 import miragefairy2023.modules.luckBonusModule
 import miragefairy2023.modules.luminariaModule
-import miragefairy2023.modules.mirageFlourModule
 import miragefairy2023.modules.mirageFlowerModule
 import miragefairy2023.modules.particleModule
 import miragefairy2023.modules.passiveskill.passiveSkillModule
@@ -60,7 +59,6 @@ val modules = module {
         demonItemModule()
         mirageFlowerModule()
         luminariaModule()
-        mirageFlourModule()
         toolItemModule()
 
         // ブロック追加系

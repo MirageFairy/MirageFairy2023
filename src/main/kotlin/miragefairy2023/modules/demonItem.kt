@@ -452,9 +452,6 @@ val demonItemModule = module {
         generateBuyingRecipe(50, Items.MAGMA_BLOCK, 4)
     }
 
-}
-
-val mirageFlourModule = module {
 
     // 全体
     MirageFlourCard.values().forEach { card ->
