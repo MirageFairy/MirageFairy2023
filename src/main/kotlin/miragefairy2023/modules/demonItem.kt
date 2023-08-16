@@ -219,11 +219,18 @@ val demonItemModule = module {
 
     // 全体
     DemonItemCard.values().forEach { card ->
+
+        // 登録
         Registry.register(Registry.ITEM, card.identifier, card.item)
+
+        // モデル
         onGenerateItemModels { it.register(card.item, Models.GENERATED) }
+
+        // 翻訳
         enJa(card.item, card.enName, card.jaName)
         generatePoemList(card.item, card.poemList)
         onRegisterItems { registerPoemList(card.item, card.poemList) }
+
     }
 
     // 全体
