@@ -407,18 +407,20 @@ val demonItemModule = module {
     }
 
     // 購入レシピ
-    onGenerateRecipes {
+    run {
         fun generateBuyingRecipe(cost: Int, target: Item, outputCount: Int) {
-            require(cost % 50 == 0)
-            ShapelessRecipeJsonBuilder
-                .create(target, outputCount + 1)
-                .input(target)
-                .input(DemonItemCard.FAIRY_CRYSTAL_500.item, cost / 500)
-                .input(DemonItemCard.FAIRY_CRYSTAL_100.item, cost % 500 / 100)
-                .input(DemonItemCard.FAIRY_CRYSTAL_50.item, cost % 100 / 50)
-                .criterion(target)
-                .group(target)
-                .offerTo(it, Identifier.of(modId, "buying/${target.identifier.path}"))
+            require(cost % 50 == 0)// TODO 小銭実装
+            onGenerateRecipes {
+                ShapelessRecipeJsonBuilder
+                    .create(target, outputCount + 1)
+                    .input(target)
+                    .input(DemonItemCard.FAIRY_CRYSTAL_500.item, cost / 500)
+                    .input(DemonItemCard.FAIRY_CRYSTAL_100.item, cost % 500 / 100)
+                    .input(DemonItemCard.FAIRY_CRYSTAL_50.item, cost % 100 / 50)
+                    .criterion(target)
+                    .group(target)
+                    .offerTo(it, Identifier.of(modId, "buying/${target.identifier.path}"))
+            }
         }
 
         // MOD
