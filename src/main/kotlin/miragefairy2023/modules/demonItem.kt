@@ -86,6 +86,16 @@ enum class DemonItemCard(
         "miranagite", "Miranagite", "蒼天石",
         listOf(Poem("Astral body crystallized by anti-entropy", "秩序の叛乱、天地創造の逆光。")),
     ),
+    MIRANAGITE_ROD(
+        { Item(it) },
+        "miranagite_rod", "Miranagite Rod", "蒼天石の棒",
+        listOf(Poem("Mana flows well through the core", "蒼天に従える光条は、魔力の祝福を示す。")),
+    ),
+    CHAOS_STONE(
+        { Item(it) },
+        "chaos_stone", "Chaos Stone", "混沌の石",
+        listOf(Poem("Chemical promoting catalyst", "魔力の暴走、加速する無秩序の流れ。")),
+    ),
 
     // ミラージュの葉
     // 硝子のような触り心地。
@@ -99,17 +109,6 @@ enum class DemonItemCard(
         { Item(it) },
         "artificial_fairy_crystal", "Artificial Fairy Crystal", "人工フェアリークリスタル",
         listOf(Poem("Uncanny crystal not worth even 1 Minia", "20Wのかまどで10秒。")),
-    ),
-
-    CHAOS_STONE(
-        { Item(it) },
-        "chaos_stone", "Chaos Stone", "混沌の石",
-        listOf(Poem("Chemical promoting catalyst", "魔力の暴走、加速する無秩序の流れ。")),
-    ),
-    MIRANAGITE_ROD(
-        { Item(it) },
-        "miranagite_rod", "Miranagite Rod", "蒼天石の棒",
-        listOf(Poem("Mana flows well through the core", "蒼天に従える光条は、魔力の祝福を示す。")),
     ),
 
 
@@ -317,6 +316,19 @@ val demonItemModule = module {
             .offerTo(it, Identifier.of(modId, "blaze_powder_from_anti_entropy"))
     }
 
+    // 蒼天石の棒
+    onGenerateRecipes {
+        ShapedRecipeJsonBuilder
+            .create(DemonItemCard.MIRANAGITE_ROD.item)
+            .pattern("  G")
+            .pattern(" G ")
+            .pattern("G  ")
+            .input('G', DemonItemCard.MIRANAGITE.item)
+            .criterion(DemonItemCard.MIRANAGITE_ROD.item)
+            .group(DemonItemCard.MIRANAGITE_ROD.item)
+            .offerTo(it, DemonItemCard.MIRANAGITE_ROD.item.identifier)
+    }
+
     // 2ミラージュの茎→棒
     onGenerateRecipes {
         ShapedRecipeJsonBuilder
@@ -354,19 +366,6 @@ val demonItemModule = module {
             .criterion(RecipeProvider.hasItem(DemonItemCard.MIRAGE_FLOUR.item), RecipeProvider.conditionsFromItem(DemonItemCard.MIRAGE_FLOUR.item))
             .group(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item)
             .offerTo(it, DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item.identifier)
-    }
-
-    // 蒼天石の棒
-    onGenerateRecipes {
-        ShapedRecipeJsonBuilder
-            .create(DemonItemCard.MIRANAGITE_ROD.item)
-            .pattern("  G")
-            .pattern(" G ")
-            .pattern("G  ")
-            .input('G', DemonItemCard.MIRANAGITE.item)
-            .criterion(DemonItemCard.MIRANAGITE_ROD.item)
-            .group(DemonItemCard.MIRANAGITE_ROD.item)
-            .offerTo(it, DemonItemCard.MIRANAGITE_ROD.item.identifier)
     }
 
     // ミラージュフラワー相互変換
