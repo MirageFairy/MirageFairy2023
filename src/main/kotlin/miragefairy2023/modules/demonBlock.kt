@@ -39,12 +39,12 @@ enum class DemonBlockCard(
 ) {
     CREATIVE_AURA_STONE(
         "creative_aura_stone", "Neutronium Block", "アカーシャの霊氣石",
-        listOf(Poem("Hypothetical substance with ideal hardness", "終末と創造の波紋。")),
+        listOf(Poem("Hypothetical element with ideal hardness", "終末と創造の波紋。")),
         Block(FabricBlockSettings.of(Material.STONE).strength(-1.0F, 3600000.0F).dropsNothing().allowsSpawning { _, _, _, _ -> false }),
     ),
     LOCAL_VACUUM_DECAY(
         "local_vacuum_decay", "Local Vacuum Decay", "局所真空崩壊",
-        listOf(Poem("Stable instability caused by anti-entropy", "これが秩序の究極の形だというのか？")),
+        listOf(Poem("Stable instability due to anti-entropy", "これが秩序の究極の形だというのか？")),
         Block(FabricBlockSettings.of(Material.STONE).strength(-1.0F, 3600000.0F).dropsNothing().allowsSpawning { _, _, _, _ -> false })
     ),
     MIRANAGITE_BLOCK(

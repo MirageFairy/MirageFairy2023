@@ -73,29 +73,29 @@ enum class MirageFlourCard(
     RARE_MIRAGE_FLOUR(
         { MirageFlourItem(this, it, 3, null, 10.0, 1) },
         "rare_mirage_flour", "Rare Mirage Flour", "中級ミラージュフラワー",
-        listOf(Poem("Use the difference in ether resistance", "艶やかなほたる色に煌めく鱗粉、妖精の耽美主義。")),
+        listOf(Poem("Use the difference in ether resistance", "艶やかなほたる色に煌めく鱗粉。")),
     ),
     VERY_RARE_MIRAGE_FLOUR(
         { MirageFlourItem(this, it, 5, null, 100.0, 1) },
         "very_rare_mirage_flour", "Very Rare Mirage Flour", "上級ミラージュフラワー",
-        listOf(Poem("As intelligent as humans", "金色の御霊示すは好奇心、朽ちた業前、明日を信じて。")),
+        listOf(Poem("As intelligent as humans", "黄金の魂が示す、好奇心の輝き。")),
     ),
     ULTRA_RARE_MIRAGE_FLOUR(
         { MirageFlourItem(this, it, 7, null, 1_000.0, 1) },
         "ultra_rare_mirage_flour", "Ultra Rare Mirage Flour", "高純度ミラージュフラワー",
-        listOf(Poem("Awaken fairies in the world and below", "現し世と常夜のほむら、空の下。大礼の咎、火の粉に宿る。")),
+        listOf(Poem("Awaken fairies in the world and below", "1,300ケルビンの夜景。")),
     ),
     SUPER_RARE_MIRAGE_FLOUR(
         { MirageFlourItem(this, it, 9, null, 10_000.0, 1) },
         "super_rare_mirage_flour", "Super Rare Mirage Flour", "超高純度ミラージュフラワー",
-        listOf(Poem("Explore atmosphere and nearby universe", "蒼淵を彷徨い歩く人々の、帰路を結える仁愛の光。")),
+        listOf(Poem("Explore atmosphere and nearby universe", "蒼淵を彷徨う影、導きの光。")),
     ),
     EXTREMELY_RARE_MIRAGE_FLOUR(
         { MirageFlourItem(this, it, 11, null, 100_000.0, 1) },
         "extremely_rare_mirage_flour", "Extremely Rare Mirage Flour", "極超高純度ミラージュフラワー",
         listOf(
-            Poem("poem1", "Leap spaces by collapsing time crystals", "運命の束、広がる時間の結晶、惨憺たる光速の呪いを解放せよ、"),
-            Poem("poem2", "and capture ethers beyond observable universe", "讃えよ、アーカーシャに眠る自由と功徳の頂きを。"),
+            Poem("poem1", "Leap spaces by collapsing time crystals,", "運命の束、時の結晶、光速の呪いを退けよ、"),
+            Poem("poem2", "capture ether beyond observable universe", "讃えよ、アーカーシャに眠る自由の頂きを。"),
         ),
     ),
     ;
