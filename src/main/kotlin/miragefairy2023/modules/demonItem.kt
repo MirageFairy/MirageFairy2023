@@ -95,26 +95,67 @@ enum class DemonItemCard(
         "mirage_stem", "Mirage Stem", "ミラージュの茎",
         listOf(Poem("Cell wall composed of amorphous ether", "植物が手掛ける、分子レベルの硝子細工。")),
     ),
-    HONORABLE_FAIRY_CRYSTAL(
-        { Item(it) },
-        "honorable_fairy_crystal", "Honorable Fairy Crystal", "名誉のフェアリークリスタル",
-        listOf(Poem("Appear out of nowhere", "妖精からの贈り物")),
-    ),
-    GLORIOUS_FAIRY_CRYSTAL(
-        { Item(it) },
-        "glorious_fairy_crystal", "Glorious Fairy Crystal", "栄光のフェアリークリスタル",
-        listOf(Poem("Not a substance formed in this world", "精霊王の表彰状")),
-    ),
-    LEGENDARY_FAIRY_CRYSTAL(
-        { Item(it) },
-        "legendary_fairy_crystal", "Legendary Fairy Crystal", "伝説のフェアリークリスタル",
-        listOf(Poem("Pluto exploded", "冥王が跳ね上がった")),
-    ),
     ARTIFICIAL_FAIRY_CRYSTAL(
         { Item(it) },
         "artificial_fairy_crystal", "Artificial Fairy Crystal", "人工フェアリークリスタル",
         listOf(Poem("Uncanny crystal not worth even 1 Minia", "20Wのかまどで10秒。")),
     ),
+
+    CHAOS_STONE(
+        { Item(it) },
+        "chaos_stone", "Chaos Stone", "混沌の石",
+        listOf(Poem("Chemical promoting catalyst", "魔力の暴走、加速する無秩序の流れ。")),
+    ),
+    MIRANAGITE_ROD(
+        { Item(it) },
+        "miranagite_rod", "Miranagite Rod", "蒼天石の棒",
+        listOf(Poem("Mana flows well through the core", "蒼天に従える光条は、魔力の祝福を示す。")),
+    ),
+
+
+    // ミラージュフラワー
+
+    TINY_MIRAGE_FLOUR(
+        { MirageFlourItem(this, it, null, 2, 1.0, 1) },
+        "tiny_mirage_flour", "Tiny Pile of Mirage Flour", "ミラージュの花粉",
+        listOf(Poem("Compose the body of Mirage fairy", "ささやかな温もりを、てのひらの上に。")),
+    ),
+    MIRAGE_FLOUR(
+        { MirageFlourItem(this, it, 1, null, 1.0, 1) },
+        "mirage_flour", "Mirage Flour", "ミラージュフラワー",
+        listOf(Poem("Containing metallic organic matter", "叡智の根源、創発のファンタジア。")),
+    ),
+    RARE_MIRAGE_FLOUR(
+        { MirageFlourItem(this, it, 3, null, 10.0, 1) },
+        "rare_mirage_flour", "Rare Mirage Flour", "中級ミラージュフラワー",
+        listOf(Poem("Use the difference in ether resistance", "艶やかなほたる色に煌めく鱗粉。")),
+    ),
+    VERY_RARE_MIRAGE_FLOUR(
+        { MirageFlourItem(this, it, 5, null, 100.0, 1) },
+        "very_rare_mirage_flour", "Very Rare Mirage Flour", "上級ミラージュフラワー",
+        listOf(Poem("As intelligent as humans", "黄金の魂が示す、好奇心の輝き。")),
+    ),
+    ULTRA_RARE_MIRAGE_FLOUR(
+        { MirageFlourItem(this, it, 7, null, 1_000.0, 1) },
+        "ultra_rare_mirage_flour", "Ultra Rare Mirage Flour", "高純度ミラージュフラワー",
+        listOf(Poem("Awaken fairies in the world and below", "1,300ケルビンの夜景。")),
+    ),
+    SUPER_RARE_MIRAGE_FLOUR(
+        { MirageFlourItem(this, it, 9, null, 10_000.0, 1) },
+        "super_rare_mirage_flour", "Super Rare Mirage Flour", "超高純度ミラージュフラワー",
+        listOf(Poem("Explore atmosphere and nearby universe", "蒼淵を彷徨う影、導きの光。")),
+    ),
+    EXTREMELY_RARE_MIRAGE_FLOUR(
+        { MirageFlourItem(this, it, 11, null, 100_000.0, 1) },
+        "extremely_rare_mirage_flour", "Extremely Rare Mirage Flour", "極超高純度ミラージュフラワー",
+        listOf(
+            Poem("poem1", "Leap spaces by collapsing time crystals,", "運命の束、時の結晶、光速の呪いを退けよ、"),
+            Poem("poem2", "capture ether beyond observable universe", "讃えよ、アーカーシャに眠る自由の頂きを。"),
+        ),
+    ),
+
+
+    // ミーニャクリスタル
 
     /*
     FAIRY_CRYSTAL_1(
@@ -166,54 +207,23 @@ enum class DemonItemCard(
     ),
     */
 
-    CHAOS_STONE(
-        { Item(it) },
-        "chaos_stone", "Chaos Stone", "混沌の石",
-        listOf(Poem("Chemical promoting catalyst", "魔力の暴走、加速する無秩序の流れ。")),
-    ),
-    MIRANAGITE_ROD(
-        { Item(it) },
-        "miranagite_rod", "Miranagite Rod", "蒼天石の棒",
-        listOf(Poem("Mana flows well through the core", "蒼天に従える光条は、魔力の祝福を示す。")),
-    ),
 
-    TINY_MIRAGE_FLOUR(
-        { MirageFlourItem(this, it, null, 2, 1.0, 1) },
-        "tiny_mirage_flour", "Tiny Pile of Mirage Flour", "ミラージュの花粉",
-        listOf(Poem("Compose the body of Mirage fairy", "ささやかな温もりを、てのひらの上に。")),
+    // 名誉系フェアリークリスタル
+
+    HONORABLE_FAIRY_CRYSTAL(
+        { Item(it) },
+        "honorable_fairy_crystal", "Honorable Fairy Crystal", "名誉のフェアリークリスタル",
+        listOf(Poem("Appear out of nowhere", "妖精からの贈り物")),
     ),
-    MIRAGE_FLOUR(
-        { MirageFlourItem(this, it, 1, null, 1.0, 1) },
-        "mirage_flour", "Mirage Flour", "ミラージュフラワー",
-        listOf(Poem("Containing metallic organic matter", "叡智の根源、創発のファンタジア。")),
+    GLORIOUS_FAIRY_CRYSTAL(
+        { Item(it) },
+        "glorious_fairy_crystal", "Glorious Fairy Crystal", "栄光のフェアリークリスタル",
+        listOf(Poem("Not a substance formed in this world", "精霊王の表彰状")),
     ),
-    RARE_MIRAGE_FLOUR(
-        { MirageFlourItem(this, it, 3, null, 10.0, 1) },
-        "rare_mirage_flour", "Rare Mirage Flour", "中級ミラージュフラワー",
-        listOf(Poem("Use the difference in ether resistance", "艶やかなほたる色に煌めく鱗粉。")),
-    ),
-    VERY_RARE_MIRAGE_FLOUR(
-        { MirageFlourItem(this, it, 5, null, 100.0, 1) },
-        "very_rare_mirage_flour", "Very Rare Mirage Flour", "上級ミラージュフラワー",
-        listOf(Poem("As intelligent as humans", "黄金の魂が示す、好奇心の輝き。")),
-    ),
-    ULTRA_RARE_MIRAGE_FLOUR(
-        { MirageFlourItem(this, it, 7, null, 1_000.0, 1) },
-        "ultra_rare_mirage_flour", "Ultra Rare Mirage Flour", "高純度ミラージュフラワー",
-        listOf(Poem("Awaken fairies in the world and below", "1,300ケルビンの夜景。")),
-    ),
-    SUPER_RARE_MIRAGE_FLOUR(
-        { MirageFlourItem(this, it, 9, null, 10_000.0, 1) },
-        "super_rare_mirage_flour", "Super Rare Mirage Flour", "超高純度ミラージュフラワー",
-        listOf(Poem("Explore atmosphere and nearby universe", "蒼淵を彷徨う影、導きの光。")),
-    ),
-    EXTREMELY_RARE_MIRAGE_FLOUR(
-        { MirageFlourItem(this, it, 11, null, 100_000.0, 1) },
-        "extremely_rare_mirage_flour", "Extremely Rare Mirage Flour", "極超高純度ミラージュフラワー",
-        listOf(
-            Poem("poem1", "Leap spaces by collapsing time crystals,", "運命の束、時の結晶、光速の呪いを退けよ、"),
-            Poem("poem2", "capture ether beyond observable universe", "讃えよ、アーカーシャに眠る自由の頂きを。"),
-        ),
+    LEGENDARY_FAIRY_CRYSTAL(
+        { Item(it) },
+        "legendary_fairy_crystal", "Legendary Fairy Crystal", "伝説のフェアリークリスタル",
+        listOf(Poem("Pluto exploded", "冥王が跳ね上がった")),
     ),
 
     ;
@@ -337,22 +347,6 @@ val demonItemModule = module {
         ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(DemonItemCard.MIRAGE_STEM.item, 0.65F)
     }
 
-    // 3種名誉系フェアリークリスタル→ミーニャのフェアリークリスタル
-    run {
-        // TODO いい感じの加工機械
-        fun generateExchangeRecipe(input: DemonItemCard, output: DemonItemCard, outputCount: Int) = onGenerateRecipes {
-            SingleItemRecipeJsonBuilder
-                .createStonecutting(Ingredient.ofItems(input.item), output.item, outputCount)
-                .criterion(input.item)
-                .group(output.item)
-                .offerTo(it, "selling_" concat input.item.identifier)
-        }
-        // TODO 成果物をシンプルに
-        generateExchangeRecipe(DemonItemCard.HONORABLE_FAIRY_CRYSTAL, DemonItemCard.FAIRY_CRYSTAL_50, 2)
-        generateExchangeRecipe(DemonItemCard.GLORIOUS_FAIRY_CRYSTAL, DemonItemCard.FAIRY_CRYSTAL_500, 2)
-        generateExchangeRecipe(DemonItemCard.LEGENDARY_FAIRY_CRYSTAL, DemonItemCard.FAIRY_CRYSTAL_500, 20)
-    }
-
     // ミラージュフラワー→人工フェアリークリスタル
     onGenerateRecipes {
         CookingRecipeJsonBuilder
@@ -373,6 +367,30 @@ val demonItemModule = module {
             .criterion(DemonItemCard.MIRANAGITE_ROD.item)
             .group(DemonItemCard.MIRANAGITE_ROD.item)
             .offerTo(it, DemonItemCard.MIRANAGITE_ROD.item.identifier)
+    }
+
+    // ミラージュフラワー相互変換
+    run {
+        fun registerMirageFlourRecipe(lower: DemonItemCard, higher: DemonItemCard) = onGenerateRecipes {
+            ShapelessRecipeJsonBuilder
+                .create(higher.item, 1)
+                .input(lower.item, 8)
+                .criterion(lower.item)
+                .group(higher.item)
+                .offerTo(it, higher.identifier)
+            ShapelessRecipeJsonBuilder
+                .create(lower.item, 8)
+                .input(higher.item, 1)
+                .criterion(higher.item)
+                .group(lower.item)
+                .offerTo(it, lower.identifier concat "_from_${higher.identifier.path}")
+        }
+        registerMirageFlourRecipe(DemonItemCard.TINY_MIRAGE_FLOUR, DemonItemCard.MIRAGE_FLOUR)
+        registerMirageFlourRecipe(DemonItemCard.MIRAGE_FLOUR, DemonItemCard.RARE_MIRAGE_FLOUR)
+        registerMirageFlourRecipe(DemonItemCard.RARE_MIRAGE_FLOUR, DemonItemCard.VERY_RARE_MIRAGE_FLOUR)
+        registerMirageFlourRecipe(DemonItemCard.VERY_RARE_MIRAGE_FLOUR, DemonItemCard.ULTRA_RARE_MIRAGE_FLOUR)
+        registerMirageFlourRecipe(DemonItemCard.ULTRA_RARE_MIRAGE_FLOUR, DemonItemCard.SUPER_RARE_MIRAGE_FLOUR)
+        registerMirageFlourRecipe(DemonItemCard.SUPER_RARE_MIRAGE_FLOUR, DemonItemCard.EXTREMELY_RARE_MIRAGE_FLOUR)
     }
 
     // 両替レシピ
@@ -484,28 +502,20 @@ val demonItemModule = module {
         generateBuyingRecipe(50, Items.MAGMA_BLOCK, 4)
     }
 
-    // ミラージュフラワー相互変換
+    // 3種名誉系フェアリークリスタル→ミーニャのフェアリークリスタル
     run {
-        fun registerMirageFlourRecipe(lower: DemonItemCard, higher: DemonItemCard) = onGenerateRecipes {
-            ShapelessRecipeJsonBuilder
-                .create(higher.item, 1)
-                .input(lower.item, 8)
-                .criterion(lower.item)
-                .group(higher.item)
-                .offerTo(it, higher.identifier)
-            ShapelessRecipeJsonBuilder
-                .create(lower.item, 8)
-                .input(higher.item, 1)
-                .criterion(higher.item)
-                .group(lower.item)
-                .offerTo(it, lower.identifier concat "_from_${higher.identifier.path}")
+        // TODO いい感じの加工機械
+        fun generateExchangeRecipe(input: DemonItemCard, output: DemonItemCard, outputCount: Int) = onGenerateRecipes {
+            SingleItemRecipeJsonBuilder
+                .createStonecutting(Ingredient.ofItems(input.item), output.item, outputCount)
+                .criterion(input.item)
+                .group(output.item)
+                .offerTo(it, "selling_" concat input.item.identifier)
         }
-        registerMirageFlourRecipe(DemonItemCard.TINY_MIRAGE_FLOUR, DemonItemCard.MIRAGE_FLOUR)
-        registerMirageFlourRecipe(DemonItemCard.MIRAGE_FLOUR, DemonItemCard.RARE_MIRAGE_FLOUR)
-        registerMirageFlourRecipe(DemonItemCard.RARE_MIRAGE_FLOUR, DemonItemCard.VERY_RARE_MIRAGE_FLOUR)
-        registerMirageFlourRecipe(DemonItemCard.VERY_RARE_MIRAGE_FLOUR, DemonItemCard.ULTRA_RARE_MIRAGE_FLOUR)
-        registerMirageFlourRecipe(DemonItemCard.ULTRA_RARE_MIRAGE_FLOUR, DemonItemCard.SUPER_RARE_MIRAGE_FLOUR)
-        registerMirageFlourRecipe(DemonItemCard.SUPER_RARE_MIRAGE_FLOUR, DemonItemCard.EXTREMELY_RARE_MIRAGE_FLOUR)
+        // TODO 成果物をシンプルに
+        generateExchangeRecipe(DemonItemCard.HONORABLE_FAIRY_CRYSTAL, DemonItemCard.FAIRY_CRYSTAL_50, 2)
+        generateExchangeRecipe(DemonItemCard.GLORIOUS_FAIRY_CRYSTAL, DemonItemCard.FAIRY_CRYSTAL_500, 2)
+        generateExchangeRecipe(DemonItemCard.LEGENDARY_FAIRY_CRYSTAL, DemonItemCard.FAIRY_CRYSTAL_500, 20)
     }
 
 }
