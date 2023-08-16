@@ -165,7 +165,7 @@ enum class DemonItemCard(
 
 enum class MirageFlourCard(
     creator: MirageFlourCard.(Item.Settings) -> Item,
-    itemId: String,
+    path: String,
     val enName: String,
     val jaName: String,
     val poemList: List<Poem>,
@@ -210,7 +210,7 @@ enum class MirageFlourCard(
     ),
     ;
 
-    val identifier = Identifier(MirageFairy2023.modId, itemId)
+    val identifier = Identifier(MirageFairy2023.modId, path)
     val item = creator(this, FabricItemSettings().group(commonItemGroup))
 }
 
