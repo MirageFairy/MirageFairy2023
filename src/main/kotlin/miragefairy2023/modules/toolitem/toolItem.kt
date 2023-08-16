@@ -8,6 +8,7 @@ import miragefairy2023.api.PassiveSkill
 import miragefairy2023.module
 import miragefairy2023.modules.DemonItemCard
 import miragefairy2023.modules.Description
+import miragefairy2023.modules.MirageFlourCard
 import miragefairy2023.modules.Penalty
 import miragefairy2023.modules.Poem
 import miragefairy2023.modules.ToolMaterialCard
@@ -17,6 +18,7 @@ import miragefairy2023.modules.generatePoemList
 import miragefairy2023.modules.passiveskill.always
 import miragefairy2023.modules.passiveskill.mana
 import miragefairy2023.modules.passiveskill.passiveSkills
+import miragefairy2023.modules.passiveskill.regeneration
 import miragefairy2023.modules.registerPoemList
 import miragefairy2023.util.Translation
 import miragefairy2023.util.identifier
@@ -79,6 +81,13 @@ class ToolItemCard<T : Item>(
                 Description("Use to transfer the offhand item", "使用時、オフハンドのアイテムを転送"),
             ),
             PocketLilyWandType(ToolMaterialCard.MIRAGE),
+        )
+        val MIRAGE_PENDANT = ToolItemCard(
+            "mirage_pendant", "Mirage Pendant", "ミラージュのペンダント",
+            listOf(Poem("A fairy whispers blessings at 0.01Hz", "100秒に1回のぬくもり。")),
+            PassiveSkillAccessoryType(listOf(TrinketsSlotCard.CHEST_NECKLACE), 1.0, passiveSkills {
+                regeneration(0.1) on always()
+            }),
         )
         val ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE = ToolItemCard(
             "artificial_fairy_crystal_pickaxe", "Crystal Pickaxe", "クリスタルのつるはし",
@@ -188,6 +197,19 @@ val toolItemModule = module {
             .criterion(Items.LILY_OF_THE_VALLEY)
             .group(ToolItemCard.POCKET_LILY_WAND.item)
             .offerTo(it, ToolItemCard.POCKET_LILY_WAND.item.identifier)
+    }
+
+    // ミラージュのペンダント
+    onGenerateRecipes {
+        ShapedRecipeJsonBuilder
+            .create(ToolItemCard.MIRAGE_PENDANT.item)
+            .pattern(" R")
+            .pattern("D ")
+            .input('R', DemonItemCard.MIRAGE_STEM.item)
+            .input('D', MirageFlourCard.MIRAGE_FLOUR.item)
+            .criterion(DemonItemCard.MIRAGE_STEM.item)
+            .group(ToolItemCard.MIRAGE_PENDANT.item)
+            .offerTo(it, ToolItemCard.MIRAGE_PENDANT.item.identifier)
     }
 
     // クリスタルのつるはし

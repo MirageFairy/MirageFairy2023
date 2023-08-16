@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "miragefairy2023:mirage_pendant",
+  "key": {
+    "D": {
+      "item": "miragefairy2023:mirage_flour"
+    },
+    "R": {
+      "item": "miragefairy2023:mirage_stem"
+    }
+  },
+  "pattern": [
+    " R",
+    "D "
+  ],
+  "result": {
+    "item": "miragefairy2023:mirage_pendant"
+  }
+}
