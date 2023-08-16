@@ -70,16 +70,19 @@ import kotlin.math.roundToInt
 
 
 enum class DemonItemCard(
+    creator: DemonItemCard.(Item.Settings) -> Item,
     val path: String,
     val enName: String,
     val jaName: String,
     val poemList: List<Poem>,
 ) {
     XARPITE(
+        { Item(it) },
         "xarpite", "Xarpite", "紅天石",
         listOf(Poem("Binds astral flux with magnetic force", "黒鉄の鎖は繋がれる。血腥い魂の檻へ。")),
     ),
     MIRANAGITE(
+        { Item(it) },
         "miranagite", "Miranagite", "蒼天石",
         listOf(Poem("Astral body crystallized by anti-entropy", "秩序の叛乱、天地創造の逆光。")),
     ),
@@ -88,79 +91,95 @@ enum class DemonItemCard(
     // 硝子のような触り心地。
     // 鋭利なため気を付けてください
     MIRAGE_STEM(
+        { Item(it) },
         "mirage_stem", "Mirage Stem", "ミラージュの茎",
         listOf(Poem("Cell wall composed of amorphous ether", "植物が手掛ける、分子レベルの硝子細工。")),
     ),
     HONORABLE_FAIRY_CRYSTAL(
+        { Item(it) },
         "honorable_fairy_crystal", "Honorable Fairy Crystal", "名誉のフェアリークリスタル",
         listOf(Poem("Appear out of nowhere", "妖精からの贈り物")),
     ),
     GLORIOUS_FAIRY_CRYSTAL(
+        { Item(it) },
         "glorious_fairy_crystal", "Glorious Fairy Crystal", "栄光のフェアリークリスタル",
         listOf(Poem("Not a substance formed in this world", "精霊王の表彰状")),
     ),
     LEGENDARY_FAIRY_CRYSTAL(
+        { Item(it) },
         "legendary_fairy_crystal", "Legendary Fairy Crystal", "伝説のフェアリークリスタル",
         listOf(Poem("Pluto exploded", "冥王が跳ね上がった")),
     ),
     ARTIFICIAL_FAIRY_CRYSTAL(
+        { Item(it) },
         "artificial_fairy_crystal", "Artificial Fairy Crystal", "人工フェアリークリスタル",
         listOf(Poem("Uncanny crystal not worth even 1 Minia", "20Wのかまどで10秒。")),
     ),
 
     /*
     FAIRY_CRYSTAL_1(
+        { Item(it) },
         "fairy_crystal_1", "1 Minia Crystal", "1ミーニャクリスタル",
         "", "ガラスより硬い", // TODO
     ),
     FAIRY_CRYSTAL_5(
+        { Item(it) },
         "fairy_crystal_5", "5 Minia Crystal", "5ミーニャクリスタル",
         "Fairy snack", "", // TODO
     ),
     FAIRY_CRYSTAL_10(
+        { Item(it) },
         "fairy_crystal_10", "10 Minia Crystal", "10ミーニャクリスタル",
         "The Society failed to replicate this", "妖精の業が磨き上げる", // TODO
     ),
     */
     FAIRY_CRYSTAL_50(
+        { Item(it) },
         "fairy_crystal_50", "50 Minia Crystal", "50ミーニャクリスタル",
         listOf(Poem("Has the same hardness as beryl", "世界で50番目に優美な有機結晶。")),
     ),
     FAIRY_CRYSTAL_100(
+        { Item(it) },
         "fairy_crystal_100", "100 Minia Crystal", "100ミーニャクリスタル",
         listOf(Poem("Created by the fairies of commerce", "妖精と人間が交差する世界。")),
     ),
     FAIRY_CRYSTAL_500(
+        { Item(it) },
         "fairy_crystal_500", "500 Minia Crystal", "500ミーニャクリスタル",
         listOf(Poem("Crystallized Mirage flower nectar", "ミラージュの蜜よ、永遠の宝石となれ。")),
     ),
     /*
     FAIRY_CRYSTAL_1000(
+        { Item(it) },
         "fairy_crystal_1000", "1000 Minia Crystal", "1000ミーニャクリスタル",
         "有毒な揮発成分の味がする", "", // TODO
     ),
     FAIRY_CRYSTAL_5000(
+        { Item(it) },
         "fairy_crystal_5000", "5000 Minia Crystal", "5000ミーニャクリスタル",
         "", "", // TODO
     ),
     FAIRY_CRYSTAL_10000(
+        { Item(it) },
         "fairy_crystal_10000", "10000 Minia Crystal", "10000ミーニャクリスタル",
         "", "妖精の誇り。", // TODO
     ),
     */
 
     CHAOS_STONE(
+        { Item(it) },
         "chaos_stone", "Chaos Stone", "混沌の石",
         listOf(Poem("Chemical promoting catalyst", "魔力の暴走、加速する無秩序の流れ。")),
     ),
     MIRANAGITE_ROD(
+        { Item(it) },
         "miranagite_rod", "Miranagite Rod", "蒼天石の棒",
         listOf(Poem("Mana flows well through the core", "蒼天に従える光条は、魔力の祝福を示す。")),
     ),
     ;
 
     val identifier = Identifier(MirageFairy2023.modId, path)
-    val item = Item(FabricItemSettings().group(commonItemGroup))
+    val item = creator(this, FabricItemSettings().group(commonItemGroup))
 }
 
 enum class MirageFlourCard(
