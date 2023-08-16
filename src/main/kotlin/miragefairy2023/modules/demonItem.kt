@@ -165,7 +165,7 @@ enum class DemonItemCard(
 
 enum class MirageFlourCard(
     creator: MirageFlourCard.(Item.Settings) -> Item,
-    path: String,
+    val path: String,
     val enName: String,
     val jaName: String,
     val poemList: List<Poem>,
