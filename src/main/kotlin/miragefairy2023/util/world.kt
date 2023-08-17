@@ -16,6 +16,7 @@ fun blockVisitor(originalBlockPos: BlockPos, visitOrigins: Boolean = true, maxDi
     if (maxCount == 0) return@sequence
 
     (0..maxDistance).forEach { distance ->
+        if (nextBlockPosList.isEmpty()) return@sequence
 
         val currentBlockPosList: Set<BlockPos> = nextBlockPosList
         nextBlockPosList = mutableSetOf()
