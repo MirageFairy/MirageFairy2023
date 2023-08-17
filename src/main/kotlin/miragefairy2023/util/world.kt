@@ -3,7 +3,7 @@ package miragefairy2023.util
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 
-fun blockVisitor(maxDistance: Int, originalBlockPos: BlockPos, maxCount: Int? = null, predicate: (fromBlockPos: BlockPos, direction: Direction, toBlockPos: BlockPos) -> Boolean) = sequence {
+fun blockVisitor(originalBlockPos: BlockPos, maxDistance: Int, maxCount: Int? = null, predicate: (fromBlockPos: BlockPos, direction: Direction, toBlockPos: BlockPos) -> Boolean) = sequence {
     val checkedBlockPosList = mutableSetOf<BlockPos>()
     var nextBlockPosList = mutableSetOf(originalBlockPos)
     var count = 0
