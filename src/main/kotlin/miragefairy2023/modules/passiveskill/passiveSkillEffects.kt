@@ -6,6 +6,7 @@ import miragefairy2023.modules.DemonPlayerAttributeCard
 import miragefairy2023.modules.DemonSoundEventCard
 import miragefairy2023.util.Symbol
 import miragefairy2023.util.Translation
+import miragefairy2023.util.blockVisitor
 import miragefairy2023.util.eyeBlockPos
 import miragefairy2023.util.randomInt
 import miragefairy2023.util.removeTrailingZeros
@@ -23,9 +24,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
-import net.minecraft.util.math.Direction
 import java.util.UUID
 
 abstract class AttributePassiveSkillEffect : PassiveSkillEffect {
@@ -254,40 +253,6 @@ class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEff
         passiveSkillVariable[identifier] = passiveSkillVariable[identifier] as Double + amount * efficiency
 
     }
-}
-
-fun blockVisitor(maxDistance: Int, originalBlockPos: BlockPos, predicate: (fromBlockPos: BlockPos, direction: Direction, toBlockPos: BlockPos) -> Boolean) = sequence {
-    val checkedBlockPosList = mutableSetOf<BlockPos>()
-    var nextBlockPosList = mutableSetOf(originalBlockPos)
-
-    (0..maxDistance).forEach { distance ->
-
-        val currentBlockPosList: Set<BlockPos> = nextBlockPosList
-        nextBlockPosList = mutableSetOf()
-
-        currentBlockPosList.forEach nextCurrentBlockPos@{ fromBlockPos ->
-
-            yield(Pair(distance, fromBlockPos))
-
-            fun check(direction: Direction) {
-                val toBlockPos = fromBlockPos.offset(direction)
-                if (toBlockPos !in checkedBlockPosList && predicate(fromBlockPos, direction, toBlockPos)) {
-                    checkedBlockPosList += toBlockPos
-                    nextBlockPosList += toBlockPos
-                }
-            }
-
-            check(Direction.DOWN)
-            check(Direction.UP)
-            check(Direction.NORTH)
-            check(Direction.SOUTH)
-            check(Direction.WEST)
-            check(Direction.EAST)
-
-        }
-
-    }
-
 }
 
 @Suppress("UnusedReceiverParameter")
