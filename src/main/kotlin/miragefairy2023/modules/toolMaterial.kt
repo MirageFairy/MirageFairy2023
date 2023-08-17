@@ -25,6 +25,7 @@ enum class DemonToolMaterials(
 ) : ToolMaterial {
     MIRAGE(48, 1.6F, 0.0F, MiningLevels.WOOD, 17, DemonItemCard.MIRAGE_STEM.item.toIngredient()),
     ARTIFICIAL_FAIRY_CRYSTAL(235, 5.0F, 1.5F, MiningLevels.IRON, 7, DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item.toIngredient()),
+    XARPITE(283, 1.1F, 2.0F, MiningLevels.IRON, 20, DemonItemCard.XARPITE.item.toIngredient()),
     MIRANAGITE(256, 6.5F, 2.0F, MiningLevels.IRON, 24, DemonItemCard.MIRANAGITE.item.toIngredient()),
     CHAOS_STONE(666, 9.0F, 2.0F, MiningLevels.NETHERITE, 15, DemonItemCard.CHAOS_STONE.item.toIngredient()),
     ;
@@ -48,6 +49,7 @@ enum class ToolMaterialCard(val toolMaterial: ToolMaterial, val path: String, en
 
     MIRAGE(DemonToolMaterials.MIRAGE, "mirage_tools", "Mirage Tool", "ミラージュツール"),
     ARTIFICIAL_FAIRY_CRYSTAL(DemonToolMaterials.ARTIFICIAL_FAIRY_CRYSTAL, "artificial_fairy_crystal_tools", "Crystal Tool", "クリスタルツール"),
+    XARPITE(DemonToolMaterials.XARPITE, "xarpite_tools", "Xarpa Tool", "紅天のツール"),
     MIRANAGITE(DemonToolMaterials.MIRANAGITE, "miranagite_tools", "Miranagi Tool", "蒼天のツール"),
     CHAOS_STONE(DemonToolMaterials.CHAOS_STONE, "chaos_stone_tools", "Chaos Tool", "混沌のツール"),
 
