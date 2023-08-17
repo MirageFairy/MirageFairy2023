@@ -100,6 +100,14 @@ class ToolItemCard<T : Item>(
                 mana(0.4) on always()
             }),
         )
+        val XARPITE_PICKAXE = ToolItemCard(
+            "xarpite_pickaxe", "Xarpa Pickaxe", "紅天のつるはし",
+            listOf(
+                Poem("Shears space using astral induction", "鉱石の魂を貪る血塗られた有機質。"),
+                Description("Break multiple ores together", "同種の鉱石をまとめて破壊"),
+            ),
+            PickaxeType(ToolMaterialCard.XARPITE, BlockTags.PICKAXE_MINEABLE, mineAll = true),
+        )
         val MIRANAGITE_KNIFE = ToolItemCard(
             "miranagite_knife", "Miranagi Knife", "蒼天のナイフ",
             listOf(
@@ -237,6 +245,20 @@ val toolItemModule = module {
             .criterion(DemonItemCard.ARTIFICIAL_FAIRY_CRYSTAL.item)
             .group(ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PENDANT.item)
             .offerTo(it, ToolItemCard.ARTIFICIAL_FAIRY_CRYSTAL_PENDANT.item.identifier)
+    }
+
+    // 紅天のつるはし
+    onGenerateRecipes {
+        ShapedRecipeJsonBuilder
+            .create(ToolItemCard.XARPITE_PICKAXE.item)
+            .pattern("GGG")
+            .pattern(" S ")
+            .pattern(" S ")
+            .input('G', DemonItemCard.XARPITE.item)
+            .input('S', Items.STICK)
+            .criterion(DemonItemCard.XARPITE.item)
+            .group(ToolItemCard.XARPITE_PICKAXE.item)
+            .offerTo(it, ToolItemCard.XARPITE_PICKAXE.item.identifier)
     }
 
     // 蒼天のナイフ
