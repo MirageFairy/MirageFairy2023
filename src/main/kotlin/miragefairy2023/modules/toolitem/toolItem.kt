@@ -91,7 +91,7 @@ class ToolItemCard<T : Item>(
         val ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE = ToolItemCard(
             "artificial_fairy_crystal_pickaxe", "Crystal Pickaxe", "クリスタルのつるはし",
             listOf(Poem("Amorphous mental body of fairies", "妖精さえ怖れる、技術の結晶。")),
-            PickaxeType(ToolMaterialCard.ARTIFICIAL_FAIRY_CRYSTAL, BlockTags.PICKAXE_MINEABLE),
+            PickaxeType(ToolMaterialCard.ARTIFICIAL_FAIRY_CRYSTAL),
         )
         val ARTIFICIAL_FAIRY_CRYSTAL_PENDANT = ToolItemCard(
             "artificial_fairy_crystal_pendant", "Crystal Pendant", "クリスタルのペンダント",
@@ -106,7 +106,7 @@ class ToolItemCard<T : Item>(
                 Poem("Shears space using astral induction", "鉱石の魂を貪る血塗られた有機質。"),
                 Description("Break multiple ores together", "同種の鉱石をまとめて破壊"),
             ),
-            PickaxeType(ToolMaterialCard.XARPITE, BlockTags.PICKAXE_MINEABLE, mineAll = true),
+            PickaxeType(ToolMaterialCard.XARPITE, mineAll = true),
         )
         val MIRANAGITE_KNIFE = ToolItemCard(
             "miranagite_knife", "Miranagi Knife", "蒼天のナイフ",
@@ -122,7 +122,7 @@ class ToolItemCard<T : Item>(
                 Poem("Promotes ore recrystallization", "凝集する秩序、蒼穹彩煌が如く。"),
                 Description("Enchant silk touch when using raw item", "生のアイテム使用時、シルクタッチ付与"),
             ),
-            PickaxeType(ToolMaterialCard.MIRANAGITE, BlockTags.PICKAXE_MINEABLE, silkTouch = true),
+            PickaxeType(ToolMaterialCard.MIRANAGITE, silkTouch = true),
         )
         val MIRANAGITE_STAFF = ToolItemCard(
             "miranagite_staff", "Miranagi Staff", "みらなぎの杖",
@@ -135,7 +135,7 @@ class ToolItemCard<T : Item>(
                 Poem("Is this made of metal? Or clay?", "時空結晶の交点に、古代の産業が芽吹く。"),
                 Description("Can dig like a shovel", "シャベルのように掘れる"),
             ),
-            PickaxeType(ToolMaterialCard.CHAOS_STONE, BlockTags.PICKAXE_MINEABLE, BlockTags.SHOVEL_MINEABLE),
+            PickaxeType(ToolMaterialCard.CHAOS_STONE, additionalEffectiveBlockTags = listOf(BlockTags.SHOVEL_MINEABLE)),
         )
         val CHAOS_FISHING_GROVE = ToolItemCard(
             "chaos_fishing_grove", "Chaos Fishing Grove", "混沌のフィッシンググローブ",
@@ -374,7 +374,7 @@ private class KnifeType(
 
 private class PickaxeType(
     private val toolMaterialCard: ToolMaterialCard,
-    private vararg val effectiveBlockTags: TagKey<Block>,
+    private val additionalEffectiveBlockTags: List<TagKey<Block>> = listOf(),
     private val silkTouch: Boolean = false,
     private val mineAll: Boolean = false,
     private val cutAll: Boolean = false,
@@ -383,7 +383,7 @@ private class PickaxeType(
         toolMaterialCard.toolMaterial,
         1,
         -2.8F,
-        effectiveBlockTags.toList(),
+        listOf(BlockTags.PICKAXE_MINEABLE) + additionalEffectiveBlockTags,
         silkTouch,
         mineAll,
         cutAll,
