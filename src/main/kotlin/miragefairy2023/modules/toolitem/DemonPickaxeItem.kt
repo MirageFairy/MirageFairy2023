@@ -1,13 +1,14 @@
 package miragefairy2023.modules.toolitem
 
 import miragefairy2023.util.blockVisitor
-import miragefairy2023.util.breakBlock
+import miragefairy2023.util.breakBlockByMagic
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags
 import net.fabricmc.yarn.constants.MiningLevels
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.enchantment.Enchantments
+import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -60,7 +61,11 @@ class DemonPickaxeItem(
             }.forEach { (_, blockPos) ->
                 if (stack.isEmpty) return@fail // ツールの耐久値が枯渇した
                 if (stack.maxDamage - stack.damage <= 1) return@fail // ツールの耐久値が残り1
-                breakBlock(stack, world, blockPos, miner)
+                if (breakBlockByMagic(stack, world, blockPos, miner)) {
+                    stack.damage(1, miner) {
+                        it.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND)
+                    }
+                }
             }
         }
         return true
