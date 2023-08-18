@@ -397,6 +397,30 @@ private class PickaxeType(
     }
 }
 
+private class AxeType(
+    private val toolMaterialCard: ToolMaterialCard,
+    private val additionalEffectiveBlockTags: List<TagKey<Block>> = listOf(),
+    private val silkTouch: Boolean = false,
+    private val mineAll: Boolean = false,
+    private val cutAll: Boolean = false,
+) : ToolItemCardType<DemonPickaxeItem>(Models.HANDHELD) {
+    override fun createItem() = DemonPickaxeItem(
+        toolMaterialCard.toolMaterial,
+        6,
+        -3.1F,
+        listOf(BlockTags.AXE_MINEABLE) + additionalEffectiveBlockTags,
+        silkTouch,
+        mineAll,
+        cutAll,
+        FabricItemSettings().group(commonItemGroup),
+    )
+
+    override fun init(scope: InitializationScope, card: ToolItemCard<DemonPickaxeItem>) = scope.run {
+        onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
+        onGenerateItemTags { it(ConventionalItemTags.AXES).add(card.item) }
+    }
+}
+
 private class StaffType(
     private val toolMaterialCard: ToolMaterialCard,
 ) : ToolItemCardType<StaffItem>(Models.HANDHELD) {
