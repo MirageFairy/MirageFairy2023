@@ -10,7 +10,13 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 
-fun blockVisitor(originalBlockPosList: Iterable<BlockPos>, visitOrigins: Boolean = true, maxDistance: Int, maxCount: Int? = null, predicate: (fromBlockPos: BlockPos, direction: Direction, toBlockPos: BlockPos) -> Boolean) = sequence {
+fun blockVisitor(
+    originalBlockPosList: Iterable<BlockPos>,
+    visitOrigins: Boolean = true,
+    maxDistance: Int,
+    maxCount: Int? = null,
+    predicate: (fromBlockPos: BlockPos, direction: Direction, toBlockPos: BlockPos) -> Boolean,
+) = sequence {
     val checkedBlockPosList = mutableSetOf<BlockPos>()
     var nextBlockPosList = originalBlockPosList.toMutableSet()
     var count = 0
