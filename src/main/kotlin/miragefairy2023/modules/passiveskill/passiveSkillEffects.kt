@@ -219,7 +219,7 @@ class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEff
                     var remainingAmount = actualAmount
                     var processedCount = 0
                     run finish@{
-                        blockVisitor(originalBlockPos, maxDistance = reach) { fromBlockPos, direction, toBlockPos ->
+                        blockVisitor(listOf(originalBlockPos), maxDistance = reach) { fromBlockPos, direction, toBlockPos ->
                             !world.getBlockState(fromBlockPos).isSideSolidFullSquare(world, fromBlockPos, direction) && !world.getBlockState(toBlockPos).isSideSolidFullSquare(world, toBlockPos, direction.opposite)
                         }.forEach { (_, blockPos) ->
                             val currentBox = Box(blockPos).expand(0.98, 0.0, 0.98)
