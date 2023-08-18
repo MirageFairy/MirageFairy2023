@@ -1,5 +1,6 @@
 package miragefairy2023.modules.toolitem
 
+import miragefairy2023.util.NeighborType
 import miragefairy2023.util.blockVisitor
 import miragefairy2023.util.breakBlockByMagic
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags
@@ -31,6 +32,7 @@ class DemonPickaxeItem(
     private val effectiveBlockTags: List<TagKey<Block>>,
     private val silkTouch: Boolean,
     private val mineAll: Boolean,
+    private val cutAll: Boolean,
     settings: Settings,
 ) : PickaxeItem(toolMaterial, attackDamage, attackSpeed, settings) {
     override fun getMiningSpeedMultiplier(stack: ItemStack, state: BlockState) = if (effectiveBlockTags.any { state.isIn(it) }) miningSpeed else 1.0F
@@ -64,6 +66,42 @@ class DemonPickaxeItem(
                 if (breakBlockByMagic(stack, world, blockPos, miner)) {
                     stack.damage(1, miner) {
                         it.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND)
+                    }
+                }
+            }
+        }
+        if (cutAll) run fail@{
+            if (world.isClient) return@fail
+
+            if (miner !is ServerPlayerEntity) return@fail // 使用者がプレイヤーでない
+            if (!isSuitableFor(state)) return@fail // 掘ったブロックに対して特効でない
+            if (!state.isIn(BlockTags.LOGS)) return@fail // 掘ったブロックが原木ではない
+
+            // 発動
+
+            val logBlockPosList = mutableListOf<BlockPos>()
+            blockVisitor(listOf(pos), visitOrigins = false, maxDistance = 19, maxCount = 19, neighborType = NeighborType.VERTICES) { _, toBlockPos ->
+                world.getBlockState(toBlockPos).block === state.block
+            }.forEach { (_, blockPos) ->
+                if (stack.isEmpty) return@fail // ツールの耐久値が枯渇した
+                if (stack.maxDamage - stack.damage <= 1) return@fail // ツールの耐久値が残り1
+                if (breakBlockByMagic(stack, world, blockPos, miner)) {
+                    stack.damage(1, miner) {
+                        it.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND)
+                    }
+                    logBlockPosList += blockPos
+                }
+            }
+            blockVisitor(logBlockPosList, visitOrigins = false, maxDistance = 6) { _, toBlockPos ->
+                world.getBlockState(toBlockPos).isIn(BlockTags.LEAVES)
+            }.forEach { (_, blockPos) ->
+                if (stack.isEmpty) return@fail // ツールの耐久値が枯渇した
+                if (stack.maxDamage - stack.damage <= 1) return@fail // ツールの耐久値が残り1
+                if (breakBlockByMagic(stack, world, blockPos, miner)) {
+                    if (miner.random.nextFloat() < 0.1F) {
+                        stack.damage(1, miner) {
+                            it.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND)
+                        }
                     }
                 }
             }

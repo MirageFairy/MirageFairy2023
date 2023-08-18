@@ -366,8 +366,8 @@ private class KnifeType(private val toolMaterialCard: ToolMaterialCard, private 
     }
 }
 
-private class PickaxeType(private val toolMaterialCard: ToolMaterialCard, private vararg val effectiveBlockTags: TagKey<Block>, private val silkTouch: Boolean = false, private val mineAll: Boolean = false) : ToolItemCardType<DemonPickaxeItem>(Models.HANDHELD) {
-    override fun createItem() = DemonPickaxeItem(toolMaterialCard.toolMaterial, 1, -2.8F, effectiveBlockTags.toList(), silkTouch, mineAll, FabricItemSettings().group(commonItemGroup))
+private class PickaxeType(private val toolMaterialCard: ToolMaterialCard, private vararg val effectiveBlockTags: TagKey<Block>, private val silkTouch: Boolean = false, private val mineAll: Boolean = false, private val cutAll: Boolean = false) : ToolItemCardType<DemonPickaxeItem>(Models.HANDHELD) {
+    override fun createItem() = DemonPickaxeItem(toolMaterialCard.toolMaterial, 1, -2.8F, effectiveBlockTags.toList(), silkTouch, mineAll, cutAll, FabricItemSettings().group(commonItemGroup))
     override fun init(scope: InitializationScope, card: ToolItemCard<DemonPickaxeItem>) = scope.run {
         onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
         onGenerateItemTags { it(ItemTags.CLUSTER_MAX_HARVESTABLES).add(card.item) }
