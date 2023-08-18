@@ -108,6 +108,14 @@ class ToolItemCard<T : Item>(
             ),
             PickaxeType(ToolMaterialCard.XARPITE, mineAll = true),
         )
+        val XARPITE_AXE = ToolItemCard(
+            "xarpite_axe", "Xarpa Axe", "紅天の斧",
+            listOf(
+                Poem("Strip the log from the space", "空間にこびりついた丸太の除去に。"),
+                Description("Cut down the whole tree", "木全体を伐採"),
+            ),
+            AxeType(ToolMaterialCard.XARPITE, cutAll = true),
+        )
         val MIRANAGITE_KNIFE = ToolItemCard(
             "miranagite_knife", "Miranagi Knife", "蒼天のナイフ",
             listOf(
@@ -259,6 +267,20 @@ val toolItemModule = module {
             .criterion(DemonItemCard.XARPITE.item)
             .group(ToolItemCard.XARPITE_PICKAXE.item)
             .offerTo(it, ToolItemCard.XARPITE_PICKAXE.item.identifier)
+    }
+
+    // 紅天の斧
+    onGenerateRecipes {
+        ShapedRecipeJsonBuilder
+            .create(ToolItemCard.XARPITE_AXE.item)
+            .pattern("GG")
+            .pattern("GS")
+            .pattern(" S")
+            .input('G', DemonItemCard.XARPITE.item)
+            .input('S', Items.STICK)
+            .criterion(DemonItemCard.XARPITE.item)
+            .group(ToolItemCard.XARPITE_AXE.item)
+            .offerTo(it, ToolItemCard.XARPITE_AXE.item.identifier)
     }
 
     // 蒼天のナイフ
