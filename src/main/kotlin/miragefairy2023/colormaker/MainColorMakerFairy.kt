@@ -12,7 +12,7 @@ object MainColorMakerFairy {
                     LayerSetting("fairy_dress", ColorExpression("@dress")),
                     LayerSetting("fairy_back", ColorExpression("@back")),
                     LayerSetting("fairy_front", ColorExpression("@front")),
-                    LayerSetting("fairy_hair", ColorExpression("@hair"))
+                    LayerSetting("fairy_hair", ColorExpression("@hair")),
                 ),
                 layeredImageSettingOf(
                     4,
@@ -20,7 +20,7 @@ object MainColorMakerFairy {
                     LayerSetting("fairy_dress", ColorExpression("@dress")),
                     LayerSetting("fairy_back", ColorExpression("@back")),
                     LayerSetting("fairy_front", ColorExpression("@front")),
-                    LayerSetting("fairy_hair", ColorExpression("@hair"))
+                    LayerSetting("fairy_hair", ColorExpression("@hair")),
                 ),
                 layeredImageSettingOf(
                     8,
@@ -28,10 +28,10 @@ object MainColorMakerFairy {
                     LayerSetting("fairy_dress", ColorExpression("@dress")),
                     LayerSetting("fairy_back", ColorExpression("@back")),
                     LayerSetting("fairy_front", ColorExpression("@front")),
-                    LayerSetting("fairy_hair", ColorExpression("@hair"))
+                    LayerSetting("fairy_hair", ColorExpression("@hair")),
                 ),
             ),
-            listOf("dress", "skin", "front", "back", "hair")
+            listOf("dress", "skin", "front", "back", "hair"),
         ).isVisible = true
     }
 }

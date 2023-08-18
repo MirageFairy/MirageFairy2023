@@ -142,7 +142,7 @@ val luminariaModule = module {
                 "variants" to jsonObjectOf(
                     "" to jsonObjectOf(
                         "model" to "${"block/" concat card.identifier}".jsonPrimitive,
-                    )
+                    ),
                 ),
             )
         }

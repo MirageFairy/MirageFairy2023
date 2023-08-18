@@ -69,7 +69,7 @@ class PanelSliderField(private val min: Int, private val max: Int) : JPanel() {
         // 入力欄
         ParsingTextField(
             { it.trim().toIntOrNull()?.takeIf { a -> a in min..max } },
-            { "$it" }
+            { "$it" },
         ).also { c ->
             c.columns = 5
             c.listeners.add { value ->

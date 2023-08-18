@@ -45,12 +45,12 @@ enum class DemonBlockCard(
     LOCAL_VACUUM_DECAY(
         "local_vacuum_decay", "Local Vacuum Decay", "局所真空崩壊",
         listOf(Poem("Stable instability due to anti-entropy", "これが秩序の究極の形だというのか？")),
-        Block(FabricBlockSettings.of(Material.STONE).strength(-1.0F, 3600000.0F).dropsNothing().allowsSpawning { _, _, _, _ -> false })
+        Block(FabricBlockSettings.of(Material.STONE).strength(-1.0F, 3600000.0F).dropsNothing().allowsSpawning { _, _, _, _ -> false }),
     ),
     MIRANAGITE_BLOCK(
         "miranagite_block", "Miranagite Block", "蒼天石ブロック",
         listOf(Poem("Passivation confines discontinuous space", "虚空に導かれし、霊界との接合点。")),
-        Block(FabricBlockSettings.of(Material.METAL, MapColor.LIGHT_BLUE).strength(3.0f, 3.0f).requiresTool())
+        Block(FabricBlockSettings.of(Material.METAL, MapColor.LIGHT_BLUE).strength(3.0f, 3.0f).requiresTool()),
     ),
     ;
 

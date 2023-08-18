@@ -167,7 +167,7 @@ class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Setting
                 playerBlockPos.z - 4,
                 playerBlockPos.x + 4,
                 playerBlockPos.y + 4,
-                playerBlockPos.z + 4
+                playerBlockPos.z + 4,
             ).asSequence()
             val b = (0 until 500).map {
                 playerBlockPos.add(
