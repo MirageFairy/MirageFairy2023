@@ -92,7 +92,7 @@ class DemonPickaxeItem(
                     logBlockPosList += blockPos
                 }
             }
-            blockVisitor(logBlockPosList, visitOrigins = false, maxDistance = 6) { _, toBlockPos ->
+            blockVisitor(logBlockPosList, visitOrigins = false, maxDistance = 8) { _, toBlockPos ->
                 world.getBlockState(toBlockPos).isIn(BlockTags.LEAVES)
             }.forEach { (_, blockPos) ->
                 if (stack.isEmpty) return@fail // ツールの耐久値が枯渇した
