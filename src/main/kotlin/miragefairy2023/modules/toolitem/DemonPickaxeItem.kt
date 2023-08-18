@@ -49,7 +49,7 @@ class DemonPickaxeItem(
 
     override fun postMine(stack: ItemStack, world: World, state: BlockState, pos: BlockPos, miner: LivingEntity): Boolean {
         super.postMine(stack, world, state, pos, miner)
-        if (mineAll) run fail@{
+        if (mineAll && !miner.isSneaking) run fail@{
             if (world.isClient) return@fail
 
             if (miner !is ServerPlayerEntity) return@fail // 使用者がプレイヤーでない
@@ -70,7 +70,7 @@ class DemonPickaxeItem(
                 }
             }
         }
-        if (cutAll) run fail@{
+        if (cutAll && !miner.isSneaking) run fail@{
             if (world.isClient) return@fail
 
             if (miner !is ServerPlayerEntity) return@fail // 使用者がプレイヤーでない
