@@ -7,15 +7,21 @@ import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.network.ServerPlayerInteractionManager
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
 import net.minecraft.world.World
+
+enum class NeighborType {
+    FACES,
+    EDGES,
+    VERTICES,
+}
 
 fun blockVisitor(
     originalBlockPosList: Iterable<BlockPos>,
     visitOrigins: Boolean = true,
     maxDistance: Int,
     maxCount: Int? = null,
-    predicate: (fromBlockPos: BlockPos, direction: Direction, toBlockPos: BlockPos) -> Boolean,
+    neighborType: NeighborType = NeighborType.FACES,
+    predicate: (fromBlockPos: BlockPos, toBlockPos: BlockPos) -> Boolean,
 ) = sequence {
     val checkedBlockPosList = mutableSetOf<BlockPos>()
     var nextBlockPosList = originalBlockPosList.toMutableSet()
@@ -37,21 +43,44 @@ fun blockVisitor(
                 if (maxCount != null && count >= maxCount) return@sequence
             }
 
-            fun check(direction: Direction) {
-                val toBlockPos = fromBlockPos.offset(direction)
-                if (toBlockPos !in checkedBlockPosList && predicate(fromBlockPos, direction, toBlockPos)) {
+            fun check(offsetX: Int, offsetY: Int, offsetZ: Int) {
+                val toBlockPos = fromBlockPos.add(offsetX, offsetY, offsetZ)
+                if (toBlockPos !in checkedBlockPosList && predicate(fromBlockPos, toBlockPos)) {
                     checkedBlockPosList += toBlockPos
                     nextBlockPosList += toBlockPos
                 }
             }
 
-            check(Direction.DOWN)
-            check(Direction.UP)
-            check(Direction.NORTH)
-            check(Direction.SOUTH)
-            check(Direction.WEST)
-            check(Direction.EAST)
-
+            check(1, 0, 0)
+            check(-1, 0, 0)
+            check(0, 1, 0)
+            check(0, -1, 0)
+            check(0, 0, 1)
+            check(0, 0, -1)
+            if (neighborType != NeighborType.FACES) {
+                check(0, 1, 1)
+                check(0, 1, -1)
+                check(0, -1, 1)
+                check(0, -1, -1)
+                check(1, 0, 1)
+                check(1, 0, -1)
+                check(-1, 0, 1)
+                check(-1, 0, -1)
+                check(1, 1, 0)
+                check(1, -1, 0)
+                check(-1, 1, 0)
+                check(-1, -1, 0)
+                if (neighborType != NeighborType.EDGES) {
+                    check(1, 1, 1)
+                    check(1, 1, -1)
+                    check(1, -1, 1)
+                    check(1, -1, -1)
+                    check(-1, 1, 1)
+                    check(-1, 1, -1)
+                    check(-1, -1, 1)
+                    check(-1, -1, -1)
+                }
+            }
         }
 
     }

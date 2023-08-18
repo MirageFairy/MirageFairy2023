@@ -56,7 +56,7 @@ class DemonPickaxeItem(
 
             // 発動
 
-            blockVisitor(listOf(pos), visitOrigins = false, maxDistance = 19, maxCount = 19) { _, _, toBlockPos ->
+            blockVisitor(listOf(pos), visitOrigins = false, maxDistance = 19, maxCount = 19) { _, toBlockPos ->
                 world.getBlockState(toBlockPos).block === state.block
             }.forEach { (_, blockPos) ->
                 if (stack.isEmpty) return@fail // ツールの耐久値が枯渇した

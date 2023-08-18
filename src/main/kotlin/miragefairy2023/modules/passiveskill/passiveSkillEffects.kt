@@ -25,6 +25,7 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Box
+import net.minecraft.util.math.Direction
 import java.util.UUID
 
 abstract class AttributePassiveSkillEffect : PassiveSkillEffect {
@@ -219,7 +220,17 @@ class CollectionPassiveSkillEffect(private val amount: Double) : PassiveSkillEff
                     var remainingAmount = actualAmount
                     var processedCount = 0
                     run finish@{
-                        blockVisitor(listOf(originalBlockPos), maxDistance = reach) { fromBlockPos, direction, toBlockPos ->
+                        blockVisitor(listOf(originalBlockPos), maxDistance = reach) { fromBlockPos, toBlockPos ->
+                            val offset = toBlockPos.subtract(fromBlockPos)
+                            val direction = when {
+                                offset.y == -1 -> Direction.DOWN
+                                offset.y == 1 -> Direction.UP
+                                offset.z == -1 -> Direction.NORTH
+                                offset.z == 1 -> Direction.SOUTH
+                                offset.x == -1 -> Direction.WEST
+                                offset.x == 1 -> Direction.EAST
+                                else -> throw AssertionError()
+                            }
                             !world.getBlockState(fromBlockPos).isSideSolidFullSquare(world, fromBlockPos, direction) && !world.getBlockState(toBlockPos).isSideSolidFullSquare(world, toBlockPos, direction.opposite)
                         }.forEach { (_, blockPos) ->
                             val currentBox = Box(blockPos).expand(0.98, 0.0, 0.98)
