@@ -351,7 +351,10 @@ abstract class ToolItemCardType<T : Item>(val model: Model) {
 
 private fun <T : Item> ToolItemCard<T>.init(scope: InitializationScope) = type.init(scope, this)
 
-private class DreamCatcherType(private val toolMaterialCard: ToolMaterialCard, private val maxDamage: Int) : ToolItemCardType<DreamCatcherItem>(Models.HANDHELD) {
+private class DreamCatcherType(
+    private val toolMaterialCard: ToolMaterialCard,
+    private val maxDamage: Int,
+) : ToolItemCardType<DreamCatcherItem>(Models.HANDHELD) {
     override fun createItem() = DreamCatcherItem(toolMaterialCard.toolMaterial, maxDamage, FabricItemSettings().group(commonItemGroup))
     override fun init(scope: InitializationScope, card: ToolItemCard<DreamCatcherItem>) = scope.run {
         onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
@@ -359,15 +362,34 @@ private class DreamCatcherType(private val toolMaterialCard: ToolMaterialCard, p
     }
 }
 
-private class KnifeType(private val toolMaterialCard: ToolMaterialCard, private val silkTouch: Boolean = false) : ToolItemCardType<DemonKnifeItem>(Models.HANDHELD) {
+private class KnifeType(
+    private val toolMaterialCard: ToolMaterialCard,
+    private val silkTouch: Boolean = false,
+) : ToolItemCardType<DemonKnifeItem>(Models.HANDHELD) {
     override fun createItem() = DemonKnifeItem(toolMaterialCard.toolMaterial, silkTouch, FabricItemSettings().group(commonItemGroup))
     override fun init(scope: InitializationScope, card: ToolItemCard<DemonKnifeItem>) = scope.run {
         onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
     }
 }
 
-private class PickaxeType(private val toolMaterialCard: ToolMaterialCard, private vararg val effectiveBlockTags: TagKey<Block>, private val silkTouch: Boolean = false, private val mineAll: Boolean = false, private val cutAll: Boolean = false) : ToolItemCardType<DemonPickaxeItem>(Models.HANDHELD) {
-    override fun createItem() = DemonPickaxeItem(toolMaterialCard.toolMaterial, 1, -2.8F, effectiveBlockTags.toList(), silkTouch, mineAll, cutAll, FabricItemSettings().group(commonItemGroup))
+private class PickaxeType(
+    private val toolMaterialCard: ToolMaterialCard,
+    private vararg val effectiveBlockTags: TagKey<Block>,
+    private val silkTouch: Boolean = false,
+    private val mineAll: Boolean = false,
+    private val cutAll: Boolean = false,
+) : ToolItemCardType<DemonPickaxeItem>(Models.HANDHELD) {
+    override fun createItem() = DemonPickaxeItem(
+        toolMaterialCard.toolMaterial,
+        1,
+        -2.8F,
+        effectiveBlockTags.toList(),
+        silkTouch,
+        mineAll,
+        cutAll,
+        FabricItemSettings().group(commonItemGroup),
+    )
+
     override fun init(scope: InitializationScope, card: ToolItemCard<DemonPickaxeItem>) = scope.run {
         onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
         onGenerateItemTags { it(ItemTags.CLUSTER_MAX_HARVESTABLES).add(card.item) }
@@ -375,14 +397,20 @@ private class PickaxeType(private val toolMaterialCard: ToolMaterialCard, privat
     }
 }
 
-private class StaffType(private val toolMaterialCard: ToolMaterialCard) : ToolItemCardType<StaffItem>(Models.HANDHELD) {
+private class StaffType(
+    private val toolMaterialCard: ToolMaterialCard,
+) : ToolItemCardType<StaffItem>(Models.HANDHELD) {
     override fun createItem() = StaffItem(toolMaterialCard.toolMaterial, FabricItemSettings().group(commonItemGroup))
     override fun init(scope: InitializationScope, card: ToolItemCard<StaffItem>) = scope.run {
         onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
     }
 }
 
-private class PassiveSkillAccessoryType(private val trinketsSlotCards: List<TrinketsSlotCard>, private val mana: Double, private val passiveSkills: List<PassiveSkill>) : ToolItemCardType<PassiveSkillAccessoryItem>(Models.GENERATED) {
+private class PassiveSkillAccessoryType(
+    private val trinketsSlotCards: List<TrinketsSlotCard>,
+    private val mana: Double,
+    private val passiveSkills: List<PassiveSkill>,
+) : ToolItemCardType<PassiveSkillAccessoryItem>(Models.GENERATED) {
     override fun createItem() = PassiveSkillAccessoryItem(mana, passiveSkills, FabricItemSettings().maxCount(1).group(commonItemGroup))
     override fun init(scope: InitializationScope, card: ToolItemCard<PassiveSkillAccessoryItem>) = scope.run {
         trinketsSlotCards.forEach { trinketsSlotCard ->
@@ -391,7 +419,10 @@ private class PassiveSkillAccessoryType(private val trinketsSlotCards: List<Trin
     }
 }
 
-private class TrinketAccessoryType<I>(private val trinketsSlotCards: List<TrinketsSlotCard>, private val itemCreator: (Item.Settings) -> I) : ToolItemCardType<I>(Models.GENERATED) where I : Item, I : Trinket {
+private class TrinketAccessoryType<I>(
+    private val trinketsSlotCards: List<TrinketsSlotCard>,
+    private val itemCreator: (Item.Settings) -> I,
+) : ToolItemCardType<I>(Models.GENERATED) where I : Item, I : Trinket {
     override fun createItem() = itemCreator(FabricItemSettings().maxCount(1).group(commonItemGroup))
     override fun init(scope: InitializationScope, card: ToolItemCard<I>) = scope.run {
         trinketsSlotCards.forEach { trinketsSlotCard ->
@@ -401,7 +432,9 @@ private class TrinketAccessoryType<I>(private val trinketsSlotCards: List<Trinke
     }
 }
 
-private class PocketLilyWandType(private val toolMaterialCard: ToolMaterialCard) : ToolItemCardType<PocketLilyWandItem>(Models.HANDHELD) {
+private class PocketLilyWandType(
+    private val toolMaterialCard: ToolMaterialCard,
+) : ToolItemCardType<PocketLilyWandItem>(Models.HANDHELD) {
     override fun createItem() = PocketLilyWandItem(toolMaterialCard.toolMaterial, FabricItemSettings().group(commonItemGroup))
     override fun init(scope: InitializationScope, card: ToolItemCard<PocketLilyWandItem>) = scope.run {
         onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
