@@ -79,10 +79,7 @@ enum class LuminariaCard(
 ) {
     LUMINARIA(
         "luminaria", "Luminaria", "ルミナリア",
-        listOf(
-            Poem("poem1", "Closely related to the dayflower", "欲に溺れ庭師、光る露草植えるも一生実らず。"),
-            Poem("poem2", "Order Miragales, family Luminariaceae", "妖花目ルミナリア科"),
-        ),
+        listOf(Poem("Closely related to the dayflower", "欲に溺れ庭師、光る露草植えるも一生実らず。")),
         null, null, false,
     ),
     DIAMOND_LUMINARIA(
@@ -154,8 +151,9 @@ val luminariaModule = module {
 
         // 翻訳
         enJa(card.block, card.en, card.ja)
-        generatePoemList(card.item, card.poemList)
-        onRegisterItems { registerPoemList(card.item, card.poemList) }
+        val poemList = card.poemList + listOf(Poem("classification", "Order Miragales, family Luminariaceae", "妖花目ルミナリア科"))
+        generatePoemList(card.item, poemList)
+        onRegisterItems { registerPoemList(card.item, poemList) }
 
 
         // 性質
