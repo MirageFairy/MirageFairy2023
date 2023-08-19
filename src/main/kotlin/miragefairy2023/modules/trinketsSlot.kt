@@ -1,6 +1,6 @@
 package miragefairy2023.modules
 
-import miragefairy2023.TrinketsSlotProvider
+import miragefairy2023.datagen.TrinketsSlotProvider
 import miragefairy2023.module
 import miragefairy2023.util.init.enJa
 import net.minecraft.item.Item

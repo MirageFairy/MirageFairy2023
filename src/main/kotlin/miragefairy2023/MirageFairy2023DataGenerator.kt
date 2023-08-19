@@ -1,16 +1,11 @@
 package miragefairy2023
 
-import com.google.gson.JsonElement
-import com.mojang.logging.LogUtils
 import miragefairy2023.MirageFairy2023.initializationScope
 import miragefairy2023.MirageFairy2023.modId
-import miragefairy2023.util.jsonArray
-import miragefairy2023.util.jsonArrayOf
-import miragefairy2023.util.jsonObject
-import miragefairy2023.util.jsonObjectOf
-import miragefairy2023.util.jsonObjectOfNotNull
-import miragefairy2023.util.jsonPrimitive
-import miragefairy2023.util.string
+import miragefairy2023.datagen.ParticleProvider
+import miragefairy2023.datagen.SoundsProvider
+import miragefairy2023.datagen.TrinketsEntitiesProvider
+import miragefairy2023.datagen.TrinketsSlotProvider
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider
@@ -22,9 +17,6 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider
 import net.minecraft.advancement.Advancement
 import net.minecraft.block.Block
-import net.minecraft.data.DataGenerator
-import net.minecraft.data.DataProvider
-import net.minecraft.data.DataWriter
 import net.minecraft.data.client.BlockStateModelGenerator
 import net.minecraft.data.client.ItemModelGenerator
 import net.minecraft.data.server.recipe.RecipeJsonProvider
@@ -34,7 +26,6 @@ import net.minecraft.loot.LootTable
 import net.minecraft.loot.context.LootContextTypes
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
-import java.io.IOException
 import java.util.function.BiConsumer
 import java.util.function.Consumer
 
@@ -117,115 +108,4 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
         })
 
     }
-}
-
-class ParticleProvider(private val dataGenerator: DataGenerator) : DataProvider {
-
-    private val map = mutableMapOf<Identifier, JsonElement>()
-
-    operator fun set(identifier: Identifier, jsonElement: JsonElement) {
-        if (identifier in map) throw Exception("Duplicate particle definition for $identifier")
-        map[identifier] = jsonElement
-    }
-
-    override fun run(writer: DataWriter) {
-        val pathResolver = dataGenerator.createPathResolver(DataGenerator.OutputType.RESOURCE_PACK, "particles")
-        map.forEach { (identifier, jsonElement) ->
-            val path = pathResolver.resolveJson(identifier)
-            try {
-                DataProvider.writeToPath(writer, jsonElement, path)
-            } catch (e: IOException) {
-                LogUtils.getLogger().error("Couldn't save data file {}", path, e)
-            }
-        }
-    }
-
-    override fun getName() = "Particles"
-
-}
-
-class TrinketsEntitiesProvider(private val dataGenerator: FabricDataGenerator) : DataProvider {
-
-    val slots = mutableListOf<String>()
-
-    override fun run(writer: DataWriter) {
-        val pathResolver = dataGenerator.createPathResolver(DataGenerator.OutputType.DATA_PACK, "entities")
-        if (slots.isNotEmpty()) {
-            val path = pathResolver.resolveJson(Identifier("trinkets", "miragefairy2023"))
-            val jsonElement = jsonObjectOf(
-                "entities" to jsonArrayOf(
-                    "player".jsonPrimitive,
-                ),
-                "slots" to jsonArrayOf(
-                    *slots.map { it.jsonPrimitive }.toTypedArray(),
-                ),
-            )
-            try {
-                DataProvider.writeToPath(writer, jsonElement, path)
-            } catch (e: IOException) {
-                LogUtils.getLogger().error("Couldn't save data file {}", path, e)
-            }
-        }
-    }
-
-    override fun getName() = "Trinkets Entities"
-
-}
-
-class TrinketsSlotProvider(private val dataGenerator: FabricDataGenerator) : DataProvider {
-
-    val slots = mutableListOf<Pair<String, TrinketsSlotEntry>>()
-
-    class TrinketsSlotEntry(
-        val icon: Identifier,
-        val quickMovePredicates: List<String>? = null,
-    )
-
-    override fun run(writer: DataWriter) {
-        val pathResolver = dataGenerator.createPathResolver(DataGenerator.OutputType.DATA_PACK, "slots")
-        slots.forEach { (name, entry) ->
-            val path = pathResolver.resolveJson(Identifier("trinkets", name))
-            val jsonElement = jsonObjectOfNotNull(
-                "icon" to entry.icon.string.jsonPrimitive,
-                entry.quickMovePredicates?.let { "quick_move_predicates" to entry.quickMovePredicates.map { it.jsonPrimitive }.jsonArray },
-            )
-            try {
-                DataProvider.writeToPath(writer, jsonElement, path)
-            } catch (e: IOException) {
-                LogUtils.getLogger().error("Couldn't save data file {}", path, e)
-            }
-        }
-    }
-
-    override fun getName() = "Trinkets Entities"
-
-}
-
-class SoundsProvider(private val dataGenerator: FabricDataGenerator, private val modId: String) : DataProvider {
-
-    val map = mutableMapOf<String, SoundEntry>()
-
-    class SoundEntry(
-        val subtitle: String?,
-        val sounds: List<Identifier>,
-    )
-
-    override fun run(writer: DataWriter) {
-        if (map.isEmpty()) return
-        val path = dataGenerator.resolveRootDirectoryPath(DataGenerator.OutputType.RESOURCE_PACK).resolve("$modId/sounds.json")
-        val jsonElement = map.map { (name, entry) ->
-            name to jsonObjectOfNotNull(
-                entry.subtitle?.let { "subtitle" to it.jsonPrimitive },
-                "sounds" to entry.sounds.map { it.string.jsonPrimitive }.jsonArray,
-            )
-        }.jsonObject
-        try {
-            DataProvider.writeToPath(writer, jsonElement, path)
-        } catch (e: IOException) {
-            LogUtils.getLogger().error("Couldn't save data file {}", path, e)
-        }
-    }
-
-    override fun getName() = "Sounds"
-
 }

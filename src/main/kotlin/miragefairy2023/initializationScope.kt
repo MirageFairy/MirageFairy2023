@@ -1,5 +1,9 @@
 package miragefairy2023
 
+import miragefairy2023.datagen.ParticleProvider
+import miragefairy2023.datagen.SoundsProvider
+import miragefairy2023.datagen.TrinketsEntitiesProvider
+import miragefairy2023.datagen.TrinketsSlotProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
