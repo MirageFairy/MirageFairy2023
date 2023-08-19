@@ -13,7 +13,7 @@ import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.item.PickaxeItem
+import net.minecraft.item.MiningToolItem
 import net.minecraft.item.ToolMaterial
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
@@ -25,16 +25,16 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class DemonPickaxeItem(
+class DemonMiningToolItem(
     toolMaterial: ToolMaterial,
-    attackDamage: Int,
+    attackDamage: Float,
     attackSpeed: Float,
     private val effectiveBlockTags: List<TagKey<Block>>,
     private val silkTouch: Boolean,
     private val mineAll: Boolean,
     private val cutAll: Boolean,
     settings: Settings,
-) : PickaxeItem(toolMaterial, attackDamage, attackSpeed, settings) {
+) : MiningToolItem(attackDamage, attackSpeed, toolMaterial, BlockTags.PICKAXE_MINEABLE, settings) {
     override fun getMiningSpeedMultiplier(stack: ItemStack, state: BlockState) = if (effectiveBlockTags.any { state.isIn(it) }) miningSpeed else 1.0F
 
     override fun isSuitableFor(state: BlockState): Boolean {

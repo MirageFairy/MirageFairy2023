@@ -400,10 +400,10 @@ private class PickaxeType(
     private val silkTouch: Boolean = false,
     private val mineAll: Boolean = false,
     private val cutAll: Boolean = false,
-) : ToolItemCardType<DemonPickaxeItem>(Models.HANDHELD) {
-    override fun createItem() = DemonPickaxeItem(
+) : ToolItemCardType<DemonMiningToolItem>(Models.HANDHELD) {
+    override fun createItem() = DemonMiningToolItem(
         toolMaterialCard.toolMaterial,
-        1,
+        1F,
         -2.8F,
         listOf(BlockTags.PICKAXE_MINEABLE) + additionalEffectiveBlockTags,
         silkTouch,
@@ -412,7 +412,7 @@ private class PickaxeType(
         FabricItemSettings().group(commonItemGroup),
     )
 
-    override fun init(scope: InitializationScope, card: ToolItemCard<DemonPickaxeItem>) = scope.run {
+    override fun init(scope: InitializationScope, card: ToolItemCard<DemonMiningToolItem>) = scope.run {
         onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
         onGenerateItemTags { it(ItemTags.CLUSTER_MAX_HARVESTABLES).add(card.item) }
         onGenerateItemTags { it(ConventionalItemTags.PICKAXES).add(card.item) }
@@ -425,10 +425,10 @@ private class AxeType(
     private val silkTouch: Boolean = false,
     private val mineAll: Boolean = false,
     private val cutAll: Boolean = false,
-) : ToolItemCardType<DemonPickaxeItem>(Models.HANDHELD) {
-    override fun createItem() = DemonPickaxeItem(
+) : ToolItemCardType<DemonMiningToolItem>(Models.HANDHELD) {
+    override fun createItem() = DemonMiningToolItem(
         toolMaterialCard.toolMaterial,
-        6,
+        6F,
         -3.1F,
         listOf(BlockTags.AXE_MINEABLE) + additionalEffectiveBlockTags,
         silkTouch,
@@ -437,7 +437,7 @@ private class AxeType(
         FabricItemSettings().group(commonItemGroup),
     )
 
-    override fun init(scope: InitializationScope, card: ToolItemCard<DemonPickaxeItem>) = scope.run {
+    override fun init(scope: InitializationScope, card: ToolItemCard<DemonMiningToolItem>) = scope.run {
         onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
         onGenerateItemTags { it(ConventionalItemTags.AXES).add(card.item) }
     }
