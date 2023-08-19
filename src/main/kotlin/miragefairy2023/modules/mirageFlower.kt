@@ -142,7 +142,7 @@ val mirageFlowerModule = module {
     // 翻訳
     enJa(MirageFlower.seedItem, "Mirage Seed", "ミラージュの球根")
     val poemList = listOf(
-        Poem("poem1", "Evolution to escape extermination", "最高に可憐にして益々人畜無害たる怪物。"),
+        Poem("poem1", "Evolution to escape extermination", "最高に可憐にしていっそう人畜無害たる魔物。"),
         Poem("poem2", "Order Miragales, family Miragaceae", "妖花目ミラージュ科"),
     )
     generatePoemList(MirageFlower.seedItem, poemList)
