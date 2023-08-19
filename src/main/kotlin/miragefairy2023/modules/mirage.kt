@@ -89,9 +89,9 @@ import net.minecraft.world.gen.placementmodifier.RarityFilterPlacementModifier
 import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier
 import net.minecraft.world.gen.stateprovider.BlockStateProvider
 
-object MirageFlower {
-    val identifier = Identifier(MirageFairy2023.modId, "mirage_flower")
-    val block = MirageFlowerBlock(
+object Mirage {
+    val flowerIdentifier = Identifier(MirageFairy2023.modId, "mirage_flower")
+    val flowerBlock = MirageFlowerBlock(
         FabricBlockSettings.of(Material.PLANT)
             .nonOpaque()
             .noCollision()
@@ -100,25 +100,25 @@ object MirageFlower {
             .sounds(BlockSoundGroup.GLASS)
     )
     val seedIdentifier = Identifier(MirageFairy2023.modId, "mirage_seed")
-    val seedItem = AliasedBlockItem(block, FabricItemSettings().group(commonItemGroup))
+    val seedItem = AliasedBlockItem(flowerBlock, FabricItemSettings().group(commonItemGroup))
 }
 
 
-val mirageFlowerModule = module {
+val mirageModule = module {
 
     // 登録
-    Registry.register(Registry.BLOCK, MirageFlower.identifier, MirageFlower.block)
-    Registry.register(Registry.ITEM, MirageFlower.seedIdentifier, MirageFlower.seedItem)
+    Registry.register(Registry.BLOCK, Mirage.flowerIdentifier, Mirage.flowerBlock)
+    Registry.register(Registry.ITEM, Mirage.seedIdentifier, Mirage.seedItem)
 
 
     // モデル
 
     // BlockState
-    generateBlockState(MirageFlower.block) {
+    generateBlockState(Mirage.flowerBlock) {
         jsonObjectOf(
             "variants" to jsonObjectOf((0..MirageFlowerBlock.MAX_AGE).map { age ->
                 "age=$age" to jsonObjectOf(
-                    "model" to "${"block/" concat MirageFlower.identifier concat "_age$age"}".jsonPrimitive,
+                    "model" to "${"block/" concat Mirage.flowerIdentifier concat "_age$age"}".jsonPrimitive,
                 )
             }),
         )
@@ -127,26 +127,26 @@ val mirageFlowerModule = module {
     // サイズごとのモデル
     onGenerateBlockStateModels { blockStateModelGenerator ->
         (0..MirageFlowerBlock.MAX_AGE).forEach { age ->
-            val textureMap = TextureMap(TextureKey.CROSS to TextureMap.getSubId(MirageFlower.block, "_age$age"))
-            Models.CROSS.upload(MirageFlower.block, "_age$age", textureMap, blockStateModelGenerator.modelCollector)
+            val textureMap = TextureMap(TextureKey.CROSS to TextureMap.getSubId(Mirage.flowerBlock, "_age$age"))
+            Models.CROSS.upload(Mirage.flowerBlock, "_age$age", textureMap, blockStateModelGenerator.modelCollector)
         }
     }
 
     // アイテムモデル
-    onGenerateItemModels { it.register(MirageFlower.seedItem, Models.GENERATED) }
+    onGenerateItemModels { it.register(Mirage.seedItem, Models.GENERATED) }
 
     // レンダリング
-    onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(MirageFlower.block) }
+    onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(Mirage.flowerBlock) }
 
 
     // 翻訳
-    enJa(MirageFlower.seedItem, "Mirage Seed", "ミラージュの球根")
+    enJa(Mirage.seedItem, "Mirage Seed", "ミラージュの球根")
     val poemList = listOf(
         Poem("Evolution to escape extermination", "最高に可憐にしていっそう人畜無害たる魔物。"),
         Poem("classification", "Order Miragales, family Miragaceae", "妖花目ミラージュ科"),
     )
-    generatePoemList(MirageFlower.seedItem, poemList)
-    onRegisterItems { registerPoemList(MirageFlower.seedItem, poemList) }
+    generatePoemList(Mirage.seedItem, poemList)
+    onRegisterItems { registerPoemList(Mirage.seedItem, poemList) }
 
 
     // 性質
@@ -156,14 +156,14 @@ val mirageFlowerModule = module {
     // レシピ
 
     // ドロップ
-    generateBlockLootTable(MirageFlower.block) {
-        val age2Condition = RangedMatchBlockStatePropertyLootCondition(MirageFlower.identifier, MirageFlowerBlock.AGE, 2, 3)
-        val age3Condition = ExactMatchBlockStatePropertyLootCondition(MirageFlower.identifier, MirageFlowerBlock.AGE, 3)
+    generateBlockLootTable(Mirage.flowerBlock) {
+        val age2Condition = RangedMatchBlockStatePropertyLootCondition(Mirage.flowerIdentifier, MirageFlowerBlock.AGE, 2, 3)
+        val age3Condition = ExactMatchBlockStatePropertyLootCondition(Mirage.flowerIdentifier, MirageFlowerBlock.AGE, 3)
         LootTable(
-            LootPool(ItemLootPoolEntry(MirageFlower.seedItem)) { // ベース種ドロップ
+            LootPool(ItemLootPoolEntry(Mirage.seedItem)) { // ベース種ドロップ
                 conditionally(InvertedLootCondition.builder { PickedUpLootCondition() })
             },
-            LootPool(ItemLootPoolEntry(MirageFlower.seedItem) {
+            LootPool(ItemLootPoolEntry(Mirage.seedItem) {
                 apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(0.0F)))
                 apply(ApplyBonusLootFunction.binomialWithBonusCount(Enchantments.FORTUNE, 0.2F, 1))
             }) { // 追加種ドロップ
@@ -182,19 +182,19 @@ val mirageFlowerModule = module {
                 conditionally(age3Condition)
             },
         ) {
-            applyExplosionDecay(MirageFlower.seedItem) // 爆発時割合ロスト
+            applyExplosionDecay(Mirage.seedItem) // 爆発時割合ロスト
         }
     }
 
     // 種は雑草から得られる
-    registerGrassDrop(MirageFlower.seedItem, 0.1)
+    registerGrassDrop(Mirage.seedItem, 0.1)
 
     // 種はコンポスターに投入可能
-    onRegisterRecipes { ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(MirageFlower.seedItem, 0.3F) }
+    onRegisterRecipes { ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(Mirage.seedItem, 0.3F) }
 
     // ミラージュの小さな塊の地形生成
     onRegisterRecipes {
-        val blockStateProvider = BlockStateProvider.of(MirageFlower.block.withAge(MirageFlowerBlock.MAX_AGE))
+        val blockStateProvider = BlockStateProvider.of(Mirage.flowerBlock.withAge(MirageFlowerBlock.MAX_AGE))
         val identifier = Identifier(modId, "mirage_flower_cluster")
         val configuredFeature = Feature.FLOWER with RandomPatchFeatureConfig(6, 6, 2, PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK, SimpleBlockFeatureConfig(blockStateProvider)))
         val placedFeature = PlacedFeature(
@@ -213,7 +213,7 @@ val mirageFlowerModule = module {
 
     // ミラージュの大きな塊の地形生成
     onRegisterRecipes {
-        val blockStateProvider = BlockStateProvider.of(MirageFlower.block.withAge(MirageFlowerBlock.MAX_AGE))
+        val blockStateProvider = BlockStateProvider.of(Mirage.flowerBlock.withAge(MirageFlowerBlock.MAX_AGE))
         val identifier = Identifier(modId, "large_mirage_flower_cluster")
         val configuredFeature = Feature.FLOWER with RandomPatchFeatureConfig(100, 8, 3, PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK, SimpleBlockFeatureConfig(blockStateProvider)))
         val placedFeature = PlacedFeature(
@@ -285,7 +285,7 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
     // 挙動
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = AGE_TO_SHAPE[getAge(state)]
     override fun canPlantOnTop(floor: BlockState, world: BlockView, pos: BlockPos) = world.getBlockState(pos).isSideSolid(world, pos, Direction.UP, SideShapeType.CENTER) || floor.isOf(Blocks.FARMLAND)
-    override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState) = MirageFlower.seedItem.createItemStack()
+    override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState) = Mirage.seedItem.createItemStack()
 
 
     // 行動

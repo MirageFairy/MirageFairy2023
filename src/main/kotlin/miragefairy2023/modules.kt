@@ -16,7 +16,7 @@ import miragefairy2023.modules.itemTransportationModule
 import miragefairy2023.modules.lastFoodModule
 import miragefairy2023.modules.luckBonusModule
 import miragefairy2023.modules.luminariaModule
-import miragefairy2023.modules.mirageFlowerModule
+import miragefairy2023.modules.mirageModule
 import miragefairy2023.modules.particleModule
 import miragefairy2023.modules.passiveskill.passiveSkillModule
 import miragefairy2023.modules.playerAttributeModule
@@ -57,7 +57,7 @@ val modules = module {
 
         // アイテム追加系
         demonItemModule()
-        mirageFlowerModule()
+        mirageModule()
         luminariaModule()
         toolItemModule()
 

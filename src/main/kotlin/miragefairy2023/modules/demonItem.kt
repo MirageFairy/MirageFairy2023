@@ -440,7 +440,7 @@ val demonItemModule = module {
         }
 
         // MOD
-        generateBuyingRecipe(50, MirageFlower.seedItem, 8)
+        generateBuyingRecipe(50, Mirage.seedItem, 8)
         generateBuyingRecipe(50, DemonItemCard.VERY_RARE_MIRAGE_FLOUR.item, 3)
         generateBuyingRecipe(50, DemonItemCard.XARPITE.item, 1)
         generateBuyingRecipe(50, DemonItemCard.MIRANAGITE.item, 1)

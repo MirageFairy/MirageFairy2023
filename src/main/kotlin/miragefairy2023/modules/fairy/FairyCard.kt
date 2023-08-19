@@ -5,7 +5,7 @@ import miragefairy2023.api.Fairy
 import miragefairy2023.api.PassiveSkill
 import miragefairy2023.modules.DemonItemCard
 import miragefairy2023.modules.LuminariaCard
-import miragefairy2023.modules.MirageFlower
+import miragefairy2023.modules.Mirage
 import miragefairy2023.modules.ToolMaterialCard
 import miragefairy2023.modules.passiveskill.air
 import miragefairy2023.modules.passiveskill.always
@@ -528,7 +528,7 @@ enum class FairyCard(
             regeneration(0.1) on toolMaterial(ToolMaterialCard.MIRAGE)
         },
         null,
-        FairyRecipes().overworld().block(MirageFlower.block).recipe(MirageFlower.seedItem),
+        FairyRecipes().overworld().block(Mirage.flowerBlock).recipe(Mirage.seedItem),
     ),
     LUMINARIA(
         "luminaria", 6, "Luminaria", "輝草精ルミナーリャ", 0xB4DBD3, 0xBBEFF2, 0xBBEFF2, 0x8CE6FF,
