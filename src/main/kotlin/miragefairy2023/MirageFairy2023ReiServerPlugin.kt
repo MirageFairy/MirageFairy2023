@@ -27,8 +27,8 @@ object Categories {
     val ENTITY_TYPE_FAIRY_RELATION: CategoryIdentifier<EntityTypeFairyRelationDisplay> = CategoryIdentifier.of(MirageFairy2023.modId, "plugins/entity_type_fairy_relation")
 }
 
-val BLOCK_FAIRY_RELATION_KEY = Translation("category.miragefairy2023.block_fairy_relation", "Block Fairy Relation", "ブロック妖精連携")
-val ENTITY_TYPE_FAIRY_RELATION_KEY = Translation("category.miragefairy2023.entity_type_fairy_relation", "Entity Type Fairy Relation", "エンティティタイプ妖精連携")
+val BLOCK_FAIRY_RELATION_KEY = Translation("category.${MirageFairy2023.modId}.block_fairy_relation", "Block Fairy Relation", "ブロック妖精連携")
+val ENTITY_TYPE_FAIRY_RELATION_KEY = Translation("category.${MirageFairy2023.modId}.entity_type_fairy_relation", "Entity Type Fairy Relation", "エンティティタイプ妖精連携")
 
 class FairyMetamorphosisAltarDisplay(
     input: EntryIngredient,

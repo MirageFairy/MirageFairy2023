@@ -360,7 +360,7 @@ val toolItemModule = module {
 }
 
 
-val NOT_ENOUGH_EXPERIENCE_KEY = Translation("item.miragefairy2023.magic.not_enough_experience", "Not enough experience", "経験値が足りません")
+val NOT_ENOUGH_EXPERIENCE_KEY = Translation("item.${MirageFairy2023.modId}.magic.not_enough_experience", "Not enough experience", "経験値が足りません")
 val DREAM_CATCHERS: TagKey<Item> = TagKey.of(Registry.ITEM_KEY, Identifier(MirageFairy2023.modId, "dream_catchers"))
 
 

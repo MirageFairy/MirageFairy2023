@@ -35,7 +35,7 @@ val particleModule = module {
         onGenerateParticles {
             it[Identifier(MirageFairy2023.modId, card.path)] = jsonObjectOf(
                 "textures" to jsonArrayOf(
-                    "miragefairy2023:${card.textureName}".jsonPrimitive,
+                    "${MirageFairy2023.modId}:${card.textureName}".jsonPrimitive,
                 ),
             )
         }

@@ -21,7 +21,7 @@ class AntimatterBoltEntityRenderer(context: EntityRendererFactory.Context) : Ent
         }
     }
 
-    private val texture = Identifier("miragefairy2023", "textures/block/creative_aura_stone.png")
+    private val texture = Identifier(MirageFairy2023.modId, "textures/block/creative_aura_stone.png")
 
     private val model = object : SinglePartEntityModel<Entity>() {
         private val modelPart: ModelPart = context.getPart(MAIN.entityModelLayer)

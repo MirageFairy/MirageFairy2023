@@ -1,6 +1,7 @@
 package miragefairy2023.datagen
 
 import com.mojang.logging.LogUtils
+import miragefairy2023.MirageFairy2023
 import miragefairy2023.util.jsonArrayOf
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
@@ -18,7 +19,7 @@ class TrinketsEntitiesProvider(private val dataGenerator: FabricDataGenerator) :
     override fun run(writer: DataWriter) {
         val pathResolver = dataGenerator.createPathResolver(DataGenerator.OutputType.DATA_PACK, "entities")
         if (slots.isNotEmpty()) {
-            val path = pathResolver.resolveJson(Identifier("trinkets", "miragefairy2023"))
+            val path = pathResolver.resolveJson(Identifier("trinkets", MirageFairy2023.modId))
             val jsonElement = jsonObjectOf(
                 "entities" to jsonArrayOf(
                     "player".jsonPrimitive,
