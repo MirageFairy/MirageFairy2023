@@ -75,6 +75,9 @@ repositories {
     maven("https://maven.terraformersmc.com/")
     maven("https://maven.ladysnake.org/releases")
 
+    // com.github.glitchfiend:TerraBlender-fabric
+    maven("https://maven.minecraftforge.net/")
+
 }
 
 dependencies {
@@ -107,6 +110,8 @@ dependencies {
     "modApi"("dev.emi:trinkets:3.4.1")
     // https://github.com/emilyploszaj/trinkets/blob/3.4.1/gradle.properties
     "modApi"("dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.0.0-beta.1")
+
+    "modImplementation"("com.github.glitchfiend:TerraBlender-fabric:1.19.2-2.0.1.136")
 
 }
 
