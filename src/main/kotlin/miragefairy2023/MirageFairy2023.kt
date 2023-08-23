@@ -37,7 +37,7 @@ object MirageFairy2023 : ModInitializer {
     lateinit var initializationScope: InitializationScope
 
     override fun onInitialize() {
-        initializationScope = InitializationScope(modId)
+        initializationScope = InitializationScope()
 
         initializationScope.modules()
 

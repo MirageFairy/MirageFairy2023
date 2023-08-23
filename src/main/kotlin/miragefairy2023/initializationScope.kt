@@ -21,7 +21,8 @@ import net.minecraft.util.Identifier
 import java.util.function.BiConsumer
 import java.util.function.Consumer
 
-class InitializationScope(val modId: String) {
+class InitializationScope {
+    val modId = MirageFairy2023.modId
 
     val onGenerateEnglishTranslations = EventBus<(FabricLanguageProvider.TranslationBuilder) -> Unit>()
     val onGenerateJapaneseTranslations = EventBus<(FabricLanguageProvider.TranslationBuilder) -> Unit>()
