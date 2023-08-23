@@ -1,5 +1,6 @@
 package miragefairy2023
 
+import miragefairy2023.datagen.BiomeProvider
 import miragefairy2023.datagen.ParticleProvider
 import miragefairy2023.datagen.SoundsProvider
 import miragefairy2023.datagen.TrinketsEntitiesProvider
@@ -37,6 +38,7 @@ class InitializationScope(val modId: String) {
     val onGenerateTrinketsEntities = EventBus<(TrinketsEntitiesProvider) -> Unit>()
     val onGenerateTrinketsSlot = EventBus<(TrinketsSlotProvider) -> Unit>()
     val onGenerateSounds = EventBus<(SoundsProvider) -> Unit>()
+    val onGenerateBiome = EventBus<(BiomeProvider) -> Unit>()
 
     val onInitializeClient = EventBus<() -> Unit>()
 

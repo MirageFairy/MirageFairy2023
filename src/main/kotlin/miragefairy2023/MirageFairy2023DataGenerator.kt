@@ -2,6 +2,7 @@ package miragefairy2023
 
 import miragefairy2023.MirageFairy2023.initializationScope
 import miragefairy2023.MirageFairy2023.modId
+import miragefairy2023.datagen.BiomeProvider
 import miragefairy2023.datagen.ParticleProvider
 import miragefairy2023.datagen.SoundsProvider
 import miragefairy2023.datagen.TrinketsEntitiesProvider
@@ -105,6 +106,10 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
 
         fabricDataGenerator.addProvider(SoundsProvider(fabricDataGenerator, modId).also { provider ->
             initializationScope.onGenerateSounds.fire { it(provider) }
+        })
+
+        fabricDataGenerator.addProvider(BiomeProvider(fabricDataGenerator, modId).also { provider ->
+            initializationScope.onGenerateBiome.fire { it(provider) }
         })
 
     }
