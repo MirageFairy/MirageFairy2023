@@ -64,7 +64,7 @@ val fairyMailboxModule = module {
         Description("Use to receive item being transported", "使用時、転送中のアイテムを受け取る"),
     )
     generatePoemList(FairyMailbox.item, poemList)
-    onRegisterItems { registerPoemList(FairyMailbox.item, poemList) }
+    registerPoemList(FairyMailbox.item, poemList)
 
 
     // 性質

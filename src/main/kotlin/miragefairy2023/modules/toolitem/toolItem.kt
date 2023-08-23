@@ -166,7 +166,7 @@ val toolItemModule = module {
         onGenerateItemModels { it.register(card.item, card.type.model) }
         enJa(card.item, card.enName, card.jaName)
         generatePoemList(card.item, card.poemList)
-        onRegisterItems { registerPoemList(card.item, card.poemList) }
+        registerPoemList(card.item, card.poemList)
         card.init(this)
     }
 

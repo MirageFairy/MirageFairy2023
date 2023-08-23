@@ -66,7 +66,7 @@ val demonBlockModule = module {
         Registry.register(Registry.ITEM, card.identifier, card.item)
         enJa(card.block, card.en, card.ja)
         generatePoemList(card.item, card.poemList)
-        onRegisterItems { registerPoemList(card.item, card.poemList) }
+        registerPoemList(card.item, card.poemList)
     }
 
     // アカーシャの霊氣石

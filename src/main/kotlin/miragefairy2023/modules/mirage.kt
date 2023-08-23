@@ -146,7 +146,7 @@ val mirageModule = module {
         Poem("classification", "Order Miragales, family Miragaceae", "妖花目ミラージュ科"),
     )
     generatePoemList(Mirage.seedItem, poemList)
-    onRegisterItems { registerPoemList(Mirage.seedItem, poemList) }
+    registerPoemList(Mirage.seedItem, poemList)
 
 
     // 性質

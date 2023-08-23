@@ -81,7 +81,7 @@ val telescopeModule = module {
         Description("Use once a day to obtain Minia Crystals", "1日1回使用時にミーニャクリスタルを獲得"),
     )
     generatePoemList(Telescope.item, poemList)
-    onRegisterItems { registerPoemList(Telescope.item, poemList) }
+    registerPoemList(Telescope.item, poemList)
 
 
     // 性質

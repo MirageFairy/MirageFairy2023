@@ -153,7 +153,7 @@ val luminariaModule = module {
         enJa(card.block, card.en, card.ja)
         val poemList = card.poemList + listOf(Poem("classification", "Order Miragales, family Luminariaceae", "妖花目ルミナリア科"))
         generatePoemList(card.item, poemList)
-        onRegisterItems { registerPoemList(card.item, poemList) }
+        registerPoemList(card.item, poemList)
 
 
         // 性質
