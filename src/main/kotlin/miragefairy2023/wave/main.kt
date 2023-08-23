@@ -1,11 +1,11 @@
 package miragefairy2023.wave
 
-import org.slf4j.LoggerFactory
+import mirrg.kotlin.slf4j.hydrogen.getLogger
 import java.io.File
 
 object MainKt
 
-private val logger = LoggerFactory.getLogger(MainKt::class.java)
+private val logger = getLogger(MainKt::class.java)
 
 fun main() {
 

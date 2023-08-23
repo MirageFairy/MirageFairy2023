@@ -9,12 +9,12 @@ import miragefairy2023.util.list
 import miragefairy2023.util.toItemStack
 import miragefairy2023.util.toNbt
 import miragefairy2023.util.wrapper
+import mirrg.kotlin.slf4j.hydrogen.getLogger
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
 import net.minecraft.server.network.ServerPlayerEntity
-import org.slf4j.LoggerFactory
 
 val ITEM_TRANSPORTATION_LIMIT = 2000
 
@@ -31,7 +31,7 @@ val <T : PlayerEntity> T.itemTransportation get() = ItemTransportation(this)
 
 class ItemTransportation<T : PlayerEntity>(val player: T) {
     companion object {
-        private val logger = LoggerFactory.getLogger(ItemTransportation::class.java)
+        private val logger = getLogger(ItemTransportation::class.java)
     }
 
     private fun getRootNbt() = player.customData.wrapper[MirageFairy2023.modId]["item_transportation"]

@@ -4,8 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import mirrg.kotlin.slf4j.hydrogen.getLogger
 import java.awt.image.BufferedImage
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
@@ -23,7 +22,7 @@ import kotlin.random.Random
 
 object WaveKt
 
-private val logger: Logger = LoggerFactory.getLogger(WaveKt::class.java)
+private val logger = getLogger(WaveKt::class.java)
 
 fun File.readWaveform(): DoubleArray {
     AudioSystem.getAudioInputStream(this).use { input ->

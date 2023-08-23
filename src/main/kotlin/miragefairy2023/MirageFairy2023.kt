@@ -1,5 +1,6 @@
 package miragefairy2023
 
+import mirrg.kotlin.slf4j.hydrogen.getLogger
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.block.Block
@@ -14,11 +15,10 @@ import net.minecraft.particle.DefaultParticleType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import org.slf4j.LoggerFactory
 
 object MirageFairy2023 : ModInitializer {
     val modId = "miragefairy2023"
-    val logger = LoggerFactory.getLogger(modId)
+    val logger = getLogger(modId)
     var clientProxy: ClientProxy? = null
     var serverProxy: ServerProxy = object : ServerProxy {
         override fun registerServerPacketReceiver(identifier: Identifier, packetReceiver: ServerPacketReceiver<*>) {
