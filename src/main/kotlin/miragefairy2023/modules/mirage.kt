@@ -232,7 +232,7 @@ val mirageModule = module {
 
 
     // 右クリック収穫によるドロップか否かを識別するドロップ条件
-    onRegisterLootConditionType {
+    run {
         val serializer = object : JsonSerializer<LootCondition> {
             override fun toJson(json: JsonObject, `object`: LootCondition, context: JsonSerializationContext) = Unit
             override fun fromJson(json: JsonObject, context: JsonDeserializationContext) = PickedUpLootCondition()
