@@ -3,6 +3,7 @@ package miragefairy2023.modules
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializationContext
+import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.jsonPrimitive
 import miragefairy2023.util.randomInt
@@ -30,7 +31,7 @@ val luckBonusModule = module {
 
             override fun fromJson(json: JsonObject, context: JsonDeserializationContext) = ApplyLuckBonusLootFunction(json["factor"]?.asDouble)
         }
-        applyLuckBonusLootFunctionType = Registry.register(Registry.LOOT_FUNCTION_TYPE, Identifier(modId, "apply_luck_bonus"), LootFunctionType(serializer))
+        applyLuckBonusLootFunctionType = Registry.register(Registry.LOOT_FUNCTION_TYPE, Identifier(MirageFairy2023.modId, "apply_luck_bonus"), LootFunctionType(serializer))
     }
 
 }

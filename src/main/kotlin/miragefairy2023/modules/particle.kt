@@ -33,7 +33,7 @@ val particleModule = module {
 
         // データファイル生成
         onGenerateParticles {
-            it[Identifier(modId, card.path)] = jsonObjectOf(
+            it[Identifier(MirageFairy2023.modId, card.path)] = jsonObjectOf(
                 "textures" to jsonArrayOf(
                     "miragefairy2023:${card.textureName}".jsonPrimitive,
                 ),
@@ -41,7 +41,7 @@ val particleModule = module {
         }
 
         // 登録
-        Registry.register(Registry.PARTICLE_TYPE, Identifier(modId, card.path), card.particleType)
+        Registry.register(Registry.PARTICLE_TYPE, Identifier(MirageFairy2023.modId, card.path), card.particleType)
 
         // クライアント側でファクトリを登録
         onInitializeClient {

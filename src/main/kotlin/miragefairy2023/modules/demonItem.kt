@@ -299,7 +299,7 @@ val demonItemModule = module {
             .input(Items.MAGMA_CREAM)
             .criterion(Items.MAGMA_CREAM)
             .group("slime_balls")
-            .offerTo(it, Identifier.of(modId, "slime_ball_from_anti_entropy"))
+            .offerTo(it, Identifier.of(MirageFairy2023.modId, "slime_ball_from_anti_entropy"))
     }
 
     // 蒼天石＋4マグマクリーム→ブレイズパウダー
@@ -313,7 +313,7 @@ val demonItemModule = module {
             .input(Items.MAGMA_CREAM)
             .criterion(Items.MAGMA_CREAM)
             .group("blaze_powders")
-            .offerTo(it, Identifier.of(modId, "blaze_powder_from_anti_entropy"))
+            .offerTo(it, Identifier.of(MirageFairy2023.modId, "blaze_powder_from_anti_entropy"))
     }
 
     // 蒼天石の棒
@@ -338,7 +338,7 @@ val demonItemModule = module {
             .input('S', DemonItemCard.MIRAGE_STEM.item)
             .criterion(DemonItemCard.MIRAGE_STEM.item)
             .group("sticks")
-            .offerTo(it, Identifier.of(modId, "stick_from_mirage_stem"))
+            .offerTo(it, Identifier.of(MirageFairy2023.modId, "stick_from_mirage_stem"))
     }
 
     // ミラージュの茎＋羊毛→糸
@@ -351,7 +351,7 @@ val demonItemModule = module {
             .input('S', DemonItemCard.MIRAGE_STEM.item)
             .criterion(DemonItemCard.MIRAGE_STEM.item)
             .group("strings")
-            .offerTo(it, Identifier.of(modId, "string_from_mirage_stem"))
+            .offerTo(it, Identifier.of(MirageFairy2023.modId, "string_from_mirage_stem"))
     }
 
     // ミラージュの茎＞コンポスター
@@ -433,7 +433,7 @@ val demonItemModule = module {
                     .input(DemonItemCard.FAIRY_CRYSTAL_50.item, cost % 100 / 50)
                     .criterion(target)
                     .group(target)
-                    .offerTo(it, Identifier.of(modId, "buying/${target.identifier.path}"))
+                    .offerTo(it, Identifier.of(MirageFairy2023.modId, "buying/${target.identifier.path}"))
             }
         }
 

@@ -3,6 +3,7 @@
 package miragefairy2023.util.init
 
 import miragefairy2023.InitializationScope
+import miragefairy2023.MirageFairy2023
 import miragefairy2023.util.Translation
 import miragefairy2023.util.identifier
 import miragefairy2023.util.text
@@ -34,8 +35,8 @@ fun InitializationScope.advancement(
 ): () -> Advancement {
     lateinit var advancement: Advancement
 
-    val title = Translation("advancements.$modId.$name.title", enTitle, jaTitle)
-    val description = Translation("advancements.$modId.$name.description", enDescription, jaDescription)
+    val title = Translation("advancements.${MirageFairy2023.modId}.$name.title", enTitle, jaTitle)
+    val description = Translation("advancements.${MirageFairy2023.modId}.$name.description", enDescription, jaDescription)
     enJa(title)
     enJa(description)
 
@@ -44,7 +45,7 @@ fun InitializationScope.advancement(
             if (parent != null) parent(parent())
             display(displayItem, text { title() }, text { description() }, backgroundTexture, frame, true, true, false)
             initializer(this)
-        }.build(consumer, "$modId/$name")
+        }.build(consumer, "${MirageFairy2023.modId}/$name")
     }
 
     return { advancement }

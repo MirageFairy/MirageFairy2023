@@ -195,7 +195,7 @@ val mirageModule = module {
     // ミラージュの小さな塊の地形生成
     run {
         val blockStateProvider = BlockStateProvider.of(Mirage.flowerBlock.withAge(MirageFlowerBlock.MAX_AGE))
-        val identifier = Identifier(modId, "mirage_flower_cluster")
+        val identifier = Identifier(MirageFairy2023.modId, "mirage_flower_cluster")
         val configuredFeature = Feature.FLOWER with RandomPatchFeatureConfig(6, 6, 2, PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK, SimpleBlockFeatureConfig(blockStateProvider)))
         val placedFeature = PlacedFeature(
             RegistryEntry.of(configuredFeature), listOf(
@@ -214,7 +214,7 @@ val mirageModule = module {
     // ミラージュの大きな塊の地形生成
     run {
         val blockStateProvider = BlockStateProvider.of(Mirage.flowerBlock.withAge(MirageFlowerBlock.MAX_AGE))
-        val identifier = Identifier(modId, "large_mirage_flower_cluster")
+        val identifier = Identifier(MirageFairy2023.modId, "large_mirage_flower_cluster")
         val configuredFeature = Feature.FLOWER with RandomPatchFeatureConfig(100, 8, 3, PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK, SimpleBlockFeatureConfig(blockStateProvider)))
         val placedFeature = PlacedFeature(
             RegistryEntry.of(configuredFeature), listOf(
@@ -237,7 +237,7 @@ val mirageModule = module {
             override fun toJson(json: JsonObject, `object`: LootCondition, context: JsonSerializationContext) = Unit
             override fun fromJson(json: JsonObject, context: JsonDeserializationContext) = PickedUpLootCondition()
         }
-        pickedUpLootConditionType = Registry.register(Registry.LOOT_CONDITION_TYPE, Identifier(modId, "picked_up"), LootConditionType(serializer))
+        pickedUpLootConditionType = Registry.register(Registry.LOOT_CONDITION_TYPE, Identifier(MirageFairy2023.modId, "picked_up"), LootConditionType(serializer))
     }
 
 }

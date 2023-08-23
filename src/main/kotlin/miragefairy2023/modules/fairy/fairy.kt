@@ -58,13 +58,13 @@ val fairyModule = module {
         val layer4 = TextureKey.of("layer4")
         val model = Model(Optional.of(Identifier("minecraft", "item/generated")), Optional.empty(), layer0, layer1, layer2, layer3, layer4)
         val textureMap = TextureMap(
-            layer0 to Identifier(modId, "item/fairy_skin"),
-            layer1 to Identifier(modId, "item/fairy_back"),
-            layer2 to Identifier(modId, "item/fairy_front"),
-            layer3 to Identifier(modId, "item/fairy_hair"),
-            layer4 to Identifier(modId, "item/fairy_dress"),
+            layer0 to Identifier(MirageFairy2023.modId, "item/fairy_skin"),
+            layer1 to Identifier(MirageFairy2023.modId, "item/fairy_back"),
+            layer2 to Identifier(MirageFairy2023.modId, "item/fairy_front"),
+            layer3 to Identifier(MirageFairy2023.modId, "item/fairy_hair"),
+            layer4 to Identifier(MirageFairy2023.modId, "item/fairy_dress"),
         )
-        model.upload(Identifier(modId, "item/fairy"), textureMap, it.writer)
+        model.upload(Identifier(MirageFairy2023.modId, "item/fairy"), textureMap, it.writer)
     }
 
     // 翻訳登録
@@ -92,7 +92,7 @@ val fairyModule = module {
                 onGenerateItemTags { it(TrinketsSlotCard.HEAD_FAIRY.tag).add(fairyCard[rank].item) }
 
                 // モデル系
-                onGenerateItemModels { it.register(fairyCard[rank].item, Model(Optional.of(Identifier(modId, "item/fairy")), Optional.empty())) }
+                onGenerateItemModels { it.register(fairyCard[rank].item, Model(Optional.of(Identifier(MirageFairy2023.modId, "item/fairy")), Optional.empty())) }
                 registerColorProvider(fairyCard[rank].item) { _, tintIndex ->
                     when (tintIndex) {
                         0 -> fairyCard.skinColor
@@ -124,7 +124,7 @@ val fairyModule = module {
     // 凝縮・展開レシピ
     fairyCondensationRecipeSerializer = Registry.register(Registry.RECIPE_SERIALIZER, "crafting_special_fairy_condensation", SpecialRecipeSerializer { FairyCondensationRecipe(it) })
     onGenerateRecipes {
-        ComplexRecipeJsonBuilder.create(fairyCondensationRecipeSerializer).offerTo(it, Identifier(modId, "fairy_condensation").string)
+        ComplexRecipeJsonBuilder.create(fairyCondensationRecipeSerializer).offerTo(it, Identifier(MirageFairy2023.modId, "fairy_condensation").string)
     }
 
 }
