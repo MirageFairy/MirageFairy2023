@@ -1,6 +1,7 @@
 package miragefairy2023
 
 import miragefairy2023.modules.advancementModule
+import miragefairy2023.modules.biomeModule
 import miragefairy2023.modules.commonModule
 import miragefairy2023.modules.customDataModule
 import miragefairy2023.modules.debugModule
@@ -54,6 +55,7 @@ val modules = module {
         trinketsSlotModule()
         advancementModule()
         entityModule()
+        biomeModule()
 
         // アイテム追加系
         demonItemModule()
