@@ -355,9 +355,7 @@ val demonItemModule = module {
     }
 
     // ミラージュの茎＞コンポスター
-    onRegisterRecipes {
-        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(DemonItemCard.MIRAGE_STEM.item, 0.65F)
-    }
+    ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(DemonItemCard.MIRAGE_STEM.item, 0.65F)
 
     // ミラージュフラワー→人工フェアリークリスタル
     onGenerateRecipes {

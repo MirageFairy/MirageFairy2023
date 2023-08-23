@@ -167,23 +167,21 @@ val luminariaModule = module {
 
         // 地形生成
         if (card.spawnCondition != null) {
-            onRegisterRecipes {
-                val blockStateProvider = BlockStateProvider.of(card.block)
-                val identifier = card.identifier concat "_cluster"
-                val configuredFeature = Feature.FLOWER with RandomPatchFeatureConfig(6, 6, 2, PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK, SimpleBlockFeatureConfig(blockStateProvider)))
-                val placedFeature = PlacedFeature(
-                    RegistryEntry.of(configuredFeature), listOf(
-                        RarityFilterPlacementModifier.of(100),
-                        SquarePlacementModifier.of(),
-                        PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP,
-                        BiomePlacementModifier.of(),
-                    )
+            val blockStateProvider = BlockStateProvider.of(card.block)
+            val identifier = card.identifier concat "_cluster"
+            val configuredFeature = Feature.FLOWER with RandomPatchFeatureConfig(6, 6, 2, PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK, SimpleBlockFeatureConfig(blockStateProvider)))
+            val placedFeature = PlacedFeature(
+                RegistryEntry.of(configuredFeature), listOf(
+                    RarityFilterPlacementModifier.of(100),
+                    SquarePlacementModifier.of(),
+                    PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP,
+                    BiomePlacementModifier.of(),
                 )
+            )
 
-                Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, identifier, configuredFeature)
-                Registry.register(BuiltinRegistries.PLACED_FEATURE, identifier, placedFeature)
-                BiomeModifications.addFeature(card.spawnCondition, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.PLACED_FEATURE_KEY, identifier))
-            }
+            Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, identifier, configuredFeature)
+            Registry.register(BuiltinRegistries.PLACED_FEATURE, identifier, placedFeature)
+            BiomeModifications.addFeature(card.spawnCondition, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.PLACED_FEATURE_KEY, identifier))
         }
 
         // ドロップ

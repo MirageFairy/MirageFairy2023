@@ -43,24 +43,22 @@ fun InitializationScope.registerGrassDrop(
     amount: Double = 1.0,
     biome: (() -> RegistryKey<Biome>)? = null,
 ) {
-    onRegisterRecipes {
-        val lootTableId = Blocks.GRASS.lootTableId
-        LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
-            if (source.isBuiltin) {
-                if (id == lootTableId) {
-                    tableBuilder.configure {
-                        pool(LootPool(AlternativeLootPoolEntry {
-                            alternatively(ItemLootPoolEntry(Items.AIR) {
-                                conditionally(MatchToolLootCondition.builder(ItemPredicate.Builder.create().items(Items.SHEARS)))
-                            })
-                            alternatively(ItemLootPoolEntry(item) {
-                                conditionally(RandomChanceLootCondition.builder((0.125 * amount).toFloat()))
-                                if (biome != null) conditionally(LocationCheckLootCondition.builder(LocationPredicate.Builder.create().biome(biome())))
-                                apply(ApplyBonusLootFunction.uniformBonusCount(Enchantments.FORTUNE, 2))
-                                apply(ExplosionDecayLootFunction.builder())
-                            })
-                        }))
-                    }
+    val lootTableId = Blocks.GRASS.lootTableId
+    LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
+        if (source.isBuiltin) {
+            if (id == lootTableId) {
+                tableBuilder.configure {
+                    pool(LootPool(AlternativeLootPoolEntry {
+                        alternatively(ItemLootPoolEntry(Items.AIR) {
+                            conditionally(MatchToolLootCondition.builder(ItemPredicate.Builder.create().items(Items.SHEARS)))
+                        })
+                        alternatively(ItemLootPoolEntry(item) {
+                            conditionally(RandomChanceLootCondition.builder((0.125 * amount).toFloat()))
+                            if (biome != null) conditionally(LocationCheckLootCondition.builder(LocationPredicate.Builder.create().biome(biome())))
+                            apply(ApplyBonusLootFunction.uniformBonusCount(Enchantments.FORTUNE, 2))
+                            apply(ExplosionDecayLootFunction.builder())
+                        })
+                    }))
                 }
             }
         }
@@ -76,32 +74,30 @@ fun InitializationScope.registerBlockDrop(
     suppressIfSilkTouch: Boolean = false,
     luckBonus: Double? = null,
 ) {
-    onRegisterRecipes {
-        val lootTableId = block.lootTableId
-        LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
-            if (source.isBuiltin) {
-                if (id == lootTableId) {
-                    tableBuilder.configure {
-                        pool(LootPool {
-                            val itemEntry = ItemLootPoolEntry(item) {
-                                if (dropRate != null) conditionally(RandomChanceLootCondition.builder(dropRate))
-                                if (amount != null) apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(amount.toFloat())))
-                                if (fortuneOreDrops) apply(ApplyBonusLootFunction.oreDrops(Enchantments.FORTUNE))
-                                if (luckBonus != null) apply { ApplyLuckBonusLootFunction(luckBonus) }
-                                apply(ExplosionDecayLootFunction.builder())
-                            }
-                            if (suppressIfSilkTouch) {
-                                with(AlternativeLootPoolEntry {
-                                    alternatively(ItemLootPoolEntry(Items.AIR) {
-                                        conditionally(MatchToolLootCondition.builder(ItemPredicate.Builder.create().enchantment(EnchantmentPredicate(Enchantments.SILK_TOUCH, NumberRange.IntRange.atLeast(1)))))
-                                    })
-                                    alternatively(itemEntry)
+    val lootTableId = block.lootTableId
+    LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
+        if (source.isBuiltin) {
+            if (id == lootTableId) {
+                tableBuilder.configure {
+                    pool(LootPool {
+                        val itemEntry = ItemLootPoolEntry(item) {
+                            if (dropRate != null) conditionally(RandomChanceLootCondition.builder(dropRate))
+                            if (amount != null) apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(amount.toFloat())))
+                            if (fortuneOreDrops) apply(ApplyBonusLootFunction.oreDrops(Enchantments.FORTUNE))
+                            if (luckBonus != null) apply { ApplyLuckBonusLootFunction(luckBonus) }
+                            apply(ExplosionDecayLootFunction.builder())
+                        }
+                        if (suppressIfSilkTouch) {
+                            with(AlternativeLootPoolEntry {
+                                alternatively(ItemLootPoolEntry(Items.AIR) {
+                                    conditionally(MatchToolLootCondition.builder(ItemPredicate.Builder.create().enchantment(EnchantmentPredicate(Enchantments.SILK_TOUCH, NumberRange.IntRange.atLeast(1)))))
                                 })
-                            } else {
-                                with(itemEntry)
-                            }
-                        })
-                    }
+                                alternatively(itemEntry)
+                            })
+                        } else {
+                            with(itemEntry)
+                        }
+                    })
                 }
             }
         }
@@ -116,20 +112,18 @@ fun InitializationScope.registerMobDrop(
     amount: (LootNumberProvider)? = null,
     fortuneFactor: (LootNumberProvider)? = null,
 ) {
-    onRegisterRecipes {
-        val lootTableId = entityType.lootTableId
-        LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
-            if (source.isBuiltin) {
-                if (id == lootTableId) {
-                    tableBuilder.configure {
-                        pool(LootPool(ItemLootPoolEntry(item) {
-                            if (amount != null) apply(SetCountLootFunction.builder(amount, false))
-                            if (fortuneFactor != null) apply(LootingEnchantLootFunction.builder(fortuneFactor))
-                        }) {
-                            if (onlyKilledByPlayer) conditionally(KilledByPlayerLootCondition.builder())
-                            if (dropRate != null) conditionally(RandomChanceWithLootingLootCondition.builder(dropRate.first, dropRate.second))
-                        })
-                    }
+    val lootTableId = entityType.lootTableId
+    LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
+        if (source.isBuiltin) {
+            if (id == lootTableId) {
+                tableBuilder.configure {
+                    pool(LootPool(ItemLootPoolEntry(item) {
+                        if (amount != null) apply(SetCountLootFunction.builder(amount, false))
+                        if (fortuneFactor != null) apply(LootingEnchantLootFunction.builder(fortuneFactor))
+                    }) {
+                        if (onlyKilledByPlayer) conditionally(KilledByPlayerLootCondition.builder())
+                        if (dropRate != null) conditionally(RandomChanceWithLootingLootCondition.builder(dropRate.first, dropRate.second))
+                    })
                 }
             }
         }
@@ -138,9 +132,7 @@ fun InitializationScope.registerMobDrop(
 
 /** @param ticks coal is `200 * 8 = 1600` */
 fun InitializationScope.registerFuel(item: Item, ticks: Int) {
-    onRegisterRecipes {
-        FuelRegistry.INSTANCE.add(item, ticks)
-    }
+    FuelRegistry.INSTANCE.add(item, ticks)
 }
 
 fun CraftingRecipeJsonBuilder.criterion(item: Item): CraftingRecipeJsonBuilder = this.criterion("has_${item.identifier.path}", RecipeProvider.conditionsFromItem(item))

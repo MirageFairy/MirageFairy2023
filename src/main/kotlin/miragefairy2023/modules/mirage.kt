@@ -190,10 +190,10 @@ val mirageModule = module {
     registerGrassDrop(Mirage.seedItem, 0.1)
 
     // 種はコンポスターに投入可能
-    onRegisterRecipes { ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(Mirage.seedItem, 0.3F) }
+    ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(Mirage.seedItem, 0.3F)
 
     // ミラージュの小さな塊の地形生成
-    onRegisterRecipes {
+    run {
         val blockStateProvider = BlockStateProvider.of(Mirage.flowerBlock.withAge(MirageFlowerBlock.MAX_AGE))
         val identifier = Identifier(modId, "mirage_flower_cluster")
         val configuredFeature = Feature.FLOWER with RandomPatchFeatureConfig(6, 6, 2, PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK, SimpleBlockFeatureConfig(blockStateProvider)))
@@ -212,7 +212,7 @@ val mirageModule = module {
     }
 
     // ミラージュの大きな塊の地形生成
-    onRegisterRecipes {
+    run {
         val blockStateProvider = BlockStateProvider.of(Mirage.flowerBlock.withAge(MirageFlowerBlock.MAX_AGE))
         val identifier = Identifier(modId, "large_mirage_flower_cluster")
         val configuredFeature = Feature.FLOWER with RandomPatchFeatureConfig(100, 8, 3, PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK, SimpleBlockFeatureConfig(blockStateProvider)))

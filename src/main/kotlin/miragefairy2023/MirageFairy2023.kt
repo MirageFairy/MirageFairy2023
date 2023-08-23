@@ -41,8 +41,6 @@ object MirageFairy2023 : ModInitializer {
 
         initializationScope.modules()
 
-        initializationScope.onRegisterRecipes.fire { it() }
-
     }
 }
 

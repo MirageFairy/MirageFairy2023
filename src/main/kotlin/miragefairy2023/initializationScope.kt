@@ -43,8 +43,6 @@ class InitializationScope(val modId: String) {
     val onInitializeClient = EventBus<() -> Unit>()
     val onTerraBlenderInitialized = EventBus<() -> Unit>()
 
-    val onRegisterRecipes = EventBus<() -> Unit>()
-
 }
 
 fun module(block: InitializationScope.() -> Unit) = block
