@@ -474,7 +474,7 @@ private class TrinketAccessoryType<I>(
         trinketsSlotCards.forEach { trinketsSlotCard ->
             onGenerateItemTags { it(trinketsSlotCard.tag).add(card.item) }
         }
-        onRegisterItems { TrinketsApi.registerTrinket(card.item, card.item) }
+        TrinketsApi.registerTrinket(card.item, card.item)
     }
 }
 
