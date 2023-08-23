@@ -3,7 +3,9 @@ package miragefairy2023.wave
 import org.slf4j.LoggerFactory
 import java.io.File
 
-private val logger = LoggerFactory.getLogger("miragefairy2023.wave")
+object MainKt
+
+private val logger = LoggerFactory.getLogger(MainKt::class.java)
 
 fun main() {
 
