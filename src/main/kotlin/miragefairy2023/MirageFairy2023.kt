@@ -34,13 +34,12 @@ object MirageFairy2023 : ModInitializer {
         }
     }
 
-    lateinit var initializationScope: InitializationScope
+    val initializationScope = InitializationScope().apply {
+        modules()
+    }
 
     override fun onInitialize() {
-        initializationScope = InitializationScope()
-
-        initializationScope.modules()
-
+        MirageFairy2023.initializationScope.onInitialize.fire { it() }
     }
 }
 

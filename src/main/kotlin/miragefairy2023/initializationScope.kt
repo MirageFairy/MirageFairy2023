@@ -40,6 +40,7 @@ class InitializationScope {
     val onGenerateSounds = EventBus<(SoundsProvider) -> Unit>()
     val onGenerateBiome = EventBus<(BiomeProvider) -> Unit>()
 
+    val onInitialize = EventBus<() -> Unit>()
     val onInitializeClient = EventBus<() -> Unit>()
     val onTerraBlenderInitialized = EventBus<() -> Unit>()
 
