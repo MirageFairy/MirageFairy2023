@@ -1,7 +1,7 @@
 package miragefairy2023.datagen
 
 import com.google.gson.JsonElement
-import com.mojang.logging.LogUtils
+import mirrg.kotlin.slf4j.hydrogen.getLogger
 import net.minecraft.data.DataGenerator
 import net.minecraft.data.DataProvider
 import net.minecraft.data.DataWriter
@@ -24,7 +24,7 @@ class ParticleProvider(private val dataGenerator: DataGenerator) : DataProvider 
             try {
                 DataProvider.writeToPath(writer, jsonElement, path)
             } catch (e: IOException) {
-                LogUtils.getLogger().error("Couldn't save data file {}", path, e)
+                getLogger().error("Couldn't save data file {}", path, e)
             }
         }
     }

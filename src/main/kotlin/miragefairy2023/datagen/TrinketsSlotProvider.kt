@@ -1,10 +1,10 @@
 package miragefairy2023.datagen
 
-import com.mojang.logging.LogUtils
 import miragefairy2023.util.jsonArray
 import miragefairy2023.util.jsonObjectOfNotNull
 import miragefairy2023.util.jsonPrimitive
 import miragefairy2023.util.string
+import mirrg.kotlin.slf4j.hydrogen.getLogger
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.minecraft.data.DataGenerator
 import net.minecraft.data.DataProvider
@@ -32,7 +32,7 @@ class TrinketsSlotProvider(private val dataGenerator: FabricDataGenerator) : Dat
             try {
                 DataProvider.writeToPath(writer, jsonElement, path)
             } catch (e: IOException) {
-                LogUtils.getLogger().error("Couldn't save data file {}", path, e)
+                getLogger().error("Couldn't save data file {}", path, e)
             }
         }
     }
