@@ -43,11 +43,6 @@ class InitializationScope(val modId: String) {
     val onInitializeClient = EventBus<() -> Unit>()
     val onTerraBlenderInitialized = EventBus<() -> Unit>()
 
-    val onRegisterLootConditionType = EventBus<() -> Unit>()
-    val onRegisterLootFunctionType = EventBus<() -> Unit>()
-    val onRegisterBlocks = EventBus<() -> Unit>()
-    val onRegisterBlockEntities = EventBus<() -> Unit>()
-    val onRegisterItems = EventBus<() -> Unit>()
     val onRegisterRecipes = EventBus<() -> Unit>()
 
 }
