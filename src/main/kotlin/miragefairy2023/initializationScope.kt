@@ -41,6 +41,7 @@ class InitializationScope(val modId: String) {
     val onGenerateBiome = EventBus<(BiomeProvider) -> Unit>()
 
     val onInitializeClient = EventBus<() -> Unit>()
+    val onTerraBlenderInitialized = EventBus<() -> Unit>()
 
     val onRegisterLootConditionType = EventBus<() -> Unit>()
     val onRegisterLootFunctionType = EventBus<() -> Unit>()
