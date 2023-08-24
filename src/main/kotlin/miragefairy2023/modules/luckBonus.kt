@@ -23,7 +23,7 @@ import kotlin.math.pow
 
 val luckBonusModule = module {
 
-    run {
+    onInitialize {
         val serializer = object : JsonSerializer<ApplyLuckBonusLootFunction> {
             override fun toJson(json: JsonObject, `object`: ApplyLuckBonusLootFunction, context: JsonSerializationContext) {
                 if (`object`.factor != null) json.add("factor", `object`.factor.jsonPrimitive)

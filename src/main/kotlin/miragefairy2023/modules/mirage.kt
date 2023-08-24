@@ -107,8 +107,8 @@ object Mirage {
 val mirageModule = module {
 
     // 登録
-    Registry.register(Registry.BLOCK, Mirage.flowerIdentifier, Mirage.flowerBlock)
-    Registry.register(Registry.ITEM, Mirage.seedIdentifier, Mirage.seedItem)
+    onInitialize { Registry.register(Registry.BLOCK, Mirage.flowerIdentifier, Mirage.flowerBlock) }
+    onInitialize { Registry.register(Registry.ITEM, Mirage.seedIdentifier, Mirage.seedItem) }
 
 
     // モデル
@@ -190,10 +190,10 @@ val mirageModule = module {
     registerGrassDrop(Mirage.seedItem, 0.1)
 
     // 種はコンポスターに投入可能
-    ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(Mirage.seedItem, 0.3F)
+    onInitialize { ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(Mirage.seedItem, 0.3F) }
 
     // ミラージュの小さな塊の地形生成
-    run {
+    onInitialize {
         val blockStateProvider = BlockStateProvider.of(Mirage.flowerBlock.withAge(MirageFlowerBlock.MAX_AGE))
         val identifier = Identifier(MirageFairy2023.modId, "mirage_flower_cluster")
         val configuredFeature = Feature.FLOWER with RandomPatchFeatureConfig(6, 6, 2, PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK, SimpleBlockFeatureConfig(blockStateProvider)))
@@ -212,7 +212,7 @@ val mirageModule = module {
     }
 
     // ミラージュの大きな塊の地形生成
-    run {
+    onInitialize {
         val blockStateProvider = BlockStateProvider.of(Mirage.flowerBlock.withAge(MirageFlowerBlock.MAX_AGE))
         val identifier = Identifier(MirageFairy2023.modId, "large_mirage_flower_cluster")
         val configuredFeature = Feature.FLOWER with RandomPatchFeatureConfig(100, 8, 3, PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK, SimpleBlockFeatureConfig(blockStateProvider)))
@@ -232,7 +232,7 @@ val mirageModule = module {
 
 
     // 右クリック収穫によるドロップか否かを識別するドロップ条件
-    run {
+    onInitialize {
         val serializer = object : JsonSerializer<LootCondition> {
             override fun toJson(json: JsonObject, `object`: LootCondition, context: JsonSerializationContext) = Unit
             override fun fromJson(json: JsonObject, context: JsonDeserializationContext) = PickedUpLootCondition()

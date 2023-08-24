@@ -41,7 +41,7 @@ val particleModule = module {
         }
 
         // 登録
-        Registry.register(Registry.PARTICLE_TYPE, Identifier(MirageFairy2023.modId, card.path), card.particleType)
+        onInitialize { Registry.register(Registry.PARTICLE_TYPE, Identifier(MirageFairy2023.modId, card.path), card.particleType) }
 
         // クライアント側でファクトリを登録
         onInitializeClient {

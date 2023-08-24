@@ -57,7 +57,7 @@ val debugModule = module {
     DebuggerItemCard.values().forEach { card ->
 
         // 登録
-        Registry.register(Registry.ITEM, card.identifier, card.item)
+        onInitialize { Registry.register(Registry.ITEM, card.identifier, card.item) }
 
         // モデル
         onGenerateItemModels { it.register(card.item, Model(Optional.of(Identifier("minecraft", "item/book")), Optional.empty())) }

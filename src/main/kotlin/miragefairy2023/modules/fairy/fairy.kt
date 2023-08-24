@@ -84,7 +84,7 @@ val fairyModule = module {
             (1..MAX_FAIRY_RANK).forEach { rank ->
 
                 // 登録
-                Registry.register(Registry.ITEM, fairyCard[rank].identifier, fairyCard[rank].item)
+                onInitialize { Registry.register(Registry.ITEM, fairyCard[rank].identifier, fairyCard[rank].item) }
 
                 // タグに登録
                 onGenerateItemTags { it(fairiesItemTag).add(fairyCard[rank].item) }
@@ -110,7 +110,7 @@ val fairyModule = module {
             enJa("item.${fairyCard.motif.toTranslationKey()}_fairy", fairyCard.enName, fairyCard.jaName)
 
             // モチーフを妖精レジストリに登録
-            Registry.register(fairyRegistry, fairyCard.motif, fairyCard.fairy)
+            onInitialize { Registry.register(fairyRegistry, fairyCard.motif, fairyCard.fairy) }
 
             // モチーフ固有の初期化処理
             fairyCard.fairyRecipes.recipes.forEach {
@@ -122,7 +122,9 @@ val fairyModule = module {
     }
 
     // 凝縮・展開レシピ
-    fairyCondensationRecipeSerializer = Registry.register(Registry.RECIPE_SERIALIZER, "crafting_special_fairy_condensation", SpecialRecipeSerializer { FairyCondensationRecipe(it) })
+    onInitialize {
+        fairyCondensationRecipeSerializer = Registry.register(Registry.RECIPE_SERIALIZER, "crafting_special_fairy_condensation", SpecialRecipeSerializer { FairyCondensationRecipe(it) })
+    }
     onGenerateRecipes {
         ComplexRecipeJsonBuilder.create(fairyCondensationRecipeSerializer).offerTo(it, Identifier(MirageFairy2023.modId, "fairy_condensation").string)
     }

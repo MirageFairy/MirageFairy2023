@@ -26,7 +26,7 @@ enum class DemonSoundEventCard(val path: String, en: String, ja: String, soundPa
 
 val soundEventModule = module {
     DemonSoundEventCard.values().forEach { card ->
-        Registry.register(Registry.SOUND_EVENT, card.identifier, card.soundEvent)
+        onInitialize { Registry.register(Registry.SOUND_EVENT, card.identifier, card.soundEvent) }
         onGenerateSounds { it.map[card.path] = SoundsProvider.SoundEntry(card.translation.key, card.sounds) }
         enJa(card.translation)
     }

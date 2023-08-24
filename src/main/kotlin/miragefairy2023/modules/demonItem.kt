@@ -238,7 +238,7 @@ val demonItemModule = module {
     DemonItemCard.values().forEach { card ->
 
         // 登録
-        Registry.register(Registry.ITEM, card.identifier, card.item)
+        onInitialize { Registry.register(Registry.ITEM, card.identifier, card.item) }
 
         // モデル
         onGenerateItemModels { it.register(card.item, Models.GENERATED) }
@@ -355,7 +355,7 @@ val demonItemModule = module {
     }
 
     // ミラージュの茎＞コンポスター
-    ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(DemonItemCard.MIRAGE_STEM.item, 0.65F)
+    onInitialize { ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(DemonItemCard.MIRAGE_STEM.item, 0.65F) }
 
     // ミラージュフラワー→人工フェアリークリスタル
     onGenerateRecipes {

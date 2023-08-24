@@ -22,7 +22,7 @@ import net.minecraft.world.World
 val antimatterBolt = DemonEntityTypeCard("antimatter_bolt", SpawnGroup.MISC, 0.5F, 0.5F) { _, world -> AntimatterBoltEntity(world) }
 
 val antimatterBoltModule = module {
-    Registry.register(Registry.ENTITY_TYPE, antimatterBolt.identifier, antimatterBolt.entityType)
+    onInitialize { Registry.register(Registry.ENTITY_TYPE, antimatterBolt.identifier, antimatterBolt.entityType) }
     onInitializeClient { MirageFairy2023.clientProxy!!.registerEntityRendererFactory(antimatterBolt.entityType, "antimatter_bolt") }
     onGenerateEntityTypeTags { it(EntityTypeTags.IMPACT_PROJECTILES).add(antimatterBolt.entityType) }
 }

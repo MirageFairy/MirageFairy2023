@@ -46,7 +46,7 @@ fun InitializationScope.generatePoemList(item: Item, poemList: List<Poem>) {
 
 private val poemListRegistry = mutableMapOf<Item, List<Poem>>()
 
-fun registerPoemList(item: Item, poemList: List<Poem>) {
+fun InitializationScope.registerPoemList(item: Item, poemList: List<Poem>) = onInitialize {
     check(item !in poemListRegistry)
     poemListRegistry[item] = poemList
 }

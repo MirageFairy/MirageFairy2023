@@ -47,8 +47,8 @@ object FairyMailbox {
 val fairyMailboxModule = module {
 
     // 登録
-    Registry.register(Registry.BLOCK, FairyMailbox.identifier, FairyMailbox.block)
-    Registry.register(Registry.ITEM, FairyMailbox.identifier, FairyMailbox.item)
+    onInitialize { Registry.register(Registry.BLOCK, FairyMailbox.identifier, FairyMailbox.block) }
+    onInitialize { Registry.register(Registry.ITEM, FairyMailbox.identifier, FairyMailbox.item) }
 
 
     // 見た目

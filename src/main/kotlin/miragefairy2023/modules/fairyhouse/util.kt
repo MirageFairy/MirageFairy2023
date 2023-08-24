@@ -89,9 +89,9 @@ class FairyHouseCard<BE>(
 fun <BE> InitializationScope.registerFairyHouse(card: FairyHouseCard<BE>) where BE : BlockEntity, BE : RenderingProxyBlockEntity {
 
     // 登録
-    Registry.register(Registry.BLOCK, card.identifier, card.block)
-    Registry.register(Registry.BLOCK_ENTITY_TYPE, card.identifier, card.blockEntityType)
-    Registry.register(Registry.ITEM, card.identifier, card.item)
+    onInitialize { Registry.register(Registry.BLOCK, card.identifier, card.block) }
+    onInitialize { Registry.register(Registry.BLOCK_ENTITY_TYPE, card.identifier, card.blockEntityType) }
+    onInitialize { Registry.register(Registry.ITEM, card.identifier, card.item) }
 
 
     // モデル

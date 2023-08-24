@@ -13,7 +13,7 @@ val attributeKey = Translation("${MirageFairy2023.modId}.passive_skill.attribute
 val passiveSkillModule = module {
 
     // パッシブスキル
-    run {
+    onInitialize {
         val terminators = mutableListOf<() -> Unit>()
         ServerTickEvents.END_SERVER_TICK.register { server ->
             if ((server.ticks % 20L).toInt() != 13) return@register // 1秒毎

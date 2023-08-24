@@ -62,8 +62,8 @@ val demonBlockModule = module {
 
     // 全体
     DemonBlockCard.values().forEach { card ->
-        Registry.register(Registry.BLOCK, card.identifier, card.block)
-        Registry.register(Registry.ITEM, card.identifier, card.item)
+        onInitialize { Registry.register(Registry.BLOCK, card.identifier, card.block) }
+        onInitialize { Registry.register(Registry.ITEM, card.identifier, card.item) }
         enJa(card.block, card.en, card.ja)
         generatePoemList(card.item, card.poemList)
         registerPoemList(card.item, card.poemList)

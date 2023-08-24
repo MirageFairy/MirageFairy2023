@@ -87,8 +87,8 @@ val fairyCrystalGlassModule = module {
     FairyCrystalGlassCard.values().forEach { card ->
 
         // 登録
-        Registry.register(Registry.BLOCK, card.identifier, card.block)
-        Registry.register(Registry.ITEM, card.identifier, card.item)
+        onInitialize { Registry.register(Registry.BLOCK, card.identifier, card.block) }
+        onInitialize { Registry.register(Registry.ITEM, card.identifier, card.item) }
 
 
         // 見た目

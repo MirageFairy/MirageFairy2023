@@ -30,7 +30,7 @@ fun FairyRecipes.always() = this.also {
     this.recipes += object : FairyRecipe {
         override fun getWikiString() = "コモン：全世界"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
-            MirageFlourItem.COMMON_FAIRY_LIST += CommonFairyEntry(fairyCard.fairy) { true }
+            initializationScope.onInitialize { MirageFlourItem.COMMON_FAIRY_LIST += CommonFairyEntry(fairyCard.fairy) { true } }
         }
     }
 }
@@ -39,7 +39,7 @@ fun FairyRecipes.overworld() = this.also {
     this.recipes += object : FairyRecipe {
         override fun getWikiString() = "コモン：地上世界"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
-            MirageFlourItem.COMMON_FAIRY_LIST += CommonFairyEntry(fairyCard.fairy) { it.world.dimension.natural }
+            initializationScope.onInitialize { MirageFlourItem.COMMON_FAIRY_LIST += CommonFairyEntry(fairyCard.fairy) { it.world.dimension.natural } }
         }
     }
 }
@@ -48,7 +48,7 @@ fun FairyRecipes.biome(biomeTag: TagKey<Biome>) = this.also {
     this.recipes += object : FairyRecipe {
         override fun getWikiString() = "コモン：${text { translate(biomeTag.id.toTranslationKey(BiomePassiveSkillCondition.keyPrefix)) }.string}"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
-            MirageFlourItem.COMMON_FAIRY_LIST += CommonFairyEntry(fairyCard.fairy) { it.world.getBiome(it.blockPos).isIn(biomeTag) }
+            initializationScope.onInitialize { MirageFlourItem.COMMON_FAIRY_LIST += CommonFairyEntry(fairyCard.fairy) { it.world.getBiome(it.blockPos).isIn(biomeTag) } }
         }
     }
 }
@@ -57,7 +57,7 @@ fun FairyRecipes.biome(biome: RegistryKey<Biome>) = this.also {
     this.recipes += object : FairyRecipe {
         override fun getWikiString() = "コモン：${text { translate(biome.value.toTranslationKey("biome")) }.string}"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
-            MirageFlourItem.COMMON_FAIRY_LIST += CommonFairyEntry(fairyCard.fairy) { it.world.getBiome(it.blockPos) === biome }
+            initializationScope.onInitialize { MirageFlourItem.COMMON_FAIRY_LIST += CommonFairyEntry(fairyCard.fairy) { it.world.getBiome(it.blockPos) === biome } }
         }
     }
 }
@@ -66,7 +66,7 @@ fun FairyRecipes.block(block: Block) = this.also {
     this.recipes += object : FairyRecipe {
         override fun getWikiString() = "夢：ブロック：${block.name.string}"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
-            BLOCK_FAIRY_RELATION_LIST += BlockFairyRelation(block, fairyCard.fairy)
+            initializationScope.onInitialize { BLOCK_FAIRY_RELATION_LIST += BlockFairyRelation(block, fairyCard.fairy) }
         }
     }
 }
@@ -75,7 +75,7 @@ fun FairyRecipes.entityType(entityType: EntityType<*>) = this.also {
     this.recipes += object : FairyRecipe {
         override fun getWikiString() = "夢：エンティティ：${entityType.name.string}"
         override fun init(initializationScope: InitializationScope, fairyCard: FairyCard) {
-            ENTITY_TYPE_FAIRY_RELATION_LIST += EntityTypeFairyRelation(entityType, fairyCard.fairy)
+            initializationScope.onInitialize { ENTITY_TYPE_FAIRY_RELATION_LIST += EntityTypeFairyRelation(entityType, fairyCard.fairy) }
         }
     }
 }

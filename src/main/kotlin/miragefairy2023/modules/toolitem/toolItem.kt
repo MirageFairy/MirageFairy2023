@@ -162,7 +162,7 @@ val toolItemModule = module {
 
     // 全体
     ToolItemCard.values.forEach { card ->
-        Registry.register(Registry.ITEM, card.identifier, card.item)
+        onInitialize { Registry.register(Registry.ITEM, card.identifier, card.item) }
         onGenerateItemModels { it.register(card.item, card.type.model) }
         enJa(card.item, card.enName, card.jaName)
         generatePoemList(card.item, card.poemList)
@@ -474,7 +474,7 @@ private class TrinketAccessoryType<I>(
         trinketsSlotCards.forEach { trinketsSlotCard ->
             onGenerateItemTags { it(trinketsSlotCard.tag).add(card.item) }
         }
-        TrinketsApi.registerTrinket(card.item, card.item)
+        onInitialize { TrinketsApi.registerTrinket(card.item, card.item) }
     }
 }
 

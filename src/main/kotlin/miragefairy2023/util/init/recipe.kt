@@ -42,7 +42,7 @@ fun InitializationScope.registerGrassDrop(
     item: Item,
     amount: Double = 1.0,
     biome: (() -> RegistryKey<Biome>)? = null,
-) {
+) = onInitialize {
     val lootTableId = Blocks.GRASS.lootTableId
     LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
         if (source.isBuiltin) {
@@ -73,7 +73,7 @@ fun InitializationScope.registerBlockDrop(
     fortuneOreDrops: Boolean = false,
     suppressIfSilkTouch: Boolean = false,
     luckBonus: Double? = null,
-) {
+) = onInitialize {
     val lootTableId = block.lootTableId
     LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
         if (source.isBuiltin) {
@@ -111,7 +111,7 @@ fun InitializationScope.registerMobDrop(
     dropRate: Pair<Float, Float>? = null,
     amount: (LootNumberProvider)? = null,
     fortuneFactor: (LootNumberProvider)? = null,
-) {
+) = onInitialize {
     val lootTableId = entityType.lootTableId
     LootTableEvents.MODIFY.register { _, _, id, tableBuilder, source ->
         if (source.isBuiltin) {
@@ -131,7 +131,7 @@ fun InitializationScope.registerMobDrop(
 }
 
 /** @param ticks coal is `200 * 8 = 1600` */
-fun InitializationScope.registerFuel(item: Item, ticks: Int) {
+fun InitializationScope.registerFuel(item: Item, ticks: Int) = onInitialize {
     FuelRegistry.INSTANCE.add(item, ticks)
 }
 

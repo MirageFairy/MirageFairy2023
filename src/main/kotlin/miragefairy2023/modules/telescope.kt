@@ -65,8 +65,8 @@ object Telescope {
 val telescopeModule = module {
 
     // 登録
-    Registry.register(Registry.BLOCK, Telescope.identifier, Telescope.block)
-    Registry.register(Registry.ITEM, Telescope.identifier, Telescope.item)
+    onInitialize { Registry.register(Registry.BLOCK, Telescope.identifier, Telescope.block) }
+    onInitialize { Registry.register(Registry.ITEM, Telescope.identifier, Telescope.item) }
 
 
     // モデル

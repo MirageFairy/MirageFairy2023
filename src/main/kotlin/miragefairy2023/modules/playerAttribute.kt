@@ -13,7 +13,7 @@ import net.minecraft.util.registry.Registry
 val playerAttributeModule = module {
     DemonPlayerAttributeCard.values().forEach { card ->
         enJa(card.translationKey, card.en, card.ja)
-        DefaultAttributeRegistryHelper.addDefaultAttribute(EntityType.PLAYER, card.entityAttribute)
+        onInitialize { DefaultAttributeRegistryHelper.addDefaultAttribute(EntityType.PLAYER, card.entityAttribute) }
     }
 }
 

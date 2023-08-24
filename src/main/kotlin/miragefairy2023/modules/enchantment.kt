@@ -31,11 +31,11 @@ enum class DemonEnchantmentCard(
 val enchantmentModule = module {
 
     DemonEnchantmentCard.values().forEach { card ->
-        Registry.register(Registry.ENCHANTMENT, card.identifier, card.enchantment)
+        onInitialize { Registry.register(Registry.ENCHANTMENT, card.identifier, card.enchantment) }
         enJa(card.enchantment.translationKey, card.en, card.ja)
     }
 
-    LootingEnchantmentRegistry.register(DemonEnchantmentCard.MAGIC_LOOTING.enchantment)
+    onInitialize { LootingEnchantmentRegistry.register(DemonEnchantmentCard.MAGIC_LOOTING.enchantment) }
 
 }
 
