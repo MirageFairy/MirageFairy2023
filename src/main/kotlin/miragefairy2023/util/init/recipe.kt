@@ -4,6 +4,7 @@ package miragefairy2023.util.init
 
 import miragefairy2023.InitializationScope
 import miragefairy2023.modules.ApplyLuckBonusLootFunction
+import miragefairy2023.modules.Mirage
 import miragefairy2023.util.datagen.AlternativeLootPoolEntry
 import miragefairy2023.util.datagen.ItemLootPoolEntry
 import miragefairy2023.util.datagen.LootPool
@@ -13,6 +14,7 @@ import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.fabricmc.fabric.api.registry.FuelRegistry
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
+import net.minecraft.block.ComposterBlock
 import net.minecraft.data.server.RecipeProvider
 import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder
 import net.minecraft.enchantment.Enchantments
@@ -133,6 +135,10 @@ fun InitializationScope.registerMobDrop(
 /** @param ticks coal is `200 * 8 = 1600` */
 fun InitializationScope.registerFuel(item: Item, ticks: Int) = onInitialize {
     FuelRegistry.INSTANCE.add(item, ticks)
+}
+
+fun InitializationScope.registerComposterInput(item: Item, chance: Float) = onInitialize {
+    ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(Mirage.seedItem, 0.3F)
 }
 
 fun CraftingRecipeJsonBuilder.criterion(item: Item): CraftingRecipeJsonBuilder = this.criterion("has_${item.identifier.path}", RecipeProvider.conditionsFromItem(item))

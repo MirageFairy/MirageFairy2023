@@ -23,6 +23,7 @@ import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.group
 import miragefairy2023.util.init.registerBlockDrop
+import miragefairy2023.util.init.registerComposterInput
 import miragefairy2023.util.init.registerGrassDrop
 import miragefairy2023.util.init.registerMobDrop
 import miragefairy2023.util.int
@@ -38,7 +39,6 @@ import miragefairy2023.util.yellow
 import mirrg.kotlin.hydrogen.formatAs
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.Blocks
-import net.minecraft.block.ComposterBlock
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.data.client.Models
 import net.minecraft.data.server.RecipeProvider
@@ -355,7 +355,7 @@ val demonItemModule = module {
     }
 
     // ミラージュの茎＞コンポスター
-    onInitialize { ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(DemonItemCard.MIRAGE_STEM.item, 0.65F) }
+    registerComposterInput(DemonItemCard.MIRAGE_STEM.item, 0.65F)
 
     // ミラージュフラワー→人工フェアリークリスタル
     onGenerateRecipes {

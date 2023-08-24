@@ -17,6 +17,7 @@ import miragefairy2023.util.datagen.applyExplosionDecay
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.generateBlockLootTable
 import miragefairy2023.util.init.generateBlockState
+import miragefairy2023.util.init.registerComposterInput
 import miragefairy2023.util.init.registerGrassDrop
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
@@ -31,7 +32,6 @@ import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
-import net.minecraft.block.ComposterBlock
 import net.minecraft.block.FarmlandBlock
 import net.minecraft.block.Fertilizable
 import net.minecraft.block.Material
@@ -190,7 +190,7 @@ val mirageModule = module {
     registerGrassDrop(Mirage.seedItem, 0.1)
 
     // 種はコンポスターに投入可能
-    onInitialize { ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(Mirage.seedItem, 0.3F) }
+    registerComposterInput(Mirage.seedItem, 0.3F)
 
     // ミラージュの小さな塊の地形生成
     onInitialize {
