@@ -77,27 +77,30 @@ enum class BiomeCard(
 }
 
 val biomeModule = module {
+
     BiomeCard.values().forEach { card ->
         onGenerateBiome {
             it.map[card.identifier] = card.biome
         }
-        onTerraBlenderInitialized {
-            Regions.register(object : Region(Identifier(MirageFairy2023.modId, "fairy_forest"), RegionType.OVERWORLD, 1) {
-                override fun addBiomes(registry: Registry<Biome>, mapper: Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>>) {
-                    addBiome(
-                        mapper,
-                        ParameterUtils.Temperature.span(ParameterUtils.Temperature.ICY, ParameterUtils.Temperature.NEUTRAL),
-                        ParameterUtils.Humidity.span(ParameterUtils.Humidity.NEUTRAL, ParameterUtils.Humidity.HUMID),
-                        ParameterUtils.Continentalness.span(ParameterUtils.Continentalness.NEAR_INLAND, ParameterUtils.Continentalness.FAR_INLAND),
-                        ParameterUtils.Erosion.span(ParameterUtils.Erosion.EROSION_2, ParameterUtils.Erosion.EROSION_5),
-                        ParameterUtils.Weirdness.span(ParameterUtils.Weirdness.MID_SLICE_VARIANT_ASCENDING, ParameterUtils.Weirdness.MID_SLICE_VARIANT_DESCENDING),
-                        ParameterUtils.Depth.span(ParameterUtils.Depth.SURFACE, ParameterUtils.Depth.SURFACE),
-                        0.0F,
-                        RegistryKey.of(BuiltinRegistries.BIOME.key, BiomeCard.FAIRY_FOREST.identifier),
-                    )
-                }
-            })
-        }
         enJa({ "biome.${card.identifier.toTranslationKey()}" }, card.en, card.ja)
     }
+
+    onTerraBlenderInitialized {
+        Regions.register(object : Region(Identifier(MirageFairy2023.modId, "fairy_forest"), RegionType.OVERWORLD, 1) {
+            override fun addBiomes(registry: Registry<Biome>, mapper: Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>>) {
+                addBiome(
+                    mapper,
+                    ParameterUtils.Temperature.span(ParameterUtils.Temperature.ICY, ParameterUtils.Temperature.NEUTRAL),
+                    ParameterUtils.Humidity.span(ParameterUtils.Humidity.NEUTRAL, ParameterUtils.Humidity.HUMID),
+                    ParameterUtils.Continentalness.span(ParameterUtils.Continentalness.NEAR_INLAND, ParameterUtils.Continentalness.FAR_INLAND),
+                    ParameterUtils.Erosion.span(ParameterUtils.Erosion.EROSION_2, ParameterUtils.Erosion.EROSION_5),
+                    ParameterUtils.Weirdness.span(ParameterUtils.Weirdness.MID_SLICE_VARIANT_ASCENDING, ParameterUtils.Weirdness.MID_SLICE_VARIANT_DESCENDING),
+                    ParameterUtils.Depth.span(ParameterUtils.Depth.SURFACE, ParameterUtils.Depth.SURFACE),
+                    0.0F,
+                    RegistryKey.of(BuiltinRegistries.BIOME.key, BiomeCard.FAIRY_FOREST.identifier),
+                )
+            }
+        })
+    }
+
 }
