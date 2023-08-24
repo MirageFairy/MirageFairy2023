@@ -3,9 +3,9 @@ package miragefairy2023.wave
 import mirrg.kotlin.slf4j.hydrogen.getLogger
 import java.io.File
 
-object MainKt
+object Main
 
-private val logger = getLogger(MainKt::class.java)
+private val logger = getLogger(Main::class.java)
 
 fun main() {
 

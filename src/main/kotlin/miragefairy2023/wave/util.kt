@@ -20,9 +20,9 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
 
-object WaveKt
+object Wave
 
-private val logger = getLogger(WaveKt::class.java)
+private val logger = getLogger(Wave::class.java)
 
 fun File.readWaveform(): DoubleArray {
     AudioSystem.getAudioInputStream(this).use { input ->
