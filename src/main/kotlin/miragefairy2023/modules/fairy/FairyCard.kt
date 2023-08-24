@@ -3,6 +3,7 @@ package miragefairy2023.modules.fairy
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.Fairy
 import miragefairy2023.api.PassiveSkill
+import miragefairy2023.modules.BiomeCard
 import miragefairy2023.modules.DemonItemCard
 import miragefairy2023.modules.LuminariaCard
 import miragefairy2023.modules.Mirage
@@ -781,6 +782,14 @@ enum class FairyCard(
         },
         null,
         FairyRecipes().biome(ConventionalBiomeTags.TAIGA),
+    ),
+    FAIRY_FOREST(
+        "fairy_forest", 5, "Faire Forestia", "精森精ファイレフォレスチャ", 0x67C795, 0xF083FF, 0xF083FF, 0xE9D8F9,
+        passiveSkills {
+            statusEffect(StatusEffects.NIGHT_VISION, 0, additionalSeconds = 10) on biome(BiomeCard.FAIRY_FOREST.biomeTag)
+        },
+        null,
+        FairyRecipes().biome(BiomeCard.FAIRY_FOREST.biomeTag),
     ),
     MOUNTAIN(
         "mountain", 3, "Mountainia", "山精モウンタイニャ", 0x84BF80, 0xB1B0B1, 0x717173, 0xF0F0F0,
