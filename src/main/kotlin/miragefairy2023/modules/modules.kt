@@ -1,33 +1,11 @@
-package miragefairy2023
+package miragefairy2023.modules
 
-import miragefairy2023.modules.advancementModule
-import miragefairy2023.modules.biomeModule
-import miragefairy2023.modules.commonModule
-import miragefairy2023.modules.customDataModule
-import miragefairy2023.modules.debugModule
-import miragefairy2023.modules.demonBlockModule
-import miragefairy2023.modules.demonItemModule
-import miragefairy2023.modules.enchantmentModule
+import miragefairy2023.module
 import miragefairy2023.modules.entity.entityModule
 import miragefairy2023.modules.fairy.fairyModule
-import miragefairy2023.modules.fairyCrystalGlassModule
-import miragefairy2023.modules.fairyMailboxModule
 import miragefairy2023.modules.fairyhouse.fairyHouseModule
-import miragefairy2023.modules.itemTransportationModule
-import miragefairy2023.modules.lastFoodModule
-import miragefairy2023.modules.luckBonusModule
-import miragefairy2023.modules.luminariaModule
-import miragefairy2023.modules.mirageModule
-import miragefairy2023.modules.particleModule
 import miragefairy2023.modules.passiveskill.passiveSkillModule
-import miragefairy2023.modules.playerAttributeModule
-import miragefairy2023.modules.poemModule
-import miragefairy2023.modules.reiModule
-import miragefairy2023.modules.soundEventModule
-import miragefairy2023.modules.telescopeModule
-import miragefairy2023.modules.toolMaterialModule
 import miragefairy2023.modules.toolitem.toolItemModule
-import miragefairy2023.modules.trinketsSlotModule
 
 val modules = module {
 
