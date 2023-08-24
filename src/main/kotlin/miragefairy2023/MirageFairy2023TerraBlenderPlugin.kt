@@ -4,6 +4,6 @@ import terrablender.api.TerraBlenderApi
 
 class MirageFairy2023TerraBlenderPlugin : TerraBlenderApi {
     override fun onTerraBlenderInitialized() {
-        MirageFairy2023.initializationScope.onTerraBlenderInitialized.fire { it() }
+        InitializationScope.INSTANCE.onTerraBlenderInitialized.fire { it() }
     }
 }

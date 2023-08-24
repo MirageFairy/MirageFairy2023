@@ -1,6 +1,5 @@
 package miragefairy2023
 
-import miragefairy2023.MirageFairy2023.initializationScope
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback
@@ -85,7 +84,7 @@ object MirageFairy2023Client : ClientModInitializer {
             }
         }
 
-        initializationScope.onInitializeClient.fire { it() }
+        InitializationScope.INSTANCE.onInitializeClient.fire { it() }
 
         EntityModelLayerRegistry.registerModelLayer(AntimatterBoltEntityRenderer.MAIN.entityModelLayer, AntimatterBoltEntityRenderer.MAIN.provider)
 

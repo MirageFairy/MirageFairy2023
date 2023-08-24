@@ -22,6 +22,11 @@ import java.util.function.BiConsumer
 import java.util.function.Consumer
 
 class InitializationScope {
+    companion object {
+        val INSTANCE = InitializationScope().apply {
+            modules()
+        }
+    }
 
     val onGenerateEnglishTranslations = EventBus<(FabricLanguageProvider.TranslationBuilder) -> Unit>()
     val onGenerateJapaneseTranslations = EventBus<(FabricLanguageProvider.TranslationBuilder) -> Unit>()

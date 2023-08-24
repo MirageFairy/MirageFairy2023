@@ -34,12 +34,8 @@ object MirageFairy2023 : ModInitializer {
         }
     }
 
-    val initializationScope = InitializationScope().apply {
-        modules()
-    }
-
     override fun onInitialize() {
-        MirageFairy2023.initializationScope.onInitialize.fire { it() }
+        InitializationScope.INSTANCE.onInitialize.fire { it() }
     }
 }
 
