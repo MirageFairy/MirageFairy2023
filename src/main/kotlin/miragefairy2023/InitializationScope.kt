@@ -19,6 +19,7 @@ import net.minecraft.item.Item
 import net.minecraft.loot.LootTable
 import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
+import net.minecraft.world.biome.Biome
 import java.util.function.BiConsumer
 import java.util.function.Consumer
 
@@ -35,6 +36,7 @@ object InitializationScope {
     val onGenerateItemTags = EventBus<((TagKey<Item>) -> FabricTagProvider<Item>.FabricTagBuilder<Item>) -> Unit>()
     val onGenerateBlockTags = EventBus<((TagKey<Block>) -> FabricTagProvider<Block>.FabricTagBuilder<Block>) -> Unit>()
     val onGenerateEntityTypeTags = EventBus<((TagKey<EntityType<*>>) -> FabricTagProvider<EntityType<*>>.FabricTagBuilder<EntityType<*>>) -> Unit>()
+    val onGenerateBiomeTags = EventBus<((TagKey<Biome>) -> FabricTagProvider<Biome>.FabricTagBuilder<Biome>) -> Unit>()
     val onGenerateParticles = EventBus<(ParticleProvider) -> Unit>()
     val onGenerateTrinketsEntities = EventBus<(TrinketsEntitiesProvider) -> Unit>()
     val onGenerateTrinketsSlot = EventBus<(TrinketsSlotProvider) -> Unit>()

@@ -24,7 +24,9 @@ import net.minecraft.item.Item
 import net.minecraft.loot.LootTable
 import net.minecraft.loot.context.LootContextTypes
 import net.minecraft.util.Identifier
+import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.Registry
+import net.minecraft.world.biome.Biome
 import java.util.function.BiConsumer
 import java.util.function.Consumer
 
@@ -88,6 +90,11 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
         fabricDataGenerator.addProvider(object : FabricTagProvider<EntityType<*>>(fabricDataGenerator, Registry.ENTITY_TYPE) {
             override fun generateTags() {
                 InitializationScope.onGenerateEntityTypeTags.fire { it { id -> getOrCreateTagBuilder(id) } }
+            }
+        })
+        fabricDataGenerator.addProvider(object : FabricTagProvider.DynamicRegistryTagProvider<Biome>(fabricDataGenerator, BuiltinRegistries.BIOME.key) {
+            override fun generateTags() {
+                InitializationScope.onGenerateBiomeTags.fire { it { id -> getOrCreateTagBuilder(id) } }
             }
         })
 
