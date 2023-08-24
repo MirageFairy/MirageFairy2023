@@ -2,6 +2,7 @@ package miragefairy2023.modules.passiveskill
 
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.PassiveSkillCondition
+import miragefairy2023.modules.BiomeCard
 import miragefairy2023.modules.ToolMaterialCard
 import miragefairy2023.modules.getTelescopeActions
 import miragefairy2023.modules.lastFoodProperty
@@ -229,6 +230,7 @@ class BiomePassiveSkillCondition(private val biomeTag: TagKey<Biome>) : PassiveS
         SNOWY(Translation(ConventionalBiomeTags.SNOWY.id.toTranslationKey(keyPrefix), "Snowy", "雪の地域")),
         BADLANDS(Translation(ConventionalBiomeTags.BADLANDS.id.toTranslationKey(keyPrefix), "Badlands", "荒地")),
         END_ISLANDS(Translation(ConventionalBiomeTags.END_ISLANDS.id.toTranslationKey(keyPrefix), "End Islands", "エンドの島々")),
+        FAIRY_FOREST(Translation(BiomeCard.FAIRY_FOREST.identifier.toTranslationKey(keyPrefix), "Fairy Forest", "妖精の森")),
         CLIMATE_HOT(Translation(ConventionalBiomeTags.CLIMATE_HOT.id.toTranslationKey(keyPrefix), "Hot", "高温")),
         CLIMATE_COLD(Translation(ConventionalBiomeTags.CLIMATE_COLD.id.toTranslationKey(keyPrefix), "Cold", "寒冷")),
         CLIMATE_WET(Translation(ConventionalBiomeTags.CLIMATE_WET.id.toTranslationKey(keyPrefix), "Wet", "多湿")),
