@@ -4,6 +4,7 @@ import miragefairy2023.MirageFairy2023
 import miragefairy2023.mixins.api.DefaultAttributeRegistryHelper
 import miragefairy2023.module
 import miragefairy2023.util.init.enJa
+import miragefairy2023.util.init.register
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.attribute.ClampedEntityAttribute
 import net.minecraft.entity.attribute.EntityAttribute
@@ -12,6 +13,7 @@ import net.minecraft.util.registry.Registry
 
 val playerAttributeModule = module {
     DemonPlayerAttributeCard.values().forEach { card ->
+        register(Registry.ATTRIBUTE, card.identifier, card.entityAttribute)
         enJa(card.translationKey, card.en, card.ja)
         onInitialize { DefaultAttributeRegistryHelper.addDefaultAttribute(EntityType.PLAYER, card.entityAttribute) }
     }
@@ -24,5 +26,5 @@ enum class DemonPlayerAttributeCard(val path: String, val en: String, val ja: St
 
     val identifier = Identifier(MirageFairy2023.modId, path)
     val translationKey = "attribute.name.${MirageFairy2023.modId}.$path"
-    val entityAttribute: EntityAttribute = Registry.register(Registry.ATTRIBUTE, identifier, ClampedEntityAttribute(translationKey, fallback, min, max))
+    val entityAttribute: EntityAttribute = ClampedEntityAttribute(translationKey, fallback, min, max)
 }

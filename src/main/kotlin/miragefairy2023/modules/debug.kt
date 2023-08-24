@@ -7,6 +7,7 @@ import miragefairy2023.modules.toolitem.foundFairies
 import miragefairy2023.util.Symbol
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.enJa
+import miragefairy2023.util.init.register
 import miragefairy2023.util.init.registerColorProvider
 import miragefairy2023.util.join
 import miragefairy2023.util.text
@@ -57,7 +58,7 @@ val debugModule = module {
     DebuggerItemCard.values().forEach { card ->
 
         // 登録
-        onInitialize { Registry.register(Registry.ITEM, card.identifier, card.item) }
+        register(Registry.ITEM, card.identifier, card.item)
 
         // モデル
         onGenerateItemModels { it.register(card.item, Model(Optional.of(Identifier("minecraft", "item/book")), Optional.empty())) }

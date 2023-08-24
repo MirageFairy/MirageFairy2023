@@ -11,6 +11,7 @@ import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.generateSimpleCubeAllBlockState
 import miragefairy2023.util.init.group
+import miragefairy2023.util.init.register
 import miragefairy2023.util.jsonArrayOf
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
@@ -62,8 +63,8 @@ val demonBlockModule = module {
 
     // 全体
     DemonBlockCard.values().forEach { card ->
-        onInitialize { Registry.register(Registry.BLOCK, card.identifier, card.block) }
-        onInitialize { Registry.register(Registry.ITEM, card.identifier, card.item) }
+        register(Registry.BLOCK, card.identifier, card.block)
+        register(Registry.ITEM, card.identifier, card.item)
         enJa(card.block, card.en, card.ja)
         generatePoemList(card.item, card.poemList)
         registerPoemList(card.item, card.poemList)

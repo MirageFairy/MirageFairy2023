@@ -6,6 +6,7 @@ import miragefairy2023.mixins.api.LootingEnchantmentRegistry
 import miragefairy2023.module
 import miragefairy2023.modules.toolitem.StaffItem
 import miragefairy2023.util.init.enJa
+import miragefairy2023.util.init.register
 import net.minecraft.enchantment.Enchantment
 import net.minecraft.enchantment.EnchantmentTarget
 import net.minecraft.entity.EquipmentSlot
@@ -31,7 +32,7 @@ enum class DemonEnchantmentCard(
 val enchantmentModule = module {
 
     DemonEnchantmentCard.values().forEach { card ->
-        onInitialize { Registry.register(Registry.ENCHANTMENT, card.identifier, card.enchantment) }
+        register(Registry.ENCHANTMENT, card.identifier, card.enchantment)
         enJa({ card.enchantment.translationKey }, card.en, card.ja)
     }
 

@@ -17,6 +17,7 @@ import miragefairy2023.util.datagen.applyExplosionDecay
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.generateBlockLootTable
 import miragefairy2023.util.init.generateBlockState
+import miragefairy2023.util.init.register
 import miragefairy2023.util.init.registerComposterInput
 import miragefairy2023.util.init.registerGrassDrop
 import miragefairy2023.util.jsonObjectOf
@@ -107,8 +108,8 @@ object Mirage {
 val mirageModule = module {
 
     // 登録
-    onInitialize { Registry.register(Registry.BLOCK, Mirage.flowerIdentifier, Mirage.flowerBlock) }
-    onInitialize { Registry.register(Registry.ITEM, Mirage.seedIdentifier, Mirage.seedItem) }
+    register(Registry.BLOCK, Mirage.flowerIdentifier, Mirage.flowerBlock)
+    register(Registry.ITEM, Mirage.seedIdentifier, Mirage.seedItem)
 
 
     // モデル
@@ -193,7 +194,7 @@ val mirageModule = module {
     registerComposterInput(Mirage.seedItem, 0.3F)
 
     // ミラージュの小さな塊の地形生成
-    onInitialize {
+    run {
         val blockStateProvider = BlockStateProvider.of(Mirage.flowerBlock.withAge(MirageFlowerBlock.MAX_AGE))
         val identifier = Identifier(MirageFairy2023.modId, "mirage_flower_cluster")
         val configuredFeature = Feature.FLOWER with RandomPatchFeatureConfig(6, 6, 2, PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK, SimpleBlockFeatureConfig(blockStateProvider)))
@@ -206,13 +207,13 @@ val mirageModule = module {
             )
         )
 
-        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, identifier, configuredFeature)
-        Registry.register(BuiltinRegistries.PLACED_FEATURE, identifier, placedFeature)
-        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.PLACED_FEATURE_KEY, identifier))
+        register(BuiltinRegistries.CONFIGURED_FEATURE, identifier, configuredFeature)
+        register(BuiltinRegistries.PLACED_FEATURE, identifier, placedFeature)
+        onInitialize { BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.PLACED_FEATURE_KEY, identifier)) }
     }
 
     // ミラージュの大きな塊の地形生成
-    onInitialize {
+    run {
         val blockStateProvider = BlockStateProvider.of(Mirage.flowerBlock.withAge(MirageFlowerBlock.MAX_AGE))
         val identifier = Identifier(MirageFairy2023.modId, "large_mirage_flower_cluster")
         val configuredFeature = Feature.FLOWER with RandomPatchFeatureConfig(100, 8, 3, PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK, SimpleBlockFeatureConfig(blockStateProvider)))
@@ -225,25 +226,22 @@ val mirageModule = module {
             )
         )
 
-        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, identifier, configuredFeature)
-        Registry.register(BuiltinRegistries.PLACED_FEATURE, identifier, placedFeature)
-        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.PLACED_FEATURE_KEY, identifier))
+        register(BuiltinRegistries.CONFIGURED_FEATURE, identifier, configuredFeature)
+        register(BuiltinRegistries.PLACED_FEATURE, identifier, placedFeature)
+        onInitialize { BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.PLACED_FEATURE_KEY, identifier)) }
     }
 
 
     // 右クリック収穫によるドロップか否かを識別するドロップ条件
-    onInitialize {
-        val serializer = object : JsonSerializer<LootCondition> {
-            override fun toJson(json: JsonObject, `object`: LootCondition, context: JsonSerializationContext) = Unit
-            override fun fromJson(json: JsonObject, context: JsonDeserializationContext) = PickedUpLootCondition()
-        }
-        pickedUpLootConditionType = Registry.register(Registry.LOOT_CONDITION_TYPE, Identifier(MirageFairy2023.modId, "picked_up"), LootConditionType(serializer))
-    }
+    register(Registry.LOOT_CONDITION_TYPE, Identifier(MirageFairy2023.modId, "picked_up"), pickedUpLootConditionType)
 
 }
 
 
-private lateinit var pickedUpLootConditionType: LootConditionType
+private val pickedUpLootConditionType = LootConditionType(object : JsonSerializer<LootCondition> {
+    override fun toJson(json: JsonObject, `object`: LootCondition, context: JsonSerializationContext) = Unit
+    override fun fromJson(json: JsonObject, context: JsonDeserializationContext) = PickedUpLootCondition()
+})
 
 private class PickingUpDummyBlockEntity : BlockEntity(BlockEntityType.CHEST, BlockPos.ORIGIN, Blocks.AIR.defaultState)
 

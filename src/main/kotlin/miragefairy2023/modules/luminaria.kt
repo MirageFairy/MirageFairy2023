@@ -11,6 +11,7 @@ import miragefairy2023.util.datagen.applyExplosionDecay
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.generateBlockLootTable
 import miragefairy2023.util.init.generateBlockState
+import miragefairy2023.util.init.register
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
 import miragefairy2023.util.randomInt
@@ -127,8 +128,8 @@ val luminariaModule = module {
     LuminariaCard.values().forEach { card ->
 
         // 登録
-        onInitialize { Registry.register(Registry.BLOCK, card.identifier, card.block) }
-        onInitialize { Registry.register(Registry.ITEM, card.identifier, card.item) }
+        register(Registry.BLOCK, card.identifier, card.block)
+        register(Registry.ITEM, card.identifier, card.item)
 
 
         // 見た目
@@ -167,7 +168,7 @@ val luminariaModule = module {
 
         // 地形生成
         if (card.spawnCondition != null) {
-            onInitialize {
+            run {
                 val blockStateProvider = BlockStateProvider.of(card.block)
                 val identifier = card.identifier concat "_cluster"
                 val configuredFeature = Feature.FLOWER with RandomPatchFeatureConfig(6, 6, 2, PlacedFeatures.createEntry(Feature.SIMPLE_BLOCK, SimpleBlockFeatureConfig(blockStateProvider)))
@@ -180,9 +181,9 @@ val luminariaModule = module {
                     )
                 )
 
-                Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, identifier, configuredFeature)
-                Registry.register(BuiltinRegistries.PLACED_FEATURE, identifier, placedFeature)
-                BiomeModifications.addFeature(card.spawnCondition, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.PLACED_FEATURE_KEY, identifier))
+                register(BuiltinRegistries.CONFIGURED_FEATURE, identifier, configuredFeature)
+                register(BuiltinRegistries.PLACED_FEATURE, identifier, placedFeature)
+                onInitialize { BiomeModifications.addFeature(card.spawnCondition, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.PLACED_FEATURE_KEY, identifier)) }
             }
         }
 

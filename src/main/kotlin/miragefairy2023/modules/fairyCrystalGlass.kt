@@ -11,6 +11,7 @@ import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.generateBlockState
 import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.group
+import miragefairy2023.util.init.register
 import miragefairy2023.util.jsonArrayOf
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
@@ -87,8 +88,8 @@ val fairyCrystalGlassModule = module {
     FairyCrystalGlassCard.values().forEach { card ->
 
         // 登録
-        onInitialize { Registry.register(Registry.BLOCK, card.identifier, card.block) }
-        onInitialize { Registry.register(Registry.ITEM, card.identifier, card.item) }
+        register(Registry.BLOCK, card.identifier, card.block)
+        register(Registry.ITEM, card.identifier, card.item)
 
 
         // 見た目

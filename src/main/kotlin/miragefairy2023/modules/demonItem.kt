@@ -22,6 +22,7 @@ import miragefairy2023.util.identifier
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.group
+import miragefairy2023.util.init.register
 import miragefairy2023.util.init.registerBlockDrop
 import miragefairy2023.util.init.registerComposterInput
 import miragefairy2023.util.init.registerGrassDrop
@@ -238,7 +239,7 @@ val demonItemModule = module {
     DemonItemCard.values().forEach { card ->
 
         // 登録
-        onInitialize { Registry.register(Registry.ITEM, card.identifier, card.item) }
+        register(Registry.ITEM, card.identifier, card.item)
 
         // モデル
         onGenerateItemModels { it.register(card.item, Models.GENERATED) }

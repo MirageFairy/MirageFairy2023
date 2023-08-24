@@ -9,6 +9,7 @@ import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.generateHorizontalFacingBlockState
 import miragefairy2023.util.init.group
+import miragefairy2023.util.init.register
 import miragefairy2023.util.init.registerFuel
 import miragefairy2023.util.lib.InstrumentBlock
 import miragefairy2023.util.obtain
@@ -47,8 +48,8 @@ object FairyMailbox {
 val fairyMailboxModule = module {
 
     // 登録
-    onInitialize { Registry.register(Registry.BLOCK, FairyMailbox.identifier, FairyMailbox.block) }
-    onInitialize { Registry.register(Registry.ITEM, FairyMailbox.identifier, FairyMailbox.item) }
+    register(Registry.BLOCK, FairyMailbox.identifier, FairyMailbox.block)
+    register(Registry.ITEM, FairyMailbox.identifier, FairyMailbox.item)
 
 
     // 見た目

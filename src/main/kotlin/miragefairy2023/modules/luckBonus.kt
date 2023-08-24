@@ -5,6 +5,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonSerializationContext
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
+import miragefairy2023.util.init.register
 import miragefairy2023.util.jsonPrimitive
 import miragefairy2023.util.randomInt
 import mirrg.kotlin.hydrogen.atLeast
@@ -22,21 +23,16 @@ import net.minecraft.util.registry.Registry
 import kotlin.math.pow
 
 val luckBonusModule = module {
-
-    onInitialize {
-        val serializer = object : JsonSerializer<ApplyLuckBonusLootFunction> {
-            override fun toJson(json: JsonObject, `object`: ApplyLuckBonusLootFunction, context: JsonSerializationContext) {
-                if (`object`.factor != null) json.add("factor", `object`.factor.jsonPrimitive)
-            }
-
-            override fun fromJson(json: JsonObject, context: JsonDeserializationContext) = ApplyLuckBonusLootFunction(json["factor"]?.asDouble)
-        }
-        applyLuckBonusLootFunctionType = Registry.register(Registry.LOOT_FUNCTION_TYPE, Identifier(MirageFairy2023.modId, "apply_luck_bonus"), LootFunctionType(serializer))
-    }
-
+    register(Registry.LOOT_FUNCTION_TYPE, Identifier(MirageFairy2023.modId, "apply_luck_bonus"), applyLuckBonusLootFunctionType)
 }
 
-private lateinit var applyLuckBonusLootFunctionType: LootFunctionType
+private val applyLuckBonusLootFunctionType = LootFunctionType(object : JsonSerializer<ApplyLuckBonusLootFunction> {
+    override fun toJson(json: JsonObject, `object`: ApplyLuckBonusLootFunction, context: JsonSerializationContext) {
+        if (`object`.factor != null) json.add("factor", `object`.factor.jsonPrimitive)
+    }
+
+    override fun fromJson(json: JsonObject, context: JsonDeserializationContext) = ApplyLuckBonusLootFunction(json["factor"]?.asDouble)
+})
 
 class ApplyLuckBonusLootFunction(val factor: Double? = null) : LootFunction {
     override fun getType() = applyLuckBonusLootFunctionType

@@ -11,6 +11,7 @@ import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.generateHorizontalFacingBlockState
 import miragefairy2023.util.init.group
+import miragefairy2023.util.init.register
 import miragefairy2023.util.lib.InstrumentBlock
 import miragefairy2023.util.long
 import miragefairy2023.util.obtain
@@ -65,8 +66,8 @@ object Telescope {
 val telescopeModule = module {
 
     // 登録
-    onInitialize { Registry.register(Registry.BLOCK, Telescope.identifier, Telescope.block) }
-    onInitialize { Registry.register(Registry.ITEM, Telescope.identifier, Telescope.item) }
+    register(Registry.BLOCK, Telescope.identifier, Telescope.block)
+    register(Registry.ITEM, Telescope.identifier, Telescope.item)
 
 
     // モデル

@@ -5,6 +5,7 @@ import miragefairy2023.datagen.SoundsProvider
 import miragefairy2023.module
 import miragefairy2023.util.Translation
 import miragefairy2023.util.init.enJa
+import miragefairy2023.util.init.register
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
@@ -26,7 +27,7 @@ enum class DemonSoundEventCard(val path: String, en: String, ja: String, soundPa
 
 val soundEventModule = module {
     DemonSoundEventCard.values().forEach { card ->
-        onInitialize { Registry.register(Registry.SOUND_EVENT, card.identifier, card.soundEvent) }
+        register(Registry.SOUND_EVENT, card.identifier, card.soundEvent)
         onGenerateSounds { it.map[card.path] = SoundsProvider.SoundEntry(card.translation.key, card.sounds) }
         enJa(card.translation)
     }

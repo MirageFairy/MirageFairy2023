@@ -15,6 +15,7 @@ import miragefairy2023.util.get
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.generateHorizontalFacingBlockState
+import miragefairy2023.util.init.register
 import miragefairy2023.util.isNotEmpty
 import miragefairy2023.util.lib.InstrumentBlock
 import miragefairy2023.util.list
@@ -89,9 +90,9 @@ class FairyHouseCard<BE>(
 fun <BE> InitializationScope.registerFairyHouse(card: FairyHouseCard<BE>) where BE : BlockEntity, BE : RenderingProxyBlockEntity {
 
     // 登録
-    onInitialize { Registry.register(Registry.BLOCK, card.identifier, card.block) }
-    onInitialize { Registry.register(Registry.BLOCK_ENTITY_TYPE, card.identifier, card.blockEntityType) }
-    onInitialize { Registry.register(Registry.ITEM, card.identifier, card.item) }
+    register(Registry.BLOCK, card.identifier, card.block)
+    register(Registry.BLOCK_ENTITY_TYPE, card.identifier, card.blockEntityType)
+    register(Registry.ITEM, card.identifier, card.item)
 
 
     // モデル

@@ -11,6 +11,7 @@ import miragefairy2023.util.createItemStack
 import miragefairy2023.util.datagen.TextureMap
 import miragefairy2023.util.hasSameItemAndNbt
 import miragefairy2023.util.init.enJa
+import miragefairy2023.util.init.register
 import miragefairy2023.util.init.registerColorProvider
 import miragefairy2023.util.isNotEmpty
 import miragefairy2023.util.string
@@ -42,7 +43,7 @@ val fairiesOfRareTags: (rare: Int) -> TagKey<Item> = run {
 }
 
 // 凝縮レシピ
-lateinit var fairyCondensationRecipeSerializer: SpecialRecipeSerializer<FairyCondensationRecipe>
+val fairyCondensationRecipeSerializer: SpecialRecipeSerializer<FairyCondensationRecipe> = SpecialRecipeSerializer { FairyCondensationRecipe(it) }
 
 val fairyModule = module {
 
@@ -84,7 +85,7 @@ val fairyModule = module {
             (1..MAX_FAIRY_RANK).forEach { rank ->
 
                 // 登録
-                onInitialize { Registry.register(Registry.ITEM, fairyCard[rank].identifier, fairyCard[rank].item) }
+                register(Registry.ITEM, fairyCard[rank].identifier, fairyCard[rank].item)
 
                 // タグに登録
                 onGenerateItemTags { it(fairiesItemTag).add(fairyCard[rank].item) }
@@ -110,7 +111,7 @@ val fairyModule = module {
             enJa("item.${fairyCard.motif.toTranslationKey()}_fairy", fairyCard.enName, fairyCard.jaName)
 
             // モチーフを妖精レジストリに登録
-            onInitialize { Registry.register(fairyRegistry, fairyCard.motif, fairyCard.fairy) }
+            register(fairyRegistry, fairyCard.motif, fairyCard.fairy)
 
             // モチーフ固有の初期化処理
             fairyCard.fairyRecipes.recipes.forEach {
@@ -122,9 +123,7 @@ val fairyModule = module {
     }
 
     // 凝縮・展開レシピ
-    onInitialize {
-        fairyCondensationRecipeSerializer = Registry.register(Registry.RECIPE_SERIALIZER, "crafting_special_fairy_condensation", SpecialRecipeSerializer { FairyCondensationRecipe(it) })
-    }
+    register(Registry.RECIPE_SERIALIZER, Identifier(MirageFairy2023.modId, "crafting_special_fairy_condensation"), fairyCondensationRecipeSerializer)
     onGenerateRecipes {
         ComplexRecipeJsonBuilder.create(fairyCondensationRecipeSerializer).offerTo(it, Identifier(MirageFairy2023.modId, "fairy_condensation").string)
     }

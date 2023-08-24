@@ -24,6 +24,7 @@ import miragefairy2023.util.identifier
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.group
+import miragefairy2023.util.init.register
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
 import net.minecraft.block.Block
@@ -162,7 +163,7 @@ val toolItemModule = module {
 
     // 全体
     ToolItemCard.values.forEach { card ->
-        onInitialize { Registry.register(Registry.ITEM, card.identifier, card.item) }
+        register(Registry.ITEM, card.identifier, card.item)
         onGenerateItemModels { it.register(card.item, card.type.model) }
         enJa(card.item, card.enName, card.jaName)
         generatePoemList(card.item, card.poemList)

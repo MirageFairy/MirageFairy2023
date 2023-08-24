@@ -3,6 +3,7 @@ package miragefairy2023.modules
 import miragefairy2023.DemonParticleBehaviour
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
+import miragefairy2023.util.init.register
 import miragefairy2023.util.jsonArrayOf
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
@@ -41,7 +42,7 @@ val particleModule = module {
         }
 
         // 登録
-        onInitialize { Registry.register(Registry.PARTICLE_TYPE, Identifier(MirageFairy2023.modId, card.path), card.particleType) }
+        register(Registry.PARTICLE_TYPE, Identifier(MirageFairy2023.modId, card.path), card.particleType)
 
         // クライアント側でファクトリを登録
         onInitializeClient {
