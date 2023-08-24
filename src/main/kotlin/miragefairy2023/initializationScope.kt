@@ -21,12 +21,7 @@ import net.minecraft.util.Identifier
 import java.util.function.BiConsumer
 import java.util.function.Consumer
 
-class InitializationScope {
-    companion object {
-        val INSTANCE = InitializationScope().apply {
-            modules()
-        }
-    }
+object InitializationScope {
 
     val onGenerateEnglishTranslations = EventBus<(FabricLanguageProvider.TranslationBuilder) -> Unit>()
     val onGenerateJapaneseTranslations = EventBus<(FabricLanguageProvider.TranslationBuilder) -> Unit>()
@@ -49,6 +44,9 @@ class InitializationScope {
     val onInitializeClient = EventBus<() -> Unit>()
     val onTerraBlenderInitialized = EventBus<() -> Unit>()
 
+    init {
+        modules()
+    }
 }
 
 fun module(block: InitializationScope.() -> Unit) = block

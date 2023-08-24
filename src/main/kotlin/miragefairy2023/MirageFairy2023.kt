@@ -35,7 +35,7 @@ object MirageFairy2023 : ModInitializer {
     }
 
     override fun onInitialize() {
-        InitializationScope.INSTANCE.onInitialize.fire { it() }
+        InitializationScope.onInitialize.fire { it() }
     }
 }
 

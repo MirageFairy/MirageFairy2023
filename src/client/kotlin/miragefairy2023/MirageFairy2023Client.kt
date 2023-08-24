@@ -84,7 +84,7 @@ object MirageFairy2023Client : ClientModInitializer {
             }
         }
 
-        InitializationScope.INSTANCE.onInitializeClient.fire { it() }
+        InitializationScope.onInitializeClient.fire { it() }
 
         EntityModelLayerRegistry.registerModelLayer(AntimatterBoltEntityRenderer.MAIN.entityModelLayer, AntimatterBoltEntityRenderer.MAIN.provider)
 

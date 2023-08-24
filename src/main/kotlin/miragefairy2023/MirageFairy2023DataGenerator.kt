@@ -33,81 +33,81 @@ object MirageFairy2023DataGenerator : DataGeneratorEntrypoint {
 
         fabricDataGenerator.addProvider(object : FabricLanguageProvider(fabricDataGenerator, "en_us") {
             override fun generateTranslations(translationBuilder: TranslationBuilder) {
-                InitializationScope.INSTANCE.onGenerateEnglishTranslations.fire { it(translationBuilder) }
+                InitializationScope.onGenerateEnglishTranslations.fire { it(translationBuilder) }
             }
         })
         fabricDataGenerator.addProvider(object : FabricLanguageProvider(fabricDataGenerator, "ja_jp") {
             override fun generateTranslations(translationBuilder: TranslationBuilder) {
-                InitializationScope.INSTANCE.onGenerateJapaneseTranslations.fire { it(translationBuilder) }
+                InitializationScope.onGenerateJapaneseTranslations.fire { it(translationBuilder) }
             }
         })
 
         fabricDataGenerator.addProvider(object : FabricModelProvider(fabricDataGenerator) {
             override fun generateBlockStateModels(blockStateModelGenerator: BlockStateModelGenerator) {
-                InitializationScope.INSTANCE.onGenerateBlockStateModels.fire { it(blockStateModelGenerator) }
+                InitializationScope.onGenerateBlockStateModels.fire { it(blockStateModelGenerator) }
             }
 
             override fun generateItemModels(itemModelGenerator: ItemModelGenerator) {
-                InitializationScope.INSTANCE.onGenerateItemModels.fire { it(itemModelGenerator) }
+                InitializationScope.onGenerateItemModels.fire { it(itemModelGenerator) }
             }
         })
 
         fabricDataGenerator.addProvider(object : FabricRecipeProvider(fabricDataGenerator) {
             override fun generateRecipes(exporter: Consumer<RecipeJsonProvider>) {
-                InitializationScope.INSTANCE.onGenerateRecipes.fire { it(exporter) }
+                InitializationScope.onGenerateRecipes.fire { it(exporter) }
             }
         })
 
         fabricDataGenerator.addProvider(object : SimpleFabricLootTableProvider(fabricDataGenerator, LootContextTypes.ADVANCEMENT_REWARD) {
             override fun accept(t: BiConsumer<Identifier, LootTable.Builder>) {
-                InitializationScope.INSTANCE.onGenerateAdvancementRewardLootTables.fire { it(t) }
+                InitializationScope.onGenerateAdvancementRewardLootTables.fire { it(t) }
             }
         })
         fabricDataGenerator.addProvider(object : FabricBlockLootTableProvider(fabricDataGenerator) {
             override fun generateBlockLootTables() {
-                InitializationScope.INSTANCE.onGenerateBlockLootTables.fire { it(this) }
+                InitializationScope.onGenerateBlockLootTables.fire { it(this) }
             }
         })
 
         fabricDataGenerator.addProvider(object : FabricAdvancementProvider(fabricDataGenerator) {
             override fun generateAdvancement(consumer: Consumer<Advancement>) {
-                InitializationScope.INSTANCE.onGenerateAdvancements.fire { it(consumer) }
+                InitializationScope.onGenerateAdvancements.fire { it(consumer) }
             }
         })
 
         fabricDataGenerator.addProvider(object : FabricTagProvider<Item>(fabricDataGenerator, Registry.ITEM) {
             override fun generateTags() {
-                InitializationScope.INSTANCE.onGenerateItemTags.fire { it { id -> getOrCreateTagBuilder(id) } }
+                InitializationScope.onGenerateItemTags.fire { it { id -> getOrCreateTagBuilder(id) } }
             }
         })
         fabricDataGenerator.addProvider(object : FabricTagProvider<Block>(fabricDataGenerator, Registry.BLOCK) {
             override fun generateTags() {
-                InitializationScope.INSTANCE.onGenerateBlockTags.fire { it { id -> getOrCreateTagBuilder(id) } }
+                InitializationScope.onGenerateBlockTags.fire { it { id -> getOrCreateTagBuilder(id) } }
             }
         })
         fabricDataGenerator.addProvider(object : FabricTagProvider<EntityType<*>>(fabricDataGenerator, Registry.ENTITY_TYPE) {
             override fun generateTags() {
-                InitializationScope.INSTANCE.onGenerateEntityTypeTags.fire { it { id -> getOrCreateTagBuilder(id) } }
+                InitializationScope.onGenerateEntityTypeTags.fire { it { id -> getOrCreateTagBuilder(id) } }
             }
         })
 
         fabricDataGenerator.addProvider(ParticleProvider(fabricDataGenerator).also { provider ->
-            InitializationScope.INSTANCE.onGenerateParticles.fire { it(provider) }
+            InitializationScope.onGenerateParticles.fire { it(provider) }
         })
 
         fabricDataGenerator.addProvider(TrinketsEntitiesProvider(fabricDataGenerator).also { provider ->
-            InitializationScope.INSTANCE.onGenerateTrinketsEntities.fire { it(provider) }
+            InitializationScope.onGenerateTrinketsEntities.fire { it(provider) }
         })
         fabricDataGenerator.addProvider(TrinketsSlotProvider(fabricDataGenerator).also { provider ->
-            InitializationScope.INSTANCE.onGenerateTrinketsSlot.fire { it(provider) }
+            InitializationScope.onGenerateTrinketsSlot.fire { it(provider) }
         })
 
         fabricDataGenerator.addProvider(SoundsProvider(fabricDataGenerator, MirageFairy2023.modId).also { provider ->
-            InitializationScope.INSTANCE.onGenerateSounds.fire { it(provider) }
+            InitializationScope.onGenerateSounds.fire { it(provider) }
         })
 
         fabricDataGenerator.addProvider(BiomeProvider(fabricDataGenerator, MirageFairy2023.modId).also { provider ->
-            InitializationScope.INSTANCE.onGenerateBiome.fire { it(provider) }
+            InitializationScope.onGenerateBiome.fire { it(provider) }
         })
 
     }
