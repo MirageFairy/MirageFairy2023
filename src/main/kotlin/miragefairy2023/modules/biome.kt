@@ -6,6 +6,8 @@ import miragefairy2023.module
 import miragefairy2023.util.init.enJa
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnGroup
+import net.minecraft.tag.BiomeTags
+import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.Registry
@@ -31,6 +33,7 @@ enum class BiomeCard(
     ;
 
     val identifier = Identifier(MirageFairy2023.modId, path)
+    val biomeTag: TagKey<Biome> = TagKey.of(Registry.BIOME_KEY, identifier)
     val biome = Biome.Builder()
         .precipitation(Biome.Precipitation.RAIN)
         .temperature(0.4F)
@@ -82,8 +85,11 @@ val biomeModule = module {
         onGenerateBiome {
             it.map[card.identifier] = card.biome
         }
+        onGenerateBiomeTags { it(card.biomeTag).add(card.identifier) }
         enJa({ "biome.${card.identifier.toTranslationKey()}" }, card.en, card.ja)
     }
+
+    onGenerateBiomeTags { it(BiomeTags.IS_FOREST).add(BiomeCard.FAIRY_FOREST.identifier) }
 
     onTerraBlenderInitialized {
         Regions.register(object : Region(Identifier(MirageFairy2023.modId, "fairy_forest"), RegionType.OVERWORLD, 1) {
