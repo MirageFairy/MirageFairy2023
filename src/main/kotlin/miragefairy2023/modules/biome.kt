@@ -98,6 +98,6 @@ val biomeModule = module {
                 }
             })
         }
-        enJa("biome.${card.identifier.toTranslationKey()}", card.en, card.ja)
+        enJa({ "biome.${card.identifier.toTranslationKey()}" }, card.en, card.ja)
     }
 }

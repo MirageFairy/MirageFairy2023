@@ -32,7 +32,7 @@ val enchantmentModule = module {
 
     DemonEnchantmentCard.values().forEach { card ->
         onInitialize { Registry.register(Registry.ENCHANTMENT, card.identifier, card.enchantment) }
-        enJa(card.enchantment.translationKey, card.en, card.ja)
+        enJa({ card.enchantment.translationKey }, card.en, card.ja)
     }
 
     onInitialize { LootingEnchantmentRegistry.register(DemonEnchantmentCard.MAGIC_LOOTING.enchantment) }
