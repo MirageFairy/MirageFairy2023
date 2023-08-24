@@ -49,4 +49,18 @@ object InitializationScope {
     }
 }
 
+class EventBus<L> {
+    private val listeners = mutableListOf<L>()
+
+    operator fun invoke(listener: L) {
+        listeners += listener
+    }
+
+    fun fire(listenerConsumer: (L) -> Unit) {
+        listeners.forEach {
+            listenerConsumer(it)
+        }
+    }
+}
+
 fun module(block: InitializationScope.() -> Unit) = block
