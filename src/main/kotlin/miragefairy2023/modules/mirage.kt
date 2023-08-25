@@ -151,7 +151,7 @@ val mirageModule = module {
 
 
     // 性質
-    //onGenerateBlockTags { it(BlockTags.SMALL_FLOWERS).add(feature) } // これをやるとエンダーマンが勝手に引っこ抜いていく
+    //generateBlockTag(BlockTags.SMALL_FLOWERS, feature) // これをやるとエンダーマンが勝手に引っこ抜いていく
 
 
     // レシピ

@@ -4,6 +4,7 @@ import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.modules.DemonParticleTypeCard
 import miragefairy2023.modules.DemonSoundEventCard
+import miragefairy2023.util.init.generateEntityTypeTag
 import miragefairy2023.util.init.register
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityStatuses
@@ -25,7 +26,7 @@ val antimatterBolt = DemonEntityTypeCard("antimatter_bolt", SpawnGroup.MISC, 0.5
 val antimatterBoltModule = module {
     register(Registry.ENTITY_TYPE, antimatterBolt.identifier, antimatterBolt.entityType)
     onInitializeClient { MirageFairy2023.clientProxy!!.registerEntityRendererFactory(antimatterBolt.entityType, "antimatter_bolt") }
-    onGenerateEntityTypeTags { it(EntityTypeTags.IMPACT_PROJECTILES).add(antimatterBolt.entityType) }
+    generateEntityTypeTag(EntityTypeTags.IMPACT_PROJECTILES, antimatterBolt.entityType)
 }
 
 class AntimatterBoltEntity(world: World, val damage: Float = 1F, var limitDistance: Double = 16.0) : ProjectileEntity(antimatterBolt.entityType, world) {

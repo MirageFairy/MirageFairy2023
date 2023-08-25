@@ -8,6 +8,7 @@ import miragefairy2023.util.datagen.TextureMap
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJa
+import miragefairy2023.util.init.generateBlockTag
 import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.generateSimpleCubeAllBlockState
 import miragefairy2023.util.init.group
@@ -73,10 +74,10 @@ val demonBlockModule = module {
     // アカーシャの霊氣石
     DemonBlockCard.CREATIVE_AURA_STONE.let { card ->
         generateSimpleCubeAllBlockState(card.block)
-        onGenerateBlockTags { it(BlockTags.DRAGON_IMMUNE).add(card.block) }
-        onGenerateBlockTags { it(BlockTags.WITHER_IMMUNE).add(card.block) }
-        onGenerateBlockTags { it(BlockTags.FEATURES_CANNOT_REPLACE).add(card.block) }
-        onGenerateBlockTags { it(BlockTags.GEODE_INVALID_BLOCKS).add(card.block) }
+        generateBlockTag(BlockTags.DRAGON_IMMUNE, card.block)
+        generateBlockTag(BlockTags.WITHER_IMMUNE, card.block)
+        generateBlockTag(BlockTags.FEATURES_CANNOT_REPLACE, card.block)
+        generateBlockTag(BlockTags.GEODE_INVALID_BLOCKS, card.block)
     }
 
     // 局所真空崩壊
@@ -126,17 +127,17 @@ val demonBlockModule = module {
             blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(card.block, modelId))
         }
         onInitializeClient { MirageFairy2023.clientProxy!!.registerCutoutBlockRenderLayer(card.block) }
-        onGenerateBlockTags { it(BlockTags.DRAGON_IMMUNE).add(card.block) }
-        onGenerateBlockTags { it(BlockTags.WITHER_IMMUNE).add(card.block) }
-        onGenerateBlockTags { it(BlockTags.FEATURES_CANNOT_REPLACE).add(card.block) }
-        onGenerateBlockTags { it(BlockTags.GEODE_INVALID_BLOCKS).add(card.block) }
+        generateBlockTag(BlockTags.DRAGON_IMMUNE, card.block)
+        generateBlockTag(BlockTags.WITHER_IMMUNE, card.block)
+        generateBlockTag(BlockTags.FEATURES_CANNOT_REPLACE, card.block)
+        generateBlockTag(BlockTags.GEODE_INVALID_BLOCKS, card.block)
     }
 
     // 蒼天石ブロック
     DemonBlockCard.MIRANAGITE_BLOCK.let { card ->
         generateSimpleCubeAllBlockState(card.block)
-        onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(card.block) }
-        onGenerateBlockTags { it(BlockTags.NEEDS_STONE_TOOL).add(card.block) }
+        generateBlockTag(BlockTags.PICKAXE_MINEABLE, card.block)
+        generateBlockTag(BlockTags.NEEDS_STONE_TOOL, card.block)
         generateDefaultBlockLootTable(card.block)
     }
 

@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Pair
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.init.enJa
+import miragefairy2023.util.init.generateBiomeTag
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnGroup
 import net.minecraft.tag.BiomeTags
@@ -85,11 +86,11 @@ val biomeModule = module {
         onGenerateBiome {
             it.map[card.identifier] = card.biome
         }
-        onGenerateBiomeTags { it(card.biomeTag).add(card.identifier) }
+        generateBiomeTag(card.biomeTag, card.identifier)
         enJa({ "biome.${card.identifier.toTranslationKey()}" }, card.en, card.ja)
     }
 
-    onGenerateBiomeTags { it(BiomeTags.IS_FOREST).add(BiomeCard.FAIRY_FOREST.identifier) }
+    generateBiomeTag(BiomeTags.IS_FOREST, BiomeCard.FAIRY_FOREST.identifier)
 
     onTerraBlenderInitialized {
         Regions.register(object : Region(Identifier(MirageFairy2023.modId, "fairy_forest"), RegionType.OVERWORLD, 1) {

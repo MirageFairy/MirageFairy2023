@@ -23,6 +23,7 @@ import miragefairy2023.util.Translation
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJa
+import miragefairy2023.util.init.generateItemTag
 import miragefairy2023.util.init.group
 import miragefairy2023.util.init.register
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
@@ -380,8 +381,8 @@ private class DreamCatcherType(
 ) : ToolItemCardType<DreamCatcherItem>(Models.HANDHELD) {
     override fun createItem() = DreamCatcherItem(toolMaterialCard.toolMaterial, maxDamage, FabricItemSettings().group(commonItemGroup))
     override fun init(scope: InitializationScope, card: ToolItemCard<DreamCatcherItem>) = scope.run {
-        onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
-        onGenerateItemTags { it(DREAM_CATCHERS).add(card.item) }
+        generateItemTag(toolMaterialCard.tag, card.item)
+        generateItemTag(DREAM_CATCHERS, card.item)
     }
 }
 
@@ -391,7 +392,7 @@ private class KnifeType(
 ) : ToolItemCardType<DemonKnifeItem>(Models.HANDHELD) {
     override fun createItem() = DemonKnifeItem(toolMaterialCard.toolMaterial, silkTouch, FabricItemSettings().group(commonItemGroup))
     override fun init(scope: InitializationScope, card: ToolItemCard<DemonKnifeItem>) = scope.run {
-        onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
+        generateItemTag(toolMaterialCard.tag, card.item)
     }
 }
 
@@ -414,9 +415,9 @@ private class PickaxeType(
     )
 
     override fun init(scope: InitializationScope, card: ToolItemCard<DemonMiningToolItem>) = scope.run {
-        onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
-        onGenerateItemTags { it(ItemTags.CLUSTER_MAX_HARVESTABLES).add(card.item) }
-        onGenerateItemTags { it(ConventionalItemTags.PICKAXES).add(card.item) }
+        generateItemTag(toolMaterialCard.tag, card.item)
+        generateItemTag(ItemTags.CLUSTER_MAX_HARVESTABLES, card.item)
+        generateItemTag(ConventionalItemTags.PICKAXES, card.item)
     }
 }
 
@@ -439,8 +440,8 @@ private class AxeType(
     )
 
     override fun init(scope: InitializationScope, card: ToolItemCard<DemonMiningToolItem>) = scope.run {
-        onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
-        onGenerateItemTags { it(ConventionalItemTags.AXES).add(card.item) }
+        generateItemTag(toolMaterialCard.tag, card.item)
+        generateItemTag(ConventionalItemTags.AXES, card.item)
     }
 }
 
@@ -449,7 +450,7 @@ private class StaffType(
 ) : ToolItemCardType<StaffItem>(Models.HANDHELD) {
     override fun createItem() = StaffItem(toolMaterialCard.toolMaterial, FabricItemSettings().group(commonItemGroup))
     override fun init(scope: InitializationScope, card: ToolItemCard<StaffItem>) = scope.run {
-        onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
+        generateItemTag(toolMaterialCard.tag, card.item)
     }
 }
 
@@ -461,7 +462,7 @@ private class PassiveSkillAccessoryType(
     override fun createItem() = PassiveSkillAccessoryItem(mana, passiveSkills, FabricItemSettings().maxCount(1).group(commonItemGroup))
     override fun init(scope: InitializationScope, card: ToolItemCard<PassiveSkillAccessoryItem>) = scope.run {
         trinketsSlotCards.forEach { trinketsSlotCard ->
-            onGenerateItemTags { it(trinketsSlotCard.tag).add(card.item) }
+            generateItemTag(trinketsSlotCard.tag, card.item)
         }
     }
 }
@@ -473,7 +474,7 @@ private class TrinketAccessoryType<I>(
     override fun createItem() = itemCreator(FabricItemSettings().maxCount(1).group(commonItemGroup))
     override fun init(scope: InitializationScope, card: ToolItemCard<I>) = scope.run {
         trinketsSlotCards.forEach { trinketsSlotCard ->
-            onGenerateItemTags { it(trinketsSlotCard.tag).add(card.item) }
+            generateItemTag(trinketsSlotCard.tag, card.item)
         }
         onInitialize { TrinketsApi.registerTrinket(card.item, card.item) }
     }
@@ -484,6 +485,6 @@ private class PocketLilyWandType(
 ) : ToolItemCardType<PocketLilyWandItem>(Models.HANDHELD) {
     override fun createItem() = PocketLilyWandItem(toolMaterialCard.toolMaterial, FabricItemSettings().group(commonItemGroup))
     override fun init(scope: InitializationScope, card: ToolItemCard<PocketLilyWandItem>) = scope.run {
-        onGenerateItemTags { it(toolMaterialCard.tag).add(card.item) }
+        generateItemTag(toolMaterialCard.tag, card.item)
     }
 }

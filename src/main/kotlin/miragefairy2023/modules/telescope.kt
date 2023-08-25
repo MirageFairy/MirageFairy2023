@@ -8,6 +8,7 @@ import miragefairy2023.util.get
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJa
+import miragefairy2023.util.init.generateBlockTag
 import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.generateHorizontalFacingBlockState
 import miragefairy2023.util.init.group
@@ -86,7 +87,7 @@ val telescopeModule = module {
 
 
     // 性質
-    onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(Telescope.block) }
+    generateBlockTag(BlockTags.PICKAXE_MINEABLE, Telescope.block)
 
 
     // レシピ

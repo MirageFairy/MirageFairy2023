@@ -4,6 +4,7 @@ import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.util.Translation
 import miragefairy2023.util.init.enJa
+import miragefairy2023.util.init.generateItemTag
 import miragefairy2023.util.toIngredient
 import net.fabricmc.yarn.constants.MiningLevels
 import net.minecraft.item.Item
@@ -68,7 +69,7 @@ val toolMaterialModule = module {
     }
 
 
-    fun register(card: ToolMaterialCard, item: Item) = onGenerateItemTags { it(card.tag).add(item) }
+    fun register(card: ToolMaterialCard, item: Item) = generateItemTag(card.tag, item)
 
     // WOOD
     register(ToolMaterialCard.WOOD, Items.WOODEN_SWORD)

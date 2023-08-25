@@ -11,6 +11,8 @@ import miragefairy2023.util.datagen.applyExplosionDecay
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.generateBlockLootTable
 import miragefairy2023.util.init.generateBlockState
+import miragefairy2023.util.init.generateBlockTag
+import miragefairy2023.util.init.generateItemTag
 import miragefairy2023.util.init.register
 import miragefairy2023.util.jsonObjectOf
 import miragefairy2023.util.jsonPrimitive
@@ -158,10 +160,10 @@ val luminariaModule = module {
 
 
         // 性質
-        onGenerateBlockTags { it(LUMINARIAS_BLOCK_TAG).add(card.block) }
-        onGenerateItemTags { it(LUMINARIAS_ITEM_TAG).add(card.item) }
-        onGenerateBlockTags { it(BlockTags.AXE_MINEABLE).add(card.block) }
-        // onGenerateBlockTags { it(BlockTags.SMALL_FLOWERS).add(card.block) } // これをやるとエンダーマンが勝手に引っこ抜いていく
+        generateBlockTag(LUMINARIAS_BLOCK_TAG, card.block)
+        generateItemTag(LUMINARIAS_ITEM_TAG, card.item)
+        generateBlockTag(BlockTags.AXE_MINEABLE, card.block)
+        // generateBlockTag(BlockTags.SMALL_FLOWERS, card.block) // これをやるとエンダーマンが勝手に引っこ抜いていく
 
 
         // レシピ

@@ -11,6 +11,7 @@ import miragefairy2023.util.createItemStack
 import miragefairy2023.util.datagen.TextureMap
 import miragefairy2023.util.hasSameItemAndNbt
 import miragefairy2023.util.init.enJa
+import miragefairy2023.util.init.generateItemTag
 import miragefairy2023.util.init.register
 import miragefairy2023.util.init.registerColorProvider
 import miragefairy2023.util.isNotEmpty
@@ -88,9 +89,9 @@ val fairyModule = module {
                 register(Registry.ITEM, fairyCard[rank].identifier, fairyCard[rank].item)
 
                 // タグに登録
-                onGenerateItemTags { it(fairiesItemTag).add(fairyCard[rank].item) }
-                onGenerateItemTags { it(fairiesOfRareTags(fairyCard[rank].item.rare)).add(fairyCard[rank].item) }
-                onGenerateItemTags { it(TrinketsSlotCard.HEAD_FAIRY.tag).add(fairyCard[rank].item) }
+                generateItemTag(fairiesItemTag, fairyCard[rank].item)
+                generateItemTag(fairiesOfRareTags(fairyCard[rank].item.rare), fairyCard[rank].item)
+                generateItemTag(TrinketsSlotCard.HEAD_FAIRY.tag, fairyCard[rank].item)
 
                 // モデル系
                 onGenerateItemModels { it.register(fairyCard[rank].item, Model(Optional.of(Identifier(MirageFairy2023.modId, "item/fairy")), Optional.empty())) }

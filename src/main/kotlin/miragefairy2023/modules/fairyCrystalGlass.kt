@@ -9,6 +9,7 @@ import miragefairy2023.util.identifier
 import miragefairy2023.util.init.criterion
 import miragefairy2023.util.init.enJa
 import miragefairy2023.util.init.generateBlockState
+import miragefairy2023.util.init.generateBlockTag
 import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.group
 import miragefairy2023.util.init.register
@@ -141,8 +142,8 @@ val fairyCrystalGlassModule = module {
 
 
         // 性質
-        onGenerateBlockTags { it(BlockTags.IMPERMEABLE).add(card.block) }
-        onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(card.block) }
+        generateBlockTag(BlockTags.IMPERMEABLE, card.block)
+        generateBlockTag(BlockTags.PICKAXE_MINEABLE, card.block)
 
 
         // レシピ

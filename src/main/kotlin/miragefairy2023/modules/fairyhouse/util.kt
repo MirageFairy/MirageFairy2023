@@ -13,6 +13,7 @@ import miragefairy2023.modules.registerPoemList
 import miragefairy2023.util.castOr
 import miragefairy2023.util.get
 import miragefairy2023.util.init.enJa
+import miragefairy2023.util.init.generateBlockTag
 import miragefairy2023.util.init.generateDefaultBlockLootTable
 import miragefairy2023.util.init.generateHorizontalFacingBlockState
 import miragefairy2023.util.init.register
@@ -112,8 +113,8 @@ fun <BE> InitializationScope.registerFairyHouse(card: FairyHouseCard<BE>) where 
 
 
     // 性質
-    onGenerateBlockTags { it(BlockTags.PICKAXE_MINEABLE).add(card.block) }
-    if (card.needsToolTag != null) onGenerateBlockTags { it(card.needsToolTag).add(card.block) }
+    generateBlockTag(BlockTags.PICKAXE_MINEABLE, card.block)
+    if (card.needsToolTag != null) generateBlockTag(card.needsToolTag, card.block)
 
 
     // レシピ
