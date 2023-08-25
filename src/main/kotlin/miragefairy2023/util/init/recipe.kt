@@ -4,7 +4,6 @@ package miragefairy2023.util.init
 
 import miragefairy2023.InitializationScope
 import miragefairy2023.modules.ApplyLuckBonusLootFunction
-import miragefairy2023.modules.Mirage
 import miragefairy2023.util.datagen.AlternativeLootPoolEntry
 import miragefairy2023.util.datagen.ItemLootPoolEntry
 import miragefairy2023.util.datagen.LootPool
@@ -138,7 +137,7 @@ fun InitializationScope.registerFuel(item: Item, ticks: Int) = onInitialize {
 }
 
 fun InitializationScope.registerComposterInput(item: Item, chance: Float) = onInitialize {
-    ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(Mirage.seedItem, 0.3F)
+    ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(item, chance)
 }
 
 fun CraftingRecipeJsonBuilder.criterion(item: Item): CraftingRecipeJsonBuilder = this.criterion("has_${item.identifier.path}", RecipeProvider.conditionsFromItem(item))
