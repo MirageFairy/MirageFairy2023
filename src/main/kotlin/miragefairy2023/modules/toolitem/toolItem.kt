@@ -90,6 +90,7 @@ class ToolItemCard<T : Item>(
                 regeneration(0.1) on always()
             }),
         )
+
         val ARTIFICIAL_FAIRY_CRYSTAL_PICKAXE = ToolItemCard(
             "artificial_fairy_crystal_pickaxe", "Crystal Pickaxe", "クリスタルのつるはし",
             listOf(Poem("Amorphous mental body of fairies", "妖精さえ怖れる、技術の結晶。")),
@@ -102,6 +103,7 @@ class ToolItemCard<T : Item>(
                 mana(0.4) on always()
             }),
         )
+
         val XARPITE_PICKAXE = ToolItemCard(
             "xarpite_pickaxe", "Xarpa Pickaxe", "紅天のつるはし",
             listOf(
@@ -118,6 +120,7 @@ class ToolItemCard<T : Item>(
             ),
             AxeType(ToolMaterialCard.XARPITE, cutAll = true),
         )
+
         val MIRANAGITE_KNIFE = ToolItemCard(
             "miranagite_knife", "Miranagi Knife", "蒼天のナイフ",
             listOf(
@@ -139,6 +142,7 @@ class ToolItemCard<T : Item>(
             listOf(Poem("Risk of vacuum decay due to anti-entropy", "創世の神光は混沌をも翻す。")),
             StaffType(ToolMaterialCard.MIRANAGITE),
         )
+
         val CHAOS_STONE_PICKAXE = ToolItemCard(
             "chaos_stone_pickaxe", "Chaos Pickaxe", "混沌のつるはし",
             listOf(
@@ -157,6 +161,7 @@ class ToolItemCard<T : Item>(
             ),
             TrinketAccessoryType(listOf(TrinketsSlotCard.HAND_GLOVE, TrinketsSlotCard.OFFHAND_GLOVE)) { FishingGroveItem(it) },
         )
+
     }
 }
 
