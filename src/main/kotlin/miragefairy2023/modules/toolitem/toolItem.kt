@@ -40,6 +40,7 @@ import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
+
 class ToolItemCard<T : Item>(
     val path: String,
     val enName: String,
@@ -165,6 +166,10 @@ class ToolItemCard<T : Item>(
     }
 }
 
+
+val NOT_ENOUGH_EXPERIENCE_KEY = Translation("item.${MirageFairy2023.modId}.magic.not_enough_experience", "Not enough experience", "経験値が足りません")
+val DREAM_CATCHERS: TagKey<Item> = TagKey.of(Registry.ITEM_KEY, Identifier(MirageFairy2023.modId, "dream_catchers"))
+
 val toolItemModule = module {
 
     // 全体
@@ -176,6 +181,13 @@ val toolItemModule = module {
         registerPoemList(card.item, card.poemList)
         card.init(this)
     }
+
+
+    // 翻訳
+    enJa(DreamCatcherItem.knownKey)
+    enJa(DreamCatcherItem.successKey)
+    enJa(NOT_ENOUGH_EXPERIENCE_KEY)
+
 
     // ドリームキャッチャー
     onGenerateRecipes {
@@ -360,18 +372,10 @@ val toolItemModule = module {
             .offerTo(it, ToolItemCard.CHAOS_FISHING_GROVE.item.identifier)
     }
 
-    enJa(DreamCatcherItem.knownKey)
-    enJa(DreamCatcherItem.successKey)
-    enJa(NOT_ENOUGH_EXPERIENCE_KEY)
-
 }
 
 
-val NOT_ENOUGH_EXPERIENCE_KEY = Translation("item.${MirageFairy2023.modId}.magic.not_enough_experience", "Not enough experience", "経験値が足りません")
-val DREAM_CATCHERS: TagKey<Item> = TagKey.of(Registry.ITEM_KEY, Identifier(MirageFairy2023.modId, "dream_catchers"))
-
-
-// Type
+// Types
 
 abstract class ToolItemCardType<T : Item>(val model: Model) {
     abstract fun createItem(): T
