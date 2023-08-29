@@ -33,6 +33,26 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
+class KnifeType(
+    private val toolMaterialCard: ToolMaterialCard,
+    private val silkTouch: Boolean = false,
+) : ToolItemCardType<DemonMiningToolItem>(Models.HANDHELD) {
+    override fun createItem() = DemonMiningToolItem(
+        toolMaterialCard.toolMaterial,
+        1F,
+        -1.5F,
+        listOf(),
+        silkTouch,
+        mineAll = false,
+        cutAll = false,
+        FabricItemSettings().group(commonItemGroup),
+    )
+
+    override fun init(scope: InitializationScope, card: ToolItemCard<DemonMiningToolItem>) = scope.run {
+        generateItemTag(toolMaterialCard.tag, card.item)
+    }
+}
+
 class PickaxeType(
     private val toolMaterialCard: ToolMaterialCard,
     private val additionalEffectiveBlockTags: List<TagKey<Block>> = listOf(),
