@@ -1,12 +1,18 @@
 package miragefairy2023.modules.toolitem
 
 import dev.emi.trinkets.api.TrinketItem
+import miragefairy2023.InitializationScope
 import miragefairy2023.api.PassiveSkill
 import miragefairy2023.api.PassiveSkillItem
 import miragefairy2023.api.PassiveSkillProvider
+import miragefairy2023.modules.TrinketsSlotCard
+import miragefairy2023.modules.commonItemGroup
 import miragefairy2023.modules.passiveskill.getPassiveSkillTooltip
 import miragefairy2023.util.identifier
+import miragefairy2023.util.init.generateItemTag
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.client.item.TooltipContext
+import net.minecraft.data.client.Models
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -17,6 +23,19 @@ import net.minecraft.text.Text
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
+
+class PassiveSkillAccessoryType(
+    private val trinketsSlotCards: List<TrinketsSlotCard>,
+    private val mana: Double,
+    private val passiveSkills: List<PassiveSkill>,
+) : ToolItemCardType<PassiveSkillAccessoryItem>(Models.GENERATED) {
+    override fun createItem() = PassiveSkillAccessoryItem(mana, passiveSkills, FabricItemSettings().maxCount(1).group(commonItemGroup))
+    override fun init(scope: InitializationScope, card: ToolItemCard<PassiveSkillAccessoryItem>) = scope.run {
+        trinketsSlotCards.forEach { trinketsSlotCard ->
+            generateItemTag(trinketsSlotCard.tag, card.item)
+        }
+    }
+}
 
 class PassiveSkillAccessoryItem(private val mana: Double, private val passiveSkills: List<PassiveSkill>, settings: Settings) : Item(settings), PassiveSkillItem, Vanishable {
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {

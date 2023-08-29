@@ -29,7 +29,6 @@ import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
-
 class ToolItemCard<T : Item>(
     val path: String,
     val enName: String,

@@ -1,13 +1,19 @@
 package miragefairy2023.modules.toolitem
 
+import miragefairy2023.InitializationScope
 import miragefairy2023.modules.DemonSoundEventCard
 import miragefairy2023.modules.ITEM_TRANSPORTATION_COUNT_KEY
 import miragefairy2023.modules.ITEM_TRANSPORTATION_LIMIT
 import miragefairy2023.modules.ITEM_TRANSPORTATION_OVERFLOWED_KEY
+import miragefairy2023.modules.ToolMaterialCard
+import miragefairy2023.modules.commonItemGroup
 import miragefairy2023.modules.itemTransportation
 import miragefairy2023.modules.sync
 import miragefairy2023.util.EMPTY_ITEM_STACK
+import miragefairy2023.util.init.generateItemTag
 import miragefairy2023.util.text
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings
+import net.minecraft.data.client.Models
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ToolItem
@@ -17,6 +23,15 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
+
+class PocketLilyWandType(
+    private val toolMaterialCard: ToolMaterialCard,
+) : ToolItemCardType<PocketLilyWandItem>(Models.HANDHELD) {
+    override fun createItem() = PocketLilyWandItem(toolMaterialCard.toolMaterial, FabricItemSettings().group(commonItemGroup))
+    override fun init(scope: InitializationScope, card: ToolItemCard<PocketLilyWandItem>) = scope.run {
+        generateItemTag(toolMaterialCard.tag, card.item)
+    }
+}
 
 class PocketLilyWandItem(toolMaterial: ToolMaterial, settings: Settings) : ToolItem(toolMaterial, settings) {
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {

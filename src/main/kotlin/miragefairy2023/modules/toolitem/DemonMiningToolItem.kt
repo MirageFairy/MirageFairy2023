@@ -1,12 +1,19 @@
 package miragefairy2023.modules.toolitem
 
+import miragefairy2023.InitializationScope
+import miragefairy2023.modules.ToolMaterialCard
+import miragefairy2023.modules.commonItemGroup
 import miragefairy2023.util.NeighborType
 import miragefairy2023.util.blockVisitor
 import miragefairy2023.util.breakBlockByMagic
+import miragefairy2023.util.init.generateItemTag
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
 import net.fabricmc.yarn.constants.MiningLevels
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.data.client.Models
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.EquipmentSlot
@@ -19,11 +26,61 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.BlockTags
+import net.minecraft.tag.ItemTags
 import net.minecraft.tag.TagKey
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+
+class PickaxeType(
+    private val toolMaterialCard: ToolMaterialCard,
+    private val additionalEffectiveBlockTags: List<TagKey<Block>> = listOf(),
+    private val silkTouch: Boolean = false,
+    private val mineAll: Boolean = false,
+    private val cutAll: Boolean = false,
+) : ToolItemCardType<DemonMiningToolItem>(Models.HANDHELD) {
+    override fun createItem() = DemonMiningToolItem(
+        toolMaterialCard.toolMaterial,
+        1F,
+        -2.8F,
+        listOf(BlockTags.PICKAXE_MINEABLE) + additionalEffectiveBlockTags,
+        silkTouch,
+        mineAll,
+        cutAll,
+        FabricItemSettings().group(commonItemGroup),
+    )
+
+    override fun init(scope: InitializationScope, card: ToolItemCard<DemonMiningToolItem>) = scope.run {
+        generateItemTag(toolMaterialCard.tag, card.item)
+        generateItemTag(ItemTags.CLUSTER_MAX_HARVESTABLES, card.item)
+        generateItemTag(ConventionalItemTags.PICKAXES, card.item)
+    }
+}
+
+class AxeType(
+    private val toolMaterialCard: ToolMaterialCard,
+    private val additionalEffectiveBlockTags: List<TagKey<Block>> = listOf(),
+    private val silkTouch: Boolean = false,
+    private val mineAll: Boolean = false,
+    private val cutAll: Boolean = false,
+) : ToolItemCardType<DemonMiningToolItem>(Models.HANDHELD) {
+    override fun createItem() = DemonMiningToolItem(
+        toolMaterialCard.toolMaterial,
+        6F,
+        -3.1F,
+        listOf(BlockTags.AXE_MINEABLE) + additionalEffectiveBlockTags,
+        silkTouch,
+        mineAll,
+        cutAll,
+        FabricItemSettings().group(commonItemGroup),
+    )
+
+    override fun init(scope: InitializationScope, card: ToolItemCard<DemonMiningToolItem>) = scope.run {
+        generateItemTag(toolMaterialCard.tag, card.item)
+        generateItemTag(ConventionalItemTags.AXES, card.item)
+    }
+}
 
 class DemonMiningToolItem(
     toolMaterial: ToolMaterial,

@@ -1,6 +1,12 @@
 package miragefairy2023.modules.toolitem
 
+import miragefairy2023.InitializationScope
+import miragefairy2023.modules.ToolMaterialCard
+import miragefairy2023.modules.commonItemGroup
+import miragefairy2023.util.init.generateItemTag
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.BlockState
+import net.minecraft.data.client.Models
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.player.PlayerEntity
@@ -12,6 +18,16 @@ import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
+
+class KnifeType(
+    private val toolMaterialCard: ToolMaterialCard,
+    private val silkTouch: Boolean = false,
+) : ToolItemCardType<DemonKnifeItem>(Models.HANDHELD) {
+    override fun createItem() = DemonKnifeItem(toolMaterialCard.toolMaterial, silkTouch, FabricItemSettings().group(commonItemGroup))
+    override fun init(scope: InitializationScope, card: ToolItemCard<DemonKnifeItem>) = scope.run {
+        generateItemTag(toolMaterialCard.tag, card.item)
+    }
+}
 
 class DemonKnifeItem(
     toolMaterial: ToolMaterial,

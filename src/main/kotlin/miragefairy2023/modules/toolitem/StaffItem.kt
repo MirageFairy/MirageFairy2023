@@ -1,12 +1,18 @@
 package miragefairy2023.modules.toolitem
 
+import miragefairy2023.InitializationScope
 import miragefairy2023.modules.DemonEnchantmentCard
 import miragefairy2023.modules.DemonPlayerAttributeCard
 import miragefairy2023.modules.DemonSoundEventCard
+import miragefairy2023.modules.ToolMaterialCard
+import miragefairy2023.modules.commonItemGroup
 import miragefairy2023.modules.entity.AntimatterBoltEntity
 import miragefairy2023.util.getRate
+import miragefairy2023.util.init.generateItemTag
 import miragefairy2023.util.randomInt
 import miragefairy2023.util.text
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings
+import net.minecraft.data.client.Models
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ToolItem
@@ -16,6 +22,15 @@ import net.minecraft.stat.Stats
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
+
+class StaffType(
+    private val toolMaterialCard: ToolMaterialCard,
+) : ToolItemCardType<StaffItem>(Models.HANDHELD) {
+    override fun createItem() = StaffItem(toolMaterialCard.toolMaterial, FabricItemSettings().group(commonItemGroup))
+    override fun init(scope: InitializationScope, card: ToolItemCard<StaffItem>) = scope.run {
+        generateItemTag(toolMaterialCard.tag, card.item)
+    }
+}
 
 class StaffItem(toolMaterial: ToolMaterial, settings: Settings) : ToolItem(toolMaterial, settings) {
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {

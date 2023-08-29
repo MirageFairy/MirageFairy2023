@@ -1,13 +1,17 @@
 package miragefairy2023.modules.toolitem
 
+import miragefairy2023.InitializationScope
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.Fairy
+import miragefairy2023.modules.ToolMaterialCard
+import miragefairy2023.modules.commonItemGroup
 import miragefairy2023.modules.customData
 import miragefairy2023.modules.fairy.BLOCK_FAIRY_RELATION_LIST
 import miragefairy2023.modules.fairy.ENTITY_TYPE_FAIRY_RELATION_LIST
 import miragefairy2023.modules.syncCustomData
 import miragefairy2023.util.Translation
 import miragefairy2023.util.get
+import miragefairy2023.util.init.generateItemTag
 import miragefairy2023.util.int
 import miragefairy2023.util.map
 import miragefairy2023.util.string
@@ -15,8 +19,10 @@ import miragefairy2023.util.text
 import miragefairy2023.util.wrapper
 import mirrg.kotlin.hydrogen.castOrNull
 import mirrg.kotlin.hydrogen.or
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.BlockState
 import net.minecraft.block.FluidBlock
+import net.minecraft.data.client.Models
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -38,7 +44,6 @@ import net.minecraft.util.math.Box
 import net.minecraft.world.World
 import kotlin.math.roundToInt
 
-
 val PlayerEntity.foundFairies get() = FoundFairies(this)
 
 class FoundFairies(private val player: PlayerEntity) {
@@ -51,6 +56,17 @@ class FoundFairies(private val player: PlayerEntity) {
         .toSet()
 }
 
+
+class DreamCatcherType(
+    private val toolMaterialCard: ToolMaterialCard,
+    private val maxDamage: Int,
+) : ToolItemCardType<DreamCatcherItem>(Models.HANDHELD) {
+    override fun createItem() = DreamCatcherItem(toolMaterialCard.toolMaterial, maxDamage, FabricItemSettings().group(commonItemGroup))
+    override fun init(scope: InitializationScope, card: ToolItemCard<DreamCatcherItem>) = scope.run {
+        generateItemTag(toolMaterialCard.tag, card.item)
+        generateItemTag(DREAM_CATCHERS, card.item)
+    }
+}
 
 class DreamCatcherItem(material: ToolMaterial, maxDamage: Int, settings: Settings) : ToolItem(material, settings.maxDamage(maxDamage)) {
     companion object {
