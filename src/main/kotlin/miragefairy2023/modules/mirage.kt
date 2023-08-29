@@ -317,6 +317,18 @@ class MirageFlowerBlock(settings: Settings) : PlantBlock(settings), Fertilizable
             1.0 * blankScore / (2 * 4).toDouble()
         }
 
+        // 周囲のルミナリアの個数に応じて+100%
+        ambientBonus += run {
+            val luminariaCount = (-4..4).sumOf { xi ->
+                (-4..4).sumOf { zi ->
+                    val targetPos = pos.add(xi, 0, zi)
+                    val blockState = world.getBlockState(targetPos)
+                    (if (blockState.isIn(LUMINARIAS_BLOCK_TAG)) 1 else 0).toInt()
+                }
+            }
+            1.0 * (luminariaCount atMost 4) / 4.toDouble()
+        }
+
         // 真下が湿った農地であるほど環境ボーナス最大+200%
         farmlandBonus += run {
             val floorMoisture = getFloorMoisture(world, pos.down())
