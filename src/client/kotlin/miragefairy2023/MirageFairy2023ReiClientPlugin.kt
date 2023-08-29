@@ -26,7 +26,7 @@ import miragefairy2023.modules.fairy.ENTITY_TYPE_FAIRY_RELATION_LIST
 import miragefairy2023.modules.fairyhouse.FairyMetamorphosisAltarRecipe
 import miragefairy2023.modules.fairyhouse.fairyMetamorphosisAltar
 import miragefairy2023.modules.toolitem.DREAM_CATCHERS
-import miragefairy2023.modules.toolitem.foundFairies
+import miragefairy2023.modules.foundFairies
 import miragefairy2023.util.removeTrailingZeros
 import miragefairy2023.util.text
 import mirrg.kotlin.hydrogen.formatAs

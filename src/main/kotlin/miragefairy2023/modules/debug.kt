@@ -3,7 +3,6 @@ package miragefairy2023.modules
 import miragefairy2023.MirageFairy2023
 import miragefairy2023.module
 import miragefairy2023.modules.fairy.FairyCard
-import miragefairy2023.modules.toolitem.foundFairies
 import miragefairy2023.util.Symbol
 import miragefairy2023.util.identifier
 import miragefairy2023.util.init.enJa

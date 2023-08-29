@@ -5,20 +5,13 @@ import miragefairy2023.MirageFairy2023
 import miragefairy2023.api.Fairy
 import miragefairy2023.modules.ToolMaterialCard
 import miragefairy2023.modules.commonItemGroup
-import miragefairy2023.modules.customData
 import miragefairy2023.modules.fairy.BLOCK_FAIRY_RELATION_LIST
 import miragefairy2023.modules.fairy.ENTITY_TYPE_FAIRY_RELATION_LIST
+import miragefairy2023.modules.foundFairies
 import miragefairy2023.modules.syncCustomData
 import miragefairy2023.util.Translation
-import miragefairy2023.util.get
 import miragefairy2023.util.init.generateItemTag
-import miragefairy2023.util.int
-import miragefairy2023.util.map
-import miragefairy2023.util.string
 import miragefairy2023.util.text
-import miragefairy2023.util.wrapper
-import mirrg.kotlin.hydrogen.castOrNull
-import mirrg.kotlin.hydrogen.or
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.BlockState
 import net.minecraft.block.FluidBlock
@@ -31,31 +24,16 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsageContext
 import net.minecraft.item.ToolItem
 import net.minecraft.item.ToolMaterial
-import net.minecraft.nbt.AbstractNbtNumber
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.world.World
 import kotlin.math.roundToInt
-
-val PlayerEntity.foundFairies get() = FoundFairies(this)
-
-class FoundFairies(private val player: PlayerEntity) {
-    fun reset() = player.customData.wrapper[MirageFairy2023.modId]["found_motifs"].set(null)
-    fun add(motif: Identifier) = player.customData.wrapper[MirageFairy2023.modId]["found_motifs"][motif.string].int.set(1)
-    operator fun get(motif: Identifier): Boolean = (player.customData.wrapper[MirageFairy2023.modId]["found_motifs"][motif.string].int.get() ?: 0) != 0
-    fun getList() = player.customData.wrapper[MirageFairy2023.modId]["found_motifs"].map.get().or { mapOf() }.entries
-        .filter { it.value.castOrNull<AbstractNbtNumber>()?.intValue() != 0 }
-        .map { Identifier(it.key) }
-        .toSet()
-}
-
 
 class DreamCatcherType(
     private val toolMaterialCard: ToolMaterialCard,

@@ -5,7 +5,6 @@ import miragefairy2023.api.Fairy
 import miragefairy2023.api.fairyRegistry
 import miragefairy2023.module
 import miragefairy2023.modules.fairy.FairyCard
-import miragefairy2023.modules.toolitem.foundFairies
 import miragefairy2023.util.Chance
 import miragefairy2023.util.EMPTY_ITEM_STACK
 import miragefairy2023.util.Translation
